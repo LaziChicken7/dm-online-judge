@@ -26,19 +26,19 @@
                             <div class="vote">
                                 {% if logged_in %}
                                     <a href="javascript:comment_upvote({{ node.id }})"
-                                       class="upvote-link fa fa-chevron-up fa-fw{% if node.vote_score == 1 %} voted{% endif %}"></a>
+                                       class="upvote-link{% if node.vote_score == 1 %} voted{% endif %}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg></a>
                                 {% else %}
                                     <a href="javascript:alert({{ _('Please log in to vote')|htmltojs }})" title="{{ _('Please log in to vote') }}"
-                                       class="upvote-link fa fa-chevron-up fa-fw"></a>
+                                       class="upvote-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg></a>
                                 {% endif %}
                                 <br>
                                 <div class="comment-score">{{ node.score }}</div>
                                 {% if logged_in %}
                                     <a href="javascript:comment_downvote({{ node.id }})"
-                                       class="downvote-link fa fa-chevron-down fa-fw{% if node.vote_score == -1 %} voted{% endif %}"></a>
+                                       class="downvote-link{% if node.vote_score == -1 %} voted{% endif %}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
                                 {% else %}
                                     <a href="javascript:alert({{ _('Please log in to vote')|htmltojs }})" title="{{ _('Please log in to vote') }}"
-                                       class="downvote-link fa fa-chevron-down fa-fw"></a>
+                                       class="downvote-link"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></a>
                                 {% endif %}
                             </div>
                             {% with author=node.author, user=node.author.user %}
@@ -80,30 +80,30 @@
                                     <span class="comment-edits"></span>
                                 {% endif %}
                                     <a href="#comment-{{ node.id }}" title="{{ _('Link') }}"
-                                       class="comment-link"><i class="fa fa-link fa-fw"></i></a>
+                                       class="comment-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg></a>
                                     {% if logged_in and not comment_lock %}
                                         {% if perms.judge.change_comment %}
                                             <a href="javascript:reply_comment({{ node.id }})"
-                                               title="{{ _('Reply') }}"><i class="fa fa-reply fa-fw"></i></a>
+                                               title="{{ _('Reply') }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"></polyline><path d="M20 18v-2a4 4 0 0 0-4-4H4"></path></svg></a>
                                             <a data-featherlight="{{ url('comment_edit_ajax', node.id) }}"
                                                href="{{ url('comment_edit', node.id) }}" title="{{ _('Edit') }}"
-                                               class="edit-link"><i class="fa fa-pencil fa-fw"></i></a>
+                                               class="edit-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
                                             <a data-featherlight="{{ url('comment_votes_ajax', node.id) }}"
                                                href="javascript:void(0)"
-                                               title="{{ _('Votes') }}" class="votes-link"><i class="fa fa-bar-chart fa-fw"></i></a>
+                                               title="{{ _('Votes') }}" class="votes-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></a>
                                             <a href="javascript:void(0)" title="{{ _('Hide') }}" data-id="{{ node.id }}"
-                                               class="hide-comment"><i class="fa fa-trash fa-fw"></i></a>
+                                               class="hide-comment"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg></a>
                                             <a href="{{ url('admin:judge_comment_change', node.id) }}"
-                                               title="{{ _('Admin') }}"><i class="fa fa-cog fa-fw"></i></a>
+                                               title="{{ _('Admin') }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></a>
                                         {% else %}
                                             {% if node.time > reply_cutoff %}
                                                 <a href="javascript:reply_comment({{ node.id }})"
-                                                   title="{{ _('Reply') }}"><i class="fa fa-reply fa-fw"></i></a>
+                                                   title="{{ _('Reply') }}"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 17 4 12 9 7"></polyline><path d="M20 18v-2a4 4 0 0 0-4-4H4"></path></svg></a>
                                             {% endif %}
                                             {% if node.author.id == profile.id and not profile.mute %}
                                                 <a data-featherlight="{{ url('comment_edit_ajax', node.id) }}"
                                                    href="{{ url('comment_edit', node.id) }}" title="{{ _('Edit') }}"
-                                                   class="edit-link"><i class="fa fa-pencil fa-fw"></i></a>
+                                                   class="edit-link"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg></a>
                                             {% endif %}
                                         {% endif %}
                                     {% endif %}

@@ -1575,10 +1575,11 @@
         min-width: 44px !important;
         border-radius: 50% !important;
         background: #1e293b !important;
-        overflow-x: auto !important;
+        overflow: hidden !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
+        border: 2px solid rgba(255, 255, 255, 0.15) !important;
     }
     .comment-display .gravatar-main img {
         width: 100% !important;
@@ -1586,6 +1587,78 @@
         border-radius: 50% !important;
         object-fit: cover !important;
         display: block !important;
+        background: transparent !important;
+    }
+
+    /* Comment operations vector styling */
+    .comment-display .comment-operation a {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 28px !important;
+        height: 28px !important;
+        border-radius: 8px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #94a3b8 !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        margin-left: 5px !important;
+        text-decoration: none !important;
+    }
+    .comment-display .comment-operation a:hover {
+        background: rgba(56, 189, 248, 0.15) !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+        color: #38bdf8 !important;
+        transform: translateY(-1px) !important;
+    }
+    .comment-display .comment-operation a.hide-comment:hover {
+        background: rgba(239, 68, 68, 0.15) !important;
+        border-color: rgba(239, 68, 68, 0.4) !important;
+        color: #f87171 !important;
+    }
+
+    .comment-display .vote {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: rgba(0, 0, 0, 0.35) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 12px !important;
+        padding: 6px 4px !important;
+        width: 34px !important;
+        box-sizing: border-box !important;
+    }
+    .comment-display .vote br {
+        display: none !important;
+    }
+    .comment-display .vote .upvote-link,
+    .comment-display .vote .downvote-link {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        color: #64748b !important;
+        text-decoration: none !important;
+        padding: 3px !important;
+        border-radius: 6px !important;
+        transition: all 0.15s ease !important;
+    }
+    .comment-display .vote .upvote-link:hover,
+    .comment-display .vote .upvote-link.voted {
+        color: #10b981 !important;
+        background: rgba(16, 185, 129, 0.15) !important;
+    }
+    .comment-display .vote .downvote-link:hover,
+    .comment-display .vote .downvote-link.voted {
+        color: #f87171 !important;
+        background: rgba(239, 68, 68, 0.15) !important;
+    }
+    .comment-display .vote .comment-score {
+        font-family: 'Google Sans Code', monospace !important;
+        font-weight: 800 !important;
+        font-size: 13px !important;
+        color: #ffffff !important;
+        margin: 2px 0 !important;
     }
 
 
