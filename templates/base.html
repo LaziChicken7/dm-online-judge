@@ -1343,6 +1343,303 @@
         color: #f87171 !important;
     }
 
+    /* ========================================================
+       NEW COMMENT CARD & MARTOR BLACK EDITOR STYLING
+       ======================================================== */
+    #new-comment.comment-submit {
+        background: #0d1322 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 20px !important;
+        padding: 28px 32px !important;
+        margin-top: 28px !important;
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4) !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    #new-comment h3 {
+        font-size: 18px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        margin: 0 0 20px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        padding-bottom: 14px !important;
+    }
+
+    #new-comment > hr {
+        display: none !important;
+    }
+
+    /* Seamless Editor Outer */
+    #new-comment .main-martor,
+    #new-comment .section-martor {
+        border: none !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+
+    #new-comment .main-martor:focus-within {
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    /* Tabs & Toolbar Header: Remove white underline */
+    #new-comment .tab-martor-menu {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: none !important;
+        box-shadow: none !important;
+        padding: 0 0 14px 0 !important;
+        display: flex !important;
+        align-items: center !important;
+        min-height: auto !important;
+    }
+
+    #new-comment .tab-martor-menu::after {
+        display: none !important;
+    }
+
+    #new-comment .tab-martor-menu a.item {
+        color: #94a3b8 !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        padding: 7px 16px !important;
+        margin: 0 8px 0 0 !important;
+        transition: all 0.2s ease !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+    }
+
+    #new-comment .tab-martor-menu a.item:hover {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    #new-comment .tab-martor-menu a.item.active {
+        color: #38bdf8 !important;
+        background: rgba(56, 189, 248, 0.15) !important;
+        font-weight: 700 !important;
+        border: 1px solid rgba(56, 189, 248, 0.35) !important;
+        box-shadow: 0 2px 10px rgba(56, 189, 248, 0.2) !important;
+    }
+
+    #new-comment .martor-toolbar {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    #new-comment .martor-toolbar a,
+    #new-comment .martor-toolbar button,
+    #new-comment .martor-toolbar i,
+    #new-comment .martor-toolbar .button {
+        color: #94a3b8 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 6px 8px !important;
+        border-radius: 6px !important;
+        font-size: 13px !important;
+        transition: all 0.15s ease !important;
+    }
+
+    #new-comment .martor-toolbar a:hover,
+    #new-comment .martor-toolbar button:hover,
+    #new-comment .martor-toolbar .button:hover,
+    #new-comment .martor-toolbar i:hover {
+        color: #38bdf8 !important;
+        background: rgba(56, 189, 248, 0.15) !important;
+        transform: translateY(-1px);
+    }
+
+    #new-comment .ui.dropdown .menu {
+        background: #0f172a !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 10px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    #new-comment .ui.dropdown .menu > .item {
+        color: #cbd5e1 !important;
+        font-size: 13px !important;
+        padding: 8px 14px !important;
+    }
+
+    #new-comment .ui.dropdown .menu > .item:hover {
+        background: rgba(56, 189, 248, 0.15) !important;
+        color: #38bdf8 !important;
+    }
+
+    /* Code Area with Rounded Corners and Subtle Border */
+    #new-comment .ui.segment.tab,
+    #new-comment .tab.segment[data-tab^="editor-tab-"] {
+        background: #060913 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        overflow: hidden !important;
+    }
+
+    #new-comment .martor-field {
+        height: 260px !important;
+        min-height: 220px !important;
+        background: #060913 !important;
+        border: none !important;
+        border-radius: 14px !important;
+    }
+
+    #new-comment .ace_editor {
+        background: #060913 !important;
+        color: #f1f5f9 !important;
+        font-family: 'Google Sans Code', monospace !important;
+        font-size: 14px !important;
+        line-height: 1.65 !important;
+        border: none !important;
+        border-radius: 14px !important;
+    }
+
+    #new-comment .ace_gutter {
+        background: #04060d !important;
+        color: #475569 !important;
+        border: none !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+    }
+
+    #new-comment .ace_gutter-cell {
+        color: #475569 !important;
+        padding-right: 10px !important;
+        font-family: 'Google Sans Code', monospace !important;
+    }
+
+    #new-comment .ace_gutter-active-line {
+        background: rgba(255, 255, 255, 0.04) !important;
+        color: #38bdf8 !important;
+    }
+
+    #new-comment .ace_marker-layer .ace_active-line {
+        background: rgba(255, 255, 255, 0.03) !important;
+    }
+
+    #new-comment .ace_marker-layer .ace_selection {
+        background: rgba(56, 189, 248, 0.25) !important;
+        border-radius: 3px;
+    }
+
+    #new-comment .ace_cursor {
+        color: #38bdf8 !important;
+        border-left: 2px solid #38bdf8 !important;
+    }
+
+    #new-comment .ace_print-margin {
+        display: none !important;
+        opacity: 0 !important;
+        width: 0 !important;
+    }
+
+    /* Preview Pane */
+    #new-comment .tab.segment.martor-preview,
+    #new-comment .martor-preview {
+        background: #060913 !important;
+        color: #cbd5e1 !important;
+        min-height: 220px !important;
+        padding: 24px 28px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 14px !important;
+        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+        font-size: 14.5px !important;
+        line-height: 1.7 !important;
+        margin: 0 !important;
+    }
+
+    /* Footer: Notice & Buttons */
+    #new-comment .section-martor > hr {
+        display: none !important;
+    }
+
+    /* Bottom tabs (show-on-editor vs show-on-preview) */
+    #new-comment .show-on-editor[style*="display: none"],
+    #new-comment .show-on-preview[style*="display: none"],
+    #new-comment .show-on-editor[style*="display:none"],
+    #new-comment .show-on-preview[style*="display:none"] {
+        display: none !important;
+    }
+
+    #new-comment .show-on-editor,
+    #new-comment .show-on-preview {
+        margin-top: 18px !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+
+    #new-comment .show-on-editor p {
+        color: #94a3b8 !important;
+        font-size: 13px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        margin: 0 !important;
+    }
+
+    #new-comment .show-on-editor p::before {
+        content: "\f05a";
+        font-family: FontAwesome;
+        color: #38bdf8;
+        font-size: 14px;
+    }
+
+    /* Modern Post Button */
+    #new-comment input[type="submit"].button,
+    #new-comment button[type="submit"].button {
+        padding: 9px 24px !important;
+        border-radius: 100px !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        margin-left: auto !important;
+        float: right !important;
+        box-sizing: border-box !important;
+        line-height: 1.4 !important;
+    }
+
+    #new-comment input[type="submit"].button.disabled,
+    #new-comment button[type="submit"].button.disabled {
+        background: rgba(255, 255, 255, 0.05) !important;
+        color: rgba(255, 255, 255, 0.3) !important;
+        cursor: not-allowed !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        box-shadow: none !important;
+    }
+
+    #new-comment .show-on-preview input[type="submit"].button,
+    #new-comment .show-on-preview button[type="submit"].button {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+        color: #ffffff !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        cursor: pointer !important;
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+    }
+
+    #new-comment .show-on-preview input[type="submit"].button:hover,
+    #new-comment .show-on-preview button[type="submit"].button:hover {
+        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 22px rgba(56, 189, 248, 0.55), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+        border-color: rgba(56, 189, 248, 0.8) !important;
+    }
+
     /* ----------------------------------------------------
        Problems Page: Coding Platform UI 
        ---------------------------------------------------- */
