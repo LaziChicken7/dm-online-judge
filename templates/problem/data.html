@@ -331,6 +331,75 @@
             }
 
             // Auto-populate on page load if valid files exist and cases are not yet filled
+            // Client-side ZIP parser
+            function parseZipFilenames(buffer) {
+                var view = new DataView(buffer);
+                var filenames = [];
+                var offset = 0;
+                var len = buffer.byteLength;
+                var textDecoder = new TextDecoder('utf-8');
+
+                while (offset < len - 4) {
+                    var sig = view.getUint32(offset, true);
+                    if (sig === 0x04034b50) { // Local file header
+                        var fnLen = view.getUint16(offset + 26, true);
+                        var extraLen = view.getUint16(offset + 28, true);
+                        var fnBytes = new Uint8Array(buffer, offset + 30, fnLen);
+                        var fn = textDecoder.decode(fnBytes);
+                        if (fn && !fn.endsWith('/') && filenames.indexOf(fn) === -1) {
+                            filenames.push(fn);
+                        }
+                        offset += 30 + fnLen + extraLen;
+                    } else if (sig === 0x02014b50) { // Central directory header
+                        var fnLen = view.getUint16(offset + 28, true);
+                        var extraLen = view.getUint16(offset + 30, true);
+                        var commentLen = view.getUint16(offset + 32, true);
+                        var fnBytes = new Uint8Array(buffer, offset + 46, fnLen);
+                        var fn = textDecoder.decode(fnBytes);
+                        if (fn && !fn.endsWith('/') && filenames.indexOf(fn) === -1) {
+                            filenames.push(fn);
+                        }
+                        offset += 46 + fnLen + extraLen + commentLen;
+                    } else {
+                        offset++;
+                    }
+                }
+                return filenames;
+            }
+
+            // Client-side auto-fill immediately when user chooses a zip file
+            $(document).on('change', '#id_problem-data-zipfile', function (e) {
+                var file = e.target.files && e.target.files[0];
+                if (!file) return;
+
+                var reader = new FileReader();
+                reader.onload = function (ev) {
+                    var buffer = ev.target.result;
+                    var filenames = parseZipFilenames(buffer);
+                    if (!filenames || !filenames.length) return;
+
+                    window.valid_files = filenames;
+
+                    // Update select options in table
+                    var optionsHtml = '<option value="">---------</option>';
+                    filenames.forEach(function (f) {
+                        optionsHtml += '<option value="' + f + '">' + f + '</option>';
+                    });
+                    $table.find('select[id$=input_file], select[id$=output_file]').html(optionsHtml);
+                    var $extra = $table.find('.extra-row-body');
+                    if ($extra.length) {
+                        $extra.find('select[id$=input_file], select[id$=output_file]').html(optionsHtml);
+                    }
+
+                    var detectedPairs = detectTestPairs(filenames);
+                    if (detectedPairs.length > 0) {
+                        populateAllPairs(detectedPairs);
+                        $('#auto-populate-notice').fadeIn(300);
+                    }
+                };
+                reader.readAsArrayBuffer(file);
+            });
+
             if (window.valid_files && window.valid_files.length) {
                 var detectedPairs = detectTestPairs(window.valid_files);
                 if (detectedPairs.length > 0) {
@@ -500,60 +569,144 @@
         /* ========================================================
            TEST DATA REDESIGN STYLING (CSAT Tutor Geist Dark Theme)
            ======================================================== */
-        /* Top data form card */
-        .data-form-card {
+        /* Top data config card */
+        .data-config-card {
             background: #0d1322 !important;
             border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 18px !important;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4) !important;
-            width: 100% !important;
-            border-collapse: separate !important;
-            border-spacing: 0 !important;
-            overflow: hidden !important;
-            margin-bottom: 20px !important;
+            border-radius: 20px !important;
+            padding: 24px 28px !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+            margin-bottom: 24px !important;
+            box-sizing: border-box !important;
         }
 
-        .data-form-card th {
-            background: transparent !important;
-            color: #94a3b8 !important;
-            font-size: 13.5px !important;
-            font-weight: 600 !important;
-            padding: 12px 24px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-            width: 260px !important;
-            text-align: right !important;
-            vertical-align: middle !important;
+        .config-card-header {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            margin-bottom: 22px !important;
+            padding-bottom: 16px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
         }
 
-        .data-form-card td {
-            background: transparent !important;
-            color: #e2e8f0 !important;
-            font-size: 13.5px !important;
-            padding: 12px 24px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
-            vertical-align: middle !important;
+        .config-header-icon {
+            width: 42px !important;
+            height: 42px !important;
+            border-radius: 12px !important;
+            background: rgba(56, 189, 248, 0.1) !important;
+            border: 1px solid rgba(56, 189, 248, 0.25) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
         }
 
-        .data-form-card tr:last-child th,
-        .data-form-card tr:last-child td {
-            border-bottom: none !important;
-        }
-
-        .data-form-card select,
-        .data-form-card input[type="text"] {
-            background: rgba(0, 0, 0, 0.35) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 8px !important;
+        .config-header-text h3 {
+            margin: 0 !important;
+            font-size: 17px !important;
+            font-weight: 700 !important;
             color: #ffffff !important;
-            padding: 7px 12px !important;
-            font-size: 13px !important;
-            outline: none !important;
+            letter-spacing: -0.01em !important;
         }
 
-        .data-form-card select:focus,
-        .data-form-card input[type="text"]:focus {
+        .config-header-text p {
+            margin: 3px 0 0 0 !important;
+            font-size: 13px !important;
+            color: #64748b !important;
+        }
+
+        .config-grid-2 {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 28px !important;
+            align-items: start !important;
+        }
+
+        @media (max-width: 800px) {
+            .config-grid-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .config-col {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 18px !important;
+        }
+
+        .config-field-group {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+        }
+
+        .config-field-row-2 {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 14px !important;
+        }
+
+        .config-field-label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #94a3b8 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+        }
+
+        .config-field-label i {
+            color: #38bdf8 !important;
+            font-size: 13px !important;
+            width: 14px !important;
+            text-align: center !important;
+        }
+
+        .config-col select,
+        .config-col input[type="text"],
+        .config-col input[type="number"] {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 10px 14px !important;
+            background: rgba(0, 0, 0, 0.35) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 10px !important;
+            color: #ffffff !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .config-col select:focus,
+        .config-col input:focus {
             border-color: #38bdf8 !important;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        .config-file-widget {
+            font-size: 13px !important;
+            color: #94a3b8 !important;
+            line-height: 1.5 !important;
+        }
+
+        .config-file-widget a {
+            color: #38bdf8 !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+        }
+
+        .config-file-widget input[type="file"] {
+            color: #94a3b8 !important;
+            font-size: 12.5px !important;
+            margin-top: 6px !important;
+        }
+
+        .config-file-widget input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            cursor: pointer !important;
+            margin-left: 6px !important;
         }
 
         /* Alert Banner (Image #2) */
@@ -784,7 +937,106 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ cases_formset.management_form }}
-        <table class="table data-form-card">{{ data_form.as_table() }}</table>
+        <!-- Redesigned Problem Data & Checker Configuration Card -->
+        <div class="data-config-card">
+            <div class="config-card-header">
+                <div class="config-header-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                </div>
+                <div class="config-header-text">
+                    <h3>{{ _('Test Data & Checker Configuration') }}</h3>
+                    <p>{{ _('Upload test data zip archive, configure custom generator, and set execution constraints.') }}</p>
+                </div>
+            </div>
+
+            <div class="config-grid-2">
+                <div class="config-col">
+                    <div class="config-field-group">
+                        <label class="config-field-label">
+                            <i class="fa fa-file-archive-o"></i>
+                            <span>{{ _('Data zip file') }}</span>
+                        </label>
+                        <div class="config-file-widget">
+                            {{ data_form['zipfile'].errors }}
+                            {{ data_form['zipfile'] }}
+                        </div>
+                    </div>
+
+                    <div class="config-field-group">
+                        <label class="config-field-label">
+                            <i class="fa fa-cogs"></i>
+                            <span>{{ _('Generator file (optional)') }}</span>
+                        </label>
+                        <div class="config-file-widget">
+                            {{ data_form['generator'].errors }}
+                            {{ data_form['generator'] }}
+                        </div>
+                    </div>
+
+                    <div class="config-field-group">
+                        <label class="config-field-label">
+                            <i class="fa fa-gavel"></i>
+                            <span>{{ _('Checker') }}</span>
+                        </label>
+                        <div class="config-select-wrap">
+                            {{ data_form['checker'].errors }}
+                            {{ data_form['checker'] }}
+                            {{ data_form['checker_args'] }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="config-col">
+                    <div class="config-field-row-2">
+                        <div class="config-field-group">
+                            <label class="config-field-label">
+                                <i class="fa fa-text-width"></i>
+                                <span>{{ _('Output limit length') }}</span>
+                            </label>
+                            <div class="config-input-wrap">
+                                {{ data_form['output_limit'].errors }}
+                                {{ data_form['output_limit'] }}
+                            </div>
+                        </div>
+
+                        <div class="config-field-group">
+                            <label class="config-field-label">
+                                <i class="fa fa-indent"></i>
+                                <span>{{ _('Output prefix length') }}</span>
+                            </label>
+                            <div class="config-input-wrap">
+                                {{ data_form['output_prefix'].errors }}
+                                {{ data_form['output_prefix'] }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="config-field-row-2">
+                        <div class="config-field-group">
+                            <label class="config-field-label">
+                                <i class="fa fa-font"></i>
+                                <span>{{ _('Enable unicode') }}</span>
+                            </label>
+                            <div class="config-select-wrap">
+                                {{ data_form['unicode'].errors }}
+                                {{ data_form['unicode'] }}
+                            </div>
+                        </div>
+
+                        <div class="config-field-group">
+                            <label class="config-field-label">
+                                <i class="fa fa-calculator"></i>
+                                <span>{{ _('Disable bigInteger') }}</span>
+                            </label>
+                            <div class="config-select-wrap">
+                                {{ data_form['nobigmath'].errors }}
+                                {{ data_form['nobigmath'] }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Alert Notification (Image #2) -->
         <div id="auto-populate-notice" class="auto-fill-alert">
