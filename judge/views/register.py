@@ -6,8 +6,9 @@ from django.contrib.auth.password_validation import get_default_password_validat
 from django.forms import ChoiceField, ModelChoiceField
 from django.shortcuts import render
 from django.utils.translation import gettext, gettext_lazy as _, ngettext
-from registration.backends.default.views import (ActivationView as OldActivationView,
-                                                 RegistrationView as OldRegistrationView)
+from django.urls import reverse_lazy
+from registration.backends.simple.views import RegistrationView as OldRegistrationView
+from registration.backends.default.views import ActivationView as OldActivationView
 from registration.forms import RegistrationForm
 from sortedm2m.forms import SortedMultipleChoiceField
 
@@ -57,6 +58,7 @@ class RegistrationView(OldRegistrationView):
     title = _('Register')
     form_class = CustomRegistrationForm
     template_name = 'registration/registration_form.html'
+    success_url = reverse_lazy('registration_complete')
 
     def get_context_data(self, **kwargs):
         if 'title' not in kwargs:
@@ -75,7 +77,9 @@ class RegistrationView(OldRegistrationView):
         cleaned_data = form.cleaned_data
         profile.timezone = cleaned_data['timezone']
         profile.language = cleaned_data['language']
-        profile.organizations.add(*cleaned_data['organizations'])
+        orgs = cleaned_data.get('organizations')
+        if orgs:
+            profile.organizations.add(*orgs)
         profile.save()
 
         if newsletter_id is not None and cleaned_data['newsletter']:
