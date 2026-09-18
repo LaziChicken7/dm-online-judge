@@ -65,6 +65,23 @@ class ProblemDataCompiler(object):
             cases.append(batch)
 
         def make_checker(case):
+            if case.checker == 'testlib':
+                res = {
+                    'name': 'bridged',
+                    'args': {
+                        'files': ['checker.cpp', 'testlib.h'] if 'testlib.h' in self.files else ['checker.cpp'],
+                        'lang': 'CPP11',
+                        'type': 'testlib',
+                    },
+                }
+                if case.checker_args:
+                    try:
+                        custom_args = json.loads(case.checker_args)
+                        if isinstance(custom_args, dict):
+                            res['args'].update(custom_args)
+                    except Exception:
+                        pass
+                return res
             if case.checker_args:
                 return {
                     'name': case.checker,

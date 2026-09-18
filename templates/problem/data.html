@@ -368,6 +368,60 @@
             }
 
             // Client-side auto-fill immediately when user chooses a zip file
+            // Instruction modal toggle
+            $(document).on('click', '#btn-checker-instruction', function (e) {
+                e.preventDefault();
+                $('#testlib-instruction-modal').css('display', 'flex').hide().fadeIn(200);
+            });
+            $(document).on('click', '#testlib-instruction-modal', function (e) {
+                if ($(e.target).is('#testlib-instruction-modal')) {
+                    $(this).fadeOut(200);
+                }
+            });
+
+            // Parse zip button click handler
+            $(document).on('click', '#btn-parse-zip', function (e) {
+                e.preventDefault();
+                var $fileInput = $('input[type="file"][name$="zipfile"]');
+                var file = $fileInput.length && $fileInput[0].files && $fileInput[0].files[0];
+                if (file) {
+                    $fileInput.trigger('change');
+                    return;
+                }
+                if (window.valid_files && window.valid_files.length) {
+                    var detectedPairs = detectTestPairs(window.valid_files);
+                    if (detectedPairs.length > 0) {
+                        populateAllPairs(detectedPairs);
+                        $('#auto-populate-notice').fadeIn(300);
+                    }
+                } else {
+                    var $link = $('a[href*="_Tests.zip"], a[href*=".zip"]');
+                    if ($link.length) {
+                        var zipUrl = $link.attr('href');
+                        fetch(zipUrl).then(function (res) {
+                            return res.arrayBuffer();
+                        }).then(function (buffer) {
+                            var filenames = parseZipFilenames(buffer);
+                            if (filenames && filenames.length) {
+                                window.valid_files = filenames;
+                                var optionsHtml = '<option value="">---------</option>';
+                                filenames.forEach(function (f) {
+                                    optionsHtml += '<option value="' + f + '">' + f + '</option>';
+                                });
+                                $table.find('select[id$=input_file], select[id$=output_file]').html(optionsHtml);
+                                var detectedPairs = detectTestPairs(filenames);
+                                if (detectedPairs.length > 0) {
+                                    populateAllPairs(detectedPairs);
+                                    $('#auto-populate-notice').fadeIn(300);
+                                }
+                            }
+                        }).catch(function (err) {
+                            console.error('Failed to load existing zip:', err);
+                        });
+                    }
+                }
+            });
+
             $(document).on('change', '#id_problem-data-zipfile', function (e) {
                 var file = e.target.files && e.target.files[0];
                 if (!file) return;
@@ -569,178 +623,175 @@
         /* ========================================================
            TEST DATA REDESIGN STYLING (CSAT Tutor Geist Dark Theme)
            ======================================================== */
-        /* Top data config card */
-        .data-config-card {
+        /* Vertical Data Table (Image #1) */
+        .vertical-data-table {
+            width: 100% !important;
             background: #0d1322 !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 20px !important;
-            padding: 24px 28px !important;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
-            margin-bottom: 24px !important;
-            box-sizing: border-box !important;
-        }
-
-        .config-card-header {
-            display: flex !important;
-            align-items: center !important;
-            gap: 14px !important;
-            margin-bottom: 22px !important;
-            padding-bottom: 16px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-        }
-
-        .config-header-icon {
-            width: 42px !important;
-            height: 42px !important;
-            border-radius: 12px !important;
-            background: rgba(56, 189, 248, 0.1) !important;
-            border: 1px solid rgba(56, 189, 248, 0.25) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            flex-shrink: 0 !important;
-        }
-
-        .config-header-text h3 {
-            margin: 0 !important;
-            font-size: 17px !important;
-            font-weight: 700 !important;
-            color: #ffffff !important;
-            letter-spacing: -0.01em !important;
-        }
-
-        .config-header-text p {
-            margin: 3px 0 0 0 !important;
-            font-size: 13px !important;
-            color: #64748b !important;
-        }
-
-        /* Rows Container */
-        .config-rows-container {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 20px !important;
-            width: 100% !important;
-        }
-
-        .config-horizontal-row {
-            display: grid !important;
-            gap: 20px !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-        }
-
-        .config-horizontal-row.row-files {
-            grid-template-columns: 1.3fr 1.1fr 1fr !important;
-            padding-bottom: 20px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-        }
-
-        .config-horizontal-row.row-limits {
-            grid-template-columns: repeat(4, 1fr) !important;
-        }
-
-        @media (max-width: 1024px) {
-            .config-horizontal-row.row-files {
-                grid-template-columns: 1fr !important;
-            }
-            .config-horizontal-row.row-limits {
-                grid-template-columns: 1fr 1fr !important;
-            }
-        }
-
-        .config-field-group {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 8px !important;
-            min-width: 0 !important;
-        }
-
-        .config-field-label {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            font-size: 11.5px !important;
-            font-weight: 700 !important;
-            color: #94a3b8 !important;
-            letter-spacing: 0.5px !important;
-            text-transform: uppercase !important;
-        }
-
-        .config-field-label i {
-            color: #38bdf8 !important;
-            font-size: 13px !important;
-            width: 14px !important;
-            text-align: center !important;
-        }
-
-        .config-field-box {
-            background: rgba(0, 0, 0, 0.35) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 12px !important;
-            padding: 12px 16px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            justify-content: center !important;
-            min-height: 72px !important;
-            box-sizing: border-box !important;
-            font-size: 13px !important;
-            color: #94a3b8 !important;
-        }
-
-        .config-field-box a {
-            color: #38bdf8 !important;
-            text-decoration: none !important;
-            font-weight: 500 !important;
-        }
-
-        .config-field-box input[type="file"] {
-            color: #94a3b8 !important;
-            font-size: 12px !important;
-            margin-top: 4px !important;
-        }
-
-        .config-field-box input[type="checkbox"] {
-            accent-color: #0284c7 !important;
-            cursor: pointer !important;
-            margin-left: 6px !important;
-        }
-
-        .config-field-box select {
-            width: 100% !important;
-            box-sizing: border-box !important;
-            padding: 10px 14px !important;
-            background: rgba(0, 0, 0, 0.4) !important;
             border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 8px !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            margin-bottom: 24px !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+        }
+
+        .vertical-data-table tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+
+        .vertical-data-table tr:last-child {
+            border-bottom: none !important;
+        }
+
+        .vertical-data-table th.v-label-col {
+            width: 240px !important;
+            background: #0c213d !important;
             color: #ffffff !important;
-            font-size: 13px !important;
-            outline: none !important;
-        }
-
-        .config-input-box {
-            width: 100% !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            text-align: center !important;
+            vertical-align: middle !important;
+            padding: 16px 20px !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
             box-sizing: border-box !important;
         }
 
-        .config-input-box input,
-        .config-input-box select {
-            width: 100% !important;
+        .vertical-data-table tr:last-child th.v-label-col {
+            border-bottom: none !important;
+        }
+
+        .vertical-data-table td.v-control-col {
+            background: rgba(13, 19, 34, 0.8) !important;
+            padding: 14px 28px !important;
+            vertical-align: middle !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            color: #e2e8f0 !important;
             box-sizing: border-box !important;
-            padding: 11px 14px !important;
-            background: rgba(0, 0, 0, 0.35) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .vertical-data-table tr:last-child td.v-control-col {
+            border-bottom: none !important;
+        }
+
+        .v-control-center {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            max-width: 620px !important;
+            margin: 0 auto !important;
+        }
+
+        .v-control-center.v-row-layout {
+            flex-direction: row !important;
+            justify-content: center !important;
+        }
+
+        .vertical-data-table select,
+        .vertical-data-table input[type="text"],
+        .vertical-data-table input[type="number"] {
+            width: 100% !important;
+            max-width: 480px !important;
+            padding: 10px 16px !important;
+            background: #090d18 !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
             border-radius: 10px !important;
             color: #ffffff !important;
-            font-size: 13px !important;
+            font-size: 13.5px !important;
             outline: none !important;
             transition: all 0.2s ease !important;
         }
 
-        .config-input-box input:focus,
-        .config-input-box select:focus {
+        .vertical-data-table select:focus,
+        .vertical-data-table input[type="text"]:focus,
+        .vertical-data-table input[type="number"]:focus {
             border-color: #38bdf8 !important;
             box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        .v-file-wrap {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-size: 13px !important;
+            color: #94a3b8 !important;
+        }
+
+        .v-file-wrap a {
+            color: #60a5fa !important;
+            text-decoration: none !important;
+        }
+
+        .v-file-wrap a:hover {
+            text-decoration: underline !important;
+        }
+
+        .v-file-wrap label {
+            cursor: pointer !important;
+            color: #cbd5e1 !important;
+            margin-left: 6px !important;
+        }
+
+        .v-file-wrap input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            vertical-align: middle !important;
+        }
+
+        .v-file-wrap input[type="file"] {
+            color: #cbd5e1 !important;
+            font-size: 12.5px !important;
+        }
+
+        .v-zip-btn {
+            background: #005689 !important;
+            color: #ffffff !important;
+            padding: 8px 22px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 2px 8px rgba(0, 86, 137, 0.4) !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            margin-top: 4px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .v-zip-btn:hover {
+            background: #006dae !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 14px rgba(0, 109, 174, 0.5) !important;
+        }
+
+        .v-instruction-link {
+            color: #60a5fa !important;
+            font-size: 13px !important;
+            text-decoration: none !important;
+            font-weight: 500 !important;
+            margin-left: 14px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            cursor: pointer !important;
+            white-space: nowrap !important;
+        }
+
+        .v-instruction-link:hover {
+            text-decoration: underline !important;
+            color: #93c5fd !important;
+        }
+
+        .v-helper-text {
+            font-size: 12.5px !important;
+            color: #94a3b8 !important;
+            margin-top: 2px !important;
+            text-align: center !important;
         }
 
         /* Alert Banner (Image #2) */
@@ -990,103 +1041,139 @@
         {% csrf_token %}
         {{ cases_formset.management_form }}
         <!-- Redesigned Problem Data & Checker Configuration Card -->
-        <div class="data-config-card">
-            <div class="config-card-header">
-                <div class="config-header-icon">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                </div>
-                <div class="config-header-text">
-                    <h3>{{ _('Test Data & Checker Configuration') }}</h3>
-                    <p>{{ _('Upload test data zip archive, configure custom generator, and set execution constraints.') }}</p>
-                </div>
-            </div>
-
-            <div class="config-rows-container">
-                <!-- Row 1: Files & Checker on the SAME horizontal row! -->
-                <div class="config-horizontal-row row-files">
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-file-archive-o"></i>
-                            <span>{{ _('Data zip file') }}</span>
-                        </label>
-                        <div class="config-field-box">
+        <!-- Vertical Configuration Table (Image #1) -->
+        <table class="vertical-data-table">
+            <tbody>
+                <!-- Data zip file -->
+                <tr>
+                    <th class="v-label-col">{{ _('Data zip file:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
                             {{ data_form['zipfile'].errors }}
-                            {{ data_form['zipfile'] }}
+                            <div class="v-file-wrap">
+                                {{ data_form['zipfile'] }}
+                            </div>
+                            <button type="button" id="btn-parse-zip" class="v-zip-btn">
+                                {{ _('Please press this button if you have just updated the zip data') }}
+                            </button>
                         </div>
-                    </div>
+                    </td>
+                </tr>
 
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-cogs"></i>
-                            <span>{{ _('Generator file (optional)') }}</span>
-                        </label>
-                        <div class="config-field-box">
+                <!-- Generator file -->
+                <tr>
+                    <th class="v-label-col">{{ _('Generator file:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
                             {{ data_form['generator'].errors }}
-                            {{ data_form['generator'] }}
+                            <div class="v-file-wrap">
+                                {{ data_form['generator'] }}
+                            </div>
                         </div>
-                    </div>
+                    </td>
+                </tr>
 
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-gavel"></i>
-                            <span>{{ _('Checker') }}</span>
-                        </label>
-                        <div class="config-field-box">
+                <!-- Checker -->
+                <tr>
+                    <th class="v-label-col">{{ _('Checker:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center v-row-layout">
                             {{ data_form['checker'].errors }}
                             {{ data_form['checker'] }}
+                            <a href="javascript:void(0)" id="btn-checker-instruction" class="v-instruction-link" title="{{ _('View testlib.h documentation and syntax') }}">
+                                <i class="fa fa-info-circle"></i> {{ _('Instruction') }}
+                            </a>
+                        </div>
+                        <div style="display: none;">
                             {{ data_form['checker_args'] }}
                         </div>
-                    </div>
-                </div>
+                    </td>
+                </tr>
 
-                <!-- Row 2: Limits & Options on the SAME horizontal row! -->
-                <div class="config-horizontal-row row-limits">
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-text-width"></i>
-                            <span>{{ _('Output limit length') }}</span>
-                        </label>
-                        <div class="config-input-box">
+                <!-- Output limit length -->
+                <tr>
+                    <th class="v-label-col">{{ _('Output limit length:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
                             {{ data_form['output_limit'].errors }}
                             {{ data_form['output_limit'] }}
+                            <div class="v-helper-text">
+                                {{ _('Có thể bỏ trống. Chỉ thay đổi nếu độ dài của output quá dài (hơn 20Mb).') }}
+                            </div>
                         </div>
-                    </div>
+                    </td>
+                </tr>
 
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-indent"></i>
-                            <span>{{ _('Output prefix length') }}</span>
-                        </label>
-                        <div class="config-input-box">
+                <!-- Output prefix length -->
+                <tr>
+                    <th class="v-label-col">{{ _('Output prefix length:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
                             {{ data_form['output_prefix'].errors }}
                             {{ data_form['output_prefix'] }}
+                            <div class="v-helper-text">
+                                {{ _('Có thể bỏ trống. Giới hạn tiền tố của output hiển thị.') }}
+                            </div>
                         </div>
-                    </div>
+                    </td>
+                </tr>
 
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-font"></i>
-                            <span>{{ _('Enable unicode') }}</span>
-                        </label>
-                        <div class="config-input-box">
+                <!-- Enable unicode -->
+                <tr>
+                    <th class="v-label-col">{{ _('Enable unicode:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
                             {{ data_form['unicode'].errors }}
                             {{ data_form['unicode'] }}
                         </div>
-                    </div>
+                    </td>
+                </tr>
 
-                    <div class="config-field-group">
-                        <label class="config-field-label">
-                            <i class="fa fa-calculator"></i>
-                            <span>{{ _('Disable bigInteger') }}</span>
-                        </label>
-                        <div class="config-input-box">
+                <!-- Disable bigInteger -->
+                <tr>
+                    <th class="v-label-col">{{ _('Disable bigInteger:') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
                             {{ data_form['nobigmath'].errors }}
                             {{ data_form['nobigmath'] }}
                         </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Testlib Instruction Modal -->
+        <div id="testlib-instruction-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
+            <div style="background: #0d1322; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 24px 28px; max-width: 600px; width: 90%; box-shadow: 0 20px 50px rgba(0,0,0,0.7); color: #e2e8f0; box-sizing: border-box;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 12px;">
+                    <h3 style="margin: 0; font-size: 16px; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa fa-info-circle"></i> {{ _('Hướng dẫn sử dụng Checker Testlib (testlib.h)') }}
+                    </h3>
+                    <a href="javascript:void(0)" onclick="$('#testlib-instruction-modal').fadeOut(200)" style="color: #94a3b8; font-size: 22px; line-height: 1; text-decoration: none;">&times;</a>
+                </div>
+                <div style="font-size: 13.5px; line-height: 1.6; color: #cbd5e1;">
+                    <p style="margin-top: 0;"><strong>1. Cấu hình:</strong> Đặt file <code>checker.cpp</code> vào thư mục / file zip dữ liệu bài tập. Thư viện <code>testlib.h</code> đã được tích hợp sẵn trên hệ thống chấm.</p>
+                    <p><strong>2. Mẫu mã nguồn checker.cpp:</strong></p>
+                    <pre style="background: #070a12; padding: 12px; border-radius: 8px; font-size: 12px; color: #a5f3fc; border: 1px solid rgba(255,255,255,0.08); overflow-x: auto; margin: 8px 0;">#include "testlib.h"
+
+int main(int argc, char* argv[]) {
+    registerTestlibCmd(argc, argv);
+    int ja = ans.readInt();
+    int pa = ouf.readInt();
+    if (ja != pa)
+        quitf(_wa, "Sai kết quả: dự kiến %d, nhận được %d", ja, pa);
+    quitf(_ok, "Kết quả chính xác!");
+}</pre>
+                    <p style="margin: 8px 0;"><strong>Các luồng chuẩn:</strong> <code>inf</code> (dữ liệu vào), <code>ouf</code> (bài làm nộp), <code>ans</code> (đáp án chuẩn).</p>
+                    <div style="margin-top: 14px; text-align: right;">
+                        <a href="https://github.com/MikeMirzayanov/testlib" target="_blank" style="color: #38bdf8; text-decoration: none; font-size: 13px; font-weight: 500;">
+                            <i class="fa fa-external-link"></i> {{ _('Tài liệu Testlib trên GitHub') }} &rarr;
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
+
         <!-- Alert Notification (Image #2) -->
         <div id="auto-populate-notice" class="auto-fill-alert">
             <div class="alert-content">
