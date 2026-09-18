@@ -1,4 +1,11 @@
 function EventReceiver(websocket, poller, channels, last_msg, onmessage) {
+    if (!websocket || websocket.indexOf('localhost:9996') !== -1 || websocket.indexOf('<') !== -1) {
+        var proto = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+        websocket = proto + '//' + window.location.host + '/event/';
+    }
+    if (!poller || poller.indexOf('<') !== -1) {
+        poller = '/channels/';
+    }
     this.websocket_path = websocket;
     this.channels = channels;
     this.last_msg = last_msg;

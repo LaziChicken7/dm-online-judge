@@ -7,14 +7,29 @@
         <script type="text/javascript">
             $(function () {
                 function format(state) {
-                    if (!state.id) return state.text; // optgroup
+                    if (!state.id) return state.text;
                     return state.text;
                 }
 
                 window.previous_template = '';
 
+                function get_extension(ace_mode) {
+                    var map = {
+                        'python': 'py', 'c_cpp': 'cpp', 'java': 'java',
+                        'pascal': 'pas', 'assembly_x86': 'asm', 'perl': 'pl',
+                        'javascript': 'js', 'ruby': 'rb', 'rust': 'rs',
+                        'go': 'go', 'haskell': 'hs', 'text': 'txt'
+                    };
+                    return map[ace_mode] || ace_mode || 'txt';
+                }
+
                 function update_language_template() {
                     var source = $('textarea#id_source');
+                    var lang_opt = $("#id_language").find("option:selected");
+                    var ace_mode = lang_opt.attr('data-ace') || 'text';
+                    var ext = get_extension(ace_mode);
+                    $('#editor-tab-filename').text('solution.' + ext);
+
                     if (source.val() == window.previous_template.replace(/\r/g, '') || source.val() == '') {
                         var lang_id = $('#id_language').val();
                         var code = localStorage.getItem('submit:' + $('#id_language').val());
@@ -22,7 +37,9 @@
                         function update_submit_area(code) {
                             window.previous_template = code;
                             source.val(code);
-                            window.ace_source.getSession().setValue(code);
+                            if (window.ace_source) {
+                                window.ace_source.getSession().setValue(code);
+                            }
                         }
 
                         if (code != null) {
@@ -40,17 +57,19 @@
                 function makeDisplayData(data) {
                     var site_data = data.attr('data-info');
                     var judge_data = data.attr('data-judge-info');
-                    var display_data = site_data || judge_data;
-                    return display_data;
+                    return site_data || judge_data || '';
                 }
 
                 function formatSelection(state) {
-                    if (!state.id) return state.text; // optgroup
-                    var data = makeDisplayData($("option[data-id=" + state.id + "]"));
-                    return $('<span>').append($('<b>').text(state.text), ' (', data, ')');
+                    if (!state.id) return state.text;
+                    var opt = $("option[data-id=" + state.id + "]");
+                    var data = makeDisplayData(opt);
+                    if (data) {
+                        return $('<span>').append($('<b>').text(state.text), ' (', $('<span style="opacity:0.7">').text(data), ')');
+                    }
+                    return $('<span>').append($('<b>').text(state.text));
                 }
 
-                // Terrible hack, adapted from https://github.com/select2/select2/issues/4436
                 $.fn.select2.amd.define('select2/data/customAdapter', ['select2/results', 'select2/utils'], function (Result, Utils) {
                     RefPresenter = function ($element, options, dataAdapter) {
                         RefPresenter.__super__.constructor.call(this, $element, options, dataAdapter);
@@ -72,13 +91,15 @@
                     theme: '{{ DMOJ_SELECT2_THEME }}',
                     templateResult: format,
                     templateSelection: formatSelection,
-                    resultsAdapter: customAdapter
+                    resultsAdapter: customAdapter,
+                    dropdownAutoWidth: true
                 });
 
                 $('#id_language').on('select2:open', function (evt) {
                     var dropdown = $('.select2-dropdown');
-                    if (!$('#result-version-info').length)
-                        dropdown.append($("<span id=\"result-version-info\">"));
+                    if (!$('#result-version-info').length) {
+                        dropdown.prepend($('<span>', {id: 'result-version-info'}));
+                    }
                     dropdown.attr('id', 'language-select2');
                 });
 
@@ -90,11 +111,14 @@
 
                 $('#id_language').change(function () {
                     var lang = $("#id_language").find("option:selected").attr('data-ace');
-                    window.ace_source.getSession().setMode("ace/mode/" + lang);
+                    if (window.ace_source) {
+                        window.ace_source.getSession().setMode("ace/mode/" + lang);
+                    }
                     update_language_template();
                 });
 
                 $('#ace_source').on('ace_load', function (e, editor) {
+                    editor.setTheme("ace/theme/twilight");
                     update_language_template();
                     editor.commands.addCommand({
                         name: 'save',
@@ -104,14 +128,70 @@
                         }
                     });
                     editor.getSession().setUseWrapMode(true);
-                    editor.setFontSize(14);
-                    editor.setPrintMarginColumn(100);
+                    editor.setOptions({
+                        fontFamily: "'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace",
+                        fontSize: "14.5px",
+                        showPrintMargin: false
+                    });
                     editor.focus();
+
+                    // Toolbar actions
+                    $('#editor-wrap-toggle').click(function(e) {
+                        e.preventDefault();
+                        var wrap = !editor.getSession().getUseWrapMode();
+                        editor.getSession().setUseWrapMode(wrap);
+                        $(this).toggleClass('active', wrap);
+                    });
+
+                    $('#editor-reset-btn').click(function(e) {
+                        e.preventDefault();
+                        if (confirm('Bạn có chắc muốn đặt lại mẫu mã nguồn cho ngôn ngữ này không?')) {
+                            localStorage.removeItem('submit:' + $('#id_language').val());
+                            window.previous_template = '';
+                            $('textarea#id_source').val('');
+                            update_language_template();
+                        }
+                    });
+
+                    // Flawless Native Fullscreen
+                    $('#editor-fullscreen-btn').click(function(e) {
+                        e.preventDefault();
+                        var el = document.getElementById('editor');
+                        if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                            if (el.requestFullscreen) {
+                                el.requestFullscreen();
+                            } else if (el.webkitRequestFullscreen) {
+                                el.webkitRequestFullscreen();
+                            }
+                        } else {
+                            if (document.exitFullscreen) {
+                                document.exitFullscreen();
+                            } else if (document.webkitExitFullscreen) {
+                                document.webkitExitFullscreen();
+                            }
+                        }
+                    });
+
+                    function onFullscreenChange() {
+                        var isFs = !!(document.fullscreenElement || document.webkitFullscreenElement);
+                        $('#editor-fullscreen-btn i').toggleClass('fa-expand', !isFs).toggleClass('fa-compress', isFs);
+                        setTimeout(function() {
+                            editor.resize();
+                        }, 100);
+                    }
+
+                    document.addEventListener('fullscreenchange', onFullscreenChange);
+                    document.addEventListener('webkitfullscreenchange', onFullscreenChange);
                 });
 
-                $(window).resize(function () {
-                    $('#ace_source').height(Math.max($(window).height() - 353, 100));
-                }).resize();
+                function adjust_editor_height() {
+                    if (!document.fullscreenElement && !document.webkitFullscreenElement) {
+                        $('#ace_source').height(Math.max($(window).height() - 340, 540));
+                    }
+                }
+
+                $(window).resize(adjust_editor_height);
+                setTimeout(adjust_editor_height, 100);
 
                 $('#problem_submit').submit(function (event) {
                     if ($('#id_source').val().length > 65536) {
@@ -125,12 +205,561 @@
     {% endcompress %}
 {% endblock %}
 
+{% block title_ruler %}{% endblock %}
+
+{% block title_row %}
+    <div class="problem-header-card" style="margin-bottom: 24px;">
+        <div class="problem-header-left">
+            <div class="problem-header-tag">SUBMISSION &bull; {{ problem.code }}</div>
+            <div class="problem-title-group">
+                <h2>{{ _('Submit to %(problem)s', problem=problem.name) }}</h2>
+            </div>
+        </div>
+        <div class="problem-header-right">
+            <a href="{{ url('problem_detail', problem.code) }}" class="header-action-btn">
+                <i class="fa fa-arrow-left"></i> {{ _('Back to problem') }}
+            </a>
+        </div>
+    </div>
+{% endblock %}
+
 {% block media %}
     {{ form.media.css }}
+    <style>
+        .submit-card {
+            background: rgba(255, 255, 255, 0.025) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            padding: 24px 28px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
+            margin-bottom: 28px !important;
+        }
+
+        /* 1. HIDE DUPLICATE DJANGO-ACE TOOLBAR (Bar with expand icon from Image #1) */
+        .django-ace-toolbar {
+            display: none !important;
+        }
+
+        /* Stylized IDE Code Editor Container */
+        #editor {
+            border-radius: 14px !important;
+            overflow: hidden !important;
+            border: 1px solid rgba(255, 255, 255, 0.09) !important;
+            background: #020408 !important;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
+            margin-bottom: 22px !important;
+            transition: all 0.25s ease !important;
+        }
+
+        #editor:hover {
+            border-color: rgba(56, 189, 248, 0.3) !important;
+        }
+
+        /* IDE Top Bar Header */
+        .editor-header-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: #070b14 !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+            padding: 8px 16px !important;
+            user-select: none !important;
+        }
+
+        .editor-header-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
+        }
+
+        .editor-dots {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .editor-dots .dot {
+            width: 10px !important;
+            height: 10px !important;
+            border-radius: 50% !important;
+            display: inline-block !important;
+        }
+        .editor-dots .dot-red { background: #ef4444 !important; opacity: 0.85; }
+        .editor-dots .dot-yellow { background: #f59e0b !important; opacity: 0.85; }
+        .editor-dots .dot-green { background: #10b981 !important; opacity: 0.85; }
+
+        .editor-tab {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 6px !important;
+            padding: 3px 12px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            color: #38bdf8 !important;
+        }
+        .editor-tab i {
+            font-size: 11px !important;
+            opacity: 0.8 !important;
+        }
+
+        .editor-actions {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .editor-action-icon {
+            background: transparent !important;
+            border: none !important;
+            color: #64748b !important;
+            cursor: pointer !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            transition: all 0.15s ease !important;
+        }
+        .editor-action-icon:hover, .editor-action-icon.active {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.1) !important;
+        }
+
+        /* 2. FLAWLESS FULLSCREEN STYLING */
+        #editor:fullscreen,
+        #editor:-webkit-full-screen {
+            width: 100vw !important;
+            height: 100vh !important;
+            background: #020408 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 0 !important;
+            border: none !important;
+            z-index: 100000 !important;
+        }
+
+        #editor:fullscreen .editor-header-bar,
+        #editor:-webkit-full-screen .editor-header-bar {
+            border-radius: 0 !important;
+            padding: 10px 20px !important;
+            background: #070b14 !important;
+        }
+
+        #editor:fullscreen #ace_source,
+        #editor:-webkit-full-screen #ace_source {
+            flex: 1 !important;
+            height: calc(100vh - 44px) !important;
+            max-height: calc(100vh - 44px) !important;
+        }
+
+        /* 3. ACE EDITOR CODE & SYNTAX HIGHLIGHTING FIX */
+        .ace-github,
+        .ace-twilight,
+        .ace_editor,
+        .django-ace-widget,
+        #ace_source {
+            background-color: #020408 !important;
+            background: #020408 !important;
+            color: #f1f5f9 !important;
+            min-height: 540px !important;
+        }
+
+        .ace_editor,
+        .ace_editor * {
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+        }
+
+        /* Transparent inner layers so text is NEVER hidden */
+        .ace_layer:not(.ace_gutter-layer),
+        .ace_scroller,
+        .ace_content,
+        .ace_text-layer,
+        .ace_cursor-layer,
+        .ace_marker-layer {
+            background: transparent !important;
+            background-color: transparent !important;
+        }
+
+        /* Code Text Color (Bright & Readable) */
+        .ace_editor .ace_line,
+        .ace-github .ace_line,
+        .ace-twilight .ace_line {
+            color: #f8fafc !important;
+        }
+
+        /* Vibrant Modern Syntax Highlighting */
+        .ace_editor .ace_keyword, .ace-github .ace_keyword, .ace-twilight .ace_keyword { color: #f43f5e !important; font-weight: 600 !important; }
+        .ace_editor .ace_string, .ace-github .ace_string, .ace-twilight .ace_string { color: #34d399 !important; }
+        .ace_editor .ace_numeric, .ace-github .ace_numeric, .ace-twilight .ace_numeric, .ace_constant { color: #fbbf24 !important; }
+        .ace_editor .ace_function, .ace-github .ace_function, .ace-twilight .ace_function, .ace_support.ace_function { color: #38bdf8 !important; }
+        .ace_editor .ace_variable, .ace-github .ace_variable, .ace-twilight .ace_variable, .ace_identifier { color: #f8fafc !important; }
+        .ace_editor .ace_comment, .ace-github .ace_comment, .ace-twilight .ace_comment { color: #64748b !important; font-style: italic !important; }
+        .ace_editor .ace_operator, .ace-github .ace_operator, .ace-twilight .ace_operator, .ace_punctuation { color: #38bdf8 !important; }
+
+        .ace_gutter,
+        .ace-github .ace_gutter,
+        .ace-twilight .ace_gutter {
+            background: #010204 !important;
+            background-color: #010204 !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
+            color: #475569 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            padding-right: 4px !important;
+        }
+
+        .ace_gutter-active-line {
+            background: rgba(255, 255, 255, 0.04) !important;
+            color: #38bdf8 !important;
+        }
+
+        .ace_marker-layer .ace_active-line {
+            background: rgba(255, 255, 255, 0.025) !important;
+        }
+
+        .ace_marker-layer .ace_selection {
+            background: rgba(56, 189, 248, 0.25) !important;
+        }
+
+        .ace_cursor {
+            color: #38bdf8 !important;
+            border-left: 2px solid #38bdf8 !important;
+        }
+
+        /* Bottom Controls Bar */
+        .submit-controls-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 20px !important;
+            flex-wrap: wrap !important;
+        }
+
+        #language {
+            flex: 1 !important;
+            max-width: 480px !important;
+            min-width: 320px !important;
+        }
+
+        #language .select2-container,
+        #language-select .select2-container {
+            width: 340px !important;
+            max-width: 100% !important;
+        }
+
+        /* Stylized Language Select2 Input Box - Pill Shaped */
+        #language .select2-container--default .select2-selection--single,
+        #language .select2-container--dmoj .select2-selection--single {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 100px !important; /* Pill shape */
+            height: 44px !important;
+            padding: 0 38px 0 18px !important;
+            color: #ffffff !important;
+            display: flex !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        #language .select2-container--default.select2-container--open .select2-selection--single,
+        #language .select2-container--default.select2-container--focus .select2-selection--single,
+        #language .select2-container--dmoj.select2-container--open .select2-selection--single,
+        #language .select2-container--dmoj.select2-container--focus .select2-selection--single {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        #language .select2-container--default .select2-selection--single .select2-selection__rendered,
+        #language .select2-container--dmoj .select2-selection--single .select2-selection__rendered {
+            color: #ffffff !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            line-height: 42px !important;
+            padding: 0 !important;
+        }
+
+        /* Universal Crisp SVG Chevron Arrow for BOTH Language and Judge */
+        .select2-container--default .select2-selection--single .select2-selection__arrow,
+        .select2-container--dmoj .select2-selection--single .select2-selection__arrow {
+            position: absolute !important;
+            top: 50% !important;
+            right: 14px !important;
+            width: 14px !important;
+            height: 14px !important;
+            transform: translateY(-50%) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        .select2-container--default .select2-selection--single .select2-selection__arrow b,
+        .select2-container--dmoj .select2-selection--single .select2-selection__arrow b {
+            display: block !important;
+            border: none !important;
+            width: 12px !important;
+            height: 12px !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: center !important;
+            background-size: contain !important;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            transform: rotate(0deg) !important;
+            margin: 0 !important;
+            opacity: 0.8 !important;
+        }
+
+        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b,
+        .select2-container--dmoj.select2-container--open .select2-selection--single .select2-selection__arrow b {
+            transform: rotate(180deg) !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            opacity: 1 !important;
+        }
+
+        /* Language Multi-column Dropdown (Rounded Glass Card) */
+        #language-select2 {
+            background: rgba(11, 17, 32, 0.96) !important;
+            backdrop-filter: blur(24px) !important;
+            -webkit-backdrop-filter: blur(24px) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 20px !important; /* Rounded popup */
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+            padding: 16px 20px !important;
+            width: auto !important;
+            min-width: 580px !important;
+            max-width: 90vw !important;
+            box-sizing: border-box !important;
+        }
+
+        #language-select2 #result-version-info {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            margin-bottom: 12px !important;
+            padding: 6px 8px !important;
+            color: #38bdf8 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-align: right !important;
+            display: block !important;
+        }
+
+        /* Pill-shaped search bar inside language popup */
+        #language-select2 .select2-search--dropdown {
+            padding: 4px 0 14px 0 !important;
+        }
+
+        #language-select2 .select2-search__field {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 100px !important; /* Pill shaped search box */
+            padding: 9px 18px 9px 38px !important;
+            color: #ffffff !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: 14px center !important;
+            background-size: 14px 14px !important;
+        }
+
+        #language-select2 .select2-search__field:focus {
+            border-color: #38bdf8 !important;
+            background-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+        }
+
+        #language-select2 .select2-results {
+            -webkit-columns: 3 170px !important;
+            -moz-columns: 3 170px !important;
+            columns: 3 170px !important;
+            column-gap: 16px !important;
+            max-height: 380px !important;
+            padding: 4px 0 !important;
+        }
+
+        #language-select2 .select2-results__options {
+            overflow-y: visible !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Pill-shaped options inside columns */
+        #language-select2 .select2-results__option {
+            color: rgba(255, 255, 255, 0.45) !important;
+            background: transparent !important;
+            font-family: 'Inter', sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            padding: 7px 14px !important;
+            border-radius: 100px !important; /* Pill shaped */
+            margin-bottom: 3px !important;
+            break-inside: avoid-column !important;
+            -webkit-column-break-inside: avoid !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            white-space: nowrap !important;
+            text-decoration: none !important;
+        }
+
+        #language-select2 .select2-results__option--highlighted {
+            color: #ffffff !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            transform: translateX(3px) !important;
+            text-decoration: none !important;
+            border-radius: 100px !important;
+        }
+
+        #language-select2 .select2-results__option[aria-selected="true"] {
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+            background: rgba(56, 189, 248, 0.18) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            border-radius: 100px !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.15) !important;
+            text-decoration: none !important;
+        }
+
+        /* 4. REDESIGNED JUDGE SELECT BUTTON & CRISP SVG CHEVRON */
+        .judge-select-wrap {
+            position: relative;
+        }
+
+        .judge-select-wrap .select2-container--dmoj {
+            min-width: 140px !important;
+        }
+
+        .judge-select-wrap .select2-container--dmoj .select2-selection--single {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 100px !important; /* Pill button */
+            height: 42px !important;
+            padding: 0 36px 0 16px !important;
+            display: flex !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .judge-select-wrap .select2-container--dmoj:hover .select2-selection--single {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .judge-select-wrap .select2-container--dmoj.select2-container--open .select2-selection--single,
+        .judge-select-wrap .select2-container--dmoj.select2-container--focus .select2-selection--single {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        .judge-select-wrap .select2-container--dmoj .select2-selection--single .select2-selection__rendered {
+            color: #f1f5f9 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            line-height: 40px !important;
+            padding: 0 !important;
+        }
+
+        /* Judge Dropdown Popup */
+        #judge-select2 {
+            background: #0b1120 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            border-radius: 14px !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15) !important;
+            padding: 6px !important;
+            margin-top: 4px !important;
+        }
+
+        #judge-select2 .select2-search--dropdown {
+            display: none !important;
+        }
+
+        #judge-select2 .select2-results__option {
+            padding: 8px 14px !important;
+            border-radius: 100px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13px !important;
+            color: rgba(255, 255, 255, 0.75) !important;
+            transition: all 0.15s ease !important;
+        }
+
+        #judge-select2 .select2-results__option--highlighted {
+            background: rgba(56, 189, 248, 0.15) !important;
+            color: #ffffff !important;
+            border-radius: 100px !important;
+        }
+
+        #judge-select2 .select2-results__option[aria-selected="true"] {
+            background: rgba(56, 189, 248, 0.25) !important;
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+            border-radius: 100px !important;
+        }
+
+        .submit-bar {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            margin: 0 !important;
+            margin-left: auto !important;
+        }
+
+        .button-primary-glow {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 11px 28px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 14px !important;
+            border: none !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+        }
+
+        .button-primary-glow:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            box-shadow: 0 6px 22px rgba(56, 189, 248, 0.5), 0 0 12px rgba(56, 189, 248, 0.3) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .alert.alert-warning {
+            background: rgba(245, 158, 11, 0.1) !important;
+            border: 1px solid rgba(245, 158, 11, 0.25) !important;
+            border-radius: 12px !important;
+            color: #fde047 !important;
+            padding: 14px 20px !important;
+            margin-bottom: 20px !important;
+            font-size: 13.5px !important;
+            backdrop-filter: blur(8px) !important;
+        }
+        .alert.alert-warning a.close {
+            color: #fde047 !important;
+            opacity: 0.7 !important;
+            float: right !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
-    <br>
     {% if not no_judges %}
         {% if default_lang not in form.fields.language.queryset %}
             <div class="alert alert-warning alert-dismissable">
@@ -159,14 +788,41 @@
         {% endif %}
     {% endif %}
 
-    <form id="problem_submit" action="" method="post" class="form-area">
+    <form id="problem_submit" action="" method="post" class="form-area submit-card">
         {% csrf_token %}
         {{ form.non_field_errors() }}
         <div id="submit-wrapper">
             <div id="editor">
+                <div class="editor-header-bar">
+                    <div class="editor-header-left">
+                        <div class="editor-dots">
+                            <span class="dot dot-red"></span>
+                            <span class="dot dot-yellow"></span>
+                            <span class="dot dot-green"></span>
+                        </div>
+                        <div class="editor-tab">
+                            <i class="fa fa-code"></i>
+                            <span id="editor-tab-filename">solution.py</span>
+                        </div>
+                    </div>
+                    <div class="editor-actions">
+                        <button type="button" id="editor-wrap-toggle" title="Toggle Word Wrap" class="editor-action-icon active">
+                            <i class="fa fa-align-left"></i>
+                        </button>
+                        <button type="button" id="editor-reset-btn" title="Reset Code Template" class="editor-action-icon">
+                            <i class="fa fa-undo"></i>
+                        </button>
+                        <button type="button" id="editor-fullscreen-btn" title="Toggle Fullscreen" class="editor-action-icon">
+                            <i class="fa fa-expand"></i>
+                        </button>
+                    </div>
+                </div>
                 {{ form.source.errors }}
                 {{ form.source }}
             </div>
+        </div>
+
+        <div class="submit-controls-bar">
             {% if not no_judges %}
                 <div id="language">
                     {{ form.language.errors }}
@@ -182,18 +838,22 @@
                     </div>
                 </div>
             {% endif %}
+
+            {% if no_judges %}
+                <span style="color: #ef4444; font-weight: 600;">{{ _('No judge is available for this problem.') }}</span>
+            {% else %}
+                <div class="submit-bar">
+                    {% if form.judge %}
+                        <div class="judge-select-wrap">
+                            {{ form.judge }}
+                        </div>
+                    {% endif %}
+                    <button type="submit" class="button-primary-glow"
+                            {% if request.in_contest and submission_limit and not submissions_left %}disabled{% endif %}>
+                        <i class="fa fa-paper-plane" style="margin-right: 6px;"></i> {{ _('Submit!') }}
+                    </button>
+                </div>
+            {% endif %}
         </div>
-
-        <hr>
-
-        {% if no_judges %}
-            <span style="color: red">{{ _('No judge is available for this problem.') }}</span>
-        {% else %}
-            <div class="submit-bar">
-                {{ form.judge }}
-                <input type="submit" value="{{ _('Submit!') }}" class="button"
-                       {% if request.in_contest and submission_limit and not submissions_left %}disabled{% endif %}>
-            </div>
-        {% endif %}
     </form>
 {% endblock %}

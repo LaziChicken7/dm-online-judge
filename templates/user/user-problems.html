@@ -33,87 +33,119 @@
 {% endblock %}
 
 {% block user_content %}
+    <!-- Summary Cards -->
+    <div class="problems-summary-banner">
+        <div class="problems-summary-card">
+            <div class="summary-card-icon">
+                <i class="fa fa-puzzle-piece" style="color: #38bdf8;"></i>
+            </div>
+            <div class="summary-card-info">
+                <div class="summary-card-value">{{ user.problem_count }}</div>
+                <div class="summary-card-label">{{ _('Problems Solved') }}</div>
+            </div>
+        </div>
+        <div class="problems-summary-card">
+            <div class="summary-card-icon">
+                <i class="fa fa-bolt" style="color: #f59e0b;"></i>
+            </div>
+            <div class="summary-card-info">
+                <div class="summary-card-value" title="{{ user.performance_points|floatformat(2) }}">
+                    {{ user.performance_points|floatformat(1) }}
+                </div>
+                <div class="summary-card-label">{{ _('Performance Points') }}</div>
+            </div>
+        </div>
+        <div class="problems-summary-card">
+            <div class="summary-card-icon">
+                <i class="fa fa-trophy" style="color: #10b981;"></i>
+            </div>
+            <div class="summary-card-info">
+                <div class="summary-card-value">
+                    {% if not user.is_unlisted %}#{{ rank }}{% else %}&mdash;{% endif %}
+                </div>
+                <div class="summary-card-label">{{ _('Global Rank') }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Points Breakdown Section -->
+    <div class="problems-section-toolbar">
+        <div class="user-section-title" style="margin: 0; padding: 0; border: none;">
+            <i class="fa fa-list-ol"></i>
+            <span>{{ _('Points breakdown') }}</span>
+        </div>
+
+        {% if request.user.is_authenticated and request.user != user.user %}
+            <form name="form" action="" method="get" style="display: flex; align-items: center; margin: 0;">
+                <label class="hide-solved-toggle-label">
+                    <input id="hide_solved" type="checkbox" onclick="form.submit()"
+                           name="hide_solved"{% if hide_solved %} checked{% endif %} value="1">
+                    <span class="toggle-text">{{ _("Hide problems I've solved") }}</span>
+                </label>
+            </form>
+        {% endif %}
+    </div>
+
     {% if pp_breakdown %}
-        <h3 class="pp-breakdown-header">{{ _('Points breakdown') }}</h3>
-        <div id="submissions-table" class="pp-table table">
+        <div id="submissions-table" class="pp-table">
             {% include "user/pp-table-body.html" %}
         </div>
         {% if pp_has_more %}
-            <div id="pp-load-link-wrapper">
-                <a id="pp-load-more-link" href="javascript:load_more_pp()">{{ _('Load more...') }}</a>
+            <div id="pp-load-link-wrapper" style="text-align: center; margin-top: 20px;">
+                <a id="pp-load-more-link" class="user-btn-secondary" style="display: inline-flex; width: auto; padding: 10px 24px;" href="javascript:load_more_pp()">
+                    <i class="fa fa-arrow-down"></i> {{ _('Load more...') }}
+                </a>
             </div>
         {% endif %}
     {% else %}
-        <i>{{ _('This user has not yet solved any problems.') }}</i>
+        <div class="user-empty-state">
+            <i class="fa fa-puzzle-piece"></i>
+            <p>{{ _('This user has not yet solved any problems.') }}</p>
+        </div>
     {% endif %}
 
+    <!-- Authored Problems Section (if any) -->
     {% if authored %}
+        <div class="user-section-title" style="margin-top: 32px;">
+            <i class="fa fa-pencil-square-o"></i>
+            <span>{{ _('Authored problems') }} ({{ authored|length }})</span>
+        </div>
         <div class="user-problem-group">
-            <h3 class="unselectable toggle closed">
-                <span class="fa fa-chevron-right fa-fw"></span>{{ _('Authored problems') }} ({{ authored|length }})
-            </h3>
-            <table style="display: none" class="table striped toggled">
+            <div class="user-category-header" onclick="$(this).next('table').slideToggle(200); $(this).find('.cat-chevron').toggleClass('fa-chevron-down fa-chevron-right');">
+                <div class="cat-left">
+                    <i class="fa fa-chevron-down cat-chevron"></i>
+                    <span class="cat-name"><i class="fa fa-code"></i> {{ _('Authored Problems') }}</span>
+                </div>
+                <div class="cat-right">
+                    <span class="cat-badge count"><i class="fa fa-check"></i> {{ authored|length }}</span>
+                </div>
+            </div>
+            <table class="user-category-table" style="display: table;">
                 <thead>
                 <tr>
+                    <th style="width: 60px; text-align: center;">#</th>
                     <th>{{ _('Problem') }}</th>
                     <th>{{ _('Category') }}</th>
-                    <th>{{ _('Points') }}</th>
+                    <th style="width: 120px; text-align: right;">{{ _('Points') }}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for problem in authored %}
                     <tr>
+                        <td style="text-align: center; color: #64748b; font-family: 'Google Sans Code', monospace;">{{ loop.index }}</td>
                         <td>
-                            <a href="{{ url('problem_detail', problem.code) }}">{{ problem.name }}</a>
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <a href="{{ url('problem_detail', problem.code) }}" class="category-problem-link">
+                                    {{ problem.name }}
+                                </a>
+                                <span class="category-problem-code">{{ problem.code }}</span>
+                            </div>
                         </td>
-                        <td>{{ problem.group.full_name }}</td>
-                        <td><a href="{{ url('ranked_submissions', problem.code) }}">
-                            {{ problem.points|floatformat }}{% if problem.partial %}p{% endif %}
-                        </a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
-
-    {% if request.user.is_authenticated and request.user != user.user %}
-        <div class="hide-solved-problems"><span>
-            <form name="form" action="" method="get">
-                <input id="hide_solved" style="vertical-align:middle" onclick="form.submit()" type="checkbox"
-                       name="hide_solved"{% if hide_solved %} checked{% endif %} value="1">
-                <label style="vertical-align:middle" for="hide_solved">{{ _("Hide problems I've solved") }}</label>
-            </form>
-        </span></div>
-    {% else %}
-        <hr>
-    {% endif %}
-
-    {% for group in best_submissions %}
-        <div class="user-problem-group">
-            <h3 class="unselectable toggle closed"><span class="fa fa-chevron-right fa-fw"></span>
-                {%- with points_str=group.points|floatformat(-3) -%}
-                    {{ _('%(group)s (%(val)s points)', group=group.name, val=points_str) }}
-                {%- endwith -%}
-            </h3>
-            <table style="display: none" class="table striped toggled">
-                <thead>
-                <tr>
-                    <th>{{ _('Problem') }}</th>
-                    <th>{{ _('Score') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for entry in group.problems %}
-                    <tr>
-                        <td>
-                            <a href="{{ url('problem_detail', entry.code) }}">{{ entry.name }}</a>
-                        </td>
-                        <td>
-                            <a href="{{ url('user_submissions', entry.code, user.user.username) }}">
-                                {%- with points_str=entry.points|floatformat(-3), total_str=entry.total|floatformat(-3) -%}
-                                    {{ _('%(points)s / %(total)s', points=points_str, total=total_str) }}
-                                {%- endwith -%}
+                        <td><span style="color: #94a3b8; font-size: 13px;">{{ problem.group.full_name }}</span></td>
+                        <td style="text-align: right;">
+                            <a href="{{ url('ranked_submissions', problem.code) }}" class="category-score-badge">
+                                <i class="fa fa-star" style="color: #f59e0b; font-size: 11px;"></i>
+                                <span>{{ problem.points|floatformat }}{% if problem.partial %}p{% endif %}</span>
                             </a>
                         </td>
                     </tr>
@@ -121,5 +153,69 @@
                 </tbody>
             </table>
         </div>
-    {% endfor %}
+    {% endif %}
+
+    <!-- Solved Problems by Category -->
+    {% if best_submissions %}
+        <div class="user-section-title" style="margin-top: 36px;">
+            <i class="fa fa-folder-open-o"></i>
+            <span>{{ _('Solved Problems by Category') }}</span>
+        </div>
+
+        {% for group in best_submissions %}
+            <div class="user-problem-group" style="margin-top: 14px;">
+                <div class="user-category-header" onclick="$(this).next('table').slideToggle(200); $(this).find('.cat-chevron').toggleClass('fa-chevron-down fa-chevron-right');">
+                    <div class="cat-left">
+                        <i class="fa fa-chevron-down cat-chevron"></i>
+                        <span class="cat-name">
+                            <i class="fa fa-folder"></i>
+                            <span>{{ group.name }}</span>
+                        </span>
+                    </div>
+                    <div class="cat-right">
+                        <span class="cat-badge count"><i class="fa fa-check"></i> {{ group.problems|length }} solved</span>
+                        <span class="cat-badge points"><i class="fa fa-bolt"></i> {{ group.points|floatformat }} pts</span>
+                    </div>
+                </div>
+                <table class="user-category-table" style="display: table;">
+                    <thead>
+                    <tr>
+                        <th style="width: 60px; text-align: center;">#</th>
+                        <th>{{ _('Problem') }}</th>
+                        <th style="width: 150px; text-align: right;">{{ _('Score') }}</th>
+                        <th style="width: 140px; text-align: center;">{{ _('Submissions') }}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for entry in group.problems %}
+                        <tr>
+                            <td style="text-align: center; color: #64748b; font-family: 'Google Sans Code', monospace;">{{ loop.index }}</td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <a href="{{ url('problem_detail', entry.code) }}" class="category-problem-link">
+                                        {{ entry.name }}
+                                    </a>
+                                    <span class="category-problem-code">{{ entry.code }}</span>
+                                </div>
+                            </td>
+                            <td style="text-align: right;">
+                                <span class="category-score-badge">
+                                    <i class="fa fa-check-circle" style="color: #10b981; font-size: 12px;"></i>
+                                    {%- with points_str=entry.points|floatformat(-3), total_str=entry.total|floatformat(-3) -%}
+                                        <span>{{ points_str }} / {{ total_str }}</span>
+                                    {%- endwith -%}
+                                </span>
+                            </td>
+                            <td style="text-align: center;">
+                                <a href="{{ url('user_submissions', entry.code, user.user.username) }}" class="category-submissions-btn" title="{{ _('View submissions') }}">
+                                    <i class="fa fa-history"></i> {{ _('Submissions') }}
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endfor %}
+    {% endif %}
 {% endblock %}

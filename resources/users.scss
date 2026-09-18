@@ -65,10 +65,17 @@ tr:target {
     }
 }
 
+#content-right.users {
+    max-width: unset;
+    padding-top: 0;
+}
+
+#content-left.users {
+    flex: 3;
+}
+
 #search-form {
-    display: inline-block;
-    vertical-align: top;
-    width: 225px;
+    width: 100%;
 
     .select2-selection__arrow {
         display: none;

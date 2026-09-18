@@ -6,8 +6,73 @@
     <script type="text/javascript">
         window.valid_files = {{ valid_files_json }};
         $(function () {
+            function getMatchingOutputFile(inputFile, validFiles) {
+                if (!inputFile || !validFiles) return null;
+                var exts = [
+                    [/\.inp$/i, ['.out', '.OUT', '.ans', '.ANS']],
+                    [/\.in$/i, ['.out', '.OUT', '.ans', '.ANS']],
+                    [/\.txt$/i, ['.out', '.OUT', '.ans', '.ANS', '.txt']]
+                ];
+                for (var i = 0; i < exts.length; i++) {
+                    var pattern = exts[i][0];
+                    var targets = exts[i][1];
+                    if (pattern.test(inputFile)) {
+                        for (var j = 0; j < targets.length; j++) {
+                            var candidate = inputFile.replace(pattern, targets[j]);
+                            if (validFiles.indexOf(candidate) !== -1) return candidate;
+                        }
+                    }
+                }
+                var pathReplacements = [
+                    [/\/inp\//i, '/out/'],
+                    [/\/in\//i, '/out/'],
+                    [/\/input\//i, '/output/'],
+                    [/input/i, 'output'],
+                    [/inp/i, 'out'],
+                    [/in(?!.*?in)/i, 'out']
+                ];
+                for (var k = 0; k < pathReplacements.length; k++) {
+                    var cand = inputFile.replace(pathReplacements[k][0], pathReplacements[k][1]);
+                    if (cand !== inputFile && validFiles.indexOf(cand) !== -1) return cand;
+                }
+                return null;
+            }
+
+            function getMatchingInputFile(outputFile, validFiles) {
+                if (!outputFile || !validFiles) return null;
+                var exts = [
+                    [/\.out$/i, ['.inp', '.INP', '.in', '.IN']],
+                    [/\.ans$/i, ['.inp', '.INP', '.in', '.IN']],
+                    [/\.txt$/i, ['.inp', '.INP', '.in', '.IN', '.txt']]
+                ];
+                for (var i = 0; i < exts.length; i++) {
+                    var pattern = exts[i][0];
+                    var targets = exts[i][1];
+                    if (pattern.test(outputFile)) {
+                        for (var j = 0; j < targets.length; j++) {
+                            var candidate = outputFile.replace(pattern, targets[j]);
+                            if (validFiles.indexOf(candidate) !== -1) return candidate;
+                        }
+                    }
+                }
+                var pathReplacements = [
+                    [/\/out\//i, '/inp/'],
+                    [/\/out\//i, '/in/'],
+                    [/\/output\//i, '/input/'],
+                    [/output/i, 'input'],
+                    [/out/i, 'inp'],
+                    [/out/i, 'in'],
+                    [/out(?!.*?out)/i, 'in']
+                ];
+                for (var k = 0; k < pathReplacements.length; k++) {
+                    var cand = outputFile.replace(pathReplacements[k][0], pathReplacements[k][1]);
+                    if (cand !== outputFile && validFiles.indexOf(cand) !== -1) return cand;
+                }
+                return null;
+            }
+
             function autofill_if_exists($select, file) {
-                if (!$select.val() && ~window.valid_files.indexOf(file))
+                if (file && !$select.val() && ~window.valid_files.indexOf(file))
                     $select.val(file).trigger('change');
             }
 
@@ -28,9 +93,9 @@
                         var val = $select.val();
                         if (val) {
                             if ($select.attr('id').endsWith('input_file'))
-                                autofill_if_exists($tr.find('select[id$=output_file]'), val.replace(/in(?!.*?in)/, 'out'));
+                                autofill_if_exists($tr.find('select[id$=output_file]'), getMatchingOutputFile(val, window.valid_files));
                             else
-                                autofill_if_exists($tr.find('select[id$=input_file]'), val.replace(/out(?!.*?out)/, 'in'));
+                                autofill_if_exists($tr.find('select[id$=input_file]'), getMatchingInputFile(val, window.valid_files));
                         }
                     });
                 });
@@ -185,6 +250,123 @@
             });
 
             var $total = $('#id_cases-TOTAL_FORMS');
+
+            function detectTestPairs(validFiles) {
+                if (!validFiles || !validFiles.length) return [];
+                var files = validFiles.filter(function (f) { return f && !f.endsWith('/'); });
+                var usedOutputs = {};
+                var usedInputs = {};
+                var pairs = [];
+
+                for (var i = 0; i < files.length; i++) {
+                    var f = files[i];
+                    if (/\.(inp|in)$/i.test(f) || /(^|[\/_\.-])input/i.test(f)) {
+                        var out = getMatchingOutputFile(f, files);
+                        if (out && !usedOutputs[out]) {
+                            pairs.push([f, out]);
+                            usedOutputs[out] = true;
+                            usedInputs[f] = true;
+                        }
+                    }
+                }
+
+                for (var j = 0; j < files.length; j++) {
+                    var f2 = files[j];
+                    if (!usedInputs[f2] && !usedOutputs[f2]) {
+                        var out2 = getMatchingOutputFile(f2, files);
+                        if (out2 && !usedOutputs[out2]) {
+                            pairs.push([f2, out2]);
+                            usedOutputs[out2] = true;
+                            usedInputs[f2] = true;
+                        }
+                    }
+                }
+
+                pairs.sort(function (a, b) {
+                    return a[0].localeCompare(b[0], undefined, { numeric: true, sensitivity: 'base' });
+                });
+                return pairs;
+            }
+
+            function populateAllPairs(pairs) {
+                if (!pairs || !pairs.length) return;
+
+                var $tbody = $table.find('tbody:first');
+                var $rows = $tbody.find('tr');
+                var pairIdx = 0;
+
+                $rows.each(function () {
+                    if (pairIdx >= pairs.length) return;
+                    var $tr = $(this);
+                    var $input = $tr.find('select[id$=input_file]');
+                    var $output = $tr.find('select[id$=output_file]');
+                    if ($input.length) {
+                        $input.val(pairs[pairIdx][0]).trigger('change');
+                        if ($output.length) {
+                            $output.val(pairs[pairIdx][1]).trigger('change');
+                        }
+                        var $points = $tr.find('input[id$=points]');
+                        if (!$points.val()) {
+                            $points.val('1');
+                        }
+                        pairIdx++;
+                    }
+                });
+
+                for (; pairIdx < pairs.length; pairIdx++) {
+                    var $tr = $($table.find('.extra-row-body').html()
+                        .replace(/__prefix__/g, $total.val()));
+                    $tr.find('.type-column select option[value="C"]').attr('selected', true);
+                    $total.val(parseInt($total.val(), 10) + 1);
+                    $tbody.append($tr);
+                    $table.trigger('add-row', [$tr]);
+
+                    $tr.find('select[id$=input_file]').val(pairs[pairIdx][0]).trigger('change');
+                    $tr.find('select[id$=output_file]').val(pairs[pairIdx][1]).trigger('change');
+                    var $points = $tr.find('input[id$=points]');
+                    if (!$points.val()) {
+                        $points.val('1');
+                    }
+                }
+            }
+
+            // Auto-populate on page load if valid files exist and cases are not yet filled
+            if (window.valid_files && window.valid_files.length) {
+                var detectedPairs = detectTestPairs(window.valid_files);
+                if (detectedPairs.length > 0) {
+                    var hasFilledRows = false;
+                    $table.find('select[id$=input_file]').each(function () {
+                        if ($(this).val()) hasFilledRows = true;
+                    });
+                    if (!hasFilledRows) {
+                        populateAllPairs(detectedPairs);
+                    }
+                }
+            }
+
+            // Button to auto-populate from zip
+            $('#auto-fill-cases').click(function (e) {
+                e.preventDefault();
+                if (!window.valid_files || !window.valid_files.length) {
+                    alert('Chưa có file nào trong file zip! Vui lòng tải lên file zip trước.');
+                    return;
+                }
+                var detectedPairs = detectTestPairs(window.valid_files);
+                if (!detectedPairs.length) {
+                    alert('Không tìm thấy cặp file input/output nào trong file zip.');
+                    return;
+                }
+                var hasFilledRows = false;
+                $table.find('select[id$=input_file]').each(function () {
+                    if ($(this).val()) hasFilledRows = true;
+                });
+                if (hasFilledRows) {
+                    if (!confirm('Bảng test case hiện tại đã có dữ liệu. Bạn có muốn tự động điền lại toàn bộ từ file zip không?')) {
+                        return;
+                    }
+                }
+                populateAllPairs(detectedPairs);
+            });
 
             $('a#add-case-row').click(function () {
                 var $tr;
@@ -449,6 +631,7 @@
         </table>
         <input type="submit" value="{{ _('Submit!') }}" class="button">
         <a id="add-case-row" href="#"><i class="fa fa-plus"></i> {{ _('Add new case') }}</a>
+        <a id="auto-fill-cases" href="#" class="button" style="background: #0284c7; border-color: #0284c7; color: #fff; margin-left: 12px; border-radius: 100px; padding: 6px 18px;"><i class="fa fa-magic"></i> {{ _('Auto-populate from zip') }}</a>
     </form>
     <div style="display: none" class="generator-args-editor"><textarea></textarea><a class="button">{{ _('Save') }}</a></div>
     <div style="display: none" class="batch-dependencies-editor"><textarea></textarea><a class="button">{{ _('Save') }}</a></div>

@@ -295,14 +295,13 @@
 {% endblock %}
 
 {% block body %}
-    {% if page_obj.has_other_pages() %}
-        <div class="top-pagination-bar">{% include "list-pages.html" %}</div>
-    {% endif %}
+    <div class="top-pagination-bar">{% include "list-pages.html" %}</div>
 
     <div id="common-content">
         <div id="content-right" class="submission">
             <div class="info-float">
-                <div class="sidebox">
+                <div class="sidebox problem-search-sidebox">
+                    <div class="filter-tag">FILTER</div>
                     <h3>{{ _('Filter submissions') }} <i class="fa fa-search"></i></h3>
                     <div class="sidebox-content">
                         <form id="filter-form" name="form" action="{{ first_page_href }}" method="get">
@@ -325,15 +324,16 @@
                                 </select>
                             </div>
                             <div class="form-submit-group">
-                                <a id="go" onclick="form.submit()" class="button">{{ _('Go') }}</a>
+                                <a id="go" onclick="form.submit()" class="button button-primary-glow">{{ _('Go') }}</a>
                             </div>
                         </form>
                     </div>
                 </div>
 
-                <div class="sidebox">
+                <div class="sidebox problem-search-sidebox">
                     <div id="statistics-table">
-                        <h3>{{ _('Statistics') }} <i class="fa fa-pie-chart"></i></h3>
+                        <div class="filter-tag">OVERVIEW</div>
+                        <h3>{{ _('Statistics') }} <i class="fa fa-pie-chart" style="color: #38bdf8;"></i></h3>
                         <div class="sidebox-content">
                             <div id="status-graph">
                                 <canvas width="230" height="170"></canvas>

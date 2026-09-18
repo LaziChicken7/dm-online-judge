@@ -40,6 +40,9 @@ class PostList(ListView):
         context['comments'] = Comment.most_recent(self.request.user, 10)
         context['new_problems'] = Problem.get_public_problems() \
                                          .order_by('-date', 'code')[:settings.DMOJ_BLOG_NEW_PROBLEM_COUNT]
+        context['new_users'] = Profile.objects.filter(is_unlisted=False, user__is_active=True) \
+                                              .select_related('user') \
+                                              .order_by('-user__date_joined')[:5]
         context['page_titles'] = CacheDict(lambda page: Comment.get_page_title(page))
 
         context['has_clarifications'] = False

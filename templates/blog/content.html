@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block title_row %}{% endblock %}
+{% block title_ruler %}{% endblock %}
+{% block header %}{% endblock %}
+
 {% block js_media %}
     {% include "comments/media-js.html" %}
 {% endblock %}
@@ -8,45 +12,74 @@
     {% include "comments/media-css.html" %}
 {% endblock %}
 
-{% block header %}
-    {% if post.is_editable_by(request.user) %}
-        <div class="title-line-action">[<a href="{{ url('admin:judge_blogpost_change', post.id) }}">{{ _('Edit') }}</a>]
-        </div>
-    {% endif %}
-{% endblock %}
-
 {% block body %}
-    <div class="post-full">
-        <div class="time">
-            {% with authors=post.authors.all() %}
-                {% if authors %}
-                    <span class="post-authors">{{ link_users(authors) }}</span>
+<div class="blog-detail-container">
+    <div class="blog-detail-topbar">
+        <a href="/" class="back-to-news">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+            <span>{{ _('Back to News') }}</span>
+        </a>
+        {% if post.is_editable_by(request.user) %}
+            <a href="{{ url('admin:judge_blogpost_change', post.id) }}" class="post-edit-btn">
+                <i class="fa fa-pencil"></i> {{ _('Edit post') }}
+            </a>
+        {% endif %}
+    </div>
+
+    <article class="post-detail-card sidebox">
+        <header class="post-detail-header">
+            <h1 class="post-detail-title">{{ post.title }}</h1>
+            <div class="post-detail-meta">
+                <div class="meta-item author">
+                    <i class="fa fa-star" style="color: #fbbf24; font-size: 13px;"></i>
+                    {% with authors=post.authors.all() %}
+                        {% if authors %}
+                            <span class="post-authors">{{ link_users(authors) }}</span>
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                <span class="meta-dot">&bull;</span>
+                <div class="meta-item date">
+                    <i class="fa fa-calendar-o" style="color: #60a5fa; font-size: 13px;"></i>
+                    <span class="post-time">
+                        {% trans trimmed time=post.publish_on|date(_("N j, Y, g:i a")) %}
+                            {{ time }}
+                        {% endtrans %}
+                    </span>
+                </div>
+                {% if post.sticky %}
+                    <span class="meta-badge-sticky"><i class="fa fa-thumb-tack"></i> Pinned</span>
                 {% endif %}
-            {% endwith %}
-            <span class="post-time">
-                {% trans trimmed time=post.publish_on|date(_("N j, Y, g:i a")) %}
-                    posted on {{ time }}
-                {% endtrans %}
-            </span>
-        </div>
-        <div class="body content-description">
+            </div>
+        </header>
+
+        <div class="post-detail-body content-description">
             {% cache 86400 'post_content' post.id MATH_ENGINE %}
-                {{ post.content|markdown('blog', MATH_ENGINE)|reference|str|safe}}
+                {{ post.content|markdown('blog', MATH_ENGINE)|reference|str|safe }}
             {% endcache %}
         </div>
-    </div>
-    
-    {% if enable_social %}
-        <hr>
-        <span class="social">
-            {{ post_to_facebook(request, contest, '<i class="fa fa-facebook-official"></i>') }}
-            {{ post_to_twitter(request, SITE_NAME + ':', contest, '<i class="fa fa-twitter"></i>') }}
-        </span>
-    {% endif %}
+
+        {% if enable_social %}
+            <div class="post-detail-footer">
+                <span class="social-title"><i class="fa fa-share-alt"></i> {{ _('Share') }}</span>
+                <div class="social-buttons">
+                    <div class="social-btn">
+                        {{ post_to_facebook(request, contest, '<i class="fa fa-facebook-official"></i> Facebook') }}
+                    </div>
+                    <div class="social-btn">
+                        {{ post_to_twitter(request, SITE_NAME + ':', contest, '<i class="fa fa-twitter"></i> Twitter') }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </article>
 
     {% if enable_comments %}
-        {% include "comments/list.html" %}
+        <section class="post-comments-card sidebox">
+            {% include "comments/list.html" %}
+        </section>
     {% endif %}
+</div>
 {% endblock %}
 
 {% block bodyend %}

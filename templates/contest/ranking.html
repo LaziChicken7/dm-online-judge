@@ -9,30 +9,334 @@
 
 {% block users_media %}
     <style>
-        .select2-selection__arrow {
-            display: none;
+        /* ── Contest Ranking Layout ── */
+        #common-content {
+            display: block !important;
+        }
+        #content-left.users {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
         }
 
-        .select2-selection__rendered {
-            cursor: text;
-            overflow: initial !important
+        /* ── Restore td.user-name to proper table-cell for perfect vertical alignment ── */
+        #ranking-table td.user-name,
+        .users-table td.user-name {
+            display: table-cell !important;
+            vertical-align: middle !important;
+            padding-top: 14px !important;
+            padding-bottom: 14px !important;
         }
 
-        .select2-results__option--highlighted {
-            background-color: #DEDEDE !important;
+        #ranking-table td.user-name > span.rating {
+            display: inline-flex !important;
+            align-items: center !important;
+            vertical-align: middle !important;
+            line-height: 34px !important;
+        }
+        #ranking-table td.user-name > span.rating a {
+            line-height: 34px !important;
+            vertical-align: middle !important;
+            display: inline-block !important;
         }
 
+        /* ── Position action buttons on right side, vertically centered ── */
+        #ranking-table .contest-participation-operation {
+            float: right !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin: 0 !important;
+            vertical-align: middle !important;
+            line-height: 1 !important;
+        }
+        #ranking-table .contest-participation-operation form {
+            display: inline-flex !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        /* ── High specificity to OVERRIDE #ranking-table .user-name a inline-block ── */
+        #ranking-table .user-name a.contest-action-btn,
+        #ranking-table .contest-participation-operation a.contest-action-btn,
+        #ranking-table .contest-participation-operation a {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 34px !important;
+            min-width: 34px !important;
+            max-width: 34px !important;
+            height: 34px !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            border-radius: 50% !important;
+            box-sizing: border-box !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #94a3b8 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            overflow: hidden !important;
+            white-space: nowrap !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+            vertical-align: middle !important;
+            transition: max-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        padding 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        background 0.2s ease,
+                        border-color 0.2s ease,
+                        box-shadow 0.2s ease !important;
+        }
+
+        /* SVG Icon 100% centered inside 34x34 circle */
+        #ranking-table .contest-action-btn .action-icon {
+            width: 16px !important;
+            height: 16px !important;
+            display: block !important;
+            margin: 0 auto !important;
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Label hidden at rest */
+        #ranking-table .contest-action-btn .action-label {
+            max-width: 0 !important;
+            opacity: 0 !important;
+            overflow: hidden !important;
+            display: inline-block !important;
+            white-space: nowrap !important;
+            font-family: 'Google Sans Code', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            line-height: 1 !important;
+            margin: 0 !important;
+            pointer-events: none !important;
+            transition: max-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                        opacity 0.25s ease,
+                        margin-left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+        }
+
+        /* ── Hover Expansion ── */
+        #ranking-table .user-name a.contest-action-btn:hover,
+        #ranking-table .contest-participation-operation a:hover {
+            max-width: 130px !important;
+            width: auto !important;
+            border-radius: 100px !important;
+            padding: 0 14px 0 11px !important;
+            transform: translateY(-1px) !important;
+        }
+        #ranking-table .contest-action-btn:hover .action-label {
+            max-width: 90px !important;
+            opacity: 1 !important;
+            margin-left: 7px !important;
+        }
+
+        /* Disqualify Button Hover (Red glowing border) */
+        #ranking-table .contest-action-btn.action-disqualify:hover {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border: 1.5px solid #ef4444 !important;
+            color: #f87171 !important;
+            box-shadow: 0 0 16px rgba(239, 68, 68, 0.55), 
+                        inset 0 0 8px rgba(239, 68, 68, 0.2) !important;
+        }
+        #ranking-table .contest-action-btn.action-disqualify:hover .action-icon {
+            stroke: #f87171 !important;
+        }
+
+        /* Admin Button Hover (Blue glowing border) */
+        #ranking-table .contest-action-btn.action-admin:hover {
+            background: rgba(37, 99, 235, 0.15) !important;
+            border: 1.5px solid #2563eb !important;
+            color: #60a5fa !important;
+            box-shadow: 0 0 16px rgba(37, 99, 235, 0.6), 
+                        inset 0 0 8px rgba(37, 99, 235, 0.2) !important;
+        }
+        #ranking-table .contest-action-btn.action-admin:hover .action-icon {
+            stroke: #60a5fa !important;
+        }
+
+        /* Restore Button Hover (Amber glowing border) */
+        #ranking-table .contest-action-btn.action-undisqualify:hover {
+            background: rgba(245, 158, 11, 0.15) !important;
+            border: 1.5px solid #f59e0b !important;
+            color: #fbbf24 !important;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.55), 
+                        inset 0 0 8px rgba(245, 158, 11, 0.2) !important;
+        }
+        #ranking-table .contest-action-btn.action-undisqualify:hover .action-icon {
+            stroke: #fbbf24 !important;
+        }
+
+        /* ── Scoreboard Typography ── */
+        .point-denominator {
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 11px !important;
+            color: #64748b !important;
+            font-weight: 500 !important;
+            margin-top: 2px !important;
+        }
+        .full-score a {
+            color: #22c55e !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            text-decoration: none !important;
+        }
+        .solving-time {
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 11.5px !important;
+            color: #64748b !important;
+            font-weight: 500 !important;
+            margin-top: 2px !important;
+        }
+        .user-points a {
+            color: #ffffff !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-weight: 700 !important;
+            font-size: 15px !important;
+            text-decoration: none !important;
+        }
+        .start-time {
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 12px !important;
+            color: #64748b !important;
+            margin-top: 4px !important;
+        }
+        .organization-column a {
+            color: #93c5fd !important;
+            text-decoration: none !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13px !important;
+            padding: 3px 9px !important;
+            background: rgba(59, 130, 246, 0.12) !important;
+            border: 1px solid rgba(59, 130, 246, 0.28) !important;
+            border-radius: 6px !important;
+            display: inline-block !important;
+            transition: all 0.2s ease !important;
+        }
+        .organization-column a:hover {
+            background: rgba(59, 130, 246, 0.22) !important;
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* ── Push the table down generously ── */
+        .before-ranking-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            margin-top: 10px !important;
+            margin-bottom: 24px !important; /* Generous gap so rank table is NOT squished! */
+            width: 100% !important;
+            box-sizing: border-box !important;
+            gap: 16px !important;
+            flex-wrap: wrap !important;
+        }
+
+        /* ── Show Organizations as a Single Glowing Pill Block ── */
+        .show-org-toggle {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 9px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 100px !important; /* Perfect Pill Shape */
+            padding: 8px 18px !important;
+            font-family: 'Google Sans Code', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: #e2e8f0 !important;
+            cursor: pointer !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            user-select: none !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+            backdrop-filter: blur(12px) !important;
+        }
+
+        .show-org-toggle:hover {
+            background: rgba(255, 255, 255, 0.09) !important;
+            color: #ffffff !important;
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .show-org-toggle svg {
+            stroke: #38bdf8 !important;
+            width: 15px !important;
+            height: 15px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .show-org-toggle input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            cursor: pointer !important;
+            width: 15px !important;
+            height: 15px !important;
+            margin: 0 !important;
+        }
+
+        /* ── Participation User Search Select2 ── */
+        .before-ranking-bar .select2-container--dmoj {
+            width: 270px !important;
+            margin: 0 !important;
+        }
+        .before-ranking-bar .select2-container--dmoj .select2-selection--single {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 100px !important;
+            height: 38px !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 0 16px !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+        }
+        .before-ranking-bar .select2-container--dmoj.select2-container--focus .select2-selection--single,
+        .before-ranking-bar .select2-container--dmoj.select2-container--open .select2-selection--single {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.35) !important;
+            background: rgba(255, 255, 255, 0.07) !important;
+        }
+        .before-ranking-bar .select2-container--dmoj .select2-selection__rendered {
+            color: #ffffff !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            line-height: 36px !important;
+            padding: 0 !important;
+        }
+        .before-ranking-bar .select2-container--dmoj .select2-selection__placeholder {
+            color: rgba(255, 255, 255, 0.45) !important;
+        }
+        .before-ranking-bar .select2-selection__arrow {
+            display: none !important;
+        }
+
+        /* Dropdown options styling */
+        .select2-dropdown {
+            background: #0d1322 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6) !important;
+            overflow: hidden !important;
+        }
         .select2-results__option {
-            white-space: nowrap;
+            color: #cbd5e1 !important;
+            padding: 8px 14px !important;
+            font-size: 13px !important;
+            transition: background 0.15s ease !important;
+            white-space: nowrap !important;
+        }
+        .select2-results__option--highlighted {
+            background: rgba(37, 99, 235, 0.25) !important;
+            color: #ffffff !important;
         }
 
-        #search-contest, #search-contest + .select2 {
-            margin-top: 0.5em;
-        }
-
-        #search-contest {
-            width: 200px;
-            height: 2.3em;
+        /* ── Empty Ranking Row ── */
+        .empty-ranking-row td {
+            background: transparent !important;
+            border: none !important;
         }
     </style>
 {% endblock %}
@@ -118,14 +422,17 @@
 {% endblock %}
 
 {% block before_users_table %}
-    <div style="margin-bottom: 0.5em">
+    <div class="before-ranking-bar">
         {% if tab == 'participation' %}
             {% if contest.can_see_full_scoreboard(request.user) %}
                 <input id="search-contest" type="text" placeholder="{{ _('View user participation') }}">
             {% endif %}
         {% endif %}
-        <input id="show-organizations-checkbox" type="checkbox" style="vertical-align: bottom">
-        <label for="show-organizations-checkbox" style="vertical-align: bottom">{{ _('Show organizations') }}</label>
+        <label class="show-org-toggle" for="show-organizations-checkbox">
+            <input id="show-organizations-checkbox" type="checkbox">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"></line><line x1="6" y1="18" x2="6" y2="11"></line><line x1="10" y1="18" x2="10" y2="11"></line><line x1="14" y1="18" x2="14" y2="11"></line><line x1="18" y1="18" x2="18" y2="11"></line><polygon points="12 2 20 7 4 7"></polygon></svg>
+            <span>{{ _('Show organizations') }}</span>
+        </label>
     </div>
 {% endblock %}
 

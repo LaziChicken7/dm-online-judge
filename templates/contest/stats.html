@@ -1,13 +1,10 @@
 {% extends "common-content.html" %}
-
 {% block title_ruler %}{% endblock %}
-
 {% block title_row %}
     {% set tab = 'stats' %}
     {% set title = contest.name %}
     {% include "contest/contest-tabs.html" %}
 {% endblock %}
-
 {% block content_js_media %}
     <script type="text/javascript">
         window.stats = {{ stats }};
@@ -16,6 +13,16 @@
         {% include "stats/media-js.html" %}
         <script type="text/javascript">
             $(function () {
+                if (window.Chart) {
+                    Chart.defaults.global.defaultFontColor = '#94a3b8';
+                    Chart.defaults.global.defaultFontFamily = "'Google Sans Code', 'Fira Code', monospace";
+                    if (Chart.defaults.scale) {
+                        Chart.defaults.scale.gridLines.color = 'rgba(255, 255, 255, 0.06)';
+                        Chart.defaults.scale.gridLines.zeroLineColor = 'rgba(255, 255, 255, 0.15)';
+                        Chart.defaults.scale.ticks.fontColor = '#94a3b8';
+                        Chart.defaults.scale.ticks.fontFamily = "'Google Sans Code', monospace";
+                    }
+                }
                 draw_stacked_bar_chart(window.stats.problem_status_count, $('#problem-status-count'));
                 draw_bar_chart(window.stats.problem_ac_rate, $('#problem-ac-rate'));
                 draw_pie_chart(window.stats.language_count, $('#language-count'));
@@ -25,34 +32,139 @@
     {% endcompress %}
     {% include "contest/media-js.html" %}
 {% endblock %}
-
 {% block content_media %}
     <style>
+        /* ── Join Button in Header Tabs ── */
+        .tabs .contest-join-pseudotab,
+        .contest-join-pseudotab {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            overflow: hidden !important;
+            text-decoration: none !important;
+        }
+        .tabs .contest-join-pseudotab:hover,
+        .contest-join-pseudotab:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+        }
+        .contest-join-pseudotab input[type="submit"] {
+            background: transparent !important;
+            border: none !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            padding: 8px 22px !important;
+            cursor: pointer !important;
+            box-shadow: none !important;
+        }
+
+        /* ── Stats Card Containers ── */
+        .stats-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            padding: 24px 28px !important;
+            margin-bottom: 24px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s ease,
+                        background 0.25s ease !important;
+            box-sizing: border-box !important;
+        }
+        .stats-card:hover {
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(56, 189, 248, 0.2), 
+                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+            transform: translateY(-2px) !important;
+            background: rgba(255, 255, 255, 0.045) !important;
+        }
+
+        .stats-card h3 {
+            color: #ffffff !important;
+            font-size: 17.5px !important;
+            font-weight: 700 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin: 0 0 16px 0 !important;
+            padding-left: 12px !important;
+            border-left: 3px solid #38bdf8 !important;
+            letter-spacing: -0.2px !important;
+            background: transparent !important;
+            border-top: none !important;
+            border-right: none !important;
+            border-bottom: none !important;
+        }
+
         .chart {
-            margin: 10px 0;
+            margin: 0 !important;
+            width: 100% !important;
+            overflow-x: auto !important;
+        }
+
+        /* Language count pie chart legend */
+        #language-count {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 32px !important;
+            flex-wrap: wrap !important;
+        }
+        #language-count ul.legend {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+        #language-count ul.legend li {
+            font-family: 'Google Sans Code', monospace !important;
+            color: #94a3b8 !important;
+            font-size: 13px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
     </style>
 {% endblock %}
-
 {% block body %}
-    <h3>{{ _('Problem Status Distribution') }}</h3>
-    <div id="problem-status-count" class="chart">
-        <canvas></canvas>
+    <div class="stats-card">
+        <h3>{{ _('Problem Status Distribution') }}</h3>
+        <div id="problem-status-count" class="chart">
+            <canvas></canvas>
+        </div>
     </div>
-
-    <h3>{{ _('Problem AC Rate') }}</h3>
-    <div id="problem-ac-rate" class="chart">
-        <canvas></canvas>
+    <div class="stats-card">
+        <h3>{{ _('Problem AC Rate') }}</h3>
+        <div id="problem-ac-rate" class="chart">
+            <canvas></canvas>
+        </div>
     </div>
-
-    <h3>{{ _('Submissions by Language') }}</h3>
-    <div id="language-count" class="chart">
-        <canvas width="400" height="300"></canvas>
-        <ul class="legend"></ul>
+    <div class="stats-card">
+        <h3>{{ _('Submissions by Language') }}</h3>
+        <div id="language-count" class="chart">
+            <canvas width="400" height="300"></canvas>
+            <ul class="legend"></ul>
+        </div>
     </div>
-
-    <h3>{{ _('Language AC Rate') }}</h3>
-    <div id="language-ac-rate" class="chart">
-        <canvas></canvas>
+    <div class="stats-card">
+        <h3>{{ _('Language AC Rate') }}</h3>
+        <div id="language-ac-rate" class="chart">
+            <canvas></canvas>
+        </div>
     </div>
 {% endblock %}

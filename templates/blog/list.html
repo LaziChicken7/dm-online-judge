@@ -33,6 +33,11 @@
                 $('.blog-content').hide();
                 $('.blog-sidebar').show();
             });
+            $('.post[data-href]').click(function (e) {
+                if ($(e.target).closest('a, button, input, textarea').length === 0) {
+                    window.location.href = $(this).data('href');
+                }
+            });
         });
     </script>
 {% endblock %}
@@ -48,43 +53,46 @@
         </ul>
     </div>
     <div id="blog-container">
-        <div class="blog-content sidebox">
-            <h3>{{ _('News') }} <i class="fa fa-terminal"></i></h3>
-            <div class="sidebox-content">
-                {% for post in posts %}
-                    <section class="{% if post.sticky %}sticky {% endif %}post">
-                        <h2 class="title">
-                            <a href="{{ url('blog_post', post.id, post.slug) }}">{{ post.title }}</a>
-                        </h2>
-                        <span class="time">
-                            {%- if post.sticky %}<i title="Sticky" class="fa fa-star fa-fw"></i>{% endif -%}
-                            {% with authors=post.authors.all() %}
-                                {%- if authors -%}
-                                    <span class="post-authors">{{ link_users(authors) }}</span>
-                                {%- endif -%}
-                            {% endwith %}
-                            {% with abs=_('posted on {time}'), rel=_('posted {time}') %}
-                                {{ relative_time(post.publish_on, abs=abs, rel=rel) }}
-                            {% endwith %}
-                        </span><span class="comment-data">
-                            <a href="{{ url('blog_post', post.id, post.slug) }}#comments" class="comment-count-link">
-                                <i class="fa fa-comments comment-icon"></i><span class="comment-count">
-                                    {{- post_comment_counts[post.id] or 0 -}}
-                                </span>
-                            </a>
-                        </span>
-                        <div class="summary content-description">
-                            {% cache 86400 'post_summary' post.id %}
-                                {{ post.summary|default(post.content, true)|markdown('blog', 'svg', lazy_load=True)|reference|str|safe }}
-                            {% endcache %}
-                            {%- if post.summary -%}
-                                <p><a href="{{ url('blog_post', post.id, post.slug) }}">{{ _('Continue reading...') }}</a></p>
-                            {%- endif -%}
-                        </div>
-                    </section>
-                {% endfor %}
+        <div class="blog-main-col">
+            <div class="blog-content sidebox">
+                <div class="blog-header-row">
+                    <div class="blog-header-left">
+                        <h3>{{ _('News') }} <i class="fa fa-terminal" style="font-size: 14px; margin-left: 6px; color: #60a5fa;"></i></h3>
+                    </div>
+                </div>
+                <div class="sidebox-content">
+                    {% for post in posts %}
+                        <section class="{% if post.sticky %}sticky {% endif %}post" data-href="{{ url('blog_post', post.id, post.slug) }}">
+                            <h2 class="title">
+                                <a href="{{ url('blog_post', post.id, post.slug) }}">{{ post.title }}</a>
+                            </h2>
+                            <span class="time">
+                                {%- if post.sticky %}<i title="Sticky" class="fa fa-star fa-fw"></i>{% endif -%}
+                                {% with authors=post.authors.all() %}
+                                    {%- if authors -%}
+                                        <span class="post-authors">{{ link_users(authors) }}</span>
+                                    {%- endif -%}
+                                {% endwith %}
+                                {% with abs=_('posted on {time}'), rel=_('posted {time}') %}
+                                    {{ relative_time(post.publish_on, abs=abs, rel=rel) }}
+                                {% endwith %}
+                            </span><span class="comment-data">
+                                <a href="{{ url('blog_post', post.id, post.slug) }}#comments" class="comment-count-link">
+                                    <i class="fa fa-comments comment-icon"></i><span class="comment-count">
+                                        {{- post_comment_counts[post.id] or 0 -}}
+                                    </span>
+                                </a>
+                            </span>
+                            <div class="summary content-description">
+                                {% cache 86400 'post_full_content' post.id %}
+                                    {{ post.content|default(post.summary, true)|markdown('blog', 'svg', lazy_load=True)|reference|str|safe }}
+                                {% endcache %}
+                            </div>
+                        </section>
+                    {% endfor %}
+                </div>
             </div>
-            {% if page_obj.has_other_pages() %}
+            {% if page_obj.has_other_pages() or page_obj.paginator.count > 0 %}
                 <div class="bottom-pagination-bar">{% include "list-pages.html" %}</div>
             {% endif %}
         </div>
@@ -151,41 +159,63 @@
             {% endif %}
 
             <div class="blog-sidebox sidebox">
-                <h3>{{ _('Comment stream') }} <i class="fa fa-comments"></i></h3>
+                <div class="blog-header-row" style="border-bottom: none; margin-bottom: 16px; padding-bottom: 0;">
+                    <h3>{{ _('Recent comments') }}</h3>
+                </div>
                 <div class="sidebox-content">
                     <ul>
                         {% for comment in comments %}
-                            <li>
-                                <span style="padding-left:0.25em" class="poster">
-                                    {{ link_user(comment.author) }}
-                                </span> &rarr;
-                                <a href="{{ comment.link }}#comment-{{ comment.id }}">{{ comment.page_title }}</a>
+                            <li class="comment-card">
+                                <div class="comment-header">
+                                    <img src="{{ gravatar(comment.author, 24) }}" class="comment-avatar">
+                                    <span class="poster">{{ link_user(comment.author) }}</span>
+                                </div>
+                                <div class="comment-body">
+                                    <a href="{{ comment.link }}#comment-{{ comment.id }}">{{ comment.page_title }}</a>
+                                </div>
                             </li>
                         {% endfor %}
                     </ul>
-                    <span class="rssatom">
-                        <a href="{{ url('comment_rss') }}"><span><i class="fa fa-rss"></i></span> RSS</a>
-                        /
-                        <a href="{{ url('comment_atom') }}">Atom</a>
-                    </span>
+
                 </div>
             </div>
             <div class="blog-sidebox sidebox">
-                <h3>{{ _('New problems') }} <i class="fa fa-puzzle-piece"></i>
-                </h3>
+                <div class="blog-header-row" style="border-bottom: none; margin-bottom: 16px; padding-bottom: 0;">
+                    <h3>{{ _('New problems') }}</h3>
+                </div>
                 <div class="sidebox-content">
                     <ul class="problem-list">
                         {% for problem in new_problems %}
                             <li><a href="{{ url('problem_detail', problem.code) }}">{{ problem.name }}</a></li>
                         {% endfor %}
                     </ul>
-                    <span class="rssatom">
-                        <a href="{{ url('problem_rss') }}"><span><i class="fa fa-rss"></i></span> RSS</a>
-                        /
-                        <a href="{{ url('problem_atom') }}">Atom</a>
-                    </span>
+
                 </div>
             </div>
+            {% if new_users %}
+                <div class="blog-sidebox sidebox">
+                    <div class="blog-header-row" style="border-bottom: none; margin-bottom: 16px; padding-bottom: 0;">
+                        <h3>{{ _('New users') }}</h3>
+                    </div>
+                    <div class="sidebox-content">
+                        <ul class="user-list">
+                            {% for u in new_users %}
+                                <li class="comment-card">
+                                    <div class="comment-header" style="justify-content: space-between; width: 100%;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <img src="{{ gravatar(u, 24) }}" class="comment-avatar">
+                                            <span class="poster">{{ link_user(u) }}</span>
+                                        </div>
+                                        <span class="time" style="font-size: 12px; color: #94a3b8;">
+                                            {{ relative_time(u.user.date_joined) }}
+                                        </span>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            {% endif %}
             {% if perms.judge.test_site and own_open_tickets %}
                 <div class="blog-sidebox sidebox">
                     <h3>{{ _('My open tickets') }} <i class="fa fa-question-circle"></i></h3>

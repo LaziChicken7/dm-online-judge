@@ -4,88 +4,637 @@
     {% include "timezone/media-css.html" %}
     {{ form.media.css }}
     <style>
-        .sortedm2m-container, .sortedm2m-container p.selector-filter {
-            width: 300px;
+        /* =========================================================
+           EDIT PROFILE MODERN DESIGN (CSAT Tutor Geist Dark Theme)
+           ========================================================= */
+
+        .tabs:not(#mobile)::before,
+        .tabs::before,
+        .tabs.user-profile-tabs::before {
+            content: "EDIT PROFILE" !important;
+            letter-spacing: 2px !important;
         }
 
-        .sortedm2m-container p.selector-filter input {
-            width: 262px;
-        }
-
-        ul.sortedm2m {
-            width: 284px;
-            min-height: 70px;
-            max-height: 200px;
-            height: 70px
-        }
-
-        .inline-header {
-            float: left;
-            font-size: 1.1em;
-            padding: 4px 8px;
-            padding-left: 0;
-        }
-
-        .block-header {
-            font-size: 1.1em;
-        }
-
-        .block-buttons {
-            margin: 0.5em 0 0.8em;
-        }
-
-        .fullwidth {
-            display: block;
-            overflow: hidden;
+        .centered-form {
+            max-width: 1040px !important;
+            margin: 0 auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
 
         #edit-form {
-            border: unset;
-            background: unset;
-            display: block;
-            padding-bottom: 30px;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 24px !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 0 60px 0 !important;
+            box-sizing: border-box !important;
         }
 
-        .settings {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+        /* ── Modern Card Container ── */
+        .edit-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+            padding: 24px 28px !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-sizing: border-box !important;
         }
 
-        .pane {
-            display: block;
-            width: 337px;
+        .edit-card:hover {
+            border-color: rgba(56, 189, 248, 0.25) !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 20px rgba(56, 189, 248, 0.06) !important;
         }
 
-        .api-token {
-            padding-top: 5px;
-            font-family: Consolas, Liberation Mono, Monaco, Courier New, monospace;
-            font-size: 12px;
-            -webkit-user-select: all;
-            -ms-user-select: all;
-            user-select: all;
-            white-space: nowrap;
+        .edit-card-header {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            margin-bottom: 20px !important;
+            padding-bottom: 14px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
         }
 
-        .ml-5 {
-            margin-left: 5px;
+        .edit-card-header-icon {
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 12px !important;
+            background: rgba(56, 189, 248, 0.1) !important;
+            border: 1px solid rgba(56, 189, 248, 0.25) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #38bdf8 !important;
+            font-size: 17px !important;
+            flex-shrink: 0 !important;
         }
 
-        #hidden-word {
-            padding-top: 5px;
-            font-family: Consolas, Liberation Mono, Monaco, Courier New, monospace;
-            font-size: 12px;
+        .edit-card-header-text h3 {
+            margin: 0 !important;
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.01em !important;
         }
 
-        #scratch-codes {
-            font-family: Consolas, Liberation Mono, Monaco, Courier New, monospace;
-            font-size: 12px;
-            white-space: pre;
+        .edit-card-header-text p {
+            margin: 3px 0 0 0 !important;
+            font-size: 13px !important;
+            color: #64748b !important;
         }
 
-        #scratch-codes-text {
-            padding-top: 5px;
-            font-size: 12px;
+        /* ── 1. MARTOR MARKDOWN EDITOR FRAME OVERHAUL ── */
+        .main-martor {
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 16px !important;
+            overflow: hidden !important;
+            background: #070a14 !important;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4) !important;
+            transition: border-color 0.2s ease !important;
+        }
+
+        .main-martor:focus-within {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 16px rgba(56, 189, 248, 0.15) !important;
+        }
+
+        .tab-martor-menu {
+            background: #0c101e !important;
+            border: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 8px 14px !important;
+            display: flex !important;
+            align-items: center !important;
+            min-height: auto !important;
+        }
+
+        .tab-martor-menu a.item {
+            background: rgba(255, 255, 255, 0.04) !important;
+            color: #94a3b8 !important;
+            border-radius: 8px !important;
+            padding: 6px 14px !important;
+            font-size: 12.5px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            margin-right: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .tab-martor-menu a.item:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+        }
+
+        .tab-martor-menu a.item.active {
+            background: rgba(56, 189, 248, 0.15) !important;
+            color: #38bdf8 !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            box-shadow: 0 2px 8px rgba(56, 189, 248, 0.15) !important;
+        }
+
+        .martor-toolbar a,
+        .martor-toolbar button,
+        .martor-toolbar .button,
+        .martor-toolbar i {
+            color: #94a3b8 !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 6px 8px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            transition: all 0.15s ease !important;
+        }
+
+        .martor-toolbar a:hover,
+        .martor-toolbar button:hover,
+        .martor-toolbar .button:hover,
+        .martor-toolbar i:hover {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            transform: translateY(-1px);
+        }
+
+        .main-martor .ui.segment.tab {
+            background: #070a14 !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+
+        .main-martor .martor-field {
+            background: #070a14 !important;
+            border: none !important;
+        }
+
+        .main-martor .ace_editor {
+            background: #070a14 !important;
+            color: #f1f5f9 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 14px !important;
+            line-height: 1.65 !important;
+        }
+
+        .main-martor .ace_gutter {
+            background: #05070f !important;
+            color: #475569 !important;
+            border: none !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .main-martor .ace_cursor {
+            color: #38bdf8 !important;
+            border-left: 2px solid #38bdf8 !important;
+        }
+
+        .main-martor .tab.segment.martor-preview {
+            background: #070a14 !important;
+            color: #e2e8f0 !important;
+            padding: 24px !important;
+            min-height: 200px !important;
+        }
+
+        /* ── 2. PREFERENCES & LOCALIZATION REDESIGN ── */
+        .form-grid-2 {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 28px !important;
+            align-items: start !important;
+        }
+
+        @media (max-width: 800px) {
+            .form-grid-2 {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .form-fields-column {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 18px !important;
+        }
+
+        .form-group {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+        }
+
+        .form-group-label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #94a3b8 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+        }
+
+        .form-group-label i {
+            color: #38bdf8 !important;
+            font-size: 13px !important;
+            width: 14px !important;
+            text-align: center !important;
+        }
+
+        .form-group select {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 11px 36px 11px 16px !important;
+            background: #090d18 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 14px center !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            color: #ffffff !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+        }
+
+        .form-group select:hover {
+            border-color: rgba(255, 255, 255, 0.16) !important;
+            background-color: #0d1322 !important;
+        }
+
+        .form-group select:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+            background-color: #0d1322 !important;
+        }
+
+        .form-group select option {
+            background: #0d1322 !important;
+            color: #ffffff !important;
+            padding: 8px 12px !important;
+        }
+
+        .org-selection-card {
+            background: rgba(0, 0, 0, 0.2) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 16px !important;
+            padding: 18px 20px !important;
+            box-sizing: border-box !important;
+        }
+
+        .org-card-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 14px !important;
+        }
+
+        .org-card-title {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #94a3b8 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .org-card-title i {
+            color: #38bdf8 !important;
+        }
+
+        .org-card-badge {
+            font-size: 11px !important;
+            color: #64748b !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            padding: 2px 8px !important;
+            border-radius: 6px !important;
+        }
+
+        .sortedm2m-container {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+
+        .sortedm2m-container p.selector-filter img {
+            display: none !important;
+        }
+
+        .sortedm2m-container p.selector-filter {
+            width: 100% !important;
+            position: relative !important;
+            margin: 0 0 10px 0 !important;
+        }
+
+        .sortedm2m-container p.selector-filter input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 10px 14px 10px 38px !important;
+            background: #090d18 url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") no-repeat 13px center !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 10px !important;
+            color: #ffffff !important;
+            font-size: 13px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .sortedm2m-container p.selector-filter input:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.25) !important;
+            background-color: #0d1322 !important;
+        }
+
+        ul.sortedm2m {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: #090d18 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 8px !important;
+            min-height: 110px !important;
+            max-height: 200px !important;
+            overflow-y: auto !important;
+            margin: 0 !important;
+            list-style: none !important;
+        }
+
+        ul.sortedm2m li {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.04) !important;
+            border-radius: 8px !important;
+            padding: 9px 12px !important;
+            margin-bottom: 6px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            transition: all 0.2s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        ul.sortedm2m li:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        ul.sortedm2m li:hover {
+            background: rgba(56, 189, 248, 0.08) !important;
+            border-color: rgba(56, 189, 248, 0.25) !important;
+        }
+
+        ul.sortedm2m li label {
+            color: #cbd5e1 !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+        }
+
+        ul.sortedm2m li input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            width: 15px !important;
+            height: 15px !important;
+            cursor: pointer !important;
+            margin: 0 !important;
+        }
+
+        .sortedm2m-container p.help {
+            color: #64748b !important;
+            font-size: 12px !important;
+            margin: 8px 0 0 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        /* ── 3. ACCOUNT ACTIONS & SECURITY ── */
+        .account-actions-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+        }
+
+        .account-action-item {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 12px 16px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 12px !important;
+            color: #e2e8f0 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+        }
+
+        .account-action-item:hover {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            transform: translateX(3px) !important;
+            color: #ffffff !important;
+        }
+
+        .account-action-left {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+
+        .account-action-left i {
+            color: #38bdf8 !important;
+            font-size: 14px !important;
+            width: 16px !important;
+            text-align: center !important;
+        }
+
+        .account-action-right i {
+            color: #64748b !important;
+            font-size: 12px !important;
+        }
+
+        .toggle-setting-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 12px 16px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 12px !important;
+            margin-bottom: 8px !important;
+        }
+
+        .toggle-setting-row input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            width: 16px !important;
+            height: 16px !important;
+            cursor: pointer !important;
+        }
+
+        .toggle-setting-row label {
+            color: #cbd5e1 !important;
+            font-size: 13.5px !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            margin: 0 !important;
+        }
+
+        .api-token-box {
+            padding: 14px 16px !important;
+            background: rgba(0, 0, 0, 0.25) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 14px !important;
+            margin-top: 6px !important;
+        }
+
+        .api-token-header {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 8px !important;
+        }
+
+        .api-token-title {
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            color: #94a3b8 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        .api-token-value {
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13px !important;
+            color: #38bdf8 !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+            padding: 8px 12px !important;
+            border-radius: 8px !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            user-select: all !important;
+            word-break: break-all !important;
+        }
+
+        .two-fa-box {
+            padding: 16px 20px !important;
+            background: rgba(0, 0, 0, 0.25) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 14px !important;
+        }
+
+        .two-fa-status-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 12px !important;
+        }
+
+        .two-fa-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 4px 12px !important;
+            border-radius: 100px !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+        }
+
+        .two-fa-badge.enabled {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border: 1px solid rgba(16, 185, 129, 0.3) !important;
+            color: #10b981 !important;
+        }
+
+        .two-fa-badge.disabled {
+            background: rgba(245, 158, 11, 0.15) !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+            color: #fbbf24 !important;
+        }
+
+        .btn-action-sm {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 6px 14px !important;
+            border-radius: 100px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #e2e8f0 !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .btn-action-sm:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            color: #38bdf8 !important;
+        }
+
+        .btn-action-sm.primary {
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+        }
+
+        .btn-action-sm.primary:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.35) !important;
+        }
+
+        .btn-action-sm.danger {
+            background: rgba(239, 68, 68, 0.15) !important;
+            border-color: rgba(239, 68, 68, 0.3) !important;
+            color: #f87171 !important;
+        }
+
+        .btn-action-sm.danger:hover {
+            background: rgba(239, 68, 68, 0.25) !important;
+            color: #ffffff !important;
+        }
+
+        /* ── Compact Update Profile Button ── */
+        .edit-profile-footer {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            padding: 8px 0 30px 0 !important;
+        }
+
+        .edit-submit-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            padding: 7px 18px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            color: #ffffff !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.3) !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            line-height: 1.4 !important;
+        }
+
+        .edit-submit-btn:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.45) !important;
+            border-color: rgba(56, 189, 248, 0.8) !important;
         }
     </style>
 {% endblock %}
@@ -93,161 +642,6 @@
 {% block js_media %}
     {% include "timezone/media-js.html" %}
     {{ form.media.js }}
-    <script type="text/javascript">
-        $(function () {
-            $('#ace_user_script').on('ace_load', function (e, editor) {
-                editor.getSession().setMode("ace/mode/javascript");
-            });
-
-            $('#disable-2fa-button').click(function () {
-                alert({{ _('The administrators for this site require all the staff to have Two-factor Authentication enabled, so it may not be disabled at this time.')|htmltojs }});
-            });
-
-            $('#generate-api-token-button').click(function (event) {
-                event.preventDefault();
-                if (confirm({{ _('Are you sure you want to generate or regenerate your API token?')|htmltojs }} + '\n'
-                          + {{ _('This will invalidate any previous API tokens.')|htmltojs }} + ' '
-                          + {{ _('It also allows access to your account without Two-factor Authentication.')|htmltojs }} + '\n\n'
-                          + {{ _('You will not be able to view your API token after you leave this page!')|htmltojs }})) {
-                    $('#api-token').text({{ _('Generating...')|htmltojs }});
-
-                    $.ajax({
-                        type: 'POST',
-                        url: $(this).attr('href'),
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#api-token').text(data.data.token);
-                            $('#generate-api-token-button').text({{ _('Regenerate')|htmltojs }});
-
-                            // Add remove button on-the-fly
-                            if ($('#remove-api-token-button').length == 0) {
-                                $('#generate-api-token-button').after($('<a id="remove-api-token-button" \
-                                    href="{{ url('remove_api_token') }}" \
-                                    class="button inline-button ml-5">{{ _('Remove') }}</a>'));
-                            }
-                        },
-                    });
-                }
-            });
-
-            // Delegated event handler because the remove button may have been added on-the-fly
-            $('#api-token-td').on('click', '#remove-api-token-button', function (event) {
-                event.preventDefault();
-                if (confirm({{ _('Are you sure you want to remove your API token?')|htmltojs }})) {
-                    $.ajax({
-                        type: 'POST',
-                        url: $(this).attr('href'),
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#api-token').text('');
-                            $('#generate-api-token-button').text({{ _('Generate')|htmltojs }});
-                            $('#remove-api-token-button').remove();
-                        },
-                    });
-                }
-            });
-        });
-    </script>
-    <script>
-        // This is basically impossible to write without ES6, hence separate script block.
-        $(() => {
-            {% include "user/webauthn-helpers.js" %}
-
-            $('#new-webauthn').click(event => {
-                event.preventDefault();
-
-                if (typeof window.PublicKeyCredential === 'undefined') {
-                    alert({{ _('WebAuthn is not supported by your browser.')|htmltojs }});
-                    return;
-                }
-
-                $.getJSON('{{ url('webauthn_attest') }}')
-                    .done(publicKey => {
-                        decodeJSONBytes(publicKey);
-                        navigator.credentials.create({publicKey})
-                            .then(credential => {
-                                credential = {
-                                    id: credential.id,
-                                    response: {
-                                        attObj: urlSafeBase64Encode(credential.response.attestationObject),
-                                        clientData: urlSafeBase64Encode(credential.response.clientDataJSON),
-                                    }
-                                };
-                                $.post('{{ url('webauthn_attest') }}', {
-                                    credential: JSON.stringify(credential),
-                                    name: $('#new-webauthn-name').val(),
-                                })
-                                    .then(() => window.location.reload())
-                                    .fail((jqXHR) => alert(jqXHR.responseText));
-                            });
-                    })
-                    .fail(() => alert({{ _('Failed to contact server.')|htmltojs }}));
-            });
-
-            $('.webauthn-delete').click(function (event) {
-                event.preventDefault();
-                if (confirm({{ _('Are you sure you want to delete this security key?')|htmltojs }})) {
-                    $.post($(this).attr('data-delete-url'))
-                        .then(() => window.location.reload())
-                        .fail((jqXHR) => alert(jqXHR.responseText));
-                }
-            });
-        });
-    </script>
-    <script src="{{ static('libs/clipboard/clipboard.js') }}"></script>
-    <script src="{{ static('libs/clipboard/tooltip.js') }}"></script>
-    <script type="text/javascript">
-        $(function () {
-            $('#generate-scratch-codes-button').click(function(event) {
-                event.preventDefault();
-                if (confirm({{ _('Are you sure you want to generate or regenerate a new set of scratch codes?')|htmltojs }} + '\n'
-                          + {{ _('This will invalidate any previous scratch codes you have.')|htmltojs }} + '\n\n'
-                          + {{ _('You will not be able to view your scratch codes after you leave this page!')|htmltojs }})) {
-                    $('#scratch-codes').text({{ _('Generating...')|htmltojs }});
-
-                    $('pre code').each(function () {
-                        var copyButton;
-                        $(this).parent().before($('<div>', {'class': 'copy-clipboard'})
-                            .append(copyButton = $('<span>', {
-                                'class': 'btn-clipboard',
-                                'id': 'scratch-codes-copy-button',
-                                'data-clipboard-text': '',
-                                'title': {{ _('Click to copy')|htmltojs }}
-                            }).text({{ _('Copy')|htmltojs }})));
-
-                        $(copyButton.get(0)).mouseleave(function () {
-                            $(this).attr('class', 'btn-clipboard');
-                            $(this).removeAttr('aria-label');
-                        });
-
-                        var curClipboard = new Clipboard(copyButton.get(0));
-
-                        curClipboard.on('success', function(e) {
-                            e.clearSelection();
-                            showTooltip(e.trigger, {{ _('Copied!')|htmltojs }});
-                        });
-
-                        curClipboard.on('error', function(e) {
-                            showTooltip(e.trigger, fallbackMessage(e.action));
-                        });
-                    });
-
-                    $.ajax({
-                        type: 'POST',
-                        url: $(this).attr('href'),
-                        dataType: 'json',
-                        success: function(data) {
-                            $('#scratch-codes').text(data.data.codes.join('\n'));
-                            $('#scratch-codes-copy-button').attr('data-clipboard-text', data.data.codes.join('\n'));
-                            $('#generate-scratch-codes-button').text({{ _('Regenerate')|htmltojs }});
-                            $('#hidden-word').hide();
-                            $('#scratch-codes-regen').show();
-                        },
-                    });
-                }
-            });
-        });
-    </script>
 {% endblock %}
 
 {% block title_ruler %}{% endblock %}
@@ -262,8 +656,8 @@
     <div class="centered-form">
         <form id="edit-form" action="" method="post" class="form-area">
             {% if form.errors %}
-                <div class="alert alert-danger alert-dismissable">
-                    <a href="#" class="close">x</a>
+                <div class="alert alert-danger alert-dismissable" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; padding: 14px 18px; color: #fca5a5;">
+                    <a href="#" class="close" style="color: #fca5a5; opacity: 0.8;">x</a>
                     {{ form.non_field_errors() }}
                     {{ form.about.errors }}
                 </div>
@@ -271,179 +665,476 @@
 
             {% csrf_token %}
 
-            <div style="padding-top:0.5em" class="block-header grayed">{{ _('Self-description:') }}</div>
-            {{ form.about }}
-            <hr>
-
-            <div class="settings" style="padding-top:0.7em">
-                <div class="pane" style="vertical-align:top">
-                    <table style="padding-right:0.8em">
-                        <tr title="{{ _('Select your closest major city') }}">
-                            <td><label class="inline-header grayed">{{ _('Time zone:') }}</label></td>
-                            <td><span class="fullwidth">{{ form.timezone }}</span></td>
-                        </tr>
-                        <tr>
-                            <td><label class="inline-header grayed">{{ _('Language:') }}</label></td>
-                            <td><span class="fullwidth">{{ form.language }}</span></td>
-                        </tr>
-                        <tr{% if not perms.judge.test_site %} style="display: none"{% endif %}>
-                            <td><label class="inline-header grayed">{{ _('Site theme:') }}</label></td>
-                            <td><span class="fullwidth">{{ form.site_theme }}</span></td>
-                        </tr>
-                        <tr>
-                            <td><label class="inline-header grayed">{{ _('Editor theme:') }}</label></td>
-                            <td><span class="fullwidth">{{ form.ace_theme }}</span></td>
-                        </tr>
-                        {% if has_math_config %}
-                            <tr>
-                                <td><label class="inline-header grayed">{{ _('Math engine:') }}</label></td>
-                                <td><span class="fullwidth">{{ form.math_engine }}</span></td>
-                            </tr>
-                        {% endif %}
-                    </table>
-                </div>
-                {% if form.organizations %}
-                    <div class="pane">
-                        <div style="padding-bottom:0.3em; margin-top:0.3em" class="block-header grayed">
-                            {{- _('Affiliated organizations:') -}}
-                        </div>
-                        {{ form.organizations }}
+            <!-- Card 1: Self-description -->
+            <div class="edit-card">
+                <div class="edit-card-header">
+                    <div class="edit-card-header-icon"><i class="fa fa-user"></i></div>
+                    <div class="edit-card-header-text">
+                        <h3>{{ _('Self-description') }}</h3>
+                        <p>{{ _('Markdown and math formatting are supported. Tell the community about yourself.') }}</p>
                     </div>
-                {% endif %}
+                </div>
+                {{ form.about }}
             </div>
-            <hr>
-            <div class="settings" style="padding-top:0.7em">
-                <div class="pane">
-                    <table border="0">
-                        {% if form.newsletter %}
-                            <tr><td>
-                                {{ form.newsletter }}
-                                <label for="id_newsletter" style="float: unset" class="inline-header grayed">
-                                        {{- _('Notify me about upcoming contests') -}}
-                                </label>
-                            </td></tr>
-                        {% endif %}
-                        <tr><td>
-                            {{ form.test_site }}
-                            <label for="id_test_site" style="float: unset" class="inline-header grayed">
-                                {{- form.test_site.label -}}
-                            </label>
-                        </td></tr>
-                        <tr><td>
-                            <a href="https://www.gravatar.com/" target="_blank" class="inline-header" rel="noopener">
-                                {{ _('Change your avatar') }}
-                            </a>
-                        </td></tr>
-                        <tr><td>
-                            <a href="{{ url('password_change') }}" class="inline-header">
-                                {{ _('Change your password') }}
-                            </a>
-                        </td></tr>
-                        <tr><td>
-                            <a href="{{ url('email_change') }}" class="inline-header">
-                                {{ _('Change your email') }}
-                            </a>
-                        </td></tr>
-                        {% if can_download_data %}
-                            <tr><td>
-                                <a href="{{ url('user_prepare_data') }}" class="inline-header">
-                                    {{ _('Download your data') }}
-                                </a>
-                            </td></tr>
-                        {% endif %}
-                        <tr><td>
-                            <span id="api-token-td" class="inline-header grayed">
-                                {{ _('API token:') }}
-                                {% if profile.api_token %}
-                                    <a id="generate-api-token-button" href="{{ url('generate_api_token') }}"
-                                        class="button inline-button">{{ _('Regenerate') }}</a>
-                                    <a id="remove-api-token-button" href="{{ url('remove_api_token') }}"
-                                        class="button inline-button ml-5">{{ _('Remove') }}</a>
-                                    <div class="api-token" id="api-token">{{ _('Hidden') }}</div>
-                                {% else %}
-                                    <a id="generate-api-token-button" href="{{ url('generate_api_token') }}"
-                                        class="button inline-button">{{ _('Generate') }}</a>
-                                    <div class="api-token" id="api-token"></div>
-                                {% endif %}
-                            </span>
-                        </td></tr>
-                    </table>
+
+            <!-- Card 2: Preferences & Organizations -->
+            <div class="edit-card">
+                <div class="edit-card-header">
+                    <div class="edit-card-header-icon"><i class="fa fa-sliders"></i></div>
+                    <div class="edit-card-header-text">
+                        <h3>{{ _('Preferences & Localization') }}</h3>
+                        <p>{{ _('Configure your timezone, language, and coding environment preferences.') }}</p>
+                    </div>
                 </div>
-                <div class="pane">
-                    <div>
-                        {% if profile.is_totp_enabled %}
-                            <div class="block-header grayed">{{ _('Two-factor authentication is enabled:') }}</div>
-                            <div class="block-buttons">
-                                {% if require_staff_2fa and request.user.is_staff and not profile.is_webauthn_enabled %}
-                                    <a id="disable-2fa-button" class="button inline-button">{{ _('Disable') }}</a>
-                                {% else %}
-                                    <a href="{{ url('disable_2fa') }}"
-                                       class="button inline-button">{{ _('Disable') }}</a>
-                                {% endif %}
-                                <a href="{{ url('edit_2fa') }}" class="button inline-button">{{ _('Edit') }}</a>
+
+                <div class="form-grid-2">
+                    <div class="form-fields-column">
+                        <div class="form-group" title="{{ _('Select your closest major city') }}">
+                            <label class="form-group-label"><i class="fa fa-globe"></i> {{ _('Time zone') }}</label>
+                            {{ form.timezone }}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-group-label"><i class="fa fa-code"></i> {{ _('Default language') }}</label>
+                            {{ form.language }}
+                        </div>
+
+                        <div class="form-group"{% if not perms.judge.test_site %} style="display: none"{% endif %}>
+                            <label class="form-group-label"><i class="fa fa-paint-brush"></i> {{ _('Site theme') }}</label>
+                            {{ form.site_theme }}
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-group-label"><i class="fa fa-terminal"></i> {{ _('Editor theme') }}</label>
+                            {{ form.ace_theme }}
+                        </div>
+
+                        {% if has_math_config %}
+                            <div class="form-group">
+                                <label class="form-group-label"><i class="fa fa-calculator"></i> {{ _('Math engine') }}</label>
+                                {{ form.math_engine }}
                             </div>
-                            <div class="block-header grayed">
-                                {{ _('Scratch codes:') }}
-                                {% if profile.scratch_codes %}
-                                    <a id="generate-scratch-codes-button" href="{{ url('generate_scratch_codes') }}"
-                                       class="button inline-button">{{ _('Regenerate') }}</a>
-                                    <div id="hidden-word">{{ _('Hidden') }}</div>
-                                {% else %}
-                                    <a id="generate-scratch-codes-button" href="{{ url('generate_scratch_codes') }}"
-                                       class="button inline-button">{{ _('Generate') }}</a>
-                                {% endif %}
-                                <div style="display: none" id="scratch-codes-regen">
-                                    <div id="scratch-codes-text">
-                                        {{ _('Below is a list of one-time use scratch codes.') }}
-                                        {{ _('These codes can only be used once and are for emergency use.') }}
-                                        {{ _('You can use these codes to login to your account or disable two-factor authentication.') }}
-                                        {{ _('If you ever need more scratch codes, you can regenerate them here.') }}
-                                        {{ _('Please write these down and keep them in a secure location.') }}<br><br>
-                                        {{ _('You will not be able to view your scratch codes after you leave this page!') }}</div>
-                                    <pre><code id="scratch-codes"></code></pre>
-                                </div>
-                            </div>
-                        {% else %}
-                            <span class="inline-header grayed">
-                                {{ _('Two-factor Authentication is disabled:') }}
-                                <a href="{{ url('enable_2fa') }}" class="button inline-button">{{ _('Enable') }}</a>
-                            </span>
                         {% endif %}
                     </div>
-                    <span class="grayed">
-                    {% if HAS_WEBAUTHN %}
-                        <div style="padding-bottom:0.4em" class="block-header grayed">
-                            {{- _('Security keys:') -}}
+
+                    {% if form.organizations %}
+                        <div class="form-fields-column">
+                            <div class="org-selection-card">
+                                <div class="org-card-header">
+                                    <div class="org-card-title">
+                                        <i class="fa fa-building"></i>
+                                        <span>{{ _('Affiliated organizations') }}</span>
+                                    </div>
+                                    <span class="org-card-badge">{{ _('Drag & drop') }}</span>
+                                </div>
+                                {{ form.organizations }}
+                            </div>
                         </div>
-                        <table class="table">
-                            {% if profile.is_webauthn_enabled %}
-                                {% for credential in profile.webauthn_credentials.all() %}
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Card 3: Account & Security -->
+            <div class="edit-card">
+                <div class="edit-card-header">
+                    <div class="edit-card-header-icon"><i class="fa fa-shield"></i></div>
+                    <div class="edit-card-header-text">
+                        <h3>{{ _('Account & Security') }}</h3>
+                        <p>{{ _('Manage credentials, two-factor authentication, notifications, and developer access.') }}</p>
+                    </div>
+                </div>
+
+                <div class="form-grid-2">
+                    <!-- Left Column: Actions & Notifications -->
+                    <div class="form-fields-column">
+                        {% if form.newsletter %}
+                            <div class="toggle-setting-row">
+                                {{ form.newsletter }}
+                                <label for="id_newsletter">
+                                    {{ _('Notify me about upcoming contests') }}
+                                </label>
+                            </div>
+                        {% endif %}
+
+                        <div class="toggle-setting-row">
+                            {{ form.test_site }}
+                            <label for="id_test_site">
+                                {{ form.test_site.label }}
+                            </label>
+                        </div>
+
+                        <div class="account-actions-list">
+                            <a href="https://www.gravatar.com/" target="_blank" class="account-action-item" rel="noopener">
+                                <div class="account-action-left">
+                                    <i class="fa fa-picture-o"></i>
+                                    <span>{{ _('Change your avatar on Gravatar') }}</span>
+                                </div>
+                                <div class="account-action-right"><i class="fa fa-external-link"></i></div>
+                            </a>
+
+                            <a href="{{ url('password_change') }}" class="account-action-item">
+                                <div class="account-action-left">
+                                    <i class="fa fa-key"></i>
+                                    <span>{{ _('Change your password') }}</span>
+                                </div>
+                                <div class="account-action-right"><i class="fa fa-chevron-right"></i></div>
+                            </a>
+
+                            <a href="{{ url('email_change') }}" class="account-action-item">
+                                <div class="account-action-left">
+                                    <i class="fa fa-envelope-o"></i>
+                                    <span>{{ _('Change your email address') }}</span>
+                                </div>
+                                <div class="account-action-right"><i class="fa fa-chevron-right"></i></div>
+                            </a>
+
+                            {% if can_download_data %}
+                                <a href="{{ url('user_prepare_data') }}" class="account-action-item">
+                                    <div class="account-action-left">
+                                        <i class="fa fa-download"></i>
+                                        <span>{{ _('Download your account data') }}</span>
+                                    </div>
+                                    <div class="account-action-right"><i class="fa fa-chevron-right"></i></div>
+                                </a>
+                            {% endif %}
+                        </div>
+
+                        <!-- API Token Box -->
+                        <div class="api-token-box">
+                            <div class="api-token-header">
+                                <span class="api-token-title"><i class="fa fa-terminal"></i> {{ _('API token') }}</span>
+                                <span id="api-token-td">
+                                    <a id="generate-api-token-button" href="{{ url('generate_api_token') }}"
+                                        class="btn-action-sm primary"
+                                        data-confirm="{{ _('Are you sure you want to generate or regenerate your API token?') }}&#10;{{ _('This will invalidate any previous API tokens.') }} {{ _('It also allows access to your account without Two-factor Authentication.') }}&#10;&#10;{{ _('You will not be able to view your API token after you leave this page!') }}"
+                                        data-generating="{{ _('Generating...') }}"
+                                        data-regenerate="{{ _('Regenerate') }}"
+                                        data-generate="{{ _('Generate') }}"
+                                        data-remove-url="{{ url('remove_api_token') }}"
+                                        data-remove-text="{{ _('Remove') }}"
+                                        data-remove-confirm="{{ _('Are you sure you want to remove your API token?') }}">
+                                        {% if profile.api_token %}{{ _('Regenerate') }}{% else %}{{ _('Generate') }}{% endif %}
+                                    </a>
+                                    {% if profile.api_token %}
+                                        <a id="remove-api-token-button" href="{{ url('remove_api_token') }}"
+                                            class="btn-action-sm danger" style="margin-left: 6px;">{{ _('Remove') }}</a>
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="api-token-value" id="api-token">
+                                {% if profile.api_token %}{{ _('Token is set (Hidden)') }}{% else %}{{ _('No API token generated yet.') }}{% endif %}
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: 2FA & Security Keys -->
+                    <div class="form-fields-column">
+                        <div class="two-fa-box">
+                            <div class="two-fa-status-row">
+                                <div style="display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa fa-lock" style="color: #38bdf8;"></i>
+                                    <span style="font-weight: 700; color: #ffffff; font-size: 13.5px;">{{ _('Two-factor Authentication') }}</span>
+                                </div>
+                                {% if profile.is_totp_enabled %}
+                                    <span class="two-fa-badge enabled"><i class="fa fa-check-circle"></i> {{ _('Enabled') }}</span>
+                                {% else %}
+                                    <span class="two-fa-badge disabled"><i class="fa fa-exclamation-circle"></i> {{ _('Disabled') }}</span>
+                                {% endif %}
+                            </div>
+
+                            {% if profile.is_totp_enabled %}
+                                <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                                    {% if require_staff_2fa and request.user.is_staff and not profile.is_webauthn_enabled %}
+                                        <a id="disable-2fa-button" class="btn-action-sm danger"
+                                           data-msg="{{ _('The administrators for this site require all the staff to have Two-factor Authentication enabled, so it may not be disabled at this time.') }}">{{ _('Disable') }}</a>
+                                    {% else %}
+                                        <a href="{{ url('disable_2fa') }}" class="btn-action-sm danger">{{ _('Disable') }}</a>
+                                    {% endif %}
+                                    <a href="{{ url('edit_2fa') }}" class="btn-action-sm primary">{{ _('Edit') }}</a>
+                                </div>
+
+                                <div style="border-top: 1px solid rgba(255, 255, 255, 0.05); padding-top: 12px; margin-top: 12px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+                                        <span style="font-size: 12.5px; font-weight: 700; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">{{ _('Scratch codes') }}</span>
+                                        <a id="generate-scratch-codes-button" href="{{ url('generate_scratch_codes') }}"
+                                           class="btn-action-sm primary"
+                                           data-confirm="{{ _('Are you sure you want to generate or regenerate a new set of scratch codes?') }}&#10;{{ _('This will invalidate any previous scratch codes you have.') }}&#10;&#10;{{ _('You will not be able to view your scratch codes after you leave this page!') }}"
+                                           data-generating="{{ _('Generating...') }}"
+                                           data-regenerate="{{ _('Regenerate') }}"
+                                           data-copy="{{ _('Copy') }}"
+                                           data-copied="{{ _('Copied!') }}"
+                                           data-click-copy="{{ _('Click to copy') }}">
+                                            {% if profile.scratch_codes %}{{ _('Regenerate') }}{% else %}{{ _('Generate') }}{% endif %}
+                                        </a>
+                                    </div>
+                                    <div id="hidden-word" style="color: #64748b; font-size: 12.5px;">{{ _('Hidden') }}</div>
+                                    <div style="display: none" id="scratch-codes-regen">
+                                        <div id="scratch-codes-text" style="color: #94a3b8; font-size: 12px; line-height: 1.5; margin-bottom: 10px;">
+                                            {{ _('Below is a list of one-time use scratch codes.') }}
+                                            {{ _('These codes can only be used once and are for emergency use.') }}<br>
+                                            <span style="color: #fbbf24;">{{ _('You will not be able to view your scratch codes after you leave this page!') }}</span>
+                                        </div>
+                                        <pre style="background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; color: #38bdf8;"><code id="scratch-codes"></code></pre>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div style="margin-top: 10px;">
+                                    <a href="{{ url('enable_2fa') }}" class="btn-action-sm primary">
+                                        <i class="fa fa-shield"></i> {{ _('Enable Two-Factor Authentication') }}
+                                    </a>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        {% if HAS_WEBAUTHN %}
+                            <div class="two-fa-box" style="margin-top: 12px;">
+                                <div style="font-weight: 700; color: #ffffff; font-size: 13.5px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px;">
+                                    <i class="fa fa-key" style="color: #38bdf8;"></i>
+                                    <span>{{ _('Security keys (WebAuthn)') }}</span>
+                                </div>
+                                <table class="table" style="width: 100%; margin-bottom: 12px; background: transparent;">
+                                    {% if profile.is_webauthn_enabled %}
+                                        {% for credential in profile.webauthn_credentials.all() %}
+                                            <tr>
+                                                <td style="color: #e2e8f0; vertical-align: middle;">{{ credential.name }}</td>
+                                                <td style="text-align: right;">
+                                                    <button class="webauthn-delete btn-action-sm danger"
+                                                            data-delete-url="{{ url('webauthn_delete', credential.id) }}"
+                                                            data-confirm="{{ _('Are you sure you want to delete this security key?') }}">
+                                                        {{ _('Delete') }}
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
                                     <tr>
-                                        <td>{{ credential.name }}</td>
                                         <td>
-                                            <button class="webauthn-delete inline-button"
-                                                    data-delete-url="{{ url('webauthn_delete', credential.id) }}">
-                                                {{ _('Delete') }}
-                                            </button>
+                                            <input id="new-webauthn-name" type="text"
+                                                   style="width: 100%; box-sizing: border-box; padding: 7px 12px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: #ffffff; font-size: 12.5px;"
+                                                   placeholder="{{ _('Enter a name for this key') }}">
+                                        </td>
+                                        <td style="text-align: right; padding-left: 8px;">
+                                            <button id="new-webauthn" class="btn-action-sm primary"
+                                                    data-url="{{ url('webauthn_attest') }}"
+                                                    data-unsupported="{{ _('WebAuthn is not supported by your browser.') }}"
+                                                    data-failed="{{ _('Failed to contact server.') }}">{{ _('Add') }}</button>
                                         </td>
                                     </tr>
-                                {% endfor %}
-                            {% endif %}
-                            <tr>
-                                <td><input id="new-webauthn-name" type="text" placeholder="{{ _('Enter a name for this key') }}"></td>
-                                <td><button id="new-webauthn" class="inline-button">{{ _('Add') }}</button></td>
-                            </tr>
-                        </table>
-                    {% endif %}
-                    </span>
+                                </table>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
-            <hr>
-            <div class="block-header grayed">{{ _('User-script:') }}</div>
-            {{ form.user_script }}
-            <hr>
 
-            <input type="submit" class="submit-bar" value="{{ _('Update profile') }}">
+            <!-- Hidden field to preserve user_script without rendering UI -->
+            <div style="display: none;">
+                {{ form.user_script }}
+            </div>
+
+            <!-- Footer Actions -->
+            <div class="edit-profile-footer">
+                <button type="submit" class="edit-submit-btn">
+                    <i class="fa fa-check"></i> {{ _('Update profile') }}
+                </button>
+            </div>
         </form>
     </div>
+{% endblock %}
+
+{% block user_bodyend %}
+    <script src="{{ static('libs/clipboard/clipboard.js') }}"></script>
+    <script src="{{ static('libs/clipboard/tooltip.js') }}"></script>
+    <script type="text/javascript">
+        (function () {
+            function run(fn) {
+                if (window.jQuery) {
+                    fn(window.jQuery);
+                } else if (window.$) {
+                    fn(window.$);
+                } else {
+                    document.addEventListener('DOMContentLoaded', function () {
+                        if (window.jQuery) fn(window.jQuery);
+                        else if (window.$) fn(window.$);
+                    });
+                }
+            }
+
+            run(function ($) {
+                // 2FA Disable alert
+                $('#disable-2fa-button').on('click', function () {
+                    alert($(this).attr('data-msg'));
+                });
+
+                // API Token Generation
+                $('#generate-api-token-button').on('click', function (event) {
+                    event.preventDefault();
+                    var $btn = $(this);
+                    if (confirm($btn.attr('data-confirm'))) {
+                        $('#api-token').text($btn.attr('data-generating'));
+
+                        $.ajax({
+                            type: 'POST',
+                            url: $btn.attr('href'),
+                            dataType: 'json',
+                            success: function (data) {
+                                $('#api-token').text(data.data.token);
+                                $btn.text($btn.attr('data-regenerate'));
+
+                                if ($('#remove-api-token-button').length === 0) {
+                                    var $removeBtn = $('<a id="remove-api-token-button" class="btn-action-sm danger" style="margin-left: 6px;"></a>');
+                                    $removeBtn.attr('href', $btn.attr('data-remove-url'));
+                                    $removeBtn.text($btn.attr('data-remove-text'));
+                                    $btn.after($removeBtn);
+                                }
+                            }
+                        });
+                    }
+                });
+
+                // API Token Removal
+                $('#api-token-td').on('click', '#remove-api-token-button', function (event) {
+                    event.preventDefault();
+                    var $genBtn = $('#generate-api-token-button');
+                    if (confirm($genBtn.attr('data-remove-confirm'))) {
+                        $.ajax({
+                            type: 'POST',
+                            url: $(this).attr('href'),
+                            dataType: 'json',
+                            success: function () {
+                                $('#api-token').text('');
+                                $genBtn.text($genBtn.attr('data-generate'));
+                                $('#remove-api-token-button').remove();
+                            }
+                        });
+                    }
+                });
+
+                // WebAuthn Helpers
+                function urlSafeBase64Decode(text) {
+                    return Uint8Array.from([...atob(text.replace(/_/g, '/').replace(/-/g, '+'))], function (x) { return x.charCodeAt(0); });
+                }
+
+                function urlSafeBase64Encode(buffer) {
+                    return btoa(String.fromCharCode(...new Uint8Array(buffer)))
+                        .replace(/\//g, '_')
+                        .replace(/\+/g, '-')
+                        .replace(/=+/g, '');
+                }
+
+                function decodeJSONBytes(object) {
+                    for (var key in object) {
+                        if (object.hasOwnProperty(key)) {
+                            var value = object[key];
+                            if (Array.isArray(value)) {
+                                value.forEach(function (element, index, array) {
+                                    if (element._bytes) {
+                                        array[index] = urlSafeBase64Decode(element._bytes);
+                                    } else if (typeof value === 'object') {
+                                        decodeJSONBytes(value);
+                                    }
+                                });
+                            } else if (value._bytes) {
+                                object[key] = urlSafeBase64Decode(value._bytes);
+                            } else if (typeof value === 'object') {
+                                decodeJSONBytes(value);
+                            }
+                        }
+                    }
+                }
+
+                // WebAuthn Registration
+                $('#new-webauthn').on('click', function (event) {
+                    event.preventDefault();
+                    var $btn = $(this);
+
+                    if (typeof window.PublicKeyCredential === 'undefined') {
+                        alert($btn.attr('data-unsupported'));
+                        return;
+                    }
+
+                    $.getJSON($btn.attr('data-url'))
+                        .done(function (publicKey) {
+                            decodeJSONBytes(publicKey);
+                            navigator.credentials.create({ publicKey: publicKey })
+                                .then(function (credential) {
+                                    var payload = {
+                                        id: credential.id,
+                                        response: {
+                                            attObj: urlSafeBase64Encode(credential.response.attestationObject),
+                                            clientData: urlSafeBase64Encode(credential.response.clientDataJSON)
+                                        }
+                                    };
+                                    $.post($btn.attr('data-url'), {
+                                        credential: JSON.stringify(payload),
+                                        name: $('#new-webauthn-name').val()
+                                    })
+                                        .then(function () { window.location.reload(); })
+                                        .fail(function (jqXHR) { alert(jqXHR.responseText); });
+                                });
+                        })
+                        .fail(function () { alert($btn.attr('data-failed')); });
+                });
+
+                // WebAuthn Delete
+                $('.webauthn-delete').on('click', function (event) {
+                    event.preventDefault();
+                    if (confirm($(this).attr('data-confirm'))) {
+                        $.post($(this).attr('data-delete-url'))
+                            .then(function () { window.location.reload(); })
+                            .fail(function (jqXHR) { alert(jqXHR.responseText); });
+                    }
+                });
+
+                // Scratch Codes Generation
+                $('#generate-scratch-codes-button').on('click', function (event) {
+                    event.preventDefault();
+                    var $btn = $(this);
+                    if (confirm($btn.attr('data-confirm'))) {
+                        $('#scratch-codes').text($btn.attr('data-generating'));
+
+                        $('pre code').each(function () {
+                            var copyButton;
+                            $(this).parent().before($('<div>', { 'class': 'copy-clipboard' })
+                                .append(copyButton = $('<span>', {
+                                    'class': 'btn-clipboard',
+                                    'id': 'scratch-codes-copy-button',
+                                    'data-clipboard-text': '',
+                                    'title': $btn.attr('data-click-copy')
+                                }).text($btn.attr('data-copy'))));
+
+                            $(copyButton.get(0)).mouseleave(function () {
+                                $(this).attr('class', 'btn-clipboard');
+                                $(this).removeAttr('aria-label');
+                            });
+
+                            var curClipboard = new Clipboard(copyButton.get(0));
+
+                            curClipboard.on('success', function (e) {
+                                e.clearSelection();
+                                showTooltip(e.trigger, $btn.attr('data-copied'));
+                            });
+
+                            curClipboard.on('error', function (e) {
+                                showTooltip(e.trigger, fallbackMessage(e.action));
+                            });
+                        });
+
+                        $.ajax({
+                            type: 'POST',
+                            url: $btn.attr('href'),
+                            dataType: 'json',
+                            success: function (data) {
+                                $('#scratch-codes').text(data.data.codes.join('\n'));
+                                $('#scratch-codes-copy-button').attr('data-clipboard-text', data.data.codes.join('\n'));
+                                $btn.text($btn.attr('data-regenerate'));
+                                $('#hidden-word').hide();
+                                $('#scratch-codes-regen').show();
+                            }
+                        });
+                    }
+                });
+            });
+        })();
+    </script>
 {% endblock %}

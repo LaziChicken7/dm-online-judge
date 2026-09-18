@@ -20,7 +20,7 @@ from django.views.generic import DetailView
 
 from judge.highlight_code import highlight_code
 from judge.models import Problem, ProblemData, ProblemTestCase, Submission, problem_data_storage
-from judge.utils.problem_data import ProblemDataCompiler
+from judge.utils.problem_data import ProblemDataCompiler, detect_test_pairs
 from judge.utils.unicode import utf8text
 from judge.utils.views import TitleMixin, add_file_response
 from judge.views.problem import ProblemMixin
@@ -212,11 +212,33 @@ class ProblemDataView(TitleMixin, ProblemManagerMixin):
         cases_formset = self.get_case_formset(valid_files, post=True)
         if data_form.is_valid() and cases_formset.is_valid():
             data = data_form.save()
-            for case in cases_formset.save(commit=False):
+            cases_saved = cases_formset.save(commit=False)
+            for case in cases_saved:
                 case.dataset_id = problem.id
                 case.save()
             for case in cases_formset.deleted_objects:
                 case.delete()
+
+            has_real_cases = problem.cases.exclude(input_file='', output_file='').exists()
+            if not has_real_cases and valid_files:
+                pairs = detect_test_pairs(valid_files)
+                if pairs:
+                    problem.cases.all().delete()
+                    for order, (inp, out) in enumerate(pairs, 1):
+                        ProblemTestCase.objects.create(
+                            dataset=problem,
+                            order=order,
+                            type='C',
+                            input_file=inp,
+                            output_file=out,
+                            points=1,
+                            is_pretest=False,
+                            generator_args='',
+                            checker='',
+                            checker_args='',
+                            batch_dependencies='',
+                        )
+
             ProblemDataCompiler.generate(problem, data, problem.cases.order_by('order'), valid_files)
             return HttpResponseRedirect(request.get_full_path())
         return self.render_to_response(self.get_context_data(data_form=data_form, cases_formset=cases_formset,

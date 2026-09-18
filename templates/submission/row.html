@@ -13,7 +13,8 @@
     </div>
 
     <div class="state">
-        <span title="{{ submission.long_status }}" class="status">{{ submission.short_status }}</span> |
+        <span title="{{ submission.long_status }}" class="status">{{ submission.short_status }}</span>
+        <span class="state-sep">&bull;</span>
         <span class="language">{{ submission.language.short_display_name }}</span>
     </div>
 </div>
@@ -25,9 +26,9 @@
                 <a href="{{ url('problem_detail', submission.problem.code) }}">{{ problem_name }}</a>
             </div>
         {% endif %}
-        <div>
+        <div class="sub-meta">
             {{ link_user(submission.user) }}
-            <br class="xs-br">
+            <span class="meta-sep">&bull;</span>
             <span class="time">{{ relative_time(submission.date) }}</span>
             {% if not request.in_contest and submission.contest_object_id %}
                 <a href="{{ url('contest_view', submission.contest_object.key) }}"
@@ -50,46 +51,47 @@
             {%- endif -%}
         </div>
     {% endif %}
+</div>
 
+<div class="sub-right-group">
     {% if can_view %}
-        <div class="sub-prop"><div>
-            <a href="{{ url('submission_status', submission.id) }}">
-                <i class="fa fa-eye fa-fw"></i><span class="label">{{ _('view') }}</span>
+        <div class="sub-prop">
+            <a href="{{ url('submission_status', submission.id) }}" class="sub-pill-btn" title="{{ _('view') }}">
+                <i class="fa fa-eye"></i><span class="label">{{ _('view') }}</span>
             </a>
-            {% if perms.judge.rejudge_submission and can_edit %} ·
+            {% if perms.judge.rejudge_submission and can_edit %}
                 {% if not submission.is_locked %}
-                    <a href="#" onclick="rejudge_submission({{ submission.id }}, event);return false">
-                        <i class="fa fa-refresh fa-fw"></i><span class="label">{{ _('rejudge') }}</span>
+                    <a href="#" onclick="rejudge_submission({{ submission.id }}, event);return false" class="sub-pill-btn" title="{{ _('rejudge') }}">
+                        <i class="fa fa-refresh"></i><span class="label">{{ _('rejudge') }}</span>
                     </a>
                 {% else %}
-                    <i class="fa fa-refresh fa-fw grey-icon"></i>
-                    <span class="label grey-label"
-                          title="{{ _('This submission has been locked, and cannot be rejudged.') }}">
-                        {{ _('locked') }}
+                    <span class="sub-pill-btn disabled" title="{{ _('This submission has been locked, and cannot be rejudged.') }}">
+                        <i class="fa fa-lock"></i><span class="label">{{ _('locked') }}</span>
                     </span>
                 {% endif %}
             {% endif %}
-            {% if can_edit %} ·
-                <a href="{{ url('admin:judge_submission_change', submission.id) }}">
-                    <i class="fa fa-cog fa-fw"></i><span class="label">{{ _('admin') }}</span>
+            {% if can_edit %}
+                <a href="{{ url('admin:judge_submission_change', submission.id) }}" class="sub-pill-btn" title="{{ _('admin') }}">
+                    <i class="fa fa-cog"></i><span class="label">{{ _('admin') }}</span>
                 </a>
             {% endif %}
-        </div></div>
+        </div>
+        <div class="sub-divider"></div>
     {% endif %}
-</div>
 
-<div class="sub-usage">
-    {% if submission.status in ('QU', 'P', 'G', 'CE', 'IE', 'AB') %}
-        <div class="time">---</div>
-        <div class="memory">---</div>
-    {% else %}
-        {% if "TLE" != submission.result %}
-            <div title="{{ submission.time or 0 }}s" class="time">
-                {{ (submission.time or 0)|floatformat(2) }}s
-            </div>
+    <div class="sub-usage">
+        {% if submission.status in ('QU', 'P', 'G', 'CE', 'IE', 'AB') %}
+            <div class="time"><i class="fa fa-clock-o"></i> ---</div>
+            <div class="memory"><i class="fa fa-microchip"></i> ---</div>
         {% else %}
-            <div class="time">---</div>
+            {% if "TLE" != submission.result %}
+                <div title="{{ submission.time or 0 }}s" class="time">
+                    <i class="fa fa-clock-o"></i> {{ (submission.time or 0)|floatformat(2) }}s
+                </div>
+            {% else %}
+                <div class="time"><i class="fa fa-clock-o"></i> ---</div>
+            {% endif %}
+            <div class="memory"><i class="fa fa-microchip"></i> {{ submission.memory|kbdetailformat }}</div>
         {% endif %}
-        <div class="memory">{{ submission.memory|kbdetailformat }}</div>
-    {% endif %}
+    </div>
 </div>

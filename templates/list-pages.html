@@ -1,12 +1,12 @@
 <ul class="pagination">
     {% if page_obj.has_previous() %}
         {% if page_obj.previous_page_number() == 1 and first_page_href != None %}
-            <li><a href="{{ first_page_href }}">«</a></li>
+            <li class="page-arrow prev-page"><a href="{{ first_page_href }}" aria-label="Previous page"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></a></li>
         {% else %}
-            <li><a href="{{ page_prefix or '' }}{{ page_obj.previous_page_number() }}{{ page_suffix or '' }}">«</a></li>
+            <li class="page-arrow prev-page"><a href="{{ page_prefix or '' }}{{ page_obj.previous_page_number() }}{{ page_suffix or '' }}" aria-label="Previous page"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></a></li>
         {% endif %}
     {% else %}
-        <li class="disabled-page"><span>«</span></li>
+        <li class="page-arrow prev-page disabled-page"><span aria-label="Previous page"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></span></li>
     {% endif %}
 
     {% for page in page_obj.page_range %}
@@ -24,8 +24,8 @@
     {% endfor %}
 
     {% if page_obj.has_next() %}
-        <li><a href="{{ page_prefix or '' }}{{ page_obj.next_page_number() }}{{ page_suffix or '' }}">»</a></li>
+        <li class="page-arrow next-page"><a href="{{ page_prefix or '' }}{{ page_obj.next_page_number() }}{{ page_suffix or '' }}" aria-label="Next page"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></a></li>
     {% else %}
-        <li class="disabled-page"><span>»</span></li>
+        <li class="page-arrow next-page disabled-page"><span aria-label="Next page"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg></span></li>
     {% endif %}
 </ul>

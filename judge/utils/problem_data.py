@@ -239,3 +239,59 @@ class ProblemDataCompiler(object):
     def generate(cls, *args, **kwargs):
         self = cls(*args, **kwargs)
         self.compile()
+
+
+def detect_test_pairs(files):
+    file_list = [f for f in files if f and not f.endswith('/')]
+    file_set = set(file_list)
+    used_outputs = set()
+    used_inputs = set()
+    pairs = []
+
+    def get_matching_output(inp_file):
+        ext_map = [
+            (r'\.inp$', ['.out', '.OUT', '.ans', '.ANS']),
+            (r'\.in$', ['.out', '.OUT', '.ans', '.ANS']),
+            (r'\.txt$', ['.out', '.OUT', '.ans', '.ANS', '.txt']),
+        ]
+        for pattern, targets in ext_map:
+            if re.search(pattern, inp_file, re.I):
+                for target in targets:
+                    candidate = re.sub(pattern, target, inp_file, flags=re.I)
+                    if candidate in file_set:
+                        return candidate
+        path_subs = [
+            (r'/inp/', '/out/'),
+            (r'/in/', '/out/'),
+            (r'/input/', '/output/'),
+            (r'input', 'output'),
+            (r'inp', 'out'),
+            (r'in(?!.*?in)', 'out'),
+        ]
+        for pattern, replacement in path_subs:
+            candidate = re.sub(pattern, replacement, inp_file, flags=re.I)
+            if candidate != inp_file and candidate in file_set:
+                return candidate
+        return None
+
+    for f in file_list:
+        if re.search(r'\.(inp|in)$', f, re.I) or re.search(r'(^|[/_.-])input', f, re.I):
+            out = get_matching_output(f)
+            if out and out not in used_outputs:
+                pairs.append((f, out))
+                used_outputs.add(out)
+                used_inputs.add(f)
+
+    for f in file_list:
+        if f not in used_inputs and f not in used_outputs:
+            out = get_matching_output(f)
+            if out and out not in used_outputs:
+                pairs.append((f, out))
+                used_outputs.add(out)
+                used_inputs.add(f)
+
+    def natural_sort_key(s):
+        return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', s[0])]
+
+    pairs.sort(key=natural_sort_key)
+    return pairs

@@ -2,7 +2,6 @@
 {% block meta %}
     <meta name="description" content="The {{ SITE_NAME }}'s contest list - past, present, and future.">
 {% endblock %}
-
 {% block js_media %}
     <script src="{{ static('libs/featherlight/featherlight.min.js') }}" type="text/javascript"></script>
     <script type="text/javascript">
@@ -10,35 +9,384 @@
             $('.time-remaining').each(function () {
                 count_down($(this));
             });
-
             $('.contest-tag').find('a[data-featherlight]').featherlight();
-
             $('.join-warning').click(function () {
                 return confirm({{ _('Are you sure you want to join?')|htmltojs }} + '\n' +
                     {{ _('Joining a contest for the first time starts your timer, after which it becomes unstoppable.')|htmltojs }});
             });
-
-            // var tooltip_classes = 'tooltipped tooltipped-e';
-            //
-            // $('.contest-tag').each(function () {
-            //     var link = $(this);//
-            //     link.mouseenter(function (e) {
-            //         link.addClass(tooltip_classes).attr('aria-label', link.attr('data-description'));
-            //     }).mouseleave(function (e) {
-            //         link.removeClass(tooltip_classes).removeAttr('aria-label');
-            //     });
-            // });
         });
     </script>
 {% endblock %}
+{% block media %}
+    <style>
+        /* ── Card Containers ── */
+        .contest-table-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            overflow-x: auto !important;
+            padding: 8px 16px 12px 16px !important;
+            margin-bottom: 28px !important;
+            box-sizing: border-box !important;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s ease,
+                        background 0.25s ease !important;
+        }
+        .contest-table-card:hover {
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(56, 189, 248, 0.2), 
+                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+            transform: translateY(-2px) !important;
+            background: rgba(255, 255, 255, 0.045) !important;
+        }
 
+        .contest-empty-card {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.04) !important;
+            border-radius: 12px !important;
+            padding: 18px 24px !important;
+            color: #64748b !important;
+            font-size: 14px !important;
+            margin-bottom: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+
+        /* ── Table Structure ── */
+        table.contest-list,
+        .contest-list {
+            border-collapse: separate !important;
+            border-spacing: 0 8px !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            margin-bottom: 0 !important;
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+        }
+
+        /* ── Headers ── */
+        .contest-list thead th {
+            background: transparent !important;
+            color: #64748b !important;
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.8px !important;
+            padding: 14px 20px !important;
+            border: none !important;
+            vertical-align: middle !important;
+        }
+        .contest-list thead th a,
+        .contest-list thead th a.contest-sort-link {
+            color: #64748b !important;
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-decoration: none !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.8px !important;
+        }
+        .contest-list thead th a:hover {
+            color: #94a3b8 !important;
+        }
+
+        /* ── Rows ── */
+        .contest-list tbody tr {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: #0d1322 !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+        .contest-list tbody tr:hover {
+            background: rgba(0, 112, 243, 0.15) !important;
+            transform: translateY(-2px) scale(1.002) !important;
+            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* ── Cells ── */
+        .contest-list tbody td {
+            padding: 14px 20px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-left: none !important;
+            border-right: none !important;
+            vertical-align: middle !important;
+            color: #e2e8f0 !important;
+        }
+        .contest-list tbody td:first-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top-left-radius: 12px !important;
+            border-bottom-left-radius: 12px !important;
+        }
+        .contest-list tbody td:last-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top-right-radius: 12px !important;
+            border-bottom-right-radius: 12px !important;
+            text-align: right !important;
+        }
+
+        /* ── Contest block flex layout ── */
+        .contest-block {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 16px !important;
+            width: 100% !important;
+        }
+        .contest-left-info {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            flex-wrap: wrap !important;
+        }
+        .contest-right-pills {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin-left: auto !important;
+            padding-right: 8px !important;
+        }
+        .contest-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 5px 12px !important;
+            border-radius: 8px !important;
+            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
+            font-size: 13px !important;
+            white-space: nowrap !important;
+            transition: all 0.2s ease !important;
+        }
+        .contest-pill svg {
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Countdown pill (Cyan) */
+        .contest-pill-countdown {
+            background: rgba(56, 189, 248, 0.1) !important;
+            border: 1px solid rgba(56, 189, 248, 0.25) !important;
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+        }
+        .contest-pill-countdown .time-remaining {
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+        }
+
+        /* Schedule / Calendar pill (Slate) */
+        .contest-pill-schedule {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #94a3b8 !important;
+            font-weight: 500 !important;
+        }
+        .contest-duration-badge {
+            display: inline-block !important;
+            padding: 1px 6px !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-radius: 4px !important;
+            color: #cbd5e1 !important;
+            font-size: 11.5px !important;
+            margin-left: 4px !important;
+        }
+
+        /* ── Contest Title ── */
+        .contest-list-title {
+            font-size: 16.5px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            transition: color 0.2s ease !important;
+            letter-spacing: -0.2px !important;
+        }
+        .contest-list-title:hover {
+            color: #60a5fa !important;
+            text-decoration: none !important;
+        }
+
+        /* ── Modern Badges for Contests ── */
+        .contest-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 3px 10px !important;
+            border-radius: 6px !important;
+            font-family: 'Google Sans Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px !important;
+            vertical-align: middle !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+        }
+
+        /* Reset inner <a> tag: NEVER border, NEVER background */
+        .contest-tag a,
+        .contest-tags a {
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            color: inherit !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            text-decoration: none !important;
+        }
+
+        /* Organization Badge (Blue Glass - matching Category Badge) */
+        .contest-tag.contest-tag-org,
+        .contest-tag:has(a[href*="/organization/"]) {
+            background: rgba(59, 130, 246, 0.12) !important;
+            color: #93c5fd !important;
+            border: 1px solid rgba(59, 130, 246, 0.28) !important;
+        }
+        .contest-tag.contest-tag-org a,
+        .contest-tag:has(a[href*="/organization/"]) a {
+            color: #93c5fd !important;
+            border: none !important;
+            background: transparent !important;
+        }
+        .contest-tag.contest-tag-org i,
+        .contest-tag:has(a[href*="/organization/"]) i {
+            color: #60a5fa !important;
+            margin-right: 3px !important;
+        }
+        .contest-tag.contest-tag-org:hover,
+        .contest-tag:has(a[href*="/organization/"]):hover {
+            background: rgba(59, 130, 246, 0.22) !important;
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25) !important;
+            color: #ffffff !important;
+        }
+        .contest-tag.contest-tag-org:hover a,
+        .contest-tag:has(a[href*="/organization/"]):hover a {
+            color: #ffffff !important;
+        }
+
+        /* Class / Group Badge (Cyan Glass) */
+        .contest-tag.contest-tag-class {
+            background: rgba(6, 182, 212, 0.12) !important;
+            color: #67e8f9 !important;
+            border: 1px solid rgba(6, 182, 212, 0.28) !important;
+        }
+        .contest-tag.contest-tag-class a {
+            color: #67e8f9 !important;
+        }
+        .contest-tag.contest-tag-class i {
+            color: #22d3ee !important;
+        }
+
+        /* Hidden Badge (Slate Glass) */
+        .contest-tag.contest-tag-hidden {
+            background: rgba(100, 116, 139, 0.14) !important;
+            color: #94a3b8 !important;
+            border: 1px solid rgba(100, 116, 139, 0.25) !important;
+        }
+
+        /* Rated Badge (Amber Glass) */
+        .contest-tag.contest-tag-rated {
+            background: rgba(245, 158, 11, 0.14) !important;
+            color: #fcd34d !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+        }
+
+        /* Private Badge (Rose Glass) */
+        .contest-tag.contest-tag-private {
+            background: rgba(244, 63, 94, 0.14) !important;
+            color: #fda4af !important;
+            border: 1px solid rgba(244, 63, 94, 0.28) !important;
+        }
+
+        /* ── User Count ── */
+        .contest-list tbody td a[href*="ranking"],
+        .contest-list tbody td:nth-child(2) {
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            color: #a78bfa !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+        }
+        .contest-list tbody td a[href*="ranking"] {
+            text-decoration: none !important;
+            display: inline-block !important;
+            padding: 4px 10px !important;
+            background: rgba(167, 139, 250, 0.1) !important;
+            border: 1px solid rgba(167, 139, 250, 0.2) !important;
+            border-radius: 8px !important;
+            transition: all 0.2s ease !important;
+        }
+        .contest-list tbody td a[href*="ranking"]:hover {
+            background: rgba(167, 139, 250, 0.2) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* ── Participate Buttons ── */
+        .contest-list .participate-button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 9px 24px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            width: auto !important;
+            min-width: 90px !important;
+            text-align: center !important;
+        }
+        .contest-list .participate-button:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+        }
+        .contest-list .participate-button.disabled {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #64748b !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: none !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+        }
+
+        /* ── Past contest search input ── */
+        #search-form #search {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 10px 16px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+        }
+        #search-form #search:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+        }
+    </style>
+{% endblock %}
 {% block title_ruler %}{% endblock %}
-
 {% block title_row %}
     {% set tab = 'list' %}
     {% include "contest/contest-list-tabs.html" %}
 {% endblock %}
-
 {% macro contest_head(contest) %}
     {% spaceless %}
         <a href="{{ url('contest_view', contest.key) }}" class="contest-list-title">
@@ -46,32 +394,28 @@
         </a>
         <span class="contest-tags">
             {% if not contest.is_visible %}
-                <span style="background-color: #000000; color: #ffffff" class="contest-tag">
+                <span class="contest-tag contest-tag-hidden">
                     <i class="fa fa-eye-slash"></i> {{ _('hidden') }}
                 </span>
             {% endif %}
             {% if contest.is_organization_private %}
                 {% for org in contest.organizations.all() %}
-                    <span style="background-color: #cccccc" class="contest-tag">
-                        <a href="{{ org.get_absolute_url() }}" style="color: #000000">
-                            <i class="fa fa-lock"></i> {{ org.name }}
-                        </a>
+                    <span class="contest-tag contest-tag-org">
+                        <a href="{{ org.get_absolute_url() }}"><i class="fa fa-lock"></i> {{ org.name }}</a>
                     </span>
                 {% endfor %}
                 {% for class in contest.classes.all() %}
-                    <span style="background-color: #00ccff" class="contest-tag">
-                        <a href="{{ class.get_absolute_url() }}" style="color: #000000">
-                            <i class="fa fa-users"></i> {{ class.name }}
-                        </a>
+                    <span class="contest-tag contest-tag-class">
+                        <a href="{{ class.get_absolute_url() }}"><i class="fa fa-users"></i> {{ class.name }}</a>
                     </span>
                 {% endfor %}
             {% elif contest.is_private %}
-                <span style="background-color: #666666; color: #ffffff" class="contest-tag">
+                <span class="contest-tag contest-tag-private">
                     <i class="fa fa-lock"></i> {{ _('private') }}
                 </span>
             {% endif %}
             {% if contest.is_rated %}
-                <span style="background-color: #e54c14; color: #ffffff" class="contest-tag">
+                <span class="contest-tag contest-tag-rated">
                     <i class="fa fa-bar-chart"></i> {{ _('rated') }}
                 </span>
             {% endif %}
@@ -87,26 +431,21 @@
         </span>
     {% endspaceless %}
 {% endmacro %}
-
 {% macro time_left(contest) %}
-    <div class="time time-left">
-        {% if contest.time_limit %}
-            {{ contest.start_time|date(_("M j, Y, G:i")) }} -
-            {{ contest.end_time|date(_("M j, Y, G:i")) }}
-        {% else %}
-            {{ contest.start_time|date(_("M j, Y, G:i")) }}
-        {% endif %}
-        <br>
-        {% if contest.time_limit %}
-            {% set time_limit=contest.time_limit|timedelta('localized-no-seconds') %}
-            {{ _('%(time_limit)s window', time_limit=time_limit) }}
-        {% else %}
-            {% set duration=contest.contest_window_length|timedelta('localized-no-seconds') %}
-            {{ _('%(duration)s long', duration=duration) }}
-        {% endif %}
-    </div>
+    {% if contest.start_time %}
+        <span class="contest-pill contest-pill-schedule" title="{{ contest.start_time|date(_('M j, Y, G:i')) }}{% if contest.time_limit %} - {{ contest.end_time|date(_('M j, Y, G:i')) }}{% endif %}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            <span>{{ contest.start_time|date(_('M j, G:i')) }}</span>
+            {% if contest.time_limit %}
+                {% set time_limit=contest.time_limit|timedelta('localized-no-seconds') %}
+                <span class="contest-duration-badge">{{ time_limit }}</span>
+            {% else %}
+                {% set duration=contest.contest_window_length|timedelta('localized-no-seconds') %}
+                <span class="contest-duration-badge">{{ duration }}</span>
+            {% endif %}
+        </span>
+    {% endif %}
 {% endmacro %}
-
 {% macro user_count(contest, user) %}
     {% if contest.can_see_own_scoreboard(user) %}
         <a href="{{ url('contest_ranking', contest.key) }}">{{ contest.user_count }}</a>
@@ -114,7 +453,6 @@
         {{ contest.user_count }}
     {% endif %}
 {% endmacro %}
-
 {% macro contest_join(contest, request, finished_contests) %}
     {% if not request.in_contest %}
         <td>
@@ -140,37 +478,89 @@
         </td>
     {% endif %}
 {% endmacro %}
-
 {% block body %}
     <div class="content-description">
         {% if active_participations %}
             <h4>{{ _('Active contests') }}</h4>
-            <table class="contest-list table striped">
-                <thead>
-                <tr>
-                    <th style="width:90%">{{ _('Contest') }}</th>
-                    <th>{{ _('Users') }}</th>
-                    {% if not request.in_contest %}
-                        <th style="width:15%"></th>
-                    {% endif %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for participation in active_participations %}
-                    {% with contest=participation.contest %}
+            <div class="contest-table-card">
+                <table class="contest-list table striped">
+                    <thead>
+                    <tr>
+                        <th style="width:90%">{{ _('Contest') }}</th>
+                        <th>{{ _('Users') }}</th>
+                        {% if not request.in_contest %}
+                            <th style="width:15%"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for participation in active_participations %}
+                        {% with contest=participation.contest %}
+                            <tr>
+                                <td>
+                                    <div class="contest-block">
+                                        <div class="contest-left-info">
+                                            {{ contest_head(contest) }}
+                                        </div>
+                                        <div class="contest-right-pills">
+                                            {% if contest.start_time %}
+                                                {% if contest.time_limit %}
+                                                    <span class="contest-pill contest-pill-countdown" title="{{ _('Window ends in') }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                        {{ as_countdown(contest.time_limit_remaining(request.user)) }}
+                                                    </span>
+                                                {% elif contest.time_before_end %}
+                                                    <span class="contest-pill contest-pill-countdown" title="{{ _('Ends in') }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                        {{ as_countdown(contest.time_before_end) }}
+                                                    </span>
+                                                {% endif %}
+                                                {{ time_left(contest) }}
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    {{ user_count(contest, request.user) }}
+                                </td>
+                                {{ contest_join(contest, request, finished_contests) }}
+                            </tr>
+                        {% endwith %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+        {% if current_contests %}
+            <h4>{{ _('Ongoing contests') }}</h4>
+            <div class="contest-table-card">
+                <table class="contest-list table striped">
+                    <thead>
+                    <tr>
+                        <th style="width:90%">{{ _('Contest') }}</th>
+                        <th>{{ _('Users') }}</th>
+                        {% if not request.in_contest %}
+                            <th style="width:15%"></th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for contest in current_contests %}
                         <tr>
                             <td>
                                 <div class="contest-block">
-                                    {{ contest_head(contest) }}
-                                    {% if contest.start_time %}
-                                        <br>
-                                        {% if contest.time_limit %}
-                                            <span class="time">{{ _('Window ends in %(countdown)s', countdown=as_countdown(participation.time_remaining)) }}</span>
-                                        {% elif contest.time_before_end %}
-                                            <span class="time">{{ _('Ends in %(countdown)s', countdown=as_countdown(contest.time_before_end)) }}</span>
+                                    <div class="contest-left-info">
+                                        {{ contest_head(contest) }}
+                                    </div>
+                                    <div class="contest-right-pills">
+                                        {% if contest.start_time and contest.time_before_end %}
+                                            <span class="contest-pill contest-pill-countdown" title="{{ _('Ends in') }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                {{ as_countdown(contest.time_before_end) }}
+                                            </span>
                                         {% endif %}
                                         {{ time_left(contest) }}
-                                    {% endif %}
+                                    </div>
                                 </div>
                             </td>
                             <td>
@@ -178,84 +568,49 @@
                             </td>
                             {{ contest_join(contest, request, finished_contests) }}
                         </tr>
-                    {% endwith %}
-                {% endfor %}
-                </tbody>
-            </table>
-            <br>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% endif %}
-
-        {% if current_contests %}
-            <h4>{{ _('Ongoing contests') }}</h4>
-            <table class="contest-list table striped">
-                <thead>
-                <tr>
-                    <th style="width:90%">{{ _('Contest') }}</th>
-                    <th>{{ _('Users') }}</th>
-                    {% if not request.in_contest %}
-                        <th style="width:15%"></th>
-                    {% endif %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for contest in current_contests %}
-                    <tr>
-                        <td>
-                            <div class="contest-block">
-                                {{ contest_head(contest) }}
-                                {% if contest.start_time %}
-                                    <br>
-                                    {% if contest.time_before_end %}
-                                        <span class="time">{{ _('Ends in %(countdown)s', countdown=as_countdown(contest.time_before_end)) }}</span>
-                                    {% endif %}
-                                    {{ time_left(contest) }}
-                                {% endif %}
-                            </div>
-                        </td>
-                        <td>
-                            {{ user_count(contest, request.user) }}
-                        </td>
-                        {{ contest_join(contest, request, finished_contests) }}
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-            <br>
-        {% endif %}
-
         <h4>{{ _('Upcoming contests') }}</h4>
         {% if future_contests %}
-            <table class="contest-list table striped">
-                <thead>
-                <tr>
-                    <th>{{ _('Contest') }}</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for contest in future_contests %}
+            <div class="contest-table-card">
+                <table class="contest-list table striped">
+                    <thead>
                     <tr>
-                        <td>
-                            <div class="contest-block">
-                                {{ contest_head(contest) }}
-                                {% if contest.start_time %}
-                                    <br>
-                                    {% if contest.time_before_start %}
-                                        <span class="time">{{ _('Starting in %(countdown)s', countdown=as_countdown(contest.time_before_start)) }}</span>
-                                    {% endif %}
-                                    {{ time_left(contest) }}
-                                {% endif %}
-                            </div>
-                        </td>
+                        <th>{{ _('Contest') }}</th>
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for contest in future_contests %}
+                        <tr>
+                            <td>
+                                <div class="contest-block">
+                                    <div class="contest-left-info">
+                                        {{ contest_head(contest) }}
+                                    </div>
+                                    <div class="contest-right-pills">
+                                        {% if contest.start_time and contest.time_before_start %}
+                                            <span class="contest-pill contest-pill-countdown" title="{{ _('Starting in') }}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                                {{ as_countdown(contest.time_before_start) }}
+                                            </span>
+                                        {% endif %}
+                                        {{ time_left(contest) }}
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         {% else %}
-            <i>{{ _('There are no scheduled contests at this time.') }}</i>
-            <br>
+            <div class="contest-empty-card">
+                <i class="fa fa-info-circle"></i> {{ _('There are no scheduled contests at this time.') }}
+            </div>
         {% endif %}
-        <br>
-
         <h4 id="past-contests">{{ _('Past contests') }}</h4>
         {% if page_obj or search_query %}
             <div class="top-pagination-bar">
@@ -269,49 +624,56 @@
             </div>
         {% endif %}
         {% if past_contests %}
-            <table class="contest-list table striped">
-                <thead>
-                <tr>
-                    <th style="width:90%">
-                        <a href="{{ sort_links.name }}" class="contest-sort-link">{{ _('Contest') }}{{ sort_order.name }}</a>
-                    </th>
-                    <th>
-                        <a href="{{ sort_links.user_count }}" class="contest-sort-link">{{ _('Users') }}{{ sort_order.user_count }}</a>
-                    </th>
-                    {% if not request.in_contest %}
-                        <th style="width:15%"></th>
-                    {% endif %}
-                </tr>
-                </thead>
-                <tbody>
-                {% for contest in past_contests %}
+            <div class="contest-table-card">
+                <table class="contest-list table striped">
+                    <thead>
                     <tr>
-                        <td>
-                            <div class="contest-block">
-                                {{ contest_head(contest) }}
-                                {{ time_left(contest) }}
-                            </div>
-                        </td>
-                        <td>
-                            {{ user_count(contest, request.user) }}
-                        </td>
+                        <th style="width:90%">
+                            <a href="{{ sort_links.name }}" class="contest-sort-link">{{ _('Contest') }}{{ sort_order.name }}</a>
+                        </th>
+                        <th>
+                            <a href="{{ sort_links.user_count }}" class="contest-sort-link">{{ _('Users') }}{{ sort_order.user_count }}</a>
+                        </th>
                         {% if not request.in_contest %}
-                            <td><form action="{{ url('contest_join', contest.key) }}" method="post">
-                                    {% csrf_token %}
-                                    <input type="submit" class="unselectable button full participate-button"
-                                           value="{{ _('Virtual join') }}">
-                            </form></td>
+                            <th style="width:15%"></th>
                         {% endif %}
                     </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody>
+                    {% for contest in past_contests %}
+                        <tr>
+                            <td>
+                                <div class="contest-block">
+                                    <div class="contest-left-info">
+                                        {{ contest_head(contest) }}
+                                    </div>
+                                    <div class="contest-right-pills">
+                                        {{ time_left(contest) }}
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                {{ user_count(contest, request.user) }}
+                            </td>
+                            {% if not request.in_contest %}
+                                <td><form action="{{ url('contest_join', contest.key) }}" method="post">
+                                        {% csrf_token %}
+                                        <input type="submit" class="unselectable button full participate-button"
+                                               value="{{ _('Virtual join') }}">
+                                </form></td>
+                            {% endif %}
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
             {% if page_obj and page_obj.has_other_pages() %}
                 <div class="bottom-pagination-bar">{% include "list-pages.html" %}</div>
             {% endif %}
         {% else %}
-            <i>{{ _('There are no past contests.') }}</i>
-            <br>
+            <div class="contest-empty-card">
+                <i class="fa fa-info-circle"></i> {{ _('There are no past contests.') }}
+            </div>
         {% endif %}
     </div>
 {% endblock %}

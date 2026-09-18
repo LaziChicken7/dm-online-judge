@@ -29,6 +29,13 @@
             {% endblock %}
             {% block after_point scoped %}{% endblock %}
         </tr>
+    {% else %}
+        <tr class="empty-ranking-row">
+            <td colspan="15" style="text-align:center; padding: 40px 20px; color: #64748b; font-family: 'Google Sans Code', monospace; font-size: 14px;">
+                <i class="fa fa-info-circle" style="color: #38bdf8; margin-right: 8px;"></i>
+                {{ _('No participations recorded.') }}
+            </td>
+        </tr>
     {% endfor %}
     </tbody>
 </table>
