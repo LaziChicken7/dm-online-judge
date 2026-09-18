@@ -1,59 +1,374 @@
 {% extends "submission/info-base.html" %}
+
+{% block title_ruler %}{% endblock %}
+{% block header %}{% endblock %}
+
 {% block media %}
     <style>
-        .line {
-            position: relative;
+        /* Submission Header Card */
+        .src-header-card {
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 15, 30, 0.98) 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 20px !important;
+            padding: 22px 28px !important;
+            margin-bottom: 22px !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            backdrop-filter: blur(16px) !important;
+            box-sizing: border-box !important;
         }
 
-        .highlighter {
-            position: absolute;
-            width: 9999px;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            right: 0;
+        .src-header-left {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 5px !important;
         }
 
-        a:active .line .highlighter {
-            background: rgba(255, 212, 0, 0.48);
+        .src-header-tag {
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.08em !important;
+            text-transform: uppercase !important;
+            color: #38bdf8 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        .src-title-group {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+        }
+
+        .src-title-group h2 {
+            margin: 0 !important;
+            font-size: 22px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.02em !important;
+        }
+
+        .src-title-group h2 a {
+            color: #38bdf8 !important;
+            text-decoration: none !important;
+        }
+
+        .src-title-group h2 a:hover {
+            text-decoration: underline !important;
+        }
+
+        .src-meta-subtext {
+            font-size: 13px !important;
+            color: #94a3b8 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin-top: 3px !important;
+        }
+
+        .src-header-right {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            flex-wrap: wrap !important;
+        }
+
+        .src-action-btn {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #e2e8f0 !important;
+            padding: 8px 16px !important;
+            border-radius: 10px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+        }
+
+        .src-action-btn:hover {
+            background: rgba(56, 189, 248, 0.15) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Code Editor Container */
+        .code-editor-card {
+            background: #070b14 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 18px !important;
+            overflow: hidden !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
+            margin-bottom: 30px !important;
+        }
+
+        .code-editor-topbar {
+            background: #090e1c !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 10px 18px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .code-window-dots {
+            display: flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+        }
+
+        .dot {
+            width: 11px !important;
+            height: 11px !important;
+            border-radius: 50% !important;
+        }
+
+        .dot-red { background: #ef4444 !important; }
+        .dot-yellow { background: #f59e0b !important; }
+        .dot-green { background: #10b981 !important; }
+
+        .code-filename {
+            font-family: 'Fira Code', monospace !important;
+            font-size: 13px !important;
+            color: #cbd5e1 !important;
+            font-weight: 500 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .code-topbar-actions {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .code-btn-mini {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #94a3b8 !important;
+            padding: 5px 12px !important;
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+        }
+
+        .code-btn-mini:hover {
+            background: rgba(56, 189, 248, 0.15) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            color: #ffffff !important;
+        }
+
+        /* Code Area */
+        .code-content-wrap {
+            display: flex !important;
+            overflow-x: auto !important;
+            padding: 16px 0 !important;
+            font-family: 'Fira Code', 'Google Sans Code', monospace !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+        }
+
+        .code-line-numbers {
+            padding: 0 16px 0 20px !important;
+            text-align: right !important;
+            color: #475569 !important;
+            user-select: none !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+
+        .code-line-numbers a {
+            color: #475569 !important;
+            text-decoration: none !important;
+            display: block !important;
+        }
+
+        .code-line-numbers a:hover {
+            color: #94a3b8 !important;
+        }
+
+        .code-actual-body {
+            padding: 0 24px !important;
+            color: #e2e8f0 !important;
+            flex-grow: 1 !important;
+            white-space: pre !important;
+        }
+
+        .code-actual-body .highlight {
+            background: transparent !important;
+        }
+
+        .code-actual-body pre {
+            margin: 0 !important;
+            background: transparent !important;
+            font-family: inherit !important;
+            font-size: inherit !important;
+            line-height: inherit !important;
         }
     </style>
 {% endblock %}
 
-{% block body %}
-    <br>
-    <div><a href="{{ url('submission_status', submission.id) }}">{{ _('View status') }}</a></div>
-    <div><a href="{{ url('submission_source_raw', submission.id) }}">{{ _('View raw source') }}</a></div>
-    {% if request.user == submission.user.user or perms.judge.resubmit_other %}
-        <div><a href="{{ url('problem_submit', submission.problem.code, submission.id) }}">{{ _('Resubmit') }}</a></div>
-    {% endif %}
-    {% if perms.judge.rejudge_submission and not submission.is_locked %}
-        <div>
-            <form action="{{ url('submission_rejudge') }}" method="post">
-                {% csrf_token %}
-                <a href="#" onclick="parentNode.submit()">{{ _('Rejudge') }}</a>
-                <input type="hidden" name="id" value="{{ submission.id }}">
-                <input type="hidden" name="path" value="{{ url('submission_status', submission.id) }}">
-            </form>
+{% block js_media %}
+    <script type="text/javascript">
+        $(function () {
+            $('#btn-copy-src').click(function () {
+                var code = $('.code-actual-body pre').text();
+                var $btn = $(this);
+                function showCopied() {
+                    var oldHtml = $btn.html();
+                    $btn.html('<i class="fa fa-check"></i> {{ _("Copied!") }}');
+                    setTimeout(function () { $btn.html(oldHtml); }, 1500);
+                }
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(code).then(showCopied).catch(function () {
+                        fallbackCopy();
+                    });
+                } else {
+                    fallbackCopy();
+                }
+                function fallbackCopy() {
+                    var $temp = $('<textarea style="position:fixed;left:-9999px;top:0;">');
+                    $('body').append($temp);
+                    $temp.val(code).select();
+                    try {
+                        document.execCommand('copy');
+                        showCopied();
+                    } catch (e) {}
+                    $temp.remove();
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block title_row %}
+    {% set can_edit = submission.problem.is_editable_by(request.user) %}
+    <!-- Submission Header Card -->
+    <div class="src-header-card">
+        <div class="src-header-left">
+            <div class="src-header-tag">
+                <i class="fa fa-code"></i> SOURCE CODE &bull; SUBMISSION #{{ submission.id }} &bull; {{ submission.language.name }}
+            </div>
+            <div class="src-title-group">
+                {% if submission.is_graded %}
+                    {% if submission.result == 'AC' %}
+                        <i class="fa fa-check-circle" style="color: #10b981; font-size: 24px;"></i>
+                    {% elif submission.result == 'WA' %}
+                        <i class="fa fa-times-circle" style="color: #ef4444; font-size: 24px;"></i>
+                    {% elif submission.result == 'TLE' %}
+                        <i class="fa fa-clock-o" style="color: #f59e0b; font-size: 24px;"></i>
+                    {% elif submission.result == 'CE' or submission.result == 'IE' %}
+                        <i class="fa fa-exclamation-triangle" style="color: #f87171; font-size: 24px;"></i>
+                    {% else %}
+                        <i class="fa fa-times-circle" style="color: #ef4444; font-size: 24px;"></i>
+                    {% endif %}
+                {% else %}
+                    <i class="fa fa-circle-o-notch fa-spin" style="color: #38bdf8; font-size: 24px;"></i>
+                {% endif %}
+                <h2>
+                    {{ _('Submission of') }} <a href="{{ url('problem_detail', submission.problem.code) }}">{{ submission.problem.name }}</a> {{ _('by') }} <a href="{{ url('user_page', submission.user.user.username) }}">{{ submission.user.user.username }}</a>
+                </h2>
+            </div>
+            <div class="src-meta-subtext">
+                <span><i class="fa fa-calendar-o"></i> {{ submission.date|date(_('N j, Y, g:i a')) }}</span>
+                {% if submission.judged_on %}
+                    <span>&bull;</span>
+                    <span><i class="fa fa-server"></i> Judged on {{ submission.judged_on.name }}</span>
+                {% endif %}
+                {% if submission.is_graded %}
+                    <span>&bull;</span>
+                    {% if submission.result == 'AC' %}
+                        <span style="color: #10b981; font-weight: 600;"><i class="fa fa-check"></i> Accepted ({{ submission.points|floatformat(1) }}/{{ submission.problem.points|floatformat(1) }} pts)</span>
+                    {% elif submission.result == 'WA' %}
+                        <span style="color: #ef4444; font-weight: 600;"><i class="fa fa-times"></i> Wrong Answer ({{ submission.points|floatformat(1) }}/{{ submission.problem.points|floatformat(1) }} pts)</span>
+                    {% elif submission.result == 'TLE' %}
+                        <span style="color: #f59e0b; font-weight: 600;"><i class="fa fa-clock-o"></i> Time Limit Exceeded</span>
+                    {% else %}
+                        <span>{{ submission.result }}</span>
+                    {% endif %}
+                {% endif %}
+            </div>
         </div>
-    {% endif %}
-    <br>
-    <hr class="half-hr">
-    <br>
-    <div class="source-wrap">
-        <table>
-            <tr>
-                <td class="source-ln">
-                    <div>
-                        {% for line in raw_source.split('\n') %}
-                            <a href="#line-{{ loop.index }}" name="line-{{ loop.index }}">
-                                <pre class="line">{{ loop.index }}</pre>
-                            </a>
-                        {% endfor %}
-                    </div>
-                </td>
-                <td class="source-code">{{ highlighted_source }}</td>
-            </tr>
-        </table>
+        <div class="src-header-right">
+            <a href="{{ url('submission_status', submission.id) }}" class="src-action-btn">
+                <i class="fa fa-dashboard"></i> {{ _('View status') }}
+            </a>
+            <a href="{{ url('submission_source_raw', submission.id) }}" class="src-action-btn" target="_blank">
+                <i class="fa fa-file-text-o"></i> {{ _('View raw source') }}
+            </a>
+            {% if request.user == submission.user.user or perms.judge.resubmit_other %}
+                <a href="{{ url('problem_submit', submission.problem.code, submission.id) }}" class="src-action-btn">
+                    <i class="fa fa-paper-plane"></i> {{ _('Resubmit') }}
+                </a>
+            {% endif %}
+            {% if perms.judge.rejudge_submission and not submission.is_locked %}
+                <form id="rejudge-form" action="{{ url('submission_rejudge') }}" method="post" style="display:none;">
+                    {% csrf_token %}
+                    <input type="hidden" name="id" value="{{ submission.id }}">
+                    <input type="hidden" name="path" value="{{ url('submission_status', submission.id) }}">
+                </form>
+                <a href="#" onclick="document.getElementById('rejudge-form').submit(); return false;" class="src-action-btn">
+                    <i class="fa fa-refresh"></i> {{ _('Rejudge') }}
+                </a>
+            {% endif %}
+            {% if can_edit or perms.judge.change_submission or request.user.is_staff %}
+                <a href="{{ url('admin:judge_submission_change', submission.id) }}" target="_blank" class="src-action-btn">
+                    <i class="fa fa-sliders"></i> {{ _('Admin') }}
+                </a>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block body %}
+    {% set lines = raw_source.split('
+') %}
+    <!-- Modern IDE Code Viewer Card -->
+    <div class="code-editor-card">
+        <div class="code-editor-topbar">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <div class="code-window-dots">
+                    <span class="dot dot-red"></span>
+                    <span class="dot dot-yellow"></span>
+                    <span class="dot dot-green"></span>
+                </div>
+                <div class="code-filename">
+                    <i class="fa fa-file-code-o" style="color: #38bdf8;"></i>
+                    <span>solution.{{ submission.language.common_name or 'cpp' }}</span>
+                    <small style="color: #64748b; font-weight: normal;">({{ lines|length }} lines &bull; {{ raw_source|length }} bytes)</small>
+                </div>
+            </div>
+            <div class="code-topbar-actions">
+                <button type="button" class="code-btn-mini" id="btn-copy-src">
+                    <i class="fa fa-copy"></i> {{ _('Copy code') }}
+                </button>
+                <a href="{{ url('submission_source_raw', submission.id) }}" download="solution_{{ submission.id }}.{{ submission.language.common_name or 'txt' }}" class="code-btn-mini">
+                    <i class="fa fa-download"></i> {{ _('Download') }}
+                </a>
+            </div>
+        </div>
+        <div class="code-content-wrap">
+            <div class="code-line-numbers">
+                {% for line in lines %}
+                    <a href="#line-{{ loop.index }}" name="line-{{ loop.index }}">{{ loop.index }}</a>
+                {% endfor %}
+            </div>
+            <div class="code-actual-body">
+                {{ highlighted_source }}
+            </div>
+        </div>
     </div>
 {% endblock %}
