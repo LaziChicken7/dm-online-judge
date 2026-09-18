@@ -1640,6 +1640,41 @@
         border-color: rgba(56, 189, 248, 0.8) !important;
     }
 
+    
+    /* Problem Page Vector Icon Alignments */
+    .header-action-btn svg,
+    .header-submit-btn svg {
+        margin-right: 6px !important;
+        vertical-align: middle !important;
+    }
+
+    .sidebar-action-item a svg {
+        margin-right: 10px !important;
+        flex-shrink: 0 !important;
+        vertical-align: middle !important;
+    }
+
+    .problem-info-entry svg {
+        margin-right: 8px !important;
+        flex-shrink: 0 !important;
+        vertical-align: middle !important;
+    }
+
+    .sidebar-toggle-entry .toggle svg {
+        margin-right: 8px !important;
+        vertical-align: middle !important;
+        transition: transform 0.2s ease !important;
+    }
+
+    .sidebar-toggle-entry .toggle.open svg {
+        transform: rotate(90deg) !important;
+    }
+
+    .problem-footer-actions .button.clarify svg {
+        margin-right: 6px !important;
+        vertical-align: middle !important;
+    }
+
     /* ----------------------------------------------------
        Problems Page: Coding Platform UI 
        ---------------------------------------------------- */
@@ -2503,21 +2538,22 @@
     
     /* 1. Problem Header Card */
     .problem-header-card {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        position: sticky !important;
+        top: 96px !important;
+        z-index: 90 !important;
+        background: rgba(13, 19, 34, 0.95) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
         border-radius: 16px !important;
-        backdrop-filter: blur(12px) !important;
-        padding: 20px 32px !important;
+        backdrop-filter: blur(16px) !important;
+        padding: 16px 28px !important;
         margin-bottom: 24px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
         display: flex !important;
         justify-content: space-between !important;
         align-items: center !important;
         box-sizing: border-box !important;
         width: 100% !important;
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.25s ease, 
-                    box-shadow 0.25s ease !important;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
     }
 
     .problem-header-card:hover {
@@ -2722,6 +2758,8 @@
 
     /* 4. Sidebar Glass Card */
     #content-right .info-float {
+        position: sticky !important;
+        top: 204px !important;
         background: rgba(255, 255, 255, 0.03) !important;
         border: 1px solid rgba(255, 255, 255, 0.05) !important;
         border-radius: 16px !important;
