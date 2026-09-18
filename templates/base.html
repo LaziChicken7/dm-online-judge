@@ -168,6 +168,14 @@
             }
         </style>
     </noscript>
+    <script>
+        (function () {
+            var savedTheme = localStorage.getItem('dmoj_theme');
+            var theme = savedTheme === 'light' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+            document.documentElement.classList.add('theme-' + theme);
+        })();
+    </script>
 </head>
 <body{% if perms.judge.test_site %} data-theme="{{ SITE_THEME_NAME }}"{% endif %}>
 <svg width="0" height="0" style="display: block">
@@ -1341,6 +1349,150 @@
         background: rgba(239, 68, 68, 0.15) !important;
         border-color: rgba(239, 68, 68, 0.4) !important;
         color: #f87171 !important;
+    }
+
+    /* =========================================================
+       THEME TOGGLE & LIGHT MODE OVERRIDES
+       ========================================================= */
+    .portfolio-theme-toggle {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 36px !important;
+        height: 36px !important;
+        border-radius: 50% !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #e2e8f0 !important;
+        cursor: pointer !important;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        outline: none !important;
+        box-sizing: border-box !important;
+        padding: 0 !important;
+    }
+
+    .portfolio-theme-toggle:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+        transform: scale(1.06) !important;
+        box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+    }
+
+    /* In Dark Mode (Default) - Show Sun icon to switch to light */
+    html:not([data-theme="light"]) .theme-icon.moon-icon,
+    html[data-theme="dark"] .theme-icon.moon-icon {
+        display: none !important;
+    }
+
+    html:not([data-theme="light"]) .theme-icon.sun-icon,
+    html[data-theme="dark"] .theme-icon.sun-icon {
+        display: block !important;
+    }
+
+    /* In Light Mode - Show Moon icon to switch to dark */
+    html[data-theme="light"] .theme-icon.sun-icon {
+        display: none !important;
+    }
+
+    html[data-theme="light"] .theme-icon.moon-icon {
+        display: block !important;
+    }
+
+    /* Light Mode Overrides */
+    html[data-theme="light"],
+    html[data-theme="light"] body {
+        background-color: #f8fafc !important;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(2, 132, 199, 0.08), transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.06), transparent 50%) !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] #portfolio-nav {
+        background: rgba(255, 255, 255, 0.88) !important;
+        border-color: rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .portfolio-nav-link {
+        color: #475569 !important;
+    }
+
+    html[data-theme="light"] .portfolio-nav-link:hover,
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active {
+        color: #0284c7 !important;
+        background: rgba(2, 132, 199, 0.08) !important;
+    }
+
+    html[data-theme="light"] .portfolio-theme-toggle,
+    html[data-theme="light"] .portfolio-lang-pill,
+    html[data-theme="light"] .portfolio-user-pill {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(0, 0, 0, 0.1) !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .hero-container,
+    html[data-theme="light"] .stat-card,
+    html[data-theme="light"] .sidebox,
+    html[data-theme="light"] #blog-container .blog-content.sidebox,
+    html[data-theme="light"] #blog-container .blog-sidebox.sidebox,
+    html[data-theme="light"] #new-comment.comment-submit,
+    html[data-theme="light"] .comment-display,
+    html[data-theme="light"] .footer-inner-card,
+    html[data-theme="light"] .problem-header-card,
+    html[data-theme="light"] .edit-card,
+    html[data-theme="light"] .user-sidebar,
+    html[data-theme="light"] .user-content {
+        background: #ffffff !important;
+        border-color: rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06) !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] h1,
+    html[data-theme="light"] h2,
+    html[data-theme="light"] h3,
+    html[data-theme="light"] h4,
+    html[data-theme="light"] .hero-title,
+    html[data-theme="light"] .stat-value,
+    html[data-theme="light"] .post-detail-title,
+    html[data-theme="light"] .footer-brand-name {
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] p,
+    html[data-theme="light"] .hero-subtitle,
+    html[data-theme="light"] .stat-desc,
+    html[data-theme="light"] .footer-subtitle,
+    html[data-theme="light"] .comment-display .detail .header,
+    html[data-theme="light"] .content-description {
+        color: #475569 !important;
+    }
+
+    html[data-theme="light"] .comment-display .content.content-description {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        border-left-color: #0284c7 !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .comment-display .content .comment-body {
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .comment-display .content .comment-body p {
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .comment-display .vote {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    html[data-theme="light"] .comment-display .vote .comment-score {
+        color: #0f172a !important;
     }
 
     /* =========================================================
@@ -4249,6 +4401,12 @@
     </div>
 
     <div class="portfolio-nav-right">
+        <!-- Theme Toggle Button (Light/Dark Mode) -->
+        <button type="button" id="theme-toggle-btn" class="portfolio-theme-toggle" onclick="window.toggleTheme()" title="{{ _('Toggle Light / Dark Mode') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon sun-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon moon-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        </button>
+
         <!-- Language Switcher in Navbar -->
         <div class="portfolio-nav-item portfolio-lang-dropdown-item">
             <div class="portfolio-lang-pill" title="{{ _('Change language') }}">
@@ -4399,5 +4557,17 @@
         </div>
     </footer>
 </div>
+    <script>
+        window.toggleTheme = function () {
+            var current = document.documentElement.getAttribute('data-theme') || 'dark';
+            var next = current === 'light' ? 'dark' : 'light';
+            document.documentElement.setAttribute('data-theme', next);
+            document.documentElement.classList.remove('theme-dark', 'theme-light');
+            document.documentElement.classList.add('theme-' + next);
+            localStorage.setItem('dmoj_theme', next);
+            document.cookie = 'dmoj_theme=' + next + '; path=/; max-age=31536000';
+            return next;
+        };
+    </script>
 </body>
 </html>
