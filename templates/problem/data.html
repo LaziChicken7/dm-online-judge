@@ -296,7 +296,10 @@
                 var pairIdx = 0;
 
                 $rows.each(function () {
-                    if (pairIdx >= pairs.length) return;
+                    if (pairIdx >= pairs.length) {
+                        $(this).remove();
+                        return;
+                    }
                     var $tr = $(this);
                     var $input = $tr.find('select[id$=input_file]');
                     var $output = $tr.find('select[id$=output_file]');
@@ -328,6 +331,7 @@
                         $points.val('1');
                     }
                 }
+                $total.val($tbody.find('tr').length);
             }
 
             // Auto-populate on page load if valid files exist and cases are not yet filled
@@ -392,7 +396,7 @@
                     var detectedPairs = detectTestPairs(window.valid_files);
                     if (detectedPairs.length > 0) {
                         populateAllPairs(detectedPairs);
-                        $('#auto-populate-notice').fadeIn(300);
+                        $('#auto-populate-notice').addClass('is-visible');
                     }
                 } else {
                     var $link = $('a[href*="_Tests.zip"], a[href*=".zip"]');
@@ -412,7 +416,7 @@
                                 var detectedPairs = detectTestPairs(filenames);
                                 if (detectedPairs.length > 0) {
                                     populateAllPairs(detectedPairs);
-                                    $('#auto-populate-notice').fadeIn(300);
+                                    $('#auto-populate-notice').addClass('is-visible');
                                 }
                             }
                         }).catch(function (err) {
@@ -422,9 +426,13 @@
                 }
             });
 
-            $(document).on('change', '#id_problem-data-zipfile', function (e) {
+            // Uncheck clear checkbox when a new zip is selected
+            // and auto-populate test cases immediately before submit
+            $(document).on('change', '#id_problem-data-zipfile, input[type="file"][name$="zipfile"]', function (e) {
                 var file = e.target.files && e.target.files[0];
                 if (!file) return;
+
+                $('input[name$="-clear"]').prop('checked', false);
 
                 var reader = new FileReader();
                 reader.onload = function (ev) {
@@ -448,25 +456,25 @@
                     var detectedPairs = detectTestPairs(filenames);
                     if (detectedPairs.length > 0) {
                         populateAllPairs(detectedPairs);
-                        $('#auto-populate-notice').fadeIn(300);
+                        $('#auto-populate-notice').addClass('is-visible');
                     }
                 };
                 reader.readAsArrayBuffer(file);
             });
 
-            if (window.valid_files && window.valid_files.length) {
-                var detectedPairs = detectTestPairs(window.valid_files);
-                if (detectedPairs.length > 0) {
-                    var hasFilledRows = false;
-                    $table.find('select[id$=input_file]').each(function () {
-                        if ($(this).val()) hasFilledRows = true;
-                    });
-                    if (!hasFilledRows) {
-                        populateAllPairs(detectedPairs);
-                    }
-                    $('#auto-populate-notice').show();
+            // When user checks Clear zip checkbox: immediately remove all test cases and hide alert!
+            $(document).on('change', 'input[name$="-clear"]', function () {
+                if ($(this).is(':checked')) {
+                    $table.find('tbody:first tr').remove();
+                    $total.val(0);
+                    $('#auto-populate-notice').removeClass('is-visible');
                 }
-            }
+            });
+
+            // Hide banner upon submitting form
+            $('form').on('submit', function () {
+                $('#auto-populate-notice').removeClass('is-visible');
+            });
 
             $('a#add-case-row').click(function () {
                 var $tr;
@@ -796,6 +804,7 @@
 
         /* Alert Banner (Image #2) */
         .auto-fill-alert {
+            display: none !important;
             background: rgba(245, 158, 11, 0.1) !important;
             border: 1px solid rgba(245, 158, 11, 0.3) !important;
             border-left: 4px solid #f59e0b !important;
@@ -803,11 +812,14 @@
             padding: 16px 20px !important;
             margin: 18px 0 !important;
             color: #fef3c7 !important;
-            display: flex !important;
             align-items: flex-start !important;
             justify-content: space-between !important;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 16px rgba(245, 158, 11, 0.08) !important;
             box-sizing: border-box !important;
+        }
+
+        .auto-fill-alert.is-visible {
+            display: flex !important;
         }
 
         .alert-content {

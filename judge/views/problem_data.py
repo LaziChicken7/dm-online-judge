@@ -202,6 +202,14 @@ class ProblemDataView(TitleMixin, ProblemManagerMixin):
     def post(self, request, *args, **kwargs):
         self.object = problem = self.get_object()
         data_form = self.get_data_form(post=True)
+
+        if 'problem-data-zipfile-clear' in request.POST:
+            if data_form.is_valid():
+                data = data_form.save()
+                problem.cases.all().delete()
+                ProblemDataCompiler.generate(problem, data, problem.cases.all(), [])
+                return HttpResponseRedirect(request.get_full_path())
+
         try:
             valid_files = self.get_valid_files(data_form.instance, post=True)
             data_form.zip_valid = True
