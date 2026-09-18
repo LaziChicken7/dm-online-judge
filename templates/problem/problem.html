@@ -146,7 +146,9 @@
             <span>{{ _('Best submissions') }}</span>
         </a>
     </div>
-    <div class="sidebar-actions-group">
+    {% set has_sidebar_actions = vote_perm.can_view() or (editorial and editorial.is_accessible_by(request.user) and not request.in_contest) or can_edit_problem or (request.user.is_authenticated and has_tickets) or problem.is_subs_manageable_by(request.user) or perms.judge.clone_problem %}
+    {% if has_sidebar_actions %}
+        <div class="sidebar-actions-group">
         {% if vote_perm.can_view() %}
             {% if vote_perm.can_vote() %}
                 <div class="sidebar-action-item">
@@ -225,6 +227,7 @@
     </div>
 
     <hr class="sidebar-divider">
+    {% endif %}
 
     <div class="sidebar-specs-group">
         <div class="problem-info-entry">
