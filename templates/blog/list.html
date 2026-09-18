@@ -9,6 +9,229 @@
     <link rel="alternate" type="application/rss+xml" href="{{ url('comment_rss') }}" title="RSS Comment Feed">
     <link rel="alternate" type="application/atom+xml" href="{{ url('problem_atom') }}" title="Atom Problem Feed">
     <link rel="alternate" type="application/rss+xml" href="{{ url('problem_rss') }}" title="RSS Problem Feed">
+    <style>
+        /* =========================================================
+           ONGOING & UPCOMING CONTESTS MODERN SIDEBOX STYLING
+           ========================================================= */
+        .sidebox-header-flex {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 18px !important;
+            padding-bottom: 14px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+        }
+
+        .sidebox-title-wrap {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+
+        .sidebox-title-wrap h3 {
+            margin: 0 !important;
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.01em !important;
+        }
+
+        .contest-live-dot {
+            width: 8px !important;
+            height: 8px !important;
+            background-color: #10b981 !important;
+            border-radius: 50% !important;
+            box-shadow: 0 0 10px #10b981, 0 0 20px #10b981 !important;
+            animation: pulse-live 2s infinite !important;
+        }
+
+        @keyframes pulse-live {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1.1); box-shadow: 0 0 0 8px rgba(16, 185, 129, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .sidebox-header-icon.ongoing {
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 10px !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #f59e0b !important;
+            font-size: 15px !important;
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.15) !important;
+        }
+
+        .sidebox-header-icon.upcoming {
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 10px !important;
+            background: rgba(56, 189, 248, 0.12) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: #38bdf8 !important;
+            font-size: 15px !important;
+        }
+
+        .ongoing-contest-card {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 16px !important;
+            padding: 16px 18px !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            box-sizing: border-box !important;
+            margin-bottom: 12px !important;
+        }
+
+        .ongoing-contest-card:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        .ongoing-contest-card:hover {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4), 0 0 16px rgba(56, 189, 248, 0.1) !important;
+            transform: translateY(-2px) !important;
+        }
+
+        .ongoing-card-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .ongoing-live-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 3px 10px !important;
+            border-radius: 100px !important;
+            background: rgba(16, 185, 129, 0.12) !important;
+            border: 1px solid rgba(16, 185, 129, 0.3) !important;
+            color: #10b981 !important;
+            font-size: 10.5px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.5px !important;
+        }
+
+        .ongoing-live-tag.upcoming {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            color: #38bdf8 !important;
+        }
+
+        .ongoing-rated-tag {
+            font-size: 10.5px !important;
+            color: #f59e0b !important;
+            background: rgba(245, 158, 11, 0.1) !important;
+            border: 1px solid rgba(245, 158, 11, 0.25) !important;
+            padding: 2px 8px !important;
+            border-radius: 6px !important;
+            font-weight: 600 !important;
+        }
+
+        .live-dot-mini {
+            width: 6px !important;
+            height: 6px !important;
+            background-color: #10b981 !important;
+            border-radius: 50% !important;
+        }
+
+        .ongoing-contest-name {
+            margin: 0 !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+
+        .ongoing-contest-name a {
+            color: #ffffff !important;
+            text-decoration: none !important;
+            transition: color 0.2s ease !important;
+        }
+
+        .ongoing-contest-name a:hover {
+            color: #38bdf8 !important;
+        }
+
+        .ongoing-timer-strip {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            background: rgba(0, 0, 0, 0.3) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 10px !important;
+            padding: 8px 12px !important;
+        }
+
+        .timer-label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-size: 12px !important;
+            color: #94a3b8 !important;
+            font-weight: 500 !important;
+        }
+
+        .timer-label i {
+            color: #f59e0b !important;
+        }
+
+        .timer-countdown, .timer-countdown .time-remaining {
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            color: #38bdf8 !important;
+        }
+
+        .ongoing-action-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 9px 16px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            color: #ffffff !important;
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .ongoing-action-btn:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 18px rgba(56, 189, 248, 0.45) !important;
+            border-color: rgba(56, 189, 248, 0.8) !important;
+            color: #ffffff !important;
+        }
+
+        .ongoing-action-btn.secondary {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+            color: #cbd5e1 !important;
+            box-shadow: none !important;
+        }
+
+        .ongoing-action-btn.secondary:hover {
+            background: rgba(255, 255, 255, 0.1) !important;
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            color: #38bdf8 !important;
+        }
+    </style>
 {% endblock %}
 
 {% block js_media %}
@@ -124,16 +347,43 @@
             {% endif %}
             {% if current_contests %}
                 <div class="blog-sidebox sidebox">
-                    <h3>{{ _('Ongoing contests') }} <i class="fa fa-trophy"></i></h3>
-                    <div class="sidebox-content sidebox-ongoing-contest">
+                    <div class="sidebox-header-flex">
+                        <div class="sidebox-title-wrap">
+                            <h3>{{ _('Ongoing contests') }}</h3>
+                            <span class="contest-live-dot" title="Live Now"></span>
+                        </div>
+                        <div class="sidebox-header-icon ongoing">
+                            <i class="fa fa-trophy"></i>
+                        </div>
+                    </div>
+                    <div class="sidebox-content sidebox-ongoing-contest" style="padding: 0; background: transparent; border: none;">
                         {% for contest in current_contests %}
-                            <div class="contest">
-                                <div class="contest-list-title">
+                            <div class="ongoing-contest-card">
+                                <div class="ongoing-card-top">
+                                    <span class="ongoing-live-tag">
+                                        <span class="live-dot-mini"></span>
+                                        {{ _('HAPPENING NOW') }}
+                                    </span>
+                                    {% if contest.is_rated %}
+                                        <span class="ongoing-rated-tag"><i class="fa fa-star"></i> Rated</span>
+                                    {% endif %}
+                                </div>
+                                <h4 class="ongoing-contest-name">
                                     <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
+                                </h4>
+                                <div class="ongoing-timer-strip">
+                                    <div class="timer-label">
+                                        <i class="fa fa-hourglass-half"></i>
+                                        <span>{{ _('Ends in') }}</span>
+                                    </div>
+                                    <div class="timer-countdown">
+                                        {{ as_countdown(contest.time_before_end) }}
+                                    </div>
                                 </div>
-                                <div class="time">
-                                    {{ _('Ends in %(countdown)s.', countdown=as_countdown(contest.time_before_end)) }}
-                                </div>
+                                <a href="{{ url('contest_view', contest.key) }}" class="ongoing-action-btn">
+                                    <span>{{ _('Enter Contest') }}</span>
+                                    <i class="fa fa-arrow-right"></i>
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
@@ -142,16 +392,42 @@
 
             {% if future_contests %}
                 <div class="blog-sidebox sidebox">
-                    <h3>{{ _('Upcoming contests') }} <i class="fa fa-trophy"></i></h3>
-                    <div class="sidebox-content">
+                    <div class="sidebox-header-flex">
+                        <div class="sidebox-title-wrap">
+                            <h3>{{ _('Upcoming contests') }}</h3>
+                        </div>
+                        <div class="sidebox-header-icon upcoming">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                    </div>
+                    <div class="sidebox-content" style="padding: 0; background: transparent; border: none;">
                         {% for contest in future_contests %}
-                            <div class="contest">
-                                <div class="contest-list-title">
+                            <div class="ongoing-contest-card upcoming">
+                                <div class="ongoing-card-top">
+                                    <span class="ongoing-live-tag upcoming">
+                                        <i class="fa fa-clock-o"></i>
+                                        {{ _('UPCOMING') }}
+                                    </span>
+                                    {% if contest.is_rated %}
+                                        <span class="ongoing-rated-tag"><i class="fa fa-star"></i> Rated</span>
+                                    {% endif %}
+                                </div>
+                                <h4 class="ongoing-contest-name">
                                     <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
+                                </h4>
+                                <div class="ongoing-timer-strip">
+                                    <div class="timer-label">
+                                        <i class="fa fa-clock-o"></i>
+                                        <span>{{ _('Starts in') }}</span>
+                                    </div>
+                                    <div class="timer-countdown">
+                                        {{ as_countdown(contest.time_before_start) }}
+                                    </div>
                                 </div>
-                                <div class="time">
-                                    {{ _('Starting in %(countdown)s.', countdown=as_countdown(contest.time_before_start)) }}
-                                </div>
+                                <a href="{{ url('contest_view', contest.key) }}" class="ongoing-action-btn secondary">
+                                    <span>{{ _('View Details') }}</span>
+                                    <i class="fa fa-arrow-right"></i>
+                                </a>
                             </div>
                         {% endfor %}
                     </div>
