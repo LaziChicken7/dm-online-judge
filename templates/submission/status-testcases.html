@@ -5,13 +5,143 @@
 {% endif %}
 {% set is_pretest = submission.is_pretested %}
 
+{# Hidden metadata for client-side real-time DOM synchronization #}
+<div id="grading-meta"
+     data-status="{{ submission.status }}"
+     data-result="{{ submission.result or '' }}"
+     data-graded="{{ '1' if submission.is_graded else '0' }}"
+     style="display:none;"></div>
+
+{# 1. Verdict Hero Card (Real-Time Synchronized) #}
+<div class="verdict-hero-card">
+    <div class="verdict-badge-wrap">
+        {% if submission.is_graded %}
+            {% if submission.result == 'AC' %}
+                <div class="verdict-badge verdict-ac">
+                    <i class="fa fa-check-circle"></i> ACCEPTED
+                </div>
+            {% elif submission.result == 'WA' %}
+                <div class="verdict-badge verdict-wa">
+                    <i class="fa fa-times-circle"></i> WRONG ANSWER
+                </div>
+            {% elif submission.result == 'TLE' %}
+                <div class="verdict-badge verdict-tle">
+                    <i class="fa fa-clock-o"></i> TIME LIMIT EXCEEDED
+                </div>
+            {% elif submission.result == 'CE' %}
+                <div class="verdict-badge verdict-ce">
+                    <i class="fa fa-exclamation-triangle"></i> COMPILATION ERROR
+                </div>
+            {% elif submission.result == 'IE' %}
+                <div class="verdict-badge verdict-ce">
+                    <i class="fa fa-exclamation-triangle"></i> INTERNAL ERROR
+                </div>
+            {% else %}
+                <div class="verdict-badge verdict-wa">
+                    <i class="fa fa-times-circle"></i> {{ submission.result or 'FAILED' }}
+                </div>
+            {% endif %}
+            <div class="verdict-score-text">
+                <div class="verdict-score-main">
+                    {{ submission.case_points|floatformat(0) }} / {{ submission.case_total|floatformat(0) }} Cases
+                    {% if submission.problem.points %}
+                        ({{ submission.points|floatformat(1) }} / {{ submission.problem.points|floatformat(1) }} pts)
+                    {% endif %}
+                </div>
+                <div class="verdict-score-sub">
+                    {% if submission.result == 'AC' %}
+                        100% Score &bull; All test cases passed successfully
+                    {% elif submission.result == 'WA' %}
+                        Test cases failed verification
+                    {% elif submission.result == 'TLE' %}
+                        Time limit exceeded on some test cases
+                    {% else %}
+                        Status code: {{ submission.result }}
+                    {% endif %}
+                </div>
+            </div>
+        {% else %}
+            <div class="verdict-badge verdict-grading">
+                <i class="fa fa-circle-o-notch fa-spin"></i> GRADING
+            </div>
+            <div class="verdict-score-text">
+                <div class="verdict-score-main">
+                    {% set done_cases = submission.test_cases.count() %}
+                    {% set total_cases = submission.problem.cases.count() or 0 %}
+                    {{ done_cases }}{% if total_cases > 0 %} / {{ total_cases }}{% endif %} Cases Graded
+                </div>
+                <div class="verdict-score-sub">
+                    Running test case #{{ submission.test_cases.count() + 1 }}...
+                </div>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="verdict-stats-grid">
+        <div class="stat-chip">
+            <span class="stat-chip-label">Max Runtime</span>
+            <span class="stat-chip-val" style="color: #38bdf8;">
+                {{ max_execution_time|floatformat(3) }}s
+                <small style="font-size: 11px; color: #64748b;">/ {{ time_limit|floatformat(1) }}s</small>
+            </span>
+        </div>
+        <div class="stat-chip">
+            <span class="stat-chip-label">Total Time</span>
+            <span class="stat-chip-val">
+                {% if submission.result == 'TLE' %}
+                    &gt; {{ time_limit|floatformat(3) }}s
+                {% else %}
+                    {{ (submission.time or 0)|floatformat(3) }}s
+                {% endif %}
+            </span>
+        </div>
+        <div class="stat-chip">
+            <span class="stat-chip-label">Peak Memory</span>
+            <span class="stat-chip-val">
+                {% if submission.memory %}
+                    {{ submission.memory|kbdetailformat }}
+                {% else %}
+                    ---
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
+
+{# 2. Quick Testcases Strip (Real-Time Live Updates) #}
+{% set test_count = submission.test_cases.count() %}
+{% if test_count > 0 or not submission.is_graded %}
+    <div class="quick-test-strip">
+        {% for tc in submission.test_cases.order_by('case') %}
+            <a href="#case-row-{{ tc.case }}" class="quick-pill {{ tc.status if tc.status in ['AC', 'WA', 'TLE'] else 'other' }}">
+                #{{ tc.case }}
+                {% if tc.status == 'AC' %}
+                    <i class="fa fa-check"></i>
+                {% elif tc.status == 'WA' %}
+                    <i class="fa fa-times"></i>
+                {% elif tc.status == 'TLE' %}
+                    <i class="fa fa-clock-o"></i>
+                {% else %}
+                    <span>{{ tc.status }}</span>
+                {% endif %}
+            </a>
+        {% endfor %}
+        {% if not submission.is_graded %}
+            <div class="quick-pill RUNNING" title="Currently evaluating test case">
+                #{{ test_count + 1 }} <i class="fa fa-circle-o-notch fa-spin"></i>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+
+{# 3. Status Messages (CE, IE, Processing) #}
 {% if submission.status != 'IE' %}
     {% if submission.status == 'QU' %}
         <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; color: #38bdf8;">
             <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
             <span style="font-size: 15px; font-weight: 600;">{{ _('We are waiting for a suitable judge to process your submission...') }}</span>
         </div>
-    {% elif submission.status == 'P' %}
+    {% elif submission.status == 'P' and not submission.test_cases.exists() %}
         <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; color: #38bdf8;">
             <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
             <span style="font-size: 15px; font-weight: 600;">{{ _('Your submission is being processed...') }}</span>
