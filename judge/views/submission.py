@@ -186,6 +186,62 @@ class SubmissionStatus(SubmissionDetailBase):
             pass
         else:
             context['time_limit'] = lang_limit.time_limit
+
+        can_see_testcases = bool(
+            self.request.user.is_superuser or
+            self.request.user.is_staff or
+            self.request.user.has_perm('judge.see_private_testcases') or
+            self.request.user.has_perm('judge.change_submission') or
+            submission.problem.is_editable_by(self.request.user)
+        )
+        context['can_see_testcases'] = can_see_testcases
+
+        if can_see_testcases:
+            import zipfile
+            from django.conf import settings
+            data = getattr(submission.problem, 'data_files', None)
+            zf = None
+            if data and data.zipfile:
+                try:
+                    zf = zipfile.ZipFile(data.zipfile.path)
+                except Exception:
+                    pass
+
+            ptc_map = {c.order: c for c in submission.problem.cases.all()}
+            for batch in context['batches']:
+                for case in batch['cases']:
+                    case.input_data = ''
+                    case.output_data = ''
+                    ptc = ptc_map.get(case.case)
+                    if ptc:
+                        if zf:
+                            try:
+                                if ptc.input_file:
+                                    case.input_data = zf.read(ptc.input_file).decode('utf-8', 'replace')
+                            except Exception:
+                                pass
+                            try:
+                                if ptc.output_file:
+                                    case.output_data = zf.read(ptc.output_file).decode('utf-8', 'replace')
+                            except Exception:
+                                pass
+                        if not case.input_data and ptc.input_file:
+                            disk_path = os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, submission.problem.code, ptc.input_file)
+                            if os.path.exists(disk_path):
+                                try:
+                                    with open(disk_path, 'r', encoding='utf-8', errors='replace') as f:
+                                        case.input_data = f.read()
+                                except Exception:
+                                    pass
+                        if not case.output_data and ptc.output_file:
+                            disk_path = os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, submission.problem.code, ptc.output_file)
+                            if os.path.exists(disk_path):
+                                try:
+                                    with open(disk_path, 'r', encoding='utf-8', errors='replace') as f:
+                                        case.output_data = f.read()
+                                except Exception:
+                                    pass
+
         return context
 
 
