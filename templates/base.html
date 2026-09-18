@@ -493,9 +493,15 @@
         border-color: rgba(255,255,255,0.5);
     }
 
-    /* Đẩy trang xuống tránh bị che bởi thanh điều hướng fixed */
+    /* Khoảng cách nội dung trang cân đối với thanh điều hướng fixed (~24px) */
     #page-container {
-        padding-top: 100px !important; 
+        padding-top: 114px !important; 
+    }
+    #page-container > br {
+        display: none !important;
+    }
+    #content {
+        margin-top: 0 !important;
     }
     /* Hero Section Styles */
     /* Hero Section Styles */
@@ -4486,7 +4492,6 @@
     <noscript>
         <div id="noscript">{{ _('This site works best with JavaScript enabled.') }}</div>
     </noscript>
-    <br>
     
     <script>
         document.addEventListener("DOMContentLoaded", function() {
