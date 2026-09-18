@@ -3750,17 +3750,22 @@
     }
 
 
-    /* Remove nested outer card on problems and submissions list page filter */
+    /* Remove nested outer card on list pages (submissions, users, organizations, problems) */
+    #content-right.users .info-float,
+    #content-right.users .info-float:hover,
+    #content-right.submission .info-float,
+    #content-right.submission .info-float:hover,
     #content-right.problems .info-float,
     #content-right.problems .info-float:hover,
-    #content-right.submission .info-float,
-    #content-right.submission .info-float:hover {
+    #content-right .info-float:has(.sidebox),
+    #content-right .info-float:has(.sidebox):hover {
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
         padding: 0 !important;
         backdrop-filter: none !important;
         transform: none !important;
+        outline: none !important;
     }
 
 
