@@ -35,16 +35,10 @@
         <link rel="stylesheet" href="{{ FONTAWESOME_CSS }}">
     {% endif %}
     {% compress css %}
-        {# TODO: once dark mode support is better, enable for all users by deleting the else branch #}
-        {% if perms.judge.test_site %}
-            {% if PREFERRED_STYLE_CSS is not none %}
-                <link rel="stylesheet" href="{{ static(PREFERRED_STYLE_CSS) }}">
-            {% else %}
-                <link rel="stylesheet" href="{{ static(LIGHT_STYLE_CSS) }}">
-                <link rel="stylesheet" href="{{ static(DARK_STYLE_CSS) }}" media="(prefers-color-scheme: dark)">
-            {% endif %}
+        {% if PREFERRED_STYLE_CSS is not none %}
+            <link rel="stylesheet" href="{{ static(PREFERRED_STYLE_CSS) }}">
         {% else %}
-            <link rel="stylesheet" href="{{ static(LIGHT_STYLE_CSS) }}">
+            <link rel="stylesheet" href="{{ static(DARK_STYLE_CSS) }}">
         {% endif %}
         {% if INLINE_FONTAWESOME %}<link rel="stylesheet" href="{{ static('libs/fontawesome/font-awesome.css') }}">{% endif %}
         <link rel="stylesheet" type="text/css" href="{{ static('libs/clipboard/tooltip.css') }}">
@@ -1384,24 +1378,49 @@
         box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
     }
 
-    /* In Dark Mode (Default) - Show Sun icon to switch to light */
+    /* In Dark Mode (Default) - Show Moon icon */
     html:not([data-theme="light"]) .theme-icon.moon-icon,
     html[data-theme="dark"] .theme-icon.moon-icon {
-        display: none !important;
+        display: block !important;
     }
 
     html:not([data-theme="light"]) .theme-icon.sun-icon,
     html[data-theme="dark"] .theme-icon.sun-icon {
-        display: block !important;
-    }
-
-    /* In Light Mode - Show Moon icon to switch to dark */
-    html[data-theme="light"] .theme-icon.sun-icon {
         display: none !important;
     }
 
-    html[data-theme="light"] .theme-icon.moon-icon {
+    /* In Light Mode - Show Sun icon */
+    html[data-theme="light"] .theme-icon.sun-icon {
         display: block !important;
+    }
+
+    html[data-theme="light"] .theme-icon.moon-icon {
+        display: none !important;
+    }
+
+    /* Dark mode text & icon fixes to prevent black text/icons on dark backgrounds */
+    html:not([data-theme="light"]) .admin,
+    html:not([data-theme="light"]) .admin a,
+    html[data-theme="dark"] .admin,
+    html[data-theme="dark"] .admin a {
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+    }
+
+    html:not([data-theme="light"]) .tabs .tab.active,
+    html:not([data-theme="light"]) .tabs .tab.active a,
+    html:not([data-theme="light"]) .tabs .tab.active .tab-icon,
+    html[data-theme="dark"] .tabs .tab.active,
+    html[data-theme="dark"] .tabs .tab.active a,
+    html[data-theme="dark"] .tabs .tab.active .tab-icon {
+        color: #ffffff !important;
+        stroke: #ffffff !important;
+    }
+
+    html:not([data-theme="light"]) .tabs .tab:not(.active) .tab-icon,
+    html[data-theme="dark"] .tabs .tab:not(.active) .tab-icon {
+        color: #94a3b8 !important;
+        stroke: #94a3b8 !important;
     }
 
     /* Light Mode Overrides */
