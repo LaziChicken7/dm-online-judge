@@ -4466,9 +4466,19 @@
                 </div>
             </div>
         {% else %}
-            <a href="{{ url('auth_login') }}" class="portfolio-nav-link" style="padding: 8px;">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-            </a>
+            <div class="portfolio-nav-item">
+                <a href="{{ url('auth_login') }}" class="portfolio-nav-link" style="padding: 8px;" title="{{ _('Account') }}">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </a>
+                <div class="portfolio-dropdown portfolio-dropdown-right" style="min-width: 150px;">
+                    <a href="{{ url('auth_login') }}">
+                        <i class="fa fa-sign-in" style="margin-right: 8px; color: #38bdf8;"></i>{{ _('Sign in') }}
+                    </a>
+                    <a href="{{ url('registration_register') }}">
+                        <i class="fa fa-user-plus" style="margin-right: 8px; color: #10b981;"></i>{{ _('Register') }}
+                    </a>
+                </div>
+            </div>
         {% endif %}
     </div>
 </nav>
