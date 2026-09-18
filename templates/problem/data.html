@@ -341,32 +341,9 @@
                     if (!hasFilledRows) {
                         populateAllPairs(detectedPairs);
                     }
+                    $('#auto-populate-notice').show();
                 }
             }
-
-            // Button to auto-populate from zip
-            $('#auto-fill-cases').click(function (e) {
-                e.preventDefault();
-                if (!window.valid_files || !window.valid_files.length) {
-                    alert('Chưa có file nào trong file zip! Vui lòng tải lên file zip trước.');
-                    return;
-                }
-                var detectedPairs = detectTestPairs(window.valid_files);
-                if (!detectedPairs.length) {
-                    alert('Không tìm thấy cặp file input/output nào trong file zip.');
-                    return;
-                }
-                var hasFilledRows = false;
-                $table.find('select[id$=input_file]').each(function () {
-                    if ($(this).val()) hasFilledRows = true;
-                });
-                if (hasFilledRows) {
-                    if (!confirm('Bảng test case hiện tại đã có dữ liệu. Bạn có muốn tự động điền lại toàn bộ từ file zip không?')) {
-                        return;
-                    }
-                }
-                populateAllPairs(detectedPairs);
-            });
 
             $('a#add-case-row').click(function () {
                 var $tr;
@@ -512,11 +489,280 @@
         }
 
         ul.errorlist {
-            border: 3px red solid;
-            border-radius: 5px;
-            padding-top: 1em;
-            padding-bottom: 1em;
-            background: #e99;
+            border: 1px solid rgba(239, 68, 68, 0.3) !important;
+            border-radius: 12px !important;
+            padding: 12px 18px !important;
+            background: rgba(239, 68, 68, 0.15) !important;
+            color: #fca5a5 !important;
+            margin-bottom: 20px !important;
+        }
+
+        /* ========================================================
+           TEST DATA REDESIGN STYLING (CSAT Tutor Geist Dark Theme)
+           ======================================================== */
+        /* Top data form card */
+        .data-form-card {
+            background: #0d1322 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 18px !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4) !important;
+            width: 100% !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            overflow: hidden !important;
+            margin-bottom: 20px !important;
+        }
+
+        .data-form-card th {
+            background: transparent !important;
+            color: #94a3b8 !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            padding: 12px 24px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            width: 260px !important;
+            text-align: right !important;
+            vertical-align: middle !important;
+        }
+
+        .data-form-card td {
+            background: transparent !important;
+            color: #e2e8f0 !important;
+            font-size: 13.5px !important;
+            padding: 12px 24px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            vertical-align: middle !important;
+        }
+
+        .data-form-card tr:last-child th,
+        .data-form-card tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        .data-form-card select,
+        .data-form-card input[type="text"] {
+            background: rgba(0, 0, 0, 0.35) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            padding: 7px 12px !important;
+            font-size: 13px !important;
+            outline: none !important;
+        }
+
+        .data-form-card select:focus,
+        .data-form-card input[type="text"]:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        /* Alert Banner (Image #2) */
+        .auto-fill-alert {
+            background: rgba(245, 158, 11, 0.1) !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+            border-left: 4px solid #f59e0b !important;
+            border-radius: 14px !important;
+            padding: 16px 20px !important;
+            margin: 18px 0 !important;
+            color: #fef3c7 !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            justify-content: space-between !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25), 0 0 16px rgba(245, 158, 11, 0.08) !important;
+            box-sizing: border-box !important;
+        }
+
+        .alert-content {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+        }
+
+        .alert-title {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 15px !important;
+            color: #fbbf24 !important;
+            margin-bottom: 2px !important;
+        }
+
+        .alert-p1, .alert-p2 {
+            margin: 0 !important;
+            font-size: 13.5px !important;
+            color: #fde68a !important;
+            line-height: 1.5 !important;
+        }
+
+        .alert-close {
+            color: #fbbf24 !important;
+            font-size: 20px !important;
+            text-decoration: none !important;
+            opacity: 0.7 !important;
+            padding: 0 4px !important;
+            line-height: 1 !important;
+            cursor: pointer !important;
+        }
+
+        .alert-close:hover {
+            opacity: 1 !important;
+        }
+
+        /* Show Columns Toolbar */
+        #column-visible {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 12px !important;
+            padding: 12px 20px !important;
+            margin: 18px 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 16px !important;
+            flex-wrap: wrap !important;
+            box-sizing: border-box !important;
+        }
+
+        #column-visible strong {
+            font-size: 12px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            color: #94a3b8 !important;
+        }
+
+        #column-visible label {
+            font-size: 13px !important;
+            color: #cbd5e1 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            user-select: none !important;
+        }
+
+        #column-visible input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            width: 15px !important;
+            height: 15px !important;
+            cursor: pointer !important;
+        }
+
+        /* Test Case Table */
+        #case-table {
+            background: #0d1322 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 18px !important;
+            overflow: hidden !important;
+            width: 100% !important;
+            border-collapse: separate !important;
+            border-spacing: 0 !important;
+            margin-top: 10px !important;
+            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        #case-table thead th {
+            background: rgba(255, 255, 255, 0.03) !important;
+            color: #64748b !important;
+            font-size: 11.5px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            padding: 12px 14px !important;
+            border: none !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+
+        #case-table tbody tr {
+            background: rgba(255, 255, 255, 0.01) !important;
+            transition: background 0.15s ease !important;
+        }
+
+        #case-table tbody tr:hover {
+            background: rgba(56, 189, 248, 0.05) !important;
+        }
+
+        #case-table tbody td {
+            padding: 10px 12px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+            color: #e2e8f0 !important;
+            vertical-align: middle !important;
+        }
+
+        #case-table tbody tr:last-child td {
+            border-bottom: none !important;
+        }
+
+        #case-table select,
+        #case-table input[type="text"],
+        #case-table input[type="number"] {
+            background: rgba(0, 0, 0, 0.35) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 8px !important;
+            color: #ffffff !important;
+            padding: 6px 10px !important;
+            font-size: 12.5px !important;
+            outline: none !important;
+        }
+
+        #case-table select:focus,
+        #case-table input:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+        }
+
+        #case-table input[type="checkbox"] {
+            accent-color: #0284c7 !important;
+            cursor: pointer !important;
+        }
+
+        /* Bottom Action Buttons */
+        .test-data-bottom-actions {
+            margin-top: 24px !important;
+            margin-bottom: 40px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+        }
+
+        .submit-pill-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 10px 28px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            color: #ffffff !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        .submit-pill-btn:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.55) !important;
+        }
+
+        .add-case-pill-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 9px 20px !important;
+            border-radius: 100px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            color: #38bdf8 !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .add-case-pill-btn:hover {
+            background: rgba(56, 189, 248, 0.15) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            transform: translateY(-1px) !important;
         }
     </style>
 {% endblock %}
@@ -538,7 +784,21 @@
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         {{ cases_formset.management_form }}
-        <table class="table">{{ data_form.as_table() }}</table>
+        <table class="table data-form-card">{{ data_form.as_table() }}</table>
+
+        <!-- Alert Notification (Image #2) -->
+        <div id="auto-populate-notice" class="auto-fill-alert">
+            <div class="alert-content">
+                <div class="alert-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <strong>{{ _('Test cases have been filled automatically!') }}</strong>
+                </div>
+                <p class="alert-p1">{{ _('Test cases have been filled automatically and') }} <strong>{{ _('not saved yet') }}</strong>!</p>
+                <p class="alert-p2">{{ _('Please modify the table below if needed and press the `Submit!` button to save!') }}</p>
+            </div>
+            <a href="#" class="alert-close" onclick="$(this).closest('.auto-fill-alert').fadeOut(200); return false;" title="{{ _('Close') }}">&times;</a>
+        </div>
+
         <div id="column-visible" data-problem="{{ problem.code }}">
             <strong>{{ _('Show columns:') }}</strong>
             <label>
@@ -629,9 +889,13 @@
             {% endfor %}
             </tbody>
         </table>
-        <input type="submit" value="{{ _('Submit!') }}" class="button">
-        <a id="add-case-row" href="#"><i class="fa fa-plus"></i> {{ _('Add new case') }}</a>
-        <a id="auto-fill-cases" href="#" class="button" style="background: #0284c7; border-color: #0284c7; color: #fff; margin-left: 12px; border-radius: 100px; padding: 6px 18px;"><i class="fa fa-magic"></i> {{ _('Auto-populate from zip') }}</a>
+        <div class="test-data-bottom-actions">
+            <input type="submit" value="{{ _('Submit!') }}" class="submit-pill-btn">
+            <a id="add-case-row" href="#" class="add-case-pill-btn">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                <span>{{ _('Add new case') }}</span>
+            </a>
+        </div>
     </form>
     <div style="display: none" class="generator-args-editor"><textarea></textarea><a class="button">{{ _('Save') }}</a></div>
     <div style="display: none" class="batch-dependencies-editor"><textarea></textarea><a class="button">{{ _('Save') }}</a></div>
