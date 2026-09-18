@@ -45,6 +45,26 @@
 {% endblock %}
 
 {% block content_js_media %}
+    <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            var headerCard = document.querySelector('.problem-header-card');
+            var sidebarActions = document.getElementById('sidebar-scroll-actions');
+            if (!headerCard || !sidebarActions) return;
+
+            function checkScroll() {
+                var rect = headerCard.getBoundingClientRect();
+                if (rect.bottom < 110) {
+                    sidebarActions.classList.add('is-visible');
+                } else {
+                    sidebarActions.classList.remove('is-visible');
+                }
+            }
+
+            window.addEventListener('scroll', checkScroll, { passive: true });
+            window.addEventListener('resize', checkScroll, { passive: true });
+            checkScroll();
+        });</script>
+
     {% include "comments/media-js.html" %}
 
     {% if vote_perm.can_view() %}
@@ -105,6 +125,27 @@
 {% endblock %}
 
 {% block info_float %}
+    <!-- Scroll-revealed submission action group -->
+    <div id="sidebar-scroll-actions" class="sidebar-scroll-actions" style="display: none;">
+        <a href="{{ url('problem_submit', problem.code) }}" class="sidebar-scroll-submit-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+            <span>{{ _('Submit solution') }}</span>
+        </a>
+        {% if request.user.is_authenticated and has_submissions %}
+            <a href="{{ url('user_submissions', problem.code, request.user.username) }}" class="sidebar-scroll-action-btn">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                <span>{{ _('My submissions') }}</span>
+            </a>
+        {% endif %}
+        <a href="{{ url('chronological_submissions', problem.code) }}" class="sidebar-scroll-action-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline><path d="M2 12h2"></path></svg>
+            <span>{{ _('All submissions') }}</span>
+        </a>
+        <a href="{{ url('ranked_submissions', problem.code) }}" class="sidebar-scroll-action-btn">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg>
+            <span>{{ _('Best submissions') }}</span>
+        </a>
+    </div>
     <div class="sidebar-actions-group">
         {% if vote_perm.can_view() %}
             {% if vote_perm.can_vote() %}

@@ -2911,9 +2911,7 @@
     
     /* 1. Problem Header Card */
     .problem-header-card {
-        position: sticky !important;
-        top: 96px !important;
-        z-index: 90 !important;
+        position: relative !important;
         background: rgba(13, 19, 34, 0.95) !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
         border-radius: 16px !important;
@@ -3301,6 +3299,77 @@
        ========================================================================== */
     #content-right .info-float {
         padding: 20px 16px !important;
+    }
+
+    /* Dynamic Sidebar Scroll Actions */
+    .sidebar-scroll-actions {
+        display: none !important;
+        flex-direction: column !important;
+        gap: 8px !important;
+        padding-bottom: 14px !important;
+        margin-bottom: 12px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .sidebar-scroll-actions.is-visible {
+        display: flex !important;
+    }
+
+    .sidebar-scroll-submit-btn {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+        border: 1px solid #38bdf8 !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
+        border-radius: 20px !important;
+        padding: 8px 14px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .sidebar-scroll-submit-btn:hover {
+        background: #0369a1 !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6) !important;
+        color: #ffffff !important;
+    }
+
+    .sidebar-scroll-action-btn {
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 20px !important;
+        padding: 7px 14px !important;
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
+        color: #e2e8f0 !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        text-decoration: none !important;
+        transition: all 0.2s ease !important;
+    }
+
+    .sidebar-scroll-action-btn:hover {
+        background: rgba(56, 189, 248, 0.15) !important;
+        border-color: rgba(56, 189, 248, 0.35) !important;
+        color: #ffffff !important;
+        transform: translateY(-1px) !important;
+    }
+
+    html[data-theme="light"] .sidebar-scroll-submit-btn {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+    }
+
+    html[data-theme="light"] .sidebar-scroll-action-btn {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border-color: rgba(0, 0, 0, 0.1) !important;
+        color: #0f172a !important;
     }
 
     .sidebar-actions-group {
