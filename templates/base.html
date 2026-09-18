@@ -1343,6 +1343,172 @@
         color: #f87171 !important;
     }
 
+    /* =========================================================
+       MODERN FOOTER & NAVBAR LANGUAGE SWITCHER STYLING
+       ========================================================= */
+    .modern-site-footer {
+        width: 100% !important;
+        padding: 40px 20px 48px 20px !important;
+        box-sizing: border-box !important;
+        margin-top: 40px !important;
+    }
+
+    .footer-inner-card {
+        max-width: 1296px !important;
+        margin: 0 auto !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 18px !important;
+        backdrop-filter: blur(16px) !important;
+        padding: 20px 28px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 16px !important;
+        box-sizing: border-box !important;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25) !important;
+    }
+
+    .footer-brand-line {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-size: 14px !important;
+    }
+
+    .footer-brand-name {
+        font-weight: 700 !important;
+        color: #ffffff !important;
+        letter-spacing: -0.01em !important;
+    }
+
+    .footer-brand-dot {
+        color: rgba(255, 255, 255, 0.3) !important;
+    }
+
+    .footer-dmoj-link {
+        color: #94a3b8 !important;
+        text-decoration: none !important;
+        transition: color 0.2s ease !important;
+    }
+
+    .footer-dmoj-link:hover {
+        color: #38bdf8 !important;
+    }
+
+    .footer-subtitle {
+        font-size: 12px !important;
+        color: #64748b !important;
+        margin-top: 4px !important;
+    }
+
+    .footer-lang-group {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        background: rgba(0, 0, 0, 0.35) !important;
+        padding: 5px 8px !important;
+        border-radius: 100px !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+
+    .footer-lang-pill {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        padding: 6px 14px !important;
+        border-radius: 100px !important;
+        background: transparent !important;
+        border: 1px solid transparent !important;
+        color: #94a3b8 !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        outline: none !important;
+    }
+
+    .footer-lang-pill:hover {
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+    }
+
+    .footer-lang-pill.active {
+        background: rgba(56, 189, 248, 0.15) !important;
+        border-color: rgba(56, 189, 248, 0.35) !important;
+        color: #38bdf8 !important;
+        box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2) !important;
+    }
+
+    /* Navbar Lang Pill */
+    .portfolio-lang-pill {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        padding: 6px 12px !important;
+        border-radius: 100px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #e2e8f0 !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        text-decoration: none !important;
+        height: 36px !important;
+        box-sizing: border-box !important;
+    }
+
+    .portfolio-lang-pill:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+        color: #38bdf8 !important;
+    }
+
+    .portfolio-lang-dropdown-item {
+        position: relative !important;
+    }
+
+    .portfolio-lang-menu {
+        min-width: 155px !important;
+        padding: 6px !important;
+    }
+
+    .portfolio-lang-dropdown-item:hover .portfolio-dropdown-right {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateX(0) translateY(0) scale(1) !important;
+        pointer-events: auto !important;
+    }
+
+    .lang-select-btn {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 8px 12px !important;
+        background: transparent !important;
+        border: none !important;
+        color: #cbd5e1 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        border-radius: 8px !important;
+        transition: all 0.15s ease !important;
+    }
+
+    .lang-select-btn:hover {
+        background: rgba(56, 189, 248, 0.15) !important;
+        color: #38bdf8 !important;
+    }
+
+    .lang-select-btn.active {
+        color: #38bdf8 !important;
+        background: rgba(56, 189, 248, 0.08) !important;
+    }
+
     /* ========================================================
        NEW COMMENT CARD & MARTOR BLACK EDITOR STYLING
        ======================================================== */
@@ -4053,6 +4219,37 @@
     </div>
 
     <div class="portfolio-nav-right">
+        <!-- Language Switcher in Navbar -->
+        <div class="portfolio-nav-item portfolio-lang-dropdown-item">
+            <div class="portfolio-lang-pill" title="{{ _('Change language') }}">
+                {% if LANGUAGE_CODE == 'vi' %}
+                    <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#da251d"/><polygon points="10,2.5 11.45,7.0 16.2,7.0 12.35,9.8 13.8,14.3 10,11.5 6.2,14.3 7.65,9.8 3.8,7.0 8.55,7.0" fill="#ff0"/></svg>
+                    <span class="portfolio-lang-code">VI</span>
+                {% else %}
+                    <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#ffffff"/><rect y="0" width="20" height="1.08" fill="#b22234"/><rect y="2.15" width="20" height="1.08" fill="#b22234"/><rect y="4.31" width="20" height="1.08" fill="#b22234"/><rect y="6.46" width="20" height="1.08" fill="#b22234"/><rect y="8.62" width="20" height="1.08" fill="#b22234"/><rect y="10.77" width="20" height="1.08" fill="#b22234"/><rect y="12.92" width="20" height="1.08" fill="#b22234"/><rect width="8" height="7.54" fill="#3c3b6e"/><circle cx="2" cy="1.8" r="0.6" fill="#fff"/><circle cx="4" cy="1.8" r="0.6" fill="#fff"/><circle cx="6" cy="1.8" r="0.6" fill="#fff"/><circle cx="3" cy="3.8" r="0.6" fill="#fff"/><circle cx="5" cy="3.8" r="0.6" fill="#fff"/><circle cx="2" cy="5.8" r="0.6" fill="#fff"/><circle cx="4" cy="5.8" r="0.6" fill="#fff"/><circle cx="6" cy="5.8" r="0.6" fill="#fff"/></svg>
+                    <span class="portfolio-lang-code">EN</span>
+                {% endif %}
+                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+            <div class="portfolio-dropdown portfolio-dropdown-right portfolio-lang-menu">
+                <form id="navbar-lang-form" action="{{ url('set_language') }}" method="post" style="margin:0;">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path() }}">
+                    <input name="language" id="navbar-lang-input" type="hidden" value="{{ LANGUAGE_CODE }}">
+                    <button type="button" onclick="document.getElementById('navbar-lang-input').value='vi'; document.getElementById('navbar-lang-form').submit();" class="lang-select-btn{% if LANGUAGE_CODE == 'vi' %} active{% endif %}">
+                        <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#da251d"/><polygon points="10,2.5 11.45,7.0 16.2,7.0 12.35,9.8 13.8,14.3 10,11.5 6.2,14.3 7.65,9.8 3.8,7.0 8.55,7.0" fill="#ff0"/></svg>
+                        <span>Tiếng Việt</span>
+                        {% if LANGUAGE_CODE == 'vi' %}<i class="fa fa-check" style="margin-left: auto; color: #10b981; font-size: 11px;"></i>{% endif %}
+                    </button>
+                    <button type="button" onclick="document.getElementById('navbar-lang-input').value='en'; document.getElementById('navbar-lang-form').submit();" class="lang-select-btn{% if LANGUAGE_CODE == 'en' %} active{% endif %}">
+                        <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#ffffff"/><rect y="0" width="20" height="1.08" fill="#b22234"/><rect y="2.15" width="20" height="1.08" fill="#b22234"/><rect y="4.31" width="20" height="1.08" fill="#b22234"/><rect y="6.46" width="20" height="1.08" fill="#b22234"/><rect y="8.62" width="20" height="1.08" fill="#b22234"/><rect y="10.77" width="20" height="1.08" fill="#b22234"/><rect y="12.92" width="20" height="1.08" fill="#b22234"/><rect width="8" height="7.54" fill="#3c3b6e"/><circle cx="2" cy="1.8" r="0.6" fill="#fff"/><circle cx="4" cy="1.8" r="0.6" fill="#fff"/><circle cx="6" cy="1.8" r="0.6" fill="#fff"/><circle cx="3" cy="3.8" r="0.6" fill="#fff"/><circle cx="5" cy="3.8" r="0.6" fill="#fff"/><circle cx="2" cy="5.8" r="0.6" fill="#fff"/><circle cx="4" cy="5.8" r="0.6" fill="#fff"/><circle cx="6" cy="5.8" r="0.6" fill="#fff"/></svg>
+                        <span>English</span>
+                        {% if LANGUAGE_CODE == 'en' %}<i class="fa fa-check" style="margin-left: auto; color: #10b981; font-size: 11px;"></i>{% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+
         {% if request.user.is_authenticated %}
             <div class="portfolio-nav-item">
                 <a href="{{ url('user_page') }}" class="portfolio-user-pill">
@@ -4139,25 +4336,37 @@
 
     {% block bodyend %}{% endblock %}
 
-    <footer>
-        <span id="footer-content">
-            <br>
-            <a style="color: #808080" href="https://dmoj.ca">{{ _('proudly powered by **DMOJ**')|markdown('default', strip_paragraphs=True) }}</a> |
-            {% if misc_config.footer %}
-                {{ misc_config.footer|safe }} |
-            {% endif %}
-            <form action="{{ url('set_language') }}" method="post" style="display: inline">
-                {% csrf_token %}
-            <input name="next" type="hidden" value="{{ request.get_full_path() }}">
-            <select name="language" onchange="form.submit()" style="height: 1.5em">
-                {% for language in language_info_list(LANGUAGES) %}
-                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %}selected{% endif %}>
-                        {{ language.name_local }} ({{ language.code }})
-                    </option>
-                {% endfor %}
-            </select>
-          </form>
-        </span>
+    <footer class="modern-site-footer">
+        <div class="footer-inner-card">
+            <div class="footer-col-left">
+                <div class="footer-brand-line">
+                    <span class="footer-brand-name">CSAT Tutor</span>
+                    <span class="footer-brand-dot">&bull;</span>
+                    <a href="https://dmoj.ca" target="_blank" rel="noopener" class="footer-dmoj-link">
+                        {{ _('powered by') }} <strong>DMOJ</strong>
+                    </a>
+                </div>
+                <div class="footer-subtitle">Competitive Programming &amp; Modern Online Judge &copy; 2026</div>
+            </div>
+
+            <div class="footer-col-right">
+                <form id="footer-lang-form" action="{{ url('set_language') }}" method="post" class="footer-lang-form" style="margin:0;">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ request.get_full_path() }}">
+                    <input name="language" id="footer-lang-input" type="hidden" value="{{ LANGUAGE_CODE }}">
+                    <div class="footer-lang-group">
+                        <button type="button" onclick="document.getElementById('footer-lang-input').value='vi'; document.getElementById('footer-lang-form').submit();" class="footer-lang-pill{% if LANGUAGE_CODE == 'vi' %} active{% endif %}" title="Tiếng Việt">
+                            <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#da251d"/><polygon points="10,2.5 11.45,7.0 16.2,7.0 12.35,9.8 13.8,14.3 10,11.5 6.2,14.3 7.65,9.8 3.8,7.0 8.55,7.0" fill="#ff0"/></svg>
+                            <span>Tiếng Việt</span>
+                        </button>
+                        <button type="button" onclick="document.getElementById('footer-lang-input').value='en'; document.getElementById('footer-lang-form').submit();" class="footer-lang-pill{% if LANGUAGE_CODE == 'en' %} active{% endif %}" title="English">
+                            <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#ffffff"/><rect y="0" width="20" height="1.08" fill="#b22234"/><rect y="2.15" width="20" height="1.08" fill="#b22234"/><rect y="4.31" width="20" height="1.08" fill="#b22234"/><rect y="6.46" width="20" height="1.08" fill="#b22234"/><rect y="8.62" width="20" height="1.08" fill="#b22234"/><rect y="10.77" width="20" height="1.08" fill="#b22234"/><rect y="12.92" width="20" height="1.08" fill="#b22234"/><rect width="8" height="7.54" fill="#3c3b6e"/><circle cx="2" cy="1.8" r="0.6" fill="#fff"/><circle cx="4" cy="1.8" r="0.6" fill="#fff"/><circle cx="6" cy="1.8" r="0.6" fill="#fff"/><circle cx="3" cy="3.8" r="0.6" fill="#fff"/><circle cx="5" cy="3.8" r="0.6" fill="#fff"/><circle cx="2" cy="5.8" r="0.6" fill="#fff"/><circle cx="4" cy="5.8" r="0.6" fill="#fff"/><circle cx="6" cy="5.8" r="0.6" fill="#fff"/></svg>
+                            <span>English</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </footer>
 </div>
 </body>
