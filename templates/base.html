@@ -3127,21 +3127,33 @@
         margin: 28px 0 !important;
     }
 
-    /* 4. Sidebar Glass Card */
+    /* 4. Sidebar Glass Card - Pushed to top & responsive for small screens */
     #content-right .info-float {
         position: sticky !important;
-        top: 204px !important;
+        top: 98px !important;
+        max-height: calc(100vh - 110px) !important;
+        overflow-y: auto !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
         background: rgba(255, 255, 255, 0.03) !important;
         border: 1px solid rgba(255, 255, 255, 0.05) !important;
         border-radius: 16px !important;
         backdrop-filter: blur(12px) !important;
-        padding: 24px !important;
+        padding: 20px 16px !important;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
         box-sizing: border-box !important;
         width: 100% !important;
         transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
                     border-color 0.25s ease, 
                     box-shadow 0.25s ease !important;
+    }
+
+    #content-right .info-float::-webkit-scrollbar {
+        width: 4px !important;
+    }
+    #content-right .info-float::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.15) !important;
+        border-radius: 4px !important;
     }
 
     #content-right .info-float:hover {
