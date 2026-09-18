@@ -3742,8 +3742,8 @@
         max-width: 32px !important;
         padding: 0 !important;
         border-radius: 100px !important; /* Perfect circle in default, pill on hover */
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background: rgba(255, 255, 255, 0.02) !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
         color: #e2e8f0 !important;
         font-family: 'Inter', sans-serif !important;
         font-size: 12px !important;
@@ -3752,7 +3752,7 @@
         text-transform: capitalize !important;
         letter-spacing: 0.2px !important;
         transition: max-width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s ease, background 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease !important;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: none !important;
         white-space: nowrap !important;
         cursor: pointer !important;
         overflow: hidden !important;
@@ -3761,7 +3761,9 @@
 
     .submission-row .sub-prop .fa,
     .submission-row .sub-pill-btn i,
-    .submission-row .sub-action-btn i {
+    .submission-row .sub-action-btn i,
+    .submission-row .sub-pill-btn svg,
+    .submission-row .sub-action-btn svg {
         display: inline-block !important;
         font-size: 13px !important;
         color: rgba(255, 255, 255, 0.85) !important;
@@ -3793,7 +3795,9 @@
     }
 
     .submission-row .sub-pill-btn:hover i,
-    .submission-row .sub-action-btn:hover i {
+    .submission-row .sub-action-btn:hover i,
+    .submission-row .sub-pill-btn:hover svg,
+    .submission-row .sub-action-btn:hover svg {
         color: #60a5fa !important;
         transform: scale(1.08) !important;
     }
