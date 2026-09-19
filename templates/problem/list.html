@@ -130,21 +130,7 @@
             border-color: rgba(56, 189, 248, 0.9) !important;
             color: #ffffff !important;
         }
-        .add-problem-sidebar-btn {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 8px !important;
-            padding: 10px 18px !important;
-            border-radius: 12px !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            text-decoration: none !important;
-            margin-bottom: 8px !important;
-        }
-        .add-problem-sidebox {
-            margin-bottom: 24px !important;
-        }
+
         .admin-changelist-link {
             display: flex !important;
             align-items: center !important;
@@ -446,30 +432,34 @@
     <div class="top-pagination-bar problem-top-toolbar">
         {% include "list-pages.html" %}
         <div class="problem-toolbar-actions">
-            <a href="{{ url('problem_import_vjudge') }}" class="import-polygon-btn" style="background: rgba(14, 165, 233, 0.12) !important; border-color: rgba(14, 165, 233, 0.3) !important; color: #38bdf8 !important;" title="{{ _('Import from VJudge') }}">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="2" y1="12" x2="22" y2="12"></line>
-                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                </svg>
-                <span>{{ _('Import VJudge') }}</span>
-            </a>
-            <a href="{{ url('problem_import_polygon') }}" class="import-polygon-btn" title="{{ _('Import from Polygon') }}">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="17 8 12 3 7 8"></polyline>
-                    <line x1="12" y1="3" x2="12" y2="15"></line>
-                </svg>
-                <span>{{ _('Import Polygon') }}</span>
-            </a>
-            {% if request.user.is_authenticated %}
-                <a href="{{ url('admin:judge_problem_add') }}" class="add-problem-btn" title="{{ _('Add problem') }}">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                    </svg>
-                    <span>{{ _('Add problem') }}</span>
-                </a>
+            {% if request.user.is_authenticated and (perms.judge.edit_all_problem or perms.judge.edit_public_problem or perms.judge.edit_own_problem or request.user.is_staff) %}
+                <div class="add-problem-dropdown-wrap">
+                    <a href="{{ url('admin:judge_problem_add') }}" class="add-problem-btn" title="{{ _('Add problem') }}">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="12" y1="5" x2="12" y2="19"></line>
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                        </svg>
+                        <span>{{ _('Add problem') }}</span>
+                    </a>
+                    <div class="add-problem-hover-menu">
+                        <a href="{{ url('problem_import_vjudge') }}" class="import-polygon-btn" title="{{ _('Import VJudge') }}">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                            <span>{{ _('Import VJudge') }}</span>
+                        </a>
+                        <a href="{{ url('problem_import_polygon') }}" class="import-polygon-btn" title="{{ _('Nhập từ Polygon') }}">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                            <span>{{ _('Nhập từ Polygon') }}</span>
+                        </a>
+                    </div>
+                </div>
             {% endif %}
         </div>
     </div>
@@ -478,42 +468,6 @@
         {% if not request.in_contest %}
             <div id="content-right" class="problems">
                 <div class="info-float">
-                    {% if request.user.is_authenticated %}
-                        <div class="sidebox problem-search-sidebox add-problem-sidebox">
-                            <div class="filter-tag">{{ _('ADMIN') }}</div>
-                            <h3>{{ _('Manage') }} <i class="fa fa-shield" style="color: #38bdf8;"></i></h3>
-                            <div class="sidebox-content">
-                                <a href="{{ url('problem_import_vjudge') }}" class="button button-primary-glow full add-problem-sidebar-btn" style="margin-bottom: 8px; background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <circle cx="12" cy="12" r="10"></circle>
-                                        <line x1="2" y1="12" x2="22" y2="12"></line>
-                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
-                                    </svg>
-                                    <span>{{ _('Import VJudge') }}</span>
-                                </a>
-                                <a href="{{ url('problem_import_polygon') }}" class="button button-primary-glow full add-problem-sidebar-btn">
-                                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 6px; vertical-align: middle;">
-                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                                        <polyline points="17 8 12 3 7 8"></polyline>
-                                        <line x1="12" y1="3" x2="12" y2="15"></line>
-                                    </svg>
-                                    <span>{{ _('Import Polygon') }}</span>
-                                </a>
-                                <a href="{{ url('admin:judge_problem_add') }}" class="add-problem-sub-btn">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                        <line x1="12" y1="5" x2="12" y2="19"></line>
-                                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    </svg>
-                                    <span>{{ _('Add problem') }}</span>
-                                </a>
-                                <a href="{{ url('admin:judge_problem_changelist') }}" class="admin-changelist-link">
-                                    <i class="fa fa-cogs"></i>
-                                    <span>{{ _('Admin Panel') }}</span>
-                                </a>
-                            </div>
-                        </div>
-                    {% endif %}
-
                     {% include "problem/search-form.html" %}
                     {% if hot_problems %}
                         <div class="sidebox problem-search-sidebox hot-problems-sidebox">
