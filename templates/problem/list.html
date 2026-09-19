@@ -9,7 +9,7 @@
         </style>
     </noscript>
     <style>
-        /* ── Add Problem Buttons & Toolbar ── */
+        /* ── Add Problem Dropdown & Hover Menu ── */
         .problem-top-toolbar {
             display: flex !important;
             align-items: center !important;
@@ -23,45 +23,12 @@
         .problem-toolbar-actions {
             display: inline-flex !important;
             align-items: center !important;
-            gap: 10px !important;
             margin-left: auto !important;
-            flex-wrap: wrap !important;
+            position: relative !important;
         }
-        .import-polygon-btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            padding: 9px 20px !important;
-            border-radius: 100px !important;
-            background: rgba(14, 165, 233, 0.2) !important;
-            border: 1.5px solid #0ea5e9 !important;
-            color: #38bdf8 !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            text-decoration: none !important;
-            box-shadow: 0 4px 14px rgba(14, 165, 233, 0.25) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer !important;
-            letter-spacing: 0.2px !important;
-        }
-        .import-polygon-btn:hover {
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            border-color: #38bdf8 !important;
-            color: #ffffff !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5) !important;
-        }
-        html[data-theme="light"] .import-polygon-btn,
-        html.theme-light .import-polygon-btn {
-            background: #ffffff !important;
-            border: 1.5px solid #0284c7 !important;
-            color: #0284c7 !important;
-            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.2) !important;
-        }
-        html[data-theme="light"] .import-polygon-btn:hover,
-        html.theme-light .import-polygon-btn:hover {
-            background: #0284c7 !important;
-            color: #ffffff !important;
+        .add-problem-dropdown-wrap {
+            position: relative !important;
+            display: inline-block !important;
         }
         .add-problem-btn {
             display: inline-flex !important;
@@ -80,49 +47,6 @@
             cursor: pointer !important;
             letter-spacing: 0.2px !important;
         }
-        .add-problem-sub-btn {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
-            padding: 8px 12px !important;
-            border-radius: 8px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            color: #e2e8f0 !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            transition: all 0.2s ease !important;
-            margin-bottom: 8px !important;
-        }
-        .add-problem-sub-btn:hover {
-            background: rgba(2, 132, 199, 0.15) !important;
-            border-color: rgba(2, 132, 199, 0.4) !important;
-            color: #38bdf8 !important;
-        }
-        html[data-theme="light"] .import-polygon-btn,
-        html.theme-light .import-polygon-btn {
-            background: rgba(2, 132, 199, 0.08) !important;
-            border: 1px solid rgba(2, 132, 199, 0.25) !important;
-            color: #0284c7 !important;
-        }
-        html[data-theme="light"] .import-polygon-btn:hover,
-        html.theme-light .import-polygon-btn:hover {
-            background: rgba(2, 132, 199, 0.16) !important;
-            color: #0369a1 !important;
-        }
-        html[data-theme="light"] .add-problem-sub-btn,
-        html.theme-light .add-problem-sub-btn {
-            background: #f8fafc !important;
-            border: 1px solid rgba(0, 0, 0, 0.08) !important;
-            color: #1e293b !important;
-        }
-        html[data-theme="light"] .add-problem-sub-btn:hover,
-        html.theme-light .add-problem-sub-btn:hover {
-            background: #f1f5f9 !important;
-            color: #0284c7 !important;
-        }
         .add-problem-btn:hover {
             background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
             transform: translateY(-2px) !important;
@@ -131,53 +55,85 @@
             color: #ffffff !important;
         }
 
-        .admin-changelist-link {
-            display: flex !important;
+        /* ── Hover Menu: Hidden by default, only shown on hover ── */
+        .add-problem-hover-menu {
+            display: none !important;
+            position: absolute !important;
+            top: 100% !important;
+            right: 0 !important;
+            padding-top: 8px !important;
             align-items: center !important;
-            justify-content: center !important;
-            gap: 6px !important;
-            padding: 8px 12px !important;
-            border-radius: 8px !important;
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.06) !important;
-            color: #94a3b8 !important;
-            font-size: 12.5px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            transition: all 0.2s ease !important;
+            gap: 10px !important;
+            z-index: 1000 !important;
+            white-space: nowrap !important;
         }
-        .admin-changelist-link:hover {
-            background: rgba(56, 189, 248, 0.1) !important;
-            color: #38bdf8 !important;
-            border-color: rgba(56, 189, 248, 0.3) !important;
-        }
-        html[data-theme="light"] .add-problem-btn,
-        html.theme-light .add-problem-btn {
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-        }
-        html[data-theme="light"] .admin-changelist-link,
-        html.theme-light .admin-changelist-link {
-            background: #f1f5f9 !important;
-            border: 1px solid rgba(0, 0, 0, 0.08) !important;
-            color: #1e293b !important;
-        }
-        html[data-theme="light"] .admin-changelist-link span,
-        html.theme-light .admin-changelist-link span {
-            color: #1e293b !important;
-        }
-        html[data-theme="light"] .admin-changelist-link i,
-        html.theme-light .admin-changelist-link i {
-            color: #0284c7 !important;
-        }
-        html[data-theme="light"] .admin-changelist-link:hover,
-        html.theme-light .admin-changelist-link:hover {
-            background: #e2e8f0 !important;
-            color: #0284c7 !important;
-            border-color: rgba(2, 132, 199, 0.4) !important;
+        .add-problem-hover-menu::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 10px !important;
         }
 
+        /* Trigger on hover & focus */
+        .add-problem-dropdown-wrap:hover .add-problem-hover-menu,
+        .add-problem-dropdown-wrap:focus-within .add-problem-hover-menu,
+        .add-problem-dropdown-wrap.is-open .add-problem-hover-menu,
+        .add-problem-hover-menu:hover {
+            display: inline-flex !important;
+            animation: fadeInPills 0.2s ease-out forwards !important;
+        }
+
+        @keyframes fadeInPills {
+            from {
+                opacity: 0;
+                transform: translateY(-6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Pill buttons inside hover menu (matching Image #1 in prompt) */
+        .add-problem-hover-menu .import-polygon-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 8px 20px !important;
+            border-radius: 100px !important;
+            background: rgba(15, 23, 42, 0.94) !important;
+            backdrop-filter: blur(12px) !important;
+            border: 2px solid #0284c7 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-decoration: none !important;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), 0 0 16px rgba(2, 132, 199, 0.4) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            letter-spacing: 0.2px !important;
+        }
+        .add-problem-hover-menu .import-polygon-btn:hover {
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border-color: #38bdf8 !important;
+            color: #ffffff !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.55), 0 0 20px rgba(56, 189, 248, 0.4) !important;
+        }
+        html[data-theme="light"] .add-problem-hover-menu .import-polygon-btn,
+        html.theme-light .add-problem-hover-menu .import-polygon-btn {
+            background: #ffffff !important;
+            border: 2px solid #0284c7 !important;
+            color: #0284c7 !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.25) !important;
+        }
+        html[data-theme="light"] .add-problem-hover-menu .import-polygon-btn:hover,
+        html.theme-light .add-problem-hover-menu .import-polygon-btn:hover {
+            background: #0284c7 !important;
+            color: #ffffff !important;
+        }
         .hot-problems-sidebox {
             background: rgba(255, 255, 255, 0.03) !important;
             border: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -622,5 +578,24 @@
             </table>
         </div>
     </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var wrap = document.querySelector('.add-problem-dropdown-wrap');
+            if (wrap) {
+                var timer = null;
+                wrap.addEventListener('mouseenter', function() {
+                    if (timer) clearTimeout(timer);
+                    wrap.classList.add('is-open');
+                });
+                wrap.addEventListener('mouseleave', function() {
+                    timer = setTimeout(function() {
+                        wrap.classList.remove('is-open');
+                    }, 200);
+                });
+            }
+        });
+    </script>
 
 {% endblock %}
