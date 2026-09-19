@@ -1,0 +1,281 @@
+{% extends "base.html" %}
+
+{% block title_ruler %}{% endblock %}
+
+{% block title_row %}
+    {% set tab = 'import_vjudge' %}
+    {% include "problem/problem-list-tabs.html" %}
+{% endblock %}
+
+{% block media %}
+    <style>
+        .import-vjudge-wrapper {
+            max-width: 980px;
+            margin: 0 auto 50px auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .import-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 36px 40px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .import-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+        }
+        .import-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: #38bdf8 !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .import-title {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: -0.01em !important;
+        }
+        .import-desc {
+            color: #94a3b8 !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin-bottom: 30px !important;
+        }
+        .import-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+            color: #fca5a5 !important;
+            font-size: 14px !important;
+            margin-bottom: 26px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        .form-group-full {
+            grid-column: 1 / -1;
+        }
+        .form-label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+        .form-label .required {
+            color: #ef4444;
+        }
+        .form-label .optional {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        .form-input-vjudge {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            color: #ffffff !important;
+            font-size: 15px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            font-family: inherit !important;
+        }
+        .form-input-vjudge:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background: rgba(15, 23, 42, 0.85) !important;
+        }
+        .form-hint {
+            font-size: 12.5px;
+            color: #64748b;
+            margin-top: 6px;
+            line-height: 1.45;
+        }
+        .custom-checkbox-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            margin-top: 6px;
+        }
+        .custom-checkbox-wrap input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #38bdf8;
+            cursor: pointer;
+        }
+        .custom-checkbox-wrap span {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-cancel {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 14.5px;
+            font-weight: 600;
+            padding: 11px 22px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .btn-cancel:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .btn-submit-import {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 14.5px !important;
+            padding: 12px 28px !important;
+            border-radius: 10px !important;
+            border: none !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s ease !important;
+        }
+        .btn-submit-import:hover {
+            background: linear-gradient(135deg, #0369a1 0%, #075985 100%) !important;
+            box-shadow: 0 6px 22px rgba(2, 132, 199, 0.5) !important;
+            transform: translateY(-1px);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="import-vjudge-wrapper">
+    <div class="import-card">
+        <div class="import-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            REMOTE ONLINE JUDGE
+        </div>
+        <h1 class="import-title">{{ _('Import Problem from Virtual Judge') }}</h1>
+        <p class="import-desc">
+            {{ _('Nhập bài tập trực tiếp từ Virtual Judge (CodeForces, POJ, AtCoder, SPOJ, UVA,...). Hệ thống sẽ tự động đồng bộ tiêu đề, nhúng đề bài trực quan, hỗ trợ xem dịch AI đa ngôn ngữ (Tiếng Việt, English,...) và chấm bài từ xa.') }}
+        </p>
+
+        {% if error %}
+            <div class="import-error-alert">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <div>
+                    <strong>{{ _('Lỗi khi nhập bài tập:') }}</strong> {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group-full">
+                    <label class="form-label" for="id_vjudge_input">
+                        {{ _('VJudge Problem ID hoặc URL') }} <span class="required">*</span>
+                    </label>
+                    <input type="text" id="id_vjudge_input" name="vjudge_input" class="form-input-vjudge"
+                           placeholder="Ví dụ: CodeForces-1100F hoặc https://vjudge.net/problem/CodeForces-1100F"
+                           value="{{ vjudge_input or '' }}" required autofocus>
+                    <div class="form-hint">
+                        {{ _('Nhập mã bài hoặc đường dẫn đầy đủ từ Virtual Judge. Ví dụ:') }} <code>CodeForces-1100F</code>, <code>POJ-2251</code>, <code>AtCoder-abc300_a</code>.
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_code">
+                        {{ _('Mã bài trên DMOJ (Code)') }} <span class="optional">({{ _('tuỳ chọn') }})</span>
+                    </label>
+                    <input type="text" id="id_code" name="code" class="form-input-vjudge"
+                           placeholder="Ví dụ: cf1100f (để trống sẽ tự sinh)"
+                           value="{{ code or '' }}">
+                    <div class="form-hint">{{ _('Chỉ gồm chữ thường và số không dấu (^[a-z0-9]+$).') }}</div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_name">
+                        {{ _('Tên bài hiển thị') }} <span class="optional">({{ _('tuỳ chọn') }})</span>
+                    </label>
+                    <input type="text" id="id_name" name="name" class="form-input-vjudge"
+                           placeholder="{{ _('Để trống để tự động lấy từ VJudge') }}"
+                           value="{{ name or '' }}">
+                    <div class="form-hint">{{ _('Tên đầy đủ của bài tập hiển thị trên danh sách.') }}</div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_time_limit">
+                        {{ _('Thời gian chạy (giây)') }} <span class="optional">({{ _('mặc định: 2.0s') }})</span>
+                    </label>
+                    <input type="number" step="0.1" id="id_time_limit" name="time_limit" class="form-input-vjudge"
+                           placeholder="2.0" value="{{ time_limit or '2.0' }}">
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_memory_limit">
+                        {{ _('Giới hạn bộ nhớ (KB)') }} <span class="optional">({{ _('mặc định: 262144 KB = 256MB') }})</span>
+                    </label>
+                    <input type="number" id="id_memory_limit" name="memory_limit" class="form-input-vjudge"
+                           placeholder="262144" value="{{ memory_limit or '262144' }}">
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_points">
+                        {{ _('Điểm bài tập') }} <span class="optional">({{ _('mặc định: 100') }})</span>
+                    </label>
+                    <input type="number" step="1" id="id_points" name="points" class="form-input-vjudge"
+                           placeholder="100" value="{{ points or '100' }}">
+                </div>
+
+                <div style="display: flex; align-items: flex-end; padding-bottom: 8px;">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" name="is_public" value="1" checked>
+                        <span>{{ _('Công khai bài tập ngay sau khi tạo (Public)') }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url('problem_list') }}" class="btn-cancel">{{ _('Huỷ bỏ') }}</a>
+                <button type="submit" class="btn-submit-import">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                    <span>{{ _('Tiến hành nhập bài') }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

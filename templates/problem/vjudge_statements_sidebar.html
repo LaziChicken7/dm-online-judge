@@ -1,0 +1,249 @@
+<div class="vjudge-statements-card" id="vjudge-statements-panel">
+    <div class="vjudge-statements-header">
+        <span class="vjudge-statements-title">Statements</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="vjudge-caret-icon"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </div>
+    <div class="vjudge-statements-list" id="vjudge-statements-list">
+        {% if vjudge_statements %}
+            {% for s in vjudge_statements %}
+                <div class="vjudge-statement-item {% if (vjudge_default_key and s.key|string == vjudge_default_key|string) or (not vjudge_default_key and loop.first) %}active{% endif %}"
+                     data-key="{{ s.key }}"
+                     data-lang="{{ s.lang }}"
+                     data-author="{{ s.author }}"
+                     onclick="selectVJudgeStatement(this, '{{ s.key }}', '{{ s.langDisplay or s.lang }}', '{{ s.author }}')">
+                    <div class="vjudge-stmt-top">
+                        <div class="vjudge-stmt-icon {% if s.author == 'System' %}system-icon{% elif s.author == 'DeepSeek' %}deepseek-icon{% elif s.author == 'icpcclub' %}icpc-icon{% else %}openai-icon{% endif %}">
+                            {% if s.author == 'System' %}
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="#fbbf24"><circle cx="12" cy="12" r="10" fill="#fbbf24"/><path d="M7 10c0-1.5 1-2 2.5-2s2.5.5 2.5 2h-5z" fill="#1e293b"/><path d="M12 10c0-1.5 1-2 2.5-2s2.5.5 2.5 2h-5z" fill="#1e293b"/><line x1="11.5" y1="10" x2="12.5" y2="10" stroke="#1e293b" stroke-width="2"/><path d="M8 15.5c1 1.5 3 2 4 2s3-.5 4-2" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                            {% elif s.author == 'DeepSeek' %}
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="#38bdf8"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 14.5c-2.48 0-4.5-2.02-4.5-4.5S10.52 7.5 13 7.5s4.5 2.02 4.5 4.5-2.02 4.5-4.5 4.5z"/></svg>
+                            {% elif s.author == 'icpcclub' %}
+                                <svg width="22" height="22" viewBox="0 0 24 24"><circle cx="7" cy="8" r="4" fill="#38bdf8"/><circle cx="12" cy="6" r="4" fill="#fbbf24"/><circle cx="17" cy="8" r="4" fill="#ef4444"/><path d="M7 12v6M12 10v8M17 12v6" stroke="#94a3b8" stroke-width="1.5"/></svg>
+                            {% else %}
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 0 0-10 10c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4A9.9 9.9 0 0 0 12 22a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm0 3c1.5 0 2.8.5 3.9 1.4L12 11.3l-3.9-4.9A6.9 6.9 0 0 1 12 5z"></path></svg>
+                            {% endif %}
+                        </div>
+                        <div class="vjudge-stmt-meta">
+                            <div class="vjudge-stmt-author-line">
+                                <span class="vjudge-stmt-name" {% if s.author == 'DeepSeek' %}style="color: #38bdf8;"{% endif %}>{{ s.author }}</span>
+                                {% if s.official %}
+                                    <span class="vjudge-badge badge-official">Official</span>
+                                {% endif %}
+                                <span class="vjudge-badge badge-lang" {% if s.lang == 'vi' %}style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.35);"{% endif %}>{{ s.langDisplay or s.lang }}</span>
+                            </div>
+                            <div class="vjudge-stmt-bottom-line">
+                                <span class="vjudge-stmt-date">{{ s.updateDate }}</span>
+                                {% if s.official %}
+                                    <div class="vjudge-stmt-actions">
+                                        <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" rel="noopener" title="Open on VJudge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></a>
+                                        <span title="Fork statement"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"></line><circle cx="18" cy="6" r="3"></circle><circle cx="18" cy="18" r="3"></circle><path d="M18 9a9 9 0 0 1-9 9"></path></svg></span>
+                                        <span title="Report issue"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <!-- Fallback Static Items if not yet fetched -->
+            <div class="vjudge-statement-item active" onclick="selectVJudgeStatement(this, '284600385919671', 'English', 'System')">
+                <div class="vjudge-stmt-top">
+                    <div class="vjudge-stmt-icon system-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fbbf24"><circle cx="12" cy="12" r="10" fill="#fbbf24"/><path d="M7 10c0-1.5 1-2 2.5-2s2.5.5 2.5 2h-5z" fill="#1e293b"/><path d="M12 10c0-1.5 1-2 2.5-2s2.5.5 2.5 2h-5z" fill="#1e293b"/><line x1="11.5" y1="10" x2="12.5" y2="10" stroke="#1e293b" stroke-width="2"/><path d="M8 15.5c1 1.5 3 2 4 2s3-.5 4-2" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+                    </div>
+                    <div class="vjudge-stmt-meta">
+                        <div class="vjudge-stmt-author-line">
+                            <span class="vjudge-stmt-name">System</span>
+                            <span class="vjudge-badge badge-official">Official</span>
+                            <span class="vjudge-badge badge-lang">English</span>
+                        </div>
+                        <div class="vjudge-stmt-bottom-line">
+                            <span class="vjudge-stmt-date">2026-09-18</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="vjudge-statement-item" onclick="selectVJudgeStatement(this, '377415467069679', 'Tiếng Việt', 'GPT')">
+                <div class="vjudge-stmt-top">
+                    <div class="vjudge-stmt-icon openai-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 0 0-10 10c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4A9.9 9.9 0 0 0 12 22a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm0 3c1.5 0 2.8.5 3.9 1.4L12 11.3l-3.9-4.9A6.9 6.9 0 0 1 12 5z"></path></svg>
+                    </div>
+                    <div class="vjudge-stmt-meta">
+                        <div class="vjudge-stmt-author-line">
+                            <span class="vjudge-stmt-name">GPT</span>
+                            <span class="vjudge-badge badge-lang" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.35);">Tiếng Việt</span>
+                        </div>
+                        <div class="vjudge-stmt-bottom-line">
+                            <span class="vjudge-stmt-date">2023-12-02</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<style>
+    .vjudge-statements-card {
+        background: rgba(15, 23, 42, 0.5) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 12px !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        margin-top: 14px !important;
+        margin-bottom: 8px !important;
+        box-shadow: 0 4px 18px rgba(0,0,0,0.25) !important;
+    }
+    .vjudge-statements-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.04);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        color: #94a3b8;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .vjudge-statements-list {
+        display: flex;
+        flex-direction: column;
+    }
+    .vjudge-statement-item {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        cursor: pointer;
+        transition: all 0.15s ease;
+        background: transparent;
+    }
+    .vjudge-statement-item:last-child {
+        border-bottom: none;
+    }
+    .vjudge-statement-item:hover {
+        background: rgba(255, 255, 255, 0.04);
+    }
+    /* Active blue state matching Image #2 */
+    .vjudge-statement-item.active {
+        background: #0d2847 !important;
+        border: 2px solid #0284c7 !important;
+        border-radius: 8px !important;
+        margin: -1px;
+        box-shadow: 0 0 14px rgba(2, 132, 199, 0.35) !important;
+        position: relative;
+        z-index: 2;
+    }
+    .vjudge-stmt-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .vjudge-stmt-icon {
+        width: 30px;
+        height: 30px;
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.06);
+        flex-shrink: 0;
+    }
+    .vjudge-stmt-meta {
+        flex: 1;
+        min-width: 0;
+    }
+    .vjudge-stmt-author-line {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        flex-wrap: wrap;
+        margin-bottom: 4px;
+    }
+    .vjudge-stmt-name {
+        font-size: 14px;
+        font-weight: 700;
+        color: #ffffff;
+    }
+    .vjudge-badge {
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 1px 6px;
+        border-radius: 9999px;
+        letter-spacing: 0.2px;
+    }
+    .badge-official {
+        background: #0284c7;
+        color: #ffffff;
+    }
+    .badge-lang {
+        background: rgba(100, 116, 139, 0.35);
+        color: #e2e8f0;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .vjudge-stmt-bottom-line {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .vjudge-stmt-date {
+        font-size: 12px;
+        color: #94a3b8;
+    }
+    .vjudge-stmt-actions {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .vjudge-stmt-actions a, .vjudge-stmt-actions span {
+        color: #38bdf8;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+    }
+    .vjudge-stmt-actions a:hover {
+        color: #7dd3fc;
+    }
+</style>
+
+<script>
+    function selectVJudgeStatement(element, key, lang, author) {
+        document.querySelectorAll('.vjudge-statement-item').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        element.classList.add('active');
+
+        var notice = document.getElementById('vjudge-active-statement-notice');
+        if (notice) {
+            notice.innerText = author + ' (' + lang + ')';
+        }
+
+        var content = document.getElementById('vjudge-statement-content');
+        if (content && key) {
+            content.style.opacity = '0.4';
+            var url = '{{ url("problem_vjudge_statement_ajax", problem.code) }}?key=' + encodeURIComponent(key);
+            fetch(url)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    content.style.opacity = '1';
+                    if (data.success && data.html) {
+                        content.innerHTML = data.html;
+                        if (window.MathJax) {
+                            if (window.MathJax.typesetClear) {
+                                try { window.MathJax.typesetClear([content]); } catch(e) {}
+                            }
+                            if (window.MathJax.typesetPromise) {
+                                window.MathJax.typesetPromise([content]).catch(function() {});
+                            } else if (window.MathJax.Hub && window.MathJax.Hub.Queue) {
+                                window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
+                            }
+                        }
+                    }
+                })
+                .catch(function(err) {
+                    content.style.opacity = '1';
+                    console.error('Failed to load statement:', err);
+                });
+        }
+    }
+</script>

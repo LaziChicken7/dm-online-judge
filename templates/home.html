@@ -3,35 +3,36 @@
     <div class="hero-container">
         <div class="hero-left">
             <div class="hero-logo-box">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00d2ff" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+                <img src="{{ static('icons/csat_logo.png') }}" class="hero-brand-logo" alt="CSAT Tutor"
+                     style="height: 40px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); flex-shrink: 0; vertical-align: middle;">
                 <div class="hero-logo-text">
                     <strong>CSAT Tutor</strong>
-                    <span>Online Judge Platform</span>
+                    <span>{{ _('Online Judge Platform') }}</span>
                 </div>
             </div>
             <h1 class="hero-title">Nền tảng luyện thi lập trình competitive programming.</h1>
-            <p class="hero-subtitle">CSAT Tutor Portfolio là hệ thống online judge dành cho học sinh THCS, THPT và sinh viên luyện tập thuật toán, cấu trúc dữ liệu và chuẩn bị cho các kỳ thi học sinh giỏi tin học...</p>
+            <p class="hero-subtitle">CSAT Tutor Online Judge là hệ thống online judge dành cho học sinh THCS, THPT và sinh viên luyện tập thuật toán, cấu trúc dữ liệu và chuẩn bị cho các kỳ thi học sinh giỏi tin học...</p>
             <div class="hero-buttons">
-                <a href="{{ url('problem_list') }}" class="hero-btn primary">Explore problems</a>
-                <a href="{{ url('contest_list') }}" class="hero-btn secondary">View contests</a>
-                <a href="#blog-container" class="hero-btn transparent">Go to blog</a>
+                <a href="{{ url('problem_list') }}" class="hero-btn primary">{{ _('Explore problems') }}</a>
+                <a href="{{ url('contest_list') }}" class="hero-btn secondary">{{ _('View contests') }}</a>
+                <a href="#blog-container" class="hero-btn transparent">{{ _('Go to blog') }}</a>
             </div>
         </div>
         <div class="hero-right">
             <div class="stat-card">
-                <div class="stat-title">PROBLEMS</div>
+                <div class="stat-title">{{ _('PROBLEMS') }}</div>
                 <div class="stat-value">{{ problem_count() }}</div>
-                <div class="stat-desc">Public tasks ready to solve</div>
+                <div class="stat-desc">{{ _('Public tasks ready to solve') }}</div>
             </div>
             <div class="stat-card">
-                <div class="stat-title">SUBMISSIONS</div>
+                <div class="stat-title">{{ _('SUBMISSIONS') }}</div>
                 <div class="stat-value">{{ submission_count() }}</div>
-                <div class="stat-desc">Attempts recorded on the platform</div>
+                <div class="stat-desc">{{ _('Attempts recorded on the platform') }}</div>
             </div>
             <div class="stat-card">
-                <div class="stat-title">LANGUAGES</div>
+                <div class="stat-title">{{ _('LANGUAGES') }}</div>
                 <div class="stat-value">{{ language_count() }}</div>
-                <div class="stat-desc">Compilers and runtimes available</div>
+                <div class="stat-desc">{{ _('Compilers and runtimes available') }}</div>
             </div>
         </div>
     </div>

@@ -14,6 +14,17 @@
                 return confirm({{ _('Are you sure you want to join?')|htmltojs }} + '\n' +
                     {{ _('Joining a contest for the first time starts your timer, after which it becomes unstoppable.')|htmltojs }});
             });
+
+            /* Instant client-side search for visible contest rows */
+            $('#search').on('input', function () {
+                var q = $(this).val().toLowerCase().trim();
+                $('.contest-table-card tbody tr').each(function () {
+                    var title = $(this).find('.contest-list-title').text().toLowerCase();
+                    var tags = $(this).find('.contest-tags').text().toLowerCase();
+                    var match = title.indexOf(q) > -1 || tags.indexOf(q) > -1;
+                    $(this).toggle(match);
+                });
+            });
         });
     </script>
 {% endblock %}
@@ -365,20 +376,99 @@
             transform: none !important;
         }
 
-        /* ── Past contest search input ── */
-        #search-form #search {
+        /* ── Past Contests Toolbar & Search ── */
+        .contest-past-toolbar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 16px !important;
+            width: 100% !important;
+            margin: 16px 0 20px 0 !important;
+            box-sizing: border-box !important;
+            flex-wrap: wrap !important;
+        }
+        .contest-toolbar-pagination {
+            display: flex !important;
+            align-items: center !important;
+        }
+        .contest-toolbar-pagination .pagination {
+            margin: 0 !important;
+        }
+        #search-form.contest-search-form,
+        .contest-search-form {
+            display: flex !important;
+            align-items: center !important;
+            margin: 0 !important;
+            margin-left: auto !important;
+            margin-right: 4px !important;
+            width: auto !important;
+        }
+        .contest-search-box {
+            position: relative !important;
+            display: flex !important;
+            align-items: center !important;
+            width: 270px !important;
+            min-width: unset !important;
+            max-width: 100% !important;
+        }
+        .contest-search-icon {
+            position: absolute !important;
+            left: 14px !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            pointer-events: none !important;
+            transition: color 0.2s ease !important;
+            z-index: 2 !important;
+        }
+        .contest-search-box:focus-within .contest-search-icon {
+            color: #38bdf8 !important;
+        }
+        .contest-search-input {
+            width: 100% !important;
             background: rgba(255, 255, 255, 0.04) !important;
             border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 12px !important;
-            padding: 10px 16px !important;
+            border-radius: 100px !important;
+            padding: 8px 36px 8px 38px !important;
             color: #ffffff !important;
-            font-size: 14px !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            box-sizing: border-box !important;
             outline: none !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
         }
-        #search-form #search:focus {
+        .contest-search-input:hover {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+        }
+        .contest-search-input:focus {
+            background: rgba(255, 255, 255, 0.08) !important;
             border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25), inset 0 0 0 1px #38bdf8 !important;
+        }
+        .contest-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.35) !important;
+            font-size: 13px !important;
+        }
+        .contest-search-clear {
+            position: absolute !important;
+            right: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 20px !important;
+            height: 20px !important;
+            border-radius: 50% !important;
+            background: rgba(255, 255, 255, 0.1) !important;
+            color: #94a3b8 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+            z-index: 2 !important;
+        }
+        .contest-search-clear:hover {
+            background: rgba(239, 68, 68, 0.25) !important;
+            color: #f87171 !important;
+            transform: scale(1.05) !important;
         }
     </style>
 {% endblock %}
@@ -613,12 +703,29 @@
         {% endif %}
         <h4 id="past-contests">{{ _('Past contests') }}</h4>
         {% if page_obj or search_query %}
-            <div class="top-pagination-bar">
-                {% include "list-pages.html" %}
-                <form id="search-form" name="form" action="" method="get">
-                    <div>
-                        <input id="search" type="text" name="search" value="{{ search_query or '' }}"
-                            placeholder="{{ _('Search contests...') }}">
+            <div class="contest-past-toolbar">
+                <div class="contest-toolbar-pagination">
+                    {% if page_obj %}
+                        {% include "list-pages.html" %}
+                    {% endif %}
+                </div>
+                <form id="search-form" class="contest-search-form" name="form" action="#past-contests" method="get">
+                    <div class="contest-search-box">
+                        <svg class="contest-search-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                        <input id="search" class="contest-search-input" type="text" name="search"
+                               value="{{ search_query or '' }}"
+                               placeholder="{{ _('Search contests...') }}" autocomplete="off">
+                        {% if search_query %}
+                            <a href="{{ request.path }}#past-contests" class="contest-search-clear" title="{{ _('Clear search') }}">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </a>
+                        {% endif %}
                     </div>
                 </form>
             </div>

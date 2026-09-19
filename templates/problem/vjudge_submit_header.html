@@ -1,0 +1,235 @@
+<div class="vjudge-submit-modal-card">
+    <div class="vjudge-modal-row">
+        <span class="vjudge-row-label">{{ _('Problem:') }}</span>
+        <span class="vjudge-prob-val">{{ problem.vjudge_oj }} - {{ problem.vjudge_prob_num }}</span>
+    </div>
+
+    <div class="vjudge-modal-row">
+        <span class="vjudge-row-label">{{ _('Open:') }}</span>
+        <div class="vjudge-btn-toggle-group" id="vjudge-open-group">
+            <button type="button" class="vjudge-toggle-btn active" data-val="1">Yes</button>
+            <button type="button" class="vjudge-toggle-btn" data-val="0">No</button>
+            <input type="hidden" name="vjudge_open" id="id_vjudge_open" value="1">
+        </div>
+    </div>
+
+    <div class="vjudge-modal-row">
+        <span class="vjudge-row-label">{{ _('Submit By:') }}</span>
+        <div class="vjudge-submit-by-content">
+            <div class="vjudge-btn-toggle-group" id="vjudge-method-group">
+                {% if problem.vjudge_oj != 'CodeForces' %}
+                    <button type="button" class="vjudge-toggle-btn" data-val="0">Default Account</button>
+                {% endif %}
+                <button type="button" class="vjudge-toggle-btn active" data-val="1">Own Account</button>
+                <button type="button" class="vjudge-toggle-btn" data-val="2">Archive</button>
+                <input type="hidden" name="vjudge_method" id="id_vjudge_method" value="1">
+            </div>
+
+            <!-- Remote Account Selector & Manage Accounts Link -->
+            <div class="vjudge-account-selector-line" id="vjudge-account-selector-line">
+                <select name="vjudge_binding_id" id="id_vjudge_binding_id" class="vjudge-account-select">
+                    {% if vjudge_remote_accounts %}
+                        {% for acc in vjudge_remote_accounts %}
+                            <option value="{{ acc.id }}" {% if acc.isReady %}selected{% endif %}>
+                                {{ acc.remoteUsername or acc.username }} ({{ acc.oj or problem.vjudge_oj }}) - {% if acc.isReady %}[Sẵn sàng / Ready]{% else %}[Chưa hoàn tất liên kết / Incomplete]{% endif %}
+                            </option>
+                        {% endfor %}
+                    {% else %}
+                        <option value="">-- {{ _('Chưa có tài khoản liên kết') }} --</option>
+                    {% endif %}
+                </select>
+                <a href="https://vjudge.net/user/remoteAccounts?oj={{ problem.vjudge_oj }}" target="_blank" rel="noopener" class="vjudge-manage-accounts-link">
+                    {{ _('Manage Accounts ↗') }}
+                </a>
+            </div>
+
+            {% if request.profile.vjudge_cookie and problem.vjudge_oj == 'CodeForces' and not vjudge_has_ready_account %}
+                <div class="vjudge-incomplete-alert" style="display: flex; align-items: flex-start; gap: 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 10px; padding: 12px 16px; margin-top: 6px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <div style="flex: 1; font-size: 13.5px; line-height: 1.55; color: #fca5a5;">
+                        <div style="font-weight: 700; color: #f87171; margin-bottom: 3px;">
+                            {{ _('Tài khoản CodeForces trên Virtual Judge chưa hoàn tất xác thực (INCOMPLETE)') }}
+                        </div>
+                        <div>
+                            {{ _('Codeforces yêu cầu nộp bằng tài khoản cá nhân đã xác thực. Hãy nhấn') }}
+                            <a href="https://vjudge.net/user/remoteAccounts?oj={{ problem.vjudge_oj }}" target="_blank" rel="noopener" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">
+                                {{ _('Manage Accounts trên Virtual Judge ↗') }}
+                            </a>
+                            {{ _('để nhập mật khẩu / liên kết tài khoản CodeForces của bạn trước khi nộp.') }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if not request.profile.vjudge_cookie %}
+                <div class="vjudge-auth-required-alert">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700; color: #fbbf24; margin-bottom: 2px;">{{ _('Yêu cầu kết nối tài khoản Virtual Judge') }}</div>
+                        <div style="color: #cbd5e1; font-size: 13px;">{{ _('Để nộp bài cho đề Codeforces thông qua VJudge, bạn cần kết nối tài khoản VJudge của mình.') }}</div>
+                    </div>
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-connect-link-btn" target="_blank" rel="noopener">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>{{ _('Kết nối tài khoản') }}</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .vjudge-submit-modal-card {
+        background: #22272e !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 12px !important;
+        padding: 22px 24px !important;
+        margin-bottom: 20px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    }
+    .vjudge-modal-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 18px;
+    }
+    .vjudge-modal-row:last-child {
+        margin-bottom: 0;
+        align-items: flex-start;
+    }
+    .vjudge-row-label {
+        width: 120px;
+        flex-shrink: 0;
+        color: #adbac7;
+        font-size: 14.5px;
+        font-weight: 500;
+    }
+    .vjudge-prob-val {
+        color: #adbac7;
+        font-size: 15px;
+        font-weight: 600;
+    }
+    .vjudge-btn-toggle-group {
+        display: inline-flex;
+        border-radius: 8px;
+        overflow: hidden;
+        background: #2d333b;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .vjudge-toggle-btn {
+        background: transparent;
+        border: none;
+        color: #adbac7;
+        padding: 7px 18px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        outline: none !important;
+    }
+    .vjudge-toggle-btn:last-child {
+        border-right: none;
+    }
+    .vjudge-toggle-btn.active {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+    }
+    .vjudge-submit-by-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .vjudge-account-selector-line {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 4px;
+    }
+    .vjudge-account-select {
+        background: #2d333b !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        color: #adbac7 !important;
+        padding: 8px 14px !important;
+        font-size: 14px !important;
+        min-width: 260px !important;
+        outline: none !important;
+    }
+    .vjudge-manage-accounts-link {
+        color: #38bdf8 !important;
+        font-size: 14px !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        transition: all 0.15s ease;
+    }
+    .vjudge-manage-accounts-link:hover {
+        color: #7dd3fc !important;
+        text-decoration: underline !important;
+    }
+    .vjudge-auth-required-alert {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(245, 158, 11, 0.1);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        border-radius: 10px;
+        padding: 12px 16px;
+        margin-top: 8px;
+    }
+    .vjudge-connect-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f59e0b;
+        color: #1e293b !important;
+        font-weight: 700;
+        font-size: 13px;
+        padding: 7px 14px;
+        border-radius: 6px;
+        text-decoration: none !important;
+        flex-shrink: 0;
+        transition: all 0.2s ease;
+    }
+    .vjudge-connect-link-btn:hover {
+        background: #fbbf24;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle Open (Yes / No)
+        var openGroup = document.getElementById('vjudge-open-group');
+        if (openGroup) {
+            openGroup.querySelectorAll('.vjudge-toggle-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    openGroup.querySelectorAll('.vjudge-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    document.getElementById('id_vjudge_open').value = btn.getAttribute('data-val');
+                });
+            });
+        }
+
+        // Toggle Submit By (Default / Own / Archive)
+        var methodGroup = document.getElementById('vjudge-method-group');
+        var accountLine = document.getElementById('vjudge-account-selector-line');
+        if (methodGroup) {
+            methodGroup.querySelectorAll('.vjudge-toggle-btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    methodGroup.querySelectorAll('.vjudge-toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+                    btn.classList.add('active');
+                    var val = btn.getAttribute('data-val');
+                    document.getElementById('id_vjudge_method').value = val;
+                    if (accountLine) {
+                        if (val === '0') {
+                            accountLine.style.opacity = '0.5';
+                        } else {
+                            accountLine.style.opacity = '1';
+                        }
+                    }
+                });
+            });
+        }
+    });
+</script>

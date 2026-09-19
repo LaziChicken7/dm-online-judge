@@ -153,7 +153,7 @@ msgstr "Đề bài"
 #: templates/contest/contest.html:191 templates/user/user-tabs.html:5
 #: templates/user/users-table.html:23
 msgid "Problems"
-msgstr "Các bài"
+msgstr "Bài tập"
 
 #: judge/admin/contest.py:79 judge/admin/submission.py:247
 #: templates/admin/judge/submission/change_form.html:14
@@ -3014,7 +3014,7 @@ msgstr "Không thể tìm thấy một cuộc thi với khóa \"%s\"."
 
 #: judge/views/contests.py:72
 msgid "Contests"
-msgstr "Cuộc thi"
+msgstr "Kỳ thi"
 
 #: judge/views/contests.py:252
 msgid "Could not find such contest."
@@ -3914,7 +3914,7 @@ msgstr "Dòng bình luận"
 
 #: templates/blog/list.html:174
 msgid "New problems"
-msgstr "Đề bài mới"
+msgstr "Bài tập mới"
 
 #: templates/blog/list.html:191
 msgid "My open tickets"
@@ -6058,7 +6058,7 @@ msgstr "Khi mà dữ liệu bạn đã sẵn sàng, bạn sẽ tìm thấy link 
 
 #: templates/user/prepare-data.html:104
 msgid "Submissions"
-msgstr "Các bài nộp"
+msgstr "Bài nộp"
 
 #: templates/user/prepare-data.html:121
 msgid "Prepare new download"
@@ -6227,3 +6227,58 @@ msgstr "Hồ sơ Admin"
 msgid "Check all"
 msgstr "Chọn tất cả"
 
+
+
+msgid "Recent comments"
+msgstr "Bình luận gần đây"
+
+msgid "New users"
+msgstr "Thành viên mới"
+
+msgid "Explore problems"
+msgstr "Khám phá bài tập"
+
+msgid "View contests"
+msgstr "Xem các kỳ thi"
+
+msgid "Go to blog"
+msgstr "Đến tin tức"
+
+msgid "PROBLEMS"
+msgstr "BÀI TẬP"
+
+msgid "Public tasks ready to solve"
+msgstr "Bài toán sẵn sàng giải"
+
+msgid "SUBMISSIONS"
+msgstr "BÀI NỘP"
+
+msgid "Attempts recorded on the platform"
+msgstr "Lượt nộp bài trên hệ thống"
+
+msgid "LANGUAGES"
+msgstr "NGÔN NGỮ"
+
+msgid "Compilers and runtimes available"
+msgstr "Trình biên dịch & thông dịch hỗ trợ"
+
+msgid "Online Judge Platform"
+msgstr "Hệ thống chấm điểm trực tuyến"
+
+msgid "Add organization"
+msgstr "Thêm tổ chức"
+
+msgid "Add problem"
+msgstr "Thêm bài tập"
+
+msgid "Add user"
+msgstr "Thêm người dùng"
+
+msgid "Import Polygon"
+msgstr "Nhập từ Polygon"
+
+msgid "Import from Polygon"
+msgstr "Nhập từ Polygon"
+
+msgid "Upload Polygon Package"
+msgstr "Tải lên gói Polygon"

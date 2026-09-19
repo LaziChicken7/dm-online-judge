@@ -14,7 +14,7 @@ from django.db.models import BooleanField, Case, CharField, Count, F, FilteredRe
 from django.db.models.functions import Coalesce
 from django.db.utils import ProgrammingError
 from django.http import Http404, HttpResponse, HttpResponseForbidden, HttpResponseRedirect, JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.template.loader import get_template
 from django.urls import reverse
 from django.utils import timezone, translation
@@ -212,6 +212,42 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
                 context['vote'] = None
         else:
             context['vote'] = None
+
+        if self.object.is_vjudge:
+            from judge.utils.vjudge_service import (
+                get_vjudge_problem_data,
+                get_vjudge_statement_content,
+                select_best_vjudge_statement,
+            )
+            from django.utils.translation import get_language
+
+            cookie = self.request.profile.vjudge_cookie if authed else None
+            data = get_vjudge_problem_data(self.object.vjudge_oj, self.object.vjudge_prob_num, cookie=cookie)
+            statements = data.get('descBriefs', []) if data else []
+            context['vjudge_statements'] = statements
+
+            user_lang = (
+                self.request.GET.get('lang') or
+                getattr(self.request, 'LANGUAGE_CODE', None) or
+                get_language() or
+                'en'
+            )
+            requested_key = self.request.GET.get('stmt') or self.request.GET.get('key')
+            best_stmt = select_best_vjudge_statement(statements, user_lang=user_lang, requested_key=requested_key)
+            default_key = str(best_stmt['key']) if best_stmt and best_stmt.get('key') else None
+            context['vjudge_default_key'] = default_key
+
+            if best_stmt:
+                context['vjudge_active_author'] = best_stmt.get('author') or 'System'
+                context['vjudge_active_lang'] = best_stmt.get('langDisplay') or best_stmt.get('lang') or 'English'
+            else:
+                context['vjudge_active_author'] = 'System'
+                context['vjudge_active_lang'] = 'English'
+
+            if default_key:
+                context['vjudge_statement_html'] = get_vjudge_statement_content(default_key, cookie=cookie)
+            else:
+                context['vjudge_statement_html'] = ""
 
         return context
 
@@ -668,7 +704,9 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         kwargs = super().get_form_kwargs()
         kwargs['instance'] = Submission(user=self.request.profile, problem=self.object)
 
-        if self.object.is_editable_by(self.request.user):
+        if self.object.is_vjudge:
+            kwargs['judge_choices'] = ()
+        elif self.object.is_editable_by(self.request.user):
             kwargs['judge_choices'] = tuple(
                 Judge.objects.filter(online=True, problems=self.object).values_list('name', 'name'),
             )
@@ -680,10 +718,13 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
 
-        form.fields['language'].queryset = (
-            self.object.usable_languages.order_by('name', 'key')
-            .prefetch_related(Prefetch('runtimeversion_set', RuntimeVersion.objects.order_by('priority')))
-        )
+        if self.object.is_vjudge:
+            form.fields['language'].queryset = self.object.allowed_languages.order_by('name', 'key')
+        else:
+            form.fields['language'].queryset = (
+                self.object.usable_languages.order_by('name', 'key')
+                .prefetch_related(Prefetch('runtimeversion_set', RuntimeVersion.objects.order_by('priority')))
+            )
 
         form_data = getattr(form, 'cleaned_data', form.initial)
         if 'language' in form_data:
@@ -741,7 +782,40 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
 
         # Save a query.
         self.new_submission.source = source
-        self.new_submission.judge(force_judge=True, judge_id=form.cleaned_data['judge'])
+
+        if self.object.is_vjudge:
+            from judge.tasks.vjudge_judge import judge_vjudge_submission_async
+            from judge.utils.vjudge_service import get_vjudge_remote_accounts
+            try:
+                method = int(self.request.POST.get('vjudge_method', 1))
+            except (ValueError, TypeError):
+                method = 1
+            binding_id = self.request.POST.get('vjudge_binding_id') or None
+            try:
+                open_code = int(self.request.POST.get('vjudge_open', 1))
+            except (ValueError, TypeError):
+                open_code = 1
+
+            cookie = self.request.profile.vjudge_cookie if hasattr(self.request, 'profile') else None
+            if not binding_id and cookie:
+                remote_accs = get_vjudge_remote_accounts(cookie, oj=self.object.vjudge_oj)
+                for acc in remote_accs:
+                    if acc.get('isReady'):
+                        binding_id = acc.get('id')
+                        method = 1
+                        break
+                if not binding_id and remote_accs:
+                    binding_id = remote_accs[0].get('id')
+                    method = 1
+
+            judge_vjudge_submission_async(
+                self.new_submission,
+                method=method,
+                binding_id=binding_id,
+                open_code=open_code
+            )
+        else:
+            self.new_submission.judge(force_judge=True, judge_id=form.cleaned_data['judge'])
 
         return super().form_valid(form)
 
@@ -749,6 +823,17 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         context = super().get_context_data(**kwargs)
         context['langs'] = Language.objects.all()
         context['no_judges'] = not context['form'].fields['language'].queryset
+        if self.object.is_vjudge:
+            context['no_judges'] = False
+            context['is_vjudge'] = True
+            from judge.utils.vjudge_service import get_vjudge_remote_accounts
+            accounts = (
+                get_vjudge_remote_accounts(self.request.profile.vjudge_cookie, oj=self.object.vjudge_oj)
+                if (hasattr(self.request, 'profile') and self.request.profile.vjudge_cookie) else []
+            )
+            context['vjudge_remote_accounts'] = accounts
+            context['vjudge_has_ready_account'] = any(acc.get('isReady') for acc in accounts)
+            context['vjudge_has_incomplete_account'] = any(acc.get('isIncomplete') for acc in accounts)
         context['submission_limit'] = self.contest_problem and self.contest_problem.max_submissions
         context['submissions_left'] = self.remaining_submission_count
         context['ACE_URL'] = settings.ACE_URL
@@ -813,3 +898,126 @@ class ProblemClone(ProblemMixin, PermissionRequiredMixin, TitleMixin, SingleObje
             revisions.set_comment(_('Cloned problem from %s') % old_code)
 
         return HttpResponseRedirect(reverse('admin:judge_problem_change', args=(problem.id,)))
+
+
+class ImportPolygonView(TitleMixin, View):
+    title = gettext_lazy("Import Problem from Polygon")
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return render(request, "problem/import_polygon.html", {
+            "title": self.get_title(),
+        })
+
+    def post(self, request):
+        zip_file = request.FILES.get("zip_file")
+        if not zip_file:
+            return render(request, "problem/import_polygon.html", {
+                "title": self.get_title(),
+                "error": _("Please select a Polygon package (.zip file) to upload."),
+            })
+
+        if not zip_file.name.lower().endswith(".zip"):
+            return render(request, "problem/import_polygon.html", {
+                "title": self.get_title(),
+                "error": _("The uploaded file must be a .zip file."),
+            })
+
+        code_override = request.POST.get("code", "").strip() or None
+        name_override = request.POST.get("name", "").strip() or None
+        points_override = request.POST.get("points", "").strip() or None
+        time_limit_override = request.POST.get("time_limit", "").strip() or None
+        memory_limit_override = request.POST.get("memory_limit", "").strip() or None
+        is_public = bool(request.POST.get("is_public"))
+
+        from judge.utils.polygon_importer import import_polygon_package
+
+        try:
+            problem, test_count = import_polygon_package(
+                zip_file=zip_file,
+                code_override=code_override,
+                name_override=name_override,
+                points_override=points_override,
+                time_limit_override=time_limit_override,
+                memory_limit_override=memory_limit_override,
+                is_public=is_public,
+                author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None) or Profile.objects.filter(user__is_superuser=True).first(),
+            )
+            return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
+        except Exception as e:
+            return render(request, "problem/import_polygon.html", {
+                "title": self.get_title(),
+                "error": str(e),
+                "code": code_override or "",
+                "name": name_override or "",
+                "points": points_override or "",
+                "time_limit": time_limit_override or "",
+                "memory_limit": memory_limit_override or "",
+            })
+
+class ImportVJudgeView(TitleMixin, View):
+    title = gettext_lazy("Import Problem from VJudge")
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return render(request, "problem/import_vjudge.html", {
+            "title": self.get_title(),
+        })
+
+    def post(self, request):
+        vjudge_input = request.POST.get("vjudge_input", "").strip()
+        if not vjudge_input:
+            return render(request, "problem/import_vjudge.html", {
+                "title": self.get_title(),
+                "error": _("Please enter a VJudge problem ID or URL."),
+            })
+
+        code_override = request.POST.get("code", "").strip() or None
+        name_override = request.POST.get("name", "").strip() or None
+        points_override = request.POST.get("points", "").strip() or None
+        time_limit_override = request.POST.get("time_limit", "").strip() or None
+        memory_limit_override = request.POST.get("memory_limit", "").strip() or None
+        is_public = bool(request.POST.get("is_public"))
+
+        from judge.utils.vjudge_importer import import_vjudge_problem
+
+        try:
+            problem, created = import_vjudge_problem(
+                vjudge_input=vjudge_input,
+                code_override=code_override,
+                name_override=name_override,
+                points_override=points_override,
+                time_limit_override=time_limit_override,
+                memory_limit_override=memory_limit_override,
+                is_public=is_public,
+                author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None),
+            )
+            return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
+        except Exception as e:
+            return render(request, "problem/import_vjudge.html", {
+                "title": self.get_title(),
+                "error": str(e),
+                "vjudge_input": vjudge_input,
+                "code": code_override or "",
+                "name": name_override or "",
+                "points": points_override or "",
+                "time_limit": time_limit_override or "",
+                "memory_limit": memory_limit_override or "",
+            })
+
+class VJudgeStatementAjaxView(View):
+    def get(self, request, problem):
+        from judge.models import Problem
+        from judge.utils.vjudge_service import get_vjudge_statement_content
+        prob = get_object_or_404(Problem, code=problem)
+        key = request.GET.get('key')
+        if not key:
+            return JsonResponse({'success': False, 'error': 'Missing key'}, status=400)
+
+        cookie = request.profile.vjudge_cookie if request.user.is_authenticated else None
+        html = get_vjudge_statement_content(key, cookie=cookie)
+        return JsonResponse({'success': True, 'html': html, 'key': key})

@@ -1,8 +1,10 @@
 {% extends "tabs-base.html" %}
 
 {% block tabs %}
-    {% if perms.judge.edit_all_problem or perms.judge.edit_public_problem or perms.judge.edit_own_problem %}
+    {% if perms.judge.edit_all_problem or perms.judge.edit_public_problem or perms.judge.edit_own_problem or request.user.is_staff %}
         {{ make_tab('list', 'fa-list', url('problem_list'), _('List')) }}
-        {{ make_tab('admin', 'fa-edit', url('admin:judge_problem_changelist'), _('Admin')) }}
+        {{ make_tab('import_vjudge', 'fa-globe', url('problem_import_vjudge'), _('Import VJudge')) }}
+        {{ make_tab('import_polygon', 'fa-cloud-upload', url('problem_import_polygon'), _('Import Polygon')) }}
+        {{ make_tab('admin', 'fa-pencil', url('admin:judge_problem_changelist'), _('Admin')) }}
     {% endif %}
 {% endblock %}

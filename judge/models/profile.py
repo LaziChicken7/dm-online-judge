@@ -184,6 +184,10 @@ class Profile(models.Model):
                                    help_text=_('The rendering engine used to render math.'))
     is_totp_enabled = models.BooleanField(verbose_name=_('TOTP 2FA enabled'), default=False,
                                           help_text=_('Check to enable TOTP-based two-factor authentication.'))
+    vjudge_username = models.CharField(max_length=100, blank=True, default='', verbose_name=_('VJudge username'))
+    vjudge_cookie = models.TextField(blank=True, default='', verbose_name=_('VJudge session cookie'))
+    vjudge_account_method = models.IntegerField(default=0, verbose_name=_('VJudge default submit method'))
+    vjudge_binding_id = models.BigIntegerField(null=True, blank=True, verbose_name=_('VJudge remote account binding ID'))
     is_webauthn_enabled = models.BooleanField(verbose_name=_('WebAuthn 2FA enabled'), default=False,
                                               help_text=_('Check to enable WebAuthn-based two-factor authentication.'))
     totp_key = EncryptedNullCharField(max_length=32, null=True, blank=True, verbose_name=_('TOTP key'),

@@ -179,6 +179,10 @@ class Problem(models.Model):
     organizations = models.ManyToManyField(Organization, blank=True, verbose_name=_('organizations'),
                                            help_text=_('If private, only these organizations may see the problem.'))
     is_organization_private = models.BooleanField(verbose_name=_('private to organizations'), default=False)
+    is_vjudge = models.BooleanField(verbose_name=_('is VJudge problem'), default=False, db_index=True)
+    vjudge_oj = models.CharField(verbose_name=_('VJudge remote OJ'), max_length=50, blank=True, default='')
+    vjudge_prob_num = models.CharField(verbose_name=_('VJudge problem number'), max_length=50, blank=True, default='')
+    vjudge_pid = models.IntegerField(verbose_name=_('VJudge problem ID'), null=True, blank=True)
 
     def __init__(self, *args, **kwargs):
         super(Problem, self).__init__(*args, **kwargs)

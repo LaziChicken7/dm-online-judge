@@ -13,7 +13,7 @@ from judge.feed import AtomBlogFeed, AtomCommentFeed, AtomProblemFeed, BlogFeed,
 from judge.sitemap import sitemaps
 from judge.views import TitledTemplateView, api, blog, comment, contests, language, license, mailgun, organization, \
     preview, problem, problem_manage, ranked_submission, register, stats, status, submission, tasks, ticket, \
-    two_factor, user, widgets
+    two_factor, user, widgets, vjudge
 from judge.views.problem_data import ProblemDataView, ProblemSubmissionDiff, \
     problem_data_file, problem_init_view
 from judge.views.register import ActivationView, RegistrationView
@@ -101,9 +101,15 @@ urlpatterns = [
 
     path('problems/', problem.ProblemList.as_view(), name='problem_list'),
     path('problems/random/', problem.RandomProblem.as_view(), name='problem_random'),
+    path('problems/import/polygon/', problem.ImportPolygonView.as_view(), name='problem_import_polygon'),
+    path('problems/import/vjudge/', problem.ImportVJudgeView.as_view(), name='problem_import_vjudge'),
+    path('user/vjudge/connect/', vjudge.VJudgeConnectView.as_view(), name='vjudge_connect'),
+    path('user/vjudge/disconnect/', vjudge.VJudgeDisconnectView.as_view(), name='vjudge_disconnect'),
+    path('api/vjudge/remote-accounts/', vjudge.VJudgeRemoteAccountsApi.as_view(), name='vjudge_remote_accounts_api'),
 
     path('problem/<str:problem>', include([
         path('', problem.ProblemDetail.as_view(), name='problem_detail'),
+        path('/vjudge-statement', problem.VJudgeStatementAjaxView.as_view(), name='problem_vjudge_statement_ajax'),
         path('/editorial', problem.ProblemSolution.as_view(), name='problem_editorial'),
         path('/pdf', problem.ProblemPdfView.as_view(), name='problem_pdf'),
         path('/pdf/<slug:language>', problem.ProblemPdfView.as_view(), name='problem_pdf'),

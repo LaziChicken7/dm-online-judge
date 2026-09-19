@@ -1,0 +1,134 @@
+{% extends "tabs-base.html" %}
+
+{% block post_tab_spacer %}
+    <style>
+        .tabs.org-tabs:not(#mobile)::before {
+            content: "ORGANIZATION" !important;
+            letter-spacing: 2px !important;
+        }
+        .org-badge-short {
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 2px 8px !important;
+            border-radius: 6px !important;
+            background: rgba(56, 189, 248, 0.12) !important;
+            border: 1px solid rgba(56, 189, 248, 0.28) !important;
+            color: #38bdf8 !important;
+            font-family: "Google Sans Code", monospace !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            margin-left: 10px !important;
+            vertical-align: middle !important;
+            letter-spacing: 0.5px !important;
+        }
+        /* Organization Join / Leave Pseudotab in Header */
+        .org-action-pseudotab {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 !important;
+            border-radius: 100px !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            overflow: hidden !important;
+            text-decoration: none !important;
+            margin-left: 6px !important;
+        }
+        .org-action-pseudotab input[type="submit"],
+        .org-action-pseudotab a,
+        .org-action-pseudotab span {
+            background: transparent !important;
+            border: none !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            padding: 8px 18px !important;
+            cursor: pointer !important;
+            box-shadow: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
+        }
+        .org-join-btn {
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            color: #ffffff !important;
+        }
+        .org-join-btn:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+        }
+        .org-join-btn input[type="submit"],
+        .org-join-btn a,
+        .org-join-btn span {
+            color: #ffffff !important;
+        }
+        .org-leave-btn {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.25) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+        .org-leave-btn:hover {
+            background: rgba(239, 68, 68, 0.22) !important;
+            border-color: rgba(239, 68, 68, 0.55) !important;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
+            transform: translateY(-2px) !important;
+        }
+        .org-leave-btn input[type="submit"] {
+            color: #fca5a5 !important;
+        }
+    </style>
+    <script>
+        $(function() {
+            $(".tabs").addClass("org-tabs");
+            $(".leave-org-action").click(function () {
+                return confirm({{ _('Are you sure you want to leave this organization?')|htmltojs }} + "\n" +
+                    {% if organization.is_open %}
+                        {{ _('You will have to rejoin to show up on the organization leaderboard.')|htmltojs }}
+                    {% else %}
+                        {{ _('You will have to request membership in order to join again.')|htmltojs }}
+                    {% endif %}
+                );
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block tabs %}
+    {{ make_tab('overview', 'fa-university', organization.get_absolute_url(), _('Overview')) }}
+    {{ make_tab('users', 'fa-users', organization.get_users_url(), _('Members')) }}
+    {% if can_review_requests %}
+        {{ make_tab('requests', 'fa-list', url('organization_requests_pending', organization.id, organization.slug), _('Requests')) }}
+    {% endif %}
+    {% if can_edit %}
+        {{ make_tab('edit', 'fa-edit', url('edit_organization', organization.id, organization.slug), _('Edit')) }}
+    {% endif %}
+    {% if perms.judge.change_organization %}
+        {{ make_tab('admin', 'fa-gavel', url('admin:judge_organization_change', organization.id), _('Admin')) }}
+    {% endif %}
+    {% if request.user.is_authenticated %}
+        {% if request.profile in organization %}
+            <form action="{{ url('leave_organization', organization.id, organization.slug) }}" method="post"
+                  class="org-action-pseudotab org-leave-btn unselectable button">
+                {% csrf_token %}
+                <input type="submit" class="leave-org-action" value="{{ _('Leave') }}">
+            </form>
+        {% elif organization.is_open %}
+            <form action="{{ url('join_organization', organization.id, organization.slug) }}" method="post"
+                  class="org-action-pseudotab org-join-btn unselectable button">
+                {% csrf_token %}
+                <input type="submit" value="{{ _('Join') }}">
+            </form>
+        {% else %}
+            <a href="{{ url('request_organization', organization.id, organization.slug) }}"
+               class="org-action-pseudotab org-join-btn unselectable button">
+                <span>{{ _('Request') }}</span>
+            </a>
+        {% endif %}
+    {% endif %}
+{% endblock %}

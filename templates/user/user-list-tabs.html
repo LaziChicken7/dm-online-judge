@@ -3,4 +3,9 @@
 {% block tabs %}
     {{ make_tab('list', 'fa-users', url('user_list'), _('Leaderboard')) }}
     {{ make_tab('organizations', 'fa-university', url('organization_list'), _('Organizations')) }}
+    {% if tab == 'list' and (perms.auth.add_user or perms.auth.change_user or request.user.is_staff) %}
+        {{ make_tab('admin_user', 'fa-cogs', url('admin:auth_user_changelist'), _('Admin')) }}
+    {% elif tab == 'organizations' and (perms.judge.add_organization or request.user.is_staff) %}
+        {{ make_tab('admin_org', 'fa-cogs', url('admin:judge_organization_changelist'), _('Admin')) }}
+    {% endif %}
 {% endblock %}

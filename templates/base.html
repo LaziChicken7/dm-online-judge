@@ -2472,11 +2472,11 @@
         margin: 0 !important;
         padding: 0 !important;
     }
-    .tabs .tab a, .tabs .tab span {
+    .tabs .tab > a, .tabs .tab > span {
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 6px !important;
+        gap: 8px !important;
         padding: 10px 24px !important;
         border-radius: 100px !important;
         background: rgba(255, 255, 255, 0.04) !important;
@@ -2488,15 +2488,32 @@
         text-decoration: none !important;
         box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
     }
-    .tabs .tab a:hover {
+    .tabs .tab > a:hover {
         background: rgba(255, 255, 255, 0.08) !important;
         color: #ffffff !important;
     }
-    .tabs .tab.active a, .tabs .tab.active span {
+    .tabs .tab.active > a, .tabs .tab.active > span {
         background: rgba(0, 112, 243, 0.15) !important;
         border-color: rgba(0, 112, 243, 0.4) !important;
         color: #ffffff !important;
         box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 12px rgba(0, 112, 243, 0.2) !important;
+    }
+    /* Strip any styles from inner spans so it stays a single clean pill as in Image #2 */
+    .tabs .tab a span,
+    .tabs .tab span span,
+    .tabs .tab > a > span,
+    .tabs .tab > span > span {
+        all: unset !important;
+        display: inline !important;
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        background: transparent !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
     }
     .tabs .tab i {
         margin-right: 2px !important;
@@ -4499,6 +4516,633 @@
         margin-bottom: 18px !important;
     }
 
+
+
+    /* =========================================================
+       COMPREHENSIVE MODERN LIGHT MODE THEME OVERRIDES
+       ========================================================= */
+    html[data-theme="light"],
+    html[data-theme="light"] body,
+    html.theme-light,
+    html.theme-light body {
+        background-color: #f8fafc !important;
+        background-image: 
+            radial-gradient(circle at 0% 0%, rgba(2, 132, 199, 0.08), transparent 50%),
+            radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.05), transparent 50%) !important;
+        color: #0f172a !important;
+    }
+
+    /* Headings & Text */
+    html[data-theme="light"] h1, html.theme-light h1,
+    html[data-theme="light"] h2, html.theme-light h2,
+    html[data-theme="light"] h3, html.theme-light h3,
+    html[data-theme="light"] h4, html.theme-light h4,
+    html[data-theme="light"] h5, html.theme-light h5,
+    html[data-theme="light"] h6, html.theme-light h6 {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] p, html.theme-light p {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] hr, html.theme-light hr {
+        border-top-color: rgba(0, 0, 0, 0.08) !important;
+    }
+    html[data-theme="light"] a, html.theme-light a {
+        color: #0284c7;
+    }
+    html[data-theme="light"] a:hover, html.theme-light a:hover {
+        color: #0369a1;
+    }
+
+    /* Navbar */
+    html[data-theme="light"] #portfolio-nav {
+        background: rgba(255, 255, 255, 0.92) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link svg {
+        stroke: #64748b !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link:hover {
+        background: rgba(2, 132, 199, 0.08) !important;
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link:hover svg {
+        stroke: #0284c7 !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active {
+        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+        border: 1px solid #0284c7 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3) !important;
+        font-weight: 700 !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active span {
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active svg {
+        stroke: #ffffff !important;
+    }
+    html[data-theme="light"] .portfolio-theme-toggle,
+    html[data-theme="light"] .portfolio-lang-pill,
+    html[data-theme="light"] .portfolio-user-pill {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .portfolio-theme-toggle:hover,
+    html[data-theme="light"] .portfolio-lang-pill:hover,
+    html[data-theme="light"] .portfolio-user-pill:hover {
+        background: rgba(0, 0, 0, 0.08) !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12) !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown a {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown a:hover {
+        background: #f1f5f9 !important;
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown-btn {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown-btn:hover {
+        background: #f1f5f9 !important;
+        color: #ef4444 !important;
+    }
+
+    /* Cards & Containers */
+    html[data-theme="light"] .hero-container,
+    html[data-theme="light"] .stat-card,
+    html[data-theme="light"] .content-description,
+    html[data-theme="light"] .problem-header-card,
+    html[data-theme="light"] .contest-table-card,
+    html[data-theme="light"] .calendar-container-card,
+    html[data-theme="light"] .users.h-scrollable-table,
+    html[data-theme="light"] .problems.h-scrollable-table,
+    html[data-theme="light"] .sidebox,
+    html[data-theme="light"] #content-right .info-float,
+    html[data-theme="light"] .users-sidebar-card,
+    html[data-theme="light"] .footer-inner-card,
+    html[data-theme="light"] .comment-card,
+    html[data-theme="light"] section.post,
+    html[data-theme="light"] .user-sidebar,
+    html[data-theme="light"] .contest-empty-card,
+    html[data-theme="light"] .ongoing-contest-card,
+    html[data-theme="light"] .blog-content.sidebox,
+    html[data-theme="light"] .blog-sidebox.sidebox {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] section.post,
+    html[data-theme="light"] .comment-card,
+    html[data-theme="light"] .ongoing-contest-card {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+    html[data-theme="light"] section.post p,
+    html[data-theme="light"] .comment-card p {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .comment-card .poster a {
+        color: #0f172a !important;
+    }
+
+    /* Homepage Hero */
+    html[data-theme="light"] .hero-logo-box {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+    html[data-theme="light"] .hero-logo-text strong {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .hero-logo-text span {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .hero-title {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .hero-subtitle {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .hero-btn.secondary,
+    html[data-theme="light"] .hero-btn.transparent {
+        background: #f1f5f9 !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .hero-btn.secondary:hover,
+    html[data-theme="light"] .hero-btn.transparent:hover {
+        background: #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .stat-card {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+    html[data-theme="light"] .stat-title {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .stat-value {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .stat-desc {
+        color: #64748b !important;
+    }
+
+    /* Tabs Bar */
+    html[data-theme="light"] .tabs {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05) !important;
+    }
+    html[data-theme="light"] .tabs:not(#mobile)::before {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .tabs h2 {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .tabs .tab a,
+    html[data-theme="light"] .tabs .tab span {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .tabs .tab a svg {
+        stroke: #64748b !important;
+    }
+    html[data-theme="light"] .tabs .tab a:hover {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .tabs .tab a:hover svg {
+        stroke: #0f172a !important;
+    }
+    html[data-theme="light"] .tabs .tab.active a,
+    html[data-theme="light"] .tabs .tab.active span {
+        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+        border-color: #0284c7 !important;
+        color: #ffffff !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3) !important;
+    }
+    html[data-theme="light"] .tabs .tab.active a svg,
+    html[data-theme="light"] .tabs .tab.active a i {
+        stroke: #ffffff !important;
+        color: #ffffff !important;
+    }
+
+    /* All Tables Across Site */
+    html[data-theme="light"] table.contest-list tbody tr,
+    html[data-theme="light"] #problem-table tbody tr,
+    html[data-theme="light"] #organization-table tbody tr,
+    html[data-theme="light"] #organization-users-table tbody tr,
+    html[data-theme="light"] .table tbody tr,
+    html[data-theme="light"] .users-table tbody tr {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] table.contest-list tbody tr:hover,
+    html[data-theme="light"] #problem-table tbody tr:hover,
+    html[data-theme="light"] #organization-table tbody tr:hover,
+    html[data-theme="light"] #organization-users-table tbody tr:hover,
+    html[data-theme="light"] .table tbody tr:hover,
+    html[data-theme="light"] .users-table tbody tr:hover {
+        background: #f8fafc !important;
+        border-color: rgba(2, 132, 199, 0.3) !important;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05) !important;
+    }
+    html[data-theme="light"] table.contest-list tbody td,
+    html[data-theme="light"] #problem-table tbody td,
+    html[data-theme="light"] #organization-table tbody td,
+    html[data-theme="light"] #organization-users-table tbody td,
+    html[data-theme="light"] .table tbody td,
+    html[data-theme="light"] .users-table tbody td {
+        border-top: 1px solid rgba(0, 0, 0, 0.04) !important;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.04) !important;
+        border-left-color: rgba(0, 0, 0, 0.04) !important;
+        border-right-color: rgba(0, 0, 0, 0.04) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .table thead th,
+    html[data-theme="light"] .users-table thead th,
+    html[data-theme="light"] .contest-list thead th {
+        color: #64748b !important;
+        background: transparent !important;
+    }
+    html[data-theme="light"] .contest-list-title,
+    html[data-theme="light"] #problem-table td a,
+    html[data-theme="light"] #problem-table td.problem a,
+    html[data-theme="light"] #organization-table td a,
+    html[data-theme="light"] #organization-users-table td a,
+    html[data-theme="light"] .users-table td.user-name a {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .contest-list-title:hover,
+    html[data-theme="light"] #problem-table td a:hover,
+    html[data-theme="light"] #problem-table td.problem a:hover,
+    html[data-theme="light"] #organization-table td a:hover,
+    html[data-theme="light"] #organization-users-table td a:hover,
+    html[data-theme="light"] .users-table td.user-name a:hover {
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] #problem-table td.problem-id {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .problem-category,
+    html[data-theme="light"] .category-badge {
+        background: rgba(2, 132, 199, 0.08) !important;
+        border: 1px solid rgba(2, 132, 199, 0.22) !important;
+        color: #0284c7 !important;
+    }
+
+    /* Inputs & Search Forms */
+    html[data-theme="light"] input[type="text"],
+    html[data-theme="light"] input[type="search"],
+    html[data-theme="light"] input[type="password"],
+    html[data-theme="light"] input[type="email"],
+    html[data-theme="light"] input[type="number"],
+    html[data-theme="light"] textarea,
+    html[data-theme="light"] select,
+    html[data-theme="light"] .users-search-input,
+    html[data-theme="light"] .contest-search-input,
+    html[data-theme="light"] #search,
+    html[data-theme="light"] #search-form #search,
+    html[data-theme="light"] .problem-search-sidebox #search,
+    html[data-theme="light"] #filter-form input[type="text"],
+    html[data-theme="light"] #filter-form select,
+    html[data-theme="light"] .select2-container--default .select2-selection--single,
+    html[data-theme="light"] .select2-container--dmoj .select2-selection--single,
+    html[data-theme="light"] .select2-container--default .select2-selection--multiple,
+    html[data-theme="light"] .select2-container--dmoj .select2-selection--multiple {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.12) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] input:focus,
+    html[data-theme="light"] select:focus,
+    html[data-theme="light"] textarea:focus,
+    html[data-theme="light"] .users-search-input:focus,
+    html[data-theme="light"] .contest-search-input:focus,
+    html[data-theme="light"] #search:focus,
+    html[data-theme="light"] .problem-search-sidebox #search:focus {
+        background: #ffffff !important;
+        border-color: #0284c7 !important;
+        box-shadow: 0 0 12px rgba(2, 132, 199, 0.2) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] input::placeholder,
+    html[data-theme="light"] textarea::placeholder,
+    html[data-theme="light"] .problem-search-sidebox #search::placeholder {
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] .contest-search-icon {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .form-label,
+    html[data-theme="light"] .point-range-label,
+    html[data-theme="light"] .checkbox-label,
+    html[data-theme="light"] .checkbox-label span {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .filter-tag {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox h3,
+    html[data-theme="light"] .users-sidebar-card h3 {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox h3 i.fa-search,
+    html[data-theme="light"] .users-sidebar-card h3 i.fa-search {
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] .form-submit-group .button,
+    html[data-theme="light"] #random {
+        background: #f1f5f9 !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: #334155 !important;
+    }
+    html[data-theme="light"] #random:hover {
+        background: #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .button-primary-glow {
+        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+        color: #ffffff !important;
+    }
+
+    /* Pagination */
+    html[data-theme="light"] .pagination {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    }
+    html[data-theme="light"] .pagination a,
+    html[data-theme="light"] .pagination span {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .pagination svg {
+        stroke: #64748b !important;
+    }
+    html[data-theme="light"] .pagination .active-page a,
+    html[data-theme="light"] .pagination .active-page span {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+    }
+
+    /* Organization Pages */
+    html[data-theme="light"] .org-section-tag {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .org-icon-avatar {
+        background: rgba(2, 132, 199, 0.1) !important;
+        border: 1px solid rgba(2, 132, 199, 0.25) !important;
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .org-title-main,
+    html[data-theme="light"] .org-sidebar-name,
+    html[data-theme="light"] .org-mini-name {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .org-badge-code {
+        background: rgba(2, 132, 199, 0.08) !important;
+        border: 1px solid rgba(2, 132, 199, 0.25) !important;
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .org-status-chip.open {
+        background: rgba(16, 185, 129, 0.1) !important;
+        border: 1px solid rgba(16, 185, 129, 0.25) !important;
+        color: #047857 !important;
+    }
+    html[data-theme="light"] .org-status-chip.closed {
+        background: rgba(245, 158, 11, 0.1) !important;
+        border: 1px solid rgba(245, 158, 11, 0.25) !important;
+        color: #b45309 !important;
+    }
+    html[data-theme="light"] .org-stat-box,
+    html[data-theme="light"] .org-mini-stat-bar {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+    html[data-theme="light"] .org-stat-num {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .org-stat-lbl {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .org-nav-link {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .org-nav-link:hover {
+        background: #f1f5f9 !important;
+        color: #0284c7 !important;
+        border-color: rgba(2, 132, 199, 0.3) !important;
+    }
+    html[data-theme="light"] .org-nav-link-left i,
+    html[data-theme="light"] .org-nav-link-left svg {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .org-nav-link:hover .org-nav-link-left i,
+    html[data-theme="light"] .org-nav-link:hover .org-nav-link-left svg {
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .org-meta-row .org-meta-key {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .org-meta-row .org-meta-val {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .org-mini-link-btn {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .org-mini-link-btn:hover {
+        background: rgba(2, 132, 199, 0.08) !important;
+        color: #0284c7 !important;
+        border-color: rgba(2, 132, 199, 0.3) !important;
+    }
+    html[data-theme="light"] .org-class-card {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    }
+    html[data-theme="light"] .org-class-card:hover {
+        background: #ffffff !important;
+        border-color: rgba(2, 132, 199, 0.3) !important;
+    }
+    html[data-theme="light"] .org-class-name a {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .org-class-name a:hover {
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .org-class-desc {
+        color: #64748b !important;
+    }
+
+    /* Calendar Components */
+    html[data-theme="light"] #contest-calendar th {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] #contest-calendar td {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.06) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] #contest-calendar td:hover {
+        background: #ffffff !important;
+        border-color: rgba(2, 132, 199, 0.35) !important;
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06) !important;
+    }
+    html[data-theme="light"] #contest-calendar td.noday {
+        background: #f1f5f9 !important;
+        opacity: 0.55 !important;
+        border-color: rgba(0, 0, 0, 0.04) !important;
+    }
+    html[data-theme="light"] #contest-calendar td.today {
+        background: rgba(2, 132, 199, 0.06) !important;
+        border: 1.5px solid #0284c7 !important;
+        box-shadow: 0 0 16px rgba(2, 132, 199, 0.15) !important;
+    }
+    html[data-theme="light"] #contest-calendar td .num {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .today-number-pill {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .calendar-month-title {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .calendar-nav-group {
+        background: rgba(0, 0, 0, 0.03) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    }
+    html[data-theme="light"] .cal-nav-btn {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .cal-nav-btn:hover {
+        background: rgba(0, 0, 0, 0.06) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .cal-nav-btn.today {
+        background: rgba(2, 132, 199, 0.12) !important;
+        border: 1px solid rgba(2, 132, 199, 0.25) !important;
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .cal-export-btn {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .cal-export-btn:hover {
+        background: rgba(2, 132, 199, 0.08) !important;
+        border-color: rgba(2, 132, 199, 0.3) !important;
+        color: #0284c7 !important;
+    }
+
+    /* Footer */
+    html[data-theme="light"] .footer-inner-card {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+    }
+    html[data-theme="light"] .footer-brand-name {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .footer-subtitle {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .footer-lang-pill {
+        background: rgba(0, 0, 0, 0.04) !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .footer-lang-pill.active {
+        background: #ffffff !important;
+        border-color: #0284c7 !important;
+        color: #0284c7 !important;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    }
+
+    /* Code Blocks & Clipboard */
+    html[data-theme="light"] pre,
+    html[data-theme="light"] pre code,
+    html[data-theme="light"] .content-description pre {
+        background: #f8fafc !important;
+        border: 1px solid rgba(0, 0, 0, 0.08) !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .btn-clipboard {
+        background: #ffffff !important;
+        border: 1px solid rgba(0, 0, 0, 0.1) !important;
+        color: #334155 !important;
+    }
+
+
+
+    /* Refinements for nested spans in light mode */
+    html[data-theme="light"] .org-nav-link span,
+    html.theme-light .org-nav-link span {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .cal-nav-btn span,
+    html.theme-light .cal-nav-btn span {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .cal-export-btn span,
+    html.theme-light .cal-export-btn span {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .calendar-legend,
+    html[data-theme="light"] .calendar-legend span,
+    html[data-theme="light"] .legend-item,
+    html.theme-light .calendar-legend,
+    html.theme-light .legend-item {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .calendar-month-title span,
+    html.theme-light .calendar-month-title span {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .org-mini-stat-bar .stat-label {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .org-mini-stat-bar .stat-value {
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .org-mini-link-btn span {
+        color: #334155 !important;
+    }
+
+
+
+    /* Label colors in filter form */
+    html[data-theme="light"] #filter-form label,
+    html.theme-light #filter-form label {
+        color: #1e293b !important;
+    }
+    html[data-theme="light"] #filter-form label i,
+    html.theme-light #filter-form label i {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .form-label,
+    html.theme-light .form-label {
+        color: #475569 !important;
+    }
+
 </style>
 
 <nav id="portfolio-nav" class="unselectable">
@@ -4511,31 +5155,31 @@
     <div class="portfolio-nav-center">
         <a href="/problems/" class="portfolio-nav-link {% if request.path.startswith('/problem') %}portfolio-nav-active{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            <span>Problems</span>
+            <span>{{ _('Problems') }}</span>
         </a>
         <a href="/submissions/" class="portfolio-nav-link {% if request.path.startswith('/submission') %}portfolio-nav-active{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-            <span>Submissions</span>
+            <span>{{ _('Submissions') }}</span>
         </a>
         <a href="/users/" class="portfolio-nav-link {% if request.path.startswith('/user') %}portfolio-nav-active{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <span>Users</span>
+            <span>{{ _('Users') }}</span>
         </a>
         <a href="/organizations/" class="portfolio-nav-link {% if request.path.startswith('/organization') %}portfolio-nav-active{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="22" x2="21" y2="22"/><line x1="6" y1="18" x2="6" y2="11"/><line x1="10" y1="18" x2="10" y2="11"/><line x1="14" y1="18" x2="14" y2="11"/><line x1="18" y1="18" x2="18" y2="11"/><polygon points="12 2 20 7 4 7"/></svg>
-            <span>Organizations</span>
+            <span>{{ _('Organizations') }}</span>
         </a>
         <a href="/contests/" class="portfolio-nav-link {% if request.path.startswith('/contest') %}portfolio-nav-active{% endif %}">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-            <span>Contests</span>
+            <span>{{ _('Contests') }}</span>
         </a>
         <div class="portfolio-nav-item">
             <a href="/about/" class="portfolio-nav-link {% if request.path.startswith('/about') %}portfolio-nav-active{% endif %}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-                <span>About</span>
+                <span>{{ _('About') }}</span>
             </a>
             <div class="portfolio-dropdown">
-                <a href="/status/">Status</a>
+                <a href="/status/">{{ _('Status') }}</a>
             </div>
         </div>
     </div>

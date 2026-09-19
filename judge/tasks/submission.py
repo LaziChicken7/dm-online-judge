@@ -7,7 +7,10 @@ from django.utils.translation import gettext as _
 from judge.models import Problem, Profile, Submission
 from judge.utils.celery import Progress
 
-__all__ = ('apply_submission_filter', 'rejudge_problem_filter', 'rescore_problem')
+__all__ = ('apply_submission_filter', 'rejudge_problem_filter', 'rescore_problem', 'judge_vjudge_submission_task')
+
+from judge.tasks.vjudge_judge import judge_vjudge_submission_task, judge_vjudge_submission_async
+
 
 
 def apply_submission_filter(queryset, id_range, languages, results, archive_locked):

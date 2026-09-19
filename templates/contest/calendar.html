@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+
 {% block title_ruler %}{% endblock %}
 
 {% block title_row %}
@@ -6,41 +7,452 @@
     {% include "contest/contest-list-tabs.html" %}
 {% endblock %}
 
+{% block media %}
+    <style>
+        /* ── Modern Contest Calendar Container Card ── */
+        .calendar-container-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 24px 28px !important;
+            margin-bottom: 28px !important;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
+        }
+        .calendar-container-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(56, 189, 248, 0.15) !important;
+        }
+
+        /* ── Calendar Top Toolbar ── */
+        .calendar-toolbar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 16px !important;
+            margin-bottom: 22px !important;
+            padding-bottom: 18px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+            flex-wrap: wrap !important;
+        }
+
+        /* Month Navigation Button Group */
+        .calendar-nav-group {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 100px !important;
+            padding: 3px !important;
+            gap: 2px !important;
+        }
+        .cal-nav-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 6px 14px !important;
+            border-radius: 100px !important;
+            color: rgba(255, 255, 255, 0.75) !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+        }
+        .cal-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #ffffff !important;
+        }
+        .cal-nav-btn.today {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border: 1px solid rgba(56, 189, 248, 0.25) !important;
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+        }
+        .cal-nav-btn.today:hover {
+            background: rgba(56, 189, 248, 0.22) !important;
+            color: #ffffff !important;
+        }
+        .cal-nav-btn.disabled {
+            opacity: 0.35 !important;
+            pointer-events: none !important;
+            color: #64748b !important;
+        }
+
+        /* Month Title */
+        .calendar-month-title {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            font-size: 20px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.01em !important;
+            margin: 0 !important;
+        }
+
+        /* Right Actions: Legend & Export */
+        .calendar-toolbar-right {
+            display: flex !important;
+            align-items: center !important;
+            gap: 14px !important;
+            flex-wrap: wrap !important;
+        }
+        .calendar-legend {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            font-size: 12px !important;
+            color: #94a3b8 !important;
+            padding-right: 12px !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .legend-item {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+        .legend-dot {
+            width: 8px !important;
+            height: 8px !important;
+            border-radius: 50% !important;
+            flex-shrink: 0 !important;
+        }
+        .legend-dot.start {
+            background: #10b981 !important;
+            box-shadow: 0 0 6px rgba(16, 185, 129, 0.6) !important;
+        }
+        .legend-dot.oneday {
+            background: #38bdf8 !important;
+            box-shadow: 0 0 6px rgba(56, 189, 248, 0.6) !important;
+        }
+        .legend-dot.end {
+            background: #c084fc !important;
+            box-shadow: 0 0 6px rgba(192, 132, 252, 0.6) !important;
+        }
+
+        /* Export Button */
+        .cal-export-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 7px 16px !important;
+            border-radius: 100px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+        }
+        .cal-export-btn:hover {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* ── Calendar Table ── */
+        .calendar-table-wrapper {
+            overflow-x: auto !important;
+            width: 100% !important;
+        }
+        #contest-calendar,
+        table#contest-calendar {
+            border-collapse: separate !important;
+            border-spacing: 8px !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            margin: 0 !important;
+            table-layout: fixed !important;
+        }
+        #contest-calendar th {
+            background: transparent !important;
+            border: none !important;
+            color: #64748b !important;
+            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
+            font-weight: 700 !important;
+            font-size: 12.5px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            text-align: center !important;
+            padding: 10px 4px !important;
+            vertical-align: middle !important;
+        }
+        #contest-calendar td {
+            height: 120px !important;
+            vertical-align: top !important;
+            padding: 10px 10px !important;
+            border-radius: 12px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-sizing: border-box !important;
+        }
+        #contest-calendar td:hover {
+            background: rgba(255, 255, 255, 0.045) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.1) !important;
+        }
+
+        /* Outside month days */
+        #contest-calendar td.noday {
+            background: rgba(0, 0, 0, 0.25) !important;
+            border: 1px dashed rgba(255, 255, 255, 0.03) !important;
+            opacity: 0.35 !important;
+        }
+        #contest-calendar td.noday:hover {
+            opacity: 0.65 !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+
+        /* Today highlight */
+        #contest-calendar td.today {
+            background: rgba(56, 189, 248, 0.07) !important;
+            border: 1.5px solid #38bdf8 !important;
+            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2), inset 0 0 10px rgba(56, 189, 248, 0.05) !important;
+        }
+
+        /* Day number row */
+        #contest-calendar td .num {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            color: #94a3b8 !important;
+            margin-bottom: 8px !important;
+            border: none !important;
+            padding: 0 !important;
+            line-height: 1 !important;
+        }
+        .today-number-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 24px !important;
+            height: 24px !important;
+            border-radius: 50% !important;
+            background: #38bdf8 !important;
+            color: #090d16 !important;
+            font-weight: 800 !important;
+            font-size: 12.5px !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.8) !important;
+        }
+
+        /* ── Event Chips in cells ── */
+        .cal-event-list {
+            list-style: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+        }
+        .cal-event-chip {
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+            overflow: hidden !important;
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            line-height: 1.3 !important;
+            border: 1px solid transparent !important;
+        }
+        .cal-event-chip i {
+            font-size: 10px !important;
+            flex-shrink: 0 !important;
+        }
+        .cal-event-chip span {
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+
+        /* Starts event (Green) */
+        .cal-event-chip.start {
+            background: rgba(16, 185, 129, 0.12) !important;
+            border-color: rgba(16, 185, 129, 0.3) !important;
+            color: #34d399 !important;
+        }
+        .cal-event-chip.start:hover {
+            background: rgba(16, 185, 129, 0.24) !important;
+            border-color: rgba(16, 185, 129, 0.6) !important;
+            color: #ffffff !important;
+            transform: translateX(2px) !important;
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.3) !important;
+        }
+
+        /* 1-Day event (Cyan) */
+        .cal-event-chip.oneday {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            color: #38bdf8 !important;
+        }
+        .cal-event-chip.oneday:hover {
+            background: rgba(56, 189, 248, 0.24) !important;
+            border-color: rgba(56, 189, 248, 0.6) !important;
+            color: #ffffff !important;
+            transform: translateX(2px) !important;
+            box-shadow: 0 0 8px rgba(56, 189, 248, 0.3) !important;
+        }
+
+        /* Ends event (Purple) */
+        .cal-event-chip.end {
+            background: rgba(168, 85, 247, 0.12) !important;
+            border-color: rgba(168, 85, 247, 0.3) !important;
+            color: #c084fc !important;
+        }
+        .cal-event-chip.end:hover {
+            background: rgba(168, 85, 247, 0.24) !important;
+            border-color: rgba(168, 85, 247, 0.6) !important;
+            color: #ffffff !important;
+            transform: translateX(2px) !important;
+            box-shadow: 0 0 8px rgba(168, 85, 247, 0.3) !important;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <table id="contest-calendar">
-        <tr>
-            <th>{{ _('Sunday') }}</th>
-            <th>{{ _('Monday') }}</th>
-            <th>{{ _('Tuesday') }}</th>
-            <th>{{ _('Wednesday') }}</th>
-            <th>{{ _('Thursday') }}</th>
-            <th>{{ _('Friday') }}</th>
-            <th>{{ _('Saturday') }}</th>
-        </tr>
-        {% for week in calendar %}
-            <tr>{% for day in week %}
-                <td class="{% if day.is_today %}today{% endif %}{% if day.is_pad %} noday{% endif %}">
-                    <span class="num">{{ day.date.day }}</span>
-                    <ul class="fa-ul">
-                        {% for contest in day.starts %}
-                            <li class="start"><i class="fa fa-li fa-lg fa-step-forward"></i>
-                                <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
-                            </li>
-                        {% endfor %}
-                        {% for contest in day.oneday %}
-                            <li class="oneday">
-                                <i class="fa fa-li fa-lg fa-play"></i>
-                                <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
-                            </li>
-                        {% endfor %}
-                        {% for contest in day.ends %}
-                            <li class="end"><i class="fa fa-li fa-lg fa-step-backward"></i>
-                                <a href="{{ url('contest_view', contest.key) }}">{{ contest.name }}</a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            {% endfor %}</tr>
-        {% endfor %}
-    </table>
+    <div class="calendar-container-card">
+        <!-- Calendar Toolbar -->
+        <div class="calendar-toolbar">
+            <!-- Left: Navigation Group -->
+            <div class="calendar-nav-group">
+                {% if prev_month %}
+                    <a href="{{ url('contest_calendar', prev_month.year, prev_month.month) }}" class="cal-nav-btn" title="{{ _('Previous month') }}">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <span>{{ _('Prev') }}</span>
+                    </a>
+                {% else %}
+                    <span class="cal-nav-btn disabled">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                        <span>{{ _('Prev') }}</span>
+                    </span>
+                {% endif %}
+
+                {% if not (curr_month.year == now.year and curr_month.month == now.month) %}
+                    <a href="{{ url('contest_calendar', now.year, now.month) }}" class="cal-nav-btn today">
+                        {{ _('Today') }}
+                    </a>
+                {% endif %}
+
+                {% if next_month %}
+                    <a href="{{ url('contest_calendar', next_month.year, next_month.month) }}" class="cal-nav-btn" title="{{ _('Next month') }}">
+                        <span>{{ _('Next') }}</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </a>
+                {% else %}
+                    <span class="cal-nav-btn disabled">
+                        <span>{{ _('Next') }}</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </span>
+                {% endif %}
+            </div>
+
+            <!-- Center: Month and Year -->
+            <div class="calendar-month-title">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>{{ curr_month.strftime('%B %Y') if curr_month else '' }}</span>
+            </div>
+
+            <!-- Right: Legend & Export Button -->
+            <div class="calendar-toolbar-right">
+                <div class="calendar-legend">
+                    <span class="legend-item" title="{{ _('Contests starting on this day') }}">
+                        <span class="legend-dot start"></span> {{ _('Starts') }}
+                    </span>
+                    <span class="legend-item" title="{{ _('Single-day contests') }}">
+                        <span class="legend-dot oneday"></span> {{ _('1-Day') }}
+                    </span>
+                    <span class="legend-item" title="{{ _('Contests ending on this day') }}">
+                        <span class="legend-dot end"></span> {{ _('Ends') }}
+                    </span>
+                </div>
+
+                <a href="{{ url('contest_ical') }}" class="cal-export-btn" title="{{ _('Subscribe or export iCal feed') }}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>{{ _('Export iCal') }}</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Calendar Table -->
+        <div class="calendar-table-wrapper">
+            <table id="contest-calendar">
+                <thead>
+                    <tr>
+                        <th>{{ _('Sun') }}</th>
+                        <th>{{ _('Mon') }}</th>
+                        <th>{{ _('Tue') }}</th>
+                        <th>{{ _('Wed') }}</th>
+                        <th>{{ _('Thu') }}</th>
+                        <th>{{ _('Fri') }}</th>
+                        <th>{{ _('Sat') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for week in calendar %}
+                        <tr>
+                            {% for day in week %}
+                                <td class="{% if day.is_today %}today{% endif %}{% if day.is_pad %} noday{% endif %}">
+                                    <div class="num">
+                                        {% if day.is_today %}
+                                            <span class="today-number-pill" title="{{ _('Today') }}">{{ day.date.day }}</span>
+                                        {% else %}
+                                            <span>{{ day.date.day }}</span>
+                                        {% endif %}
+                                    </div>
+
+                                    <div class="cal-event-list">
+                                        {% for contest in day.starts %}
+                                            <a href="{{ url('contest_view', contest.key) }}" class="cal-event-chip start" title="{{ _('Starts') }}: {{ contest.name }}">
+                                                <i class="fa fa-play"></i>
+                                                <span>{{ contest.name }}</span>
+                                            </a>
+                                        {% endfor %}
+                                        {% for contest in day.oneday %}
+                                            <a href="{{ url('contest_view', contest.key) }}" class="cal-event-chip oneday" title="{{ _('1-Day Contest') }}: {{ contest.name }}">
+                                                <i class="fa fa-bolt"></i>
+                                                <span>{{ contest.name }}</span>
+                                            </a>
+                                        {% endfor %}
+                                        {% for contest in day.ends %}
+                                            <a href="{{ url('contest_view', contest.key) }}" class="cal-event-chip end" title="{{ _('Ends') }}: {{ contest.name }}">
+                                                <i class="fa fa-flag-checkered"></i>
+                                                <span>{{ contest.name }}</span>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                </td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 {% endblock %}

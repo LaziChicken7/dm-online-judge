@@ -1,0 +1,284 @@
+<div class="vjudge-statement-wrapper" id="vjudge-statement-wrapper">
+    <!-- Top Control Bar -->
+    <div class="vjudge-top-bar">
+        <div class="vjudge-top-left">
+            <span class="vjudge-source-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                {{ problem.vjudge_oj }} - {{ problem.vjudge_prob_num }}
+            </span>
+            <div id="vjudge-active-statement-banner" class="vjudge-active-banner">
+                <span style="color: #94a3b8; font-size: 12.5px;">{{ _('Bản dịch đang xem:') }}</span>
+                <span id="vjudge-active-statement-notice" style="color: #38bdf8; font-size: 13px; font-weight: 700;">{{ vjudge_active_author|default('System') }} ({{ vjudge_active_lang|default('Official English') }})</span>
+            </div>
+        </div>
+
+        <div class="vjudge-top-right">
+            {% if request.user.is_authenticated %}
+                {% if request.profile.vjudge_cookie %}
+                    <span class="vjudge-account-chip chip-connected" title="{{ _('Đã kết nối tài khoản VJudge') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
+                    </span>
+                {% else %}
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Kết nối tài khoản VJudge để nộp bài') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <span>{{ _('Kết nối VJudge') }}</span>
+                    </a>
+                {% endif %}
+            {% endif %}
+
+            <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" rel="noopener" class="vjudge-btn-tool" title="{{ _('Mở trang gốc trên Virtual Judge') }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>VJudge ↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Direct Rendered Statement Container -->
+    <div class="vjudge-statement-container" id="vjudge-statement-container">
+        <div id="vjudge-statement-content" class="vjudge-rendered-body content-description">
+            {% if vjudge_statement_html %}
+                {{ vjudge_statement_html|safe }}
+            {% else %}
+                <div class="vjudge-empty-warning">
+                    <p style="color: #94a3b8; font-size: 15px; margin: 20px 0;">
+                        {{ _('Đang tải nội dung đề bài từ Virtual Judge...') }}
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Helpful notice banner below -->
+    <div class="vjudge-footer-notice">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>
+            {{ _('Đề bài và các bản dịch AI được đồng bộ trực tiếp từ Virtual Judge. Bạn có thể chọn ngôn ngữ đề bài ở bảng') }} <strong>Statements</strong> {{ _('bên phải.') }}
+        </span>
+    </div>
+</div>
+
+<style>
+    .vjudge-statement-wrapper {
+        width: 100%;
+        margin-bottom: 24px;
+        box-sizing: border-box;
+    }
+    .vjudge-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px 14px 0 0;
+        padding: 12px 18px;
+        box-sizing: border-box;
+    }
+    .vjudge-top-left, .vjudge-top-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .vjudge-source-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(14, 165, 233, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(14, 165, 233, 0.3);
+        border-radius: 9999px;
+        padding: 4px 12px;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+    .vjudge-active-banner {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 8px;
+        padding: 4px 10px;
+    }
+    .vjudge-account-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 8px;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+    }
+    .chip-connected {
+        background: rgba(34, 197, 94, 0.15);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .chip-disconnected {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .vjudge-btn-tool {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        color: #cbd5e1 !important;
+        padding: 6px 14px !important;
+        border-radius: 8px !important;
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+    }
+    .vjudge-btn-tool:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #ffffff !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+    }
+    .vjudge-statement-container {
+        width: 100%;
+        min-height: 400px;
+        background: rgba(15, 23, 42, 0.4);
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 28px 32px;
+        box-sizing: border-box;
+        overflow-x: auto;
+    }
+    .vjudge-rendered-body {
+        color: #e2e8f0;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+    .vjudge-rendered-body p {
+        margin: 0 0 14px 0 !important;
+        line-height: 1.7 !important;
+    }
+    .vjudge-rendered-body .vjudge_sample {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        border-radius: 10px !important;
+        overflow: hidden !important;
+        margin: 16px 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    }
+    .vjudge-rendered-body .vjudge_sample th {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+        padding: 10px 16px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+        text-align: left !important;
+    }
+    .vjudge-rendered-body .vjudge_sample td {
+        padding: 0 !important;
+        background: rgba(0, 0, 0, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        vertical-align: top !important;
+    }
+    .vjudge-rendered-body .vjudge_sample pre {
+        margin: 0 !important;
+        padding: 14px 18px !important;
+        background: transparent !important;
+        border: none !important;
+        color: #f1f5f9 !important;
+        font-family: 'Google Sans Code', monospace !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        border-radius: 0 !important;
+    }
+    .vjudge-rendered-body .vjudge-section-heading {
+        font-size: 18px;
+        font-weight: 800;
+        color: #38bdf8;
+        margin: 24px 0 12px 0;
+        letter-spacing: -0.2px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        padding-bottom: 6px;
+    }
+    .vjudge-rendered-body .vjudge-section-body {
+        margin-bottom: 20px;
+    }
+    .vjudge-rendered-body pre {
+        background: rgba(0, 0, 0, 0.4) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        padding: 12px 16px !important;
+        color: #f1f5f9 !important;
+        font-family: 'Google Sans Code', monospace !important;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        overflow-x: auto !important;
+    }
+    .vjudge-rendered-body table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 16px 0;
+    }
+    .vjudge-rendered-body table th,
+    .vjudge-rendered-body table td {
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 10px 14px;
+        background: rgba(0, 0, 0, 0.2);
+    }
+    .vjudge-rendered-body .input,
+    .vjudge-rendered-body .output {
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        margin-bottom: 16px !important;
+    }
+    .vjudge-rendered-body .title {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+        padding: 6px 14px !important;
+        font-size: 13px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    .vjudge-footer-notice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 12px 18px;
+        background: rgba(14, 165, 233, 0.06);
+        border: 1px solid rgba(14, 165, 233, 0.18);
+        border-radius: 0 0 14px 14px;
+        color: #94a3b8;
+        font-size: 13px;
+        line-height: 1.5;
+        box-sizing: border-box;
+    }
+</style>
+<script>
+    function renderVJudgeMath() {
+        var el = document.getElementById('vjudge-statement-content');
+        if (el && window.MathJax) {
+            if (window.MathJax.typesetClear) {
+                try { window.MathJax.typesetClear([el]); } catch(e) {}
+            }
+            if (window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([el]).catch(function() {});
+            } else if (window.MathJax.Hub && window.MathJax.Hub.Queue) {
+                window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, el]);
+            }
+        }
+    }
+    document.addEventListener('DOMContentLoaded', renderVJudgeMath);
+    window.addEventListener('load', renderVJudgeMath);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        renderVJudgeMath();
+    }
+</script>

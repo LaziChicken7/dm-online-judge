@@ -791,6 +791,9 @@
     <form id="problem_submit" action="" method="post" class="form-area submit-card">
         {% csrf_token %}
         {{ form.non_field_errors() }}
+        {% if is_vjudge %}
+            {% include "problem/vjudge_submit_header.html" %}
+        {% endif %}
         <div id="submit-wrapper">
             <div id="editor">
                 <div class="editor-header-bar">

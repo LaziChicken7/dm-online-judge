@@ -22,11 +22,19 @@
                 </div>
             {% elif submission.result == 'WA' %}
                 <div class="verdict-badge verdict-wa">
-                    <i class="fa fa-times-circle"></i> WRONG ANSWER
+                    <i class="fa fa-times-circle"></i> WRONG ANSWER{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
                 </div>
             {% elif submission.result == 'TLE' %}
                 <div class="verdict-badge verdict-tle">
-                    <i class="fa fa-clock-o"></i> TIME LIMIT EXCEEDED
+                    <i class="fa fa-clock-o"></i> TIME LIMIT EXCEEDED{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
+                </div>
+            {% elif submission.result == 'MLE' %}
+                <div class="verdict-badge verdict-tle">
+                    <i class="fa fa-microchip"></i> MEMORY LIMIT EXCEEDED{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
+                </div>
+            {% elif submission.result == 'RTE' %}
+                <div class="verdict-badge verdict-ce">
+                    <i class="fa fa-exclamation-triangle"></i> RUNTIME ERROR{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
                 </div>
             {% elif submission.result == 'CE' %}
                 <div class="verdict-badge verdict-ce">
@@ -52,9 +60,29 @@
                     {% if submission.result == 'AC' %}
                         100% Score &bull; All test cases passed successfully
                     {% elif submission.result == 'WA' %}
-                        Test cases failed verification
+                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                            Wrong answer on test {{ (submission.case_points + 1)|int }}
+                        {% else %}
+                            Test cases failed verification
+                        {% endif %}
                     {% elif submission.result == 'TLE' %}
-                        Time limit exceeded on some test cases
+                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                            Time limit exceeded on test {{ (submission.case_points + 1)|int }}
+                        {% else %}
+                            Time limit exceeded on some test cases
+                        {% endif %}
+                    {% elif submission.result == 'MLE' %}
+                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                            Memory limit exceeded on test {{ (submission.case_points + 1)|int }}
+                        {% else %}
+                            Memory limit exceeded
+                        {% endif %}
+                    {% elif submission.result == 'RTE' %}
+                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                            Runtime error on test {{ (submission.case_points + 1)|int }}
+                        {% else %}
+                            Runtime error
+                        {% endif %}
                     {% else %}
                         Status code: {{ submission.result }}
                     {% endif %}
@@ -108,6 +136,16 @@
     </div>
 </div>
 
+{% if submission.error and submission.status in ('IE', 'CE') %}
+    <div class="verdict-error-box" style="margin-top: 16px; margin-bottom: 20px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 12px; padding: 18px 22px; color: #fca5a5; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
+        <div style="font-weight: 700; font-size: 15px; color: #f87171; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+            <i class="fa fa-exclamation-circle" style="font-size: 18px;"></i>
+            <span>{{ _('Thông báo chi tiết lỗi chấm bài:') }}</span>
+        </div>
+        <div style="font-size: 14px; line-height: 1.6; color: #f1f5f9; white-space: pre-wrap;">{{ submission.error }}</div>
+    </div>
+{% endif %}
+
 {# 2. Quick Testcases Strip (Real-Time Live Updates) #}
 {% set test_count = submission.test_cases.count() %}
 {% if test_count > 0 or not submission.is_graded %}
@@ -154,7 +192,7 @@
             <pre style="background: #070a14; padding: 14px; border-radius: 8px; color: #fca5a5; font-family: 'Fira Code', monospace; font-size: 12.5px; overflow-x: auto; white-space: pre-wrap; margin: 0;">{{ submission.error|ansi2html }}</pre>
         </div>
     {% else %}
-        {% if submission.error %}
+        {% if submission.error and submission.status in ('IE', 'CE') %}
             <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 14px; padding: 18px; margin-bottom: 20px;">
                 <h4 style="color: #f59e0b; margin-top: 0; display: flex; align-items: center; gap: 8px;">
                     <i class="fa fa-exclamation-triangle"></i> {{ _('Compilation Warnings') }}

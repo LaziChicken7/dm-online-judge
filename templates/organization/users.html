@@ -1,41 +1,443 @@
 {% extends "user/base-users.html" %}
+
+{% block title_ruler %}{% endblock %}
+{% block title_row %}
+    {% set tab = 'users' %}
+    {% set content_title = organization.name %}
+    {% include "organization/organization-tabs.html" %}
+{% endblock %}
+
 {% block users_media %}
     <style>
-        .kick-form .button {
-            margin: -8px 0;
+        /* ── Organization Users Layout & Table ── */
+        #content-right.users {
+            width: 310px !important;
+            min-width: 310px !important;
+            max-width: 340px !important;
+            flex: none !important;
+            padding-top: 0 !important;
+        }
+        #content-left.users {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
         }
 
-        form.kick-form a.button {
-            visibility: hidden;
+        /* ── Left Block: Table Glass Card Container ── */
+        #content-left.users.h-scrollable-table,
+        .users.h-scrollable-table {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            overflow-x: auto !important;
+            padding: 0 0 8px 0 !important;
+            height: auto !important;
+            min-height: unset !important;
+            box-sizing: border-box !important;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s ease,
+                        background 0.25s ease !important;
+        }
+        #content-left.users.h-scrollable-table:hover,
+        .users.h-scrollable-table:hover {
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(56, 189, 248, 0.2), 
+                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+            transform: translateY(-2px) !important;
+            background: rgba(255, 255, 255, 0.045) !important;
         }
 
-        tr:hover td > form.kick-form a.button {
-            visibility: visible;
+        /* ── Table Typography & Layout ── */
+        #organization-users-table {
+            border-collapse: separate !important;
+            border-spacing: 0 4px !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            margin-bottom: 0 !important;
+        }
+        #organization-users-table thead th {
+            background: transparent !important;
+            color: #64748b !important;
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+            padding: 16px 20px !important;
+            border: none !important;
+            vertical-align: middle !important;
+        }
+        #organization-users-table thead th a {
+            color: #64748b !important;
+            text-decoration: none !important;
+            transition: color 0.2s ease !important;
+        }
+        #organization-users-table thead th a:hover {
+            color: #38bdf8 !important;
+        }
+        #organization-users-table tbody tr {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: rgba(255, 255, 255, 0.01) !important;
+        }
+        #organization-users-table tbody tr:hover {
+            background: rgba(255, 255, 255, 0.045) !important;
+            transform: translateY(-1px) !important;
+        }
+        #organization-users-table tbody td {
+            padding: 14px 20px !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+            color: #e2e8f0 !important;
+            font-size: 14px !important;
+            vertical-align: middle !important;
+        }
+        #organization-users-table tbody tr td:first-child {
+            border-left: 1px solid transparent !important;
+            border-top-left-radius: 10px !important;
+            border-bottom-left-radius: 10px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-weight: 700 !important;
+            color: #94a3b8 !important;
+        }
+        #organization-users-table tbody tr td:last-child {
+            border-right: 1px solid transparent !important;
+            border-top-right-radius: 10px !important;
+            border-bottom-right-radius: 10px !important;
+        }
+        #organization-users-table td.user-name a {
+            font-weight: 700 !important;
+            font-size: 14.5px !important;
+            text-decoration: none !important;
+        }
+        #organization-users-table td.user-points {
+            font-family: 'Google Sans Code', monospace !important;
+            font-weight: 800 !important;
+            color: #38bdf8 !important;
+            font-size: 15px !important;
+        }
+        #organization-users-table td.rate {
+            font-family: 'Google Sans Code', monospace !important;
+            font-weight: 700 !important;
+        }
+
+        /* ── Modern Kick Button ── */
+        .kick-form {
+            display: inline-block !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .kick-form .button,
+        .kick-form a.button {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            padding: 4px 12px !important;
+            border-radius: 8px !important;
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+            font-size: 11.5px !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+            visibility: hidden !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            cursor: pointer !important;
+        }
+        tr:hover .kick-form .button,
+        tr:hover .kick-form a.button {
+            visibility: visible !important;
+        }
+        .kick-form .button:hover,
+        .kick-form a.button:hover {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+            color: #ffffff !important;
+            box-shadow: 0 2px 10px rgba(239, 68, 68, 0.35) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* ── Sidebar Cards (Search & Org Quick Info) ── */
+        .users-sidebar-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            padding: 20px 18px !important;
+            margin-bottom: 16px !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+            box-sizing: border-box !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .users-sidebar-card:hover {
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(56, 189, 248, 0.2), 
+                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+            transform: translateY(-2px) !important;
+        }
+        .users-sidebar-card .filter-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
+            font-family: 'Google Sans Code', monospace !important;
+        }
+        .users-sidebar-card h3 {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            margin: 0 0 16px 0 !important;
+            padding: 0 !important;
+            border: none !important;
+        }
+        .users-sidebar-card h3 i {
+            color: rgba(255, 255, 255, 0.3) !important;
+            font-size: 14px !important;
+        }
+        .users-search-input {
+            width: 100% !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 10px !important;
+            padding: 10px 14px !important;
+            color: #ffffff !important;
+            font-size: 13.5px !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+            outline: none !important;
+        }
+        .users-search-input:focus {
+            border-color: #38bdf8 !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
+        }
+        .users-search-input::placeholder {
+            color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* Mini Organization Card in Sidebar */
+        .org-mini-card {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .org-mini-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .org-mini-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(99, 102, 241, 0.2));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        .org-mini-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .org-mini-name {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin: 0;
+            line-height: 1.3;
+        }
+        .org-mini-sub {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            font-size: 12px;
+            color: #94a3b8;
+        }
+        .org-mini-stat-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: 10px;
+            font-size: 13px;
+        }
+        .org-mini-stat-bar .stat-label {
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+        .org-mini-stat-bar .stat-value {
+            color: #38bdf8;
+            font-family: 'Google Sans Code', monospace;
+            font-weight: 800;
+            font-size: 15px;
+        }
+        .org-mini-link-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 9px 16px !important;
+            border-radius: 10px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: rgba(255, 255, 255, 0.85) !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            transition: all 0.2s ease !important;
+        }
+        .org-mini-link-btn:hover {
+            background: rgba(56, 189, 248, 0.1) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            color: #38bdf8 !important;
+            transform: translateY(-1px) !important;
         }
     </style>
-
-    {% if is_admin %}
-        <style>#organization-users-table td:nth-child(3), #organization-users th:nth-child(3) {
-            border-right: none;
-        }
-        </style>
-    {% endif %}
 {% endblock %}
 
 {% block users_js_media %}
     <script type="text/javascript">
         $(function () {
+            /* Kick user confirmation */
             $('form.kick-form').find('a.button').click(function () {
                 if (confirm({{ _('Are you sure you want to kick this user?')|htmltojs }})) {
                     $(this).parent().submit();
                 }
                 return false;
-            })
+            });
+
+            /* Real-time Member Search / Filter */
+            $('#member-search-box').on('input', function () {
+                var query = $(this).val().toLowerCase().trim();
+                var matchCount = 0;
+                $('#organization-users-table tbody tr:not(.empty-ranking-row)').each(function () {
+                    var username = $(this).find('td.user-name').text().toLowerCase();
+                    var isMatch = username.indexOf(query) > -1;
+                    $(this).toggle(isMatch);
+                    if (isMatch) matchCount++;
+                });
+
+                /* Show no-results indicator if query doesn't match anything */
+                var $noMatch = $('#no-members-match');
+                if (query.length > 0 && matchCount === 0) {
+                    if (!$noMatch.length) {
+                        $('#organization-users-table tbody').append(
+                            '<tr id="no-members-match" class="empty-ranking-row">' +
+                            '<td colspan="15" style="text-align:center; padding: 36px 20px; color: #64748b; font-family: \'Google Sans Code\', monospace; font-size: 13.5px;">' +
+                            '<i class="fa fa-search" style="color: #38bdf8; margin-right: 8px;"></i>' +
+                            '{{ _('No members match your search.')|escapejs }}' +
+                            '</td></tr>'
+                        );
+                    } else {
+                        $noMatch.show();
+                    }
+                } else if ($noMatch.length) {
+                    $noMatch.hide();
+                }
+            });
         });
     </script>
 {% endblock %}
 
-{% block users_table %}
-    {% set table_id='organization-users-table' %}
-    {% include "organization/users-table.html" %}
+{% block body %}
+    {% if page_obj %}
+        <div class="top-pagination-bar">
+            {% include "list-pages.html" %}
+        </div>
+    {% endif %}
+
+    {% block before_users_table %}{% endblock %}
+
+    <div id="common-content">
+        <div id="content-right" class="users">
+            <!-- Search & Filter Card -->
+            <div class="users-sidebar-card">
+                <div class="filter-tag">{{ _('FILTER') }}</div>
+                <h3>{{ _('Search Members') }} <i class="fa fa-search"></i></h3>
+                <div>
+                    <input id="member-search-box" class="users-search-input" type="text"
+                           placeholder="{{ _('Search by username...') }}" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- Organization Summary Card -->
+            <div class="users-sidebar-card">
+                <div class="filter-tag">{{ _('ORGANIZATION') }}</div>
+                <div class="org-mini-card">
+                    <div class="org-mini-header">
+                        <div class="org-mini-avatar">
+                            {% if organization.logo_override_image %}
+                                <img src="{{ organization.logo_override_image }}" alt="{{ organization.name }}">
+                            {% else %}
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M3 21h18"></path>
+                                    <path d="M5 21V7l8-4v18"></path>
+                                    <path d="M19 21V11l-6-4"></path>
+                                    <path d="M9 9h1"></path>
+                                    <path d="M9 13h1"></path>
+                                    <path d="M9 17h1"></path>
+                                </svg>
+                            {% endif %}
+                        </div>
+                        <div>
+                            <div class="org-mini-name">{{ organization.name }}</div>
+                            <div class="org-mini-sub">
+                                {% if organization.short_name %}
+                                    <span style="color: #38bdf8; font-family: 'Google Sans Code', monospace; font-weight: 700;">{{ organization.short_name }}</span>
+                                    <span>&bull;</span>
+                                {% endif %}
+                                <span>{{ _('Open') if organization.is_open else _('Private') }}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="org-mini-stat-bar">
+                        <span class="stat-label">{{ _('Total Members') }}</span>
+                        <span class="stat-value">{{ organization.members.count() }}</span>
+                    </div>
+
+                    <a href="{{ organization.get_absolute_url() }}" class="org-mini-link-btn">
+                        <i class="fa fa-arrow-left"></i>
+                        <span>{{ _('Back to Overview') }}</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div id="content-left" class="users h-scrollable-table">
+            {% block users_table %}
+                {% set table_id='organization-users-table' %}
+                {% include "organization/users-table.html" %}
+            {% endblock %}
+        </div>
+    </div>
+
+    {% if page_obj and page_obj.has_other_pages() %}
+        <div class="bottom-pagination-bar">
+            {% include "list-pages.html" %}
+        </div>
+    {% endif %}
 {% endblock %}

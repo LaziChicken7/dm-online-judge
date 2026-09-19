@@ -1,22 +1,410 @@
 {% extends "common-content.html" %}
 
+{% block title_ruler %}{% endblock %}
+{% block title_row %}
+    {% set tab = 'overview' %}
+    {% set content_title = organization.name %}
+    {% include "organization/organization-tabs.html" %}
+{% endblock %}
+
 {% block content_media %}
     <style>
-        .class-list td {
-            vertical-align: middle;
+        /* ── Organization Home Modern Styling ── */
+        .org-header-meta {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .org-section-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            font-family: 'Google Sans Code', monospace !important;
+        }
+        .org-title-row {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+        .org-icon-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(99, 102, 241, 0.2));
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.15);
+        }
+        .org-title-main {
+            margin: 0 !important;
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.01em !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        .org-badge-code {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 10px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: #38bdf8;
+            font-family: 'Google Sans Code', monospace;
+            font-size: 12.5px;
+            font-weight: 700;
+        }
+        .org-status-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 3px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .org-status-chip.open {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        .org-status-chip.closed {
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: #f59e0b;
+        }
+        .org-about-text {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 15px;
+            line-height: 1.75;
+            margin-bottom: 24px;
+        }
+        .org-about-empty {
+            padding: 36px 20px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.015);
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 24px;
         }
 
-        .class-list td:first-child {
-            text-align: left;
-            padding: 0.5em 0.5em 0.5em 1em;
+        /* ── Classes Section ── */
+        .org-classes-section {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .org-classes-section h3 {
+            margin: 0 0 16px 0 !important;
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            border-left: 3px solid #38bdf8 !important;
+            padding-left: 12px !important;
+        }
+        .org-class-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            margin-bottom: 10px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            gap: 16px;
+        }
+        .org-class-card:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(56, 189, 248, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.1);
+        }
+        .org-class-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .org-class-name {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .org-class-name a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+        .org-class-name a:hover {
+            color: #38bdf8;
+        }
+        .org-class-desc {
+            color: #94a3b8;
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+        .org-class-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 16px;
+            border-radius: 100px;
+            font-size: 12.5px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .org-class-badge.joined {
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+        }
+        .org-class-btn-join {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 18px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            text-decoration: none;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+        .org-class-btn-join:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            box-shadow: 0 6px 18px rgba(14, 165, 233, 0.5);
+            transform: translateY(-1px);
+            color: #ffffff;
         }
 
-        .class-list td:last-child {
-            width: 8em;
+        /* ── Sidebar Redesign ── */
+        .org-sidebar-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-
-        .class-description {
-            color: #777;
+        .org-sidebar-head {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 8px 4px 16px 4px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .org-sidebar-avatar {
+            width: 68px;
+            height: 68px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.3), rgba(99, 102, 241, 0.2));
+            border: 2px solid rgba(56, 189, 248, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.2);
+            overflow: hidden;
+        }
+        .org-sidebar-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .org-sidebar-name {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 8px 0;
+            line-height: 1.3;
+        }
+        .org-sidebar-badges {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        /* Stats Grid in Sidebar */
+        .org-sidebar-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .org-stat-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 12px 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            transition: all 0.2s ease;
+        }
+        .org-stat-box:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(56, 189, 248, 0.3);
+            transform: translateY(-1px);
+        }
+        .org-stat-box i {
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+        .org-stat-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffffff;
+            font-family: 'Google Sans Code', monospace;
+            line-height: 1.2;
+        }
+        .org-stat-lbl {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+        /* Action Buttons */
+        .org-action-btn-main {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 11px 20px !important;
+            border-radius: 12px !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-decoration: none !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            border: none !important;
+        }
+        .org-action-btn-main.join {
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+        }
+        .org-action-btn-main.join:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            transform: translateY(-1px) !important;
+            color: #ffffff !important;
+        }
+        .org-action-btn-main.leave {
+            background: rgba(239, 68, 68, 0.12) !important;
+            color: #f87171 !important;
+            border: 1px solid rgba(239, 68, 68, 0.25) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+        }
+        .org-action-btn-main.leave:hover {
+            background: rgba(239, 68, 68, 0.22) !important;
+            border-color: rgba(239, 68, 68, 0.55) !important;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
+            transform: translateY(-1px) !important;
+            color: #ffffff !important;
+        }
+        /* Navigation Links List */
+        .org-sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .org-nav-link {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding: 9px 12px !important;
+            border-radius: 10px !important;
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.04) !important;
+            color: rgba(255, 255, 255, 0.8) !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .org-nav-link:hover {
+            background: rgba(255, 255, 255, 0.05) !important;
+            border-color: rgba(56, 189, 248, 0.3) !important;
+            color: #38bdf8 !important;
+            transform: translateX(2px) !important;
+        }
+        .org-nav-link-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .org-nav-link-left i,
+        .org-nav-link-left svg {
+            color: #94a3b8;
+            font-size: 13px;
+            transition: color 0.15s ease;
+        }
+        .org-nav-link:hover .org-nav-link-left i,
+        .org-nav-link:hover .org-nav-link-left svg {
+            color: #38bdf8;
+        }
+        .org-nav-badge {
+            font-family: 'Google Sans Code', monospace;
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 100px;
+            background: rgba(56, 189, 248, 0.1);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+        }
+        /* Metadata Key-Value List */
+        .org-sidebar-meta {
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .org-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 12.5px;
+            padding: 4px 2px;
+        }
+        .org-meta-key {
+            color: #64748b;
+            font-weight: 500;
+        }
+        .org-meta-val {
+            color: #cbd5e1;
+            font-weight: 600;
+            font-family: 'Google Sans Code', monospace;
         }
     </style>
 {% endblock %}
@@ -38,69 +426,236 @@
 {% endblock %}
 
 {% block info_float %}
-    {% if request.user.is_authenticated %}
-        {% if request.profile in organization %}
-            <form method="post" action="{{ url('leave_organization', organization.id, organization.slug) }}">
-                {% csrf_token %}
-                <input type="submit" class="unselectable button full leave-organization" value="{{ _('Leave organization') }}">
-            </form>
-        {% elif organization.is_open %}
-            <form method="post" action="{{ url('join_organization', organization.id, organization.slug) }}">
-                {% csrf_token %}
-                <input type="submit" class="unselectable button full" value="{{ _('Join organization') }}">
-            </form>
-        {% else %}
-            <a href="{{ url('request_organization', organization.id, organization.slug) }}"
-               class="unselectable button full">{{ _('Request membership') }}</a>
-        {% endif %}
-        <hr>
-    {% endif %}
-
-    {% if can_edit %}
-        <div><a href="{{ url('edit_organization', organization.id, organization.slug) }}">{{ _('Edit organization') }}</a></div>
-    {% endif %}
-
-    {% if can_review_requests %}
-        <div>
-            <a href="{{ url('organization_requests_pending', organization.id, organization.slug) }}">{{ _('View requests') }}</a>
+    <div class="org-sidebar-card">
+        <div class="org-sidebar-head">
+            <div class="org-sidebar-avatar">
+                {% if organization.logo_override_image %}
+                    <img src="{{ organization.logo_override_image }}" alt="{{ organization.name }}">
+                {% else %}
+                    <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 21h18"></path>
+                        <path d="M5 21V7l8-4v18"></path>
+                        <path d="M19 21V11l-6-4"></path>
+                        <path d="M9 9h1"></path>
+                        <path d="M9 13h1"></path>
+                        <path d="M9 17h1"></path>
+                    </svg>
+                {% endif %}
+            </div>
+            <h3 class="org-sidebar-name">{{ organization.name }}</h3>
+            <div class="org-sidebar-badges">
+                {% if organization.short_name %}
+                    <span class="org-badge-code">{{ organization.short_name }}</span>
+                {% endif %}
+                {% if organization.is_open %}
+                    <span class="org-status-chip open">
+                        <i class="fa fa-unlock"></i> {{ _('Open') }}
+                    </span>
+                {% else %}
+                    <span class="org-status-chip closed">
+                        <i class="fa fa-lock"></i> {{ _('Approval Required') }}
+                    </span>
+                {% endif %}
+            </div>
         </div>
-    {% endif %}
 
-    {% if perms.judge.change_organization %}
-        <div>
-            <a href="{{ url('admin:judge_organization_change', organization.id) }}">{{ _('Admin organization') }}</a>
+        <div class="org-sidebar-stats">
+            <div class="org-stat-box">
+                <i class="fa fa-users" style="color: #38bdf8;"></i>
+                <div class="org-stat-num">{{ organization.members.count() }}</div>
+                <div class="org-stat-lbl">{{ _('Members') }}</div>
+            </div>
+            <div class="org-stat-box">
+                <i class="fa fa-graduation-cap" style="color: #10b981;"></i>
+                <div class="org-stat-num">{{ classes|length }}</div>
+                <div class="org-stat-lbl">{{ _('Classes') }}</div>
+            </div>
         </div>
-    {% endif %}
 
-    <div>
-        <a href="{{ organization.get_users_url() }}">{{ _('View members') }}</a>
+        <div class="org-sidebar-actions">
+            {% if request.user.is_authenticated %}
+                {% if request.profile in organization %}
+                    <form method="post" action="{{ url('leave_organization', organization.id, organization.slug) }}">
+                        {% csrf_token %}
+                        <button type="submit" class="org-action-btn-main leave leave-organization">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                <polyline points="16 17 21 12 16 7"></polyline>
+                                <line x1="21" y1="12" x2="9" y2="12"></line>
+                            </svg>
+                            {{ _('Leave Organization') }}
+                        </button>
+                    </form>
+                {% elif organization.is_open %}
+                    <form method="post" action="{{ url('join_organization', organization.id, organization.slug) }}">
+                        {% csrf_token %}
+                        <button type="submit" class="org-action-btn-main join">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <line x1="20" y1="8" x2="20" y2="14"></line>
+                                <line x1="23" y1="11" x2="17" y2="11"></line>
+                            </svg>
+                            {{ _('Join Organization') }}
+                        </button>
+                    </form>
+                {% else %}
+                    <a href="{{ url('request_organization', organization.id, organization.slug) }}" class="org-action-btn-main join">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="9" cy="7" r="4"></circle>
+                            <line x1="19" y1="11" x2="19" y2="11"></line>
+                        </svg>
+                        {{ _('Request Membership') }}
+                    </a>
+                {% endif %}
+            {% else %}
+                <a href="{{ url('auth_login') }}?next={{ request.path|urlencode }}" class="org-action-btn-main join">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                        <polyline points="10 17 15 12 10 7"></polyline>
+                        <line x1="15" y1="12" x2="3" y2="12"></line>
+                    </svg>
+                    {{ _('Log in to Join') }}
+                </a>
+            {% endif %}
+        </div>
+
+        <div class="org-sidebar-nav">
+            <a href="{{ organization.get_users_url() }}" class="org-nav-link">
+                <span class="org-nav-link-left">
+                    <i class="fa fa-users"></i>
+                    <span>{{ _('View Members') }}</span>
+                </span>
+                <span class="org-nav-badge">{{ organization.members.count() }}</span>
+            </a>
+            {% if can_edit %}
+                <a href="{{ url('edit_organization', organization.id, organization.slug) }}" class="org-nav-link">
+                    <span class="org-nav-link-left">
+                        <i class="fa fa-edit"></i>
+                        <span>{{ _('Edit Organization') }}</span>
+                    </span>
+                    <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                </a>
+            {% endif %}
+            {% if can_review_requests %}
+                <a href="{{ url('organization_requests_pending', organization.id, organization.slug) }}" class="org-nav-link">
+                    <span class="org-nav-link-left">
+                        <i class="fa fa-user-plus"></i>
+                        <span>{{ _('View Requests') }}</span>
+                    </span>
+                    <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                </a>
+            {% endif %}
+            {% if perms.judge.change_organization %}
+                <a href="{{ url('admin:judge_organization_change', organization.id) }}" class="org-nav-link">
+                    <span class="org-nav-link-left">
+                        <i class="fa fa-gavel"></i>
+                        <span>{{ _('Admin Panel') }}</span>
+                    </span>
+                    <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                </a>
+            {% endif %}
+            <a href="{{ url('organization_list') }}" class="org-nav-link">
+                <span class="org-nav-link-left">
+                    <i class="fa fa-university"></i>
+                    <span>{{ _('All Organizations') }}</span>
+                </span>
+                <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+            </a>
+        </div>
+
+        <div class="org-sidebar-meta">
+            <div class="org-meta-row">
+                <span class="org-meta-key">{{ _('Identifier') }}</span>
+                <span class="org-meta-val">#{{ organization.id }}</span>
+            </div>
+            {% if organization.slots %}
+                <div class="org-meta-row">
+                    <span class="org-meta-key">{{ _('Max Slots') }}</span>
+                    <span class="org-meta-val">{{ organization.slots }}</span>
+                </div>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 
 {% block description %}
-    {% cache 3600 'organization_html' organization.id MATH_ENGINE %}
-        {{ organization.about|markdown('organization-about', MATH_ENGINE)|reference|str|safe }}
-    {% endcache %}
+    <div class="org-section-tag">{{ _('ORGANIZATION OVERVIEW') }}</div>
+    <div class="org-title-row">
+        <div class="org-icon-avatar">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 21h18"></path>
+                <path d="M5 21V7l8-4v18"></path>
+                <path d="M19 21V11l-6-4"></path>
+                <path d="M9 9h1"></path>
+                <path d="M9 13h1"></path>
+                <path d="M9 17h1"></path>
+            </svg>
+        </div>
+        <div>
+            <h2 class="org-title-main">{{ organization.name }}</h2>
+        </div>
+    </div>
+
+    <div class="org-header-meta">
+        {% if organization.short_name %}
+            <span class="org-badge-code">{{ organization.short_name }}</span>
+        {% endif %}
+        {% if organization.is_open %}
+            <span class="org-status-chip open"><i class="fa fa-unlock"></i> {{ _('Open Organization') }}</span>
+        {% else %}
+            <span class="org-status-chip closed"><i class="fa fa-lock"></i> {{ _('Private Organization') }}</span>
+        {% endif %}
+        <span style="color: #64748b; font-size: 13px; font-family: 'Google Sans Code', monospace;">
+            <i class="fa fa-users" style="margin-right: 4px;"></i>{{ organization.members.count() }} {{ _('members') }}
+        </span>
+    </div>
+
+    {% if organization.about %}
+        <div class="org-about-text">
+            {% cache 3600 'organization_html' organization.id MATH_ENGINE %}
+                {{ organization.about|markdown('organization-about', MATH_ENGINE)|reference|str|safe }}
+            {% endcache %}
+        </div>
+    {% else %}
+        <div class="org-about-empty">
+            <i class="fa fa-info-circle" style="font-size: 20px; color: #38bdf8; margin-bottom: 8px; display: block;"></i>
+            {{ _('No description has been provided for this organization yet.') }}
+        </div>
+    {% endif %}
 
     {% if classes %}
-        <hr>
-        <table class="table striped class-list">
-            <thead><tr><th>{{ _('Class') }}</th><th></th></tr></thead>
-            <tbody>
+        <div class="org-classes-section">
+            <div class="org-section-tag">{{ _('ACADEMICS') }}</div>
+            <h3>{{ _('Classes & Study Groups') }}</h3>
+            <div class="org-classes-list">
                 {% for class in classes %}
-                    <tr>
-                        <td>
-                            <a href="{{ class.get_absolute_url() }}">{{ class.name }}</a>
-                            <div class="class-description">{{ class.description }}</div>
-                        </td>
-                        <td>{% if class.joined %}
-                            {{ _('Joined') }}
-                        {% else -%}
-                            <a class="button" href="{{ class.get_join_url() }}">{{ _('Request to join') }}</a>
-                        {%- endif %}</td>
-                    </tr>
+                    <div class="org-class-card">
+                        <div class="org-class-info">
+                            <div class="org-class-name">
+                                <a href="{{ class.get_absolute_url() }}">{{ class.name }}</a>
+                            </div>
+                            {% if class.description %}
+                                <div class="org-class-desc">{{ class.description }}</div>
+                            {% endif %}
+                        </div>
+                        <div>
+                            {% if class.joined %}
+                                <span class="org-class-badge joined">
+                                    <i class="fa fa-check"></i> {{ _('Joined') }}
+                                </span>
+                            {% else %}
+                                <a class="org-class-btn-join" href="{{ class.get_join_url() }}">
+                                    <i class="fa fa-plus"></i> {{ _('Request to join') }}
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        </div>
     {% endif %}
 {% endblock %}
+
+{% block description_end %}{% endblock %}

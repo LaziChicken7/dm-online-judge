@@ -335,21 +335,29 @@
                 </div>
             </div>
         {% endif %}
+        {% if problem.is_vjudge %}
+            <hr class="sidebar-divider">
+            {% include "problem/vjudge_statements_sidebar.html" %}
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block description %}
-    {% cache 86400 'problem_html' problem.id MATH_ENGINE LANGUAGE_CODE %}
-        {{ description|markdown(problem.markdown_style, MATH_ENGINE)|reference|str|safe }}
-    {% endcache %}
+    {% if problem.is_vjudge %}
+        {% include "problem/vjudge_statement.html" %}
+    {% else %}
+        {% cache 86400 'problem_html' problem.id MATH_ENGINE LANGUAGE_CODE %}
+            {{ description|markdown(problem.markdown_style, MATH_ENGINE)|reference|str|safe }}
+        {% endcache %}
 
-    {% with license=problem.license %}
-        {% if license %}
-            <span class="license">
-            <a href="{{ url('license', license.key) }}">{{ license.display or license.name }}</a>
-        </span>
-        {% endif %}
-    {% endwith %}
+        {% with license=problem.license %}
+            {% if license %}
+                <span class="license">
+                <a href="{{ url('license', license.key) }}">{{ license.display or license.name }}</a>
+            </span>
+            {% endif %}
+        {% endwith %}
+    {% endif %}
 {% endblock %}
 
 {% block description_end %}{% endblock %}
