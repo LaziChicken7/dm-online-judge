@@ -139,8 +139,8 @@ def judge_clue_submission_task(submission_id):
                 feedback=''
             ))
         SubmissionTestCase.objects.bulk_create(case_objs)
-        case_points = float(sum(c['points'] for c in case_objs))
-        case_total = float(sum(c['total'] for c in case_objs))
+        case_points = float(sum(c.points for c in case_objs))
+        case_total = float(sum(c.total for c in case_objs))
     else:
         case_points = 1.0 if verdict == 'AC' else 0.0
         case_total = 1.0
