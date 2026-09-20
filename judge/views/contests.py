@@ -932,6 +932,7 @@ class ContestCreateView(TitleMixin, View):
 
         return render(request, "contest/create.html", {
             "title": self.get_title(),
+            "now": now,
             "formats": formats,
             "all_problems": all_problems,
             "all_tags": all_tags,
@@ -973,7 +974,7 @@ class ContestCreateView(TitleMixin, View):
                 "formats": formats,
                 "all_problems": all_problems,
                 "all_tags": all_tags,
-                "post": request.POST,
+                "post": request.POST, "now": timezone.now(),
             })
         if Contest.objects.filter(key=clean_key).exists():
             return render(request, "contest/create.html", {
@@ -982,7 +983,7 @@ class ContestCreateView(TitleMixin, View):
                 "formats": formats,
                 "all_problems": all_problems,
                 "all_tags": all_tags,
-                "post": request.POST,
+                "post": request.POST, "now": timezone.now(),
             })
         if not name:
             return render(request, "contest/create.html", {
@@ -991,7 +992,7 @@ class ContestCreateView(TitleMixin, View):
                 "formats": formats,
                 "all_problems": all_problems,
                 "all_tags": all_tags,
-                "post": request.POST,
+                "post": request.POST, "now": timezone.now(),
             })
 
         # Parse start_time & end_time
@@ -1006,7 +1007,7 @@ class ContestCreateView(TitleMixin, View):
                 "formats": formats,
                 "all_problems": all_problems,
                 "all_tags": all_tags,
-                "post": request.POST,
+                "post": request.POST, "now": timezone.now(),
             })
 
         try:
@@ -1020,7 +1021,7 @@ class ContestCreateView(TitleMixin, View):
                 "formats": formats,
                 "all_problems": all_problems,
                 "all_tags": all_tags,
-                "post": request.POST,
+                "post": request.POST, "now": timezone.now(),
             })
 
         if end_time <= start_time:
@@ -1030,7 +1031,7 @@ class ContestCreateView(TitleMixin, View):
                 "formats": formats,
                 "all_problems": all_problems,
                 "all_tags": all_tags,
-                "post": request.POST,
+                "post": request.POST, "now": timezone.now(),
             })
 
         # Duration limit
