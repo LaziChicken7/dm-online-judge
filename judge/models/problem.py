@@ -367,7 +367,16 @@ class Problem(models.Model):
 
     @property
     def usable_languages(self):
-        return self.allowed_languages.filter(judges__in=self.judges.filter(online=True)).distinct()
+        if self.is_vjudge or getattr(self, 'is_clue', False) or getattr(self, 'is_ntucoder', False) or getattr(self, 'is_ltpt', False):
+            return self.allowed_languages.all()
+        judges = self.judges.filter(online=True)
+        if not judges.exists():
+            from judge.models import Judge
+            judges = Judge.objects.filter(online=True)
+        langs = self.allowed_languages.filter(judges__in=judges).distinct()
+        if not langs.exists():
+            return self.allowed_languages.all()
+        return langs
 
     def translated_name(self, language):
         if language in self._translated_name_cache:

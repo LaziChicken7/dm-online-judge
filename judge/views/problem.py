@@ -169,7 +169,19 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
                                                   get_contest_submission_count(self.object, user.profile,
                                                                                user.profile.current_contest.virtual), 0)
 
-        context['available_judges'] = Judge.objects.filter(online=True, problems=self.object)
+        if self.object.is_vjudge:
+            context['available_judges_display'] = f"VJudge ({self.object.vjudge_oj or 'Remote'})"
+        elif getattr(self.object, 'is_clue', False):
+            context['available_judges_display'] = "ClueOJ (Remote)"
+        elif getattr(self.object, 'is_ntucoder', False):
+            context['available_judges_display'] = "NTUCoder (Remote)"
+        elif getattr(self.object, 'is_ltpt', False):
+            context['available_judges_display'] = "LTPT (Remote)"
+        else:
+            judges = Judge.objects.filter(online=True, problems=self.object)
+            if not judges.exists():
+                judges = Judge.objects.filter(online=True)
+            context['available_judges'] = judges
         context['show_languages'] = self.object.allowed_languages.count() != Language.objects.count()
         context['has_pdf_render'] = PDF_RENDERING_ENABLED
         context['completed_problem_ids'] = self.get_completed_problems()
@@ -778,9 +790,10 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         if self.object.is_vjudge or getattr(self.object, 'is_clue', False) or getattr(self.object, 'is_ntucoder', False) or getattr(self.object, 'is_ltpt', False):
             kwargs['judge_choices'] = ()
         elif self.object.is_editable_by(self.request.user):
-            kwargs['judge_choices'] = tuple(
-                Judge.objects.filter(online=True, problems=self.object).values_list('name', 'name'),
-            )
+            judges = Judge.objects.filter(online=True, problems=self.object)
+            if not judges.exists():
+                judges = Judge.objects.filter(online=True)
+            kwargs['judge_choices'] = tuple(judges.values_list('name', 'name'))
         else:
             kwargs['judge_choices'] = ()
 
