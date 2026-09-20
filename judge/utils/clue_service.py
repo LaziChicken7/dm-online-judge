@@ -231,10 +231,18 @@ def poll_clue_submission(profile, sub_id: int) -> dict:
             c_pts = float(pts_m.group(1)) if pts_m else (1.0 if status == "AC" else 0.0)
             c_tot = float(pts_m.group(2)) if pts_m else 1.0
 
-            time_mem_m = re.search(r'\[\s*([0-9.,]+)\s*s\s*,\s*([0-9.,]+)\s*(MB|KB|M|K)\s*\]', row, re.I)
-            c_time = float(time_mem_m.group(1).replace(',', '.')) if time_mem_m else 0.0
-            c_mem_mb = float(time_mem_m.group(2).replace(',', '.')) if time_mem_m else 0.0
-            c_mem_kb = int(c_mem_mb * 1024) if time_mem_m and "mb" in time_mem_m.group(3).lower() else int(c_mem_mb)
+            time_m = re.search(r'title="([0-9.]+)\s*s"', row)
+            if not time_m:
+                time_m = re.search(r'([0-9.,]+)\s*s', row)
+            c_time = float(time_m.group(1).replace(',', '.')) if time_m else 0.0
+
+            mem_m = re.search(r'([0-9.,]+)\s*(?:&nbsp;|\s| )*(MB|KB|M|K|B)', row, re.I)
+            if mem_m:
+                mem_val = float(mem_m.group(1).replace(',', '.'))
+                mem_unit = mem_m.group(2).lower()
+                c_mem_kb = int(mem_val * 1024) if 'm' in mem_unit else int(mem_val)
+            else:
+                c_mem_kb = 0
 
             cases.append({
                 "case": case_num,
