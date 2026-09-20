@@ -33,7 +33,7 @@ from reversion import revisions
 from judge.comments import CommentedDetailView
 from judge.forms import ProblemCloneForm, ProblemPointsVoteForm, ProblemSubmitForm
 from judge.models import ContestSubmission, Judge, Language, Problem, ProblemGroup, ProblemPointsVote, \
-    ProblemTranslation, ProblemType, RuntimeVersion, Solution, Submission, SubmissionSource
+    ProblemTranslation, ProblemType, Profile, RuntimeVersion, Solution, Submission, SubmissionSource
 from judge.utils.diggpaginator import DiggPaginator
 from judge.utils.opengraph import generate_opengraph
 from judge.utils.pdfoid import PDF_RENDERING_ENABLED, render_pdf
@@ -1206,7 +1206,6 @@ class ImportPolygonView(TitleMixin, View):
                 is_public=is_public,
                 author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None) or Profile.objects.filter(user__is_superuser=True).first(),
             )
-            problem = res[0] if isinstance(res, (tuple, list)) else res
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             return render(request, "problem/import_polygon.html", {
