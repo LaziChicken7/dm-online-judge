@@ -161,6 +161,9 @@ def import_clue_problem(
     raw_desc = re.sub(r'data="/(.*?)"', rf'data="{CLUE_BASE_URL}/\1"', raw_desc)
 
     # Clean LaTeX math
+    # Strip unnecessary outer <div> tags that could unbalance DOM
+    if raw_desc.strip().startswith('<div>') and raw_desc.count('<div') > raw_desc.count('</div>'):
+        raw_desc = raw_desc.strip()[5:].strip()
     clean_desc = clean_vjudge_math(raw_desc)
     pdf_marker = f"<!-- CLUE_PDF:{pdf_url} -->\n" if pdf_url else ""
     desc = f"{pdf_marker}{clean_desc}".strip()
@@ -372,6 +375,9 @@ def import_clue_organization_problem(
     raw_desc = re.sub(r'href="/(.*?)"', rf'href="{CLUE_BASE_URL}/\1"', raw_desc)
     raw_desc = re.sub(r'src="/(.*?)"', rf'src="{CLUE_BASE_URL}/\1"', raw_desc)
     raw_desc = re.sub(r'data="/(.*?)"', rf'data="{CLUE_BASE_URL}/\1"', raw_desc)
+    # Strip unnecessary outer <div> tags that could unbalance DOM
+    if raw_desc.strip().startswith('<div>') and raw_desc.count('<div') > raw_desc.count('</div>'):
+        raw_desc = raw_desc.strip()[5:].strip()
     clean_desc = clean_vjudge_math(raw_desc)
     pdf_marker = f"<!-- CLUE_PDF:{pdf_url} -->\n" if pdf_url else ""
     desc = f"{pdf_marker}{clean_desc}".strip()

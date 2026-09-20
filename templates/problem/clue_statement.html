@@ -76,13 +76,13 @@
         {% endif %}
 
         <!-- Caches for language switcher -->
-        <div id="clue-statement-vi-cache" style="display: none;">
-            {{ (clue_statement_html_vi or clue_statement_html)|safe }}
-        </div>
         {% if clue_statement_html_en %}
-            <div id="clue-statement-en-cache" style="display: none;">
+            <template id="clue-statement-vi-cache">
+                {{ (clue_statement_html_vi or clue_statement_html)|safe }}
+            </template>
+            <template id="clue-statement-en-cache">
                 {{ clue_statement_html_en|safe }}
-            </div>
+            </template>
         {% endif %}
 
         <!-- Rendered Text / Math Description (Pure Clean HTML from ClueOJ) -->
