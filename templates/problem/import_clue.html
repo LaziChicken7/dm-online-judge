@@ -5,12 +5,13 @@
 {% block media %}
     <style>
         .import-clue-wrapper {
-            max-width: 980px;
+            max-width: 1040px;
             margin: 20px auto 50px auto;
             width: 100%;
             box-sizing: border-box;
             padding: 0 16px;
         }
+
         .import-card {
             background: rgba(255, 255, 255, 0.03) !important;
             border: 1px solid rgba(255, 255, 255, 0.07) !important;
@@ -22,10 +23,12 @@
             margin-bottom: 24px !important;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
+
         .import-card:hover {
             border-color: rgba(56, 189, 248, 0.4) !important;
             box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
         }
+
         .import-tag {
             font-size: 11px !important;
             font-weight: 800 !important;
@@ -38,6 +41,7 @@
             align-items: center;
             gap: 6px;
         }
+
         .import-title {
             font-size: 26px !important;
             font-weight: 800 !important;
@@ -45,12 +49,58 @@
             margin: 0 0 10px 0 !important;
             letter-spacing: -0.01em !important;
         }
+
         .import-desc {
             color: #94a3b8 !important;
             font-size: 14.5px !important;
             line-height: 1.65 !important;
-            margin-bottom: 30px !important;
+            margin-bottom: 24px !important;
         }
+
+        /* Section Tabs (Public vs Organization) */
+        .import-mode-tabs {
+            display: flex;
+            gap: 8px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 5px;
+            margin-bottom: 28px;
+        }
+
+        .import-mode-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .import-mode-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .import-mode-btn.active {
+            background: #0284c7;
+            color: #ffffff;
+            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
+        }
+
+        .import-mode-btn.active.org-tab {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            box-shadow: 0 2px 12px rgba(124, 58, 237, 0.4);
+        }
+
         .import-error-alert {
             background: rgba(239, 68, 68, 0.12) !important;
             border: 1px solid rgba(239, 68, 68, 0.35) !important;
@@ -63,20 +113,24 @@
             align-items: flex-start !important;
             gap: 12px !important;
         }
+
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 24px;
         }
+
         @media (max-width: 768px) {
             .form-grid {
                 grid-template-columns: 1fr;
             }
         }
+
         .form-group-full {
             grid-column: 1 / -1;
         }
+
         .form-label {
             display: block;
             font-size: 13.5px;
@@ -84,16 +138,19 @@
             color: #cbd5e1;
             margin-bottom: 8px;
         }
+
         .form-label .required {
             color: #ef4444;
             font-weight: bold;
         }
+
         .form-label .optional {
             color: #64748b;
             font-weight: 400;
             font-size: 12px;
             margin-left: 4px;
         }
+
         .form-input-cyber {
             width: 100%;
             box-sizing: border-box;
@@ -102,88 +159,128 @@
             border-radius: 10px !important;
             padding: 11px 16px !important;
             color: #ffffff !important;
-            font-size: 14.5px !important;
+            font-size: 14px !important;
             outline: none !important;
             transition: all 0.2s ease !important;
-            font-family: inherit !important;
         }
+
         .form-input-cyber:focus {
             border-color: #38bdf8 !important;
             box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-            background: rgba(15, 23, 42, 0.95) !important;
+            background: rgba(15, 23, 42, 0.85) !important;
         }
+
         .form-hint {
             font-size: 12.5px;
             color: #64748b;
             margin-top: 6px;
-            line-height: 1.45;
+            line-height: 1.5;
         }
+
         .form-hint code {
             color: #38bdf8;
             background: rgba(56, 189, 248, 0.1);
             padding: 2px 6px;
             border-radius: 4px;
+            font-size: 12px;
         }
+
         .custom-checkbox-wrap {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 10px;
             cursor: pointer;
             user-select: none;
-            margin-top: 6px;
-        }
-        .custom-checkbox-wrap input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #38bdf8;
-            cursor: pointer;
-        }
-        .custom-checkbox-wrap span {
-            color: #e2e8f0;
+            color: #cbd5e1;
             font-size: 14px;
             font-weight: 500;
         }
+
+        .custom-checkbox-wrap input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0284c7;
+            cursor: pointer;
+        }
+
+        /* Org Box Info */
+        .org-auth-card {
+            background: rgba(124, 58, 237, 0.08);
+            border: 1px solid rgba(124, 58, 237, 0.25);
+            border-radius: 14px;
+            padding: 18px 22px;
+            margin-bottom: 24px;
+        }
+        .org-auth-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: #c084fc;
+            font-size: 14.5px;
+            margin-bottom: 6px;
+        }
+        .org-auth-desc {
+            color: #cbd5e1;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
         .form-actions {
             display: flex;
             align-items: center;
             justify-content: flex-end;
-            gap: 16px;
-            margin-top: 32px;
-            padding-top: 24px;
+            gap: 14px;
+            padding-top: 20px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
         }
+
         .btn-cancel {
+            display: inline-flex;
+            align-items: center;
+            padding: 10px 20px;
+            border-radius: 100px;
             color: #94a3b8;
-            text-decoration: none !important;
-            font-size: 14.5px;
+            text-decoration: none;
+            font-size: 14px;
             font-weight: 600;
-            padding: 11px 22px;
-            border-radius: 10px;
             transition: all 0.2s ease;
         }
+
         .btn-cancel:hover {
             color: #ffffff;
-            background: rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.05);
         }
+
         .btn-submit-import {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 14.5px !important;
-            padding: 12px 28px !important;
-            border-radius: 10px !important;
-            border: none !important;
-            cursor: pointer !important;
-            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
-            transition: all 0.2s ease !important;
+            padding: 11px 26px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
+
         .btn-submit-import:hover {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
-            box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
-            transform: translateY(-1px);
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.45);
+        }
+
+        .btn-submit-import.org-submit {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+        }
+        .btn-submit-import.org-submit:hover {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            box-shadow: 0 6px 22px rgba(139, 92, 246, 0.5);
         }
     </style>
 {% endblock %}
@@ -191,36 +288,79 @@
 {% block body %}
 <div class="import-clue-wrapper">
     <div class="import-card">
-        <div class="import-tag">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
-            <span>CLUE ONLINE JUDGE</span>
-        </div>
-        <h1 class="import-title">{{ _('Nhập bài tập từ Clue Online Judge (ClueOJ)') }}</h1>
+        <span class="import-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            REMOTE OJ / CLUE ONLINE JUDGE
+        </span>
+        <h1 class="import-title">{{ _('Import Problem from ClueOJ') }}</h1>
         <p class="import-desc">
-            {{ _('Nhập bài tập trực tiếp từ ClueOJ (oj.clue.edu.vn). Hệ thống sẽ tự động đồng bộ đề bài, giới hạn thời gian, bộ nhớ và điểm số.') }}
+            {{ _('Nhập bài tập từ hệ thống Clue Online Judge (oj.clue.edu.vn). Hỗ trợ cả bài tập công khai và bài tập riêng từ Organization.') }}
         </p>
+
+        <!-- Mode Tabs -->
+        <div class="import-mode-tabs">
+            <button type="button" class="import-mode-btn {% if active_tab != 'org' %}active{% endif %}" id="tab-btn-public" onclick="switchImportMode('public')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <span>{{ _('1. Nhập bài công khai (Public Problem)') }}</span>
+            </button>
+            <button type="button" class="import-mode-btn org-tab {% if active_tab == 'org' %}active{% endif %}" id="tab-btn-org" onclick="switchImportMode('org')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path><polyline points="9 21 9 9 15 9 15 21"></polyline></svg>
+                <span>{{ _('2. Nhập bài từ Organization riêng (Kèm Tải Test Case)') }}</span>
+            </button>
+        </div>
 
         {% if error %}
             <div class="import-error-alert">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                 <div>
                     <strong>{{ _('Lỗi khi nhập bài tập:') }}</strong> {{ error }}
                 </div>
             </div>
         {% endif %}
 
-        <form action="" method="post">
+        <form action="" method="post" id="clue-import-form">
             {% csrf_token %}
+            <input type="hidden" name="import_type" id="id_import_type" value="{{ active_tab or 'public' }}">
+
+            <!-- Organization Auth Block (Only in Org mode) -->
+            <div id="org-auth-section" style="{% if active_tab != 'org' %}display: none;{% endif %}">
+                <div class="org-auth-card">
+                    <div class="org-auth-header">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <span>{{ _('Yêu cầu tài khoản ClueOJ có quyền xem bài tập Organization') }}</span>
+                    </div>
+                    <div class="org-auth-desc">
+                        {{ _('Để tải được bài tập và trích xuất toàn bộ Test Case (file zip & init.yml), hệ thống cần phiên đăng nhập ClueOJ hợp lệ. Bạn có thể nhập tài khoản bên dưới hoặc sử dụng tài khoản đã kết nối.') }}
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
+                        <div>
+                            <label class="form-label" for="id_clue_username">{{ _('Tài khoản ClueOJ') }}</label>
+                            <input type="text" id="id_clue_username" name="clue_username" class="form-input-cyber" placeholder="csattutor" value="{{ clue_username or request.profile.clue_username or 'csattutor' }}">
+                        </div>
+                        <div>
+                            <label class="form-label" for="id_clue_password">{{ _('Mật khẩu ClueOJ') }}</label>
+                            <input type="password" id="id_clue_password" name="clue_password" class="form-input-cyber" placeholder="••••••••" value="vicsatlanha">
+                        </div>
+                        <div>
+                            <label class="form-label" for="id_organization">{{ _('Tên Organization') }}</label>
+                            <input type="text" id="id_organization" name="organization" class="form-input-cyber" placeholder="csattutor" value="{{ organization or 'csattutor' }}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem Inputs -->
             <div class="form-grid">
                 <div class="form-group-full">
                     <label class="form-label" for="id_clue_input">
                         {{ _('ClueOJ Problem Code hoặc URL') }} <span class="required">*</span>
                     </label>
                     <input type="text" id="id_clue_input" name="clue_input" class="form-input-cyber"
-                           placeholder="Ví dụ: dhbb26_dx36_10_b hoặc https://oj.clue.edu.vn/problem/dhbb26_dx36_10_b"
+                           placeholder="Ví dụ: csattutor_tmath_n0216d hoặc https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d"
                            value="{{ clue_input or '' }}" required autofocus>
-                    <div class="form-hint">
-                        {{ _('Nhập mã bài hoặc đường dẫn đầy đủ từ ClueOJ. Ví dụ:') }} <code>dhbb26_dx36_10_b</code> hoặc <code>olp30426_cgame</code>
+                    <div class="form-hint" id="clue-input-hint">
+                        {{ _('Nhập mã bài hoặc đường dẫn đầy đủ từ ClueOJ. Ví dụ:') }} <code>csattutor_tmath_n0216d</code> {{ _('hoặc') }} <code>https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d</code>
                     </div>
                 </div>
 
@@ -229,7 +369,7 @@
                         {{ _('Mã bài trên hệ thống (Code)') }} <span class="optional">({{ _('tuỳ chọn') }})</span>
                     </label>
                     <input type="text" id="id_code" name="code" class="form-input-cyber"
-                           placeholder="Ví dụ: clue_dhbb (để trống sẽ tự sinh)"
+                           placeholder="Ví dụ: clue_n0216d (để trống sẽ tự sinh)"
                            value="{{ code or '' }}">
                     <div class="form-hint">{{ _('Chỉ gồm chữ thường, chữ số và dấu gạch dưới.') }}</div>
                 </div>
@@ -278,12 +418,43 @@
 
             <div class="form-actions">
                 <a href="{{ url('problem_list') }}" class="btn-cancel">{{ _('Huỷ bỏ') }}</a>
-                <button type="submit" class="btn-submit-import">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                    <span>{{ _('Tiến hành nhập bài') }}</span>
+                <button type="submit" class="btn-submit-import {% if active_tab == 'org' %}org-submit{% endif %}" id="btn-submit-import">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span id="submit-btn-text">{% if active_tab == 'org' %}{{ _('⚡ Nhập bài & Tải toàn bộ Test Case') }}{% else %}{{ _('Tiến hành nhập bài') }}{% endif %}</span>
                 </button>
             </div>
         </form>
     </div>
 </div>
+
+<script>
+    function switchImportMode(mode) {
+        var tabPublic = document.getElementById('tab-btn-public');
+        var tabOrg = document.getElementById('tab-btn-org');
+        var orgSection = document.getElementById('org-auth-section');
+        var modeInput = document.getElementById('id_import_type');
+        var submitBtn = document.getElementById('btn-submit-import');
+        var submitText = document.getElementById('submit-btn-text');
+        var hint = document.getElementById('clue-input-hint');
+        var inputField = document.getElementById('id_clue_input');
+
+        if (mode === 'org') {
+            tabOrg.classList.add('active');
+            tabPublic.classList.remove('active');
+            orgSection.style.display = 'block';
+            modeInput.value = 'org';
+            submitBtn.classList.add('org-submit');
+            submitText.innerText = '⚡ Nhập bài & Tải toàn bộ Test Case';
+            inputField.placeholder = 'Ví dụ: csattutor_tmath_n0216d hoặc https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d';
+        } else {
+            tabPublic.classList.add('active');
+            tabOrg.classList.remove('active');
+            orgSection.style.display = 'none';
+            modeInput.value = 'public';
+            submitBtn.classList.remove('org-submit');
+            submitText.innerText = 'Tiến hành nhập bài';
+            inputField.placeholder = 'Ví dụ: dhbb26_dx36_10_b hoặc https://oj.clue.edu.vn/problem/dhbb26_dx36_10_b';
+        }
+    }
+</script>
 {% endblock %}

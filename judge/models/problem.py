@@ -185,6 +185,8 @@ class Problem(models.Model):
     vjudge_pid = models.IntegerField(verbose_name=_('VJudge problem ID'), null=True, blank=True)
     is_clue = models.BooleanField(verbose_name=_('is ClueOJ problem'), default=False, db_index=True)
     clue_code = models.CharField(verbose_name=_('ClueOJ problem code'), max_length=100, blank=True, default='')
+    is_clue_org = models.BooleanField(verbose_name=_('is ClueOJ organization problem'), default=False, db_index=True)
+    clue_organization = models.CharField(verbose_name=_('ClueOJ organization name'), max_length=100, blank=True, default='')
     is_ntucoder = models.BooleanField(verbose_name=_('is NTUCoder problem'), default=False, db_index=True)
     ntucoder_id = models.CharField(verbose_name=_('NTUCoder problem ID'), max_length=50, blank=True, default='')
     ntucoder_code = models.CharField(verbose_name=_('NTUCoder problem code'), max_length=100, blank=True, default='')

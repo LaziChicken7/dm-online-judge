@@ -172,7 +172,10 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
         if self.object.is_vjudge:
             context['available_judges_display'] = f"VJudge ({self.object.vjudge_oj or 'Remote'})"
         elif getattr(self.object, 'is_clue', False):
-            context['available_judges_display'] = "ClueOJ (Remote)"
+            if getattr(self.object, 'is_clue_org', False) or getattr(self.object, 'clue_organization', ''):
+                context['available_judges_display'] = "ClueOJ Org (Local & Remote)"
+            else:
+                context['available_judges_display'] = "ClueOJ (Remote)"
         elif getattr(self.object, 'is_ntucoder', False):
             context['available_judges_display'] = "NTUCoder (Remote)"
         elif getattr(self.object, 'is_ltpt', False):
@@ -1297,6 +1300,7 @@ class ImportClueView(TitleMixin, View):
     def get(self, request):
         return render(request, "problem/import_clue.html", {
             "title": self.get_title(),
+            "active_tab": request.GET.get("tab", "public"),
         })
 
     def post(self, request):
@@ -1305,44 +1309,66 @@ class ImportClueView(TitleMixin, View):
             return render(request, "problem/import_clue.html", {
                 "title": self.get_title(),
                 "error": _("Vui lòng nhập mã bài hoặc URL bài tập từ ClueOJ."),
+                "active_tab": request.POST.get("import_type", "public"),
             })
 
+        import_type = request.POST.get("import_type", "public")
         code_override = request.POST.get("code", "").strip() or None
         name_override = request.POST.get("name", "").strip() or None
         points_override = request.POST.get("points", "").strip() or None
         time_limit_override = request.POST.get("time_limit", "").strip() or None
         memory_limit_override = request.POST.get("memory_limit", "").strip() or None
         is_public = bool(request.POST.get("is_public"))
-
-        from judge.utils.clue_importer import import_clue_problem
+        author_profile = (request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None) or Profile.objects.filter(user__is_superuser=True).first()
 
         try:
-            problem = import_clue_problem(
-                clue_input=clue_input,
-                code_override=code_override,
-                name_override=name_override,
-                points_override=points_override,
-                time_limit_override=time_limit_override,
-                memory_limit_override=memory_limit_override,
-                is_public=is_public,
-                author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None),
-            )
-            if isinstance(problem, (tuple, list)):
-                problem = problem[0]
+            if import_type == "org" or request.POST.get("is_org_import"):
+                from judge.utils.clue_importer import import_clue_organization_problem
+                clue_username = request.POST.get("clue_username", "").strip()
+                clue_password = request.POST.get("clue_password", "").strip()
+                organization = request.POST.get("organization", "csattutor").strip()
+                problem, test_count = import_clue_organization_problem(
+                    clue_input=clue_input,
+                    clue_username=clue_username,
+                    clue_password=clue_password,
+                    organization=organization,
+                    code_override=code_override,
+                    name_override=name_override,
+                    points_override=points_override,
+                    time_limit_override=time_limit_override,
+                    memory_limit_override=memory_limit_override,
+                    is_public=is_public,
+                    author_profile=author_profile,
+                )
+            else:
+                from judge.utils.clue_importer import import_clue_problem
+                problem = import_clue_problem(
+                    clue_input=clue_input,
+                    code_override=code_override,
+                    name_override=name_override,
+                    points_override=points_override,
+                    time_limit_override=time_limit_override,
+                    memory_limit_override=memory_limit_override,
+                    is_public=is_public,
+                    author_profile=author_profile,
+                )
+                if isinstance(problem, (tuple, list)):
+                    problem = problem[0]
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             return render(request, "problem/import_clue.html", {
                 "title": self.get_title(),
                 "error": str(e),
                 "clue_input": clue_input,
+                "active_tab": import_type,
                 "code": code_override or "",
                 "name": name_override or "",
                 "points": points_override or "",
                 "time_limit": time_limit_override or "",
                 "memory_limit": memory_limit_override or "",
+                "clue_username": request.POST.get("clue_username", ""),
+                "organization": request.POST.get("organization", "csattutor"),
             })
-
-
 class VJudgeStatementAjaxView(View):
     def get(self, request, problem):
         from judge.models import Problem
