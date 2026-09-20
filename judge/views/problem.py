@@ -870,10 +870,12 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         if self.object.is_vjudge:
             from judge.tasks.vjudge_judge import judge_vjudge_submission_async
             from judge.utils.vjudge_service import get_vjudge_remote_accounts
+            is_cf = (self.object.vjudge_oj or '').lower() == 'codeforces'
+            default_method = 1 if is_cf else 0
             try:
-                method = int(self.request.POST.get('vjudge_method', 1))
+                method = int(self.request.POST.get('vjudge_method', default_method))
             except (ValueError, TypeError):
-                method = 1
+                method = default_method
             binding_id = self.request.POST.get('vjudge_binding_id') or None
             try:
                 open_code = int(self.request.POST.get('vjudge_open', 1))
@@ -881,7 +883,7 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
                 open_code = 1
 
             cookie = self.request.profile.vjudge_cookie if hasattr(self.request, 'profile') else None
-            if not binding_id and cookie:
+            if (is_cf or method == 1) and not binding_id and cookie:
                 remote_accs = get_vjudge_remote_accounts(cookie, oj=self.object.vjudge_oj)
                 for acc in remote_accs:
                     if acc.get('isReady'):
@@ -891,6 +893,8 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
                 if not binding_id and remote_accs:
                     binding_id = remote_accs[0].get('id')
                     method = 1
+            elif method == 0:
+                binding_id = None
 
             judge_vjudge_submission_async(
                 self.new_submission,

@@ -17,42 +17,46 @@
         <span class="vjudge-row-label">{{ _('Submit By:') }}</span>
         <div class="vjudge-submit-by-content">
             <div class="vjudge-btn-toggle-group" id="vjudge-method-group">
-                {% if problem.vjudge_oj != 'CodeForces' %}
-                    <button type="button" class="vjudge-toggle-btn" data-val="0">Default Account</button>
+                {% if problem.vjudge_oj|lower != 'codeforces' %}
+                    <button type="button" class="vjudge-toggle-btn active" data-val="0">Default Account</button>
+                    <button type="button" class="vjudge-toggle-btn" data-val="1">Own Account</button>
+                    <button type="button" class="vjudge-toggle-btn" data-val="2">Archive</button>
+                    <input type="hidden" name="vjudge_method" id="id_vjudge_method" value="0">
+                {% else %}
+                    <button type="button" class="vjudge-toggle-btn active" data-val="1">Own Account</button>
+                    <button type="button" class="vjudge-toggle-btn" data-val="2">Archive</button>
+                    <input type="hidden" name="vjudge_method" id="id_vjudge_method" value="1">
                 {% endif %}
-                <button type="button" class="vjudge-toggle-btn active" data-val="1">Own Account</button>
-                <button type="button" class="vjudge-toggle-btn" data-val="2">Archive</button>
-                <input type="hidden" name="vjudge_method" id="id_vjudge_method" value="1">
             </div>
 
             <!-- Remote Account Selector & Manage Accounts Link -->
-            <div class="vjudge-account-selector-line" id="vjudge-account-selector-line">
+            <div class="vjudge-account-selector-line" id="vjudge-account-selector-line" {% if problem.vjudge_oj|lower != 'codeforces' %}style="display: none;"{% endif %}>
                 <select name="vjudge_binding_id" id="id_vjudge_binding_id" class="vjudge-account-select">
                     {% if vjudge_remote_accounts %}
                         {% for acc in vjudge_remote_accounts %}
                             <option value="{{ acc.id }}" {% if acc.isReady %}selected{% endif %}>
-                                {{ acc.remoteUsername or acc.username }} ({{ acc.oj or problem.vjudge_oj }}) - {% if acc.isReady %}[Sẵn sàng / Ready]{% else %}[Chưa hoàn tất liên kết / Incomplete]{% endif %}
+                                {{ acc.remoteUsername or acc.username }} ({{ acc.oj or problem.vjudge_oj }}) - {% if acc.isReady %}READY{% else %}{{ acc.healthStatus or acc.runtimeStatus or 'NOT READY' }}{% endif %}
                             </option>
                         {% endfor %}
                     {% else %}
                         <option value="">-- {{ _('Chưa có tài khoản liên kết') }} --</option>
                     {% endif %}
                 </select>
-                <a href="https://vjudge.net/user/remoteAccounts?oj={{ problem.vjudge_oj }}" target="_blank" rel="noopener" class="vjudge-manage-accounts-link">
+                <a href="https://vjudge.net/user/remoteAccounts?oj={{ problem.vjudge_oj }}" target="_blank" rel="noopener noreferrer" class="vjudge-manage-accounts-link">
                     {{ _('Manage Accounts ↗') }}
                 </a>
             </div>
 
-            {% if request.profile.vjudge_cookie and problem.vjudge_oj == 'CodeForces' and not vjudge_has_ready_account %}
-                <div class="vjudge-incomplete-alert" style="display: flex; align-items: flex-start; gap: 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 10px; padding: 12px 16px; margin-top: 6px;">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+            {% if request.profile.vjudge_cookie and problem.vjudge_oj|lower == 'codeforces' and not vjudge_has_ready_account %}
+                <div class="vjudge-incomplete-alert" style="display: flex; align-items: flex-start; gap: 12px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 10px; padding: 13px 16px; margin-top: 8px;">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                     <div style="flex: 1; font-size: 13.5px; line-height: 1.55; color: #fca5a5;">
                         <div style="font-weight: 700; color: #f87171; margin-bottom: 3px;">
                             {{ _('Tài khoản CodeForces trên Virtual Judge chưa hoàn tất xác thực (INCOMPLETE)') }}
                         </div>
                         <div>
                             {{ _('Codeforces yêu cầu nộp bằng tài khoản cá nhân đã xác thực. Hãy nhấn') }}
-                            <a href="https://vjudge.net/user/remoteAccounts?oj={{ problem.vjudge_oj }}" target="_blank" rel="noopener" style="color: #38bdf8; font-weight: 700; text-decoration: underline;">
+                            <a href="https://vjudge.net/user/remoteAccounts?oj={{ problem.vjudge_oj }}" target="_blank" rel="noopener noreferrer" style="color: #60a5fa; font-weight: 700; text-decoration: underline;">
                                 {{ _('Manage Accounts trên Virtual Judge ↗') }}
                             </a>
                             {{ _('để nhập mật khẩu / liên kết tài khoản CodeForces của bạn trước khi nộp.') }}
@@ -61,15 +65,15 @@
                 </div>
             {% endif %}
 
-            {% if not request.profile.vjudge_cookie %}
+            {% if problem.vjudge_oj|lower == 'codeforces' and not request.profile.vjudge_cookie %}
                 <div class="vjudge-auth-required-alert">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
                     <div style="flex: 1;">
                         <div style="font-weight: 700; color: #fbbf24; margin-bottom: 2px;">{{ _('Yêu cầu kết nối tài khoản Virtual Judge') }}</div>
-                        <div style="color: #cbd5e1; font-size: 13px;">{{ _('Để nộp bài cho đề Codeforces thông qua VJudge, bạn cần kết nối tài khoản VJudge của mình.') }}</div>
+                        <div style="color: #cbd5e1; font-size: 13px;">{{ _('Để nộp bài cho đề Codeforces thông qua VJudge, bạn cần đăng nhập tài khoản VJudge đã liên kết Codeforces.') }}</div>
                     </div>
-                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-connect-link-btn" target="_blank" rel="noopener">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-connect-link-btn" target="_blank">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
                         <span>{{ _('Kết nối tài khoản') }}</span>
                     </a>
                 </div>
@@ -145,12 +149,12 @@
         display: flex;
         align-items: center;
         gap: 14px;
-        margin-top: 4px;
+        flex-wrap: wrap;
     }
     .vjudge-account-select {
         background: #2d333b !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 6px !important;
         color: #adbac7 !important;
         padding: 8px 14px !important;
         font-size: 14px !important;
@@ -223,9 +227,9 @@
                     document.getElementById('id_vjudge_method').value = val;
                     if (accountLine) {
                         if (val === '0') {
-                            accountLine.style.opacity = '0.5';
+                            accountLine.style.display = 'none';
                         } else {
-                            accountLine.style.opacity = '1';
+                            accountLine.style.display = 'flex';
                         }
                     }
                 });

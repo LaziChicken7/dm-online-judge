@@ -106,7 +106,31 @@ def resolve_vjudge_language(oj: str, dmoj_lang_key: str, available_languages: di
                     return str(lid)
 
     # 2. Modern static mappings by OJ
-    if oj_upper == 'CODEFORCES':
+    if oj_upper in ('VNOJ', 'VNOI'):
+        vnoj_map = {
+            'CPP23': '23',
+            'CPP20': '14',
+            'CPP17': '4',
+            'CPP14': '3',
+            'CPP11': '2',
+            'CPP03': '1',
+            'C': '5',
+            'C11': '6',
+            'PY3': '9',
+            'PY2': '8',
+            'PYPY3': '17',
+            'PYPY2': '16',
+            'JAVA': '18',
+            'JAVA8': '10',
+            'RUST': '22',
+            'GO': '21',
+            'PAS': '7',
+        }
+        if key in vnoj_map:
+            return vnoj_map[key]
+        if 'CPP' in key or 'C++' in key:
+            return '14'
+    elif oj_upper == 'CODEFORCES':
         cf_map = {
             'CPP23': '91',  # GNU G++23 14.2
             'CPP20': '89',  # GNU G++20 13.2
@@ -158,14 +182,15 @@ def judge_vjudge_submission_task(submission_id, method=0, binding_id=None, open_
     _post_update_submission(submission)
 
     # 2. Dynamic Language Mapping
-    prob_data = get_vjudge_problem_data(problem.vjudge_oj, problem.vjudge_prob_num)
+    from judge.utils.vjudge_service import get_any_vjudge_cookie
+    cookie = profile.vjudge_cookie or get_any_vjudge_cookie() or ""
+    prob_data = get_vjudge_problem_data(problem.vjudge_oj, problem.vjudge_prob_num, cookie=cookie)
     available_langs = prob_data.get('languages', {}) if prob_data else {}
     vjudge_lang = resolve_vjudge_language(problem.vjudge_oj, submission.language.key, available_langs)
 
-    cookie = profile.vjudge_cookie or ''
-
     # 3. Resolve binding_id & method for Own Account
-    if problem.vjudge_oj.lower() == 'codeforces':
+    is_cf = problem.vjudge_oj.lower() == 'codeforces'
+    if is_cf:
         method = 1
         if not binding_id:
             if profile.vjudge_binding_id:
@@ -179,7 +204,6 @@ def judge_vjudge_submission_task(submission_id, method=0, binding_id=None, open_
                         break
                 if not binding_id and accs:
                     binding_id = accs[0].get('id')
-
         # Save default binding to profile if found
         if binding_id and profile.vjudge_binding_id != int(binding_id):
             try:
@@ -187,6 +211,8 @@ def judge_vjudge_submission_task(submission_id, method=0, binding_id=None, open_
                 profile.save(update_fields=['vjudge_binding_id'])
             except Exception:
                 pass
+    elif int(method) == 0:
+        binding_id = None
 
     # 4. Submit to VJudge or reuse runId
     run_id = submission.vjudge_run_id
