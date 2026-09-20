@@ -1342,12 +1342,37 @@ class ImportClueView(TitleMixin, View):
 class VJudgeStatementAjaxView(View):
     def get(self, request, problem):
         from judge.models import Problem
-        from judge.utils.vjudge_service import get_vjudge_statement_content
+        from judge.utils.vjudge_service import (
+            get_vjudge_problem_data,
+            get_vjudge_statement_content,
+            select_best_vjudge_statement,
+        )
         prob = get_object_or_404(Problem, code=problem)
         key = request.GET.get('key')
-        if not key:
-            return JsonResponse({'success': False, 'error': 'Missing key'}, status=400)
+        lang = request.GET.get('lang')
+        cookie = request.profile.vjudge_cookie if request.user.is_authenticated and hasattr(request, 'profile') else None
 
-        cookie = request.profile.vjudge_cookie if request.user.is_authenticated else None
+        if lang and not key:
+            data = get_vjudge_problem_data(prob.vjudge_oj, prob.vjudge_prob_num, cookie=cookie)
+            statements = data.get('descBriefs', []) if data else []
+            best_stmt = select_best_vjudge_statement(statements, user_lang=lang)
+            if best_stmt and best_stmt.get('key'):
+                key = str(best_stmt['key'])
+                author = best_stmt.get('author') or 'VJudge'
+                lang_display = best_stmt.get('langDisplay') or best_stmt.get('lang') or lang
+                html = get_vjudge_statement_content(key, cookie=cookie)
+                return JsonResponse({'success': True, 'html': html, 'key': key, 'author': author, 'lang': lang_display})
+            elif lang.startswith('vi'):
+                vi_trans = prob.translations.filter(language__startswith='vi').first()
+                desc_text = vi_trans.description if vi_trans else prob.description
+                return JsonResponse({'success': True, 'html': desc_text, 'lang': 'Tiếng Việt', 'author': 'System'})
+            elif lang.startswith('en'):
+                en_trans = prob.translations.filter(language__startswith='en').first()
+                html = en_trans.description if en_trans else prob.description
+                return JsonResponse({'success': True, 'html': html, 'lang': 'English', 'author': 'System'})
+
+        if not key:
+            return JsonResponse({'success': False, 'error': 'Missing key or lang'}, status=400)
+
         html = get_vjudge_statement_content(key, cookie=cookie)
         return JsonResponse({'success': True, 'html': html, 'key': key})

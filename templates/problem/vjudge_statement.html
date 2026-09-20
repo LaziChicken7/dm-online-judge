@@ -3,36 +3,86 @@
     <div class="vjudge-top-bar">
         <div class="vjudge-top-left">
             <span class="vjudge-source-pill">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                 {{ problem.vjudge_oj }} - {{ problem.vjudge_prob_num }}
             </span>
             <div id="vjudge-active-statement-banner" class="vjudge-active-banner">
                 <span style="color: #94a3b8; font-size: 12.5px;">{{ _('Viewing statement:') }}</span>
-                <span id="vjudge-active-statement-notice" style="color: #38bdf8; font-size: 13px; font-weight: 700;">{{ vjudge_active_author|default('System') }} ({{ vjudge_active_lang|default('Official English') }})</span>
+                <span id="vjudge-active-statement-notice" style="color: #38bdf8; font-size: 13px; font-weight: 700;">{{ vjudge_active_author or 'System' }} ({{ vjudge_active_lang or 'Default' }})</span>
             </div>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="vjudge-lang-switcher" id="vjudge-lang-switcher">
+            <button type="button" class="vjudge-lang-btn" id="btn-vjudge-lang-vi" onclick="switchVJudgeLanguage('vi')" title="{{ _('Chuyển sang đề tiếng Việt') }}">
+                <span class="flag-icon">🇻🇳</span> <span class="lang-text">Tiếng Việt</span>
+            </button>
+            <button type="button" class="vjudge-lang-btn" id="btn-vjudge-lang-en" onclick="switchVJudgeLanguage('en')" title="{{ _('Switch to English statement') }}">
+                <span class="flag-icon">🇬🇧</span> <span class="lang-text">English</span>
+            </button>
         </div>
 
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated %}
                 {% if request.profile.vjudge_cookie %}
                     <span class="vjudge-account-chip chip-connected" title="{{ _('VJudge account connected') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                         <span>{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
                     </span>
                 {% else %}
-                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Connect your Virtual Judge account to submit') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Kết nối tài khoản Virtual Judge') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
                         <span>{{ _('Connect VJudge') }}</span>
                     </a>
                 {% endif %}
             {% endif %}
-
-            <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" rel="noopener" class="vjudge-btn-tool" title="{{ _('Open original problem on Virtual Judge') }}">
+            <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" class="vjudge-link-chip">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 <span>VJudge ↗</span>
             </a>
         </div>
     </div>
+
+    <!-- VJudge Auth / Connect Notice Banner -->
+    {% if not request.user.is_authenticated or not request.profile.vjudge_cookie %}
+        <div class="vjudge-auth-notice-banner">
+            <div class="vjudge-auth-notice-left">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+                <div class="vjudge-auth-notice-text">
+                    <span class="vjudge-auth-notice-title">
+                        {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}
+                            Vui lòng đăng nhập hoặc kết nối tài khoản Virtual Judge để xem đề bài và nộp bài
+                        {% else %}
+                            Please log in or connect your Virtual Judge account to view statements and submit solutions
+                        {% endif %}
+                    </span>
+                    <span class="vjudge-auth-notice-sub">
+                        {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}
+                            Một số bài tập từ các máy chủ từ xa (như {{ problem.vjudge_oj }}) yêu cầu đăng nhập Virtual Judge để tải toàn bộ nội dung và chấm bài.
+                        {% else %}
+                            Some remote OJ problems (such as {{ problem.vjudge_oj }}) require an active Virtual Judge session to load statements and grade submissions.
+                        {% endif %}
+                    </span>
+                </div>
+            </div>
+            <div class="vjudge-auth-notice-right">
+                {% if request.user.is_authenticated %}
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                        <span>{% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập / Kết nối VJudge{% else %}Connect VJudge{% endif %}</span>
+                    </a>
+                {% else %}
+                    <a href="{{ url('login') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
+                        <span>{% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập để kết nối{% else %}Log in to connect{% endif %}</span>
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    {% endif %}
 
     <!-- Direct Rendered Statement Container -->
     <div class="vjudge-statement-container" id="vjudge-statement-container">
@@ -41,16 +91,48 @@
                 {{ description|markdown(problem.markdown_style, MATH_ENGINE)|reference|str|safe }}
             {% endif %}
         </div>
+
         <div id="vjudge-statement-content" class="vjudge-rendered-body">
             {% if vjudge_statement_html %}
                 {{ vjudge_statement_html|safe }}
             {% elif description %}
                 {{ description|markdown(problem.markdown_style, MATH_ENGINE)|reference|str|safe }}
             {% else %}
-                <div class="vjudge-empty-warning">
-                    <p style="color: #94a3b8; font-size: 15px; margin: 20px 0;">
-                        {{ _('Loading problem statement from Virtual Judge...') }}
+                <div class="vjudge-login-prompt-card">
+                    <div class="vjudge-prompt-lock">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                        </svg>
+                    </div>
+                    <h3 class="vjudge-prompt-title">
+                        {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}
+                            Vui lòng đăng nhập Virtual Judge để xem đề bài
+                        {% else %}
+                            Please log in to Virtual Judge to view the problem statement
+                        {% endif %}
+                    </h3>
+                    <p class="vjudge-prompt-desc">
+                        {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}
+                            Máy chủ Virtual Judge yêu cầu phiên đăng nhập để truy cập đề bài {{ problem.vjudge_oj }} - {{ problem.vjudge_prob_num }}. Vui lòng kết nối tài khoản VJudge của bạn để tự động tải đề bài và chấm điểm.
+                        {% else %}
+                            Virtual Judge requires an authenticated session to access problem {{ problem.vjudge_oj }} - {{ problem.vjudge_prob_num }}. Please connect your VJudge account to load statements and submit solutions.
+                        {% endif %}
                     </p>
+                    <div class="vjudge-prompt-actions">
+                        {% if request.user.is_authenticated %}
+                            <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="button primary">
+                                {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập / Liên kết VJudge ngay{% else %}Connect VJudge Account{% endif %}
+                            </a>
+                        {% else %}
+                            <a href="{{ url('login') }}?next={{ request.path }}" class="button primary">
+                                {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập tài khoản{% else %}Log in{% endif %}
+                            </a>
+                        {% endif %}
+                        <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" class="button">
+                            {{ _('Xem trực tiếp trên VJudge ↗') }}
+                        </a>
+                    </div>
                 </div>
             {% endif %}
         </div>
@@ -60,7 +142,7 @@
     <div class="vjudge-footer-notice">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
         <span>
-            {{ _('Problem statements and AI translations are synced directly from Virtual Judge. You can select statement language from the') }} <strong>Statements</strong> {{ _('panel on the right.') }}
+            {{ _('Problem statements and AI translations are synced directly from Virtual Judge. You can select statements or switch languages in the toolbar.') }}
         </span>
     </div>
 </div>
@@ -77,7 +159,7 @@
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 12px;
-        background: rgba(15, 23, 42, 0.7);
+        background: rgba(15, 23, 42, 0.75);
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 14px 14px 0 0;
         padding: 12px 18px;
@@ -111,328 +193,482 @@
         border-radius: 8px;
         padding: 4px 10px;
     }
+
+    /* Language Switcher */
+    .vjudge-lang-switcher {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(30, 41, 59, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 9999px;
+        padding: 3px;
+        gap: 3px;
+    }
+    .vjudge-lang-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 12.5px;
+        font-weight: 600;
+        padding: 5px 13px;
+        border-radius: 9999px;
+        cursor: pointer;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        user-select: none;
+    }
+    .vjudge-lang-btn:hover {
+        color: #f1f5f9;
+        background: rgba(255, 255, 255, 0.08);
+    }
+    .vjudge-lang-btn.active {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: #ffffff;
+        box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
+    }
+    .vjudge-lang-btn .flag-icon {
+        font-size: 14px;
+        line-height: 1;
+    }
+
+    /* Auth / Login Notice Banner */
+    .vjudge-auth-notice-banner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: rgba(245, 158, 11, 0.08);
+        border-left: 4px solid #f59e0b;
+        border-right: 1px solid rgba(245, 158, 11, 0.25);
+        border-top: 1px solid rgba(245, 158, 11, 0.25);
+        border-bottom: 1px solid rgba(245, 158, 11, 0.25);
+        border-radius: 0 0 12px 12px;
+        padding: 12px 18px;
+        margin-bottom: 16px;
+        box-sizing: border-box;
+    }
+    .vjudge-auth-notice-left {
+        display: flex;
+        align-items: flex-start;
+        gap: 12px;
+        flex: 1;
+        min-width: 280px;
+    }
+    .vjudge-auth-notice-text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+    .vjudge-auth-notice-title {
+        color: #fef08a;
+        font-size: 13.5px;
+        font-weight: 700;
+        line-height: 1.4;
+    }
+    .vjudge-auth-notice-sub {
+        color: #cbd5e1;
+        font-size: 12px;
+        line-height: 1.5;
+    }
+    .vjudge-auth-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: #f59e0b;
+        color: #0f172a !important;
+        font-size: 12.5px;
+        font-weight: 700;
+        padding: 7px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+    }
+    .vjudge-auth-action-btn:hover {
+        background: #fbbf24;
+        color: #000 !important;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+    }
+
+    /* Account & Link Chips */
     .vjudge-account-chip {
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        border-radius: 9999px;
+        padding: 4px 12px;
         font-size: 12.5px;
-        font-weight: 700;
-        padding: 5px 12px;
-        border-radius: 8px;
-        text-decoration: none !important;
+        font-weight: 600;
+        text-decoration: none;
         transition: all 0.2s ease;
     }
-    .chip-connected {
+    .vjudge-account-chip.chip-connected {
         background: rgba(34, 197, 94, 0.15);
         color: #4ade80;
-        border: 1px solid rgba(34, 197, 94, 0.35);
+        border: 1px solid rgba(34, 197, 94, 0.3);
     }
-    .chip-disconnected {
-        background: rgba(239, 68, 68, 0.15);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.35);
+    .vjudge-account-chip.chip-disconnected {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.3);
     }
-    .vjudge-btn-tool {
+    .vjudge-account-chip.chip-disconnected:hover {
+        background: rgba(245, 158, 11, 0.25);
+        color: #fef08a;
+    }
+    .vjudge-link-chip {
         display: inline-flex;
         align-items: center;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.06) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        color: #cbd5e1 !important;
-        padding: 6px 14px !important;
-        border-radius: 8px !important;
-        font-size: 12.5px !important;
-        font-weight: 600 !important;
-        cursor: pointer !important;
-        text-decoration: none !important;
+        gap: 5px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 9999px;
+        padding: 4px 12px;
+        font-size: 12.5px;
+        font-weight: 600;
+        text-decoration: none;
         transition: all 0.2s ease;
     }
-    .vjudge-btn-tool:hover {
-        background: rgba(255, 255, 255, 0.12) !important;
-        color: #ffffff !important;
-        border-color: rgba(56, 189, 248, 0.4) !important;
+    .vjudge-link-chip:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #f1f5f9;
     }
+
+    /* Container & Body */
     .vjudge-statement-container {
-        width: 100%;
-        min-height: 400px;
-        background: rgba(15, 23, 42, 0.4);
-        border-left: 1px solid rgba(255, 255, 255, 0.08);
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        padding: 28px 32px;
+        background: rgba(15, 23, 42, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: none;
+        border-radius: 0 0 14px 14px;
+        padding: 24px;
+        min-height: 250px;
         box-sizing: border-box;
-        overflow-x: auto;
-    }
-        .vjudge-rendered-body .content-description,
-    .vjudge-statement-container .content-description {
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-        transform: none !important;
     }
     .vjudge-rendered-body {
         color: #e2e8f0;
         font-size: 15px;
         line-height: 1.7;
+        word-wrap: break-word;
+        transition: opacity 0.2s ease;
     }
-    .vjudge-rendered-body p {
-        margin: 0 0 14px 0 !important;
-        line-height: 1.7 !important;
+
+    /* Login Prompt Card when Empty */
+    .vjudge-login-prompt-card {
+        text-align: center;
+        padding: 50px 24px;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px dashed rgba(56, 189, 248, 0.3);
+        border-radius: 14px;
+        margin: 20px 0;
     }
-    .vjudge-rendered-body .vjudge_sample {
-        width: 100% !important;
-        border-collapse: separate !important;
-        border-spacing: 0 !important;
-        border-radius: 10px !important;
-        overflow: hidden !important;
-        margin: 16px 0 !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    .vjudge-prompt-lock {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 72px;
+        height: 72px;
+        background: rgba(56, 189, 248, 0.1);
+        border: 1px solid rgba(56, 189, 248, 0.25);
+        border-radius: 50%;
+        margin-bottom: 16px;
     }
-    .vjudge-rendered-body .vjudge_sample th {
-        background: rgba(255, 255, 255, 0.08) !important;
-        color: #38bdf8 !important;
-        font-weight: 700 !important;
-        padding: 10px 16px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-        text-align: left !important;
+    .vjudge-prompt-title {
+        color: #f8fafc;
+        font-size: 19px;
+        font-weight: 700;
+        margin: 0 0 10px 0;
     }
-    .vjudge-rendered-body .vjudge_sample td {
-        padding: 0 !important;
-        background: rgba(0, 0, 0, 0.3) !important;
-        border: 1px solid rgba(255, 255, 255, 0.06) !important;
-        vertical-align: top !important;
+    .vjudge-prompt-desc {
+        color: #94a3b8;
+        font-size: 14.5px;
+        max-width: 600px;
+        margin: 0 auto 24px auto;
+        line-height: 1.6;
     }
-    .vjudge-rendered-body .vjudge_sample pre {
-        margin: 0 !important;
-        padding: 14px 18px !important;
-        background: transparent !important;
-        border: none !important;
-        color: #f1f5f9 !important;
-        font-family: 'Google Sans Code', monospace !important;
-        font-size: 14px !important;
-        line-height: 1.5 !important;
-        border-radius: 0 !important;
+    .vjudge-prompt-actions {
+        display: flex;
+        gap: 12px;
+        justify-content: center;
+        flex-wrap: wrap;
     }
-    .vjudge-rendered-body .vjudge-section-heading {
+
+    .vjudge-section-heading {
         font-size: 18px;
-        font-weight: 800;
+        font-weight: 700;
         color: #38bdf8;
-        margin: 24px 0 12px 0;
-        letter-spacing: -0.2px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-top: 24px;
+        margin-bottom: 12px;
         padding-bottom: 6px;
+        border-bottom: 1px solid rgba(56, 189, 248, 0.2);
     }
-    .vjudge-rendered-body .vjudge-section-body {
-        margin-bottom: 20px;
-    }
-    .vjudge-rendered-body pre {
-        background: rgba(0, 0, 0, 0.4) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 8px !important;
-        padding: 12px 16px !important;
-        color: #f1f5f9 !important;
-        font-family: 'Google Sans Code', monospace !important;
-        font-size: 14px !important;
-        line-height: 1.5 !important;
-        overflow-x: auto !important;
-    }
-    .vjudge-rendered-body table {
-        width: 100%;
-        border-collapse: collapse;
-        margin: 16px 0;
-    }
-    .vjudge-rendered-body table th,
-    .vjudge-rendered-body table td {
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        padding: 10px 14px;
-        background: rgba(0, 0, 0, 0.2);
-    }
-    .vjudge-rendered-body .input,
-    .vjudge-rendered-body .output {
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 8px !important;
-        overflow: hidden !important;
-        margin-bottom: 16px !important;
-    }
-    .vjudge-rendered-body .title {
-        background: rgba(255, 255, 255, 0.06) !important;
-        color: #38bdf8 !important;
-        font-weight: 700 !important;
-        padding: 6px 14px !important;
-        font-size: 13px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    .vjudge-section-heading:first-child {
+        margin-top: 0;
     }
     .vjudge-footer-notice {
         display: flex;
         align-items: center;
-        gap: 10px;
-        padding: 12px 18px;
-        background: rgba(14, 165, 233, 0.06);
-        border: 1px solid rgba(14, 165, 233, 0.18);
-        border-radius: 0 0 14px 14px;
+        gap: 8px;
+        padding: 10px 14px;
+        background: rgba(56, 189, 248, 0.05);
+        border: 1px solid rgba(56, 189, 248, 0.15);
+        border-radius: 10px;
+        margin-top: 14px;
         color: #94a3b8;
         font-size: 13px;
-        line-height: 1.5;
-        box-sizing: border-box;
     }
 
-    /* Sample Table Copy Buttons */
-    .vjudge_sample th {
-        position: relative !important;
-        padding: 8px 16px !important;
-        user-select: none !important;
+    /* Samples table & Copy buttons */
+    .vjudge_sample, table.sample, table.sample-test {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 18px 0;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        overflow: hidden;
     }
-    .sample-th-wrapper {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        width: 100% !important;
-        gap: 8px !important;
+    .vjudge_sample th, table.sample th, table.sample-test th {
+        background: rgba(255, 255, 255, 0.05);
+        color: #94a3b8;
+        padding: 10px 14px;
+        font-size: 13px;
+        font-weight: 700;
+        text-align: left;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
-    .sample-th-title {
-        color: #38bdf8 !important;
-        font-weight: 700 !important;
-        font-size: 13.5px !important;
-        letter-spacing: 0.3px !important;
+    .vjudge_sample td, table.sample td, table.sample-test td {
+        padding: 12px 14px;
+        border-right: 1px solid rgba(255, 255, 255, 0.06);
+        vertical-align: top;
+    }
+    .vjudge_sample td:last-child, table.sample td:last-child, table.sample-test td:last-child {
+        border-right: none;
     }
     .sample-copy-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        border-radius: 6px !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-        padding: 3px 9px !important;
-        font-size: 11.5px !important;
-        font-weight: 600 !important;
-        line-height: 1 !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-        text-transform: none !important;
-        font-family: inherit !important;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        background: rgba(255, 255, 255, 0.08);
+        color: #94a3b8;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 6px;
+        padding: 4px 10px;
+        font-size: 11.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        float: right;
     }
     .sample-copy-btn:hover {
-        background: rgba(56, 189, 248, 0.22) !important;
-        border-color: #38bdf8 !important;
-        color: #ffffff !important;
-        transform: translateY(-1px) !important;
+        background: rgba(255, 255, 255, 0.15);
+        color: #f8fafc;
     }
     .sample-copy-btn.copied {
-        background: rgba(34, 197, 94, 0.22) !important;
-        border-color: #4ade80 !important;
-        color: #4ade80 !important;
+        background: rgba(34, 197, 94, 0.2);
+        color: #4ade80;
+        border-color: rgba(34, 197, 94, 0.4);
     }
     .sample-copy-btn svg {
         width: 12px;
         height: 12px;
-        stroke-width: 2.2;
     }
     .floating-pre-btn {
         position: absolute;
-        top: 8px;
-        right: 8px;
-        z-index: 5;
+        top: 6px;
+        right: 6px;
     }
-
 </style>
+
 <script>
     function renderVJudgeMath() {
-        var el = document.getElementById('vjudge-statement-content');
-        if (!el) return;
+        var content = document.getElementById('vjudge-statement-content');
+        if (!content) return;
 
-        // 1. Convert CSES/KaTeX math spans in the DOM into MathJax delimiters, stripping any inner $ or $$
-        var mathSpans = el.querySelectorAll('.math-inline, .math-display, span.math');
-        mathSpans.forEach(function(span) {
-            var raw = (span.innerText || span.textContent || '').trim();
-            // Strip any leading and trailing $ signs inside the span!
-            raw = raw.replace(/^(\s*\$+)+/, '').replace(/(\$+\s*)+$/, '').trim();
-            var isDisplay = span.classList.contains('math-display');
-            if (isDisplay) {
-                span.outerHTML = '\\[' + raw + '\\]';
-            } else {
-                span.outerHTML = '\\(' + raw + '\\)';
-            }
-        });
-
-        // 2. Typeset MathJax
+        // Process ~math~ delimiters if not already handled
         if (window.MathJax) {
-            if (window.MathJax.typesetClear) {
-                try { window.MathJax.typesetClear([el]); } catch(e) {}
-            }
             if (window.MathJax.typesetPromise) {
-                window.MathJax.typesetPromise([el]).catch(function() {});
+                window.MathJax.typesetPromise([content]).catch(function() {});
             } else if (window.MathJax.Hub && window.MathJax.Hub.Queue) {
-                window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, el]);
+                window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, content]);
             }
         }
     }
 
-    document.addEventListener('DOMContentLoaded', renderVJudgeMath);
-    window.addEventListener('load', renderVJudgeMath);
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        renderVJudgeMath();
+    function switchVJudgeLanguage(targetLang) {
+        var viBtn = document.getElementById('btn-vjudge-lang-vi');
+        var enBtn = document.getElementById('btn-vjudge-lang-en');
+
+        if (targetLang === 'vi') {
+            if (viBtn) viBtn.classList.add('active');
+            if (enBtn) enBtn.classList.remove('active');
+        } else {
+            if (enBtn) enBtn.classList.add('active');
+            if (viBtn) viBtn.classList.remove('active');
+        }
+
+        try { localStorage.setItem('vjudge_selected_lang', targetLang); } catch(e) {}
+
+        // 1. Search for matching statement in sidebar items
+        var matchedItem = null;
+        var items = document.querySelectorAll('.vjudge-statement-item');
+        for (var i = 0; i < items.length; i++) {
+            var itemLang = (items[i].getAttribute('data-lang') || '').toLowerCase();
+            var itemAuthor = (items[i].getAttribute('data-author') || '').toLowerCase();
+            if (targetLang === 'vi' && (itemLang === 'vi' || itemLang === 'vie' || itemAuthor.indexOf('deepseek') !== -1)) {
+                matchedItem = items[i];
+                break;
+            } else if (targetLang === 'en' && (itemLang === 'en' || itemLang === 'eng' || itemAuthor === 'system' || items[i].querySelector('.badge-official'))) {
+                matchedItem = items[i];
+                break;
+            }
+        }
+
+        if (matchedItem) {
+            matchedItem.click();
+            return;
+        }
+
+        // 2. Fallback to default cached description in DB (which is often in Vietnamese)
+        if (targetLang === 'vi') {
+            var defaultEl = document.getElementById('vjudge-default-content-cache');
+            if (defaultEl && defaultEl.innerHTML.trim().length > 30) {
+                selectDefaultStatement(document.querySelector('.vjudge-statement-item'));
+                var notice = document.getElementById('vjudge-active-statement-notice');
+                if (notice) notice.innerText = 'Tiếng Việt (Bản dịch)';
+                return;
+            }
+        }
+
+        // 3. Fallback: Request via AJAX with ?lang=...
+        var content = document.getElementById('vjudge-statement-content');
+        if (content) {
+            content.style.opacity = '0.4';
+            var url = '{{ url("problem_vjudge_statement_ajax", problem.code) }}?lang=' + encodeURIComponent(targetLang);
+            fetch(url)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    content.style.opacity = '1';
+                    if (data.success && data.html) {
+                        content.innerHTML = data.html;
+                        var notice = document.getElementById('vjudge-active-statement-notice');
+                        if (notice) {
+                            notice.innerText = (data.author || 'VJudge') + ' (' + (data.lang || targetLang) + ')';
+                        }
+                        if (typeof renderVJudgeMath === 'function') renderVJudgeMath();
+                        if (typeof enhanceSampleTables === 'function') enhanceSampleTables();
+                    }
+                })
+                .catch(function(err) {
+                    content.style.opacity = '1';
+                    console.error(err);
+                });
+        }
+    }
+
+    function selectDefaultStatement(element) {
+        document.querySelectorAll('.vjudge-statement-item').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        if (element) {
+            element.classList.add('active');
+        }
+        var notice = document.getElementById('vjudge-active-statement-notice');
+        if (notice) {
+            notice.innerText = 'System (' + {{ _("Default")|tojson }} + ')';
+        }
+        var defaultEl = document.getElementById('vjudge-default-content-cache');
+        var content = document.getElementById('vjudge-statement-content');
+        if (defaultEl && content) {
+            content.innerHTML = defaultEl.innerHTML;
+            if (typeof renderVJudgeMath === 'function') {
+                renderVJudgeMath();
+            }
+            if (typeof enhanceSampleTables === 'function') {
+                enhanceSampleTables();
+            }
+        }
+    }
+
+    function selectVJudgeStatement(element, key, lang, author) {
+        document.querySelectorAll('.vjudge-statement-item').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        element.classList.add('active');
+        var notice = document.getElementById('vjudge-active-statement-notice');
+        if (notice) {
+            notice.innerText = author + ' (' + lang + ')';
+        }
+
+        // Update active language toggle button
+        var viBtn = document.getElementById('btn-vjudge-lang-vi');
+        var enBtn = document.getElementById('btn-vjudge-lang-en');
+        var lLower = (lang || '').toLowerCase();
+        if (lLower.indexOf('vi') !== -1 || lLower.indexOf('tiếng việt') !== -1) {
+            if (viBtn) viBtn.classList.add('active');
+            if (enBtn) enBtn.classList.remove('active');
+        } else if (lLower.indexOf('en') !== -1 || lLower.indexOf('english') !== -1) {
+            if (enBtn) enBtn.classList.add('active');
+            if (viBtn) viBtn.classList.remove('active');
+        }
+
+        var content = document.getElementById('vjudge-statement-content');
+        if (content && key) {
+            content.style.opacity = '0.4';
+            var url = '{{ url("problem_vjudge_statement_ajax", problem.code) }}?key=' + encodeURIComponent(key);
+            fetch(url)
+                .then(function(r) { return r.json(); })
+                .then(function(data) {
+                    content.style.opacity = '1';
+                    if (data.success && data.html) {
+                        content.innerHTML = data.html;
+                        if (typeof renderVJudgeMath === 'function') renderVJudgeMath();
+                        if (typeof enhanceSampleTables === 'function') enhanceSampleTables();
+                    }
+                })
+                .catch(function(err) {
+                    content.style.opacity = '1';
+                    console.error('Failed to load statement:', err);
+                });
+        }
     }
 
     function enhanceSampleTables() {
-        var tables = document.querySelectorAll(
-            '#vjudge-statement-content table.vjudge_sample, ' +
-            '.content-description table.vjudge_sample, ' +
-            '#vjudge-statement-content table, ' +
-            '.content-description table'
-        );
-
+        var tables = document.querySelectorAll('.vjudge_sample, table.sample, table.sample-test, table.problem-statement-sample');
         tables.forEach(function(table) {
-            if (table.closest('#vjudge-default-content-cache')) return;
-            if (table.getAttribute('data-copy-enhanced') === 'true') return;
-
-            var thList = table.querySelectorAll('thead th');
+            var thead = table.querySelector('thead');
             var rows = table.querySelectorAll('tbody tr');
-            if (!rows.length) return;
-
-            var isSampleTable = table.classList.contains('vjudge_sample');
-            if (!isSampleTable && thList.length > 0) {
-                var thTexts = Array.from(thList).map(function(th) { return th.innerText.toLowerCase().trim(); });
-                if (thTexts.some(function(t) { return t.includes('input') || t.includes('output') || t.includes('vào') || t.includes('ra'); })) {
-                    isSampleTable = true;
-                }
-            }
-            if (!isSampleTable) return;
-
-            table.setAttribute('data-copy-enhanced', 'true');
-
-            if (thList.length > 0) {
-                thList.forEach(function(th, colIdx) {
-                    var rawTitle = th.innerText.trim() || (colIdx === 0 ? 'Input' : 'Output');
-                    th.innerHTML =
-                        '<div class="sample-th-wrapper">' +
-                            '<span class="sample-th-title">' + rawTitle + '</span>' +
-                            '<button type="button" class="sample-copy-btn" title="Copy to clipboard">' +
-                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>' +
-                                '<span class="sample-btn-text">Copy</span>' +
-                            '</button>' +
-                        '</div>';
-
-                    var btn = th.querySelector('.sample-copy-btn');
-                    if (btn) {
+            if (thead) {
+                var ths = thead.querySelectorAll('th');
+                ths.forEach(function(th, colIdx) {
+                    if (th.querySelector('.sample-copy-btn')) return;
+                    var title = th.innerText.trim().toLowerCase();
+                    if (title.indexOf('input') !== -1 || title.indexOf('output') !== -1 || title.indexOf('dữ liệu') !== -1 || title.indexOf('kết quả') !== -1) {
+                        var btn = document.createElement('button');
+                        btn.type = 'button';
+                        btn.className = 'sample-copy-btn';
+                        btn.innerHTML =
+                            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>' +
+                            '<span class="sample-btn-text">Copy</span>';
+                        th.appendChild(btn);
                         btn.addEventListener('click', function(e) {
                             e.preventDefault();
                             e.stopPropagation();
-
                             var texts = [];
-                            rows.forEach(function(tr) {
-                                var td = tr.children[colIdx];
-                                if (td) {
-                                    var pre = td.querySelector('pre');
-                                    texts.push(pre ? pre.innerText : td.innerText);
+                            rows.forEach(function(r) {
+                                var cells = r.children;
+                                if (cells[colIdx]) {
+                                    var pre = cells[colIdx].querySelector('pre');
+                                    var text = pre ? pre.innerText : cells[colIdx].innerText;
+                                    texts.push(text.trim());
                                 }
                             });
                             var copyVal = texts.join('\n');
-
                             copyToClipboard(copyVal, function() {
                                 btn.classList.add('copied');
                                 btn.querySelector('.sample-btn-text').innerText = 'Copied!';
@@ -472,7 +708,7 @@
                                     setTimeout(function() {
                                         btn.classList.remove('copied');
                                         btn.querySelector('.sample-btn-text').innerText = 'Copy';
-                                        btn.querySelector('svg').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path>';
+                                        btn.querySelector('svg').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
                                     }, 1500);
                                 });
                             });
@@ -507,11 +743,24 @@
         }
     }
 
-    window.enhanceSampleTables = enhanceSampleTables;
-    document.addEventListener('DOMContentLoaded', enhanceSampleTables);
-    window.addEventListener('load', enhanceSampleTables);
-    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', function() {
+        var activeLang = '{{ vjudge_active_lang|default("English") }}'.toLowerCase();
+        var isVi = activeLang.indexOf('vi') !== -1 || activeLang.indexOf('tiếng việt') !== -1;
+        var viBtn = document.getElementById('btn-vjudge-lang-vi');
+        var enBtn = document.getElementById('btn-vjudge-lang-en');
+        if (isVi) {
+            if (viBtn) viBtn.classList.add('active');
+            if (enBtn) enBtn.classList.remove('active');
+        } else {
+            if (enBtn) enBtn.classList.add('active');
+            if (viBtn) viBtn.classList.remove('active');
+        }
         enhanceSampleTables();
-    }
+    });
 
+    window.enhanceSampleTables = enhanceSampleTables;
+    window.switchVJudgeLanguage = switchVJudgeLanguage;
+    window.selectDefaultStatement = selectDefaultStatement;
+    window.selectVJudgeStatement = selectVJudgeStatement;
 </script>
