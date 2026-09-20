@@ -17,6 +17,17 @@
             </div>
         </div>
 
+        {% if clue_statement_html_en %}
+            <div class="vjudge-lang-switcher" id="clue-lang-switcher" style="display: inline-flex; align-items: center; background: rgba(30, 41, 59, 0.85); border: 1px solid rgba(255, 255, 255, 0.12); border-radius: 9999px; padding: 3px; gap: 3px;">
+                <button type="button" class="vjudge-lang-btn active" id="btn-clue-lang-vi" onclick="switchClueLanguage('vi')" title="{{ _('Chuyển sang đề tiếng Việt') }}">
+                    <span class="flag-icon">🇻🇳</span> <span class="lang-text">Tiếng Việt</span>
+                </button>
+                <button type="button" class="vjudge-lang-btn" id="btn-clue-lang-en" onclick="switchClueLanguage('en')" title="{{ _('Switch to English statement') }}">
+                    <span class="flag-icon">🇬🇧</span> <span class="lang-text">English</span>
+                </button>
+            </div>
+        {% endif %}
+
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated and request.profile.clue_username %}
                 <a href="{{ url('clue_connect') }}" class="vjudge-account-chip chip-connected" title="{{ _('Đã kết nối tài khoản ClueOJ: ') }}{{ request.profile.clue_username }}">
@@ -64,19 +75,40 @@
             </div>
         {% endif %}
 
+        <!-- Caches for language switcher -->
+        <div id="clue-statement-vi-cache" style="display: none;">
+            {{ (clue_statement_html_vi or clue_statement_html)|safe }}
+        </div>
+        {% if clue_statement_html_en %}
+            <div id="clue-statement-en-cache" style="display: none;">
+                {{ clue_statement_html_en|safe }}
+            </div>
+        {% endif %}
+
         <!-- Rendered Text / Math Description (Pure Clean HTML from ClueOJ) -->
         <div id="vjudge-statement-content" class="vjudge-rendered-body content-description">
             {{ clue_statement_html|safe }}
         </div>
     </div>
 
-    <!-- Footer Notice -->
-    <div class="vjudge-footer-notice">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-        <span>
-            {{ _('Đề bài được đồng bộ từ Clue Online Judge (oj.clue.edu.vn). Bài nộp sẽ được chấm từ xa qua tài khoản ClueOJ cá nhân của bạn.') }}
-        </span>
-    </div>
+    <!-- Footer Notice (Bilingual for csattutor_tmath_n021, omitted for other org problems) -->
+    {% if problem.code == 'csattutor_tmath_n021' or 'n021' in problem.code %}
+        <div class="vjudge-footer-notice" style="border-radius: 12px !important;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>
+                <span id="clue-footer-vi">{{ _('Đề bài được đồng bộ từ Clue Online Judge (oj.clue.edu.vn). Dữ liệu test đã được lưu trữ và chấm trực tiếp trên hệ thống.') }}</span>
+                <span style="color: rgba(255, 255, 255, 0.4); margin: 0 6px;">&bull;</span>
+                <span id="clue-footer-en" style="color: #cbd5e1;">Problem statement synced from Clue Online Judge (oj.clue.edu.vn). Test cases are stored and judged locally on the system.</span>
+            </span>
+        </div>
+    {% elif not problem.is_clue_org and not problem.clue_organization %}
+        <div class="vjudge-footer-notice" style="border-radius: 12px !important;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>
+                {{ _('Đề bài được đồng bộ từ Clue Online Judge (oj.clue.edu.vn). Bài nộp sẽ được chấm từ xa qua tài khoản ClueOJ cá nhân của bạn.') }}
+            </span>
+        </div>
+    {% endif %}
 </div>
 
 <style>
@@ -411,4 +443,29 @@
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         renderClueMath();
     }
+
+    function switchClueLanguage(targetLang) {
+        var viBtn = document.getElementById('btn-clue-lang-vi');
+        var enBtn = document.getElementById('btn-clue-lang-en');
+        var content = document.getElementById('vjudge-statement-content');
+        var viCache = document.getElementById('clue-statement-vi-cache');
+        var enCache = document.getElementById('clue-statement-en-cache');
+
+        if (targetLang === 'vi') {
+            if (viBtn) viBtn.classList.add('active');
+            if (enBtn) enBtn.classList.remove('active');
+            if (content && viCache) {
+                content.innerHTML = viCache.innerHTML;
+            }
+        } else {
+            if (enBtn) enBtn.classList.add('active');
+            if (viBtn) viBtn.classList.remove('active');
+            if (content && enCache) {
+                content.innerHTML = enCache.innerHTML;
+            }
+        }
+        renderClueMath();
+    }
+    window.switchClueLanguage = switchClueLanguage;
+
 </script>

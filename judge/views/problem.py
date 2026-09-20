@@ -313,6 +313,13 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
 
             clean_html = clean_vjudge_math(clean_html)
             context['clue_statement_html'] = clean_html
+            context['clue_statement_html_vi'] = clean_html
+            en_trans = self.object.translations.filter(language__startswith='en').first()
+            if en_trans and en_trans.description:
+                en_html = en_trans.description
+                en_html = re.sub(r'<iframe[\s\S]*?</iframe>', '', en_html, flags=re.I)
+                en_html = clean_vjudge_math(en_html)
+                context['clue_statement_html_en'] = en_html
 
         if getattr(self.object, 'is_ntucoder', False) or getattr(self.object, 'is_ltpt', False):
             import re
