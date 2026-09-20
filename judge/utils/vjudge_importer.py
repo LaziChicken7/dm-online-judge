@@ -1,7 +1,7 @@
+import json
 import logging
 import re
 import urllib.request
-import json
 from django.conf import settings
 from django.utils import timezone
 from judge.models import Language, Problem, ProblemGroup, ProblemType
@@ -22,6 +22,7 @@ def parse_vjudge_id(text: str):
       - 'https://vjudge.net/problem/CodeForces-1100F' -> ('CodeForces', '1100F')
       - 'CodeForces-1100F' -> ('CodeForces', '1100F')
       - 'POJ-2251' -> ('POJ', '2251')
+      - 'https://vjudge.net/problem/VNOJ-liq' -> ('VNOJ', 'liq')
     """
     text = (text or '').strip()
     m = re.search(r'vjudge\.net/problem/([A-Za-z0-9_]+)-([A-Za-z0-9_]+)', text)
@@ -70,7 +71,6 @@ def fetch_cses_problem_statement(prob_num: str) -> str:
         req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
         with urllib.request.urlopen(req, timeout=15) as resp:
             html = resp.read().decode("utf-8", errors="ignore")
-
         m = re.search(r'<div class="md">(.*?)</div>\s*</div>', html, re.DOTALL)
         if not m:
             m = re.search(r'<div class="md">(.*)</div>', html, re.DOTALL)
@@ -78,11 +78,6 @@ def fetch_cses_problem_statement(prob_num: str) -> str:
             return ""
 
         body = m.group(1).strip()
-        body = re.sub(r'<span class=["']math math-display["']>(.*?)</span>', r'
-
-13084\113084
-
-', body, flags=re.DOTALL)
         body = clean_vjudge_math(body)
         body = re.sub(r'<h1[^>]*>(.*?)</h1>', r'<div class="vjudge-section-heading">\1</div>', body)
 
@@ -116,6 +111,36 @@ def fetch_cses_problem_statement(prob_num: str) -> str:
         return ""
 
 
+def fetch_vnoi_problem_statement(prob_num: str) -> dict:
+    """
+    Fetch problem description, time limit and memory limit directly from oj.vnoi.info
+    when VJudge requires login for VNOJ problems.
+    """
+    res = {"desc": "", "time_limit": None, "memory_limit": None}
+    try:
+        url = f"https://oj.vnoi.info/problem/{prob_num}"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            html = resp.read().decode("utf-8", errors="ignore")
+
+        m = re.search(r'<div class="content-description[^"]*">(.*?)</div>\s*</div>', html, re.DOTALL)
+        if m:
+            body = m.group(1).strip()
+            body = re.sub(r'<iframe[^>]*>.*?</iframe>', '', body, flags=re.DOTALL).strip()
+            res["desc"] = body
+
+        m_tl = re.search(r'<span class="pi-name">Giới hạn thời gian:</span>\s*<span class="pi-value">([0-9.]+)', html)
+        if m_tl:
+            res["time_limit"] = float(m_tl.group(1))
+
+        m_ml = re.search(r'<span class="pi-name">Giới hạn bộ nhớ:</span>\s*<span class="pi-value">([0-9]+)', html)
+        if m_ml:
+            res["memory_limit"] = int(m_ml.group(1)) * 1024  # MB to KB
+    except Exception as e:
+        logger.warning(f"fetch_vnoi_problem_statement error for {prob_num}: {e}")
+    return res
+
+
 def import_vjudge_problem(
     vjudge_input: str,
     code_override: str = None,
@@ -142,7 +167,7 @@ def import_vjudge_problem(
     if code_override:
         problem_code = clean_problem_code(code_override)
     else:
-        # Generate clean short code: e.g. cf1100f or poj2251
+        # Generate clean short code: e.g. cf1100f, poj2251, vnojliq
         oj_short = oj.lower()
         if oj_short == 'codeforces':
             oj_short = 'cf'
@@ -156,15 +181,30 @@ def import_vjudge_problem(
     if len(problem_name) > 100:
         problem_name = problem_name[:97] + "..."
 
+    # Check VNOI fallback data if applicable
+    vnoi_data = None
+    if oj.upper() in ('VNOJ', 'VNOI'):
+        vnoi_data = fetch_vnoi_problem_statement(prob_num)
+
     # 4. Limits & Points
     try:
-        time_limit = float(time_limit_override) if time_limit_override else 2.0
+        if time_limit_override:
+            time_limit = float(time_limit_override)
+        elif vnoi_data and vnoi_data.get("time_limit"):
+            time_limit = vnoi_data["time_limit"]
+        else:
+            time_limit = 2.0
     except (ValueError, TypeError):
         time_limit = 2.0
     time_limit = max(0.1, min(60.0, time_limit))
 
     try:
-        memory_limit = int(memory_limit_override) if memory_limit_override else 262144
+        if memory_limit_override:
+            memory_limit = int(memory_limit_override)
+        elif vnoi_data and vnoi_data.get("memory_limit"):
+            memory_limit = vnoi_data["memory_limit"]
+        else:
+            memory_limit = 262144
     except (ValueError, TypeError):
         memory_limit = 262144
     memory_limit = max(4096, min(2097152, memory_limit))
@@ -187,9 +227,7 @@ def import_vjudge_problem(
     # Description
     desc = f"""
 ## {problem_name}
-
 *Đề bài được nhập từ Virtual Judge: [{oj} - {prob_num}](https://vjudge.net/problem/{oj}-{prob_num})*
-
 ---
     """.strip()
 
@@ -202,6 +240,8 @@ def import_vjudge_problem(
                 stmt_content = get_vjudge_statement_content(str(best_stmt['key']))
                 if stmt_content:
                     desc = f"{desc}\n\n{stmt_content}"
+        elif vnoi_data and vnoi_data.get("desc"):
+            desc = f"{desc}\n\n{vnoi_data['desc']}"
         elif oj.upper() == 'CSES':
             cses_body = fetch_cses_problem_statement(prob_num)
             if cses_body:
@@ -233,6 +273,7 @@ def import_vjudge_problem(
         problem.save()
 
     problem.types.add(vjudge_type)
+
     # Allow all available languages
     problem.allowed_languages.set(Language.objects.all())
 
