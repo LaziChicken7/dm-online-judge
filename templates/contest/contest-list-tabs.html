@@ -3,6 +3,9 @@
 {% block tabs %}
     {{ make_tab('list', 'fa-list', url('contest_list'), _('List')) }}
     {{ make_tab('calendar', 'fa-calendar', url('contest_calendar', now.year, now.month), _('Calendar')) }}
+    {% if perms.judge.add_contest or perms.judge.edit_all_contest or perms.judge.edit_own_contest or request.user.is_staff %}
+        {{ make_tab('contest_add', 'fa-plus', url('contest_add'), _('Add contest')) }}
+    {% endif %}
     {% if perms.judge.edit_all_contest or perms.judge.edit_own_contest %}
         {{ make_tab('admin', 'fa-edit', url('admin:judge_contest_changelist'), _('Admin')) }}
     {% endif %}

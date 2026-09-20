@@ -470,6 +470,41 @@
             color: #f87171 !important;
             transform: scale(1.05) !important;
         }
+        /* ── Top Toolbar with Add Contest Button ── */
+        .contest-top-toolbar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-bottom: 20px !important;
+            gap: 12px !important;
+        }
+        .add-contest-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 9px 22px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-decoration: none !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            margin-left: auto !important;
+            letter-spacing: 0.2px !important;
+        }
+        .add-contest-btn:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+            color: #ffffff !important;
+        }
     </style>
 {% endblock %}
 {% block title_ruler %}{% endblock %}
@@ -569,6 +604,17 @@
     {% endif %}
 {% endmacro %}
 {% block body %}
+    {% if perms.judge.add_contest or perms.judge.edit_all_contest or perms.judge.edit_own_contest or request.user.is_staff %}
+        <div class="contest-top-toolbar">
+            <a href="{{ url('contest_add') }}" class="add-contest-btn" title="{{ _('Add contest') }}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>{{ _('Add contest') }}</span>
+            </a>
+        </div>
+    {% endif %}
     <div class="content-description">
         {% if active_participations %}
             <h4>{{ _('Active contests') }}</h4>
