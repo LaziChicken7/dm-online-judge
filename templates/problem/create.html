@@ -1,0 +1,1038 @@
+{% extends "base.html" %}
+
+{% block title_ruler %}{% endblock %}
+
+{% block title_row %}
+    {% set tab = 'problem_add' %}
+    {% include "problem/problem-list-tabs.html" %}
+{% endblock %}
+
+{% block media %}
+    {{ form.media.css }}
+    <style>
+        .create-problem-wrapper {
+            max-width: 1380px;
+            margin: 0 auto 50px auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
+        .create-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 36px 44px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .create-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+        }
+        .create-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: #38bdf8 !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .create-title {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: -0.01em !important;
+        }
+        .create-desc {
+            color: #94a3b8 !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin-bottom: 26px !important;
+        }
+        /* Error Alert */
+        .create-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+            color: #fca5a5 !important;
+            font-size: 14px !important;
+            margin-bottom: 26px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2) !important;
+        }
+        /* Form Rows Layout */
+        .form-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+        }
+        .form-row:last-of-type {
+            border-bottom: none;
+        }
+        .form-label-col {
+            width: 220px;
+            min-width: 220px;
+            font-weight: 700;
+            font-size: 13.5px;
+            color: #e2e8f0;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+        .form-label-col .req-star {
+            color: #f87171;
+            margin-left: 3px;
+            font-weight: 800;
+        }
+        .form-control-col {
+            flex: 1;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+        /* Form Inputs */
+        .form-input-cyber {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 16px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            font-family: inherit !important;
+        }
+        .form-input-cyber.short {
+            max-width: 440px;
+        }
+        .form-input-cyber:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background: rgba(15, 23, 42, 0.85) !important;
+        }
+        /* Select Dropdowns with Custom Cyan Vector Down Arrow */
+        .custom-arrow-select,
+        .create-card select.custom-arrow-select,
+        html[data-theme="light"] .create-card select.custom-arrow-select,
+        html[data-theme="dark"] .create-card select.custom-arrow-select {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: rgba(15, 23, 42, 0.7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 38px 10px 14px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            background-size: 14px 14px !important;
+        }
+        .custom-arrow-select.short {
+            max-width: 440px;
+        }
+        .custom-arrow-select:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+        }
+        .custom-arrow-select:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background-color: rgba(15, 23, 42, 0.9) !important;
+        }
+        .custom-arrow-select option {
+            background: #0f172a !important;
+            color: #ffffff !important;
+            padding: 8px 12px !important;
+        }
+        /* Custom Tag Dropdown for Problem Types */
+        .custom-dropdown-wrap {
+            position: relative;
+            width: 100%;
+            max-width: 520px;
+        }
+        .custom-dropdown-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 42px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            padding: 4px 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+            user-select: none;
+        }
+        .custom-dropdown-header:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+        .custom-dropdown-wrap.open .custom-dropdown-header {
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+            background: rgba(15, 23, 42, 0.85);
+        }
+        .dropdown-arrow-icon {
+            color: #38bdf8;
+            transition: transform 0.2s ease;
+            flex-shrink: 0;
+            margin-left: 8px;
+        }
+        .custom-dropdown-wrap.open .dropdown-arrow-icon {
+            transform: rotate(180deg);
+        }
+        .selected-types-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+        .type-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(56, 189, 248, 0.15);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            color: #38bdf8;
+            border-radius: 6px;
+            padding: 3px 10px;
+            font-size: 12.5px;
+            font-weight: 600;
+        }
+        .type-tag .tag-remove {
+            color: #38bdf8;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 1;
+            font-weight: bold;
+            opacity: 0.8;
+            transition: opacity 0.15s;
+        }
+        .type-tag .tag-remove:hover {
+            opacity: 1;
+            color: #f87171;
+        }
+        .placeholder-text {
+            color: #64748b;
+            font-size: 13.5px;
+        }
+        .custom-dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
+            z-index: 100;
+            max-height: 220px;
+            overflow-y: auto;
+            padding: 6px 0;
+            box-sizing: border-box;
+        }
+        .dropdown-option-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 14px;
+            color: #e2e8f0;
+            font-size: 13.5px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .dropdown-option-item:hover {
+            background: rgba(56, 189, 248, 0.15);
+            color: #38bdf8;
+        }
+        .dropdown-option-item input[type="checkbox"] {
+            accent-color: #38bdf8;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        /* Help Text */
+        .form-help-text {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-top: 6px;
+            font-size: 12.5px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .form-help-text svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #38bdf8;
+        }
+        .form-help-text strong {
+            color: #38bdf8;
+        }
+        /* Custom Checkbox */
+        .custom-checkbox-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            padding: 4px 0;
+        }
+        .custom-checkbox-wrap input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #38bdf8;
+            cursor: pointer;
+            margin: 0;
+        }
+        /* File input */
+        .form-file-cyber {
+            font-size: 13.5px;
+            color: #cbd5e1;
+        }
+        .form-file-cyber::file-selector-button {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: #ffffff;
+            padding: 7px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 12px;
+            transition: all 0.2s ease;
+        }
+        .form-file-cyber::file-selector-button:hover {
+            background: rgba(56, 189, 248, 0.2);
+            border-color: #38bdf8;
+        }
+
+        /* =================================================================
+           MARTOR EDITOR CYBER THEME (Exact Image #4 styling)
+           ================================================================= */
+        .create-card .main-martor,
+        .create-card .section-martor {
+            border: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            width: 100% !important;
+        }
+        .create-card .main-martor:focus-within {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        /* Eliminate the gray horizontal bar on top in Image #2 */
+        .create-card .section-martor .ui.attached.inverted.menu,
+        .create-card .section-martor .tab-martor-menu,
+        .create-card .tab-martor-menu,
+        .create-card .ui.tabular.menu,
+        .create-card .ui.attached.menu,
+        .create-card .ui.pointing.menu,
+        .create-card .ui.menu {
+            background: transparent !important;
+            border: none !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+            padding: 0 0 14px 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            min-height: auto !important;
+        }
+        .create-card .tab-martor-menu::after,
+        .create-card .tab-martor-menu::before,
+        .create-card .section-martor .ui.menu::after,
+        .create-card .section-martor .ui.menu::before {
+            display: none !important;
+            content: none !important;
+            border: none !important;
+            height: 0 !important;
+        }
+
+        /* Keep fully rounded rectangle corners in Image #3 in all states */
+        .create-card .section-martor .tab-martor-menu a.item,
+        .create-card .section-martor .tab-martor-menu a.item.active,
+        .create-card .section-martor .tab-martor-menu a.item:hover,
+        .create-card .section-martor .ui.tabular.menu .active.item,
+        .create-card .section-martor .ui.tabular.menu .item,
+        .create-card .section-martor .ui.menu .item,
+        .create-card .section-martor .ui.menu .item:first-child,
+        .create-card .section-martor .ui.top.attached.menu > .item:first-child,
+        .create-card .tab-martor-menu a.item,
+        .create-card .tab-martor-menu a.item.active,
+        .create-card .tab-martor-menu a.item:hover {
+            border-radius: 8px !important;
+            -webkit-border-radius: 8px !important;
+        }
+        .create-card .tab-martor-menu a.item {
+            color: #94a3b8 !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            padding: 7px 16px !important;
+            margin: 0 8px 0 0 !important;
+            transition: all 0.2s ease !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            text-decoration: none !important;
+        }
+        .create-card .tab-martor-menu a.item:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+        }
+        .create-card .tab-martor-menu a.item.active,
+        .create-card .section-martor .tab-martor-menu a.item.active,
+        .create-card .section-martor .ui.tabular.menu .active.item {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            font-weight: 700 !important;
+            border: 1px solid rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.2) !important;
+            border-radius: 8px !important;
+            -webkit-border-radius: 8px !important;
+        }
+        .create-card .martor-toolbar {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+        .create-card .martor-toolbar a,
+        .create-card .martor-toolbar button,
+        .create-card .martor-toolbar i,
+        .create-card .martor-toolbar .button {
+            color: #94a3b8 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 6px 8px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            transition: all 0.15s ease !important;
+            cursor: pointer !important;
+        }
+        .create-card .martor-toolbar a:hover,
+        .create-card .martor-toolbar button:hover,
+        .create-card .martor-toolbar .button:hover,
+        .create-card .martor-toolbar i:hover {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            transform: translateY(-1px);
+        }
+        .create-card .ui.dropdown .menu {
+            background: #0f172a !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        }
+        .create-card .ui.dropdown .menu > .item {
+            color: #cbd5e1 !important;
+            font-size: 13px !important;
+            padding: 8px 14px !important;
+        }
+        .create-card .ui.dropdown .menu > .item:hover {
+            background: rgba(56, 189, 248, 0.15) !important;
+            color: #38bdf8 !important;
+        }
+
+        /* Hide ONLY the form textarea, NEVER ace_text-input */
+        .create-card textarea.martor,
+        .create-card textarea[name="description"],
+        .create-card textarea.martor-preview {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+
+        /* Explicitly keep ace_text-input active so typing works smoothly */
+        .create-card .ace_editor textarea.ace_text-input {
+            display: block !important;
+            pointer-events: auto !important;
+            visibility: visible !important;
+            opacity: 0 !important;
+        }
+
+        /* Hide inactive tab to eliminate split box */
+        .create-card .ui.segment.tab:not(.active),
+        .create-card .tab.segment:not(.active),
+        .create-card [data-tab^="preview-tab-"]:not(.active),
+        .create-card [data-tab^="editor-tab-"]:not(.active) {
+            display: none !important;
+        }
+        .create-card .ui.segment.tab,
+        .create-card .tab.segment[data-tab^="editor-tab-"] {
+            background: #060913 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+        .create-card .martor-field {
+            height: 380px !important;
+            min-height: 320px !important;
+            background: #060913 !important;
+            border: none !important;
+            border-radius: 14px !important;
+            position: relative !important;
+            width: 100% !important;
+        }
+        .create-card .ace_editor {
+            height: 380px !important;
+            width: 100% !important;
+            background: #060913 !important;
+            color: #f1f5f9 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 14px !important;
+            border-radius: 14px !important;
+        }
+        .create-card .ace_gutter {
+            background: #060913 !important;
+            color: #475569 !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .create-card .ace_gutter-active-line {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+        }
+        .create-card .ace_cursor {
+            color: #38bdf8 !important;
+            border-left: 2px solid #38bdf8 !important;
+        }
+        .create-card .tab.segment.martor-preview {
+            background: #060913 !important;
+            color: #cbd5e1 !important;
+            min-height: 320px !important;
+            padding: 24px 28px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            font-size: 14.5px !important;
+            line-height: 1.7 !important;
+            margin: 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        .create-card .section-martor > hr {
+            display: none !important;
+        }
+
+        /* Action buttons footer */
+        .form-actions-cyber {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-cancel-cyber {
+            color: #94a3b8;
+            text-decoration: none !important;
+            font-size: 14.5px;
+            font-weight: 600;
+            padding: 11px 22px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .btn-cancel-cyber:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .btn-create-cyber {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 14.5px !important;
+            padding: 11px 32px !important;
+            border-radius: 10px !important;
+            border: none !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s ease !important;
+        }
+        .btn-create-cyber:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
+            transform: translateY(-1px);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="create-problem-wrapper">
+    <div class="create-card">
+        <div class="create-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+            <span>PROBLEM CREATION</span>
+        </div>
+        <h1 class="create-title">{{ _('Creating new problem') }}</h1>
+        <p class="create-desc">{{ _('Thiết lập cấu hình bài tập mới, giới hạn thời gian, bộ nhớ, phân loại và nội dung đề bài trên hệ thống.') }}</p>
+
+        {% if error %}
+            <div class="create-error-alert">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <div>
+                    <strong>{{ _('Lỗi khi tạo bài tập:') }}</strong> {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" id="create-problem-form">
+            {% csrf_token %}
+
+            <!-- 1. Publicly visible -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_is_public">{{ _('Publicly visible:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" id="id_is_public" name="is_public" {% if form.is_public.value() %}checked{% endif %}>
+                    </label>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>If public, all members in organization can view it. <strong>Set it as private if you want to use it in a contest, otherwise, users can see the problem even if they do not join the contest!</strong></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Problem code (EMPTY BY DEFAULT) -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_code">{{ _('Problem code:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_code" name="code" value="{{ form.code.value() or '' }}" class="form-input-cyber short" placeholder="e.g: voi19_post" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Problem code, e.g: voi19_post</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Problem name -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_name">{{ _('Problem name:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_name" name="name" value="{{ form.name.value() or '' }}" class="form-input-cyber" placeholder="e.g: VOI19 - A cong B" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>The full name of the problem, as shown in the problem list. For example: VOI19 - A cong B</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Time limit -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_time_limit">{{ _('Time limit:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="number" step="0.1" id="id_time_limit" name="time_limit" value="{{ form.time_limit.value() or 1 }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>The time limit for this problem, in seconds. Fractional seconds (e.g. 1.5) are supported.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Memory limit -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_memory_limit">{{ _('Memory limit:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="number" id="id_memory_limit" name="memory_limit" value="{{ form.memory_limit.value() or 1048576 }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>The memory limit for this problem, in kilobytes (e.g. 64mb = 65536 kilobytes).</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. Batch Type (Custom Cyan Arrow) -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_batch_type">{{ _('Batch Type:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_batch_type" name="batch_type" class="custom-arrow-select short">
+                        <option value="Sum" {% if form.batch_type.value() == 'Sum' or not form.batch_type.value() %}selected{% endif %}>Sum</option>
+                        <option value="Average" {% if form.batch_type.value() == 'Average' %}selected{% endif %}>Average</option>
+                        <option value="Points" {% if form.batch_type.value() == 'Points' %}selected{% endif %}>Points</option>
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Determines how batch scoring is calculated.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Points -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_points">{{ _('Points:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="number" step="0.5" id="id_points" name="points" value="{{ form.points.value() or 10 }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Points for the problem, from 0 to 200.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Allows partial points -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_partial">{{ _('Allows partial points:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" id="id_partial" name="partial" {% if form.partial.value() != False %}checked{% endif %}>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 9. Statement file -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_statement_file">{{ _('Statement file:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="file" id="id_statement_file" name="statement_file" class="form-file-cyber">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Độ lớn tối đa của file là 5,0 MB.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Problem source -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_summary">{{ _('Problem source:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_summary" name="summary" value="{{ form.summary.value() or '' }}" class="form-input-cyber" placeholder="Nguồn bài tập (nếu có)">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Source of problem. Please credit the source of the problemif it is not yours</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 11. Mirror test data from (Custom Cyan Arrow) -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_mirror_from">{{ _('Mirror test data from:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_mirror_from" name="mirror_from" class="custom-arrow-select">
+                        <option value="">---------</option>
+                        {% for code, pname in existing_problems %}
+                            <option value="{{ code }}" {% if form.mirror_from.value() == code %}selected{% endif %}>{{ code }} - {{ pname }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>Use another problem's test archive while keeping this problem's own config/init.yml.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 12. Problem types (Dropdown with Tags & Custom Vector Down Arrow) -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label>{{ _('Problem types:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <div class="custom-dropdown-wrap" id="problem-types-dropdown">
+                        <div class="custom-dropdown-header" id="types-dropdown-header" onclick="toggleTypesDropdown(event)">
+                            <div class="selected-types-tags" id="selected-types-tags">
+                                {% if default_type_id %}
+                                    <span class="type-tag" data-val="{{ default_type_id }}">
+                                        Chưa phân loại
+                                        <span class="tag-remove" onclick="removeType(event, '{{ default_type_id }}')">×</span>
+                                    </span>
+                                {% else %}
+                                    <span class="placeholder-text">Chọn thể loại bài tập...</span>
+                                {% endif %}
+                            </div>
+                            <svg class="dropdown-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                        <div class="custom-dropdown-menu" id="types-dropdown-menu" style="display: none;">
+                            {% for t in all_types %}
+                                <label class="dropdown-option-item" onclick="event.stopPropagation()">
+                                    <input type="checkbox" name="types" value="{{ t.id }}" data-name="{{ t.full_name or t.name }}" {% if t.id == default_type_id %}checked{% endif %} onchange="updateSelectedTypes()">
+                                    <span>{{ t.full_name or t.name }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>The type of problem, as shown on the problem's page.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 13. Problem group (Custom Cyan Arrow) -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_group">{{ _('Problem group:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_group" name="group" class="custom-arrow-select short">
+                        {% for g in all_groups %}
+                            <option value="{{ g.id }}" {% if g.id == default_group_id or g.name == 'Uncategorized' %}selected{% endif %}>
+                                {{ g.full_name or g.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>The group of problem, shown under Category in the problem list.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 14. Testcase visibility (Custom Cyan Arrow) -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_visibility">{{ _('Testcase visibility:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_visibility" name="submission_source_visibility_mode" class="custom-arrow-select short">
+                        <option value="A" {% if form.submission_source_visibility_mode.value() == 'A' or not form.submission_source_visibility_mode.value() %}selected{% endif %}>Visible for authors</option>
+                        <option value="F" {% if form.submission_source_visibility_mode.value() == 'F' %}selected{% endif %}>Follow global setting</option>
+                        <option value="S" {% if form.submission_source_visibility_mode.value() == 'S' %}selected{% endif %}>Visible if problem solved</option>
+                        <option value="O" {% if form.submission_source_visibility_mode.value() == 'O' %}selected{% endif %}>Only own submissions</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 15. Problem body (Martor Editor with Vector Icons) -->
+            <div class="form-row" style="border-bottom: none; margin-top: 6px;">
+                <div class="form-label-col">
+                    <label for="id_description">{{ _('Problem body:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    {{ form.description }}
+                </div>
+            </div>
+
+            <!-- 16. Private users -->
+            <div class="form-row" style="margin-top: 14px;">
+                <div class="form-label-col">
+                    <label for="id_private_users">{{ _('Private users:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_private_users" name="private_users" value="{{ form.private_users.value() or '' }}" class="form-input-cyber" placeholder="username1, username2, ...">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>If private, only these users may see the problem. You can paste a list of usernames into this box.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="form-actions-cyber">
+                <a href="{{ url('problem_list') }}" class="btn-cancel-cyber">{{ _('Hủy') }}</a>
+                <button type="submit" class="btn-create-cyber">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ _('Create') }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_media %}
+    {{ form.media.js }}
+    <script>
+        // 1. Vectorize Martor Icons (All drawn with clean vector SVGs matching Image #4)
+        function vectorizeCreateMartorIcons() {
+            var toolbarSvgs = {
+                'editor': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
+                'preview': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+                'bold': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg>',
+                'italic': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg>',
+                'minus': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>',
+                'header': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"></path><path d="M4 18V6"></path><path d="M20 18V6"></path></svg>',
+                'code': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+                'superscript': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l6-6"></path><path d="M4 13l6 6"></path><path d="M14 5h4l-3 4h3"></path></svg>',
+                'quote': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path></svg>',
+                'unordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>',
+                'ordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>',
+                'linkify': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+                'image': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>',
+                'at': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>',
+                'maximize': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>',
+                'help': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+            };
+
+            function rep(selector, svgKey) {
+                var items = document.querySelectorAll(selector);
+                items.forEach(function(el) {
+                    var icon = el.querySelector('i.icon');
+                    if (icon) {
+                        var span = document.createElement('span');
+                        span.className = 'vector-icon-wrap';
+                        span.style.display = 'inline-flex';
+                        span.style.alignItems = 'center';
+                        span.style.justifyContent = 'center';
+                        span.style.width = '16px';
+                        span.style.height = '16px';
+                        span.style.verticalAlign = 'middle';
+                        span.innerHTML = toolbarSvgs[svgKey];
+                        icon.replaceWith(span);
+                    }
+                });
+            }
+
+            rep('a[data-tab^="editor-tab-"]', 'editor');
+            rep('a[data-tab^="preview-tab-"]', 'preview');
+            rep('.markdown-bold', 'bold');
+            rep('.markdown-italic', 'italic');
+            rep('.markdown-horizontal', 'minus');
+            rep('.ui.dropdown[title="Heading"]', 'header');
+            rep('.ui.dropdown[title="Pre or Code"]', 'code');
+            rep('.ui.dropdown[title="Math"]', 'superscript');
+            rep('.markdown-blockquote', 'quote');
+            rep('.markdown-unordered-list', 'unordered-list');
+            rep('.markdown-ordered-list', 'ordered-list');
+            rep('.markdown-link', 'linkify');
+            rep('.markdown-image-link', 'image');
+            rep('.markdown-direct-mention', 'at');
+            rep('.markdown-toggle-maximize', 'maximize');
+            rep('.markdown-help', 'help');
+        }
+
+        // 2. Custom Problem Types Dropdown Handler
+        function toggleTypesDropdown(e) {
+            if (e) e.stopPropagation();
+            var wrap = document.getElementById('problem-types-dropdown');
+            var menu = document.getElementById('types-dropdown-menu');
+            if (!wrap || !menu) return;
+
+            if (menu.style.display === 'none' || !menu.style.display) {
+                menu.style.display = 'block';
+                wrap.classList.add('open');
+            } else {
+                menu.style.display = 'none';
+                wrap.classList.remove('open');
+            }
+        }
+
+        function updateSelectedTypes() {
+            var menu = document.getElementById('types-dropdown-menu');
+            var tagsWrap = document.getElementById('selected-types-tags');
+            if (!menu || !tagsWrap) return;
+
+            var checkboxes = menu.querySelectorAll('input[type="checkbox"]:checked');
+            if (!checkboxes.length) {
+                tagsWrap.innerHTML = '<span class="placeholder-text">Chọn thể loại bài tập...</span>';
+                return;
+            }
+
+            var html = '';
+            checkboxes.forEach(function(cb) {
+                var val = cb.value;
+                var name = cb.getAttribute('data-name') || cb.nextElementSibling.innerText.trim();
+                html += '<span class="type-tag" data-val="' + val + '">' +
+                        name +
+                        '<span class="tag-remove" onclick="removeType(event, \'' + val + '\')">×</span>' +
+                        '</span>';
+            });
+            tagsWrap.innerHTML = html;
+        }
+
+        function removeType(e, val) {
+            if (e) e.stopPropagation();
+            var menu = document.getElementById('types-dropdown-menu');
+            if (!menu) return;
+            var cb = menu.querySelector('input[type="checkbox"][value="' + val + '"]');
+            if (cb) {
+                cb.checked = false;
+                updateSelectedTypes();
+            }
+        }
+
+        // Close types dropdown when clicking outside
+        document.addEventListener('click', function(e) {
+            var wrap = document.getElementById('problem-types-dropdown');
+            var menu = document.getElementById('types-dropdown-menu');
+            if (wrap && menu && !wrap.contains(e.target)) {
+                menu.style.display = 'none';
+                wrap.classList.remove('open');
+            }
+        });
+
+        // Initialize Martor with jQuery and ensure Ace syncs to textarea
+        $(document).ready(function() {
+            if (typeof $.fn.martor !== 'undefined') {
+                $('.main-martor').martor();
+            }
+            if (typeof $.fn.tab !== 'undefined') {
+                $('.tab-martor-menu .item').tab();
+            }
+            vectorizeCreateMartorIcons();
+            setTimeout(vectorizeCreateMartorIcons, 100);
+            setTimeout(vectorizeCreateMartorIcons, 500);
+
+            // Explicit sync on form submit
+            $('#create-problem-form').on('submit', function() {
+                var aceEl = document.querySelector('.ace_editor');
+                if (aceEl && window.ace) {
+                    var editor = ace.edit(aceEl.id);
+                    var ta = document.querySelector('.martor-field textarea, textarea[name="description"]');
+                    if (ta && editor) {
+                        ta.value = editor.getValue();
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

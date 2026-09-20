@@ -179,6 +179,7 @@ class SubmissionStatus(SubmissionDetailBase):
 
         context['batches'], statuses, context['max_execution_time'] = group_test_cases(submission.test_cases.all())
         context['statuses'] = combine_statuses(statuses, submission)
+        context['first_bad_case'] = submission.test_cases.exclude(status='AC').values_list('case', flat=True).first()
 
         context['time_limit'] = submission.problem.time_limit
         try:

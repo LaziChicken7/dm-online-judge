@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block media %}
+    {% include "status/cyber-status-style.html" %}
+{% endblock %}
+
 {% block title_ruler %}{% endblock %}
 
 {% block title_row %}
@@ -8,35 +12,85 @@
 {% endblock %}
 
 {% block body %}
-    <table id="judge-versions" class="table">
-        <tr>
-            <th></th>
-            {% for judge in judges %}
-                <th>{{ judge }}</th>
-            {% endfor %}
-        </tr>
-        {% for language in languages %}
+<div class="status-matrix-wrapper">
+    <!-- Matrix Legend Card -->
+    <div class="matrix-legend-card">
+        <span style="font-size: 13.5px; font-weight: 700; color: #ffffff; margin-right: 8px;">{{ _('Chú thích phiên bản:') }}</span>
+        <div class="legend-item">
+            <span class="version-pill latest">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                Latest
+            </span>
+            <span>{{ _('Phiên bản mới nhất') }}</span>
+        </div>
+        <div class="legend-item">
+            <span class="version-pill outdated">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                Outdated
+            </span>
+            <span>{{ _('Phiên bản cũ hơn') }}</span>
+        </div>
+        <div class="legend-item">
+            <span class="version-pill blank">&mdash;</span>
+            <span>{{ _('Không hỗ trợ') }}</span>
+        </div>
+    </div>
+
+    <!-- Matrix Table Card -->
+    <div class="status-table-card">
+        <table id="judge-versions" class="cyber-table cyber-matrix-table">
+            <thead>
             <tr>
-                <th>{{ language.name }}</th>
+                <th class="matrix-lang-th">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    {{ _('Ngôn ngữ') }}
+                </th>
                 {% for judge in judges %}
-                    {% set versions = matrix[judge][language.id] %}
-                    <td class="version version-
-                        {%- if not versions -%}
-                            blank
-                        {%- elif versions.is_latest -%}
-                            latest
-                        {%- else -%}
-                            outdated
-                        {%- endif %}">
-                        {%- for version in versions -%}
-                            {{ version.name }}{% if version.version %}&nbsp;{{ version.version }}{% endif %}
-                            {% if not loop.last %}<br>{% endif %}
-                        {%- else -%}
-                            &mdash;
-                        {%- endfor -%}
-                    </td>
+                    <th class="matrix-judge-th">
+                        <div class="judge-header-wrap">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                            <span>{{ judge }}</span>
+                        </div>
+                    </th>
                 {% endfor %}
             </tr>
-        {% endfor %}
-    </table>
+            </thead>
+            <tbody>
+            {% for language in languages %}
+                <tr>
+                    <td class="matrix-lang-th">
+                        <span class="lang-name-title" style="font-size: 14px;">{{ language.name }}</span>
+                    </td>
+                    {% for judge in judges %}
+                        {% set versions = matrix[judge][language.id] %}
+                        <td class="matrix-judge-td">
+                            {% if not versions %}
+                                <span class="version-pill blank">&mdash;</span>
+                            {% elif versions.is_latest %}
+                                <div class="matrix-versions-flex">
+                                    {% for version in versions %}
+                                        <span class="version-pill latest" title="{{ version.name }}">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                            {{ version.name }}{% if version.version %}&nbsp;{{ version.version }}{% endif %}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="matrix-versions-flex">
+                                    {% for version in versions %}
+                                        <span class="version-pill outdated" title="{{ version.name }}">
+                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                            {{ version.name }}{% if version.version %}&nbsp;{{ version.version }}{% endif %}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 {% endblock %}

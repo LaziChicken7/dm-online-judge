@@ -13,7 +13,7 @@ from judge.feed import AtomBlogFeed, AtomCommentFeed, AtomProblemFeed, BlogFeed,
 from judge.sitemap import sitemaps
 from judge.views import TitledTemplateView, api, blog, comment, contests, language, license, mailgun, organization, \
     preview, problem, problem_manage, ranked_submission, register, stats, status, submission, tasks, ticket, \
-    two_factor, user, widgets, vjudge
+    two_factor, user, widgets, vjudge, clue, ntucoder, ltpt
 from judge.views.problem_data import ProblemDataView, ProblemSubmissionDiff, \
     problem_data_file, problem_init_view
 from judge.views.register import ActivationView, RegistrationView
@@ -101,8 +101,18 @@ urlpatterns = [
 
     path('problems/', problem.ProblemList.as_view(), name='problem_list'),
     path('problems/random/', problem.RandomProblem.as_view(), name='problem_random'),
+    path('problems/add/', problem.ProblemCreateView.as_view(), name='problem_add'),
     path('problems/import/polygon/', problem.ImportPolygonView.as_view(), name='problem_import_polygon'),
     path('problems/import/vjudge/', problem.ImportVJudgeView.as_view(), name='problem_import_vjudge'),
+    path('problems/import/clue/', problem.ImportClueView.as_view(), name='problem_import_clue'),
+    path('problems/import/ntucoder/', ntucoder.ProblemImportNTUCoderView.as_view(), name='problem_import_ntucoder'),
+    path('problems/import/ltpt/', ltpt.ProblemImportLTPTView.as_view(), name='problem_import_ltpt'),
+    path('user/ltpt/connect/', ltpt.LTPTConnectView.as_view(), name='ltpt_connect'),
+    path('user/ltpt/disconnect/', ltpt.LTPTDisconnectView.as_view(), name='ltpt_disconnect'),
+    path('user/ntucoder/connect/', ntucoder.NTUCoderConnectView.as_view(), name='ntucoder_connect'),
+    path('user/ntucoder/disconnect/', ntucoder.NTUCoderDisconnectView.as_view(), name='ntucoder_disconnect'),
+    path('user/clue/connect/', clue.ClueConnectView.as_view(), name='clue_connect'),
+    path('user/clue/disconnect/', clue.ClueDisconnectView.as_view(), name='clue_disconnect'),
     path('user/vjudge/connect/', vjudge.VJudgeConnectView.as_view(), name='vjudge_connect'),
     path('user/vjudge/disconnect/', vjudge.VJudgeDisconnectView.as_view(), name='vjudge_disconnect'),
     path('api/vjudge/remote-accounts/', vjudge.VJudgeRemoteAccountsApi.as_view(), name='vjudge_remote_accounts_api'),

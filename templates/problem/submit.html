@@ -793,6 +793,12 @@
         {{ form.non_field_errors() }}
         {% if is_vjudge %}
             {% include "problem/vjudge_submit_header.html" %}
+        {% elif is_clue %}
+            {% include "problem/clue_submit_header.html" %}
+        {% elif is_ntucoder %}
+            {% include "problem/ntucoder_submit_header.html" %}
+        {% elif is_ltpt %}
+            {% include "problem/ltpt_submit_header.html" %}
         {% endif %}
         <div id="submit-wrapper">
             <div id="editor">

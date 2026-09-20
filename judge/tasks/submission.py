@@ -10,6 +10,7 @@ from judge.utils.celery import Progress
 __all__ = ('apply_submission_filter', 'rejudge_problem_filter', 'rescore_problem', 'judge_vjudge_submission_task')
 
 from judge.tasks.vjudge_judge import judge_vjudge_submission_task, judge_vjudge_submission_async
+from judge.tasks.clue_judge import judge_clue_submission_task, judge_clue_submission_async
 
 
 

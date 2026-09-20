@@ -1,20 +1,13 @@
 {% extends "base.html" %}
+
 {% block media %}
+    {% include "status/cyber-status-style.html" %}
     <style>
         .table td.language {
             white-space: nowrap;
         }
-
-        .table td.info .content-description {
-            margin: -1em 1em -1em 1em;
-        }
-
         td.info {
             width: 100%;
-        }
-
-        .table td {
-            text-align: left;
         }
     </style>
 {% endblock %}
@@ -27,26 +20,42 @@
 {% endblock %}
 
 {% block body %}
-    <div class="h-scrollable-table">
-        <table class="table striped">
+<div class="status-page-wrapper">
+    <!-- Runtimes Card -->
+    <div class="status-table-card">
+        <table class="cyber-table">
             <thead>
             <tr>
-                <th>{{ _('ID') }}</th>
-                <th>{{ _('Name') }}</th>
-                <th>{{ _('Runtime Info') }}</th>
+                <th style="width: 130px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="9" x2="20" y2="9"></line><line x1="4" y1="15" x2="20" y2="15"></line><line x1="10" y1="3" x2="8" y2="21"></line><line x1="16" y1="3" x2="14" y2="21"></line></svg>
+                    {{ _('ID') }}
+                </th>
+                <th style="width: 240px;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                    {{ _('Ngôn ngữ / Trình biên dịch') }}
+                </th>
+                <th>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                    {{ _('Thông tin phiên bản & Cấu hình Runtime') }}
+                </th>
             </tr>
             </thead>
             <tbody>
             {% for language in languages %}
-                {# All online languages have runtime_versions, even if we're not going to display them #}
                 {% if language.runtime_versions %}
                     <tr>
-                        <td>{{ language.short_display_name }}</td>
-                        <td class="language">{{ language.name }}</td>
+                        <td style="white-space: nowrap;">
+                            <span class="lang-code-pill">{{ language.short_display_name }}</span>
+                        </td>
+                        <td style="white-space: nowrap;">
+                            <span class="lang-name-title">{{ language.name }}</span>
+                        </td>
                         <td class="info">
-                            <code>{{ runtime_versions(language.runtime_versions()) }}</code>
+                            <div class="runtime-terminal-box">
+                                <code>{{ runtime_versions(language.runtime_versions()) }}</code>
+                            </div>
                             {% if language.description %}
-                                <div class="content-description">
+                                <div class="lang-description-box">
                                     {% cache 86400 'language_html' language.id %}
                                         {{ language.description|markdown('language') }}
                                     {% endcache %}
@@ -59,4 +68,5 @@
             </tbody>
         </table>
     </div>
+</div>
 {% endblock %}

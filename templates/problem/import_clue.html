@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title_ruler %}{% endblock %}
+
+{% block media %}
+    <style>
+        .import-clue-wrapper {
+            max-width: 980px;
+            margin: 20px auto 50px auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 16px;
+        }
+        .import-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 36px 40px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .import-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+        }
+        .import-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: #38bdf8 !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .import-title {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: -0.01em !important;
+        }
+        .import-desc {
+            color: #94a3b8 !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin-bottom: 30px !important;
+        }
+        .import-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+            color: #fca5a5 !important;
+            font-size: 14px !important;
+            margin-bottom: 26px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        .form-group-full {
+            grid-column: 1 / -1;
+        }
+        .form-label {
+            display: block;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+        }
+        .form-label .required {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .form-label .optional {
+            color: #64748b;
+            font-weight: 400;
+            font-size: 12px;
+            margin-left: 4px;
+        }
+        .form-input-cyber {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.65) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 11px 16px !important;
+            color: #ffffff !important;
+            font-size: 14.5px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            font-family: inherit !important;
+        }
+        .form-input-cyber:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+        }
+        .form-hint {
+            font-size: 12.5px;
+            color: #64748b;
+            margin-top: 6px;
+            line-height: 1.45;
+        }
+        .form-hint code {
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        .custom-checkbox-wrap {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            margin-top: 6px;
+        }
+        .custom-checkbox-wrap input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #38bdf8;
+            cursor: pointer;
+        }
+        .custom-checkbox-wrap span {
+            color: #e2e8f0;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .form-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 16px;
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-cancel {
+            color: #94a3b8;
+            text-decoration: none !important;
+            font-size: 14.5px;
+            font-weight: 600;
+            padding: 11px 22px;
+            border-radius: 10px;
+            transition: all 0.2s ease;
+        }
+        .btn-cancel:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .btn-submit-import {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 14.5px !important;
+            padding: 12px 28px !important;
+            border-radius: 10px !important;
+            border: none !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s ease !important;
+        }
+        .btn-submit-import:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
+            transform: translateY(-1px);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="import-clue-wrapper">
+    <div class="import-card">
+        <div class="import-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <span>CLUE ONLINE JUDGE</span>
+        </div>
+        <h1 class="import-title">{{ _('Nhập bài tập từ Clue Online Judge (ClueOJ)') }}</h1>
+        <p class="import-desc">
+            {{ _('Nhập bài tập trực tiếp từ ClueOJ (oj.clue.edu.vn). Hệ thống sẽ tự động đồng bộ đề bài, giới hạn thời gian, bộ nhớ và điểm số.') }}
+        </p>
+
+        {% if error %}
+            <div class="import-error-alert">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <div>
+                    <strong>{{ _('Lỗi khi nhập bài tập:') }}</strong> {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-grid">
+                <div class="form-group-full">
+                    <label class="form-label" for="id_clue_input">
+                        {{ _('ClueOJ Problem Code hoặc URL') }} <span class="required">*</span>
+                    </label>
+                    <input type="text" id="id_clue_input" name="clue_input" class="form-input-cyber"
+                           placeholder="Ví dụ: dhbb26_dx36_10_b hoặc https://oj.clue.edu.vn/problem/dhbb26_dx36_10_b"
+                           value="{{ clue_input or '' }}" required autofocus>
+                    <div class="form-hint">
+                        {{ _('Nhập mã bài hoặc đường dẫn đầy đủ từ ClueOJ. Ví dụ:') }} <code>dhbb26_dx36_10_b</code> hoặc <code>olp30426_cgame</code>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_code">
+                        {{ _('Mã bài trên hệ thống (Code)') }} <span class="optional">({{ _('tuỳ chọn') }})</span>
+                    </label>
+                    <input type="text" id="id_code" name="code" class="form-input-cyber"
+                           placeholder="Ví dụ: clue_dhbb (để trống sẽ tự sinh)"
+                           value="{{ code or '' }}">
+                    <div class="form-hint">{{ _('Chỉ gồm chữ thường, chữ số và dấu gạch dưới.') }}</div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_name">
+                        {{ _('Tên bài hiển thị') }} <span class="optional">({{ _('tuỳ chọn') }})</span>
+                    </label>
+                    <input type="text" id="id_name" name="name" class="form-input-cyber"
+                           placeholder="{{ _('Để trống để tự động lấy từ ClueOJ') }}"
+                           value="{{ name or '' }}">
+                    <div class="form-hint">{{ _('Tên đầy đủ của bài tập hiển thị trên danh sách.') }}</div>
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_time_limit">
+                        {{ _('Thời gian chạy (giây)') }} <span class="optional">({{ _('mặc định tự động từ ClueOJ') }})</span>
+                    </label>
+                    <input type="number" step="0.1" id="id_time_limit" name="time_limit" class="form-input-cyber"
+                           placeholder="1.0" value="{{ time_limit or '' }}">
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_memory_limit">
+                        {{ _('Giới hạn bộ nhớ (MB)') }} <span class="optional">({{ _('mặc định tự động từ ClueOJ') }})</span>
+                    </label>
+                    <input type="number" id="id_memory_limit" name="memory_limit" class="form-input-cyber"
+                           placeholder="256" value="{{ memory_limit or '' }}">
+                </div>
+
+                <div>
+                    <label class="form-label" for="id_points">
+                        {{ _('Điểm bài tập') }} <span class="optional">({{ _('mặc định: 100') }})</span>
+                    </label>
+                    <input type="number" step="1" id="id_points" name="points" class="form-input-cyber"
+                           placeholder="100" value="{{ points or '' }}">
+                </div>
+
+                <div style="display: flex; align-items: flex-end; padding-bottom: 8px;">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" name="is_public" value="1" checked>
+                        <span>{{ _('Công khai bài tập ngay sau khi tạo (Public)') }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <a href="{{ url('problem_list') }}" class="btn-cancel">{{ _('Huỷ bỏ') }}</a>
+                <button type="submit" class="btn-submit-import">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ _('Tiến hành nhập bài') }}</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

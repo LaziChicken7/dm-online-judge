@@ -1,0 +1,183 @@
+<div class="clue-submit-modal-card">
+    <div class="clue-modal-row">
+        <span class="clue-row-label">{{ _('Problem:') }}</span>
+        <div class="clue-row-content">
+            <span class="clue-prob-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                NTUCoder - {{ problem.ntucoder_code or problem.code }}
+            </span>
+            <a href="https://thptchuyen.ntucoder.net/Problem/Details/{{ problem.ntucoder_id }}" target="_blank" rel="noopener" class="clue-link-btn" title="{{ _('Mở trang gốc trên NTUCoder') }}">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>{{ _('Mở trang NTUCoder ↗') }}</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="clue-modal-row">
+        <span class="clue-row-label">{{ _('Tài khoản nộp bài:') }}</span>
+        <div class="clue-row-content">
+            {% if request.profile.ntucoder_username or request.profile.ntucoder_email %}
+                <div class="clue-account-status-wrap">
+                    <span class="clue-chip-connected">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>{{ request.profile.ntucoder_username or request.profile.ntucoder_email }}</span>
+                    </span>
+                    <a href="{{ url('ntucoder_connect') }}?next={{ request.path }}" class="clue-link-btn" title="{{ _('Đổi hoặc liên kết tài khoản NTUCoder khác') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>{{ _('Đổi tài khoản NTUCoder') }}</span>
+                    </a>
+                </div>
+                <div class="clue-notice-text">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <span>Mã nguồn sẽ được tự động chuyển tiếp và chấm trực tiếp từ xa bằng tài khoản NTUCoder của bạn.</span>
+                </div>
+            {% else %}
+                <div class="clue-warning-box">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <div style="flex: 1;">
+                        <div style="font-weight: 700; color: #fbbf24; font-size: 14.5px; margin-bottom: 4px;">
+                            {{ _('Yêu cầu tài khoản THPT Chuyên NTUCoder') }}
+                        </div>
+                        <div style="color: #cbd5e1; font-size: 13.5px; line-height: 1.55;">
+                            {{ _('Hệ thống không tự ý tạo tài khoản. Bạn cần liên kết tài khoản NTUCoder cá nhân của mình để nộp bài từ xa lên NTUCoder.') }}
+                        </div>
+                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
+                            <a href="{{ url('ntucoder_connect') }}?next={{ request.path }}" class="clue-connect-action-btn">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                <span>{{ _('Đăng nhập / Kết nối NTUCoder') }}</span>
+                            </a>
+                            <a href="https://thptchuyen.ntucoder.net/Account/Register" target="_blank" rel="noopener" class="clue-link-btn" style="color: #94a3b8 !important;">
+                                <span>{{ _('Đăng ký tài khoản NTUCoder mới ↗') }}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .clue-submit-modal-card {
+        background: #0d1526 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 12px !important;
+        padding: 20px 24px !important;
+        margin-bottom: 22px !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+        box-sizing: border-box;
+    }
+    .clue-modal-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        gap: 16px;
+    }
+    .clue-modal-row:last-child {
+        margin-bottom: 0;
+        align-items: flex-start;
+    }
+    .clue-row-label {
+        width: 140px;
+        flex-shrink: 0;
+        color: #94a3b8;
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+    }
+    .clue-row-content {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        flex-wrap: wrap;
+        flex: 1;
+    }
+    .clue-prob-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(14, 165, 233, 0.18) !important;
+        color: #38bdf8 !important;
+        border: 1px solid rgba(14, 165, 233, 0.35) !important;
+        border-radius: 9999px !important;
+        padding: 5px 14px !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.2px;
+    }
+    .clue-chip-connected {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(34, 197, 94, 0.18) !important;
+        color: #4ade80 !important;
+        border: 1px solid rgba(34, 197, 94, 0.35) !important;
+        border-radius: 8px !important;
+        padding: 5px 14px !important;
+        font-size: 13.5px !important;
+        font-weight: 700 !important;
+    }
+    .clue-account-status-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        width: 100%;
+    }
+    .clue-notice-text {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        color: #94a3b8;
+        margin-top: 2px;
+    }
+    .clue-link-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        color: #cbd5e1 !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        padding: 5px 12px !important;
+        border-radius: 7px !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        transition: all 0.2s ease;
+    }
+    .clue-link-btn:hover {
+        background: rgba(56, 189, 248, 0.15) !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+        color: #38bdf8 !important;
+    }
+    .clue-warning-box {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: rgba(245, 158, 11, 0.1) !important;
+        border: 1px solid rgba(245, 158, 11, 0.3) !important;
+        border-radius: 10px !important;
+        padding: 14px 18px !important;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .clue-connect-action-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: #f59e0b !important;
+        color: #0f172a !important;
+        font-weight: 700 !important;
+        font-size: 13px !important;
+        padding: 7px 16px !important;
+        border-radius: 7px !important;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+    }
+    .clue-connect-action-btn:hover {
+        background: #fbbf24 !important;
+        transform: translateY(-1px);
+    }
+</style>

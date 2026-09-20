@@ -7,7 +7,7 @@
                 {{ problem.vjudge_oj }} - {{ problem.vjudge_prob_num }}
             </span>
             <div id="vjudge-active-statement-banner" class="vjudge-active-banner">
-                <span style="color: #94a3b8; font-size: 12.5px;">{{ _('Bản dịch đang xem:') }}</span>
+                <span style="color: #94a3b8; font-size: 12.5px;">{{ _('Viewing statement:') }}</span>
                 <span id="vjudge-active-statement-notice" style="color: #38bdf8; font-size: 13px; font-weight: 700;">{{ vjudge_active_author|default('System') }} ({{ vjudge_active_lang|default('Official English') }})</span>
             </div>
         </div>
@@ -15,19 +15,19 @@
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated %}
                 {% if request.profile.vjudge_cookie %}
-                    <span class="vjudge-account-chip chip-connected" title="{{ _('Đã kết nối tài khoản VJudge') }}">
+                    <span class="vjudge-account-chip chip-connected" title="{{ _('VJudge account connected') }}">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
                         <span>{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
                     </span>
                 {% else %}
-                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Kết nối tài khoản VJudge để nộp bài') }}">
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Connect your Virtual Judge account to submit') }}">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
-                        <span>{{ _('Kết nối VJudge') }}</span>
+                        <span>{{ _('Connect VJudge') }}</span>
                     </a>
                 {% endif %}
             {% endif %}
 
-            <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" rel="noopener" class="vjudge-btn-tool" title="{{ _('Mở trang gốc trên Virtual Judge') }}">
+            <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" rel="noopener" class="vjudge-btn-tool" title="{{ _('Open original problem on Virtual Judge') }}">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 <span>VJudge ↗</span>
             </a>
@@ -36,13 +36,20 @@
 
     <!-- Direct Rendered Statement Container -->
     <div class="vjudge-statement-container" id="vjudge-statement-container">
-        <div id="vjudge-statement-content" class="vjudge-rendered-body content-description">
+        <div id="vjudge-default-content-cache" style="display: none;">
+            {% if description %}
+                {{ description|markdown(problem.markdown_style, MATH_ENGINE)|reference|str|safe }}
+            {% endif %}
+        </div>
+        <div id="vjudge-statement-content" class="vjudge-rendered-body">
             {% if vjudge_statement_html %}
                 {{ vjudge_statement_html|safe }}
+            {% elif description %}
+                {{ description|markdown(problem.markdown_style, MATH_ENGINE)|reference|str|safe }}
             {% else %}
                 <div class="vjudge-empty-warning">
                     <p style="color: #94a3b8; font-size: 15px; margin: 20px 0;">
-                        {{ _('Đang tải nội dung đề bài từ Virtual Judge...') }}
+                        {{ _('Loading problem statement from Virtual Judge...') }}
                     </p>
                 </div>
             {% endif %}
@@ -53,7 +60,7 @@
     <div class="vjudge-footer-notice">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
         <span>
-            {{ _('Đề bài và các bản dịch AI được đồng bộ trực tiếp từ Virtual Judge. Bạn có thể chọn ngôn ngữ đề bài ở bảng') }} <strong>Statements</strong> {{ _('bên phải.') }}
+            {{ _('Problem statements and AI translations are synced directly from Virtual Judge. You can select statement language from the') }} <strong>Statements</strong> {{ _('panel on the right.') }}
         </span>
     </div>
 </div>
@@ -155,6 +162,17 @@
         padding: 28px 32px;
         box-sizing: border-box;
         overflow-x: auto;
+    }
+        .vjudge-rendered-body .content-description,
+    .vjudge-statement-container .content-description {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        transform: none !important;
     }
     .vjudge-rendered-body {
         color: #e2e8f0;
@@ -261,11 +279,88 @@
         line-height: 1.5;
         box-sizing: border-box;
     }
+
+    /* Sample Table Copy Buttons */
+    .vjudge_sample th {
+        position: relative !important;
+        padding: 8px 16px !important;
+        user-select: none !important;
+    }
+    .sample-th-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+    .sample-th-title {
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+        font-size: 13.5px !important;
+        letter-spacing: 0.3px !important;
+    }
+    .sample-copy-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 6px !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        padding: 3px 9px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        line-height: 1 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        text-transform: none !important;
+        font-family: inherit !important;
+    }
+    .sample-copy-btn:hover {
+        background: rgba(56, 189, 248, 0.22) !important;
+        border-color: #38bdf8 !important;
+        color: #ffffff !important;
+        transform: translateY(-1px) !important;
+    }
+    .sample-copy-btn.copied {
+        background: rgba(34, 197, 94, 0.22) !important;
+        border-color: #4ade80 !important;
+        color: #4ade80 !important;
+    }
+    .sample-copy-btn svg {
+        width: 12px;
+        height: 12px;
+        stroke-width: 2.2;
+    }
+    .floating-pre-btn {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        z-index: 5;
+    }
+
 </style>
 <script>
     function renderVJudgeMath() {
         var el = document.getElementById('vjudge-statement-content');
-        if (el && window.MathJax) {
+        if (!el) return;
+
+        // 1. Convert CSES/KaTeX math spans in the DOM into MathJax delimiters, stripping any inner $ or $$
+        var mathSpans = el.querySelectorAll('.math-inline, .math-display, span.math');
+        mathSpans.forEach(function(span) {
+            var raw = (span.innerText || span.textContent || '').trim();
+            // Strip any leading and trailing $ signs inside the span!
+            raw = raw.replace(/^(\s*\$+)+/, '').replace(/(\$+\s*)+$/, '').trim();
+            var isDisplay = span.classList.contains('math-display');
+            if (isDisplay) {
+                span.outerHTML = '\\[' + raw + '\\]';
+            } else {
+                span.outerHTML = '\\(' + raw + '\\)';
+            }
+        });
+
+        // 2. Typeset MathJax
+        if (window.MathJax) {
             if (window.MathJax.typesetClear) {
                 try { window.MathJax.typesetClear([el]); } catch(e) {}
             }
@@ -276,9 +371,147 @@
             }
         }
     }
+
     document.addEventListener('DOMContentLoaded', renderVJudgeMath);
     window.addEventListener('load', renderVJudgeMath);
     if (document.readyState === 'complete' || document.readyState === 'interactive') {
         renderVJudgeMath();
     }
+
+    function enhanceSampleTables() {
+        var tables = document.querySelectorAll(
+            '#vjudge-statement-content table.vjudge_sample, ' +
+            '.content-description table.vjudge_sample, ' +
+            '#vjudge-statement-content table, ' +
+            '.content-description table'
+        );
+
+        tables.forEach(function(table) {
+            if (table.closest('#vjudge-default-content-cache')) return;
+            if (table.getAttribute('data-copy-enhanced') === 'true') return;
+
+            var thList = table.querySelectorAll('thead th');
+            var rows = table.querySelectorAll('tbody tr');
+            if (!rows.length) return;
+
+            var isSampleTable = table.classList.contains('vjudge_sample');
+            if (!isSampleTable && thList.length > 0) {
+                var thTexts = Array.from(thList).map(function(th) { return th.innerText.toLowerCase().trim(); });
+                if (thTexts.some(function(t) { return t.includes('input') || t.includes('output') || t.includes('vào') || t.includes('ra'); })) {
+                    isSampleTable = true;
+                }
+            }
+            if (!isSampleTable) return;
+
+            table.setAttribute('data-copy-enhanced', 'true');
+
+            if (thList.length > 0) {
+                thList.forEach(function(th, colIdx) {
+                    var rawTitle = th.innerText.trim() || (colIdx === 0 ? 'Input' : 'Output');
+                    th.innerHTML =
+                        '<div class="sample-th-wrapper">' +
+                            '<span class="sample-th-title">' + rawTitle + '</span>' +
+                            '<button type="button" class="sample-copy-btn" title="Copy to clipboard">' +
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>' +
+                                '<span class="sample-btn-text">Copy</span>' +
+                            '</button>' +
+                        '</div>';
+
+                    var btn = th.querySelector('.sample-copy-btn');
+                    if (btn) {
+                        btn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+
+                            var texts = [];
+                            rows.forEach(function(tr) {
+                                var td = tr.children[colIdx];
+                                if (td) {
+                                    var pre = td.querySelector('pre');
+                                    texts.push(pre ? pre.innerText : td.innerText);
+                                }
+                            });
+                            var copyVal = texts.join('\n');
+
+                            copyToClipboard(copyVal, function() {
+                                btn.classList.add('copied');
+                                btn.querySelector('.sample-btn-text').innerText = 'Copied!';
+                                btn.querySelector('svg').innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+                                setTimeout(function() {
+                                    btn.classList.remove('copied');
+                                    btn.querySelector('.sample-btn-text').innerText = 'Copy';
+                                    btn.querySelector('svg').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+                                }, 1500);
+                            });
+                        });
+                    }
+                });
+            } else {
+                rows.forEach(function(tr) {
+                    Array.from(tr.children).forEach(function(td) {
+                        var pre = td.querySelector('pre');
+                        if (pre && !pre.querySelector('.sample-copy-btn')) {
+                            pre.style.position = 'relative';
+                            var btn = document.createElement('button');
+                            btn.type = 'button';
+                            btn.className = 'sample-copy-btn floating-pre-btn';
+                            btn.innerHTML =
+                                '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>' +
+                                '<span class="sample-btn-text">Copy</span>';
+                            pre.appendChild(btn);
+                            btn.addEventListener('click', function(e) {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                var clone = pre.cloneNode(true);
+                                var b = clone.querySelector('.sample-copy-btn');
+                                if (b) b.remove();
+                                copyToClipboard(clone.innerText.trim(), function() {
+                                    btn.classList.add('copied');
+                                    btn.querySelector('.sample-btn-text').innerText = 'Copied!';
+                                    btn.querySelector('svg').innerHTML = '<polyline points="20 6 9 17 4 12"></polyline>';
+                                    setTimeout(function() {
+                                        btn.classList.remove('copied');
+                                        btn.querySelector('.sample-btn-text').innerText = 'Copy';
+                                        btn.querySelector('svg').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2 2v1"></path>';
+                                    }, 1500);
+                                });
+                            });
+                        }
+                    });
+                });
+            }
+        });
+
+        function copyToClipboard(text, cb) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(cb).catch(function() {
+                    execCommandFallback(text, cb);
+                });
+            } else {
+                execCommandFallback(text, cb);
+            }
+        }
+
+        function execCommandFallback(text, cb) {
+            var ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                if (cb) cb();
+            } catch (err) {}
+            document.body.removeChild(ta);
+        }
+    }
+
+    window.enhanceSampleTables = enhanceSampleTables;
+    document.addEventListener('DOMContentLoaded', enhanceSampleTables);
+    window.addEventListener('load', enhanceSampleTables);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        enhanceSampleTables();
+    }
+
 </script>

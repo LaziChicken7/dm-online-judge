@@ -13,6 +13,7 @@
      style="display:none;"></div>
 
 {# 1. Verdict Hero Card (Real-Time Synchronized) #}
+{% set first_bad = first_bad_case or (submission.test_cases.exclude(status='AC').values_list('case', flat=True).first() if (submission.is_graded and submission.result != 'AC') else None) %}
 <div class="verdict-hero-card">
     <div class="verdict-badge-wrap">
         {% if submission.is_graded %}
@@ -22,19 +23,19 @@
                 </div>
             {% elif submission.result == 'WA' %}
                 <div class="verdict-badge verdict-wa">
-                    <i class="fa fa-times-circle"></i> WRONG ANSWER{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
+                    <i class="fa fa-times-circle"></i> WRONG ANSWER{% if first_bad %} ON TEST {{ first_bad }}{% elif submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
                 </div>
             {% elif submission.result == 'TLE' %}
                 <div class="verdict-badge verdict-tle">
-                    <i class="fa fa-clock-o"></i> TIME LIMIT EXCEEDED{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
+                    <i class="fa fa-clock-o"></i> TIME LIMIT EXCEEDED{% if first_bad %} ON TEST {{ first_bad }}{% elif submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
                 </div>
             {% elif submission.result == 'MLE' %}
                 <div class="verdict-badge verdict-tle">
-                    <i class="fa fa-microchip"></i> MEMORY LIMIT EXCEEDED{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
+                    <i class="fa fa-microchip"></i> MEMORY LIMIT EXCEEDED{% if first_bad %} ON TEST {{ first_bad }}{% elif submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
                 </div>
             {% elif submission.result == 'RTE' %}
                 <div class="verdict-badge verdict-ce">
-                    <i class="fa fa-exclamation-triangle"></i> RUNTIME ERROR{% if submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
+                    <i class="fa fa-exclamation-triangle"></i> RUNTIME ERROR{% if first_bad %} ON TEST {{ first_bad }}{% elif submission.case_total > 0 and submission.case_points < submission.case_total %} ON TEST {{ (submission.case_points + 1)|int }}{% endif %}
                 </div>
             {% elif submission.result == 'CE' %}
                 <div class="verdict-badge verdict-ce">
@@ -51,7 +52,13 @@
             {% endif %}
             <div class="verdict-score-text">
                 <div class="verdict-score-main">
-                    {{ submission.case_points|floatformat(0) }} / {{ submission.case_total|floatformat(0) }} Cases
+                    {% set passed_count = submission.test_cases.filter(status='AC').count() %}
+                    {% set total_count = submission.test_cases.count() %}
+                    {% if total_count > 0 %}
+                        {{ passed_count }} / {{ total_count }} Cases
+                    {% else %}
+                        {{ submission.case_points|floatformat(0) }} / {{ submission.case_total|floatformat(0) }} Cases
+                    {% endif %}
                     {% if submission.problem.points %}
                         ({{ submission.points|floatformat(1) }} / {{ submission.problem.points|floatformat(1) }} pts)
                     {% endif %}
@@ -60,25 +67,33 @@
                     {% if submission.result == 'AC' %}
                         100% Score &bull; All test cases passed successfully
                     {% elif submission.result == 'WA' %}
-                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                        {% if first_bad %}
+                            Wrong answer on test {{ first_bad }}
+                        {% elif submission.case_total > 0 and submission.case_points < submission.case_total %}
                             Wrong answer on test {{ (submission.case_points + 1)|int }}
                         {% else %}
                             Test cases failed verification
                         {% endif %}
                     {% elif submission.result == 'TLE' %}
-                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                        {% if first_bad %}
+                            Time limit exceeded on test {{ first_bad }}
+                        {% elif submission.case_total > 0 and submission.case_points < submission.case_total %}
                             Time limit exceeded on test {{ (submission.case_points + 1)|int }}
                         {% else %}
                             Time limit exceeded on some test cases
                         {% endif %}
                     {% elif submission.result == 'MLE' %}
-                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                        {% if first_bad %}
+                            Memory limit exceeded on test {{ first_bad }}
+                        {% elif submission.case_total > 0 and submission.case_points < submission.case_total %}
                             Memory limit exceeded on test {{ (submission.case_points + 1)|int }}
                         {% else %}
                             Memory limit exceeded
                         {% endif %}
                     {% elif submission.result == 'RTE' %}
-                        {% if submission.case_total > 0 and submission.case_points < submission.case_total %}
+                        {% if first_bad %}
+                            Runtime error on test {{ first_bad }}
+                        {% elif submission.case_total > 0 and submission.case_points < submission.case_total %}
                             Runtime error on test {{ (submission.case_points + 1)|int }}
                         {% else %}
                             Runtime error

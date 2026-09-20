@@ -188,6 +188,16 @@ class Profile(models.Model):
     vjudge_cookie = models.TextField(blank=True, default='', verbose_name=_('VJudge session cookie'))
     vjudge_account_method = models.IntegerField(default=0, verbose_name=_('VJudge default submit method'))
     vjudge_binding_id = models.BigIntegerField(null=True, blank=True, verbose_name=_('VJudge remote account binding ID'))
+    clue_username = models.CharField(max_length=100, blank=True, default='', verbose_name=_('ClueOJ username'))
+    clue_password = models.CharField(max_length=128, blank=True, default='', verbose_name=_('ClueOJ password'))
+    clue_cookie = models.TextField(blank=True, default='', verbose_name=_('ClueOJ session cookie'))
+    ntucoder_username = models.CharField(max_length=100, blank=True, default='', verbose_name=_('NTUCoder username'))
+    ntucoder_email = models.CharField(max_length=100, blank=True, default='', verbose_name=_('NTUCoder email'))
+    ntucoder_password = models.CharField(max_length=128, blank=True, default='', verbose_name=_('NTUCoder password'))
+    ntucoder_cookie = models.TextField(blank=True, default='', verbose_name=_('NTUCoder session cookie'))
+    ltpt_username = models.CharField(max_length=100, blank=True, default='', verbose_name=_('LTPT username'))
+    ltpt_password = models.CharField(max_length=128, blank=True, default='', verbose_name=_('LTPT password'))
+    ltpt_cookie = models.TextField(blank=True, default='', verbose_name=_('LTPT session cookie'))
     is_webauthn_enabled = models.BooleanField(verbose_name=_('WebAuthn 2FA enabled'), default=False,
                                               help_text=_('Check to enable WebAuthn-based two-factor authentication.'))
     totp_key = EncryptedNullCharField(max_length=32, null=True, blank=True, verbose_name=_('TOTP key'),

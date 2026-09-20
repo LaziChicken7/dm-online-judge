@@ -1,3 +1,7 @@
+from django import forms
+from django.urls import reverse_lazy
+from judge.widgets import MartorWidget, Select2MultipleWidget, Select2Widget
+import shutil
 import logging
 import os
 import re
@@ -248,6 +252,73 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
                 context['vjudge_statement_html'] = get_vjudge_statement_content(default_key, cookie=cookie)
             else:
                 context['vjudge_statement_html'] = ""
+
+        if getattr(self.object, 'is_clue', False):
+            import re
+            from judge.utils.vjudge_service import clean_vjudge_math
+            context['is_clue'] = True
+            desc = self.object.description or ""
+
+            # Extract PDF URL
+            pdf_m = re.search(r'<!--\s*CLUE_PDF:(https://[^\s>]+)\s*-->', desc)
+            if pdf_m:
+                context['clue_pdf_url'] = pdf_m.group(1)
+            else:
+                pdf_m = re.search(r'https://oj\.clue\.edu\.vn/pdf/[a-zA-Z0-9_-]+\.pdf', desc)
+                if not pdf_m:
+                    pdf_m = re.search(r'/pdf/[a-zA-Z0-9_-]+\.pdf', desc)
+                    context['clue_pdf_url'] = f"https://oj.clue.edu.vn{pdf_m.group(0)}" if pdf_m else None
+                else:
+                    context['clue_pdf_url'] = pdf_m.group(0)
+
+            clean_html = desc
+            # Strip PDF comment marker if present
+            clean_html = re.sub(r'<!--\s*CLUE_PDF:[^>]*-->\s*', '', clean_html)
+
+            # Strip legacy markdown headers if present
+            lines = clean_html.splitlines()
+            body_lines = []
+            skipping = True
+            for l in lines:
+                s = l.strip()
+                if skipping:
+                    if s.startswith('## ClueOJ') or s.startswith('*Đề bài được nhập') or s.startswith('[Tài liệu PDF gốc]') or s == '---' or not s:
+                        continue
+                    else:
+                        skipping = False
+                body_lines.append(l)
+
+            clean_html = '\n'.join(body_lines)
+            clean_html = re.sub(r'<iframe[\s\S]*?</iframe>', '', clean_html, flags=re.I)
+            clean_html = re.sub(r'<object[\s\S]*?</object>', '', clean_html, flags=re.I)
+            clean_html = re.sub(r'<embed[\s\S]*?>', '', clean_html, flags=re.I)
+            clean_html = re.sub(r'<p>\s*Trong trường hợp đề bài hiển thị không chính xác[\s\S]*?</p>', '', clean_html, flags=re.I)
+            clean_html = re.sub(r'href="/(.*?)"', r'href="https://oj.clue.edu.vn/\1"', clean_html)
+            clean_html = re.sub(r'src="/(.*?)"', r'src="https://oj.clue.edu.vn/\1"', clean_html)
+
+            clean_html = clean_vjudge_math(clean_html)
+            context['clue_statement_html'] = clean_html
+
+        if getattr(self.object, 'is_ntucoder', False) or getattr(self.object, 'is_ltpt', False):
+            import re
+            from judge.utils.ntucoder_service import clean_ntucoder_math, format_ntucoder_samples
+            context['is_ntucoder'] = True
+            context['ntucoder_id'] = self.object.ntucoder_id
+            context['ntucoder_code'] = self.object.ntucoder_code
+            desc = self.object.description or ""
+            clean_html = re.sub(r'<!--\s*NTUCODER_ORIGIN:[^>]*-->\s*', '', desc)
+            clean_html = format_ntucoder_samples(clean_ntucoder_math(clean_html))
+            context['ntucoder_statement_html'] = clean_html
+
+        if getattr(self.object, 'is_ltpt', False):
+            import re
+            from judge.utils.ltpt_service import clean_ltpt_math, format_ltpt_samples
+            context['is_ltpt'] = True
+            context['ltpt_code'] = self.object.ltpt_code
+            desc = self.object.description or ""
+            clean_html = re.sub(r'<!--\s*LTPT_ORIGIN:[^>]*-->\s*', '', desc)
+            clean_html = format_ltpt_samples(clean_ltpt_math(clean_html))
+            context['ltpt_statement_html'] = clean_html
 
         return context
 
@@ -704,7 +775,7 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         kwargs = super().get_form_kwargs()
         kwargs['instance'] = Submission(user=self.request.profile, problem=self.object)
 
-        if self.object.is_vjudge:
+        if self.object.is_vjudge or getattr(self.object, 'is_clue', False) or getattr(self.object, 'is_ntucoder', False) or getattr(self.object, 'is_ltpt', False):
             kwargs['judge_choices'] = ()
         elif self.object.is_editable_by(self.request.user):
             kwargs['judge_choices'] = tuple(
@@ -718,7 +789,7 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
     def get_form(self, form_class=None):
         form = super().get_form(form_class)
 
-        if self.object.is_vjudge:
+        if self.object.is_vjudge or getattr(self.object, 'is_clue', False) or getattr(self.object, 'is_ntucoder', False):
             form.fields['language'].queryset = self.object.allowed_languages.order_by('name', 'key')
         else:
             form.fields['language'].queryset = (
@@ -814,6 +885,15 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
                 binding_id=binding_id,
                 open_code=open_code
             )
+        elif getattr(self.object, 'is_clue', False):
+            from judge.tasks.clue_judge import judge_clue_submission_async
+            judge_clue_submission_async(self.new_submission)
+        elif getattr(self.object, 'is_ntucoder', False):
+            from judge.tasks.ntucoder_judge import judge_ntucoder_submission_async
+            judge_ntucoder_submission_async(self.new_submission)
+        elif getattr(self.object, 'is_ltpt', False):
+            from judge.tasks.ltpt_judge import judge_ltpt_submission_async
+            judge_ltpt_submission_async(self.new_submission)
         else:
             self.new_submission.judge(force_judge=True, judge_id=form.cleaned_data['judge'])
 
@@ -826,14 +906,22 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         if self.object.is_vjudge:
             context['no_judges'] = False
             context['is_vjudge'] = True
-            from judge.utils.vjudge_service import get_vjudge_remote_accounts
-            accounts = (
-                get_vjudge_remote_accounts(self.request.profile.vjudge_cookie, oj=self.object.vjudge_oj)
-                if (hasattr(self.request, 'profile') and self.request.profile.vjudge_cookie) else []
-            )
-            context['vjudge_remote_accounts'] = accounts
-            context['vjudge_has_ready_account'] = any(acc.get('isReady') for acc in accounts)
-            context['vjudge_has_incomplete_account'] = any(acc.get('isIncomplete') for acc in accounts)
+        elif getattr(self.object, 'is_clue', False):
+            context['no_judges'] = False
+            context['is_clue'] = True
+            context['clue_code'] = self.object.clue_code
+            context['clue_has_account'] = bool(hasattr(self.request, 'profile') and self.request.profile.clue_username)
+        elif getattr(self.object, 'is_ntucoder', False):
+            context['no_judges'] = False
+            context['is_ntucoder'] = True
+            context['ntucoder_id'] = self.object.ntucoder_id
+            context['ntucoder_code'] = self.object.ntucoder_code
+            context['ntucoder_has_account'] = bool(hasattr(self.request, 'profile') and (self.request.profile.ntucoder_username or self.request.profile.ntucoder_email))
+        elif getattr(self.object, 'is_ltpt', False):
+            context['no_judges'] = False
+            context['is_ltpt'] = True
+            context['ltpt_code'] = self.object.ltpt_code
+            context['ltpt_has_account'] = bool(hasattr(self.request, 'profile') and self.request.profile.ltpt_username)
         context['submission_limit'] = self.contest_problem and self.contest_problem.max_submissions
         context['submissions_left'] = self.remaining_submission_count
         context['ACE_URL'] = settings.ACE_URL
@@ -900,6 +988,179 @@ class ProblemClone(ProblemMixin, PermissionRequiredMixin, TitleMixin, SingleObje
         return HttpResponseRedirect(reverse('admin:judge_problem_change', args=(problem.id,)))
 
 
+
+class ProblemCreateForm(forms.ModelForm):
+    batch_type = forms.ChoiceField(
+        choices=[("Sum", "Sum"), ("Average", "Average"), ("Points", "Points")],
+        initial="Sum",
+        required=True,
+    )
+    statement_file = forms.FileField(required=False)
+    mirror_from = forms.ChoiceField(required=False)
+    private_users = forms.CharField(required=False)
+
+    class Meta:
+        model = Problem
+        fields = [
+            "is_public", "code", "name", "time_limit", "memory_limit",
+            "points", "partial", "summary", "types", "group",
+            "submission_source_visibility_mode", "description",
+        ]
+        widgets = {
+            "description": MartorWidget(attrs={"data-markdownfy-url": reverse_lazy("problem_preview")}),
+            "types": Select2MultipleWidget(attrs={"style": "width: 100%;"}),
+            "group": Select2Widget(attrs={"style": "max-width: 380px; width: 100%;"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['code'].initial = ''
+        self.fields['time_limit'].initial = 1.0
+        self.fields['memory_limit'].initial = 1048576
+        self.fields['points'].initial = 10.0
+        self.fields['partial'].initial = True
+        self.fields['is_public'].initial = False
+        self.fields['submission_source_visibility_mode'].initial = 'A'
+
+        uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
+        if uncat_type:
+            self.fields['types'].initial = [uncat_type.id]
+
+        uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
+        if uncat_group:
+            self.fields['group'].initial = uncat_group.id
+
+        existing = [('', '---------')] + [
+            (p[0], f"{p[0]} - {p[1]}") for p in Problem.objects.values_list('code', 'name').order_by('code')
+        ]
+        self.fields['mirror_from'].choices = existing
+
+
+class ProblemCreateView(TitleMixin, View):
+    title = gettext_lazy("Creating new problem")
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('auth_login') + '?next=' + request.path)
+        if not (request.user.has_perm('judge.add_problem') or request.user.has_perm('judge.edit_all_problem') or request.user.has_perm('judge.change_problem') or request.user.is_staff):
+            raise PermissionDenied()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        form = ProblemCreateForm()
+        existing_problems = Problem.objects.values_list('code', 'name').order_by('code')
+        all_types = ProblemType.objects.all().order_by('name')
+        all_groups = ProblemGroup.objects.all().order_by('name')
+        uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
+        uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
+        return render(request, "problem/create.html", {
+            "title": self.get_title(),
+            "form": form,
+            "existing_problems": existing_problems,
+            "all_types": all_types,
+            "all_groups": all_groups,
+            "default_type_id": uncat_type.id if uncat_type else None,
+            "default_group_id": uncat_group.id if uncat_group else None,
+        })
+
+    def post(self, request):
+        form = ProblemCreateForm(request.POST, request.FILES)
+        existing_problems = Problem.objects.values_list('code', 'name').order_by('code')
+        all_types = ProblemType.objects.all().order_by('name')
+        all_groups = ProblemGroup.objects.all().order_by('name')
+        uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
+        uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
+        if not form.is_valid():
+            err_msg = ""
+            for field, errors in form.errors.items():
+                err_msg += f"{field}: {', '.join(errors)} "
+            return render(request, "problem/create.html", {
+                "title": self.get_title(),
+                "form": form,
+                "existing_problems": existing_problems,
+                "all_types": all_types,
+                "all_groups": all_groups,
+                "default_type_id": uncat_type.id if uncat_type else None,
+                "default_group_id": uncat_group.id if uncat_group else None,
+                "error": err_msg or _("Dữ liệu nhập vào chưa hợp lệ."),
+            })
+
+        raw_code = form.cleaned_data.get('code', '').strip()
+        clean_code = re.sub(r'[^a-zA-Z0-9_]', '', raw_code).lower()
+        if not clean_code:
+            return render(request, "problem/create.html", {
+                "title": self.get_title(),
+                "form": form,
+                "existing_problems": existing_problems,
+                "error": _("Mã bài tập không hợp lệ. Vui lòng chỉ sử dụng chữ cái, chữ số và dấu gạch dưới."),
+            })
+
+        if Problem.objects.filter(code=clean_code).exists():
+            return render(request, "problem/create.html", {
+                "title": self.get_title(),
+                "form": form,
+                "existing_problems": existing_problems,
+                "error": _(f"Mã bài tập '{clean_code}' đã tồn tại. Vui lòng chọn mã khác."),
+            })
+
+        with revisions.create_revision(atomic=True):
+            problem = form.save(commit=False)
+            problem.code = clean_code
+            problem.is_manually_managed = True
+            problem.date = timezone.now()
+            problem.save()
+            form.save_m2m()
+
+            if hasattr(request, 'profile'):
+                problem.authors.add(request.profile)
+            problem.allowed_languages.set(Language.objects.all())
+
+            # Private users
+            private_users = form.cleaned_data.get('private_users', '').strip()
+            if private_users:
+                from judge.models import Profile
+                usernames = [u.strip() for u in re.split(r'[,;\s]+', private_users) if u.strip()]
+                profiles = Profile.objects.filter(user__username__in=usernames)
+                problem.testers.add(*profiles)
+
+            revisions.set_user(request.user)
+            revisions.set_comment(_("Created problem via quick create form"))
+
+        # Setup data directory
+        data_dir = f"/home/dmoj/site/data/{clean_code}"
+        os.makedirs(data_dir, exist_ok=True)
+
+        mirror_from = form.cleaned_data.get('mirror_from')
+        if mirror_from and Problem.objects.filter(code=mirror_from).exists():
+            source_dir = f"/home/dmoj/site/data/{mirror_from}"
+            if os.path.exists(source_dir):
+                for item in os.listdir(source_dir):
+                    s = os.path.join(source_dir, item)
+                    d = os.path.join(data_dir, item)
+                    if not os.path.exists(d):
+                        if os.path.isdir(s):
+                            shutil.copytree(s, d)
+                        else:
+                            shutil.copy2(s, d)
+
+        # Handle statement file
+        statement_file = request.FILES.get('statement_file')
+        if statement_file:
+            ext = os.path.splitext(statement_file.name)[1].lower()
+            target_path = os.path.join(data_dir, f"statement{ext}")
+            with open(target_path, "wb") as f:
+                for chunk in statement_file.chunks():
+                    f.write(chunk)
+
+        # Ensure init.yml exists
+        init_yml_path = os.path.join(data_dir, "init.yml")
+        if not os.path.exists(init_yml_path):
+            with open(init_yml_path, "w", encoding="utf-8") as f:
+                f.write(f"# Problem {clean_code}\nchecker: standard\ntest_cases: []\n")
+
+        return HttpResponseRedirect(reverse('problem_detail', args=[clean_code]))
+
+
 class ImportPolygonView(TitleMixin, View):
     title = gettext_lazy("Import Problem from Polygon")
 
@@ -945,6 +1206,7 @@ class ImportPolygonView(TitleMixin, View):
                 is_public=is_public,
                 author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None) or Profile.objects.filter(user__is_superuser=True).first(),
             )
+            problem = res[0] if isinstance(res, (tuple, list)) else res
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             return render(request, "problem/import_polygon.html", {
@@ -1008,6 +1270,62 @@ class ImportVJudgeView(TitleMixin, View):
                 "time_limit": time_limit_override or "",
                 "memory_limit": memory_limit_override or "",
             })
+
+
+class ImportClueView(TitleMixin, View):
+    title = gettext_lazy("Import Problem from ClueOJ")
+
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        return render(request, "problem/import_clue.html", {
+            "title": self.get_title(),
+        })
+
+    def post(self, request):
+        clue_input = request.POST.get("clue_input", "").strip()
+        if not clue_input:
+            return render(request, "problem/import_clue.html", {
+                "title": self.get_title(),
+                "error": _("Vui lòng nhập mã bài hoặc URL bài tập từ ClueOJ."),
+            })
+
+        code_override = request.POST.get("code", "").strip() or None
+        name_override = request.POST.get("name", "").strip() or None
+        points_override = request.POST.get("points", "").strip() or None
+        time_limit_override = request.POST.get("time_limit", "").strip() or None
+        memory_limit_override = request.POST.get("memory_limit", "").strip() or None
+        is_public = bool(request.POST.get("is_public"))
+
+        from judge.utils.clue_importer import import_clue_problem
+
+        try:
+            problem = import_clue_problem(
+                clue_input=clue_input,
+                code_override=code_override,
+                name_override=name_override,
+                points_override=points_override,
+                time_limit_override=time_limit_override,
+                memory_limit_override=memory_limit_override,
+                is_public=is_public,
+                author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None),
+            )
+            if isinstance(problem, (tuple, list)):
+                problem = problem[0]
+            return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
+        except Exception as e:
+            return render(request, "problem/import_clue.html", {
+                "title": self.get_title(),
+                "error": str(e),
+                "clue_input": clue_input,
+                "code": code_override or "",
+                "name": name_override or "",
+                "points": points_override or "",
+                "time_limit": time_limit_override or "",
+                "memory_limit": memory_limit_override or "",
+            })
+
 
 class VJudgeStatementAjaxView(View):
     def get(self, request, problem):

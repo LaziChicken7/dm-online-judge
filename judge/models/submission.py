@@ -90,6 +90,9 @@ class Submission(models.Model):
     locked_after = models.DateTimeField(verbose_name=_('submission lock'), null=True, blank=True)
     is_archived = models.BooleanField(verbose_name=_('is archived'), default=False)
     vjudge_run_id = models.BigIntegerField(verbose_name=_('VJudge Run ID'), null=True, blank=True)
+    clue_submission_id = models.BigIntegerField(verbose_name=_('ClueOJ submission ID'), null=True, blank=True)
+    ntucoder_submission_id = models.BigIntegerField(verbose_name=_('NTUCoder submission ID'), null=True, blank=True)
+    ltpt_submission_id = models.BigIntegerField(verbose_name=_('LTPT submission ID'), null=True, blank=True)
 
     @classmethod
     def result_class_from_code(cls, result, case_points, case_total):

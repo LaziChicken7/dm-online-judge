@@ -6,6 +6,7 @@
 
 {% block media %}
     {% include "status/media-css.html" %}
+    {% include "status/cyber-status-style.html" %}
     {% block content_media %}{% endblock %}
 {% endblock %}
 
@@ -17,9 +18,88 @@
 {% endblock %}
 
 {% block body %}
-    <div class="h-scrollable-table">
-        <table id="judge-status" class="table striped">
+<div class="status-page-wrapper">
+    <!-- Quick Stats Cards -->
+    <div class="status-stats-strip">
+        <div class="stat-metric-card">
+            <div class="stat-icon-wrap green">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                    <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                    <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                    <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                </svg>
+            </div>
+            <div class="stat-metric-info">
+                <span class="stat-metric-label">{{ _('Máy chấm trực tuyến') }}</span>
+                <span class="stat-metric-value">
+                    {% set online_count = judges|selectattr('online')|list|length %}
+                    {{ online_count }} / {{ judges|length }}
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-metric-card">
+            <div class="stat-icon-wrap cyan">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+            </div>
+            <div class="stat-metric-info">
+                <span class="stat-metric-label">{{ _('Trạng thái tải CPU') }}</span>
+                <span class="stat-metric-value">
+                    {% set loads = [] %}
+                    {% for j in judges if j.online and j.load is not none %}
+                        {% set _ = loads.append(j.load) %}
+                    {% endfor %}
+                    {{ (loads|sum / loads|length)|floatformat(2) if loads else '0.00' }}
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-metric-card">
+            <div class="stat-icon-wrap purple">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 12a11.05 11.05 0 0 0-22 0zm-5 7a16 16 0 0 1-12 0"></path>
+                    <line x1="12" y1="20" x2="12" y2="4"></line>
+                    <line x1="6" y1="20" x2="6" y2="14"></line>
+                    <line x1="18" y1="20" x2="18" y2="14"></line>
+                </svg>
+            </div>
+            <div class="stat-metric-info">
+                <span class="stat-metric-label">{{ _('Độ trễ trung bình (Ping)') }}</span>
+                <span class="stat-metric-value">
+                    {% set pings = [] %}
+                    {% for j in judges if j.online and j.ping_ms %}
+                        {% set _ = pings.append(j.ping_ms) %}
+                    {% endfor %}
+                    {{ (pings|sum / pings|length)|floatformat(1) if pings else '0.0' }} ms
+                </span>
+            </div>
+        </div>
+
+        <div class="stat-metric-card">
+            <div class="stat-icon-wrap amber">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="23 4 23 10 17 10"></polyline>
+                    <polyline points="1 20 1 14 7 14"></polyline>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                </svg>
+            </div>
+            <div class="stat-metric-info">
+                <span class="stat-metric-label">{{ _('Tự động cập nhật') }}</span>
+                <span class="stat-metric-value" style="font-size: 14px; font-weight: 700; color: #4ade80; display: inline-flex; align-items: center; gap: 6px;">
+                    <span class="pulse-dot"></span> Live (10s)
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Judge Status Table Card -->
+    <div class="status-table-card">
+        <table id="judge-status" class="cyber-table">
             {% include "status/judge-status-table.html" %}
         </table>
     </div>
+</div>
 {% endblock %}

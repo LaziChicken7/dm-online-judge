@@ -3,6 +3,7 @@ import logging
 import re
 import urllib.parse
 import urllib.request
+import urllib.error
 
 logger = logging.getLogger('judge.vjudge_service')
 
@@ -332,12 +333,14 @@ def login_vjudge(username: str, password: str) -> dict:
 def get_any_vjudge_cookie() -> str:
     """
     Get a working VJudge cookie from any connected user profile in the database.
+    Only returns valid-looking cookies (no illegal characters like | or non-ASCII).
     """
     try:
         from judge.models import Profile
-        p = Profile.objects.filter(vjudge_cookie__isnull=False).exclude(vjudge_cookie='').first()
-        if p and p.vjudge_cookie:
-            return p.vjudge_cookie
+        for p in Profile.objects.filter(vjudge_cookie__isnull=False).exclude(vjudge_cookie=''):
+            c = (p.vjudge_cookie or '').strip()
+            if c and not any(ch in c for ch in ['|', '\n', '\r', '<', '>']) and 'JSESSIONID' in c:
+                return c
     except Exception:
         pass
     return ""
@@ -350,15 +353,31 @@ def get_vjudge_problem_data(oj: str, prob_num: str, cookie: str = None) -> dict:
     """
     effective_cookie = cookie or get_any_vjudge_cookie()
     url = f"https://vjudge.net/problem/{oj}-{prob_num}"
-    headers = dict(HEADERS)
-    if effective_cookie:
-        headers['Cookie'] = effective_cookie
 
-    req = urllib.request.Request(url, headers=headers)
-    try:
+    def _fetch(c: str = None):
+        headers = dict(HEADERS)
+        if c:
+            headers['Cookie'] = c
+        req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=15) as resp:
-            html = resp.read().decode('utf-8', errors='ignore')
-            m = re.search(r'<textarea[^>]*name=[\'"]dataJson[\'"][^>]*>(.*?)</textarea>', html, re.DOTALL)
+            return resp.read().decode('utf-8', errors='ignore')
+
+    html = None
+    try:
+        if effective_cookie:
+            try:
+                html = _fetch(effective_cookie)
+            except urllib.error.HTTPError as e:
+                if e.code == 403:
+                    logger.warning(f"get_vjudge_problem_data got 403 with cookie, retrying without cookie...")
+                    html = _fetch(None)
+                else:
+                    raise
+        else:
+            html = _fetch(None)
+
+        if html:
+            m = re.search(r'<textarea[^>]*name=[\'\"]dataJson[\'\"][^>]*>(.*?)</textarea>', html, re.DOTALL)
             if m:
                 return json.loads(m.group(1))
     except Exception as e:
@@ -368,17 +387,51 @@ def get_vjudge_problem_data(oj: str, prob_num: str, cookie: str = None) -> dict:
 
 def clean_vjudge_math(txt: str) -> str:
     """
-    Convert LaTeX formulas from VJudge/Codeforces format to DMOJ MathJax format:
-    1. Codeforces inline math: $$$...$$$ -> ~...~
-    2. LaTeX inline math: $...$ (not $$) -> ~...~
+    Convert LaTeX formulas from VJudge/Codeforces/CSES format to DMOJ MathJax format:
+    1. CSES KaTeX math spans:
+       <span class="math math-inline">$ n $</span> -> ~n~
+       <span class="math math-display">$$ ... $$</span> -> \n\n$$...$$\n\n
+    2. Codeforces triple dollars $$$...$$$ -> ~...~
+    3. LaTeX inline math: $...$ (not $$) -> ~...~
     Leaves block math $$...$$ and \\[...\\] intact.
     """
     if not txt:
         return ""
-    # 1. Codeforces triple dollars $$$...$$$ -> ~...~
+
+    # 1. Clean math-display spans (strip any $$ or $ and extra spaces inside)
+    def replace_display(m):
+        inner = m.group(1).strip()
+        inner = re.sub(r'^\$+|\$+$', '', inner).strip()
+        return f"\n\n$${inner}$$\n\n"
+
+    txt = re.sub(r'<span class=[\'"]math math-display[\'"]>(.*?)</span>', replace_display, txt, flags=re.DOTALL)
+
+    # 2. Clean math-inline spans (strip any $ and extra spaces inside)
+    def replace_inline(m):
+        inner = m.group(1).strip()
+        inner = re.sub(r'^\$+|\$+$', '', inner).strip()
+        return f"~{inner}~"
+
+    txt = re.sub(r'<span class=[\'"]math math-inline[\'"]>(.*?)</span>', replace_inline, txt, flags=re.DOTALL)
+
+    # 3. Clean any generic math spans
+    def replace_any_math(m):
+        inner = m.group(1).strip()
+        inner = re.sub(r'^\$+|\$+$', '', inner).strip()
+        return f"~{inner}~"
+
+    txt = re.sub(r'<span class=[\'"]math[\'"]>(.*?)</span>', replace_any_math, txt, flags=re.DOTALL)
+
+    # 4. Codeforces triple dollars $$$...$$$ -> ~...~
     txt = re.sub(r'\$\$\$(.*?)\$\$\$', r'~\1~', txt, flags=re.DOTALL)
-    # 2. LaTeX inline math $...$ -> ~...~
-    txt = re.sub(r'(?<!\\)(?<!\$)\$(?!\s)([^\$\n]*?\S)(?<!\\)\$(?!\$)', r'~\1~', txt)
+
+    # 5. LaTeX inline math $...$ -> ~...~ (when not $$)
+    def replace_single_dollar(m):
+        inner = m.group(1).strip()
+        return f"~{inner}~"
+
+    txt = re.sub(r'(?<!\\)(?<!\$)\$(?!\$)([^\$\n]+?)(?<!\\)(?<!\$)\$(?!\$)', replace_single_dollar, txt)
+
     return txt
 
 
@@ -449,39 +502,55 @@ def get_vjudge_statement_content(key: str, cookie: str = None) -> str:
     """
     effective_cookie = cookie or get_any_vjudge_cookie()
     url = f"https://vjudge.net/problem/description/{key}"
-    headers = dict(HEADERS)
-    if effective_cookie:
-        headers['Cookie'] = effective_cookie
 
-    req = urllib.request.Request(url, headers=headers)
-    try:
+    def _fetch(c: str = None):
+        headers = dict(HEADERS)
+        if c:
+            headers['Cookie'] = c
+        req = urllib.request.Request(url, headers=headers)
         with urllib.request.urlopen(req, timeout=15) as resp:
-            html = resp.read().decode('utf-8', errors='ignore')
+            return resp.read().decode('utf-8', errors='ignore')
 
-        m = re.search(r'<textarea[^>]*data-json-container[^>]*>(.*?)</textarea>', html, re.DOTALL)
-        if m:
-            data = json.loads(m.group(1))
-            sections = data.get('sections', [])
-            html_parts = []
-
-            for s in sections:
-                title = s.get('title')
-                val_obj = s.get('value', '')
-                if isinstance(val_obj, dict):
-                    val_text = val_obj.get('content', '')
+    html = None
+    try:
+        if effective_cookie:
+            try:
+                html = _fetch(effective_cookie)
+            except urllib.error.HTTPError as e:
+                if e.code == 403:
+                    logger.warning(f"get_vjudge_statement_content got 403 with cookie for key {key}, retrying without cookie...")
+                    html = _fetch(None)
                 else:
-                    val_text = str(val_obj)
+                    raise
+        else:
+            html = _fetch(None)
 
-                val_text = clean_vjudge_math(val_text)
-                title = clean_vjudge_math(title) if title else ""
+        if html:
+            m = re.search(r'<textarea[^>]*data-json-container[^>]*>(.*?)</textarea>', html, re.DOTALL)
+            if m:
+                data = json.loads(m.group(1))
+                sections = data.get('sections', [])
+                html_parts = []
 
-                if title:
-                    html_parts.append(f'<div class="vjudge-section-heading">{title}</div>')
-                if val_text:
-                    html_parts.append(f'<div class="vjudge-section-body">{val_text}</div>')
+                for s in sections:
+                    title = s.get('title')
+                    val_obj = s.get('value', '')
+                    if isinstance(val_obj, dict):
+                        val_text = val_obj.get('content', '')
+                    else:
+                        val_text = str(val_obj)
 
-            return "\n".join(html_parts)
-        return clean_vjudge_math(html)
+                    val_text = clean_vjudge_math(val_text)
+                    title = clean_vjudge_math(title) if title else ""
+
+                    if title:
+                        html_parts.append(f'<div class="vjudge-section-heading">{title}</div>')
+                    if val_text:
+                        html_parts.append(f'<div class="vjudge-section-body">{val_text}</div>')
+
+                return "\n".join(html_parts)
+            return clean_vjudge_math(html)
     except Exception as e:
         logger.warning(f"get_vjudge_statement_content error for key {key}: {e}")
         return f"<div class='alert alert-warning'>Không thể tải nội dung đề bài (Lỗi: {e}).</div>"
+    return ""

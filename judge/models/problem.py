@@ -115,7 +115,7 @@ class Problem(models.Model):
     )
 
     code = models.CharField(max_length=20, verbose_name=_('problem code'), unique=True,
-                            validators=[RegexValidator('^[a-z0-9]+$', _('Problem code must be ^[a-z0-9]+$'))],
+                            validators=[RegexValidator(r'^[a-z0-9_]+$', _('Problem code must be ^[a-z0-9_]+$'))],
                             help_text=_('A short, unique code for the problem, used in the URL after /problem/'))
     name = models.CharField(max_length=100, verbose_name=_('problem name'), db_index=True,
                             help_text=_('The full name of the problem, as shown in the problem list.'),
@@ -183,6 +183,13 @@ class Problem(models.Model):
     vjudge_oj = models.CharField(verbose_name=_('VJudge remote OJ'), max_length=50, blank=True, default='')
     vjudge_prob_num = models.CharField(verbose_name=_('VJudge problem number'), max_length=50, blank=True, default='')
     vjudge_pid = models.IntegerField(verbose_name=_('VJudge problem ID'), null=True, blank=True)
+    is_clue = models.BooleanField(verbose_name=_('is ClueOJ problem'), default=False, db_index=True)
+    clue_code = models.CharField(verbose_name=_('ClueOJ problem code'), max_length=100, blank=True, default='')
+    is_ntucoder = models.BooleanField(verbose_name=_('is NTUCoder problem'), default=False, db_index=True)
+    ntucoder_id = models.CharField(verbose_name=_('NTUCoder problem ID'), max_length=50, blank=True, default='')
+    ntucoder_code = models.CharField(verbose_name=_('NTUCoder problem code'), max_length=100, blank=True, default='')
+    is_ltpt = models.BooleanField(verbose_name=_('is LTPT problem'), default=False, db_index=True)
+    ltpt_code = models.CharField(verbose_name=_('LTPT problem code'), max_length=100, blank=True, default='')
 
     def __init__(self, *args, **kwargs):
         super(Problem, self).__init__(*args, **kwargs)

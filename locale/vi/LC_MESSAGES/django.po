@@ -6282,3 +6282,33 @@ msgstr "Nhập từ Polygon"
 
 msgid "Upload Polygon Package"
 msgstr "Tải lên gói Polygon"
+
+msgid "Viewing statement:"
+msgstr "Bản dịch đang xem:"
+
+msgid "VJudge account connected"
+msgstr "Đã kết nối tài khoản VJudge"
+
+msgid "Connect your Virtual Judge account to submit"
+msgstr "Kết nối tài khoản Virtual Judge để nộp bài"
+
+msgid "Connect VJudge"
+msgstr "Kết nối VJudge"
+
+msgid "Open original problem on Virtual Judge"
+msgstr "Mở trang gốc trên Virtual Judge"
+
+msgid "Loading problem statement from Virtual Judge..."
+msgstr "Đang tải nội dung đề bài từ Virtual Judge..."
+
+msgid "Problem statements and AI translations are synced directly from Virtual Judge. You can select statement language from the"
+msgstr "Đề bài và các bản dịch AI được đồng bộ trực tiếp từ Virtual Judge. Bạn có thể chọn ngôn ngữ đề bài ở bảng"
+
+msgid "panel on the right."
+msgstr "bên phải."
+
+msgid "Creating new problem"
+msgstr "Tạo bài tập mới"
+
+msgid "Configure problem limits, points, test cases, and problem statement."
+msgstr "Thiết lập cấu hình bài tập mới, giới hạn thời gian, bộ nhớ, phân loại và nội dung đề bài trên hệ thống."

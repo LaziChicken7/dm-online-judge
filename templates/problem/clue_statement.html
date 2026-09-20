@@ -1,0 +1,409 @@
+<div class="vjudge-statement-wrapper" id="clue-statement-wrapper">
+    <!-- Top Control Bar (Exactly like Image #1) -->
+    <div class="vjudge-top-bar">
+        <div class="vjudge-top-left">
+            <span class="vjudge-source-pill">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                ClueOJ - {{ problem.clue_code or problem.code }}
+            </span>
+            <div id="vjudge-active-statement-banner" class="vjudge-active-banner">
+                <span style="color: #94a3b8; font-size: 12.5px;">{{ _('Nguồn đề:') }}</span>
+                <span style="color: #38bdf8; font-size: 13px; font-weight: 700;">Clue Online Judge</span>
+            </div>
+        </div>
+
+        <div class="vjudge-top-right">
+            {% if request.user.is_authenticated and request.profile.clue_username %}
+                <a href="{{ url('clue_connect') }}" class="vjudge-account-chip chip-connected" title="{{ _('Đã kết nối tài khoản ClueOJ: ') }}{{ request.profile.clue_username }}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ request.profile.clue_username }}</span>
+                </a>
+            {% else %}
+                <a href="{{ url('clue_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Kết nối tài khoản ClueOJ để nộp bài') }}">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <span>{{ _('Kết nối ClueOJ') }}</span>
+                </a>
+            {% endif %}
+
+            <a href="https://oj.clue.edu.vn/problem/{{ problem.clue_code or problem.code }}" target="_blank" rel="noopener" class="vjudge-btn-tool" title="{{ _('Mở trang gốc trên ClueOJ') }}">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                <span>ClueOJ ↗</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Statement Body Container -->
+    <div class="vjudge-statement-container">
+        {% if clue_pdf_url %}
+            <!-- Dedicated PDF Toolbar & Viewer Card -->
+            <div class="clue-pdf-wrapper">
+                <div class="clue-pdf-toolbar">
+                    <div class="clue-pdf-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        <span>{{ _('Tài liệu đề bài (PDF gốc)') }}</span>
+                    </div>
+                    <div class="clue-pdf-actions">
+                        <a href="{{ clue_pdf_url }}" target="_blank" rel="noopener" class="vjudge-btn-tool">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                            <span>{{ _('Mở PDF tab mới ↗') }}</span>
+                        </a>
+                        <a href="{{ clue_pdf_url }}" download class="vjudge-btn-tool" style="background: rgba(34, 197, 94, 0.15) !important; border-color: rgba(34, 197, 94, 0.35) !important; color: #4ade80 !important;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            <span>{{ _('Tải PDF ↓') }}</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="clue-pdf-embed-box">
+                    <iframe src="{{ clue_pdf_url }}#toolbar=1&navpanes=0" class="clue-pdf-frame" width="100%" height="820"></iframe>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Rendered Text / Math Description (Pure Clean HTML from ClueOJ) -->
+        <div id="vjudge-statement-content" class="vjudge-rendered-body content-description">
+            {{ clue_statement_html|safe }}
+        </div>
+    </div>
+
+    <!-- Footer Notice -->
+    <div class="vjudge-footer-notice">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+        <span>
+            {{ _('Đề bài được đồng bộ từ Clue Online Judge (oj.clue.edu.vn). Bài nộp sẽ được chấm từ xa qua tài khoản ClueOJ cá nhân của bạn.') }}
+        </span>
+    </div>
+</div>
+
+<style>
+    .vjudge-statement-wrapper {
+        width: 100%;
+        margin-bottom: 24px;
+        box-sizing: border-box;
+    }
+    .vjudge-top-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: #0d1526 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 14px 14px 0 0 !important;
+        padding: 12px 20px !important;
+        box-sizing: border-box;
+    }
+    .vjudge-top-left, .vjudge-top-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+    .vjudge-source-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(14, 165, 233, 0.18) !important;
+        color: #38bdf8 !important;
+        border: 1px solid rgba(14, 165, 233, 0.35) !important;
+        border-radius: 9999px !important;
+        padding: 5px 14px !important;
+        font-size: 13px !important;
+        font-weight: 700 !important;
+        letter-spacing: 0.3px;
+    }
+    .vjudge-active-banner {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.05) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important;
+        padding: 5px 12px !important;
+    }
+    .vjudge-account-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 13px;
+        font-weight: 700;
+        padding: 6px 14px;
+        border-radius: 8px;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+    }
+    .chip-connected {
+        background: rgba(34, 197, 94, 0.18) !important;
+        color: #4ade80 !important;
+        border: 1px solid rgba(34, 197, 94, 0.35) !important;
+    }
+    .chip-disconnected {
+        background: rgba(239, 68, 68, 0.18) !important;
+        color: #f87171 !important;
+        border: 1px solid rgba(239, 68, 68, 0.35) !important;
+    }
+    .vjudge-btn-tool {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        color: #cbd5e1 !important;
+        padding: 6px 14px !important;
+        border-radius: 8px !important;
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        transition: all 0.2s ease;
+    }
+    .vjudge-btn-tool:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #ffffff !important;
+        border-color: rgba(56, 189, 248, 0.4) !important;
+    }
+    .vjudge-statement-container {
+        width: 100%;
+        min-height: 400px;
+        background: rgba(15, 23, 42, 0.45) !important;
+        border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 28px 32px !important;
+        box-sizing: border-box;
+        overflow-x: auto;
+    }
+    .vjudge-rendered-body {
+        color: #e2e8f0;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+    .vjudge-rendered-body p {
+        margin: 0 0 14px 0 !important;
+        line-height: 1.7 !important;
+    }
+    .vjudge-rendered-body h3, .vjudge-rendered-body h4 {
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+        margin: 22px 0 12px 0 !important;
+        letter-spacing: 0.2px;
+    }
+    .vjudge-rendered-body table {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        border-radius: 10px !important;
+        overflow: hidden !important;
+        margin: 18px 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        background: rgba(15, 23, 42, 0.6) !important;
+    }
+    .vjudge-rendered-body table th {
+        background: rgba(255, 255, 255, 0.08) !important;
+        color: #38bdf8 !important;
+        font-weight: 700 !important;
+        padding: 10px 16px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+    .vjudge-rendered-body table td {
+        padding: 10px 16px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        color: #e2e8f0 !important;
+        font-size: 14.5px !important;
+    }
+    .vjudge-rendered-body table th:last-child,
+    .vjudge-rendered-body table td:last-child {
+        border-right: none !important;
+    }
+    .vjudge-rendered-body table tr:last-child td {
+        border-bottom: none !important;
+    }
+    .vjudge-rendered-body ul, .vjudge-rendered-body ol {
+        padding-left: 26px !important;
+        margin: 12px 0 16px 0 !important;
+    }
+    .vjudge-rendered-body li {
+        margin-bottom: 8px !important;
+        line-height: 1.65 !important;
+    }
+    .vjudge-rendered-body pre {
+        background: #111827 !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 10px !important;
+        padding: 14px 18px !important;
+        font-family: 'Google Sans Code', monospace !important;
+        color: #f1f5f9 !important;
+        font-size: 14px !important;
+        position: relative !important;
+        margin: 10px 0 20px 0 !important;
+        overflow-x: auto !important;
+    }
+    .sample-copy-btn {
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 6px !important;
+        color: rgba(255, 255, 255, 0.8) !important;
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        user-select: none !important;
+    }
+    .sample-copy-btn:hover {
+        background: rgba(56, 189, 248, 0.22) !important;
+        border-color: #38bdf8 !important;
+        color: #ffffff !important;
+    }
+        #clue-statement-wrapper .copy-clipboard,
+    .vjudge-rendered-body .copy-clipboard,
+    #vjudge-statement-content .copy-clipboard,
+    .copy-clipboard:has(+ pre) {
+        display: none !important;
+    }
+
+    .sample-copy-btn.copied {
+        background: rgba(34, 197, 94, 0.22) !important;
+        border-color: #4ade80 !important;
+        color: #4ade80 !important;
+    }
+    .vjudge-footer-notice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 14px;
+        padding: 10px 18px;
+        background: rgba(14, 165, 233, 0.08) !important;
+        border: 1px solid rgba(14, 165, 233, 0.2) !important;
+        border-radius: 10px;
+        font-size: 13px;
+        color: #94a3b8;
+    }
+    .clue-pdf-wrapper {
+        margin-bottom: 24px;
+        border-radius: 14px;
+        overflow: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(15, 23, 42, 0.6);
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+    }
+    .clue-pdf-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 20px;
+        background: rgba(15, 23, 42, 0.95);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .clue-pdf-title {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: #ffffff;
+    }
+    .clue-pdf-actions {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .clue-pdf-frame {
+        width: 100%;
+        height: 820px;
+        border: none;
+        background: #1e293b;
+        display: block;
+    }
+    .vjudge-rendered-body img {
+        max-width: 100% !important;
+        height: auto !important;
+        border-radius: 8px !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+        margin: 12px 0 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    }
+</style>
+
+<script>
+    function copyToClipboard(text, cb) {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(cb).catch(function() {
+                execCommandFallback(text, cb);
+            });
+        } else {
+            execCommandFallback(text, cb);
+        }
+    }
+
+    function execCommandFallback(text, cb) {
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
+        try {
+            document.execCommand('copy');
+            if (cb) cb();
+        } catch (err) {}
+        document.body.removeChild(ta);
+    }
+
+    function enhanceClueCodeBlocks() {
+        var pres = document.querySelectorAll('#vjudge-statement-content pre');
+        pres.forEach(function(pre) {
+            var prev = pre.previousElementSibling;
+            if (prev && prev.classList && prev.classList.contains('copy-clipboard')) {
+                prev.remove();
+            }
+            var inner = pre.querySelector('.copy-clipboard, .btn-clipboard');
+            if (inner) inner.remove();
+            if (pre.querySelector('.sample-copy-btn')) return;
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'sample-copy-btn';
+            btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg> <span>Copy</span>';
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                var code = pre.querySelector('code');
+                var txt = (code ? code.innerText : pre.innerText).replace(/Copy/g, '').trim();
+                copyToClipboard(txt, function() {
+                    btn.classList.add('copied');
+                    btn.querySelector('span').innerText = 'Copied!';
+                    setTimeout(function() {
+                        btn.classList.remove('copied');
+                        btn.querySelector('span').innerText = 'Copy';
+                    }, 1500);
+                });
+            });
+            pre.appendChild(btn);
+        });
+    }
+
+    function renderClueMath() {
+        if (window.MathJax) {
+            if (window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([document.getElementById('vjudge-statement-content')]).catch(function(e){});
+            } else if (window.MathJax.Hub && window.MathJax.Hub.Queue) {
+                window.MathJax.Hub.Queue(["Typeset", window.MathJax.Hub, "vjudge-statement-content"]);
+            }
+        }
+        enhanceClueCodeBlocks();
+    }
+
+    document.addEventListener('DOMContentLoaded', renderClueMath);
+    window.addEventListener('load', renderClueMath);
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+        renderClueMath();
+    }
+</script>

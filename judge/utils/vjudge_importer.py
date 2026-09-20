@@ -61,6 +61,61 @@ def fetch_vjudge_problem_info(oj: str, prob_num: str):
         return None
 
 
+def fetch_cses_problem_statement(prob_num: str) -> str:
+    """
+    Fetch problem description directly from cses.fi and convert KaTeX math into MathJax.
+    """
+    try:
+        url = f"https://cses.fi/problemset/task/{prob_num}"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            html = resp.read().decode("utf-8", errors="ignore")
+
+        m = re.search(r'<div class="md">(.*?)</div>\s*</div>', html, re.DOTALL)
+        if not m:
+            m = re.search(r'<div class="md">(.*)</div>', html, re.DOTALL)
+        if not m:
+            return ""
+
+        body = m.group(1).strip()
+        body = re.sub(r'<span class=["']math math-display["']>(.*?)</span>', r'
+
+13084\113084
+
+', body, flags=re.DOTALL)
+        body = clean_vjudge_math(body)
+        body = re.sub(r'<h1[^>]*>(.*?)</h1>', r'<div class="vjudge-section-heading">\1</div>', body)
+
+        def replace_example(match):
+            inp = match.group(1).strip()
+            out = match.group(2).strip()
+            return f'''<table class="vjudge_sample">
+<thead>
+  <tr>
+    <th>Input</th>
+    <th>Output</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><pre>{inp}</pre></td>
+    <td><pre>{out}</pre></td>
+  </tr>
+</tbody>
+</table>'''
+
+        body = re.sub(
+            r'<p>Input:</p>\s*<pre>(.*?)</pre>\s*<p>Output:</p>\s*<pre>(.*?)</pre>',
+            replace_example,
+            body,
+            flags=re.DOTALL
+        )
+        return body
+    except Exception as e:
+        logger.warning(f"fetch_cses_problem_statement error for {prob_num}: {e}")
+        return ""
+
+
 def import_vjudge_problem(
     vjudge_input: str,
     code_override: str = None,
@@ -147,6 +202,10 @@ def import_vjudge_problem(
                 stmt_content = get_vjudge_statement_content(str(best_stmt['key']))
                 if stmt_content:
                     desc = f"{desc}\n\n{stmt_content}"
+        elif oj.upper() == 'CSES':
+            cses_body = fetch_cses_problem_statement(prob_num)
+            if cses_body:
+                desc = f"{desc}\n\n{cses_body}"
     except Exception as e:
         logger.warning(f"Failed to fetch initial description for {oj}-{prob_num}: {e}")
 

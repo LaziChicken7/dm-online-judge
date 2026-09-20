@@ -3054,6 +3054,21 @@
     }
 
     /* 3. Problem Description Card */
+    .content-description:has(.vjudge-statement-wrapper) {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        margin-bottom: 0 !important;
+        overflow: visible !important;
+    }
+    .content-description:has(.vjudge-statement-wrapper):hover {
+        border-color: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
     .content-description {
         background: rgba(255, 255, 255, 0.03) !important;
         border: 1px solid rgba(255, 255, 255, 0.05) !important;
@@ -3112,7 +3127,14 @@
         line-height: 1.5 !important;
     }
 
-    .copy-clipboard {
+    .vjudge-rendered-body .copy-clipboard,
+#vjudge-statement-content .copy-clipboard,
+.vjudge-statement-wrapper .copy-clipboard,
+.vjudge_sample pre .copy-clipboard {
+    display: none !important;
+}
+
+.copy-clipboard {
         float: right !important;
         margin-bottom: -32px !important;
         position: relative !important;
@@ -3915,16 +3937,30 @@
 
 
     /* Problem ID and Title typography */
+    #problem-table td.problem-id,
+    #problem-table th.problem-id {
+        text-transform: uppercase !important;
+        width: 145px !important;
+        min-width: 135px !important;
+        max-width: 160px !important;
+        box-sizing: border-box !important;
+    }
     #problem-table td.problem-id {
         font-family: 'Google Sans Code', monospace !important;
-        font-size: 14.5px !important;
-        font-weight: 400 !important;
-        letter-spacing: 0.5px !important;
+        font-size: 13.5px !important;
+        font-weight: 500 !important;
+        letter-spacing: 0.3px !important;
         color: rgba(255, 255, 255, 0.72) !important;
+        padding: 10px 14px !important;
+        word-break: break-word !important;
+        overflow-wrap: anywhere !important;
+        white-space: normal !important;
+        line-height: 1.35 !important;
     }
     #problem-table th.problem-id {
         font-family: 'Google Sans Code', monospace !important;
         letter-spacing: 1px !important;
+        padding: 16px 14px !important;
     }
     #problem-table td.problem a {
         font-weight: 400 !important;

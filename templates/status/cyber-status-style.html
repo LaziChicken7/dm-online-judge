@@ -1,0 +1,395 @@
+<style>
+    /* =========================================================
+       CYBER GLASSMORPHISM THEME FOR STATUS, RUNTIMES & MATRIX
+       ========================================================= */
+
+    /* Container Wrappers - Align width 100% with Workspace Card */
+    .status-page-wrapper,
+    .status-matrix-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 0 50px 0 !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Live Header / Stats Strip */
+    .status-stats-strip {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+    }
+    .stat-metric-card {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.07) !important;
+        border-radius: 16px !important;
+        backdrop-filter: blur(12px) !important;
+        padding: 16px 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 14px !important;
+        transition: all 0.25s ease !important;
+        box-sizing: border-box;
+    }
+    .stat-metric-card:hover {
+        border-color: rgba(56, 189, 248, 0.35) !important;
+        background: rgba(255, 255, 255, 0.05) !important;
+        transform: translateY(-2px);
+    }
+    .stat-icon-wrap {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+    }
+    .stat-icon-wrap.cyan { background: rgba(56, 189, 248, 0.15); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.3); }
+    .stat-icon-wrap.green { background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); }
+    .stat-icon-wrap.purple { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+    .stat-icon-wrap.amber { background: rgba(245, 158, 11, 0.15); color: #fbbf24; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+    .stat-metric-info {
+        display: flex;
+        flex-direction: column;
+    }
+    .stat-metric-label {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: #94a3b8;
+    }
+    .stat-metric-value {
+        font-size: 19px;
+        font-weight: 800;
+        color: #ffffff;
+        margin-top: 2px;
+        font-family: 'Google Sans Code', monospace;
+    }
+
+    /* Table Container Card */
+    .status-table-card {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.07) !important;
+        border-radius: 20px !important;
+        backdrop-filter: blur(16px) !important;
+        padding: 24px 28px !important;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+        overflow-x: auto !important;
+        box-sizing: border-box !important;
+        margin-bottom: 24px !important;
+    }
+
+    /* Cyber Tables */
+    .cyber-table {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 8px !important;
+        background: transparent !important;
+        border: none !important;
+        margin: 0 !important;
+    }
+    .cyber-table thead th {
+        background: transparent !important;
+        color: #94a3b8 !important;
+        font-family: 'Google Sans Code', monospace !important;
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 1.2px !important;
+        padding: 10px 18px !important;
+        border: none !important;
+        vertical-align: middle !important;
+        text-align: left !important;
+        white-space: nowrap !important;
+    }
+    .cyber-table thead th svg {
+        vertical-align: middle;
+        margin-right: 6px;
+        color: #38bdf8;
+    }
+    .cyber-table tbody tr {
+        background: rgba(15, 23, 42, 0.65) !important;
+        border-radius: 12px !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
+    }
+    .cyber-table tbody tr:hover {
+        background: rgba(15, 23, 42, 0.9) !important;
+        transform: translateY(-1.5px) !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), 0 0 15px rgba(56, 189, 248, 0.12) !important;
+    }
+    .cyber-table tbody td {
+        padding: 14px 18px !important;
+        color: #e2e8f0 !important;
+        font-size: 14px !important;
+        border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        vertical-align: middle !important;
+        background: transparent !important;
+    }
+    .cyber-table tbody tr td:first-child {
+        border-left: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-top-left-radius: 12px !important;
+        border-bottom-left-radius: 12px !important;
+    }
+    .cyber-table tbody tr td:last-child {
+        border-right: 1px solid rgba(255, 255, 255, 0.05) !important;
+        border-top-right-radius: 12px !important;
+        border-bottom-right-radius: 12px !important;
+    }
+
+    /* Judge Name Badge */
+    .judge-name-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 700;
+        font-size: 14.5px;
+    }
+    .judge-name-wrap a {
+        color: #38bdf8 !important;
+        text-decoration: none !important;
+    }
+    .judge-name-wrap a:hover {
+        color: #7dd3fc !important;
+        text-decoration: underline !important;
+    }
+
+    /* Online / Offline Badges */
+    .badge-status-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        padding: 4px 12px;
+        border-radius: 9999px;
+        font-size: 12.5px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+        white-space: nowrap;
+    }
+    .badge-status-pill.online {
+        background: rgba(34, 197, 94, 0.15);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .badge-status-pill.offline {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .pulse-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background-color: #4ade80;
+        box-shadow: 0 0 8px #4ade80;
+        animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+        0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.7); }
+        70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(74, 222, 128, 0); }
+        100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(74, 222, 128, 0); }
+    }
+
+    /* Metric Pills (Ping, Load, Uptime) */
+    .metric-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        font-family: 'Google Sans Code', monospace;
+        font-size: 13px;
+        color: #cbd5e1;
+        white-space: nowrap;
+    }
+    .metric-pill svg {
+        color: #94a3b8;
+    }
+    .metric-pill.good {
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.3);
+        background: rgba(56, 189, 248, 0.08);
+    }
+
+    /* Runtimes Tag Cloud in Table */
+    .runtimes-tag-cloud {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+        align-items: center;
+        max-width: 580px;
+    }
+    .runtime-badge {
+        display: inline-block !important;
+        background: rgba(56, 189, 248, 0.1) !important;
+        border: 1px solid rgba(56, 189, 248, 0.25) !important;
+        color: #38bdf8 !important;
+        border-radius: 6px !important;
+        padding: 2px 7px !important;
+        font-size: 11.5px !important;
+        font-weight: 600 !important;
+        font-family: 'Google Sans Code', monospace !important;
+        text-decoration: none !important;
+        transition: all 0.15s ease !important;
+        white-space: nowrap;
+    }
+    .runtime-badge:hover {
+        background: rgba(56, 189, 248, 0.25) !important;
+        color: #ffffff !important;
+        border-color: #38bdf8 !important;
+        transform: translateY(-1px);
+    }
+
+    /* Language ID Code Badge */
+    .lang-code-pill {
+        display: inline-flex;
+        align-items: center;
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.35);
+        color: #38bdf8;
+        border-radius: 8px;
+        padding: 3px 10px;
+        font-size: 13px;
+        font-weight: 700;
+        font-family: 'Google Sans Code', monospace;
+    }
+
+    /* Language Name & Description */
+    .lang-name-title {
+        font-weight: 700;
+        color: #ffffff;
+        font-size: 15px;
+    }
+    .runtime-terminal-box {
+        background: #060913 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important;
+        padding: 8px 12px !important;
+        margin: 4px 0 !important;
+        display: inline-block !important;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+    .runtime-terminal-box code {
+        color: #38bdf8 !important;
+        font-family: 'Google Sans Code', monospace !important;
+        font-size: 12.5px !important;
+        background: transparent !important;
+        padding: 0 !important;
+    }
+    .lang-description-box {
+        margin-top: 8px;
+        padding: 10px 14px;
+        background: rgba(255, 255, 255, 0.02);
+        border-left: 3px solid #38bdf8;
+        border-radius: 0 8px 8px 0;
+        font-size: 13.5px;
+        line-height: 1.55;
+        color: #94a3b8;
+    }
+
+    /* Matrix Version Table */
+    .matrix-legend-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 20px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 14px;
+        margin-bottom: 20px;
+        flex-wrap: wrap;
+    }
+    .legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: #cbd5e1;
+        font-weight: 500;
+    }
+    .version-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        font-family: 'Google Sans Code', monospace;
+        white-space: nowrap;
+    }
+    .version-pill.latest {
+        background: rgba(34, 197, 94, 0.15);
+        color: #4ade80;
+        border: 1px solid rgba(34, 197, 94, 0.35);
+    }
+    .version-pill.outdated {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.35);
+    }
+    .version-pill.blank {
+        color: #475569;
+        font-size: 15px;
+        padding: 2px 8px;
+    }
+        /* Matrix Version Table Redesign */
+    #judge-versions tr,
+    #judge-versions thead tr,
+    #judge-versions thead th,
+    #judge-versions tbody tr,
+    #judge-versions tbody tr:first-child {
+        position: static !important;
+        top: auto !important;
+    }
+    .cyber-matrix-table {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 8px !important;
+    }
+    .cyber-matrix-table th.matrix-lang-th,
+    .cyber-matrix-table td.matrix-lang-th {
+        width: 280px !important;
+        min-width: 220px !important;
+        max-width: 320px !important;
+        background: transparent !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        text-align: left !important;
+        padding-left: 22px !important;
+        font-weight: 700;
+        color: #ffffff !important;
+    }
+    .cyber-matrix-table th.matrix-judge-th {
+        text-align: center !important;
+        padding: 10px 16px !important;
+    }
+    .judge-header-wrap {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #38bdf8;
+        font-size: 12.5px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+    .cyber-matrix-table td.matrix-judge-td {
+        text-align: center !important;
+        vertical-align: middle !important;
+        padding: 10px 16px !important;
+    }
+    .matrix-versions-flex {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+</style>

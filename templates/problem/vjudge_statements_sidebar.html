@@ -46,8 +46,8 @@
                 </div>
             {% endfor %}
         {% else %}
-            <!-- Fallback Static Items if not yet fetched -->
-            <div class="vjudge-statement-item active" onclick="selectVJudgeStatement(this, '284600385919671', 'English', 'System')">
+            <!-- Default database statement item -->
+            <div class="vjudge-statement-item active" onclick="selectDefaultStatement(this)">
                 <div class="vjudge-stmt-top">
                     <div class="vjudge-stmt-icon system-icon">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="#fbbf24"><circle cx="12" cy="12" r="10" fill="#fbbf24"/><path d="M7 10c0-1.5 1-2 2.5-2s2.5.5 2.5 2h-5z" fill="#1e293b"/><path d="M12 10c0-1.5 1-2 2.5-2s2.5.5 2.5 2h-5z" fill="#1e293b"/><line x1="11.5" y1="10" x2="12.5" y2="10" stroke="#1e293b" stroke-width="2"/><path d="M8 15.5c1 1.5 3 2 4 2s3-.5 4-2" stroke="#1e293b" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
@@ -56,26 +56,10 @@
                         <div class="vjudge-stmt-author-line">
                             <span class="vjudge-stmt-name">System</span>
                             <span class="vjudge-badge badge-official">Official</span>
-                            <span class="vjudge-badge badge-lang">English</span>
+                            <span class="vjudge-badge badge-lang">{{ _('Default') }}</span>
                         </div>
                         <div class="vjudge-stmt-bottom-line">
-                            <span class="vjudge-stmt-date">2026-09-18</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="vjudge-statement-item" onclick="selectVJudgeStatement(this, '377415467069679', 'Tiếng Việt', 'GPT')">
-                <div class="vjudge-stmt-top">
-                    <div class="vjudge-stmt-icon openai-icon">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a10 10 0 0 0-10 10c0 1.8.5 3.5 1.4 5L2 22l5.2-1.4A9.9 9.9 0 0 0 12 22a10 10 0 0 0 10-10A10 10 0 0 0 12 2zm0 3c1.5 0 2.8.5 3.9 1.4L12 11.3l-3.9-4.9A6.9 6.9 0 0 1 12 5z"></path></svg>
-                    </div>
-                    <div class="vjudge-stmt-meta">
-                        <div class="vjudge-stmt-author-line">
-                            <span class="vjudge-stmt-name">GPT</span>
-                            <span class="vjudge-badge badge-lang" style="background: rgba(239, 68, 68, 0.2); color: #fca5a5; border: 1px solid rgba(239,68,68,0.35);">Tiếng Việt</span>
-                        </div>
-                        <div class="vjudge-stmt-bottom-line">
-                            <span class="vjudge-stmt-date">2023-12-02</span>
+                            <span class="vjudge-stmt-date">{{ problem.date.strftime('%Y-%m-%d') if problem.date else '' }}</span>
                         </div>
                     </div>
                 </div>
@@ -207,6 +191,30 @@
 </style>
 
 <script>
+    function selectDefaultStatement(element) {
+        document.querySelectorAll('.vjudge-statement-item').forEach(function(el) {
+            el.classList.remove('active');
+        });
+        if (element) {
+            element.classList.add('active');
+        }
+        var notice = document.getElementById('vjudge-active-statement-notice');
+        if (notice) {
+            notice.innerText = 'System (' + {{ _("Default")|tojson }} + ')';
+        }
+        var defaultEl = document.getElementById('vjudge-default-content-cache');
+        var content = document.getElementById('vjudge-statement-content');
+        if (defaultEl && content) {
+            content.innerHTML = defaultEl.innerHTML;
+            if (typeof renderVJudgeMath === 'function') {
+                renderVJudgeMath();
+            }
+            if (typeof enhanceSampleTables === 'function') {
+                enhanceSampleTables();
+            }
+        }
+    }
+
     function selectVJudgeStatement(element, key, lang, author) {
         document.querySelectorAll('.vjudge-statement-item').forEach(function(el) {
             el.classList.remove('active');
