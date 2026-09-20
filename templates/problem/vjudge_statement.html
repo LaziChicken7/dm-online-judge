@@ -76,7 +76,7 @@
                         <span>{% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập / Kết nối VJudge{% else %}Connect VJudge{% endif %}</span>
                     </a>
                 {% else %}
-                    <a href="{{ url('login') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
+                    <a href="{{ url('auth_login') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
                         <span>{% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập để kết nối{% else %}Log in to connect{% endif %}</span>
                     </a>
                 {% endif %}
@@ -125,7 +125,7 @@
                                 {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập / Liên kết VJudge ngay{% else %}Connect VJudge Account{% endif %}
                             </a>
                         {% else %}
-                            <a href="{{ url('login') }}?next={{ request.path }}" class="button primary">
+                            <a href="{{ url('auth_login') }}?next={{ request.path }}" class="button primary">
                                 {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập tài khoản{% else %}Log in{% endif %}
                             </a>
                         {% endif %}
