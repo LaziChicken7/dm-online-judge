@@ -408,14 +408,14 @@
         }
     
         /* ── Top Toolbar & Add Action Buttons ── */
-        .org-top-toolbar {
+        .org-page-top-toolbar {
             display: flex !important;
             align-items: center !important;
-            justify-content: space-between !important;
+            justify-content: flex-end !important;
             width: 100% !important;
             margin-bottom: 20px !important;
-            flex-wrap: wrap !important;
             gap: 12px !important;
+            box-sizing: border-box !important;
         }
         .org-toolbar-actions {
             display: inline-flex !important;
@@ -801,10 +801,9 @@
     </div>
 {% endblock %}
 
-{% block description %}
-    <div class="org-top-toolbar">
-        <div class="org-section-tag">{{ _('ORGANIZATION OVERVIEW') }}</div>
-        {% if is_member_or_admin %}
+{% block body %}
+    {% if is_member_or_admin %}
+        <div class="org-page-top-toolbar">
             <div class="org-toolbar-actions">
                 <div class="add-problem-dropdown-wrap">
                     <a href="{{ url('problem_add') }}?org={{ organization.id }}" class="add-problem-btn" title="{{ _('Add problem') }}">
@@ -864,8 +863,13 @@
                     <span>{{ _('Add contest') }}</span>
                 </a>
             </div>
-        {% endif %}
-    </div>
+        </div>
+    {% endif %}
+    {{ super() }}
+{% endblock %}
+
+{% block description %}
+    <div class="org-section-tag">{{ _('ORGANIZATION OVERVIEW') }}</div>
     <div class="org-title-row">
         <div class="org-icon-avatar">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
