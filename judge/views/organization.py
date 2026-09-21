@@ -453,6 +453,14 @@ class EditOrganization(LoginRequiredMixin, TitleMixin, OrganizationMixin, Update
     def get_title(self):
         return _('Editing %s') % self.object.name
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['can_edit'] = True
+        context['is_member_or_admin'] = True
+        context['tab'] = 'edit'
+        context['content_title'] = self.object.name
+        return context
+
     def get_object(self, queryset=None):
         object = super(EditOrganization, self).get_object()
         if not self.can_edit_organization(object):

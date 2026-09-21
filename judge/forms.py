@@ -166,9 +166,11 @@ class ProblemSubmitForm(ModelForm):
 class EditOrganizationForm(ModelForm):
     class Meta:
         model = Organization
-        fields = ['about', 'logo_override_image', 'admins']
-        widgets = {'admins': Select2MultipleWidget(attrs={'style': 'width: 200px'})}
-        widgets['about'] = MartorWidget(attrs={'data-markdownfy-url': reverse_lazy('organization_preview')})
+        fields = ['name', 'short_name', 'about', 'logo_override_image', 'admins']
+        widgets = {
+            'admins': Select2MultipleWidget(attrs={'style': 'width: 100%; max-width: 480px;'}),
+            'about': MartorWidget(attrs={'data-markdownfy-url': reverse_lazy('organization_preview')}),
+        }
 
 
 class CustomAuthenticationForm(AuthenticationForm):

@@ -1,14 +1,511 @@
-{% extends "base.html" %}
+{% extends "common-content.html" %}
 
-{% block js_media %}{{ form.media.js }}{% endblock %}
-{% block media %}{{ form.media.css }}{% endblock %}
+{% block title_ruler %}{% endblock %}
+{% block title_row %}
+    {% set tab = 'edit' %}
+    {% set content_title = organization.name %}
+    {% include "organization/organization-tabs.html" %}
+{% endblock %}
 
-{% block body %}
-    <div class="centered-form">
-        <form action="" method="post" class="form-area">
-            {% csrf_token %}
-            <table border="0" class="django-as-table">{{ form.as_table() }}</table>
-            <button class="submit-bar" type="submit">{{ _('Update') }}</button>
-        </form>
+{% block media %}
+    {{ super() }}
+    {{ form.media.css }}
+    <style>
+        /* ── Edit Organization Glass Card & Modern Form ── */
+        .edit-org-wrapper {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+        .edit-org-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            padding: 24px 28px !important;
+            box-sizing: border-box !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .edit-org-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15) !important;
+        }
+        .edit-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            padding: 3px 10px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            font-family: 'Google Sans Code', monospace;
+        }
+        .edit-title {
+            font-size: 24px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            letter-spacing: -0.01em !important;
+            margin: 0 0 6px 0 !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        .edit-subtitle {
+            font-size: 14px;
+            color: #94a3b8;
+            margin: 0 0 24px 0;
+            line-height: 1.5;
+        }
+
+        /* ── Form Section Headings ── */
+        .form-section-title {
+            color: #38bdf8 !important;
+            font-size: 16px !important;
+            font-weight: 700 !important;
+            margin: 28px 0 16px 0 !important;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+            padding-bottom: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        /* ── Form Rows & Controls ── */
+        .edit-form-row {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .edit-form-label {
+            flex: 0 0 200px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+            padding-top: 8px;
+        }
+        .edit-form-label .req-star {
+            color: #f87171;
+            margin-left: 3px;
+        }
+        .edit-form-control {
+            flex: 1 1 300px;
+            min-width: 0;
+        }
+        .form-input-cyber {
+            width: 100% !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 14px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+            outline: none !important;
+        }
+        .form-input-cyber:focus {
+            border-color: #38bdf8 !important;
+            background: rgba(255, 255, 255, 0.07) !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+        }
+        .form-input-cyber.short {
+            max-width: 320px !important;
+        }
+        .form-help-text {
+            font-size: 12.5px;
+            color: #64748b;
+            margin-top: 6px;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .form-help-text svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #38bdf8;
+        }
+        .form-field-error {
+            color: #f87171;
+            font-size: 12.5px;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+
+        /* Error Alert Box */
+        .edit-error-alert {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            background: rgba(239, 68, 68, 0.12);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* ── Action Buttons Bar ── */
+        .edit-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 32px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .btn-save-org {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 11px 28px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+            font-size: 14.5px !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            letter-spacing: 0.2px !important;
+        }
+        .btn-save-org:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 22px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+        }
+        .btn-cancel-org {
+            color: #94a3b8 !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            padding: 10px 22px !important;
+            border-radius: 100px !important;
+            transition: all 0.2s ease !important;
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        }
+        .btn-cancel-org:hover {
+            color: #f1f5f9 !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* ── Sidebar Preview & Guide Cards ── */
+        .org-preview-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .org-preview-avatar {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.3), rgba(99, 102, 241, 0.2));
+            border: 2px solid rgba(56, 189, 248, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            margin-bottom: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.2);
+            overflow: hidden;
+        }
+        .org-preview-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .org-preview-name {
+            font-size: 17px;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 0 0 6px 0;
+            line-height: 1.3;
+        }
+        .org-guide-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 14px;
+            padding: 16px 18px;
+        }
+        .org-guide-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #38bdf8;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .org-guide-list {
+            margin: 0;
+            padding-left: 18px;
+            font-size: 12.5px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        .org-guide-list li {
+            margin-bottom: 6px;
+        }
+
+        /* Select2 Cyber Theme Overrides */
+        .select2-container--default .select2-selection--multiple {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            min-height: 42px !important;
+            padding: 4px 8px !important;
+        }
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background: rgba(56, 189, 248, 0.15) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
+            border-radius: 6px !important;
+            padding: 2px 8px !important;
+            font-size: 13px !important;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: #fca5a5 !important;
+            margin-right: 6px !important;
+        }
+    </style>
+{% endblock %}
+
+{% block js_media %}
+    {{ super() }}
+    {{ form.media.js }}
+    <script type="text/javascript">
+        $(function () {
+            // Live logo preview update
+            function updateLogoPreview() {
+                var url = $('#id_logo_override_image').val().trim();
+                if (url) {
+                    $('#org_preview_img').attr('src', url).show();
+                    $('#org_preview_svg').hide();
+                } else {
+                    $('#org_preview_img').hide();
+                    $('#org_preview_svg').show();
+                }
+            }
+            $('#id_logo_override_image').on('input change', updateLogoPreview);
+
+            // Live name preview update
+            $('#id_name').on('input', function() {
+                var val = $(this).val().trim();
+                $('#org_preview_name_text').text(val || '{{ organization.name }}');
+            });
+        });
+    </script>
+{% endblock %}
+
+{% block info_float %}
+    <!-- Live Preview Card -->
+    <div class="org-preview-card">
+        <div class="org-preview-avatar">
+            <img id="org_preview_img" src="{{ form.logo_override_image.value() or organization.logo_override_image }}" alt="Logo" {% if not form.logo_override_image.value() and not organization.logo_override_image %}style="display:none;"{% endif %}>
+            <svg id="org_preview_svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" {% if form.logo_override_image.value() or organization.logo_override_image %}style="display:none;"{% endif %}>
+                <path d="M3 21h18"></path>
+                <path d="M5 21V7l8-4v18"></path>
+                <path d="M19 21V11l-6-4"></path>
+                <path d="M9 9h1"></path>
+                <path d="M9 13h1"></path>
+                <path d="M9 17h1"></path>
+            </svg>
+        </div>
+        <h3 class="org-preview-name" id="org_preview_name_text">{{ organization.name }}</h3>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px;">
+            {% if organization.short_name %}
+                <span class="org-badge-code">{{ organization.short_name }}</span>
+            {% endif %}
+            {% if organization.is_open %}
+                <span class="org-status-chip open" style="font-size: 11px; padding: 2px 8px;"><i class="fa fa-unlock"></i> {{ _('Open') }}</span>
+            {% else %}
+                <span class="org-status-chip closed" style="font-size: 11px; padding: 2px 8px;"><i class="fa fa-lock"></i> {{ _('Approval Required') }}</span>
+            {% endif %}
+        </div>
+        <div style="width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 10px; font-size: 12.5px; color: #94a3b8; display: flex; justify-content: space-between;">
+            <span>{{ _('Members:') }} <strong>{{ organization.members.count() }}</strong></span>
+            <span>{{ _('ID:') }} <strong>#{{ organization.id }}</strong></span>
+        </div>
+    </div>
+
+    <!-- Help & Guidelines Card -->
+    <div class="org-guide-card">
+        <div class="org-guide-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>{{ _('Hướng dẫn quản trị') }}</span>
+        </div>
+        <ul class="org-guide-list">
+            <li><strong>{{ _('Logo tổ chức:') }}</strong> {{ _('Khuyến nghị hình vuông (tối thiểu 128x128px), định dạng PNG trong suốt hoặc SVG để hiển thị đẹp nhất.') }}</li>
+            <li><strong>{{ _('Ban quản trị:') }}</strong> {{ _('Chỉ những người dùng đã tham gia tổ chức mới có thể được chọn làm quản trị viên.') }}</li>
+            <li><strong>{{ _('Quyền hạn:') }}</strong> {{ _('Quản trị viên có quyền thêm bài tập, tạo kỳ thi nội bộ và quản lý yêu cầu tham gia.') }}</li>
+            <li><strong>{{ _('Mô tả:') }}</strong> {{ _('Hỗ trợ đầy đủ cú pháp Markdown và công thức toán LaTeX ($...$).') }}</li>
+        </ul>
     </div>
 {% endblock %}
+
+{% block description %}
+    <div class="edit-org-wrapper">
+        <div class="edit-org-card">
+            <div class="edit-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>WORKSPACE / ORGANIZATION SETTINGS</span>
+            </div>
+            <h1 class="edit-title">{{ _('Edit Organization') }}: {{ organization.name }}</h1>
+            <p class="edit-subtitle">
+                {{ _('Cập nhật thông tin chi tiết, ảnh đại diện thương hiệu, danh sách ban quản trị và bài viết giới thiệu của tổ chức.') }}
+            </p>
+
+            {% if form.errors %}
+                <div class="edit-error-alert">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <div>
+                        <strong>{{ _('Lỗi khi lưu thông tin:') }}</strong>
+                        {% for field, errors in form.errors.items() %}
+                            {{ field }}: {{ errors|join(', ') }} 
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            <form action="" method="post" id="edit-organization-form">
+                {% csrf_token %}
+
+                <!-- Section 1: Basic Info -->
+                <div class="form-section-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path><path d="M9 9h1"></path><path d="M9 13h1"></path><path d="M9 17h1"></path></svg>
+                    <span>1. {{ _('Thông tin cơ bản (Basic Info)') }}</span>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_name">{{ _('Tên tổ chức (Name)') }} <span class="req-star">*</span></label>
+                    </div>
+                    <div class="edit-form-control">
+                        <input type="text" name="name" id="id_name" class="form-input-cyber" value="{{ form.name.value() or '' }}" required placeholder="Ví dụ: Câu lạc bộ Tin học CSAT">
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Tên đầy đủ của tổ chức hiển thị trên tiêu đề và bảng thông tin.') }}</span>
+                        </div>
+                        {% if form.name.errors %}
+                            <div class="form-field-error">{{ form.name.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_short_name">{{ _('Tên viết tắt (Short Name)') }}</label>
+                    </div>
+                    <div class="edit-form-control">
+                        <input type="text" name="short_name" id="id_short_name" class="form-input-cyber short" value="{{ form.short_name.value() or '' }}" placeholder="Ví dụ: CSAT">
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Tên ngắn hiển thị dưới dạng huy hiệu bên cạnh tên thành viên trong kỳ thi (tối đa 20 ký tự).') }}</span>
+                        </div>
+                        {% if form.short_name.errors %}
+                            <div class="form-field-error">{{ form.short_name.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Section 2: Branding -->
+                <div class="form-section-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                    <span>2. {{ _('Hình ảnh & Thương hiệu (Branding & Logo)') }}</span>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_logo_override_image">{{ _('Đường dẫn ảnh Logo (URL)') }}</label>
+                    </div>
+                    <div class="edit-form-control">
+                        <input type="text" name="logo_override_image" id="id_logo_override_image" class="form-input-cyber" value="{{ form.logo_override_image.value() or '' }}" placeholder="https://example.com/logo.png hoặc /static/logo.png">
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Hình ảnh này sẽ thay thế logo mặc định của trang web khi người dùng xem tổ chức hoặc làm bài trong tổ chức.') }}</span>
+                        </div>
+                        {% if form.logo_override_image.errors %}
+                            <div class="form-field-error">{{ form.logo_override_image.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Section 3: Administrators -->
+                <div class="form-section-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>3. {{ _('Ban quản trị (Administrators)') }}</span>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_admins">{{ _('Quản trị viên') }} <span class="req-star">*</span></label>
+                    </div>
+                    <div class="edit-form-control">
+                        {{ form.admins }}
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Những thành viên được phân quyền quản trị tổ chức, có thể thêm bài tập, tạo kỳ thi và quản lý thành viên.') }}</span>
+                        </div>
+                        {% if form.admins.errors %}
+                            <div class="form-field-error">{{ form.admins.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Section 4: About / Description -->
+                <div class="form-section-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                    <span>4. {{ _('Mô tả & Giới thiệu (About & Description)') }}</span>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-control" style="flex: 1 1 100%;">
+                        {{ form.about }}
+                        <div class="form-help-text" style="margin-top: 10px;">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Bài viết giới thiệu chi tiết về tổ chức, nội quy, lịch sinh hoạt. Hỗ trợ định dạng Markdown và công thức LaTeX.') }}</span>
+                        </div>
+                        {% if form.about.errors %}
+                            <div class="form-field-error">{{ form.about.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Actions Bar -->
+                <div class="edit-actions-bar">
+                    <button type="submit" class="btn-save-org">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>{{ _('Lưu thay đổi') }}</span>
+                    </button>
+                    <a href="{{ organization.get_absolute_url() }}" class="btn-cancel-org">
+                        {{ _('Hủy') }}
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block description_end %}{% endblock %}
