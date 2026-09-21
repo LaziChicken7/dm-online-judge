@@ -119,6 +119,7 @@ urlpatterns = [
 
     path('problem/<str:problem>', include([
         path('', problem.ProblemDetail.as_view(), name='problem_detail'),
+        path('/edit', problem.ProblemEditView.as_view(), name='problem_edit'),
         path('/vjudge-statement', problem.VJudgeStatementAjaxView.as_view(), name='problem_vjudge_statement_ajax'),
         path('/editorial', problem.ProblemSolution.as_view(), name='problem_editorial'),
         path('/pdf', problem.ProblemPdfView.as_view(), name='problem_pdf'),

@@ -1225,6 +1225,266 @@ class ProblemCreateView(TitleMixin, View):
         return HttpResponseRedirect(reverse('problem_detail', args=[clean_code]))
 
 
+class ProblemEditForm(forms.ModelForm):
+    batch_type = forms.ChoiceField(
+        choices=[("Sum", "Sum"), ("Average", "Average"), ("Points", "Points")],
+        initial="Sum",
+        required=False,
+    )
+    statement_file = forms.FileField(required=False)
+    mirror_from = forms.ChoiceField(required=False)
+    private_users = forms.CharField(required=False)
+
+    # Editorial / Solution fields
+    solution_is_public = forms.BooleanField(required=False)
+    solution_publish_on = forms.DateTimeField(required=False)
+    solution_authors = forms.CharField(required=False)
+    solution_content = forms.CharField(
+        required=False,
+        widget=MartorWidget(attrs={"data-markdownfy-url": reverse_lazy("solution_preview")})
+    )
+
+    class Meta:
+        model = Problem
+        fields = [
+            "is_public", "code", "name", "time_limit", "memory_limit",
+            "points", "partial", "summary", "types", "group",
+            "submission_source_visibility_mode", "description",
+        ]
+        widgets = {
+            "description": MartorWidget(attrs={"data-markdownfy-url": reverse_lazy("problem_preview")}),
+            "types": Select2MultipleWidget(attrs={"style": "width: 100%;"}),
+            "group": Select2Widget(attrs={"style": "max-width: 380px; width: 100%;"}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        existing = [('', '---------')] + [
+            (p[0], f"{p[0]} - {p[1]}") for p in Problem.objects.values_list('code', 'name').order_by('code')
+        ]
+        self.fields['mirror_from'].choices = existing
+        if self.instance and self.instance.pk:
+            self.fields['private_users'].initial = ', '.join(
+                self.instance.testers.values_list('user__username', flat=True)
+            )
+            if hasattr(self.instance, 'solution') and self.instance.solution:
+                sol = self.instance.solution
+                self.fields['solution_is_public'].initial = sol.is_public
+                self.fields['solution_publish_on'].initial = sol.publish_on
+                self.fields['solution_authors'].initial = ', '.join(
+                    sol.authors.values_list('user__username', flat=True)
+                )
+                self.fields['solution_content'].initial = sol.content
+
+
+class ProblemEditView(TitleMixin, View):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('auth_login') + '?next=' + request.path)
+        self.problem = self.get_problem(kwargs.get('problem'))
+        if not self.problem.is_editable_by(request.user):
+            raise PermissionDenied()
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_title(self):
+        return _("Editing %s") % (self.problem.name if hasattr(self, 'problem') and self.problem else "")
+
+    def get_problem(self, problem_key):
+        if str(problem_key).isdigit():
+            prob = Problem.objects.filter(id=int(problem_key)).first()
+            if prob:
+                return prob
+        prob = Problem.objects.filter(code=problem_key).first()
+        if prob:
+            return prob
+        raise Http404()
+
+    def get(self, request, problem):
+        form = ProblemEditForm(instance=self.problem)
+        all_types = ProblemType.objects.all().order_by('name')
+        all_groups = ProblemGroup.objects.all().order_by('name')
+        existing_problems = Problem.objects.values_list('code', 'name').order_by('code')
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
+        selected_org = self.problem.organizations.first() if self.problem.is_organization_private else None
+
+        return render(request, "problem/edit.html", {
+            "title": self.get_title(),
+            "problem": self.problem,
+            "form": form,
+            "all_types": all_types,
+            "all_groups": all_groups,
+            "existing_problems": existing_problems,
+            "user_orgs": user_orgs,
+            "selected_org": selected_org,
+            "has_solution": hasattr(self.problem, 'solution') and self.problem.solution is not None,
+        })
+
+    def post(self, request, problem):
+        if request.POST.get('action') == 'delete' or request.POST.get('delete_problem'):
+            if request.user.is_staff or request.user.is_superuser:
+                self.problem.delete()
+                return HttpResponseRedirect(reverse('problem_list'))
+            else:
+                raise PermissionDenied()
+
+        form = ProblemEditForm(request.POST, request.FILES, instance=self.problem)
+        all_types = ProblemType.objects.all().order_by('name')
+        all_groups = ProblemGroup.objects.all().order_by('name')
+        existing_problems = Problem.objects.values_list('code', 'name').order_by('code')
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
+        selected_org = self.problem.organizations.first() if self.problem.is_organization_private else None
+
+        if not form.is_valid():
+            err_msg = ""
+            for field, errors in form.errors.items():
+                err_msg += f"{field}: {', '.join(errors)} "
+            return render(request, "problem/edit.html", {
+                "title": self.get_title(),
+                "problem": self.problem,
+                "form": form,
+                "all_types": all_types,
+                "all_groups": all_groups,
+                "existing_problems": existing_problems,
+                "user_orgs": user_orgs,
+                "selected_org": selected_org,
+                "error": err_msg or _("Dữ liệu nhập vào chưa hợp lệ."),
+                "has_solution": hasattr(self.problem, 'solution') and self.problem.solution is not None,
+            })
+
+        raw_code = form.cleaned_data.get('code', '').strip()
+        clean_code = re.sub(r'[^a-zA-Z0-9_]', '', raw_code).lower()
+        if not clean_code:
+            return render(request, "problem/edit.html", {
+                "title": self.get_title(),
+                "problem": self.problem,
+                "form": form,
+                "error": _("Mã bài tập không hợp lệ. Vui lòng chỉ sử dụng chữ cái, chữ số và dấu gạch dưới."),
+                "all_types": all_types,
+                "all_groups": all_groups,
+                "existing_problems": existing_problems,
+                "user_orgs": user_orgs,
+                "selected_org": selected_org,
+                "has_solution": hasattr(self.problem, 'solution') and self.problem.solution is not None,
+            })
+
+        old_code = self.problem.code
+        if clean_code != old_code and Problem.objects.filter(code=clean_code).exclude(pk=self.problem.pk).exists():
+            return render(request, "problem/edit.html", {
+                "title": self.get_title(),
+                "problem": self.problem,
+                "form": form,
+                "error": _(f"Mã bài tập '{clean_code}' đã tồn tại. Vui lòng chọn mã khác."),
+                "all_types": all_types,
+                "all_groups": all_groups,
+                "existing_problems": existing_problems,
+                "user_orgs": user_orgs,
+                "selected_org": selected_org,
+                "has_solution": hasattr(self.problem, 'solution') and self.problem.solution is not None,
+            })
+
+        with revisions.create_revision(atomic=True):
+            problem_obj = form.save(commit=False)
+            problem_obj.code = clean_code
+
+            # Organization handling
+            org_id = request.POST.get('organization_id')
+            if org_id:
+                try:
+                    from judge.models import Organization
+                    target_org = Organization.objects.get(id=org_id)
+                    problem_obj.is_organization_private = True
+                    problem_obj.is_public = True
+                    problem_obj.save()
+                    problem_obj.organizations.set([target_org])
+                except (Organization.DoesNotExist, ValueError):
+                    problem_obj.save()
+            else:
+                if 'organization_id' in request.POST:
+                    problem_obj.is_organization_private = False
+                    problem_obj.save()
+                    problem_obj.organizations.clear()
+                else:
+                    problem_obj.save()
+
+            form.save_m2m()
+
+            # Handle private users (testers)
+            private_users_str = form.cleaned_data.get('private_users', '').strip()
+            if private_users_str:
+                unames = [u.strip() for u in re.split(r'[,;\s]+', private_users_str) if u.strip()]
+                problem_obj.testers.set(Profile.objects.filter(user__username__in=unames))
+            else:
+                problem_obj.testers.clear()
+
+            # Handle editorial (Solution)
+            solution_content = form.cleaned_data.get('solution_content', '').strip()
+            if solution_content:
+                sol, created = Solution.objects.get_or_create(
+                    problem=problem_obj,
+                    defaults={'publish_on': timezone.now()}
+                )
+                sol.content = solution_content
+                sol.is_public = form.cleaned_data.get('solution_is_public', False)
+                sol_date = form.cleaned_data.get('solution_publish_on')
+                if sol_date:
+                    sol.publish_on = sol_date
+                elif not sol.publish_on:
+                    sol.publish_on = timezone.now()
+                sol.save()
+
+                sol_authors_str = form.cleaned_data.get('solution_authors', '').strip()
+                if sol_authors_str:
+                    a_unames = [u.strip() for u in re.split(r'[,;\s]+', sol_authors_str) if u.strip()]
+                    sol.authors.set(Profile.objects.filter(user__username__in=a_unames))
+                elif hasattr(request, 'profile'):
+                    sol.authors.set([request.profile])
+            elif hasattr(problem_obj, 'solution') and problem_obj.solution:
+                if request.POST.get('delete_solution'):
+                    problem_obj.solution.delete()
+
+            revisions.set_user(request.user)
+            revisions.set_comment("Edited problem via web edit form")
+
+        # Rename data directories if code changed
+        if clean_code != old_code:
+            for base_dir in ['/home/dmoj/site/data', '/home/dmoj/problems']:
+                old_path = os.path.join(base_dir, old_code)
+                new_path = os.path.join(base_dir, clean_code)
+                if os.path.exists(old_path) and not os.path.exists(new_path):
+                    try:
+                        os.rename(old_path, new_path)
+                    except Exception:
+                        pass
+
+        # Handle statement file upload
+        data_dir = f"/home/dmoj/site/data/{clean_code}"
+        os.makedirs(data_dir, exist_ok=True)
+
+        statement_file = request.FILES.get('statement_file')
+        if statement_file:
+            ext = os.path.splitext(statement_file.name)[1].lower()
+            target_path = os.path.join(data_dir, f"statement{ext}")
+            with open(target_path, "wb") as f:
+                for chunk in statement_file.chunks():
+                    f.write(chunk)
+
+        # Handle mirror test data
+        mirror_from = form.cleaned_data.get('mirror_from')
+        if mirror_from and Problem.objects.filter(code=mirror_from).exists():
+            source_dir = f"/home/dmoj/site/data/{mirror_from}"
+            if os.path.exists(source_dir):
+                for item in os.listdir(source_dir):
+                    s = os.path.join(source_dir, item)
+                    d = os.path.join(data_dir, item)
+                    if not os.path.exists(d):
+                        if os.path.isdir(s):
+                            shutil.copytree(s, d)
+                        else:
+                            shutil.copy2(s, d)
+
+        return HttpResponseRedirect(reverse('problem_detail', args=[clean_code]))
+
+
 class ImportPolygonView(TitleMixin, View):
     title = gettext_lazy("Import Problem from Polygon")
 

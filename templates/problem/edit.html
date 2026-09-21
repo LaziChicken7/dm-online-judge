@@ -1,0 +1,1007 @@
+{% extends "base.html" %}
+
+{% block title_ruler %}{% endblock %}
+
+{% block title_row %}
+    {% set tab = 'problem_detail' %}
+    {% set content_title = _('Edit Problem') ~ ': ' ~ problem.name %}
+{% endblock %}
+
+{% block media %}
+    {{ form.media.css }}
+    <style>
+        .edit-problem-wrapper {
+            max-width: 1380px;
+            margin: 0 auto 50px auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
+        .edit-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 36px 44px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .edit-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+        }
+        .edit-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: #38bdf8 !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .edit-title {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: -0.01em !important;
+        }
+        .edit-desc {
+            color: #94a3b8 !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin-bottom: 26px !important;
+        }
+        .edit-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+            color: #fca5a5 !important;
+            font-size: 14px !important;
+            margin-bottom: 26px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2) !important;
+        }
+        .form-section-title {
+            color: #38bdf8 !important;
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            margin: 32px 0 14px 0 !important;
+            border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+            padding-bottom: 8px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+        .form-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+        }
+        .form-row:last-of-type {
+            border-bottom: none;
+        }
+        .form-label-col {
+            flex: 0 0 240px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #cbd5e1;
+            padding-top: 8px;
+        }
+        .form-label-col .req-star {
+            color: #f87171;
+            margin-left: 3px;
+        }
+        .form-control-col {
+            flex: 1 1 auto;
+            min-width: 0;
+        }
+        .form-input-cyber {
+            width: 100% !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 14px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            box-sizing: border-box !important;
+            transition: all 0.2s ease !important;
+            outline: none !important;
+        }
+        .form-input-cyber:focus {
+            border-color: #38bdf8 !important;
+            background: rgba(255, 255, 255, 0.07) !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+        }
+        .form-input-cyber.short {
+            max-width: 320px !important;
+        }
+        .form-help-text {
+            font-size: 12.5px;
+            color: #64748b;
+            margin-top: 6px;
+            line-height: 1.4;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+        }
+        .form-help-text svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+            color: #38bdf8;
+        }
+
+        /* Checkboxes */
+        .custom-checkbox-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            padding-top: 4px;
+        }
+        .custom-checkbox-wrap input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0284c7;
+            cursor: pointer;
+        }
+
+        /* Custom Selects */
+        .custom-arrow-select {
+            width: 100% !important;
+            background: rgba(255, 255, 255, 0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 14px center !important;
+            background-size: 14px !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 36px 10px 14px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            box-sizing: border-box !important;
+            appearance: none !important;
+            outline: none !important;
+            cursor: pointer !important;
+        }
+        .custom-arrow-select option {
+            background: #0f172a !important;
+            color: #ffffff !important;
+        }
+        .custom-arrow-select:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+        }
+        .custom-arrow-select.short {
+            max-width: 320px !important;
+        }
+
+        /* Select2 Theme */
+        .select2-container--default .select2-selection--multiple {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            min-height: 42px !important;
+            padding: 4px 8px !important;
+        }
+        .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background: rgba(56, 189, 248, 0.15) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
+            border-radius: 6px !important;
+            padding: 2px 8px !important;
+            font-size: 13px !important;
+        }
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+            color: #fca5a5 !important;
+            margin-right: 6px !important;
+        }
+
+        /* ── Modern Martor Markdown Editor (Exact Image #2 Styling) ── */
+        .main-martor,
+        .section-martor {
+            border: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            width: 100% !important;
+        }
+        .main-martor:focus-within {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        .section-martor .ui.attached.inverted.menu,
+        .section-martor .tab-martor-menu,
+        .tab-martor-menu,
+        .ui.tabular.menu,
+        .ui.attached.menu,
+        .ui.pointing.menu,
+        .ui.menu {
+            background: transparent !important;
+            border: none !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+            padding: 0 0 14px 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            min-height: auto !important;
+        }
+        .tab-martor-menu::after,
+        .tab-martor-menu::before,
+        .section-martor .ui.menu::after,
+        .section-martor .ui.menu::before {
+            display: none !important;
+            content: none !important;
+            border: none !important;
+            height: 0 !important;
+        }
+        .tab-martor-menu a.item {
+            color: #94a3b8 !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 8px !important;
+            padding: 7px 18px !important;
+            margin: 0 8px 0 0 !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+        }
+        .tab-martor-menu a.item:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+        .tab-martor-menu a.item.active,
+        .section-martor .tab-martor-menu a.item.active,
+        .section-martor .ui.tabular.menu .active.item {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            font-weight: 700 !important;
+            border: 1px solid rgba(56, 189, 248, 0.45) !important;
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.25) !important;
+            border-radius: 8px !important;
+        }
+        .martor-toolbar {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 0 0 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+        .martor-toolbar a,
+        .martor-toolbar button,
+        .martor-toolbar i,
+        .martor-toolbar .button {
+            color: #94a3b8 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 6px 8px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            transition: all 0.15s ease !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .martor-toolbar a:hover,
+        .martor-toolbar button:hover,
+        .martor-toolbar .button:hover,
+        .martor-toolbar i:hover {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            transform: translateY(-1px);
+        }
+        .ui.dropdown .menu {
+            background: #0f172a !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        }
+        .ui.dropdown .menu > .item {
+            color: #cbd5e1 !important;
+            font-size: 13px !important;
+            padding: 8px 14px !important;
+        }
+        .ui.dropdown .menu > .item:hover {
+            background: rgba(56, 189, 248, 0.15) !important;
+            color: #38bdf8 !important;
+        }
+        textarea.martor,
+        textarea[name="description"],
+        textarea[name="solution_content"],
+        textarea.martor-preview {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        .ace_editor textarea.ace_text-input {
+            display: block !important;
+            pointer-events: auto !important;
+            visibility: visible !important;
+            opacity: 0 !important;
+        }
+        .ui.segment.tab:not(.active),
+        .tab.segment:not(.active),
+        [data-tab^="preview-tab-"]:not(.active),
+        [data-tab^="editor-tab-"]:not(.active) {
+            display: none !important;
+        }
+        .ui.segment.tab,
+        .tab.segment[data-tab^="editor-tab-"] {
+            background: #060913 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+        .martor-field {
+            height: 380px !important;
+            min-height: 300px !important;
+            background: #060913 !important;
+            border: none !important;
+            border-radius: 14px !important;
+            position: relative !important;
+            width: 100% !important;
+        }
+        .ace_editor {
+            height: 380px !important;
+            width: 100% !important;
+            background: #060913 !important;
+            color: #f1f5f9 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 14px !important;
+            border-radius: 14px !important;
+            line-height: 1.65 !important;
+        }
+        .ace_gutter {
+            background: #060913 !important;
+            color: #475569 !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .ace_gutter-active-line {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+        }
+        .ace_cursor {
+            color: #38bdf8 !important;
+            border-left: 2px solid #38bdf8 !important;
+        }
+        .tab.segment.martor-preview {
+            background: #060913 !important;
+            color: #cbd5e1 !important;
+            min-height: 300px !important;
+            padding: 24px 28px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            font-size: 14.5px !important;
+            line-height: 1.7 !important;
+            margin: 0 !important;
+        }
+        .section-martor > hr {
+            display: none !important;
+        }
+
+        /* ── Action Buttons Bar ── */
+        .form-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            flex-wrap: wrap;
+        }
+        .btn-submit-cyber {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 12px 32px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            color: #ffffff !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            cursor: pointer !important;
+            box-shadow: 0 4px 18px rgba(2, 132, 199, 0.45) !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .btn-submit-cyber:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+        }
+        .btn-secondary-cyber {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            color: #94a3b8 !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            padding: 11px 22px !important;
+            border-radius: 100px !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            transition: all 0.2s ease !important;
+        }
+        .btn-secondary-cyber:hover {
+            color: #f1f5f9 !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+            transform: translateY(-1px) !important;
+        }
+        .btn-delete-cyber {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            color: #fca5a5 !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            padding: 11px 22px !important;
+            border-radius: 100px !important;
+            background: rgba(239, 68, 68, 0.1) !important;
+            border: 1px solid rgba(239, 68, 68, 0.25) !important;
+            transition: all 0.2s ease !important;
+            margin-left: auto !important;
+            cursor: pointer !important;
+        }
+        .btn-delete-cyber:hover {
+            color: #ffffff !important;
+            background: rgba(239, 68, 68, 0.22) !important;
+            border-color: rgba(239, 68, 68, 0.5) !important;
+            transform: translateY(-1px) !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="edit-problem-wrapper">
+    <div class="edit-card">
+        <div class="edit-tag">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+            <span>WORKSPACE / EDIT PROBLEM</span>
+        </div>
+        <h1 class="edit-title">{{ _('Edit Problem') }}: {{ problem.name }} ({{ problem.code }})</h1>
+        <p class="edit-desc">
+            {{ _('Cập nhật thông số bài tập, giới hạn thời gian, bộ nhớ, phân loại, nội dung đề bài và lời giải bài tập (Editorial).') }}
+        </p>
+
+        {% if error %}
+            <div class="edit-error-alert">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <div>
+                    <strong>{{ _('Lỗi khi cập nhật:') }}</strong> {{ error }}
+                </div>
+            </div>
+        {% endif %}
+
+        <form method="post" enctype="multipart/form-data" id="edit-problem-form" action="{{ request.path }}">
+            {% csrf_token %}
+
+            <!-- Section 1: Basic Information (Matching Image #1) -->
+            <div class="form-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path><path d="M9 9h1"></path><path d="M9 13h1"></path><path d="M9 17h1"></path></svg>
+                <span>1. {{ _('Thông tin cơ bản (Basic Information)') }}</span>
+            </div>
+
+            <!-- Organization Selector / Badge -->
+            {% if selected_org %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label>{{ _('Tổ chức (Organization):') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
+                        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-weight: 700; font-size: 14px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
+                            <span>{{ selected_org.name }} (#{{ selected_org.id }})</span>
+                        </div>
+                        <div class="form-help-text" style="color: #38bdf8; margin-top: 6px;">
+                            <i class="fa fa-lock" style="margin-right: 4px;"></i>
+                            <span>{{ _('Bài tập này được giới hạn RIÊNG TƯ cho tổ chức. Chỉ người trong tổ chức mới xem được.') }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% elif user_orgs %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label for="id_organization_id">{{ _('Tổ chức (Organization):') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <select name="organization_id" id="id_organization_id" class="form-input-cyber" style="max-width: 380px;">
+                            <option value="">-- {{ _('Công khai (Không thuộc tổ chức)') }} --</option>
+                            {% for org in user_orgs %}
+                                <option value="{{ org.id }}" {% if problem.organizations.filter(id=org.id).exists() %}selected{% endif %}>{{ org.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-help-text">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Nếu chọn tổ chức, bài tập sẽ được giới hạn riêng tư cho các thành viên trong tổ chức đó.') }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Publicly visible -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_is_public">{{ _('Publicly visible:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" id="id_is_public" name="is_public" {% if form.is_public.value() %}checked{% endif %}>
+                        <span>{{ _('Công khai bài tập (Publicly visible)') }}</span>
+                    </label>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nếu thuộc tổ chức, tất cả thành viên trong tổ chức có thể xem. Bỏ tích nếu muốn đặt bài ẩn để dùng cho kỳ thi.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem code -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_code">{{ _('Problem code:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_code" name="code" value="{{ form.code.value() or '' }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Mã định danh duy nhất trong URL (/problem/<code/>). Chỉ gồm chữ cái, số và dấu gạch dưới.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem name -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_name">{{ _('Problem name:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_name" name="name" value="{{ form.name.value() or '' }}" class="form-input-cyber" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Tên đầy đủ của bài tập hiển thị trên danh sách và đề bài.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time limit -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_time_limit">{{ _('Time limit:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="number" step="0.1" id="id_time_limit" name="time_limit" value="{{ form.time_limit.value() or 1.0 }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Giới hạn thời gian chạy mỗi test case (giây). Hỗ trợ số thập phân ví dụ: 1.0, 1.5.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Memory limit -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_memory_limit">{{ _('Memory limit:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="number" id="id_memory_limit" name="memory_limit" value="{{ form.memory_limit.value() or 262144 }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Giới hạn bộ nhớ tối đa cho phép (KB). Ví dụ: 256MB = 262144 KB, 512MB = 524288 KB.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Batch Type -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_batch_type">{{ _('Batch Type:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_batch_type" name="batch_type" class="custom-arrow-select short">
+                        <option value="Sum" {% if form.batch_type.value() == 'Sum' or not form.batch_type.value() %}selected{% endif %}>Sum</option>
+                        <option value="Average" {% if form.batch_type.value() == 'Average' %}selected{% endif %}>Average</option>
+                        <option value="Points" {% if form.batch_type.value() == 'Points' %}selected{% endif %}>Points</option>
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Phương thức tính điểm cho các test case nhóm (Batch Scoring).') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Points -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_points">{{ _('Points:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="number" step="0.5" id="id_points" name="points" value="{{ form.points.value() or 10.0 }}" class="form-input-cyber short" required>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Tổng số điểm của bài tập khi chấm Accepted.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Allows partial points -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_partial">{{ _('Allows partial points:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" id="id_partial" name="partial" {% if form.partial.value() %}checked{% endif %}>
+                        <span>{{ _('Cho phép chấm điểm từng phần (Partial scoring)') }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Statement file -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_statement_file">{{ _('Statement file:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="file" id="id_statement_file" name="statement_file" class="form-input-cyber short" style="padding: 6px 10px;">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Đính kèm file đề bài dạng PDF hoặc file hình ảnh (tối đa 5.0 MB).') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem source / summary -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_summary">{{ _('Problem source:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_summary" name="summary" value="{{ form.summary.value() or '' }}" class="form-input-cyber" placeholder="Ví dụ: VNOI, Codeforces, HSG Tỉnh 2026...">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nguồn gốc của bài tập (Source/Credit).') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 2: Taxonomy & Test Data (Matching Image #1 & #2) -->
+            <div class="form-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+                <span>2. {{ _('Phân loại & Dữ liệu kiểm thử (Taxonomy & Test Data)') }}</span>
+            </div>
+
+            <!-- Mirror test data from -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_mirror_from">{{ _('Mirror test data from:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_mirror_from" name="mirror_from" class="custom-arrow-select" style="max-width: 480px;">
+                        {% for code, label in form.fields['mirror_from'].choices %}
+                            <option value="{{ code }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Sử dụng lại bộ test data của bài tập khác trong khi giữ nguyên cấu hình đề bài.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem types -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_types">{{ _('Problem types:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <select name="types" id="id_types" multiple class="custom-arrow-select" style="max-width: 480px; min-height: 80px;">
+                        {% for pt in all_types %}
+                            <option value="{{ pt.id }}" {% if problem.types.filter(id=pt.id).exists() %}selected{% endif %}>{{ pt.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Các dạng bài tập (nhấn giữ Ctrl để chọn nhiều dạng bài cùng lúc).') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Problem group -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_group">{{ _('Problem group:') }}<span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_group" name="group" class="custom-arrow-select" style="max-width: 380px;">
+                        {% for pg in all_groups %}
+                            <option value="{{ pg.id }}" {% if problem.group_id == pg.id %}selected{% endif %}>{{ pg.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nhóm phân loại lớn của bài tập hiển thị trên bộ lọc danh sách bài.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testcase visibility -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_submission_source_visibility_mode">{{ _('Testcase visibility:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <select id="id_submission_source_visibility_mode" name="submission_source_visibility_mode" class="custom-arrow-select short">
+                        <option value="A" {% if form.submission_source_visibility_mode.value() == 'A' %}selected{% endif %}>Visible for authors</option>
+                        <option value="O" {% if form.submission_source_visibility_mode.value() == 'O' %}selected{% endif %}>Visible for all users</option>
+                        <option value="C" {% if form.submission_source_visibility_mode.value() == 'C' %}selected{% endif %}>Visible for AC users</option>
+                    </select>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Quyền xem mã nguồn và test case của bài nộp.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Private users -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_private_users">{{ _('Private users:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_private_users" name="private_users" value="{{ form.private_users.value() or '' }}" class="form-input-cyber" placeholder="user1, user2, user3...">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nếu bài tập đặt ở chế độ ẩn, chỉ những người dùng được liệt kê ở đây (phân cách bằng dấu phẩy) mới có quyền xem bài.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Problem Body (Matching Image #2) -->
+            <div class="form-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                <span>3. {{ _('Nội dung đề bài (Problem Body)') }} <span class="req-star">*</span></span>
+            </div>
+
+            <div class="form-row" style="flex-direction: column;">
+                <div style="width: 100%;">
+                    {{ form.description }}
+                    <div class="form-help-text" style="margin-top: 10px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nội dung đề bài chi tiết, định dạng Markdown hỗ trợ công thức toán LaTeX ($...$) và bảng biểu.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Editorial / Solution (Matching Image #3) -->
+            <div class="form-section-title">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                <span>4. {{ _('Lời giải & Hướng dẫn (Editorial)') }}</span>
+            </div>
+
+            <!-- Solution Public visibility -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_solution_is_public">{{ _('Public visibility:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <label class="custom-checkbox-wrap">
+                        <input type="checkbox" id="id_solution_is_public" name="solution_is_public" {% if form.solution_is_public.value() %}checked{% endif %}>
+                        <span>{{ _('Công khai lời giải cho thí sinh (Public visibility)') }}</span>
+                    </label>
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Khi được tích và qua ngày xuất bản, thí sinh có thể vào xem lời giải chi tiết của bài tập.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Publish date -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_solution_publish_on">{{ _('Publish date:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="datetime-local" id="id_solution_publish_on" name="solution_publish_on" value="{{ form.solution_publish_on.value()|date('Y-m-d\\TH:i') if form.solution_publish_on.value() else '' }}" class="form-input-cyber short">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Thời điểm lời giải bắt đầu hiển thị công khai. Để trống để lấy thời gian hiện tại.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Authors -->
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_solution_authors">{{ _('Authors:') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" id="id_solution_authors" name="solution_authors" value="{{ form.solution_authors.value() or '' }}" class="form-input-cyber" placeholder="admin, author2...">
+                    <div class="form-help-text">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Tác giả của bài viết lời giải.') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Solution Content -->
+            <div class="form-row" style="flex-direction: column;">
+                <div style="width: 100%;">
+                    <label style="font-size: 14px; font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 8px;">
+                        {{ _('Editorial content:') }}
+                    </label>
+                    {{ form.solution_content }}
+                    <div class="form-help-text" style="margin-top: 10px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nội dung lời giải chi tiết, thuật toán, phân tích độ phức tạp và code mẫu (Markdown / LaTeX).') }}</span>
+                    </div>
+                </div>
+            </div>
+
+            {% if has_solution %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label for="id_delete_solution" style="color: #fca5a5;">{{ _('Xóa lời giải:') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <label class="custom-checkbox-wrap">
+                            <input type="checkbox" id="id_delete_solution" name="delete_solution">
+                            <span style="color: #fca5a5;">{{ _('Xóa hoàn toàn lời giải (Editorial) của bài tập này') }}</span>
+                        </label>
+                    </div>
+                </div>
+            {% endif %}
+
+            <!-- Action Buttons Bar -->
+            <div class="form-actions-bar">
+                <button type="submit" class="btn-submit-cyber">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ _('Lưu thay đổi (Update)') }}</span>
+                </button>
+                <a href="{{ url('problem_detail', problem.code) }}" class="btn-secondary-cyber">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                    <span>{{ _('Xem bài tập') }}</span>
+                </a>
+                {% if not problem.is_manually_managed %}
+                    <a href="{{ url('problem_data', problem.code) }}" class="btn-secondary-cyber">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v7.31"></path><path d="M14 9.3V2"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0L10 2h4l.5 7.3z"></path></svg>
+                        <span>{{ _('Quản lý test data') }}</span>
+                    </a>
+                {% endif %}
+                {% if request.user.is_staff or request.user.is_superuser %}
+                    <button type="submit" name="delete_problem" value="1" class="btn-delete-cyber" onclick="return confirm('{{ _('Bạn có chắc chắn muốn xóa bài tập này? Hành động này không thể hoàn tác!')|escapejs }}');">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                        <span>{{ _('Xóa bài tập') }}</span>
+                    </button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block js_media %}
+    {{ form.media.js }}
+    <script>
+        function vectorizeEditMartorIcons() {
+            var toolbarSvgs = {
+                'editor': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
+                'preview': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+                'bold': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg>',
+                'italic': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg>',
+                'minus': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>',
+                'header': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"></path><path d="M4 18V6"></path><path d="M20 18V6"></path></svg>',
+                'code': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+                'superscript': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l6-6"></path><path d="M4 13l6 6"></path><path d="M14 5h4l-3 4h3"></path></svg>',
+                'quote': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path></svg>',
+                'unordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>',
+                'ordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>',
+                'linkify': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+                'image': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>',
+                'at': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>',
+                'maximize': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>',
+                'help': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+            };
+
+            function rep(selector, svgKey) {
+                var items = document.querySelectorAll(selector);
+                items.forEach(function(el) {
+                    var icon = el.querySelector('i.icon');
+                    if (icon) {
+                        var span = document.createElement('span');
+                        span.className = 'vector-icon-wrap';
+                        span.style.display = 'inline-flex';
+                        span.style.alignItems = 'center';
+                        span.style.justifyContent = 'center';
+                        span.style.width = '16px';
+                        span.style.height = '16px';
+                        span.style.verticalAlign = 'middle';
+                        span.innerHTML = toolbarSvgs[svgKey];
+                        icon.replaceWith(span);
+                    }
+                });
+            }
+
+            rep('a[data-tab^="editor-tab-"]', 'editor');
+            rep('a[data-tab^="preview-tab-"]', 'preview');
+            rep('.markdown-bold', 'bold');
+            rep('.markdown-italic', 'italic');
+            rep('.markdown-horizontal', 'minus');
+            rep('.ui.dropdown[title="Heading"]', 'header');
+            rep('.ui.dropdown[title="Pre or Code"]', 'code');
+            rep('.ui.dropdown[title="Math"]', 'superscript');
+            rep('.markdown-blockquote', 'quote');
+            rep('.markdown-unordered-list', 'unordered-list');
+            rep('.markdown-ordered-list', 'ordered-list');
+            rep('.markdown-link', 'linkify');
+            rep('.markdown-image-link', 'image');
+            rep('.markdown-direct-mention', 'at');
+            rep('.markdown-toggle-maximize', 'maximize');
+            rep('.markdown-help', 'help');
+        }
+
+        $(document).ready(function() {
+            if (typeof $.fn.martor !== 'undefined') {
+                $('.main-martor').martor();
+            }
+            if (typeof $.fn.tab !== 'undefined') {
+                $('.tab-martor-menu .item').tab();
+            }
+            vectorizeEditMartorIcons();
+            setTimeout(vectorizeEditMartorIcons, 100);
+            setTimeout(vectorizeEditMartorIcons, 500);
+
+            // Sync Ace to textareas on form submit
+            $('#edit-problem-form').on('submit', function() {
+                var aceEditors = document.querySelectorAll('.ace_editor');
+                aceEditors.forEach(function(aceEl) {
+                    if (window.ace) {
+                        var ed = ace.edit(aceEl.id);
+                        var container = aceEl.closest('.section-martor');
+                        if (container && ed) {
+                            var ta = container.querySelector('textarea.martor');
+                            if (ta) {
+                                ta.value = ed.getValue();
+                            }
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
