@@ -150,7 +150,7 @@
         <div>
             <div class="org-section-tag">{{ _('ORGANIZATION PROBLEMS') }}</div>
             <h2 style="margin: 4px 0 0 0; font-size: 20px; font-weight: 800; color: #ffffff;">
-                {{ _('Bài tập của tổ chức') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count }})</span>
+                {{ _('Organization Problems') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count }})</span>
             </h2>
         </div>
         {% if is_member_or_admin %}
@@ -167,17 +167,17 @@
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <circle cx="12" cy="12" r="10"></circle>
                             <line x1="2" y1="12" x2="22" y2="12"></line>
-                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path>
                         </svg>
                         <span>{{ _('Import VJudge') }}</span>
                     </a>
-                    <a href="{{ url('problem_import_polygon') }}?org={{ organization.id }}" class="import-polygon-btn" title="{{ _('Nhập từ Polygon') }}">
+                    <a href="{{ url('problem_import_polygon') }}?org={{ organization.id }}" class="import-polygon-btn" title="{{ _('Import Polygon') }}">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17 8 12 3 7 8"></polyline>
                             <line x1="12" y1="3" x2="12" y2="15"></line>
                         </svg>
-                        <span>{{ _('Nhập từ Polygon') }}</span>
+                        <span>{{ _('Import Polygon') }}</span>
                     </a>
                     <a href="{{ url('problem_import_clue') }}?org={{ organization.id }}" class="import-polygon-btn" title="{{ _('Import Clue OJ') }}">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -211,9 +211,9 @@
             <table class="table striped" style="width: 100%; margin-bottom: 0;">
                 <thead>
                     <tr>
-                        <th style="width: 160px;">{{ _('Mã bài') }}</th>
-                        <th>{{ _('Tên bài tập') }}</th>
-                        <th style="width: 100px; text-align: center;">{{ _('Điểm') }}</th>
+                        <th style="width: 160px;">{{ _('Code') }}</th>
+                        <th>{{ _('Problem name') }}</th>
+                        <th style="width: 100px; text-align: center;">{{ _('Points') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -247,9 +247,9 @@
         <div class="org-empty-box">
             <i class="fa fa-book" style="font-size: 28px; color: #38bdf8; margin-bottom: 10px; display: block;"></i>
             {% if is_member_or_admin %}
-                {{ _('Chưa có bài tập nào trong tổ chức. Nhấn "Add problem" ở trên để thêm bài mới!') }}
+                {{ _('There are no problems in this organization yet. Click "Add problem" above to add one!') }}
             {% else %}
-                {{ _('Chỉ thành viên trong tổ chức mới có thể xem danh sách bài tập nội bộ.') }}
+                {{ _('Only organization members can view the list of organization problems.') }}
             {% endif %}
         </div>
     {% endif %}

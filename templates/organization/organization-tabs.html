@@ -103,8 +103,8 @@
     {{ make_tab('overview', 'fa-university', organization.get_absolute_url(), _('Overview')) }}
     {{ make_tab('users', 'fa-users', organization.get_users_url(), _('Members')) }}
     {% if is_member_or_admin or can_edit or (request.user.is_authenticated and request.profile in organization) or request.user.is_staff %}
-        {{ make_tab('contests', 'fa-trophy', url('organization_contests', organization.id, organization.slug), _('Kỳ thi')) }}
-        {{ make_tab('problems', 'fa-book', url('organization_problems', organization.id, organization.slug), _('Bài tập')) }}
+        {{ make_tab('contests', 'fa-trophy', url('organization_contests', organization.id, organization.slug), _('Contests')) }}
+        {{ make_tab('problems', 'fa-book', url('organization_problems', organization.id, organization.slug), _('Problems')) }}
     {% endif %}
     {% if can_review_requests %}
         {{ make_tab('requests', 'fa-list', url('organization_requests_pending', organization.id, organization.slug), _('Requests')) }}

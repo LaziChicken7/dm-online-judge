@@ -738,14 +738,14 @@
                 <a href="{{ url('organization_contests', organization.id, organization.slug) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
                         <i class="fa fa-trophy"></i>
-                        <span>{{ _('Kỳ thi') }}</span>
+                        <span>{{ _('Contests') }}</span>
                     </span>
                     <span class="org-nav-badge">{{ org_contests_count }}</span>
                 </a>
                 <a href="{{ url('organization_problems', organization.id, organization.slug) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
                         <i class="fa fa-book"></i>
-                        <span>{{ _('Bài tập') }}</span>
+                        <span>{{ _('Problems') }}</span>
                     </span>
                     <span class="org-nav-badge">{{ org_problems_count }}</span>
                 </a>
@@ -822,13 +822,13 @@
                             </svg>
                             <span>{{ _('Import VJudge') }}</span>
                         </a>
-                        <a href="{{ url('problem_import_polygon') }}?org={{ organization.id }}" class="import-polygon-btn" title="{{ _('Nhập từ Polygon') }}">
+                        <a href="{{ url('problem_import_polygon') }}?org={{ organization.id }}" class="import-polygon-btn" title="{{ _('Import Polygon') }}">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                                 <polyline points="17 8 12 3 7 8"></polyline>
                                 <line x1="12" y1="3" x2="12" y2="15"></line>
                             </svg>
-                            <span>{{ _('Nhập từ Polygon') }}</span>
+                            <span>{{ _('Import Polygon') }}</span>
                         </a>
                         <a href="{{ url('problem_import_clue') }}?org={{ organization.id }}" class="import-polygon-btn" title="{{ _('Import Clue OJ') }}">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -951,11 +951,11 @@
             <div class="org-section-header-row">
                 <div>
                     <div class="org-section-tag">{{ _('COMPETITIONS') }}</div>
-                    <h3>{{ _('Kỳ thi nội bộ') }} ({{ org_contests_count }})</h3>
+                    <h3>{{ _('Organization Contests') }} ({{ org_contests_count }})</h3>
                 </div>
                 {% if org_contests_count > org_contests|length %}
                     <a href="{{ url('organization_contests', organization.id, organization.slug) }}" class="org-view-all-link">
-                        {{ _('Xem tất cả') }} <i class="fa fa-angle-right"></i>
+                        {{ _('View all') }} <i class="fa fa-angle-right"></i>
                     </a>
                 {% endif %}
             </div>
@@ -964,10 +964,10 @@
                     <table class="table striped org-data-table">
                         <thead>
                             <tr>
-                                <th>{{ _('Kỳ thi') }}</th>
-                                <th style="width: 140px; text-align: center;">{{ _('Bắt đầu') }}</th>
-                                <th style="width: 140px; text-align: center;">{{ _('Kết thúc') }}</th>
-                                <th style="width: 90px; text-align: center;">{{ _('Thí sinh') }}</th>
+                                <th>{{ _('Contest') }}</th>
+                                <th style="width: 140px; text-align: center;">{{ _('Start') }}</th>
+                                <th style="width: 140px; text-align: center;">{{ _('End') }}</th>
+                                <th style="width: 90px; text-align: center;">{{ _('Users') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -994,7 +994,7 @@
             {% else %}
                 <div class="org-empty-box">
                     <i class="fa fa-trophy" style="font-size: 24px; color: #38bdf8; margin-bottom: 6px; display: block;"></i>
-                    {{ _('Chưa có kỳ thi nào trong tổ chức. Nhấn nút "Add contest" ở trên để tạo kỳ thi mới!') }}
+                    {{ _('There are no contests in this organization yet. Click "Add contest" above to create one!') }}
                 </div>
             {% endif %}
         </div>
@@ -1004,11 +1004,11 @@
             <div class="org-section-header-row">
                 <div>
                     <div class="org-section-tag">{{ _('PRACTICE') }}</div>
-                    <h3>{{ _('Bài tập nội bộ') }} ({{ org_problems_count }})</h3>
+                    <h3>{{ _('Organization Problems') }} ({{ org_problems_count }})</h3>
                 </div>
                 {% if org_problems_count > org_problems|length %}
                     <a href="{{ url('organization_problems', organization.id, organization.slug) }}" class="org-view-all-link">
-                        {{ _('Xem tất cả') }} <i class="fa fa-angle-right"></i>
+                        {{ _('View all') }} <i class="fa fa-angle-right"></i>
                     </a>
                 {% endif %}
             </div>
@@ -1017,9 +1017,9 @@
                     <table class="table striped org-data-table">
                         <thead>
                             <tr>
-                                <th style="width: 150px;">{{ _('Mã bài') }}</th>
-                                <th>{{ _('Tên bài tập') }}</th>
-                                <th style="width: 90px; text-align: center;">{{ _('Điểm') }}</th>
+                                <th style="width: 150px;">{{ _('Code') }}</th>
+                                <th>{{ _('Problem name') }}</th>
+                                <th style="width: 90px; text-align: center;">{{ _('Points') }}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1042,7 +1042,7 @@
             {% else %}
                 <div class="org-empty-box">
                     <i class="fa fa-book" style="font-size: 24px; color: #38bdf8; margin-bottom: 6px; display: block;"></i>
-                    {{ _('Chưa có bài tập nào trong tổ chức. Nhấn nút "Add problem" ở trên để thêm bài mới!') }}
+                    {{ _('There are no problems in this organization yet. Click "Add problem" above to add one!') }}
                 </div>
             {% endif %}
         </div>

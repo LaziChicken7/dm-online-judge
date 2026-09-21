@@ -90,7 +90,7 @@
         <div>
             <div class="org-section-tag">{{ _('ORGANIZATION CONTESTS') }}</div>
             <h2 style="margin: 4px 0 0 0; font-size: 20px; font-weight: 800; color: #ffffff;">
-                {{ _('Kỳ thi của tổ chức') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count }})</span>
+                {{ _('Organization Contests') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count }})</span>
             </h2>
         </div>
         {% if is_member_or_admin %}
@@ -109,10 +109,10 @@
             <table class="table striped" style="width: 100%; margin-bottom: 0;">
                 <thead>
                     <tr>
-                        <th>{{ _('Kỳ thi') }}</th>
-                        <th style="width: 160px; text-align: center;">{{ _('Bắt đầu') }}</th>
-                        <th style="width: 160px; text-align: center;">{{ _('Kết thúc') }}</th>
-                        <th style="width: 100px; text-align: center;">{{ _('Thí sinh') }}</th>
+                        <th>{{ _('Contest') }}</th>
+                        <th style="width: 160px; text-align: center;">{{ _('Start') }}</th>
+                        <th style="width: 160px; text-align: center;">{{ _('End') }}</th>
+                        <th style="width: 100px; text-align: center;">{{ _('Users') }}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -125,15 +125,15 @@
                                 <span class="org-badge-code" style="margin-left: 8px;">{{ c.key }}</span>
                                 {% if c.is_organization_private %}
                                     <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.12); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-left: 6px;">
-                                        <i class="fa fa-lock"></i> {{ _('Nội bộ') }}
+                                        <i class="fa fa-lock"></i> {{ _('Private') }}
                                     </span>
                                 {% endif %}
                             </td>
                             <td style="text-align: center; font-size: 13px; color: #94a3b8;">
-                                {{ c.start_time.strftime('%d/%m/%Y %H:%M') }}
+                                {{ c.start_time.strftime('%Y-%m-%d %H:%M') }}
                             </td>
                             <td style="text-align: center; font-size: 13px; color: #94a3b8;">
-                                {{ c.end_time.strftime('%d/%m/%Y %H:%M') }}
+                                {{ c.end_time.strftime('%Y-%m-%d %H:%M') }}
                             </td>
                             <td style="text-align: center; font-weight: 700; color: #38bdf8; font-size: 14px;">
                                 {{ c.user_count }}
@@ -148,9 +148,9 @@
         <div class="org-empty-box">
             <i class="fa fa-trophy" style="font-size: 28px; color: #38bdf8; margin-bottom: 10px; display: block;"></i>
             {% if is_member_or_admin %}
-                {{ _('Chưa có kỳ thi nào trong tổ chức. Nhấn "Add contest" ở trên để tạo kỳ thi mới!') }}
+                {{ _('There are no contests in this organization yet. Click "Add contest" above to create one!') }}
             {% else %}
-                {{ _('Chỉ thành viên trong tổ chức mới có thể xem danh sách kỳ thi nội bộ.') }}
+                {{ _('Only organization members can view the list of organization contests.') }}
             {% endif %}
         </div>
     {% endif %}

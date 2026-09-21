@@ -6312,3 +6312,33 @@ msgstr "Tạo bài tập mới"
 
 msgid "Configure problem limits, points, test cases, and problem statement."
 msgstr "Thiết lập cấu hình bài tập mới, giới hạn thời gian, bộ nhớ, phân loại và nội dung đề bài trên hệ thống."
+
+msgid "Organization Contests"
+msgstr "Kỳ thi của tổ chức"
+
+msgid "Organization Problems"
+msgstr "Bài tập của tổ chức"
+
+msgid "There are no contests in this organization yet. Click \"Add contest\" above to create one!"
+msgstr "Chưa có kỳ thi nào trong tổ chức. Nhấn nút \"Add contest\" ở trên để tạo kỳ thi mới!"
+
+msgid "There are no problems in this organization yet. Click \"Add problem\" above to add one!"
+msgstr "Chưa có bài tập nào trong tổ chức. Nhấn nút \"Add problem\" ở trên để thêm bài mới!"
+
+msgid "Only organization members can view the list of organization contests."
+msgstr "Chỉ thành viên trong tổ chức mới có thể xem danh sách kỳ thi nội bộ."
+
+msgid "Only organization members can view the list of organization problems."
+msgstr "Chỉ thành viên trong tổ chức mới có thể xem danh sách bài tập nội bộ."
+
+msgid "View all"
+msgstr "Xem tất cả"
+
+msgid "Start"
+msgstr "Bắt đầu"
+
+msgid "End"
+msgstr "Kết thúc"
+
+msgid "Private"
+msgstr "Nội bộ"
