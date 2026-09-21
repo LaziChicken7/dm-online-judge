@@ -289,6 +289,225 @@
             color: #fca5a5 !important;
             margin-right: 6px !important;
         }
+
+        /* ── Modern Martor Markdown Editor (Exact Image #2 Styling) ── */
+        .edit-org-card .main-martor,
+        .edit-org-card .section-martor {
+            border: none !important;
+            border-radius: 0 !important;
+            overflow: visible !important;
+            background: transparent !important;
+            box-shadow: none !important;
+            width: 100% !important;
+        }
+        .edit-org-card .main-martor:focus-within {
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Eliminate gray line / underline above editor */
+        .edit-org-card .section-martor .ui.attached.inverted.menu,
+        .edit-org-card .section-martor .tab-martor-menu,
+        .edit-org-card .tab-martor-menu,
+        .edit-org-card .ui.tabular.menu,
+        .edit-org-card .ui.attached.menu,
+        .edit-org-card .ui.pointing.menu,
+        .edit-org-card .ui.menu {
+            background: transparent !important;
+            border: none !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+            padding: 0 0 14px 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            min-height: auto !important;
+        }
+        .edit-org-card .tab-martor-menu::after,
+        .edit-org-card .tab-martor-menu::before,
+        .edit-org-card .section-martor .ui.menu::after,
+        .edit-org-card .section-martor .ui.menu::before {
+            display: none !important;
+            content: none !important;
+            border: none !important;
+            height: 0 !important;
+        }
+
+        /* Editor & Preview pill buttons */
+        .edit-org-card .tab-martor-menu a.item {
+            color: #94a3b8 !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 8px !important;
+            padding: 7px 18px !important;
+            margin: 0 8px 0 0 !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+        }
+        .edit-org-card .tab-martor-menu a.item:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            border-color: rgba(255, 255, 255, 0.15) !important;
+        }
+        .edit-org-card .tab-martor-menu a.item.active,
+        .edit-org-card .section-martor .tab-martor-menu a.item.active,
+        .edit-org-card .section-martor .ui.tabular.menu .active.item {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            font-weight: 700 !important;
+            border: 1px solid rgba(56, 189, 248, 0.45) !important;
+            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.25) !important;
+            border-radius: 8px !important;
+        }
+
+        /* Toolbar icons styling */
+        .edit-org-card .martor-toolbar {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 0 0 0 10px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+        .edit-org-card .martor-toolbar a,
+        .edit-org-card .martor-toolbar button,
+        .edit-org-card .martor-toolbar i,
+        .edit-org-card .martor-toolbar .button {
+            color: #94a3b8 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+            padding: 6px 8px !important;
+            border-radius: 6px !important;
+            font-size: 13px !important;
+            transition: all 0.15s ease !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .edit-org-card .martor-toolbar a:hover,
+        .edit-org-card .martor-toolbar button:hover,
+        .edit-org-card .martor-toolbar .button:hover,
+        .edit-org-card .martor-toolbar i:hover {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.15) !important;
+            transform: translateY(-1px);
+        }
+
+        .edit-org-card .ui.dropdown .menu {
+            background: #0f172a !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        }
+        .edit-org-card .ui.dropdown .menu > .item {
+            color: #cbd5e1 !important;
+            font-size: 13px !important;
+            padding: 8px 14px !important;
+        }
+        .edit-org-card .ui.dropdown .menu > .item:hover {
+            background: rgba(56, 189, 248, 0.15) !important;
+            color: #38bdf8 !important;
+        }
+
+        /* Hide form textarea, keep Ace editor active */
+        .edit-org-card textarea.martor,
+        .edit-org-card textarea[name="about"],
+        .edit-org-card textarea.martor-preview {
+            display: none !important;
+            visibility: hidden !important;
+            width: 0 !important;
+            height: 0 !important;
+            position: absolute !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+        }
+        .edit-org-card .ace_editor textarea.ace_text-input {
+            display: block !important;
+            pointer-events: auto !important;
+            visibility: visible !important;
+            opacity: 0 !important;
+        }
+
+        /* Ace editor container & preview tab */
+        .edit-org-card .ui.segment.tab:not(.active),
+        .edit-org-card .tab.segment:not(.active),
+        .edit-org-card [data-tab^="preview-tab-"]:not(.active),
+        .edit-org-card [data-tab^="editor-tab-"]:not(.active) {
+            display: none !important;
+        }
+        .edit-org-card .ui.segment.tab,
+        .edit-org-card .tab.segment[data-tab^="editor-tab-"] {
+            background: #060913 !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            overflow: hidden !important;
+            width: 100% !important;
+        }
+        .edit-org-card .martor-field {
+            height: 380px !important;
+            min-height: 300px !important;
+            background: #060913 !important;
+            border: none !important;
+            border-radius: 14px !important;
+            position: relative !important;
+            width: 100% !important;
+        }
+        .edit-org-card .ace_editor {
+            height: 380px !important;
+            width: 100% !important;
+            background: #060913 !important;
+            color: #f1f5f9 !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 14px !important;
+            border-radius: 14px !important;
+            line-height: 1.65 !important;
+        }
+        .edit-org-card .ace_gutter {
+            background: #060913 !important;
+            color: #475569 !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        .edit-org-card .ace_gutter-active-line {
+            color: #38bdf8 !important;
+            background: rgba(56, 189, 248, 0.08) !important;
+        }
+        .edit-org-card .ace_cursor {
+            color: #38bdf8 !important;
+            border-left: 2px solid #38bdf8 !important;
+        }
+        .edit-org-card .tab.segment.martor-preview {
+            background: #060913 !important;
+            color: #cbd5e1 !important;
+            min-height: 300px !important;
+            padding: 24px 28px !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            border-radius: 14px !important;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+            font-size: 14.5px !important;
+            line-height: 1.7 !important;
+            margin: 0 !important;
+        }
+
+        /* Bottom notice bar (hide redundant hr) */
+        .edit-org-card .section-martor > hr {
+            display: none !important;
+        }
+        .edit-org-card .show-on-editor p {
+            color: #64748b !important;
+            font-size: 12.5px !important;
+            margin: 8px 0 0 0 !important;
+        }
     </style>
 {% endblock %}
 
@@ -296,7 +515,78 @@
     {{ super() }}
     {{ form.media.js }}
     <script type="text/javascript">
+        // Vectorize Martor Icons with clean vector SVGs (Matching Image #2)
+        function vectorizeMartorIcons() {
+            var toolbarSvgs = {
+                'editor': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
+                'preview': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
+                'bold': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg>',
+                'italic': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg>',
+                'minus': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>',
+                'header': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"></path><path d="M4 18V6"></path><path d="M20 18V6"></path></svg>',
+                'code': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
+                'superscript': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l6-6"></path><path d="M4 13l6 6"></path><path d="M14 5h4l-3 4h3"></path></svg>',
+                'quote': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path></svg>',
+                'unordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>',
+                'ordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>',
+                'linkify': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></svg>',
+                'image': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>',
+                'at': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></svg>',
+                'maximize': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>',
+                'help': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
+            };
+
+            function rep(selector, svgKey) {
+                var items = document.querySelectorAll('.edit-org-card ' + selector);
+                items.forEach(function(el) {
+                    var icon = el.querySelector('i.icon');
+                    if (icon) {
+                        var span = document.createElement('span');
+                        span.className = 'vector-icon-wrap';
+                        span.style.display = 'inline-flex';
+                        span.style.alignItems = 'center';
+                        span.style.justifyContent = 'center';
+                        span.style.width = '16px';
+                        span.style.height = '16px';
+                        span.style.verticalAlign = 'middle';
+                        span.innerHTML = toolbarSvgs[svgKey];
+                        icon.replaceWith(span);
+                    }
+                });
+            }
+
+            rep('a[data-tab^="editor-tab-"]', 'editor');
+            rep('a[data-tab^="preview-tab-"]', 'preview');
+            rep('.markdown-bold', 'bold');
+            rep('.markdown-italic', 'italic');
+            rep('.markdown-horizontal', 'minus');
+            rep('.ui.dropdown[title="Heading"]', 'header');
+            rep('.ui.dropdown[title="Pre or Code"]', 'code');
+            rep('.ui.dropdown[title="Math"]', 'superscript');
+            rep('.markdown-blockquote', 'quote');
+            rep('.markdown-unordered-list', 'unordered-list');
+            rep('.markdown-ordered-list', 'ordered-list');
+            rep('.markdown-link', 'linkify');
+            rep('.markdown-image-link', 'image');
+            rep('.markdown-direct-mention', 'at');
+            rep('.markdown-toggle-maximize', 'maximize');
+            rep('.markdown-help', 'help');
+        }
+
         $(function () {
+            // Initialize Martor
+            if (typeof $.fn.martor !== 'undefined') {
+                $('.main-martor').martor();
+            }
+            if (typeof $.fn.tab !== 'undefined') {
+                $('.tab-martor-menu .item').tab();
+            }
+
+            // Vectorize icons immediately and with delays to ensure Semantic UI has loaded
+            vectorizeMartorIcons();
+            setTimeout(vectorizeMartorIcons, 100);
+            setTimeout(vectorizeMartorIcons, 500);
+
             // Live logo preview update
             function updateLogoPreview() {
                 var url = $('#id_logo_override_image').val().trim();
@@ -314,6 +604,18 @@
             $('#id_name').on('input', function() {
                 var val = $(this).val().trim();
                 $('#org_preview_name_text').text(val || '{{ organization.name }}');
+            });
+
+            // Ensure Ace editor contents syncs to textarea on submit
+            $('#edit-organization-form').on('submit', function() {
+                var aceEl = document.querySelector('.edit-org-card .ace_editor');
+                if (aceEl && window.ace) {
+                    var editor = ace.edit(aceEl.id);
+                    var ta = document.querySelector('.edit-org-card textarea[name="about"]');
+                    if (ta && editor) {
+                        ta.value = editor.getValue();
+                    }
+                }
             });
         });
     </script>
@@ -474,7 +776,7 @@
                     </div>
                 </div>
 
-                <!-- Section 4: About / Description -->
+                <!-- Section 4: About / Description (Exact Image #2 Layout) -->
                 <div class="form-section-title">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                     <span>4. {{ _('Mô tả & Giới thiệu (About & Description)') }}</span>
