@@ -1,0 +1,157 @@
+{% extends "common-content.html" %}
+
+{% block title_ruler %}{% endblock %}
+{% block title_row %}
+    {% set tab = 'contests' %}
+    {% set content_title = organization.name %}
+    {% include "organization/organization-tabs.html" %}
+{% endblock %}
+
+{% block content_media %}
+    <style>
+        .org-top-toolbar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            width: 100% !important;
+            margin-bottom: 20px !important;
+            flex-wrap: wrap !important;
+            gap: 12px !important;
+        }
+        .org-section-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            text-transform: uppercase !important;
+            font-family: 'Google Sans Code', monospace !important;
+        }
+        .add-contest-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 9px 22px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-decoration: none !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            letter-spacing: 0.2px !important;
+        }
+        .add-contest-btn:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+            color: #ffffff !important;
+        }
+        .org-table-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            overflow-x: auto !important;
+            padding: 8px 16px 12px 16px !important;
+            margin-bottom: 28px !important;
+            box-sizing: border-box !important;
+        }
+        .org-empty-box {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px dashed rgba(255, 255, 255, 0.08) !important;
+            border-radius: 12px !important;
+            padding: 32px 20px !important;
+            text-align: center !important;
+            color: #64748b !important;
+            font-size: 14px !important;
+            margin-bottom: 24px !important;
+        }
+        .org-badge-code {
+            display: inline-flex;
+            align-items: center;
+            padding: 2px 8px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            color: #38bdf8;
+            font-family: 'Google Sans Code', monospace;
+            font-size: 12px;
+            font-weight: 700;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="org-top-toolbar">
+        <div>
+            <div class="org-section-tag">{{ _('ORGANIZATION CONTESTS') }}</div>
+            <h2 style="margin: 4px 0 0 0; font-size: 20px; font-weight: 800; color: #ffffff;">
+                {{ _('Kỳ thi của tổ chức') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count }})</span>
+            </h2>
+        </div>
+        {% if is_member_or_admin %}
+            <a href="{{ url('contest_add') }}?org={{ organization.id }}" class="add-contest-btn" title="{{ _('Add contest') }}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>{{ _('Add contest') }}</span>
+            </a>
+        {% endif %}
+    </div>
+
+    {% if contests %}
+        <div class="org-table-card">
+            <table class="table striped" style="width: 100%; margin-bottom: 0;">
+                <thead>
+                    <tr>
+                        <th>{{ _('Kỳ thi') }}</th>
+                        <th style="width: 160px; text-align: center;">{{ _('Bắt đầu') }}</th>
+                        <th style="width: 160px; text-align: center;">{{ _('Kết thúc') }}</th>
+                        <th style="width: 100px; text-align: center;">{{ _('Thí sinh') }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for c in contests %}
+                        <tr>
+                            <td>
+                                <a href="{{ url('contest_view', c.key) }}" style="font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none;">
+                                    {{ c.name }}
+                                </a>
+                                <span class="org-badge-code" style="margin-left: 8px;">{{ c.key }}</span>
+                                {% if c.is_organization_private %}
+                                    <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.12); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-left: 6px;">
+                                        <i class="fa fa-lock"></i> {{ _('Nội bộ') }}
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: center; font-size: 13px; color: #94a3b8;">
+                                {{ c.start_time.strftime('%d/%m/%Y %H:%M') }}
+                            </td>
+                            <td style="text-align: center; font-size: 13px; color: #94a3b8;">
+                                {{ c.end_time.strftime('%d/%m/%Y %H:%M') }}
+                            </td>
+                            <td style="text-align: center; font-weight: 700; color: #38bdf8; font-size: 14px;">
+                                {{ c.user_count }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% include "list-pages.html" %}
+    {% else %}
+        <div class="org-empty-box">
+            <i class="fa fa-trophy" style="font-size: 28px; color: #38bdf8; margin-bottom: 10px; display: block;"></i>
+            {% if is_member_or_admin %}
+                {{ _('Chưa có kỳ thi nào trong tổ chức. Nhấn "Add contest" ở trên để tạo kỳ thi mới!') }}
+            {% else %}
+                {{ _('Chỉ thành viên trong tổ chức mới có thể xem danh sách kỳ thi nội bộ.') }}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

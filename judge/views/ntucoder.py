@@ -101,16 +101,43 @@ class ProblemImportNTUCoderView(LoginRequiredMixin, TitleMixin, View):
     title = _("Nhập bài tập từ THPT Chuyên NTUCoder")
 
     def get(self, request):
-        if not (request.user.is_staff or request.user.has_perm('judge.edit_all_problem') or request.user.has_perm('judge.edit_own_problem')):
+        org_id = request.GET.get('org')
+        selected_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                selected_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                selected_org = None
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
+        is_org_admin = (selected_org and hasattr(request, 'profile') and (
+            selected_org.admins.filter(id=request.profile.id).exists() or
+            selected_org.members.filter(id=request.profile.id).exists()
+        ))
+        if not (request.user.is_staff or request.user.has_perm('judge.edit_all_problem') or request.user.has_perm('judge.edit_own_problem') or is_org_admin):
             return render(request, "403.html", status=403)
 
         return render(request, "problem/import_ntucoder.html", {
             "title": self.get_title(),
             "profile": request.profile,
+            "selected_org": selected_org,
+            "user_orgs": user_orgs,
         })
 
     def post(self, request):
-        if not (request.user.is_staff or request.user.has_perm('judge.edit_all_problem') or request.user.has_perm('judge.edit_own_problem')):
+        org_id = request.POST.get('organization_id') or request.GET.get('org')
+        target_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                target_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                target_org = None
+        is_org_admin = (target_org and hasattr(request, 'profile') and (
+            target_org.admins.filter(id=request.profile.id).exists() or
+            target_org.members.filter(id=request.profile.id).exists()
+        ))
+        if not (request.user.is_staff or request.user.has_perm('judge.edit_all_problem') or request.user.has_perm('judge.edit_own_problem') or is_org_admin):
             return render(request, "403.html", status=403)
 
         ntucoder_input = request.POST.get("ntucoder_input", "").strip()
@@ -141,6 +168,11 @@ class ProblemImportNTUCoderView(LoginRequiredMixin, TitleMixin, View):
                 is_public=is_public,
                 author_profile=request.profile,
             )
+            if target_org:
+                problem.is_organization_private = True
+                problem.is_public = True
+                problem.organizations.add(target_org)
+                problem.save()
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             logger.exception(f"ProblemImportNTUCoder error: {e}")

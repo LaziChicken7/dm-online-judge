@@ -912,10 +912,25 @@ class ContestCreateView(TitleMixin, View):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse('auth_login') + '?next=' + request.path)
+
+        org_id = request.GET.get('org') or request.POST.get('organization_id')
+        self.selected_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                self.selected_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                self.selected_org = None
+
+        is_org_admin = (self.selected_org and hasattr(request, 'profile') and (
+            self.selected_org.admins.filter(id=request.profile.id).exists() or
+            self.selected_org.members.filter(id=request.profile.id).exists()
+        ))
+
         if not (request.user.has_perm('judge.add_contest') or
                 request.user.has_perm('judge.edit_all_contest') or
                 request.user.has_perm('judge.edit_own_contest') or
-                request.user.is_staff or request.user.is_superuser):
+                request.user.is_staff or request.user.is_superuser or is_org_admin):
             from django.core.exceptions import PermissionDenied
             raise PermissionDenied()
         return super().dispatch(request, *args, **kwargs)
@@ -930,6 +945,7 @@ class ContestCreateView(TitleMixin, View):
         start_default = now + timedelta(hours=1)
         end_default = start_default + timedelta(hours=3)
 
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
         return render(request, "contest/create.html", {
             "title": self.get_title(),
             "now": now,
@@ -938,6 +954,8 @@ class ContestCreateView(TitleMixin, View):
             "all_tags": all_tags,
             "start_default": start_default.strftime('%Y-%m-%dT%H:%M'),
             "end_default": end_default.strftime('%Y-%m-%dT%H:%M'),
+            "selected_org": self.selected_org,
+            "user_orgs": user_orgs,
         })
 
     def post(self, request):
@@ -1048,6 +1066,15 @@ class ContestCreateView(TitleMixin, View):
             except Exception:
                 time_limit = None
 
+        org_id = request.POST.get('organization_id') or request.GET.get('org')
+        target_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                target_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                target_org = None
+
         with revisions.create_revision(atomic=True):
             contest = Contest.objects.create(
                 key=clean_key,
@@ -1065,9 +1092,12 @@ class ContestCreateView(TitleMixin, View):
                 hide_problem_tags=hide_problem_tags,
                 hide_problem_authors=hide_problem_authors,
                 access_code=access_code,
+                is_organization_private=bool(target_org),
             )
             if hasattr(request, 'profile'):
                 contest.authors.add(request.profile)
+            if target_org:
+                contest.organizations.add(target_org)
 
             # Selected tags
             selected_tag_ids = request.POST.getlist('tags')

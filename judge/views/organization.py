@@ -24,7 +24,7 @@ from judge.models import Class, Organization, OrganizationRequest, Profile
 from judge.utils.ranker import ranker
 from judge.utils.views import DiggPaginatorMixin, QueryStringSortMixin, TitleMixin, generic_message
 
-__all__ = ['OrganizationList', 'OrganizationHome', 'OrganizationUsers', 'OrganizationMembershipChange',
+__all__ = ['OrganizationList', 'OrganizationHome', 'OrganizationUsers', 'OrganizationContests', 'OrganizationProblems', 'OrganizationMembershipChange',
            'JoinOrganization', 'LeaveOrganization', 'EditOrganization', 'RequestJoinOrganization',
            'OrganizationRequestDetail', 'OrganizationRequestView', 'OrganizationRequestLog',
            'KickUserWidgetView', 'ClassHome', 'RequestJoinClass']
@@ -121,6 +121,26 @@ class OrganizationHome(OrganizationDetailView):
         else:
             classes = classes.annotate(joined=Value(0, output_field=IntegerField()))
         context['classes'] = classes
+
+        is_member_or_admin = self.request.user.is_authenticated and hasattr(self.request, 'profile') and (
+            self.object.members.filter(id=self.request.profile.id).exists() or
+            self.can_edit_organization() or
+            self.request.user.is_staff or
+            self.request.user.is_superuser
+        )
+        context['is_member_or_admin'] = is_member_or_admin
+        from judge.models import Contest, Problem
+        if is_member_or_admin:
+            context['org_contests'] = Contest.objects.filter(organizations=self.object).order_by('-start_time')[:10]
+            context['org_problems'] = Problem.objects.filter(organizations=self.object).order_by('-date')[:15]
+            context['org_contests_count'] = Contest.objects.filter(organizations=self.object).count()
+            context['org_problems_count'] = Problem.objects.filter(organizations=self.object).count()
+        else:
+            context['org_contests'] = Contest.objects.none()
+            context['org_problems'] = Problem.objects.none()
+            context['org_contests_count'] = 0
+            context['org_problems_count'] = 0
+
         return context
 
 
@@ -146,6 +166,70 @@ class OrganizationUsers(QueryStringSortMixin, DiggPaginatorMixin, BaseOrganizati
         context['first_page_href'] = '.'
         context.update(self.get_sort_context())
         context.update(self.get_sort_paginate_context())
+        return context
+
+
+class OrganizationContests(DiggPaginatorMixin, BaseOrganizationListView):
+    template_name = 'organization/contests.html'
+    paginate_by = 20
+    context_object_name = 'contests'
+
+    def get_queryset(self):
+        self.object = self.get_object()
+        from judge.models import Contest
+        is_member_or_admin = self.request.user.is_authenticated and hasattr(self.request, 'profile') and (
+            self.object.members.filter(id=self.request.profile.id).exists() or
+            self.can_edit_organization() or
+            self.request.user.is_staff or
+            self.request.user.is_superuser
+        )
+        if not is_member_or_admin:
+            return Contest.objects.none()
+        return Contest.objects.filter(organizations=self.object).order_by('-start_time')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('%s Contests') % self.object.name
+        context['tab'] = 'contests'
+        context['is_member_or_admin'] = self.request.user.is_authenticated and hasattr(self.request, 'profile') and (
+            self.object.members.filter(id=self.request.profile.id).exists() or
+            self.can_edit_organization() or
+            self.request.user.is_staff or
+            self.request.user.is_superuser
+        )
+        context['can_edit'] = self.can_edit_organization()
+        return context
+
+
+class OrganizationProblems(DiggPaginatorMixin, BaseOrganizationListView):
+    template_name = 'organization/problems.html'
+    paginate_by = 50
+    context_object_name = 'problems'
+
+    def get_queryset(self):
+        self.object = self.get_object()
+        from judge.models import Problem
+        is_member_or_admin = self.request.user.is_authenticated and hasattr(self.request, 'profile') and (
+            self.object.members.filter(id=self.request.profile.id).exists() or
+            self.can_edit_organization() or
+            self.request.user.is_staff or
+            self.request.user.is_superuser
+        )
+        if not is_member_or_admin:
+            return Problem.objects.none()
+        return Problem.objects.filter(organizations=self.object).order_by('-date')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = _('%s Problems') % self.object.name
+        context['tab'] = 'problems'
+        context['is_member_or_admin'] = self.request.user.is_authenticated and hasattr(self.request, 'profile') and (
+            self.object.members.filter(id=self.request.profile.id).exists() or
+            self.can_edit_organization() or
+            self.request.user.is_staff or
+            self.request.user.is_superuser
+        )
+        context['can_edit'] = self.can_edit_organization()
         return context
 
 

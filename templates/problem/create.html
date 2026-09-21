@@ -613,8 +613,46 @@
             </div>
         {% endif %}
 
-        <form method="post" enctype="multipart/form-data" id="create-problem-form">
+        <form method="post" enctype="multipart/form-data" id="create-problem-form" action="{{ request.path }}{% if selected_org %}?org={{ selected_org.id }}{% endif %}">
             {% csrf_token %}
+
+            <!-- 0. Organization Selector / Badge -->
+            {% if selected_org %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label>{{ _('Tổ chức (Organization):') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
+                        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-weight: 700; font-size: 14px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
+                            <span>{{ selected_org.name }} (#{{ selected_org.id }})</span>
+                        </div>
+                        <div class="form-help-text" style="color: #38bdf8; margin-top: 6px;">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Bài tập này sẽ được đánh dấu RIÊNG TƯ cho tổ chức. Chỉ người trong tổ chức mới có thể xem bài này.') }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% elif user_orgs %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label for="id_organization_id">{{ _('Tổ chức (Organization):') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <select name="organization_id" id="id_organization_id" class="form-input-cyber" style="max-width: 380px;">
+                            <option value="">-- {{ _('Công khai (Không thuộc tổ chức)') }} --</option>
+                            {% for org in user_orgs %}
+                                <option value="{{ org.id }}">{{ org.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-help-text">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Nếu chọn tổ chức, bài tập sẽ tự động ở chế độ riêng tư cho thành viên trong tổ chức.') }}</span>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
 
             <!-- 1. Publicly visible -->
             <div class="form-row">

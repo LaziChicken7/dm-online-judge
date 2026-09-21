@@ -247,6 +247,8 @@ urlpatterns = [
     path('organization/<int:pk>-<slug:slug>', include([
         path('', organization.OrganizationHome.as_view(), name='organization_home'),
         path('/users', organization.OrganizationUsers.as_view(), name='organization_users'),
+        path('/contests', organization.OrganizationContests.as_view(), name='organization_contests'),
+        path('/problems', organization.OrganizationProblems.as_view(), name='organization_problems'),
         path('/join', organization.JoinOrganization.as_view(), name='join_organization'),
         path('/leave', organization.LeaveOrganization.as_view(), name='leave_organization'),
         path('/edit', organization.EditOrganization.as_view(), name='edit_organization'),

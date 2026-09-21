@@ -491,6 +491,30 @@
             <form method="post" enctype="multipart/form-data" id="import_polygon_form" onsubmit="handleFormSubmit()">
                 {% csrf_token %}
 
+            {% if selected_org %}
+                <div style="margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <div style="display: flex; align-items: center; gap: 10px; color: #38bdf8; font-weight: 700; font-size: 14px;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
+                        <span>{{ _('Gắn với tổ chức:') }} {{ selected_org.name }} (#{{ selected_org.id }})</span>
+                    </div>
+                    <span style="font-size: 12px; padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                        <i class="fa fa-lock"></i> {{ _('Riêng tư nội bộ tổ chức') }}
+                    </span>
+                    <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
+                </div>
+            {% elif user_orgs %}
+                <div style="margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                    <label style="color: #94a3b8; font-size: 13.5px; font-weight: 600; white-space: nowrap;">{{ _('Tổ chức (Tùy chọn):') }}</label>
+                    <select name="organization_id" class="form-input-cyber" style="max-width: 320px; padding: 6px 12px; font-size: 13px;">
+                        <option value="">-- {{ _('Công khai (Không thuộc tổ chức)') }} --</option>
+                        {% for org in user_orgs %}
+                            <option value="{{ org.id }}">{{ org.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            {% endif %}
+
+
                 <!-- File Upload Drop Zone -->
                 <div class="upload-dropzone" id="dropzone_box">
                     <input type="file" name="zip_file" id="zip_file" accept=".zip" required onchange="handleFileSelected(this)">

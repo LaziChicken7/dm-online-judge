@@ -1069,7 +1069,25 @@ class ProblemCreateView(TitleMixin, View):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return HttpResponseRedirect(reverse('auth_login') + '?next=' + request.path)
-        if not (request.user.has_perm('judge.add_problem') or request.user.has_perm('judge.edit_all_problem') or request.user.has_perm('judge.change_problem') or request.user.is_staff):
+
+        org_id = request.GET.get('org') or request.POST.get('organization_id')
+        self.selected_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                self.selected_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                self.selected_org = None
+
+        is_org_admin = (self.selected_org and hasattr(request, 'profile') and (
+            self.selected_org.admins.filter(id=request.profile.id).exists() or
+            self.selected_org.members.filter(id=request.profile.id).exists()
+        ))
+
+        if not (request.user.has_perm('judge.add_problem') or
+                request.user.has_perm('judge.edit_all_problem') or
+                request.user.has_perm('judge.change_problem') or
+                request.user.is_staff or is_org_admin):
             raise PermissionDenied()
         return super().dispatch(request, *args, **kwargs)
 
@@ -1080,6 +1098,9 @@ class ProblemCreateView(TitleMixin, View):
         all_groups = ProblemGroup.objects.all().order_by('name')
         uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
         uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
+        if self.selected_org:
+            form.fields['is_public'].initial = True
         return render(request, "problem/create.html", {
             "title": self.get_title(),
             "form": form,
@@ -1088,6 +1109,8 @@ class ProblemCreateView(TitleMixin, View):
             "all_groups": all_groups,
             "default_type_id": uncat_type.id if uncat_type else None,
             "default_group_id": uncat_group.id if uncat_group else None,
+            "selected_org": self.selected_org,
+            "user_orgs": user_orgs,
         })
 
     def post(self, request):
@@ -1130,16 +1153,30 @@ class ProblemCreateView(TitleMixin, View):
                 "error": _(f"Mã bài tập '{clean_code}' đã tồn tại. Vui lòng chọn mã khác."),
             })
 
+        org_id = request.POST.get('organization_id') or request.GET.get('org')
+        target_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                target_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                target_org = None
+
         with revisions.create_revision(atomic=True):
             problem = form.save(commit=False)
             problem.code = clean_code
             problem.is_manually_managed = True
             problem.date = timezone.now()
+            if target_org:
+                problem.is_organization_private = True
+                problem.is_public = True
             problem.save()
             form.save_m2m()
 
             if hasattr(request, 'profile'):
                 problem.authors.add(request.profile)
+            if target_org:
+                problem.organizations.add(target_org)
             problem.allowed_languages.set(Language.objects.all())
 
             # Private users
@@ -1195,8 +1232,19 @@ class ImportPolygonView(TitleMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
+        org_id = request.GET.get('org')
+        selected_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                selected_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                selected_org = None
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
         return render(request, "problem/import_polygon.html", {
             "title": self.get_title(),
+            "selected_org": selected_org,
+            "user_orgs": user_orgs,
         })
 
     def post(self, request):
@@ -1233,6 +1281,17 @@ class ImportPolygonView(TitleMixin, View):
                 is_public=is_public,
                 author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None) or Profile.objects.filter(user__is_superuser=True).first(),
             )
+            org_id = request.POST.get('organization_id') or request.GET.get('org')
+            if org_id:
+                from judge.models import Organization
+                try:
+                    target_org = Organization.objects.get(id=org_id)
+                    problem.is_organization_private = True
+                    problem.is_public = True
+                    problem.organizations.add(target_org)
+                    problem.save()
+                except (Organization.DoesNotExist, ValueError):
+                    pass
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             return render(request, "problem/import_polygon.html", {
@@ -1252,8 +1311,19 @@ class ImportVJudgeView(TitleMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
+        org_id = request.GET.get('org')
+        selected_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                selected_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                selected_org = None
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
         return render(request, "problem/import_vjudge.html", {
             "title": self.get_title(),
+            "selected_org": selected_org,
+            "user_orgs": user_orgs,
         })
 
     def post(self, request):
@@ -1284,6 +1354,17 @@ class ImportVJudgeView(TitleMixin, View):
                 is_public=is_public,
                 author_profile=(request.profile if (request.user.is_authenticated and hasattr(request, "profile")) else None),
             )
+            org_id = request.POST.get('organization_id') or request.GET.get('org')
+            if org_id:
+                from judge.models import Organization
+                try:
+                    target_org = Organization.objects.get(id=org_id)
+                    problem.is_organization_private = True
+                    problem.is_public = True
+                    problem.organizations.add(target_org)
+                    problem.save()
+                except (Organization.DoesNotExist, ValueError):
+                    pass
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             return render(request, "problem/import_vjudge.html", {
@@ -1305,9 +1386,20 @@ class ImportClueView(TitleMixin, View):
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
+        org_id = request.GET.get('org')
+        selected_org = None
+        if org_id:
+            from judge.models import Organization
+            try:
+                selected_org = Organization.objects.get(id=org_id)
+            except (Organization.DoesNotExist, ValueError):
+                selected_org = None
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
         return render(request, "problem/import_clue.html", {
             "title": self.get_title(),
             "active_tab": request.GET.get("tab", "public"),
+            "selected_org": selected_org,
+            "user_orgs": user_orgs,
         })
 
     def post(self, request):
@@ -1361,6 +1453,17 @@ class ImportClueView(TitleMixin, View):
                 )
                 if isinstance(problem, (tuple, list)):
                     problem = problem[0]
+            org_id = request.POST.get('organization_id') or request.GET.get('org')
+            if org_id:
+                from judge.models import Organization
+                try:
+                    target_org = Organization.objects.get(id=org_id)
+                    problem.is_organization_private = True
+                    problem.is_public = True
+                    problem.organizations.add(target_org)
+                    problem.save()
+                except (Organization.DoesNotExist, ValueError):
+                    pass
             return HttpResponseRedirect(reverse("problem_detail", args=[problem.code]))
         except Exception as e:
             return render(request, "problem/import_clue.html", {
