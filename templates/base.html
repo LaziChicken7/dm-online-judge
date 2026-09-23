@@ -2501,10 +2501,10 @@
         box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 12px rgba(0, 112, 243, 0.2) !important;
     }
     /* Strip any styles from inner spans so it stays a single clean pill as in Image #2 */
-    .tabs .tab a span,
-    .tabs .tab span span,
-    .tabs .tab > a > span,
-    .tabs .tab > span > span {
+    .tabs:not(.org-tabs) .tab a span,
+    .tabs:not(.org-tabs) .tab span span,
+    .tabs:not(.org-tabs) .tab > a > span,
+    .tabs:not(.org-tabs) .tab > span > span {
         all: unset !important;
         display: inline !important;
         color: inherit !important;
@@ -5360,7 +5360,7 @@
         <div class="footer-inner-card">
             <div class="footer-col-left">
                 <div class="footer-brand-line">
-                    <span class="footer-brand-name">CSAT Tutor</span>
+                    <span class="footer-brand-name">OmniJudge Online Judge</span>
                     <span class="footer-brand-dot">&bull;</span>
                     <a href="https://dmoj.ca" target="_blank" rel="noopener" class="footer-dmoj-link">
                         {{ _('powered by') }} <strong>DMOJ</strong>

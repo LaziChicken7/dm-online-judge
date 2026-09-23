@@ -1,4 +1,5 @@
 {% extends "tabs-base.html" %}
+{% block tabs_class %} org-tabs{% endblock %}
 
 {% block post_tab_spacer %}
     <style>
@@ -21,34 +22,10 @@
             vertical-align: middle !important;
             letter-spacing: 0.5px !important;
         }
-        /* Organization Action Tabs in Header (Request / Join / Leave) */
-        .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
-        .tabs.org-tabs:not(#mobile) li.tab.join-tab a {
-            background: rgba(2, 132, 199, 0.15) !important;
-            border-color: rgba(56, 189, 248, 0.35) !important;
-            color: #38bdf8 !important;
-        }
-        .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a,
-        .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover a {
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            border-color: #38bdf8 !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.45), 0 0 12px rgba(56, 189, 248, 0.3) !important;
-        }
-        .tabs.org-tabs:not(#mobile) li.tab.leave-tab a {
-            background: rgba(239, 68, 68, 0.12) !important;
-            border-color: rgba(239, 68, 68, 0.3) !important;
-            color: #f87171 !important;
-        }
-        .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover a {
-            background: rgba(239, 68, 68, 0.25) !important;
-            border-color: rgba(239, 68, 68, 0.6) !important;
-            color: #ffffff !important;
-            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35) !important;
-        }
-        /* ── Organization Tabs: Icon-Only by Default, Text Revealed on Hover ── */
-        .tabs.org-tabs:not(#mobile) li.tab a,
-        .tabs.org-tabs:not(#mobile) li.tab > span {
+
+        /* ── Standard Tabs: Icon-Only by Default, Text Revealed ONLY on Hover ── */
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) a,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) > span {
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -60,15 +37,16 @@
             box-sizing: border-box !important;
         }
 
-        .tabs.org-tabs:not(#mobile) li.tab .tab-icon {
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) .tab-icon {
             margin-right: 0 !important;
             flex-shrink: 0 !important;
             transition: margin 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .tabs.org-tabs:not(#mobile) li.tab .tab-text {
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) .tab-text {
             display: inline-block !important;
             max-width: 0 !important;
+            width: auto !important;
             opacity: 0 !important;
             overflow: hidden !important;
             white-space: nowrap !important;
@@ -80,27 +58,83 @@
             pointer-events: none !important;
         }
 
-        /* Hover & Focus state: Expand pill and reveal text smoothly */
-        .tabs.org-tabs:not(#mobile) li.tab:hover a,
-        .tabs.org-tabs:not(#mobile) li.tab:focus-within a,
-        .tabs.org-tabs:not(#mobile) li.tab:hover > span,
-        .tabs.org-tabs:not(#mobile) li.tab:focus-within > span {
+        /* Hover & Focus state for Standard Tabs: Expand pill and reveal text smoothly */
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover a,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within a,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover > span,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within > span {
             padding: 8px 18px !important;
         }
 
-        .tabs.org-tabs:not(#mobile) li.tab:hover .tab-text,
-        .tabs.org-tabs:not(#mobile) li.tab:focus-within .tab-text {
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover .tab-text,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within .tab-text {
             max-width: 140px !important;
             opacity: 1 !important;
             margin-left: 7px !important;
         }
+
+        /* ── Action Tabs (Request, Leave, Join): ALWAYS SHOW BOTH ICON AND TEXT ── */
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab a,
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab > span {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 8px 18px !important;
+            border-radius: 100px !important;
+            gap: 6px !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab .tab-icon {
+            margin-right: 0 !important;
+            flex-shrink: 0 !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab .tab-text {
+            display: inline-block !important;
+            max-width: none !important;
+            opacity: 1 !important;
+            overflow: visible !important;
+            white-space: nowrap !important;
+            margin-left: 0 !important;
+            vertical-align: middle !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab a {
+            background: rgba(2, 132, 199, 0.15) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover a {
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            border-color: #38bdf8 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.45), 0 0 12px rgba(56, 189, 248, 0.3) !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab.leave-tab a {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border-color: rgba(239, 68, 68, 0.3) !important;
+            color: #f87171 !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover a {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35) !important;
+        }
     </style>
     <script>
         $(function() {
-            $(".tabs").addClass("org-tabs");
             $(".leave-org-action-trigger").click(function () {
-                var msg = {{ _('Are you sure you want to leave this organization?')|htmltojs }} + '
-' + {% if organization.is_open %}{{ _('You will have to rejoin to show up on the organization leaderboard.')|htmltojs }}{% else %}{{ _('You will have to request membership in order to join again.')|htmltojs }}{% endif %};
+                var msg = {{ _('Are you sure you want to leave this organization?')|htmltojs }} + "
+" + {% if organization.is_open %}{{ _('You will have to rejoin to show up on the organization leaderboard.')|htmltojs }}{% else %}{{ _('You will have to request membership in order to join again.')|htmltojs }}{% endif %};
                 if (confirm(msg)) {
                     document.getElementById('leave-org-form').submit();
                 }
