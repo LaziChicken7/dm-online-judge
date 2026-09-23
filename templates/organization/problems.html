@@ -34,7 +34,46 @@
             font-size: 14px !important;
             margin-bottom: 24px !important;
         }
-    </style>
+    
+    /* ── High-visibility Outer Card Glowing Borders ── */
+    .problem-table-card,
+    .contest-table-card {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 18px !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        overflow-x: auto !important;
+        padding: 10px 16px 14px 16px !important;
+        margin-bottom: 24px !important;
+        box-sizing: border-box !important;
+        transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease !important;
+    }
+    .problem-table-card:hover,
+    .contest-table-card:hover {
+        border: 2px solid #38bdf8 !important;
+        box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.5), inset 0 0 15px rgba(56, 189, 248, 0.15) !important;
+        transform: translateY(-2px) !important;
+    }
+
+    .contest-user-badge,
+    .contest-list tbody td a.contest-user-badge,
+    .contest-list tbody td a[href*="ranking"] {
+        border: 2px solid rgba(167, 139, 250, 0.85) !important;
+        box-shadow: 0 0 12px rgba(167, 139, 250, 0.4) !important;
+        color: #ddd6fe !important;
+        background: rgba(167, 139, 250, 0.18) !important;
+        padding: 5px 16px !important;
+        border-radius: 8px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-family: 'Google Sans Code', monospace !important;
+        font-weight: 700 !important;
+        font-size: 14px !important;
+    }
+
+</style>
 {% endblock %}
 {% block body %}
     <div class="org-top-toolbar">
@@ -83,7 +122,7 @@
                                         {{ p.i18n_name or p.name }}
                                     </a>
                                     {% if p.is_organization_private %}
-                                        <span class="org-private-pill" title="{{ _('Private to organization') }}">
+                                        <span class="org-private-pill" title="{{ _('Private to organization') }}" style="display: inline-flex !important; align-items: center !important; gap: 4px !important; white-space: nowrap !important; flex-shrink: 0 !important;">
                                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                             <span>{{ _('Private') }}</span>
                                         </span>
