@@ -469,18 +469,34 @@
             padding-left: 12px !important;
         }
         .org-view-all-link {
-            font-size: 13px;
-            font-weight: 600;
-            color: #38bdf8;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            transition: all 0.15s ease;
+            font-size: 12.5px !important;
+            font-weight: 700 !important;
+            color: #38bdf8 !important;
+            text-decoration: none !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 5px 14px !important;
+            border-radius: 100px !important;
+            background: rgba(56, 189, 248, 0.1) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            letter-spacing: 0.2px !important;
         }
         .org-view-all-link:hover {
-            color: #7dd3fc;
-            transform: translateX(2px);
+            background: rgba(56, 189, 248, 0.2) !important;
+            border-color: #38bdf8 !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(56, 189, 248, 0.35), 0 0 12px rgba(56, 189, 248, 0.2) !important;
+            transform: translateY(-1px) !important;
+        }
+        .org-view-all-link svg {
+            transition: transform 0.2s ease !important;
+        }
+        .org-view-all-link:hover svg {
+            transform: translateX(2px) !important;
+            color: #ffffff !important;
         }
         .org-table-wrap {
             background: rgba(255, 255, 255, 0.03) !important;
@@ -1298,7 +1314,7 @@
                 {% endif %}
             </div>
             {% if org_problems %}
-                <div class="problem-table-card">
+                <div class="h-scrollable-table" style="width: 100%;">
                     <table id="problem-table" class="table striped">
                         <thead>
                             <tr>
