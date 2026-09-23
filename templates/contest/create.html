@@ -404,7 +404,7 @@
                     <label for="id_key">{{ _('Mã kỳ thi (ID/Key)') }} <span class="req-star">*</span></label>
                 </div>
                 <div class="form-control-col">
-                    <input type="text" name="key" id="id_key" class="form-input-cyber short" placeholder="Ví dụ: contest_t9_2026" value="{{ post.key if post else '' }}" required pattern="[a-zA-Z0-9]+" autocomplete="off">
+                    <input type="text" name="key" id="id_key" class="form-input-cyber short" placeholder="Ví dụ: contest_t9_2026" value="{{ post.key if post else '' }}" required pattern="[a-zA-Z0-9_]+" maxlength="64" autocomplete="off">
                     <div class="help-text">{{ _('Mã định danh duy nhất trong URL (/contest/<key>/). Chỉ chứa chữ cái và số.') }}</div>
                 </div>
             </div>
@@ -657,8 +657,8 @@
                 if (!keyInput.dataset.manual) {
                     var val = nameInput.value.trim().toLowerCase()
                         .normalize("NFD").replace(/[̀-ͯ]/g, "")
-                        .replace(/[^a-z0-9]/g, "");
-                    keyInput.value = val.substring(0, 20);
+                        .replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+                    keyInput.value = val.substring(0, 64);
                 }
             });
             keyInput.addEventListener('input', function() {

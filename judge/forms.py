@@ -297,7 +297,7 @@ class ProblemCloneForm(Form):
 
 
 class ContestCloneForm(Form):
-    key = CharField(max_length=20, validators=[RegexValidator('^[a-z0-9]+$', _('Contest id must be ^[a-z0-9]+$'))])
+    key = CharField(max_length=64, validators=[RegexValidator('^[a-z0-9_]+$', _('Contest id must be ^[a-z0-9_]+$'))])
 
     def clean_key(self):
         key = self.cleaned_data['key']
