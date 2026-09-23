@@ -559,11 +559,11 @@
                 {% endif %}
                 {% if organization.is_open %}
                     <span class="org-status-chip open">
-                        <i class="fa fa-unlock"></i> {{ _('Open') }}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> {{ _('Open') }}
                     </span>
                 {% else %}
                     <span class="org-status-chip closed">
-                        <i class="fa fa-lock"></i> {{ _('Approval Required') }}
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> {{ _('Approval Required') }}
                     </span>
                 {% endif %}
             </div>
@@ -571,23 +571,23 @@
 
         <div class="org-sidebar-stats">
             <div class="org-stat-box">
-                <i class="fa fa-users" style="color: #38bdf8;"></i>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <div class="org-stat-num">{{ organization.members.count() }}</div>
                 <div class="org-stat-lbl">{{ _('Members') }}</div>
             </div>
             <div class="org-stat-box">
-                <i class="fa fa-graduation-cap" style="color: #10b981;"></i>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
                 <div class="org-stat-num">{{ classes|length }}</div>
                 <div class="org-stat-lbl">{{ _('Classes') }}</div>
             </div>
             {% if is_member_or_admin %}
                 <div class="org-stat-box">
-                    <i class="fa fa-trophy" style="color: #f59e0b;"></i>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg>
                     <div class="org-stat-num">{{ org_contests_count }}</div>
                     <div class="org-stat-lbl">{{ _('Contests') }}</div>
                 </div>
                 <div class="org-stat-box">
-                    <i class="fa fa-book" style="color: #a855f7;"></i>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                     <div class="org-stat-num">{{ org_problems_count }}</div>
                     <div class="org-stat-lbl">{{ _('Problems') }}</div>
                 </div>
@@ -646,7 +646,7 @@
         <div class="org-sidebar-nav">
             <a href="{{ organization.get_users_url() }}" class="org-nav-link">
                 <span class="org-nav-link-left">
-                    <i class="fa fa-users"></i>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     <span>{{ _('View Members') }}</span>
                 </span>
                 <span class="org-nav-badge">{{ organization.members.count() }}</span>
@@ -654,14 +654,14 @@
             {% if is_member_or_admin %}
                 <a href="{{ url('organization_contests', organization.id, organization.slug) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
-                        <i class="fa fa-trophy"></i>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg>
                         <span>{{ _('Contests') }}</span>
                     </span>
                     <span class="org-nav-badge">{{ org_contests_count }}</span>
                 </a>
                 <a href="{{ url('organization_problems', organization.id, organization.slug) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
-                        <i class="fa fa-book"></i>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                         <span>{{ _('Problems') }}</span>
                     </span>
                     <span class="org-nav-badge">{{ org_problems_count }}</span>
@@ -670,36 +670,36 @@
             {% if can_edit %}
                 <a href="{{ url('edit_organization', organization.id, organization.slug) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
-                        <i class="fa fa-edit"></i>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
                         <span>{{ _('Edit Organization') }}</span>
                     </span>
-                    <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             {% endif %}
             {% if can_review_requests %}
                 <a href="{{ url('organization_requests_pending', organization.id, organization.slug) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
-                        <i class="fa fa-user-plus"></i>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
                         <span>{{ _('View Requests') }}</span>
                     </span>
-                    <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             {% endif %}
             {% if perms.judge.change_organization %}
                 <a href="{{ url('admin:judge_organization_change', organization.id) }}" class="org-nav-link">
                     <span class="org-nav-link-left">
-                        <i class="fa fa-gavel"></i>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
                         <span>{{ _('Admin Panel') }}</span>
                     </span>
-                    <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                 </a>
             {% endif %}
             <a href="{{ url('organization_list') }}" class="org-nav-link">
                 <span class="org-nav-link-left">
-                    <i class="fa fa-university"></i>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="2" y1="22" x2="22" y2="22"></line><line x1="12" y1="2" x2="22" y2="7"></line><line x1="12" y1="2" x2="2" y2="7"></line><line x1="4" y1="7" x2="20" y2="7"></line><line x1="4" y1="22" x2="4" y2="7"></line><line x1="8" y1="22" x2="8" y2="7"></line><line x1="12" y1="22" x2="12" y2="7"></line><line x1="16" y1="22" x2="16" y2="7"></line><line x1="20" y1="22" x2="20" y2="7"></line></svg>
                     <span>{{ _('All Organizations') }}</span>
                 </span>
-                <i class="fa fa-angle-right" style="color: #64748b; font-size: 12px;"></i>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </a>
         </div>
 
@@ -761,12 +761,12 @@
             <span class="org-badge-code">{{ organization.short_name }}</span>
         {% endif %}
         {% if organization.is_open %}
-            <span class="org-status-chip open"><i class="fa fa-unlock"></i> {{ _('Open Organization') }}</span>
+            <span class="org-status-chip open"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 9.9-1"></path></svg> {{ _('Open Organization') }}</span>
         {% else %}
-            <span class="org-status-chip closed"><i class="fa fa-lock"></i> {{ _('Private Organization') }}</span>
+            <span class="org-status-chip closed"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg> {{ _('Private Organization') }}</span>
         {% endif %}
         <span style="color: #64748b; font-size: 13px; font-family: 'Google Sans Code', monospace;">
-            <i class="fa fa-users" style="margin-right: 4px;"></i>{{ organization.members.count() }} {{ _('members') }}
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>{{ organization.members.count() }} {{ _('members') }}
         </span>
     </div>
 
@@ -778,7 +778,7 @@
         </div>
     {% else %}
         <div class="org-about-empty">
-            <i class="fa fa-info-circle" style="font-size: 20px; color: #38bdf8; margin-bottom: 8px; display: block;"></i>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; display: inline-block;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg><br>
             {{ _('No description has been provided for this organization yet.') }}
         </div>
     {% endif %}
@@ -801,11 +801,11 @@
                         <div>
                             {% if class.joined %}
                                 <span class="org-class-badge joined">
-                                    <i class="fa fa-check"></i> {{ _('Joined') }}
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><polyline points="20 6 9 17 4 12"></polyline></svg> {{ _('Joined') }}
                                 </span>
                             {% else %}
                                 <a class="org-class-btn-join" href="{{ class.get_join_url() }}">
-                                    <i class="fa fa-plus"></i> {{ _('Request to join') }}
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle;"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> {{ _('Request to join') }}
                                 </a>
                             {% endif %}
                         </div>
@@ -825,7 +825,7 @@
                 </div>
                 {% if org_contests_count > org_contests|length %}
                     <a href="{{ url('organization_contests', organization.id, organization.slug) }}" class="org-view-all-link">
-                        {{ _('View all') }} <i class="fa fa-angle-right"></i>
+                        {{ _('View all') }} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 2px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </a>
                 {% endif %}
             </div>
@@ -863,7 +863,7 @@
                 </div>
             {% else %}
                 <div class="org-empty-box">
-                    <i class="fa fa-trophy" style="font-size: 24px; color: #38bdf8; margin-bottom: 6px; display: block;"></i>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; display: inline-block;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg><br>
                     {{ _('There are no contests in this organization yet. Click "Add contest" above to create one!') }}
                 </div>
             {% endif %}
@@ -878,7 +878,7 @@
                 </div>
                 {% if org_problems_count > org_problems|length %}
                     <a href="{{ url('organization_problems', organization.id, organization.slug) }}" class="org-view-all-link">
-                        {{ _('View all') }} <i class="fa fa-angle-right"></i>
+                        {{ _('View all') }} <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-left: 2px;"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     </a>
                 {% endif %}
             </div>
@@ -911,7 +911,7 @@
                 </div>
             {% else %}
                 <div class="org-empty-box">
-                    <i class="fa fa-book" style="font-size: 24px; color: #38bdf8; margin-bottom: 6px; display: block;"></i>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 8px; display: inline-block;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><br>
                     {{ _('There are no problems in this organization yet. Click "Add problem" above to add one!') }}
                 </div>
             {% endif %}

@@ -1,39 +1,336 @@
 {% extends "base.html" %}
+{% block title_ruler %}{% endblock %}
+{% block media %}
+    <style>
+        .org-pending-wrapper {
+            max-width: 1280px;
+            margin: 30px auto 60px auto;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .org-pending-header-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 28px 36px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            margin-bottom: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            flex-wrap: wrap !important;
+            gap: 16px !important;
+        }
+        .org-pending-header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .org-pending-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(99, 102, 241, 0.2));
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #38bdf8;
+            flex-shrink: 0;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.2);
+        }
+        .org-pending-title {
+            font-size: 22px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 0 4px 0 !important;
+            letter-spacing: -0.01em !important;
+        }
+        .org-pending-sub {
+            color: #94a3b8;
+            font-size: 13.5px;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-back-org {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 18px;
+            border-radius: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #94a3b8;
+            font-size: 13.5px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-back-org:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border-color: rgba(56, 189, 248, 0.4);
+        }
+        .org-table-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 24px !important;
+            box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.45) !important;
+            box-sizing: border-box !important;
+            overflow: hidden !important;
+        }
+        .org-requests-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 0;
+        }
+        .org-requests-table th {
+            background: rgba(255, 255, 255, 0.02) !important;
+            color: #94a3b8 !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 1px !important;
+            padding: 14px 18px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+            text-align: left;
+        }
+        .org-requests-table td {
+            padding: 16px 18px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            font-size: 13.5px !important;
+            color: #e2e8f0 !important;
+            vertical-align: middle;
+        }
+        .org-requests-table tr:last-child td {
+            border-bottom: none !important;
+        }
+        .org-requests-table tr:hover td {
+            background: rgba(56, 189, 248, 0.03) !important;
+        }
+        .user-cell-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+        .user-cell-wrap svg {
+            color: #38bdf8;
+            flex-shrink: 0;
+        }
+        .time-cell-wrap {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: #94a3b8;
+            font-size: 12.5px;
+            text-decoration: none;
+        }
+        .time-cell-wrap:hover {
+            color: #38bdf8;
+        }
+        .time-cell-wrap svg {
+            color: #64748b;
+            flex-shrink: 0;
+        }
+        .reason-bubble {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 8px 12px;
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.5;
+            max-width: 360px;
+            word-break: break-word;
+        }
+        .state-select-cyber {
+            background: rgba(15, 23, 42, 0.8) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            border-radius: 8px !important;
+            padding: 6px 12px !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13px !important;
+            outline: none !important;
+            cursor: pointer !important;
+        }
+        .state-select-cyber:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.25) !important;
+        }
+        .delete-check-wrap {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .delete-check-wrap input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #ef4444;
+            cursor: pointer;
+        }
+        .org-table-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .btn-update-requests {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 26px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 13.5px;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-update-requests:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3);
+            border-color: rgba(56, 189, 248, 0.9);
+        }
+        .org-requests-empty {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px dashed rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 48px 24px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 14.5px;
+        }
+        .org-requests-empty svg {
+            color: #38bdf8;
+            margin-bottom: 12px;
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
 {% block body %}
-    {% include "messages.html" %}
-    {% include "organization/requests/tabs.html" %}
-
-    {% if formset.forms %}
-        <form action="" method="post">
-            {% csrf_token %}
-            {{ formset.management_form }}
-            <table>
-                <tr>
-                    <th>{{ _('User') }}</th>
-                    <th>{{ _('Time') }}</th>
-                    <th>{{ _('State') }}</th>
-                    <th>{{ _('Reason') }}</th>
-                    {% if formset.can_delete %}
-                        <th>{{ _('Delete?') }}</th>
-                    {% endif %}
-                </tr>
-                {% for form in formset %}
-                    <tr id="request-{{ form.instance.id }}">
-                        <td>{{ form.id }}{{ link_user(form.instance.user) }}</td>
-                        <td><a href="{{ url('request_organization_detail', object.id, object.slug, form.instance.id) }}">
-                            {{ form.instance.time|date(_("N j, Y, H:i")) }}
-                        </a></td>
-                        <td>{{ form.state }}</td>
-                        <td>{{ form.instance.reason|truncatechars(50) }}</td>
-                        {% if formset.can_delete %}
-                            <td>{{ form.DELETE }}</td>
+    <div class="org-pending-wrapper">
+        <div class="org-pending-header-card">
+            <div class="org-pending-header-left">
+                <div class="org-pending-avatar">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <line x1="19" y1="8" x2="19" y2="14"></line>
+                        <line x1="22" y1="11" x2="16" y2="11"></line>
+                    </svg>
+                </div>
+                <div>
+                    <h2 class="org-pending-title">{{ _('Quản lý yêu cầu gia nhập') }}</h2>
+                    <p class="org-pending-sub">
+                        <span>{{ object.name }}</span>
+                        {% if object.short_name %}
+                            <span class="org-badge-code">{{ object.short_name }}</span>
                         {% endif %}
-                    </tr>
-                {% endfor %}
-            </table>
-            <button type="submit">{{ _('Update') }}</button>
-        </form>
-    {% else %}
-        <p>{{ _('There are no requests to approve.') }}</p>
-    {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div>
+                <a href="{{ object.get_absolute_url() }}" class="btn-back-org">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                    <span>{{ _('Quay lại Tổ chức') }}</span>
+                </a>
+            </div>
+        </div>
+
+        {% include "messages.html" %}
+        {% include "organization/requests/tabs.html" %}
+
+        {% if formset.forms %}
+            <div class="org-table-card">
+                <form action="" method="post" id="pending-requests-form">
+                    {% csrf_token %}
+                    {{ formset.management_form }}
+                    <table class="org-requests-table">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Thành viên') }}</th>
+                                <th>{{ _('Thời gian') }}</th>
+                                <th style="width: 160px;">{{ _('Trạng thái quyết định') }}</th>
+                                <th>{{ _('Lý do xin gia nhập') }}</th>
+                                {% if formset.can_delete %}
+                                    <th style="width: 80px; text-align: center;">{{ _('Xóa?') }}</th>
+                                {% endif %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for form in formset %}
+                                <tr id="request-{{ form.instance.id }}">
+                                    <td>
+                                        <div class="user-cell-wrap">
+                                            {{ form.id }}
+                                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                                            {{ link_user(form.instance.user) }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('request_organization_detail', object.id, object.slug, form.instance.id) }}" class="time-cell-wrap" title="{{ _('Xem chi tiết') }}">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                            <span>{{ form.instance.time|date(_("N j, Y, H:i")) }}</span>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <div class="state-cell-wrap">
+                                            {{ form.state }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="reason-bubble">
+                                            {{ form.instance.reason or _('(Không có lý do)') }}
+                                        </div>
+                                    </td>
+                                    {% if formset.can_delete %}
+                                        <td style="text-align: center;">
+                                            <div class="delete-check-wrap">
+                                                {{ form.DELETE }}
+                                            </div>
+                                        </td>
+                                    {% endif %}
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="org-table-actions">
+                        <button type="submit" class="btn-update-requests">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
+                            <span>{{ _('Lưu thay đổi quyết định') }}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        {% else %}
+            <div class="org-requests-empty">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                <p style="margin: 0; font-weight: 600;">{{ _('Hiện không có yêu cầu nào đang chờ xét duyệt.') }}</p>
+                <p style="margin: 8px 0 0 0; font-size: 13px; color: #64748b;">{{ _('Khi có thành viên nộp đơn xin gia nhập, danh sách sẽ hiển thị tại đây để bạn phê duyệt hoặc từ chối.') }}</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var selects = document.querySelectorAll('.state-cell-wrap select');
+            selects.forEach(function(sel) {
+                sel.classList.add('state-select-cyber');
+            });
+        });
+    </script>
 {% endblock %}
