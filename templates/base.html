@@ -415,7 +415,101 @@
             box-shadow: none !important;
             cursor: not-allowed !important;
 
-    </style>
+    
+    /* ── Glowing hover border for #problem-table & .contest-list (matching Image #1 & #2 request) ── */
+    #problem-table tbody tr:hover td,
+    .contest-list tbody tr:hover td {
+        border-top-color: rgba(56, 189, 248, 0.55) !important;
+        border-bottom-color: rgba(56, 189, 248, 0.55) !important;
+    }
+    #problem-table tbody tr:hover td:first-child,
+    .contest-list tbody tr:hover td:first-child {
+        border-left-color: rgba(56, 189, 248, 0.55) !important;
+    }
+    #problem-table tbody tr:hover td:last-child,
+    .contest-list tbody tr:hover td:last-child {
+        border-right-color: rgba(56, 189, 248, 0.55) !important;
+    }
+    #problem-table tbody td,
+    .contest-list tbody td {
+        transition: border-color 0.22s ease, background-color 0.22s ease !important;
+    }
+
+    /* Global .org-private-pill styling */
+    .org-private-pill {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        padding: 2px 8px !important;
+        border-radius: 100px !important;
+        background: rgba(245, 158, 11, 0.14) !important;
+        border: 1px solid rgba(245, 158, 11, 0.35) !important;
+        color: #f59e0b !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        vertical-align: middle !important;
+        line-height: 1.4 !important;
+        text-decoration: none !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+    }
+    .org-private-pill svg {
+        flex-shrink: 0 !important;
+        color: #f59e0b !important;
+    }
+
+
+    /* ── Hover Border for .problem-table-card & .contest-table-card (matching Image #1 & #2) ── */
+    .problem-table-card,
+    .contest-table-card {
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        border-radius: 16px !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        overflow-x: auto !important;
+        padding: 8px 16px 12px 16px !important;
+        margin-bottom: 28px !important;
+        box-sizing: border-box !important;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                    border-color 0.25s ease, 
+                    box-shadow 0.25s ease, 
+                    background 0.25s ease !important;
+    }
+    .problem-table-card:hover,
+    .contest-table-card:hover {
+        border-color: rgba(56, 189, 248, 0.55) !important;
+        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                    0 0 25px rgba(56, 189, 248, 0.2), 
+                    inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+        transform: translateY(-2px) !important;
+        background: rgba(255, 255, 255, 0.045) !important;
+    }
+    .org-private-pill {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        padding: 2px 8px !important;
+        border-radius: 100px !important;
+        background: rgba(245, 158, 11, 0.14) !important;
+        border: 1px solid rgba(245, 158, 11, 0.35) !important;
+        color: #f59e0b !important;
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        vertical-align: middle !important;
+        line-height: 1.4 !important;
+        text-decoration: none !important;
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+    }
+    .org-private-pill svg {
+        flex-shrink: 0 !important;
+        color: #f59e0b !important;
+    }
+
+</style>
     {% endif %}
     {% block media %}{% endblock %}
     {% if not INLINE_JQUERY %}
