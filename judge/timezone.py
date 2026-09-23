@@ -11,8 +11,10 @@ class TimezoneMiddleware(object):
 
     def get_timezone(self, request):
         tzname = settings.DEFAULT_USER_TIME_ZONE
-        if request.profile:
+        if request.profile and request.profile.timezone:
             tzname = request.profile.timezone
+            if tzname == 'Asia/Saigon':
+                tzname = 'Asia/Ho_Chi_Minh'
         return pytz.timezone(tzname)
 
     def __call__(self, request):

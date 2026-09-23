@@ -15,7 +15,7 @@ from judge.views import TitledTemplateView, api, blog, comment, contests, langua
     preview, problem, problem_manage, ranked_submission, register, stats, status, submission, tasks, ticket, \
     two_factor, user, widgets, vjudge, clue, ntucoder, ltpt
 from judge.views.problem_data import ProblemDataView, ProblemSubmissionDiff, \
-    problem_data_file, problem_init_view
+    problem_data_file, problem_init_view, problem_polygon_generate_view, problem_submission_source_view
 from judge.views.register import ActivationView, RegistrationView
 from judge.views.select2 import AssigneeSelect2View, ClassSelect2View, CommentSelect2View, ContestSelect2View, \
     ContestUserSearchSelect2View, OrganizationSelect2View, ProblemSelect2View, TicketUserSelect2View, \
@@ -137,6 +137,8 @@ urlpatterns = [
         path('/test_data', ProblemDataView.as_view(), name='problem_data'),
         path('/test_data/init', problem_init_view, name='problem_data_init'),
         path('/test_data/diff', ProblemSubmissionDiff.as_view(), name='problem_submission_diff'),
+        path('/test_data/polygon_generate', problem_polygon_generate_view, name='problem_polygon_generate'),
+        path('/test_data/submission_source/<int:sub_id>', problem_submission_source_view, name='problem_submission_source'),
         path('/data/<path:path>', problem_data_file, name='problem_data_file'),
 
         path('/tickets', ticket.ProblemTicketListView.as_view(), name='problem_ticket_list'),
@@ -179,6 +181,7 @@ urlpatterns = [
     ])),
 
     path('user', user.UserAboutPage.as_view(), name='user_page'),
+    path('user/', user.UserAboutPage.as_view(), name='user_page_slash'),
     path('edit/profile/', user.edit_profile, name='user_edit_profile'),
     path('data/prepare/', user.UserPrepareData.as_view(), name='user_prepare_data'),
     path('data/download/', user.UserDownloadData.as_view(), name='user_download_data'),

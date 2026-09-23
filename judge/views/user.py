@@ -184,15 +184,30 @@ class UserAboutPage(UserPage):
             .values('date_only').annotate(cnt=Count('id'))
         )
 
-        context['submission_data'] = mark_safe(json.dumps({
-            date_counts['date_only'].isoformat(): date_counts['cnt'] for date_counts in submissions
-        }))
+        sub_dict = {}
+        for item in submissions:
+            d = item.get('date_only')
+            if d is not None:
+                sub_dict[d.isoformat()] = item['cnt']
+
+        if not sub_dict and self.object.submission_set.exists():
+            from collections import Counter
+            counts = Counter(sub.date.date().isoformat() for sub in self.object.submission_set.only('date') if sub.date)
+            sub_dict = dict(counts)
+
+        context['submission_data'] = mark_safe(json.dumps(sub_dict))
+
+        min_year = (
+            self.object.submission_set
+            .annotate(year_only=ExtractYear('date'))
+            .aggregate(min_year=Min('year_only'))['min_year']
+        )
+        if min_year is None:
+            first_sub = self.object.submission_set.order_by('date').values_list('date', flat=True).first()
+            min_year = first_sub.year if first_sub else timezone.now().year
+
         context['submission_metadata'] = mark_safe(json.dumps({
-            'min_year': (
-                self.object.submission_set
-                .annotate(year_only=ExtractYear('date'))
-                .aggregate(min_year=Min('year_only'))['min_year']
-            ),
+            'min_year': min_year,
         }))
         return context
 
