@@ -1,12 +1,10 @@
 {% extends "common-content.html" %}
-
 {% block title_ruler %}{% endblock %}
 {% block title_row %}
     {% set tab = 'problems' %}
     {% set content_title = organization.name %}
     {% include "organization/organization-tabs.html" %}
 {% endblock %}
-
 {% block content_media %}
     <style>
         .org-top-toolbar {
@@ -26,16 +24,6 @@
             text-transform: uppercase !important;
             font-family: 'Google Sans Code', monospace !important;
         }
-        .org-table-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(12px) !important;
-            overflow-x: auto !important;
-            padding: 8px 16px 12px 16px !important;
-            margin-bottom: 28px !important;
-            box-sizing: border-box !important;
-        }
         .org-empty-box {
             background: rgba(255, 255, 255, 0.02) !important;
             border: 1px dashed rgba(255, 255, 255, 0.08) !important;
@@ -46,68 +34,102 @@
             font-size: 14px !important;
             margin-bottom: 24px !important;
         }
-        .org-badge-code {
-            display: inline-flex;
-            align-items: center;
-            padding: 3px 10px;
-            border-radius: 6px;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            color: #38bdf8;
-            font-family: 'Google Sans Code', monospace;
-            font-size: 12.5px;
-            font-weight: 700;
-            text-decoration: none;
+        .org-private-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            padding: 2px 7px !important;
+            border-radius: 100px !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+            color: #f59e0b !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            vertical-align: middle !important;
         }
     </style>
 {% endblock %}
-
 {% block body %}
     <div class="org-top-toolbar">
         <div>
             <div class="org-section-tag">{{ _('ORGANIZATION PROBLEMS') }}</div>
             <h2 style="margin: 4px 0 0 0; font-size: 20px; font-weight: 800; color: #ffffff;">
-                {{ _('Organization Problems') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count }})</span>
+                {{ _('Organization Problems') }} <span style="font-weight: 400; color: #64748b; font-size: 16px;">({{ paginator.count if paginator else problems|length }})</span>
             </h2>
         </div>
         {% if is_member_or_admin %}
             {% include "problem/add-problem-dropdown.html" %}
         {% endif %}
     </div>
-
     {% if problems %}
-        <div class="org-table-card">
-            <table class="org-data-table">
+        <div class="h-scrollable-table" style="width: 100%;">
+            <table id="problem-table" class="table striped">
                 <thead>
                     <tr>
-                        <th style="width: 270px;">{{ _('Code') }}</th>
-                        <th>{{ _('Problem name') }}</th>
-                        <th style="width: 100px; text-align: center;">{{ _('Points') }}</th>
+                        <th class="solved" style="width: 40px; text-align: center;"><i class="fa fa-check"></i></th>
+                        <th class="problem-id" style="width: 180px;">ID</th>
+                        <th class="problem">{{ _('Problem') }}</th>
+                        <th class="category">{{ _('Category') }}</th>
+                        <th class="points" style="width: 90px;">{{ _('Points') }}</th>
+                        <th class="ac-rate" style="width: 90px;">{{ _('AC %%') }}</th>
+                        <th class="editorial" style="width: 50px; text-align: center;" title="{{ _('Editorial') }}"><i class="fa fa-book"></i></th>
+                        <th class="users" style="width: 80px; text-align: center;">{{ _('Users') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for p in problems %}
                         <tr>
-                            <td>
-                                <div style="display: inline-flex; align-items: center; gap: 6px; flex-wrap: nowrap;">
-                                    <a href="{{ url('problem_detail', p.code) }}" class="org-badge-code">
-                                        {{ p.code }}
-                                    </a>
-                                    {% if p.is_organization_private %}
-                                        <span class="org-private-pill" title="{{ _('Private to organization') }}">
-                                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                            <span>{{ _('Private') }}</span>
-                                        </span>
-                                    {% endif %}
-                                </div>
+                            <td solved="-1" style="text-align: center;">
+                                {% if request.user.is_authenticated and p.id in completed_problem_ids %}
+                                    <i class="solved-problem-color fa fa-check-circle" style="color: #10b981;"></i>
+                                {% elif request.user.is_authenticated and p.id in attempted_problems %}
+                                    <i class="attempted-problem-color fa fa-minus-circle" style="color: #f59e0b;"></i>
+                                {% else %}
+                                    <i class="unsolved-problem-color fa fa-minus-circle" style="color: #ef4444; opacity: 0.8;"></i>
+                                {% endif %}
                             </td>
-                            <td>
-                                <a href="{{ url('problem_detail', p.code) }}" class="org-item-title">
-                                    {{ p.name }}
+                            <td class="problem-id">
+                                <a href="{{ url('problem_detail', p.code) }}" style="color: inherit; text-decoration: none;">
+                                    {{ p.code|upper }}
                                 </a>
                             </td>
-                            <td style="text-align: center;">
-                                <span class="org-points-val">{{ p.points }}</span>
+                            <td class="problem">
+                                <a href="{{ url('problem_detail', p.code) }}">
+                                    {{ p.i18n_name or p.name }}
+                                </a>
+                                {% if p.is_organization_private %}
+                                    <span class="org-private-pill" style="margin-left: 8px;">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                        <span>{{ _('Private') }}</span>
+                                    </span>
+                                {% endif %}
+                            </td>
+                            <td class="category">
+                                <span class="category-badge">
+                                    {{ p.group.full_name if p.group else (p.types.first().name if p.types.all() else 'Uncategorized') }}
+                                </span>
+                            </td>
+                            <td class="p">
+                                {{ p.points|floatformat }}{% if p.partial %}p{% else %}p{% endif %}
+                            </td>
+                            <td class="ac-rate">
+                                {{ (p.ac_rate|floatformat(1) if p.ac_rate is not none else '0.0') }}%
+                            </td>
+                            <td class="editorial" style="text-align: center;">
+                                {% if p.has_public_editorial %}
+                                    <a href="{{ url('problem_editorial', p.code) }}">
+                                        <i class="has-editorial-color fa fa-check-circle" style="color: #10b981;"></i>
+                                    </a>
+                                {% else %}
+                                    <i class="no-editorial-color fa fa-minus-circle" style="color: #475569;"></i>
+                                {% endif %}
+                            </td>
+                            <td class="users" style="text-align: center;">
+                                <a href="{{ url('ranked_submissions', p.code) }}" style="color: #a855f7; font-weight: 700;">
+                                    {{ p.user_count }}
+                                </a>
                             </td>
                         </tr>
                     {% endfor %}
@@ -118,11 +140,13 @@
     {% else %}
         <div class="org-empty-box">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px; display: inline-block;"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg><br>
-            {% if is_member_or_admin %}
-                {{ _('There are no problems in this organization yet. Click "Add problem" above to add one!') }}
-            {% else %}
-                {{ _('Only organization members can view the list of organization problems.') }}
-            {% endif %}
+            <p style="margin: 0;">
+                {% if is_member_or_admin %}
+                    {{ _('There are no problems in this organization yet. Click "Add problem" above to add one!') }}
+                {% else %}
+                    {{ _('Only organization members can view the list of organization problems.') }}
+                {% endif %}
+            </p>
         </div>
     {% endif %}
 {% endblock %}

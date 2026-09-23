@@ -72,7 +72,350 @@
         text-shadow: none !important;
     }
 
-</style>
+
+                    background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.05) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(12px) !important;
+            overflow-x: auto !important;
+            padding: 8px 16px 12px 16px !important;
+            margin-bottom: 28px !important;
+            box-sizing: border-box !important;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s ease,
+                        background 0.25s ease !important;
+        }
+        .contest-table-card:hover {
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
+                        0 0 25px rgba(56, 189, 248, 0.2), 
+                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+            transform: translateY(-2px) !important;
+            background: rgba(255, 255, 255, 0.045) !important;
+        }
+
+        .contest-empty-card {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border: 1px solid rgba(255, 255, 255, 0.04) !important;
+            border-radius: 12px !important;
+            padding: 18px 24px !important;
+            color: #64748b !important;
+            font-size: 14px !important;
+            margin-bottom: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+
+        /* ── Table Structure ── */
+        table.contest-list,
+        .contest-list {
+            border-collapse: separate !important;
+            border-spacing: 0 8px !important;
+            width: 100% !important;
+            background: transparent !important;
+            border: none !important;
+            margin-bottom: 0 !important;
+            backdrop-filter: none !important;
+            box-shadow: none !important;
+        }
+
+        /* ── Headers ── */
+        .contest-list thead th {
+            background: transparent !important;
+            color: #64748b !important;
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.8px !important;
+            padding: 14px 20px !important;
+            border: none !important;
+            vertical-align: middle !important;
+        }
+        .contest-list thead th a,
+        .contest-list thead th a.contest-sort-link {
+            color: #64748b !important;
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            text-decoration: none !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.8px !important;
+        }
+        .contest-list thead th a:hover {
+            color: #94a3b8 !important;
+        }
+
+        /* ── Rows ── */
+        .contest-list tbody tr {
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            background: #0d1322 !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        }
+        .contest-list tbody tr:hover {
+            background: rgba(0, 112, 243, 0.15) !important;
+            transform: translateY(-2px) scale(1.002) !important;
+            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
+        }
+
+        /* ── Cells ── */
+        .contest-list tbody td {
+            padding: 14px 20px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-left: none !important;
+            border-right: none !important;
+            vertical-align: middle !important;
+            color: #e2e8f0 !important;
+        }
+        .contest-list tbody td:first-child {
+            border-left: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top-left-radius: 12px !important;
+            border-bottom-left-radius: 12px !important;
+        }
+        .contest-list tbody td:last-child {
+            border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
+            border-top-right-radius: 12px !important;
+            border-bottom-right-radius: 12px !important;
+            text-align: right !important;
+        }
+
+        /* ── Contest block flex layout ── */
+        .contest-block {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 16px !important;
+            width: 100% !important;
+        }
+        .contest-left-info {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            flex-wrap: wrap !important;
+        }
+        .contest-right-pills {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            margin-left: auto !important;
+            padding-right: 8px !important;
+        }
+        .contest-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 5px 12px !important;
+            border-radius: 8px !important;
+            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
+            font-size: 13px !important;
+            white-space: nowrap !important;
+            transition: all 0.2s ease !important;
+        }
+        .contest-pill svg {
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Countdown pill (Cyan) */
+        .contest-pill-countdown {
+            background: rgba(56, 189, 248, 0.1) !important;
+            border: 1px solid rgba(56, 189, 248, 0.25) !important;
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+        }
+        .contest-pill-countdown .time-remaining {
+            color: #38bdf8 !important;
+            font-weight: 700 !important;
+        }
+
+        /* Schedule / Calendar pill (Slate) */
+        .contest-pill-schedule {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #94a3b8 !important;
+            font-weight: 500 !important;
+        }
+        .contest-duration-badge {
+            display: inline-block !important;
+            padding: 1px 6px !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+            border-radius: 4px !important;
+            color: #cbd5e1 !important;
+            font-size: 11.5px !important;
+            margin-left: 4px !important;
+        }
+
+        /* ── Contest Title ── */
+        .contest-list-title {
+            font-size: 16.5px !important;
+            font-weight: 700 !important;
+            color: #ffffff !important;
+            text-decoration: none !important;
+            transition: color 0.2s ease !important;
+            letter-spacing: -0.2px !important;
+        }
+        .contest-list-title:hover {
+            color: #60a5fa !important;
+            text-decoration: none !important;
+        }
+
+        /* ── Modern Badges for Contests ── */
+        .contest-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 3px 10px !important;
+            border-radius: 6px !important;
+            font-family: 'Google Sans Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px !important;
+            vertical-align: middle !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.2s ease !important;
+            text-decoration: none !important;
+        }
+
+        /* Reset inner <a> tag: NEVER border, NEVER background */
+        .contest-tag a,
+        .contest-tags a {
+            background: transparent !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            color: inherit !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            text-decoration: none !important;
+        }
+
+        /* Organization Badge (Blue Glass - matching Category Badge) */
+        .contest-tag.contest-tag-org,
+        .contest-tag:has(a[href*="/organization/"]) {
+            background: rgba(59, 130, 246, 0.12) !important;
+            color: #93c5fd !important;
+            border: 1px solid rgba(59, 130, 246, 0.28) !important;
+        }
+        .contest-tag.contest-tag-org a,
+        .contest-tag:has(a[href*="/organization/"]) a {
+            color: #93c5fd !important;
+            border: none !important;
+            background: transparent !important;
+        }
+        .contest-tag.contest-tag-org i,
+        .contest-tag:has(a[href*="/organization/"]) i {
+            color: #60a5fa !important;
+            margin-right: 3px !important;
+        }
+        .contest-tag.contest-tag-org:hover,
+        .contest-tag:has(a[href*="/organization/"]):hover {
+            background: rgba(59, 130, 246, 0.22) !important;
+            border-color: rgba(56, 189, 248, 0.55) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25) !important;
+            color: #ffffff !important;
+        }
+        .contest-tag.contest-tag-org:hover a,
+        .contest-tag:has(a[href*="/organization/"]):hover a {
+            color: #ffffff !important;
+        }
+
+        /* Class / Group Badge (Cyan Glass) */
+        .contest-tag.contest-tag-class {
+            background: rgba(6, 182, 212, 0.12) !important;
+            color: #67e8f9 !important;
+            border: 1px solid rgba(6, 182, 212, 0.28) !important;
+        }
+        .contest-tag.contest-tag-class a {
+            color: #67e8f9 !important;
+        }
+        .contest-tag.contest-tag-class i {
+            color: #22d3ee !important;
+        }
+
+        /* Hidden Badge (Slate Glass) */
+        .contest-tag.contest-tag-hidden {
+            background: rgba(100, 116, 139, 0.14) !important;
+            color: #94a3b8 !important;
+            border: 1px solid rgba(100, 116, 139, 0.25) !important;
+        }
+
+        /* Rated Badge (Amber Glass) */
+        .contest-tag.contest-tag-rated {
+            background: rgba(245, 158, 11, 0.14) !important;
+            color: #fcd34d !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+        }
+
+        /* Private Badge (Rose Glass) */
+        .contest-tag.contest-tag-private {
+            background: rgba(244, 63, 94, 0.14) !important;
+            color: #fda4af !important;
+            border: 1px solid rgba(244, 63, 94, 0.28) !important;
+        }
+
+        /* ── User Count ── */
+        .contest-list tbody td a[href*="ranking"],
+        .contest-list tbody td:nth-child(2) {
+            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            color: #a78bfa !important;
+            font-weight: 600 !important;
+            font-size: 15px !important;
+        }
+        .contest-list tbody td a[href*="ranking"] {
+            text-decoration: none !important;
+            display: inline-block !important;
+            padding: 4px 10px !important;
+            background: rgba(167, 139, 250, 0.1) !important;
+            border: 1px solid rgba(167, 139, 250, 0.2) !important;
+            border-radius: 8px !important;
+            transition: all 0.2s ease !important;
+        }
+        .contest-list tbody td a[href*="ranking"]:hover {
+            background: rgba(167, 139, 250, 0.2) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* ── Participate Buttons ── */
+        .contest-list .participate-button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 9px 24px !important;
+            border-radius: 100px !important;
+            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 13.5px !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            cursor: pointer !important;
+            width: auto !important;
+            min-width: 90px !important;
+            text-align: center !important;
+        }
+        .contest-list .participate-button:hover {
+            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(56, 189, 248, 0.9) !important;
+        }
+        .contest-list .participate-button.disabled {
+            background: rgba(255, 255, 255, 0.05) !important;
+            color: #64748b !important;
+            border-color: rgba(255, 255, 255, 0.08) !important;
+            box-shadow: none !important;
+            cursor: not-allowed !important;
+
+    </style>
     {% endif %}
     {% block media %}{% endblock %}
     {% if not INLINE_JQUERY %}

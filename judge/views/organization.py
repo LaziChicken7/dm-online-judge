@@ -132,7 +132,15 @@ class OrganizationHome(OrganizationDetailView):
         from judge.models import Contest, Problem
         if is_member_or_admin:
             context['org_contests'] = Contest.objects.filter(organizations=self.object).order_by('-start_time')[:10]
-            context['org_problems'] = Problem.objects.filter(organizations=self.object).order_by('-date')[:15]
+            context['org_problems'] = Problem.objects.filter(organizations=self.object).select_related('group').prefetch_related('types').order_by('-date')[:15]
+            if self.request.user.is_authenticated and hasattr(self.request, 'profile') and self.request.profile:
+                from judge.models import Submission
+                user_subs = Submission.objects.filter(user=self.request.profile)
+                context['completed_problem_ids'] = set(user_subs.filter(result='AC').values_list('problem_id', flat=True))
+                context['attempted_problems'] = set(user_subs.values_list('problem_id', flat=True)) - context['completed_problem_ids']
+            else:
+                context['completed_problem_ids'] = set()
+                context['attempted_problems'] = set()
             context['org_contests_count'] = Contest.objects.filter(organizations=self.object).count()
             context['org_problems_count'] = Problem.objects.filter(organizations=self.object).count()
         else:
@@ -198,6 +206,14 @@ class OrganizationContests(DiggPaginatorMixin, BaseOrganizationListView):
             self.request.user.is_superuser
         )
         context['can_edit'] = self.can_edit_organization()
+        if self.request.user.is_authenticated and hasattr(self.request, 'profile') and self.request.profile:
+            from judge.models import Submission
+            user_subs = Submission.objects.filter(user=self.request.profile)
+            context['completed_problem_ids'] = set(user_subs.filter(result='AC').values_list('problem_id', flat=True))
+            context['attempted_problems'] = set(user_subs.values_list('problem_id', flat=True)) - context['completed_problem_ids']
+        else:
+            context['completed_problem_ids'] = set()
+            context['attempted_problems'] = set()
         return context
 
 
@@ -217,7 +233,7 @@ class OrganizationProblems(DiggPaginatorMixin, BaseOrganizationListView):
         )
         if not is_member_or_admin:
             return Problem.objects.none()
-        return Problem.objects.filter(organizations=self.object).order_by('-date')
+        return Problem.objects.filter(organizations=self.object).select_related('group').prefetch_related('types').order_by('-date')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -230,6 +246,14 @@ class OrganizationProblems(DiggPaginatorMixin, BaseOrganizationListView):
             self.request.user.is_superuser
         )
         context['can_edit'] = self.can_edit_organization()
+        if self.request.user.is_authenticated and hasattr(self.request, 'profile') and self.request.profile:
+            from judge.models import Submission
+            user_subs = Submission.objects.filter(user=self.request.profile)
+            context['completed_problem_ids'] = set(user_subs.filter(result='AC').values_list('problem_id', flat=True))
+            context['attempted_problems'] = set(user_subs.values_list('problem_id', flat=True)) - context['completed_problem_ids']
+        else:
+            context['completed_problem_ids'] = set()
+            context['attempted_problems'] = set()
         return context
 
 
