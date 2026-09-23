@@ -106,12 +106,12 @@
 
     {% if contests %}
         <div class="org-table-card">
-            <table class="table striped" style="width: 100%; margin-bottom: 0;">
+            <table class="org-data-table">
                 <thead>
                     <tr>
                         <th>{{ _('Contest') }}</th>
-                        <th style="width: 160px; text-align: center;">{{ _('Start') }}</th>
-                        <th style="width: 160px; text-align: center;">{{ _('End') }}</th>
+                        <th style="width: 170px; text-align: center;">{{ _('Start') }}</th>
+                        <th style="width: 170px; text-align: center;">{{ _('End') }}</th>
                         <th style="width: 100px; text-align: center;">{{ _('Users') }}</th>
                     </tr>
                 </thead>
@@ -119,24 +119,25 @@
                     {% for c in contests %}
                         <tr>
                             <td>
-                                <a href="{{ url('contest_view', c.key) }}" style="font-size: 15px; font-weight: 700; color: #ffffff; text-decoration: none;">
+                                <a href="{{ url('contest_view', c.key) }}" class="org-item-title">
                                     {{ c.name }}
                                 </a>
                                 <span class="org-badge-code" style="margin-left: 8px;">{{ c.key }}</span>
                                 {% if c.is_organization_private %}
-                                    <span style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: rgba(245, 158, 11, 0.12); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); margin-left: 6px;">
-                                        <i class="fa fa-lock"></i> {{ _('Private') }}
+                                    <span class="org-private-pill">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                        <span>{{ _('Private') }}</span>
                                     </span>
                                 {% endif %}
                             </td>
-                            <td style="text-align: center; font-size: 13px; color: #94a3b8;">
-                                {{ c.start_time.strftime('%Y-%m-%d %H:%M') }}
+                            <td style="text-align: center;">
+                                <span class="org-date-val">{{ c.start_time.strftime('%d/%m/%Y %H:%M') }}</span>
                             </td>
-                            <td style="text-align: center; font-size: 13px; color: #94a3b8;">
-                                {{ c.end_time.strftime('%Y-%m-%d %H:%M') }}
+                            <td style="text-align: center;">
+                                <span class="org-date-val">{{ c.end_time.strftime('%d/%m/%Y %H:%M') }}</span>
                             </td>
-                            <td style="text-align: center; font-weight: 700; color: #38bdf8; font-size: 14px;">
-                                {{ c.user_count }}
+                            <td style="text-align: center;">
+                                <span class="org-users-val">{{ c.user_count }}</span>
                             </td>
                         </tr>
                     {% endfor %}
@@ -146,7 +147,7 @@
         {% include "list-pages.html" %}
     {% else %}
         <div class="org-empty-box">
-            <i class="fa fa-trophy" style="font-size: 28px; color: #38bdf8; margin-bottom: 10px; display: block;"></i>
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 10px; display: inline-block;"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7v4h10v-4h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg><br>
             {% if is_member_or_admin %}
                 {{ _('There are no contests in this organization yet. Click "Add contest" above to create one!') }}
             {% else %}
