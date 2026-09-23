@@ -27,7 +27,7 @@ def clean_problem_code(raw: str, fallback: str = "clue") -> str:
         cleaned = re.sub(r'[^a-zA-Z0-9_]', '', fallback.lower())
     if not cleaned:
         cleaned = "clue"
-    return cleaned[:20]
+    return cleaned[:100]
 
 def import_clue_problem(
     clue_input: str,

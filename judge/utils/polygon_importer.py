@@ -82,12 +82,12 @@ def natural_sort_key(s):
 
 
 def clean_problem_code(raw_code: str, fallback: str = "problem") -> str:
-    cleaned = re.sub(r'[^a-z0-9]', '', raw_code.lower())[:20]
+    cleaned = re.sub(r'[^a-z0-9_]', '', raw_code.lower())[:100]
     if not cleaned:
-        cleaned = re.sub(r'[^a-z0-9]', '', fallback.lower())[:20]
+        cleaned = re.sub(r'[^a-z0-9_]', '', fallback.lower())[:100]
     if not cleaned:
         cleaned = "prob" + str(int(timezone.now().timestamp()))[-6:]
-    return cleaned[:20]
+    return cleaned[:100]
 
 
 def import_polygon_package(zip_file, code_override=None, name_override=None,

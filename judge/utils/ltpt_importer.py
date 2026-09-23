@@ -14,7 +14,7 @@ def clean_problem_code(raw: str, fallback: str = "ltpt") -> str:
         cleaned = re.sub(r'[^a-zA-Z0-9_]', '', fallback.lower())
     if not cleaned:
         cleaned = "ltpt"
-    return cleaned[:20]
+    return cleaned[:100]
 
 def import_ltpt_problem(
     ltpt_input: str,

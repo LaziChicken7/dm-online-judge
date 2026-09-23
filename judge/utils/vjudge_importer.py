@@ -35,12 +35,12 @@ def parse_vjudge_id(text: str):
 
 
 def clean_problem_code(raw: str, fallback: str = "vjudge") -> str:
-    cleaned = re.sub(r'[^a-z0-9]', '', raw.lower())
+    cleaned = re.sub(r'[^a-z0-9_]', '', raw.lower())
     if not cleaned:
-        cleaned = re.sub(r'[^a-z0-9]', '', fallback.lower())
+        cleaned = re.sub(r'[^a-z0-9_]', '', fallback.lower())
     if not cleaned:
         cleaned = "vjudge"
-    return cleaned[:20]
+    return cleaned[:100]
 
 
 def fetch_vjudge_problem_info(oj: str, prob_num: str):

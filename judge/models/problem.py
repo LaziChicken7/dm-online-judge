@@ -32,7 +32,7 @@ def disallowed_characters_validator(text):
 
 class ProblemType(models.Model):
     name = models.CharField(max_length=20, verbose_name=_('problem category ID'), unique=True)
-    full_name = models.CharField(max_length=100, verbose_name=_('problem category name'))
+    full_name = models.CharField(max_length=255, verbose_name=_('problem category name'))
 
     def __str__(self):
         return self.full_name
@@ -45,7 +45,7 @@ class ProblemType(models.Model):
 
 class ProblemGroup(models.Model):
     name = models.CharField(max_length=20, verbose_name=_('problem group ID'), unique=True)
-    full_name = models.CharField(max_length=100, verbose_name=_('problem group name'))
+    full_name = models.CharField(max_length=255, verbose_name=_('problem group name'))
 
     def __str__(self):
         return self.full_name
@@ -114,10 +114,10 @@ class Problem(models.Model):
         (SubmissionSourceAccess.ONLY_OWN, _('Only own submissions')),
     )
 
-    code = models.CharField(max_length=20, verbose_name=_('problem code'), unique=True,
+    code = models.CharField(max_length=100, verbose_name=_('problem code'), unique=True,
                             validators=[RegexValidator(r'^[a-z0-9_]+$', _('Problem code must be ^[a-z0-9_]+$'))],
                             help_text=_('A short, unique code for the problem, used in the URL after /problem/'))
-    name = models.CharField(max_length=100, verbose_name=_('problem name'), db_index=True,
+    name = models.CharField(max_length=255, verbose_name=_('problem name'), db_index=True,
                             help_text=_('The full name of the problem, as shown in the problem list.'),
                             validators=[disallowed_characters_validator])
     description = models.TextField(verbose_name=_('problem body'), validators=[disallowed_characters_validator])

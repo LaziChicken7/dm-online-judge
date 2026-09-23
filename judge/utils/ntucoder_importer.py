@@ -14,7 +14,7 @@ def clean_problem_code(raw: str, fallback: str = "ntu") -> str:
         cleaned = re.sub(r'[^a-zA-Z0-9_]', '', fallback.lower())
     if not cleaned:
         cleaned = "ntu"
-    return cleaned[:20]
+    return cleaned[:100]
 
 def import_ntucoder_problem(
     ntucoder_input: str,
