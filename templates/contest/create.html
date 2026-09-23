@@ -282,6 +282,226 @@
             color: #fca5a5;
         }
 
+                /* ── Searchable Problem Combobox ── */
+        .problems-picker-box {
+            background: rgba(15, 23, 42, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 12px;
+            box-sizing: border-box;
+        }
+        .problems-picker-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .problem-combobox-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 320px;
+        }
+        .problem-search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .search-box-icon {
+            position: absolute;
+            left: 14px;
+            color: #38bdf8;
+            pointer-events: none;
+            flex-shrink: 0;
+        }
+        .problem-search-input {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.75) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            border-radius: 12px !important;
+            padding: 12px 42px 12px 44px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-family: inherit !important;
+        }
+        .problem-search-input:focus {
+            border-color: #38bdf8 !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+        }
+        .search-clear-btn {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        .search-clear-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        /* Results Dropdown */
+        .problem-search-results {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            border-radius: 16px !important;
+            max-height: 360px;
+            overflow-y: auto;
+            box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(2, 132, 199, 0.2) !important;
+            z-index: 1000;
+            padding: 6px;
+            box-sizing: border-box;
+            animation: fadeInResults 0.18s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeInResults {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .problem-result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+        }
+        .problem-result-item:hover,
+        .problem-result-item.is-selected {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            transform: translateX(3px);
+        }
+        .result-item-main {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+        }
+        .result-code-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            font-family: 'Google Sans Code', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .result-name-text {
+            color: #f1f5f9;
+            font-size: 13.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .result-item-side {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .result-points-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+        .result-add-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+            background: #0284c7;
+            padding: 4px 10px;
+            border-radius: 100px;
+            transition: all 0.15s ease;
+        }
+        .problem-result-item:hover .result-add-chip,
+        .problem-result-item.is-selected .result-add-chip {
+            background: #0ea5e9;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+        .result-added-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+        .results-empty-hint {
+            padding: 24px 16px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13.5px;
+        }
+        .results-footer-hint {
+            padding: 6px 14px 4px 14px;
+            font-size: 11.5px;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toast-added-problem {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.2);
+            z-index: 9999;
+            animation: slideInToast 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes slideInToast {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         /* Action Buttons */
         .form-actions-bar {
             display: flex;
@@ -511,31 +731,42 @@
             </div>
 
             <!-- Section 4: Contest Problems -->
-            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 6px;">
+            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px;">
                 4. {{ _('Danh sách bài tập trong kỳ thi (Problems)') }}
             </h3>
-
             <div class="problems-picker-box">
                 <div class="problems-picker-header">
-                    <select id="problem-selector" class="custom-arrow-select" style="max-width: 480px;">
-                        <option value="">-- {{ _('Chọn bài tập để thêm vào kỳ thi...') }} --</option>
-                        {% for prob in all_problems %}
-                            <option value="{{ prob.code }}" data-name="{{ prob.name }}" data-points="{{ prob.points }}">
-                                {{ prob.code }} - {{ prob.name }} ({{ prob.points }} pts)
-                            </option>
-                        {% endfor %}
-                    </select>
-                    <button type="button" class="add-problem-inline-btn" onclick="addProblemToContest()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                        <span>{{ _('Thêm bài tập') }}</span>
-                    </button>
+                    <div class="problem-combobox-wrap" id="problem-combobox-wrap">
+                        <div class="problem-search-box">
+                            <svg class="search-box-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="problem-search-input" class="problem-search-input"
+                                   placeholder="{{ _('Gõ mã bài hoặc tên bài để tìm nhanh (ví dụ: aplusb, n010, nhap xuat)...') }}"
+                                   autocomplete="off">
+                            <button type="button" id="problem-search-clear" class="search-clear-btn" style="display: none;" title="Xóa khỏi kỳ thi">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                        <div id="problem-search-results" class="problem-search-results" style="display: none;"></div>
+                    </div>
                 </div>
+
+                <!-- Hidden data source -->
+                <select id="problem-selector" style="display: none;">
+                    {% for prob in all_problems %}
+                        <option value="{{ prob.code }}" data-name="{{ prob.name|e }}" data-points="{{ prob.points }}">
+                            {{ prob.code }} - {{ prob.name }} ({{ prob.points }} pts)
+                        </option>
+                    {% endfor %}
+                </select>
 
                 <table class="problems-table" id="contest-problems-table">
                     <thead>
                         <tr>
                             <th style="width: 60px;">#</th>
-                            <th style="width: 160px;">{{ _('Mã bài') }}</th>
+                            <th style="width: 180px;">{{ _('Mã bài') }}</th>
                             <th>{{ _('Tên bài tập') }}</th>
                             <th style="width: 140px;">{{ _('Điểm') }}</th>
                             <th style="width: 80px; text-align: center;">{{ _('Xóa') }}</th>
@@ -545,11 +776,11 @@
                         <!-- Dynamically added rows -->
                     </tbody>
                 </table>
-                <div id="no-problems-hint" class="help-text" style="text-align: center; padding: 20px 0;">
-                    {{ _('Chưa có bài tập nào được thêm. Hãy chọn bài tập ở trên và bấm "Thêm bài tập".') }}
+                <div id="no-problems-hint" class="help-text" style="text-align: center; padding: 24px 0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    {{ _('Chưa có bài tập nào được thêm. Hãy gõ tên hoặc mã bài ở ô tìm kiếm trên để thêm bài nhanh vào kỳ thi.') }}
                 </div>
             </div>
-
             <!-- Section 5: Access & Security -->
             <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 6px;">
                 5. {{ _('Bảo mật & Hiển thị (Access & Visibility)') }}
@@ -598,65 +829,90 @@
 <script>
     var addedProblems = [];
 
+    function escapeHtml(text) {
+        if (!text) return '';
+        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    function removeVietnameseTones(str) {
+        str = str || '';
+        str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        str = str.replace(/[đĐ]/g, 'd');
+        return str.toLowerCase().trim();
+    }
+
+    function showToast(message) {
+        var existing = document.querySelector('.toast-added-problem');
+        if (existing) existing.remove();
+
+        var toast = document.createElement('div');
+        toast.className = 'toast-added-problem';
+        toast.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+            '<span>' + escapeHtml(message) + '</span>';
+        document.body.appendChild(toast);
+
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+            setTimeout(function() { toast.remove(); }, 300);
+        }, 2200);
+    }
+
     function updateProblemsTable() {
         var tbody = document.getElementById('contest-problems-body');
         var hint = document.getElementById('no-problems-hint');
         tbody.innerHTML = '';
-
         if (addedProblems.length === 0) {
             hint.style.display = 'block';
             return;
         }
         hint.style.display = 'none';
-
         addedProblems.forEach(function(p, idx) {
             var tr = document.createElement('tr');
             tr.innerHTML = '<td><strong>' + (idx + 1) + '</strong></td>' +
-                '<td><code>' + p.code + '</code><input type="hidden" name="problem_code[]" value="' + p.code + '"></td>' +
-                '<td>' + p.name + '</td>' +
-                '<td><input type="number" step="any" class="form-input-cyber" style="padding: 6px 10px; font-size: 13px; width: 100px;" name="problem_points[]" value="' + p.points + '"></td>' +
-                '<td style="text-align: center;"><button type="button" class="problem-remove-btn" onclick="removeProblem(' + idx + ')" title="Xóa bài"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg></button></td>';
+                '<td><span class="result-code-badge">' + escapeHtml(p.code) + '</span><input type="hidden" name="problem_code[]" value="' + escapeHtml(p.code) + '"></td>' +
+                '<td><strong>' + escapeHtml(p.name) + '</strong></td>' +
+                '<td><input type="number" step="any" class="form-input-cyber" style="padding: 6px 10px; font-size: 13px; max-width: 100px;" name="problem_points[]" value="' + escapeHtml(String(p.points)) + '"></td>' +
+                '<td style="text-align: center;"><button type="button" class="problem-remove-btn" onclick="removeProblem(' + idx + ')" title="Xóa khỏi kỳ thi">&times;</button></td>';
             tbody.appendChild(tr);
         });
     }
 
-    function addProblemToContest() {
-        var sel = document.getElementById('problem-selector');
-        var opt = sel.options[sel.selectedIndex];
-        if (!opt || !opt.value) return;
-
-        var code = opt.value;
-        // Check if already added
+    function addProblemByObject(code, name, points) {
         for (var i = 0; i < addedProblems.length; i++) {
             if (addedProblems[i].code === code) {
-                alert('Bài tập ' + code + ' đã có trong danh sách kỳ thi!');
-                return;
+                showToast('Bài tập ' + code + ' đã có trong kỳ thi!');
+                return false;
             }
         }
-
         addedProblems.push({
             code: code,
-            name: opt.getAttribute('data-name'),
-            points: opt.getAttribute('data-points') || 100
+            name: name,
+            points: points || 100
         });
-
         updateProblemsTable();
+        showToast('Đã thêm: ' + code + ' (' + name + ')');
+        return true;
     }
 
     function removeProblem(idx) {
-        addedProblems.splice(idx, 1);
+        var removed = addedProblems.splice(idx, 1);
         updateProblemsTable();
+        if (removed && removed[0]) {
+            showToast('Đã xóa bài tập: ' + removed[0].code);
+        }
     }
 
-    // Auto-generate key from name if key is empty
     document.addEventListener('DOMContentLoaded', function() {
+        // 1. Key generator from name
         var nameInput = document.getElementById('id_name');
         var keyInput = document.getElementById('id_key');
         if (nameInput && keyInput) {
             nameInput.addEventListener('input', function() {
                 if (!keyInput.dataset.manual) {
                     var val = nameInput.value.trim().toLowerCase()
-                        .normalize("NFD").replace(/[̀-ͯ]/g, "")
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
                         .replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
                     keyInput.value = val.substring(0, 64);
                 }
@@ -665,6 +921,178 @@
                 keyInput.dataset.manual = "true";
             });
         }
+
+        // 2. Load all available problems from selector into memory
+        var allProblems = [];
+        var opts = document.querySelectorAll('#problem-selector option');
+        opts.forEach(function(opt) {
+            if (opt.value) {
+                allProblems.push({
+                    code: opt.value,
+                    name: opt.getAttribute('data-name') || opt.value,
+                    points: opt.getAttribute('data-points') || 100,
+                    cleanCode: removeVietnameseTones(opt.value),
+                    cleanName: removeVietnameseTones(opt.getAttribute('data-name') || opt.value)
+                });
+            }
+        });
+
+        // 3. Search input & results dropdown logic
+        var searchInput = document.getElementById('problem-search-input');
+        var clearBtn = document.getElementById('problem-search-clear');
+        var resultsBox = document.getElementById('problem-search-results');
+        var comboboxWrap = document.getElementById('problem-combobox-wrap');
+        var selectedIdx = -1;
+        var currentFiltered = [];
+
+        function renderResults(filtered, query) {
+            currentFiltered = filtered;
+            selectedIdx = -1;
+            if (filtered.length === 0) {
+                resultsBox.innerHTML = '<div class="results-empty-hint">' +
+                    'Không tìm thấy bài tập nào khớp với từ khóa "' + escapeHtml(query) + '".' +
+                    '</div>';
+                resultsBox.style.display = 'block';
+                return;
+            }
+
+            var html = '';
+            var maxShow = Math.min(filtered.length, 30);
+            for (var i = 0; i < maxShow; i++) {
+                var p = filtered[i];
+                var isAlreadyAdded = false;
+                for (var j = 0; j < addedProblems.length; j++) {
+                    if (addedProblems[j].code === p.code) {
+                        isAlreadyAdded = true;
+                        break;
+                    }
+                }
+
+                html += '<div class="problem-result-item" data-index="' + i + '" data-code="' + escapeHtml(p.code) + '">' +
+                    '<div class="result-item-main">' +
+                        '<span class="result-code-badge">' + escapeHtml(p.code) + '</span>' +
+                        '<span class="result-name-text">' + escapeHtml(p.name) + '</span>' +
+                    '</div>' +
+                    '<div class="result-item-side">' +
+                        '<span class="result-points-badge">' + escapeHtml(String(p.points)) + ' pts</span>' +
+                        (isAlreadyAdded
+                            ? '<span class="result-added-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã thêm</span>'
+                            : '<span class="result-add-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Thêm</span>'
+                        ) +
+                    '</div>' +
+                '</div>';
+            }
+
+            html += '<div class="results-footer-hint">' +
+                '<span>Hiển thị ' + maxShow + ' / ' + filtered.length + ' bài tập</span>' +
+                '<span>Dùng phím ↑ ↓ để chọn, Enter để thêm</span>' +
+            '</div>';
+
+            resultsBox.innerHTML = html;
+            resultsBox.style.display = 'block';
+
+            // Attach click listeners to items
+            resultsBox.querySelectorAll('.problem-result-item').forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var idx = parseInt(item.getAttribute('data-index'), 10);
+                    if (!isNaN(idx) && currentFiltered[idx]) {
+                        var p = currentFiltered[idx];
+                        addProblemByObject(p.code, p.name, p.points);
+                        searchInput.value = '';
+                        clearBtn.style.display = 'none';
+                        resultsBox.style.display = 'none';
+                        searchInput.focus();
+                    }
+                });
+            });
+        }
+
+        function filterProblems(query) {
+            query = query || '';
+            var cleanQ = removeVietnameseTones(query);
+            if (!cleanQ) {
+                renderResults(allProblems.slice(0, 15), '');
+                return;
+            }
+
+            var matched = [];
+            allProblems.forEach(function(p) {
+                if (p.cleanCode.indexOf(cleanQ) !== -1 || p.cleanName.indexOf(cleanQ) !== -1) {
+                    matched.push(p);
+                }
+            });
+            renderResults(matched, query);
+        }
+
+        searchInput.addEventListener('input', function() {
+            var q = searchInput.value.trim();
+            clearBtn.style.display = q ? 'flex' : 'none';
+            filterProblems(q);
+        });
+
+        searchInput.addEventListener('focus', function() {
+            filterProblems(searchInput.value.trim());
+        });
+
+        clearBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            resultsBox.style.display = 'none';
+            searchInput.focus();
+        });
+
+        // Keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            if (resultsBox.style.display === 'none' && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+                filterProblems(searchInput.value.trim());
+                return;
+            }
+
+            var items = resultsBox.querySelectorAll('.problem-result-item');
+            if (!items.length) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedIdx = (selectedIdx + 1) % items.length;
+                updateHighlightedItem(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedIdx = (selectedIdx - 1 + items.length) % items.length;
+                updateHighlightedItem(items);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                var targetIdx = selectedIdx >= 0 ? selectedIdx : 0;
+                if (currentFiltered[targetIdx]) {
+                    var p = currentFiltered[targetIdx];
+                    addProblemByObject(p.code, p.name, p.points);
+                    searchInput.value = '';
+                    clearBtn.style.display = 'none';
+                    resultsBox.style.display = 'none';
+                    searchInput.focus();
+                }
+            } else if (e.key === 'Escape') {
+                resultsBox.style.display = 'none';
+            }
+        });
+
+        function updateHighlightedItem(items) {
+            items.forEach(function(it, idx) {
+                if (idx === selectedIdx) {
+                    it.classList.add('is-selected');
+                    it.scrollIntoView({ block: 'nearest' });
+                } else {
+                    it.classList.remove('is-selected');
+                }
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!comboboxWrap.contains(e.target)) {
+                resultsBox.style.display = 'none';
+            }
+        });
     });
 </script>
 {% endblock %}
