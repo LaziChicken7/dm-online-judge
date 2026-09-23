@@ -21,68 +21,31 @@
             vertical-align: middle !important;
             letter-spacing: 0.5px !important;
         }
-        /* Organization Join / Leave Pseudotab in Header */
-        .org-action-pseudotab {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 0 !important;
-            border-radius: 100px !important;
-            font-weight: 700 !important;
-            font-size: 13px !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer !important;
-            overflow: hidden !important;
-            text-decoration: none !important;
-            margin-left: 6px !important;
+        /* Organization Action Tabs in Header (Request / Join / Leave) */
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab a {
+            background: rgba(2, 132, 199, 0.15) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
         }
-        .org-action-pseudotab input[type="submit"],
-        .org-action-pseudotab a,
-        .org-action-pseudotab span {
-            background: transparent !important;
-            border: none !important;
-            font-weight: 700 !important;
-            font-size: 13px !important;
-            padding: 8px 18px !important;
-            cursor: pointer !important;
-            box-shadow: none !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-            text-decoration: none !important;
-        }
-        .org-join-btn {
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover a {
             background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+            border-color: #38bdf8 !important;
             color: #ffffff !important;
+            box-shadow: 0 4px 16px rgba(56, 189, 248, 0.45), 0 0 12px rgba(56, 189, 248, 0.3) !important;
         }
-        .org-join-btn:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
-        }
-        .org-join-btn input[type="submit"],
-        .org-join-btn a,
-        .org-join-btn span {
-            color: #ffffff !important;
-        }
-        .org-leave-btn {
+        .tabs.org-tabs:not(#mobile) li.tab.leave-tab a {
             background: rgba(239, 68, 68, 0.12) !important;
-            border: 1px solid rgba(239, 68, 68, 0.25) !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
+            border-color: rgba(239, 68, 68, 0.3) !important;
+            color: #f87171 !important;
         }
-        .org-leave-btn:hover {
-            background: rgba(239, 68, 68, 0.22) !important;
-            border-color: rgba(239, 68, 68, 0.55) !important;
-            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35) !important;
-            transform: translateY(-2px) !important;
+        .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover a {
+            background: rgba(239, 68, 68, 0.25) !important;
+            border-color: rgba(239, 68, 68, 0.6) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35) !important;
         }
-        .org-leave-btn input[type="submit"] {
-            color: #fca5a5 !important;
-        }
-
         /* ── Organization Tabs: Icon-Only by Default, Text Revealed on Hover ── */
         .tabs.org-tabs:not(#mobile) li.tab a,
         .tabs.org-tabs:not(#mobile) li.tab > span {
@@ -135,14 +98,12 @@
     <script>
         $(function() {
             $(".tabs").addClass("org-tabs");
-            $(".leave-org-action").click(function () {
-                return confirm({{ _('Are you sure you want to leave this organization?')|htmltojs }} + "\n" +
-                    {% if organization.is_open %}
-                        {{ _('You will have to rejoin to show up on the organization leaderboard.')|htmltojs }}
-                    {% else %}
-                        {{ _('You will have to request membership in order to join again.')|htmltojs }}
-                    {% endif %}
-                );
+            $(".leave-org-action-trigger").click(function () {
+                var msg = {{ _('Are you sure you want to leave this organization?')|htmltojs }} + '
+' + {% if organization.is_open %}{{ _('You will have to rejoin to show up on the organization leaderboard.')|htmltojs }}{% else %}{{ _('You will have to request membership in order to join again.')|htmltojs }}{% endif %};
+                if (confirm(msg)) {
+                    document.getElementById('leave-org-form').submit();
+                }
             });
         });
     </script>
@@ -166,22 +127,45 @@
     {% endif %}
     {% if request.user.is_authenticated %}
         {% if request.profile in organization %}
-            <form action="{{ url('leave_organization', organization.id, organization.slug) }}" method="post"
-                  class="org-action-pseudotab org-leave-btn unselectable button">
-                {% csrf_token %}
-                <input type="submit" class="leave-org-action" value="{{ _('Leave') }}">
-            </form>
+            <li class="tab org-action-tab leave-tab">
+                <form action="{{ url('leave_organization', organization.id, organization.slug) }}" method="post" id="leave-org-form" style="display:none;">
+                    {% csrf_token %}
+                </form>
+                <a href="javascript:void(0)" class="leave-org-action-trigger" title="{{ _('Leave') }}">
+                    <svg class="tab-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                    <span class="tab-text">{{ _('Leave') }}</span>
+                </a>
+            </li>
         {% elif organization.is_open %}
-            <form action="{{ url('join_organization', organization.id, organization.slug) }}" method="post"
-                  class="org-action-pseudotab org-join-btn unselectable button">
-                {% csrf_token %}
-                <input type="submit" value="{{ _('Join') }}">
-            </form>
+            <li class="tab org-action-tab join-tab">
+                <form action="{{ url('join_organization', organization.id, organization.slug) }}" method="post" id="join-org-form" style="display:none;">
+                    {% csrf_token %}
+                </form>
+                <a href="javascript:void(0)" onclick="document.getElementById('join-org-form').submit();" title="{{ _('Join') }}">
+                    <svg class="tab-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                    </svg>
+                    <span class="tab-text">{{ _('Join') }}</span>
+                </a>
+            </li>
         {% else %}
-            <a href="{{ url('request_organization', organization.id, organization.slug) }}"
-               class="org-action-pseudotab org-join-btn unselectable button">
-                <span>{{ _('Request') }}</span>
-            </a>
+            <li class="tab org-action-tab request-tab">
+                <a href="{{ url('request_organization', organization.id, organization.slug) }}" title="{{ _('Request') }}">
+                    <svg class="tab-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <line x1="19" y1="11" x2="19" y2="11"></line>
+                    </svg>
+                    <span class="tab-text">{{ _('Request') }}</span>
+                </a>
+            </li>
         {% endif %}
     {% endif %}
 {% endblock %}

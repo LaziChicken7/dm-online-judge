@@ -1,0 +1,297 @@
+{% set org_qs = ('?org=' ~ organization.id) if organization else '' %}
+<style>
+    /* ── Reusable Vertical Add Problem Dropdown ── */
+    .add-problem-dropdown-wrap {
+        position: relative !important;
+        display: inline-block !important;
+        vertical-align: middle !important;
+    }
+    .add-problem-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 9px 20px !important;
+        border-radius: 100px !important;
+        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 13.5px !important;
+        text-decoration: none !important;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+        letter-spacing: 0.2px !important;
+        user-select: none !important;
+    }
+    .add-problem-btn:hover {
+        background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
+        transform: translateY(-2px) !important;
+        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+        border-color: rgba(56, 189, 248, 0.9) !important;
+        color: #ffffff !important;
+    }
+    .add-problem-btn .main-btn-icon {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    .add-problem-btn .main-btn-icon svg {
+        display: block !important;
+    }
+    .add-problem-btn .add-problem-chevron {
+        margin-left: 2px !important;
+        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        opacity: 0.8 !important;
+    }
+    .add-problem-dropdown-wrap:hover .add-problem-btn .add-problem-chevron,
+    .add-problem-dropdown-wrap.is-open .add-problem-btn .add-problem-chevron {
+        transform: rotate(180deg) !important;
+        opacity: 1 !important;
+    }
+    /* ── Vertical Dropdown Menu (Chiều dọc) ── */
+    .add-problem-hover-menu {
+        display: none !important;
+        position: absolute !important;
+        top: calc(100% + 6px) !important;
+        right: 0 !important;
+        min-width: 210px !important;
+        padding: 8px !important;
+        flex-direction: column !important;
+        gap: 6px !important;
+        z-index: 1050 !important;
+        background: rgba(15, 23, 42, 0.96) !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
+        border: 1px solid rgba(56, 189, 248, 0.28) !important;
+        border-radius: 16px !important;
+        box-shadow: 0 16px 36px -4px rgba(0, 0, 0, 0.65), 0 0 24px rgba(2, 132, 199, 0.25) !important;
+        white-space: nowrap !important;
+    }
+    /* Invisible hover bridge */
+    .add-problem-hover-menu::before {
+        content: '' !important;
+        position: absolute !important;
+        top: -12px !important;
+        left: 0 !important;
+        right: 0 !important;
+        height: 14px !important;
+    }
+    .add-problem-dropdown-wrap:hover .add-problem-hover-menu,
+    .add-problem-dropdown-wrap:focus-within .add-problem-hover-menu,
+    .add-problem-dropdown-wrap.is-open .add-problem-hover-menu,
+    .add-problem-hover-menu:hover {
+        display: flex !important;
+        animation: fadeInVerticalMenu 0.2s cubic-bezier(0.4, 0, 0.2, 1) forwards !important;
+    }
+    @keyframes fadeInVerticalMenu {
+        from {
+            opacity: 0;
+            transform: translateY(-8px) scale(0.98);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    .add-problem-hover-menu .dropdown-item-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        padding: 8px 16px !important;
+        border-radius: 100px !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        border: 1px solid rgba(56, 189, 248, 0.2) !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 13.5px !important;
+        text-decoration: none !important;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        cursor: pointer !important;
+        letter-spacing: 0.2px !important;
+        white-space: nowrap !important;
+    }
+    .add-problem-hover-menu .dropdown-item-btn:hover {
+        background: linear-gradient(135deg, rgba(2, 132, 199, 0.35), rgba(14, 165, 233, 0.25)) !important;
+        border-color: rgba(56, 189, 248, 0.8) !important;
+        color: #ffffff !important;
+        transform: translateX(-3px) !important;
+        box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35), 0 0 12px rgba(56, 189, 248, 0.2) !important;
+    }
+    .add-problem-hover-menu .dropdown-item-btn svg {
+        flex-shrink: 0 !important;
+        color: #38bdf8 !important;
+        transition: transform 0.2s ease !important;
+    }
+    .add-problem-hover-menu .dropdown-item-btn:hover svg {
+        transform: scale(1.15) !important;
+    }
+
+    /* Light mode support */
+    html[data-theme="light"] .add-problem-hover-menu,
+    html.theme-light .add-problem-hover-menu {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border: 1px solid rgba(2, 132, 199, 0.25) !important;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12), 0 0 16px rgba(2, 132, 199, 0.15) !important;
+    }
+    html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn {
+        background: rgba(2, 132, 199, 0.04) !important;
+        border: 1px solid rgba(2, 132, 199, 0.2) !important;
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn:hover,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover {
+        background: #0284c7 !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn:hover svg,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover svg {
+        color: #ffffff !important;
+    }
+</style>
+
+<div class="add-problem-dropdown-wrap">
+    <a href="{{ url('problem_add') }}{{ org_qs }}" class="add-problem-btn" data-method="add" title="{{ _('Add problem') }}">
+        <span class="main-btn-icon">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+        </span>
+        <span class="main-btn-text">{{ _('Add problem') }}</span>
+        <svg class="add-problem-chevron" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+        </svg>
+    </a>
+    <div class="add-problem-hover-menu">
+        <a href="{{ url('problem_add') }}{{ org_qs }}" class="dropdown-item-btn" data-method="add" title="{{ _('Add problem') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            <span>{{ _('Add problem') }}</span>
+        </a>
+        <a href="{{ url('problem_import_vjudge') }}{{ org_qs }}" class="dropdown-item-btn" data-method="vjudge" title="{{ _('Import VJudge') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1-4-10z"></path>
+            </svg>
+            <span>{{ _('Import VJudge') }}</span>
+        </a>
+        <a href="{{ url('problem_import_polygon') }}{{ org_qs }}" class="dropdown-item-btn" data-method="polygon" title="{{ _('Import Polygon') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="17 8 12 3 7 8"></polyline>
+                <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+            <span>{{ _('Import Polygon') }}</span>
+        </a>
+        <a href="{{ url('problem_import_clue') }}{{ org_qs }}" class="dropdown-item-btn" data-method="clue" title="{{ _('Import Clue OJ') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                <polyline points="2 17 12 22 22 17"></polyline>
+                <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            <span>{{ _('Import Clue OJ') }}</span>
+        </a>
+        <a href="{{ url('problem_import_ntucoder') }}{{ org_qs }}" class="dropdown-item-btn" data-method="ntucoder" title="{{ _('Import NTUCoder') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+            </svg>
+            <span>{{ _('Import NTUCoder') }}</span>
+        </a>
+        <a href="{{ url('problem_import_ltpt') }}{{ org_qs }}" class="dropdown-item-btn" data-method="ltpt" title="{{ _('Import LTPT') }}">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+            </svg>
+            <span>{{ _('Import LTPT') }}</span>
+        </a>
+    </div>
+</div>
+
+<script>
+    (function() {
+        function setupAddProblemDropdown() {
+            var STORAGE_KEY = 'omnijudge_add_problem_default';
+            var currentDefault = localStorage.getItem(STORAGE_KEY) || 'add';
+
+            var wraps = document.querySelectorAll('.add-problem-dropdown-wrap');
+            wraps.forEach(function(wrap) {
+                if (wrap.dataset.initialized) return;
+                wrap.dataset.initialized = 'true';
+
+                var mainBtn = wrap.querySelector('.add-problem-btn');
+                var mainIcon = mainBtn.querySelector('.main-btn-icon');
+                var mainText = mainBtn.querySelector('.main-btn-text');
+                var menu = wrap.querySelector('.add-problem-hover-menu');
+                var items = menu.querySelectorAll('.dropdown-item-btn');
+
+                function applyDefault(method) {
+                    var target = null;
+                    items.forEach(function(item) {
+                        if (item.getAttribute('data-method') === method) {
+                            target = item;
+                        }
+                    });
+
+                    if (target) {
+                        mainBtn.setAttribute('href', target.getAttribute('href'));
+                        mainBtn.setAttribute('title', target.getAttribute('title'));
+                        mainBtn.setAttribute('data-method', method);
+                        if (mainIcon) {
+                            var svg = target.querySelector('svg');
+                            if (svg) mainIcon.innerHTML = svg.outerHTML;
+                        }
+                        if (mainText) {
+                            var span = target.querySelector('span');
+                            if (span) mainText.textContent = span.textContent;
+                        }
+                    }
+
+                    // In the dropdown menu, hide the active default item and show all other items
+                    items.forEach(function(item) {
+                        if (item.getAttribute('data-method') === method) {
+                            item.style.setProperty('display', 'none', 'important');
+                        } else {
+                            item.style.setProperty('display', 'inline-flex', 'important');
+                        }
+                    });
+                }
+
+                applyDefault(currentDefault);
+
+                items.forEach(function(item) {
+                    item.addEventListener('click', function(e) {
+                        var method = item.getAttribute('data-method');
+                        if (method) {
+                            localStorage.setItem(STORAGE_KEY, method);
+                        }
+                    });
+                });
+
+                var timer = null;
+                wrap.addEventListener('mouseenter', function() {
+                    if (timer) clearTimeout(timer);
+                    wrap.classList.add('is-open');
+                });
+                wrap.addEventListener('mouseleave', function() {
+                    timer = setTimeout(function() {
+                        wrap.classList.remove('is-open');
+                    }, 180);
+                });
+            });
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', setupAddProblemDropdown);
+        } else {
+            setupAddProblemDropdown();
+        }
+    })();
+</script>
