@@ -2764,17 +2764,38 @@
         color: #475569 !important;
     }
 
-    #problem-table td.problem,
+    #problem-table th.problem {
+        min-width: 380px !important;
+    }
+    #problem-table td.problem {
+        color: #ffffff !important;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+        font-weight: 700 !important;
+        font-size: 15px !important;
+        letter-spacing: -0.2px !important;
+        text-transform: none !important;
+        display: table-cell !important;
+        vertical-align: middle !important;
+        min-width: 380px !important;
+        line-height: 1.6 !important;
+    }
     #problem-table td.problem a {
         color: #ffffff !important;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
         font-weight: 700 !important;
-        font-size: 16px !important;
+        font-size: 15px !important;
         letter-spacing: -0.2px !important;
         text-transform: none !important;
-        display: inline-flex !important;
-        align-items: center !important;
+        display: inline !important;
+        vertical-align: middle !important;
+        line-height: 1.6 !important;
         transition: color 0.2s ease !important;
+    }
+    #problem-table th.category,
+    #problem-table td.category {
+        width: 170px !important;
+        max-width: 200px !important;
+        white-space: nowrap !important;
     }
     #problem-table td.problem a:hover {
         color: #38bdf8 !important;
