@@ -637,32 +637,46 @@
     }
 
 
-    /* ── Organization Problem Table Block (Rounded Corners & Glowing Border) ── */
-    .org-problem-table-block,
-    .problem-table-card,
-    .contest-table-card {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(16px) !important;
-        -webkit-backdrop-filter: blur(16px) !important;
-        overflow: hidden !important;
-        overflow-x: auto !important;
-        padding: 8px 16px 12px 16px !important;
-        margin-bottom: 24px !important;
-        box-sizing: border-box !important;
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.25s ease, 
-                    box-shadow 0.25s ease, 
-                    background 0.25s ease !important;
-    }
-    .org-items-section:hover .org-problem-table-block,
-    .org-problem-table-block:hover {
-        border: 2px solid #38bdf8 !important;
-        box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.5), inset 0 0 15px rgba(56, 189, 248, 0.2) !important;
-        transform: translateY(-2px) !important;
-        background: rgba(255, 255, 255, 0.045) !important;
-    }
+            .org-problem-table-block {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-radius: 16px !important;
+            backdrop-filter: blur(16px) !important;
+            -webkit-backdrop-filter: blur(16px) !important;
+            overflow: hidden !important;
+            overflow-x: auto !important;
+            padding: 0 !important;
+            margin-bottom: 24px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
+                        border-color 0.25s ease, 
+                        box-shadow 0.25s ease, 
+                        background 0.25s ease !important;
+        }
+        .org-items-section:hover .org-problem-table-block,
+        .org-problem-table-block:hover {
+            border-color: rgba(56, 189, 248, 0.6) !important;
+            box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.6), 
+                        0 0 25px rgba(56, 189, 248, 0.25), 
+                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
+            transform: translateY(-2px) !important;
+            background: rgba(255, 255, 255, 0.045) !important;
+        }
+        .org-problem-table-block #problem-table {
+            width: 100% !important;
+            margin: 0 !important;
+            border-collapse: separate !important;
+            border-spacing: 0 6px !important;
+        }
+        .org-problem-table-block #problem-table thead th:first-child,
+        .org-problem-table-block #problem-table tbody td:first-child {
+            padding-left: 20px !important;
+        }
+        .org-problem-table-block #problem-table thead th:last-child,
+        .org-problem-table-block #problem-table tbody td:last-child {
+            padding-right: 20px !important;
+        }
 
 </style>
     {% endif %}
