@@ -539,6 +539,191 @@
                 $this.prop('checked', filled).trigger('change');
             });
         });
+    
+            
+            
+            // Polygon Dedicated Card Logic
+            $(document).on('click', '#btn-polygon-instruction', function (e) {
+                e.preventDefault();
+                $('#polygon-instruction-modal').css('display', 'flex').hide().fadeIn(200);
+            });
+            $(document).on('click', '#polygon-instruction-modal', function (e) {
+                if ($(e.target).is('#polygon-instruction-modal') || $(e.target).closest('a').length) {
+                    $('#polygon-instruction-modal').fadeOut(200);
+                }
+            });
+
+            // Toggle direct code textarea
+            $(document).on('click', '#btn-toggle-poly-code', function (e) {
+                e.preventDefault();
+                $('#poly-code-editor-box').slideToggle(150);
+            });
+
+            // Input files selection handler
+            $(document).on('change', '#poly-input-files', function (e) {
+                var files = e.target.files;
+                if (files && files.length) {
+                    $('#poly-selected-files-summary').text('✓ Đã chọn ' + files.length + ' file input từ máy (' + files[0].name + (files.length > 1 ? ',...' : '') + ')').show();
+                    $('#poly-use-current-zip').prop('checked', false);
+                    $('#poly-zip-file').val('');
+                } else {
+                    $('#poly-selected-files-summary').hide();
+                }
+            });
+
+            // Zip file selection handler
+            $(document).on('change', '#poly-zip-file', function (e) {
+                var file = e.target.files && e.target.files[0];
+                if (file) {
+                    $('#poly-selected-files-summary').text('✓ Đã chọn file ZIP: ' + file.name).show();
+                    $('#poly-use-current-zip').prop('checked', false);
+                    $('#poly-input-files').val('');
+                } else {
+                    $('#poly-selected-files-summary').hide();
+                }
+            });
+
+            // Checkbox use current zip handler
+            $(document).on('change', '#poly-use-current-zip', function () {
+                if ($(this).is(':checked')) {
+                    $('#poly-input-files').val('');
+                    $('#poly-zip-file').val('');
+                    $('#poly-selected-files-summary').hide();
+                }
+            });
+
+            // AC submission select change -> auto load source
+            $(document).on('change', '#poly-ac-select', function () {
+                var subId = $(this).val();
+                if (!subId) return;
+                var problemCode = '{{ problem.code }}';
+                $('#poly-code-filename').text('Đang tải mã nguồn bài #' + subId + '...');
+                $.getJSON('/problem/' + problemCode + '/test_data/submission_source/' + subId, function (data) {
+                    if (data.success) {
+                        $('#poly-source-code').val(data.source);
+                        $('#poly-code-filename').text('✓ Đã nạp code bài #' + subId + ' (' + (data.user || '') + ')');
+                        if (data.language) {
+                            var lang = data.language.toUpperCase();
+                            if (lang.indexOf('CPP') !== -1 || lang.indexOf('C++') !== -1) {
+                                if (lang.indexOf('20') !== -1) $('#poly-lang-select').val('CPP20');
+                                else if (lang.indexOf('11') !== -1) $('#poly-lang-select').val('CPP11');
+                                else $('#poly-lang-select').val('CPP17');
+                            } else if (lang.indexOf('PY') !== -1) {
+                                $('#poly-lang-select').val('PY3');
+                            } else if (lang.indexOf('PAS') !== -1) {
+                                $('#poly-lang-select').val('PAS');
+                            }
+                        }
+                    } else {
+                        alert('Không thể tải mã nguồn: ' + (data.error || 'Lỗi không xác định'));
+                        $('#poly-code-filename').text('');
+                    }
+                });
+            });
+
+            // Code file upload handler
+            $(document).on('change', '#poly-code-file', function (e) {
+                var file = e.target.files && e.target.files[0];
+                if (!file) return;
+                $('#poly-code-filename').text('✓ ' + file.name);
+                var reader = new FileReader();
+                reader.onload = function (ev) {
+                    $('#poly-source-code').val(ev.target.result);
+                    var ext = file.name.split('.').pop().toLowerCase();
+                    if (ext === 'cpp' || ext === 'cc') $('#poly-lang-select').val('CPP17');
+                    else if (ext === 'py') $('#poly-lang-select').val('PY3');
+                    else if (ext === 'pas') $('#poly-lang-select').val('PAS');
+                };
+                reader.readAsText(file);
+            });
+
+            // Run polygon button click
+            $(document).on('click', '#btn-run-polygon', function (e) {
+                e.preventDefault();
+                var code = $('#poly-source-code').val().trim();
+                if (!code) {
+                    alert('Vui lòng chọn bài nộp AC, tải file code hoặc dán mã nguồn giải mẫu!');
+                    $('#poly-code-editor-box').slideDown(150);
+                    $('#poly-source-code').focus();
+                    return;
+                }
+                var $btn = $(this);
+                $btn.prop('disabled', true).html('<i class="fa fa-spinner fa-spin"></i> Đang chạy sinh .out...');
+                $('#poly-log-terminal').show().html('[1/3] Đang gửi dữ liệu và biên dịch mã nguồn...\n');
+                $('#poly-run-status').html('<span style="color: #38bdf8;">Đang xử lý...</span>');
+
+                var formData = new FormData();
+                formData.append('csrfmiddlewaretoken', $('input[name=csrfmiddlewaretoken]').val());
+                formData.append('source_code', code);
+                formData.append('language', $('#poly-lang-select').val());
+                formData.append('time_limit', $('#poly-time-limit').val() || '2.0');
+
+                var acSubId = $('#poly-ac-select').val();
+                if (acSubId) formData.append('submission_id', acSubId);
+
+                // Check input files from multiple file input
+                var inpFiles = $('#poly-input-files')[0].files;
+                if (inpFiles && inpFiles.length) {
+                    for (var i = 0; i < inpFiles.length; i++) {
+                        formData.append('input_files', inpFiles[i]);
+                    }
+                } else {
+                    // Check zip file input in polygon card
+                    var zipFile = $('#poly-zip-file')[0].files[0];
+                    if (zipFile) {
+                        formData.append('zip_file', zipFile);
+                    } else {
+                        // Check if zip input in standard table has a new file
+                        var $stdZip = $('#id_problem-data-zipfile');
+                        if ($stdZip.length && $stdZip[0].files && $stdZip[0].files[0]) {
+                            formData.append('zip_file', $stdZip[0].files[0]);
+                        }
+                    }
+                }
+
+                $.ajax({
+                    url: '{{ url("problem_polygon_generate", problem.code) }}',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function (res) {
+                        if (res.success) {
+                            $('#poly-run-status').html('<span style="color: #10b981; font-weight: 700;">✓ Thành công (' + res.count + ' tests)</span>');
+                            var log = '[2/3] Chạy thành công ' + res.count + ' test cases (.inp -> .out)!\n';
+                            if (res.pairs && res.pairs.length) {
+                                res.pairs.slice(0, 8).forEach(function (p, idx) {
+                                    log += '  ✓ Test ' + (idx + 1) + ': ' + p[0] + ' -> ' + p[1] + '\n';
+                                });
+                                if (res.pairs.length > 8) {
+                                    log += '  ... và ' + (res.pairs.length - 8) + ' test khác.\n';
+                                }
+                            }
+                            log += '[3/3] Đã đóng gói ' + res.zip_name + ' và cấu hình init.yml!\n';
+                            log += '\n🎉 Đang làm mới trang để hiển thị bảng Test Cases...';
+                            $('#poly-log-terminal').append(log);
+
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 1200);
+                        } else {
+                            $btn.prop('disabled', false).html('<i class="fa fa-play"></i> ⚡ Chạy sinh file .out & Tự động ghép Test Cases');
+                            $('#poly-run-status').html('<span style="color: #ef4444; font-weight: 700;">✗ Thất bại</span>');
+                            var errLog = '❌ LỖI: ' + (res.error || 'Có lỗi xảy ra!') + '\n';
+                            if (res.details) {
+                                errLog += '\n--- Chi tiết lỗi ---\n' + res.details;
+                            }
+                            $('#poly-log-terminal').append(errLog);
+                        }
+                    },
+                    error: function (xhr) {
+                        $btn.prop('disabled', false).html('<i class="fa fa-play"></i> ⚡ Chạy sinh file .out & Tự động ghép Test Cases');
+                        $('#poly-run-status').html('<span style="color: #ef4444;">Lỗi kết nối</span>');
+                        $('#poly-log-terminal').append('❌ Lỗi kết nối HTTP (' + xhr.status + '): ' + xhr.statusText);
+                    }
+                });
+            });
+
     </script>
 {% endblock %}
 
@@ -1014,6 +1199,138 @@
             border-color: rgba(56, 189, 248, 0.35) !important;
             transform: translateY(-1px) !important;
         }
+    
+        
+        /* =========================================================
+           POLYGON DEDICATED CARD STYLING
+           ========================================================= */
+        .polygon-dedicated-card {
+            background: linear-gradient(135deg, rgba(2, 132, 199, 0.08) 0%, rgba(13, 19, 34, 0.95) 100%) !important;
+            border: 1.5px solid rgba(56, 189, 248, 0.28) !important;
+            border-radius: 16px !important;
+            margin-bottom: 24px !important;
+            overflow: hidden !important;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35), 0 0 20px rgba(56, 189, 248, 0.08) !important;
+        }
+        .polygon-card-header {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+            padding: 14px 22px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            flex-wrap: wrap !important;
+            gap: 10px !important;
+        }
+        .polygon-card-badge {
+            background: rgba(56, 189, 248, 0.15) !important;
+            color: #38bdf8 !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            padding: 3px 10px !important;
+            border-radius: 100px !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.5px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+        }
+        .polygon-card-body {
+            padding: 20px 24px !important;
+        }
+        .polygon-section-label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            color: #38bdf8 !important;
+        }
+        .poly-step-num {
+            background: #0284c7 !important;
+            color: #fff !important;
+            width: 20px !important;
+            height: 20px !important;
+            border-radius: 50% !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+        .poly-file-btn {
+            background: rgba(255, 255, 255, 0.06) !important;
+            border: 1px solid rgba(255, 255, 255, 0.15) !important;
+            color: #cbd5e1 !important;
+            padding: 8px 16px !important;
+            border-radius: 8px !important;
+            font-size: 12.5px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            transition: all 0.2s ease !important;
+            margin: 0 !important;
+        }
+        .poly-file-btn:hover {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border-color: #38bdf8 !important;
+            color: #38bdf8 !important;
+        }
+        .poly-input-control {
+            background: #070a12 !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 8px !important;
+            color: #fff !important;
+            padding: 8px 12px !important;
+            font-size: 13px !important;
+            outline: none !important;
+            box-sizing: border-box !important;
+        }
+        .poly-input-control:focus, .poly-code-textarea:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.25) !important;
+        }
+        .poly-code-textarea {
+            width: 100% !important;
+            background: #070a12 !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 8px !important;
+            color: #a5f3fc !important;
+            font-family: 'Google Sans Code', monospace !important;
+            font-size: 12px !important;
+            padding: 10px !important;
+            box-sizing: border-box !important;
+            outline: none !important;
+            line-height: 1.5 !important;
+        }
+        .polygon-run-btn-main {
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
+            color: #ffffff !important;
+            padding: 10px 24px !important;
+            border-radius: 10px !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            border: 1px solid rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.45) !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            transition: all 0.2s ease !important;
+        }
+        .polygon-run-btn-main:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.6) !important;
+        }
+        .polygon-run-btn-main:disabled {
+            opacity: 0.6 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+        }
+
     </style>
 {% endblock %}
 
@@ -1054,6 +1371,7 @@
         {{ cases_formset.management_form }}
         <!-- Redesigned Problem Data & Checker Configuration Card -->
         <!-- Vertical Configuration Table (Image #1) -->
+        
         <table class="vertical-data-table">
             <tbody>
                 <!-- Data zip file -->
@@ -1072,7 +1390,7 @@
                     </td>
                 </tr>
 
-                <!-- Generator file -->
+                                <!-- Generator file -->
                 <tr>
                     <th class="v-label-col">{{ _('Generator file:') }}</th>
                     <td class="v-control-col">
@@ -1153,6 +1471,126 @@
                 </tr>
             </tbody>
         </table>
+
+        <!-- =========================================================
+             POLYGON TEST GENERATOR (MỤC RIÊNG BIỆT)
+             ========================================================= -->
+        <div class="polygon-dedicated-card">
+            <div class="polygon-card-header">
+                <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                    <span class="polygon-card-badge">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+                        POLYGON TOOL
+                    </span>
+                    <h3 style="margin: 0; font-size: 16px; color: #ffffff; font-weight: 700;">
+                        Tự động sinh file .out từ file .inp &amp; Lời giải mẫu
+                    </h3>
+                    <a href="javascript:void(0)" id="btn-polygon-instruction" class="v-instruction-link" style="font-size: 13px; font-weight: normal; margin-left: 4px;" title="Hướng dẫn chi tiết">
+                        <i class="fa fa-info-circle"></i> {{ _('Instruction') }}
+                    </a>
+                </div>
+                <span style="font-size: 12.5px; color: #94a3b8;">
+                    Cơ chế hoạt động như Codeforces Polygon: Nhập .inp ➔ Hệ thống tự chạy code mẫu và sinh .out
+                </span>
+            </div>
+
+            <div class="polygon-card-body">
+                <!-- BƯỚC 1: DỮ LIỆU INPUT -->
+                <div class="polygon-section-group">
+                    <label class="polygon-section-label">
+                        <span class="poly-step-num">1</span>
+                        <span>Chọn nguồn file Input (.inp, .in, .txt hoặc .zip):</span>
+                    </label>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+                        <div style="display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
+                            <label class="poly-file-btn">
+                                <i class="fa fa-folder-open"></i> Chọn nhiều file .inp từ máy
+                                <input type="file" id="poly-input-files" multiple accept=".inp,.in,.txt" style="display: none;">
+                            </label>
+
+                            <span style="color: #64748b; font-size: 12.5px;">hoặc</span>
+
+                            <label class="poly-file-btn">
+                                <i class="fa fa-file-archive-o"></i> Tải lên file .zip chứa .inp
+                                <input type="file" id="poly-zip-file" accept=".zip" style="display: none;">
+                            </label>
+
+                            <span style="color: #64748b; font-size: 12.5px;">hoặc</span>
+
+                            <label style="display: inline-flex; align-items: center; gap: 6px; cursor: pointer; color: #cbd5e1; font-size: 13px; margin: 0;">
+                                <input type="checkbox" id="poly-use-current-zip" checked style="accent-color: #0284c7; width: 16px; height: 16px;">
+                                <span>Dùng file ZIP hiện tại của bài tập (nếu đã có trên hệ thống)</span>
+                            </label>
+                        </div>
+
+                        <div id="poly-selected-files-summary" style="display: none; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 8px; padding: 8px 14px; font-size: 12.5px; color: #38bdf8; font-weight: 600;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 2: LỜI GIẢI MẪU -->
+                <div class="polygon-section-group" style="margin-top: 18px;">
+                    <label class="polygon-section-label">
+                        <span class="poly-step-num">2</span>
+                        <span>Mã nguồn giải mẫu (Model Solution):</span>
+                    </label>
+                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 8px;">
+                        <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                            {% if ac_submissions %}
+                                <select id="poly-ac-select" class="poly-input-control" style="flex: 1; min-width: 240px;">
+                                    <option value="">-- Chọn code từ bài nộp AC có sẵn của bài tập --</option>
+                                    {% for sub in ac_submissions %}
+                                        <option value="{{ sub.id }}" data-lang="{{ sub.language.key }}">&bull; Bài #{{ sub.id }} - {{ sub.user.username }} ({{ sub.language.common_name }}) - {{ "%.3f"|format(sub.time) if sub.time else "" }}s</option>
+                                    {% endfor %}
+                                </select>
+                            {% endif %}
+
+                            <select id="poly-lang-select" class="poly-input-control" style="width: 140px;">
+                                <option value="CPP17">C++17 (g++)</option>
+                                <option value="CPP20">C++20 (g++)</option>
+                                <option value="CPP11">C++11 (g++)</option>
+                                <option value="PY3">Python 3</option>
+                                <option value="PAS">Pascal</option>
+                            </select>
+
+                            <label class="poly-file-btn">
+                                <i class="fa fa-upload"></i> Tải file code (.cpp, .py)
+                                <input type="file" id="poly-code-file" style="display: none;" accept=".cpp,.c,.py,.pas,.txt">
+                            </label>
+
+                            <div style="display: inline-flex; align-items: center; gap: 6px; margin-left: auto;">
+                                <span style="font-size: 12.5px; color: #94a3b8;">Time Limit:</span>
+                                <input type="number" id="poly-time-limit" value="{{ problem.time_limit|default(2.0) }}" step="0.5" min="0.1" max="15" class="poly-input-control" style="width: 70px; padding: 6px 8px; text-align: center;">
+                                <span style="font-size: 12.5px; color: #94a3b8;">giây</span>
+                            </div>
+                        </div>
+
+                        <div style="display: flex; align-items: center; justify-content: space-between; font-size: 12px;">
+                            <span id="poly-code-filename" style="color: #38bdf8; font-weight: 600;"></span>
+                            <a href="javascript:void(0)" id="btn-toggle-poly-code" style="color: #60a5fa; text-decoration: none; font-weight: 500;">
+                                <i class="fa fa-code"></i> Dán mã nguồn giải mẫu trực tiếp &darr;
+                            </a>
+                        </div>
+
+                        <div id="poly-code-editor-box" style="display: none;">
+                            <textarea id="poly-source-code" rows="8" class="poly-code-textarea" placeholder="// Dán mã nguồn giải mẫu (Model Solution) vào đây (hỗ trợ cả chuẩn cin/cout lẫn freopen)..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BƯỚC 3: THỰC THI -->
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+                    <button type="button" id="btn-run-polygon" class="polygon-run-btn-main">
+                        <i class="fa fa-play"></i> ⚡ Chạy sinh file .out &amp; Tự động ghép Test Cases
+                    </button>
+                    <span id="poly-run-status" style="font-size: 13px;"></span>
+                </div>
+
+                <!-- Log terminal -->
+                <div id="poly-log-terminal" style="display: none; background: #050811; border: 1px solid rgba(56,189,248,0.25); border-radius: 10px; padding: 12px 16px; font-family: 'Google Sans Code', monospace; font-size: 12px; color: #cbd5e1; white-space: pre-wrap; max-height: 160px; overflow-y: auto; margin-top: 12px;"></div>
+            </div>
+        </div>
+
 
         <!-- Testlib Instruction Modal -->
         <div id="testlib-instruction-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.75); z-index: 99999; align-items: center; justify-content: center; backdrop-filter: blur(4px);">
@@ -1299,4 +1737,29 @@ int main(int argc, char* argv[]) {
     </form>
     <div style="display: none" class="generator-args-editor"><textarea></textarea><a class="button">{{ _('Save') }}</a></div>
     <div style="display: none" class="batch-dependencies-editor"><textarea></textarea><a class="button">{{ _('Save') }}</a></div>
+
+    
+        <!-- Polygon Instruction Modal (Chỉ hiện khi bấm vào chữ Instruction) -->
+        <div id="polygon-instruction-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 20px;">
+            <div style="background: #0d1322; border: 1px solid rgba(255,255,255,0.15); border-radius: 16px; padding: 24px 28px; max-width: 580px; width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,0.6); box-sizing: border-box;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px;">
+                    <h3 style="margin: 0; font-size: 15px; color: #38bdf8; display: flex; align-items: center; gap: 8px;">
+                        <i class="fa fa-info-circle"></i> {{ _('Hướng dẫn tự động sinh file .out (Polygon)') }}
+                    </h3>
+                    <a href="javascript:void(0)" onclick="$('#polygon-instruction-modal').fadeOut(200)" style="color: #94a3b8; font-size: 22px; text-decoration: none; line-height: 1;">&times;</a>
+                </div>
+                <div style="font-size: 13px; line-height: 1.6; color: #cbd5e1;">
+                    <p style="margin-top: 0;"><strong>Cách hoạt động tương tự Codeforces Polygon:</strong></p>
+                    <ol style="margin: 0 0 12px 18px; padding: 0;">
+                        <li>Ở mục <strong>Data zip file</strong> ngay bên trên: Bạn chỉ cần tải file ZIP chứa các file input (ví dụ: <code>1.inp</code>, <code>2.inp</code>,... hoặc <code>test01/APLUSB.INP</code>).</li>
+                        <li>Ở mục <strong>Tự động sinh file .out</strong>: Bạn chọn một bài nộp AC có sẵn hoặc tải lên file code giải mẫu (C++, Python, Pascal).</li>
+                        <li>Bấm nút <strong>"⚡ Chạy sinh file .out từ file .inp"</strong>: Hệ thống sẽ tự biên dịch, chạy lần lượt từng file input qua code mẫu để sinh ra các file <code>.out</code> tương ứng, tự đóng gói lại vào file ZIP và tự ghép cặp test cases.</li>
+                    </ol>
+                    <p style="margin-bottom: 0; color: #38bdf8; font-size: 12px;">
+                        <i class="fa fa-check"></i> Hỗ trợ cả Standard I/O (cin/cout) và File I/O (freopen).
+                    </p>
+                </div>
+            </div>
+        </div>
+
 {% endblock %}

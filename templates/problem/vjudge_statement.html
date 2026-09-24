@@ -25,10 +25,10 @@
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated %}
                 {% if request.profile.vjudge_cookie %}
-                    <span class="vjudge-account-chip chip-connected" title="{{ _('VJudge account connected') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-connected" title="{{ _('Tài khoản Virtual Judge đã kết nối — Bấm để quản lý hoặc đăng xuất') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                         <span>{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
-                    </span>
+                    </a>
                 {% else %}
                     <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Kết nối tài khoản Virtual Judge') }}">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>

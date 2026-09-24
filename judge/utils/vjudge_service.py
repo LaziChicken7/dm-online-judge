@@ -14,6 +14,23 @@ HEADERS = {
 }
 
 
+
+def normalize_vjudge_cookie(cookie_str: str) -> str:
+    """
+    Normalize user-entered VJudge cookie to valid HTTP Cookie header format.
+    Handles raw session token, full cookie headers, or JSESSIONID=token.
+    Encodes illegal header characters like | to %7C to avoid Cloudflare 403 WAF blocks.
+    """
+    if not cookie_str:
+        return ""
+    cookie_str = cookie_str.strip().strip('"').strip("'")
+    cookie_str = cookie_str.replace('|', '%7C')
+    if '=' not in cookie_str and len(cookie_str) >= 16:
+        return f"JSESSIONID={cookie_str}"
+    if 'JSESSIONID=' in cookie_str or 'JSESSlONID=' in cookie_str:
+        return "; ".join(part.strip() for part in cookie_str.split(';') if part.strip())
+    return cookie_str
+
 def check_vjudge_login(cookie: str) -> dict:
     """
     Check if the given cookie has an active login session on VJudge.
@@ -119,7 +136,7 @@ def submit_vjudge_solution(
 
     encoded_data = urllib.parse.urlencode(post_data).encode('utf-8')
     headers = dict(HEADERS)
-    headers['Cookie'] = cookie or ''
+    headers['Cookie'] = normalize_vjudge_cookie(cookie) or ''
     headers['Referer'] = f"https://vjudge.net/problem/{oj}-{prob_num}"
     headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
 
@@ -130,7 +147,7 @@ def submit_vjudge_solution(
             run_id = data.get('runId')
             if run_id:
                 return {"success": True, "runId": int(run_id)}
-            error = data.get('error') or data.get('errorKey') or "Unknown VJudge submission error"
+            error = data.get('error') or data.get('errorKey') or data.get('i18nKey') or data
             return {"success": False, "error": str(error)}
     except urllib.error.HTTPError as e:
         body = e.read().decode('utf-8', errors='ignore')
@@ -321,7 +338,11 @@ def login_vjudge(username: str, password: str) -> dict:
             if 'invalid_credentials' in key:
                 return {"success": False, "error": "Tên đăng nhập hoặc mật khẩu Virtual Judge không chính xác."}
             elif 'human_verification' in key:
-                return {"success": False, "error": "VJudge yêu cầu xác minh bảo mật (Turnstile)."}
+                return {
+                    "success": False,
+                    "is_turnstile": True,
+                    "error": "Virtual Judge (vjudge.net) yêu cầu xác minh bảo mật (Cloudflare Turnstile CAPTCHA). Vui lòng sử dụng phương thức 'Kết nối bằng Session Cookie (JSESSIONID)' bên dưới để liên kết."
+                }
         except Exception:
             pass
         return {"success": False, "error": f"Lỗi đăng nhập ({e.code}): {body}"}

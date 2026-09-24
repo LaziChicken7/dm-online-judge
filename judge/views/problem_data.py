@@ -10,7 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
 from django.forms import BaseModelFormSet, HiddenInput, ModelForm, NumberInput, Select, formset_factory
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import JsonResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 from django.utils.html import escape, format_html
@@ -197,6 +197,14 @@ class ProblemDataView(TitleMixin, ProblemManagerMixin):
 
         context['cases_formset'] = self.get_case_formset(valid_files)
         context['all_case_forms'] = chain(context['cases_formset'], [context['cases_formset'].empty_form])
+        try:
+            context['ac_submissions'] = (
+                self.object.submission_set.filter(result='AC')
+                .select_related('user', 'language')
+                .order_by('-id')[:30]
+            )
+        except Exception:
+            context['ac_submissions'] = []
         return context
 
     def post(self, request, *args, **kwargs):
@@ -300,3 +308,319 @@ def problem_init_view(request, problem):
             format_html('<a href="{1}">{0}</a>', problem.name,
                         reverse('problem_detail', args=[problem.code])))),
     })
+
+
+def natural_sort_key(s):
+    import re
+    return [int(text) if text.isdigit() else text.lower() for text in re.split(r'(\d+)', str(s))]
+
+@login_required
+def problem_submission_source_view(request, problem, sub_id):
+    problem_obj = get_object_or_404(Problem, code=problem)
+    if not (request.user.is_superuser or problem_obj.is_editable_by(request.user)):
+        return JsonResponse({'success': False, 'error': 'Permission denied'}, status=403)
+    try:
+        sub = Submission.objects.get(id=sub_id, problem=problem_obj)
+        return JsonResponse({
+            'success': True,
+            'source': sub.source.source,
+            'language': sub.language.key if sub.language else 'CPP17',
+            'user': sub.user.username,
+        })
+    except Submission.DoesNotExist:
+        return JsonResponse({'success': False, 'error': 'Submission not found'}, status=404)
+
+@login_required
+def problem_polygon_generate_view(request, problem):
+    import re
+    import shutil
+    import subprocess
+    import tempfile
+    import zipfile
+    
+    problem_obj = get_object_or_404(Problem, code=problem)
+    if not (request.user.is_superuser or problem_obj.is_editable_by(request.user)):
+        return JsonResponse({'success': False, 'error': 'Bạn không có quyền chỉnh sửa bài tập này.'}, status=403)
+    if request.method != 'POST':
+        return JsonResponse({'success': False, 'error': 'Yêu cầu phương thức POST'}, status=405)
+
+    source_code = request.POST.get('source_code', '').strip()
+    language = request.POST.get('language', 'CPP17').upper().strip()
+    sub_id = request.POST.get('submission_id')
+    try:
+        time_limit = float(request.POST.get('time_limit', problem_obj.time_limit or 2.0))
+    except (ValueError, TypeError):
+        time_limit = 2.0
+
+    if sub_id:
+        try:
+            sub = Submission.objects.get(id=int(sub_id), problem=problem_obj)
+            source_code = sub.source.source
+            if sub.language:
+                language = sub.language.key.upper()
+        except Exception:
+            pass
+    elif 'source_file' in request.FILES:
+        try:
+            source_code = request.FILES['source_file'].read().decode('utf-8', errors='replace')
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': f'Không thể đọc file mã nguồn: {str(e)}'})
+
+    if not source_code:
+        return JsonResponse({'success': False, 'error': 'Vui lòng cung cấp mã nguồn giải mẫu (Model Solution)!'})
+
+    with tempfile.TemporaryDirectory() as tmp_dir:
+        inputs_dir = os.path.join(tmp_dir, 'inputs')
+        outputs_dir = os.path.join(tmp_dir, 'outputs')
+        os.makedirs(inputs_dir, exist_ok=True)
+        os.makedirs(outputs_dir, exist_ok=True)
+
+        # 1. Thu thập file input
+        input_file_list = request.FILES.getlist('input_files') or request.FILES.getlist('files')
+        zip_upload = request.FILES.get('zip_file')
+
+        if zip_upload:
+            try:
+                with ZipFile(zip_upload, 'r') as zf:
+                    zf.extractall(inputs_dir)
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': f'Lỗi giải nén file ZIP: {str(e)}'})
+        elif input_file_list:
+            for up_file in input_file_list:
+                fname = os.path.basename(up_file.name)
+                with open(os.path.join(inputs_dir, fname), 'wb') as f:
+                    for chunk in up_file.chunks():
+                        f.write(chunk)
+        else:
+            existing_zip_path = None
+            p_data = ProblemData.objects.filter(problem=problem_obj).first()
+            if p_data and bool(p_data.zipfile):
+                try:
+                    if os.path.exists(p_data.zipfile.path):
+                        existing_zip_path = p_data.zipfile.path
+                except Exception:
+                    pass
+
+            if not existing_zip_path:
+                prob_dir = problem_data_storage.path(problem_obj.code)
+                if os.path.exists(prob_dir):
+                    for f in os.listdir(prob_dir):
+                        if f.lower().endswith('.zip'):
+                            existing_zip_path = os.path.join(prob_dir, f)
+                            break
+
+            if existing_zip_path and os.path.exists(existing_zip_path):
+                try:
+                    with ZipFile(existing_zip_path, 'r') as zf:
+                        zf.extractall(inputs_dir)
+                except Exception as e:
+                    return JsonResponse({'success': False, 'error': f'Lỗi đọc ZIP hiện tại: {str(e)}'})
+            else:
+                return JsonResponse({'success': False, 'error': 'Chưa chọn file input nào (.inp, .in) và bài tập chưa có file zip!'})
+
+        # Quét danh sách file input
+        candidates = []
+        for root, _, files in os.walk(inputs_dir):
+            for f in files:
+                if f.startswith('.') or f.endswith(('.out', '.OUT', '.ans', '.ANS', '.yml', '.yaml', '.zip', '.exe', '.pyc')):
+                    continue
+                rel = os.path.relpath(os.path.join(root, f), inputs_dir).replace('\\', '/')
+                if re.search(r'\.(inp|in|txt)$', f, re.I) or re.search(r'(^|[/_.-])input', f, re.I) or 'test' in rel.lower():
+                    candidates.append(rel)
+
+        if not candidates:
+            for root, _, files in os.walk(inputs_dir):
+                for f in files:
+                    if f.startswith('.') or f.endswith(('.out', '.OUT', '.ans', '.ANS', '.yml', '.yaml', '.zip', '.exe', '.pyc')):
+                        continue
+                    rel = os.path.relpath(os.path.join(root, f), inputs_dir).replace('\\', '/')
+                    candidates.append(rel)
+
+        if not candidates:
+            return JsonResponse({'success': False, 'error': 'Không tìm thấy file input nào trong dữ liệu tải lên!'})
+
+        candidates.sort(key=natural_sort_key)
+
+        # 2. Biên dịch lời giải mẫu
+        exec_cmd = None
+        if any(k in language for k in ('CPP', 'C++', 'C11', 'C')) and language != 'PY3':
+            is_c = (language in ('C', 'C11'))
+            src_name = 'solution.c' if is_c else 'solution.cpp'
+            bin_name = 'solution'
+            src_path = os.path.join(tmp_dir, src_name)
+            bin_path = os.path.join(tmp_dir, bin_name)
+            with open(src_path, 'w', encoding='utf-8') as f:
+                f.write(source_code)
+
+            compiler = 'gcc' if is_c else 'g++'
+            compile_cmd = [compiler, '-O3']
+            if language == 'CPP20':
+                compile_cmd.append('-std=c++20')
+            elif language == 'CPP17':
+                compile_cmd.append('-std=c++17')
+            elif language == 'CPP11':
+                compile_cmd.append('-std=c++11')
+            elif language == 'C11':
+                compile_cmd.append('-std=c11')
+            else:
+                compile_cmd.append('-std=c++14')
+            compile_cmd += [src_name, '-o', bin_name]
+
+            comp_res = subprocess.run(compile_cmd, cwd=tmp_dir, capture_output=True, text=True, timeout=30)
+            if comp_res.returncode != 0:
+                return JsonResponse({'success': False, 'error': 'Lỗi biên dịch C/C++ (Compilation Error)!', 'details': comp_res.stderr})
+            exec_cmd = [bin_path]
+        elif 'PY' in language:
+            src_path = os.path.join(tmp_dir, 'solution.py')
+            with open(src_path, 'w', encoding='utf-8') as f:
+                f.write(source_code)
+            check_res = subprocess.run(['python3', '-m', 'py_compile', 'solution.py'], cwd=tmp_dir, capture_output=True, text=True)
+            if check_res.returncode != 0:
+                return JsonResponse({'success': False, 'error': 'Lỗi cú pháp Python (Syntax Error)!', 'details': check_res.stderr})
+            exec_cmd = ['python3', src_path]
+        elif 'PAS' in language:
+            src_path = os.path.join(tmp_dir, 'solution.pas')
+            with open(src_path, 'w', encoding='utf-8') as f:
+                f.write(source_code)
+            comp_res = subprocess.run(['fpc', '-O2', 'solution.pas'], cwd=tmp_dir, capture_output=True, text=True, timeout=30)
+            if comp_res.returncode != 0:
+                return JsonResponse({'success': False, 'error': 'Lỗi biên dịch Pascal!', 'details': comp_res.stderr})
+            exec_cmd = [os.path.join(tmp_dir, 'solution')]
+        else:
+            src_path = os.path.join(tmp_dir, 'solution.cpp')
+            bin_path = os.path.join(tmp_dir, 'solution')
+            with open(src_path, 'w', encoding='utf-8') as f:
+                f.write(source_code)
+            comp_res = subprocess.run(['g++', '-O3', '-std=c++17', 'solution.cpp', '-o', 'solution'], cwd=tmp_dir, capture_output=True, text=True, timeout=30)
+            if comp_res.returncode != 0:
+                return JsonResponse({'success': False, 'error': 'Lỗi biên dịch C++!', 'details': comp_res.stderr})
+            exec_cmd = [bin_path]
+
+        # 3. Chạy lời giải trên từng file input
+        pairs = []
+        p_code = problem_obj.code
+        run_workspace = os.path.join(tmp_dir, 'run_case')
+
+        for inp_rel in candidates:
+            if re.search(r'\.inp$', inp_rel, re.I):
+                out_rel = re.sub(r'\.inp$', '.out', inp_rel, flags=re.I)
+            elif re.search(r'\.in$', inp_rel, re.I):
+                out_rel = re.sub(r'\.in$', '.out', inp_rel, flags=re.I)
+            elif re.search(r'\.txt$', inp_rel, re.I):
+                out_rel = re.sub(r'\.txt$', '.out', inp_rel, flags=re.I)
+            else:
+                out_rel = inp_rel + '.out'
+
+            shutil.rmtree(run_workspace, ignore_errors=True)
+            os.makedirs(run_workspace, exist_ok=True)
+
+            inp_abs = os.path.join(inputs_dir, inp_rel)
+            with open(inp_abs, 'rb') as f:
+                inp_bytes = f.read()
+
+            base_inp = os.path.basename(inp_rel)
+            alias_names = {
+                base_inp,
+                base_inp.lower(),
+                base_inp.upper(),
+                f'{p_code}.inp',
+                f'{p_code.lower()}.inp',
+                f'{p_code.upper()}.INP',
+                'input.txt',
+                'INPUT.TXT',
+            }
+            for alias in alias_names:
+                try:
+                    with open(os.path.join(run_workspace, alias), 'wb') as f:
+                        f.write(inp_bytes)
+                except Exception:
+                    pass
+
+            try:
+                proc = subprocess.run(
+                    exec_cmd,
+                    input=inp_bytes,
+                    cwd=run_workspace,
+                    capture_output=True,
+                    timeout=time_limit + 1.0
+                )
+            except subprocess.TimeoutExpired:
+                return JsonResponse({'success': False, 'error': f'Test {inp_rel} chạy quá thời gian (TLE > {time_limit}s)!'})
+
+            if proc.returncode != 0:
+                err_msg = proc.stderr.decode('utf-8', errors='replace')
+                return JsonResponse({'success': False, 'error': f'Test {inp_rel} bị lỗi thực thi (RTE - Mã lỗi {proc.returncode})!', 'details': err_msg})
+
+            base_out = os.path.basename(out_rel)
+            out_candidates = [
+                base_out,
+                base_out.lower(),
+                base_out.upper(),
+                f'{p_code}.out',
+                f'{p_code.lower()}.out',
+                f'{p_code.upper()}.OUT',
+                'output.txt',
+                'OUTPUT.TXT',
+            ]
+            captured_output = None
+            for out_name in out_candidates:
+                out_file_path = os.path.join(run_workspace, out_name)
+                if os.path.exists(out_file_path) and os.path.getsize(out_file_path) > 0:
+                    with open(out_file_path, 'rb') as f:
+                        captured_output = f.read()
+                    break
+
+            if captured_output is None:
+                captured_output = proc.stdout
+
+            out_abs = os.path.join(outputs_dir, out_rel)
+            os.makedirs(os.path.dirname(out_abs), exist_ok=True)
+            with open(out_abs, 'wb') as f:
+                f.write(captured_output)
+
+            pairs.append((inp_rel, out_rel))
+
+        # 4. Đóng gói file ZIP hoàn chỉnh (chứa cả .inp và .out)
+        prob_storage_dir = os.path.join(settings.DMOJ_PROBLEM_DATA_ROOT, problem_obj.code)
+        os.makedirs(prob_storage_dir, exist_ok=True)
+        zip_filename = f"{problem_obj.code.upper()}_Tests.zip"
+        zip_dest = os.path.join(prob_storage_dir, zip_filename)
+
+        with ZipFile(zip_dest, 'w', compression=zipfile.ZIP_DEFLATED) as zf:
+            for inp_rel, out_rel in pairs:
+                zf.write(os.path.join(inputs_dir, inp_rel), inp_rel)
+                zf.write(os.path.join(outputs_dir, out_rel), out_rel)
+
+        # 5. Cập nhật cơ sở dữ liệu ProblemData và ProblemTestCase
+        p_data, _ = ProblemData.objects.get_or_create(problem=problem_obj)
+        p_data.zipfile = f"{problem_obj.code}/{zip_filename}"
+        p_data.feedback = ''
+        p_data.save()
+
+        problem_obj.cases.all().delete()
+        for order, (inp_rel, out_rel) in enumerate(pairs, 1):
+            ProblemTestCase.objects.create(
+                dataset=problem_obj,
+                order=order,
+                type='C',
+                input_file=inp_rel,
+                output_file=out_rel,
+                points=1,
+                is_pretest=False,
+                generator_args='',
+                checker='',
+                checker_args='',
+                batch_dependencies='',
+            )
+
+        with ZipFile(zip_dest, 'r') as zf:
+            valid_files = zf.namelist()
+        ProblemDataCompiler.generate(problem_obj, p_data, problem_obj.cases.order_by('order'), valid_files)
+
+        return JsonResponse({
+            'success': True,
+            'message': f'Đã sinh thành công {len(pairs)} test cases (.inp -> .out) và lưu dữ liệu bài tập!',
+            'count': len(pairs),
+            'pairs': pairs,
+            'zip_name': zip_filename,
+        })

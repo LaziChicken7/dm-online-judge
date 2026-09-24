@@ -185,8 +185,24 @@
         </p>
 
         {% if error %}
-            <div class="alert-error">
-                <strong>{{ _('Lỗi:') }}</strong> {{ error }}
+            <div class="alert-error" style="background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.4); border-radius: 14px; padding: 18px 22px; margin-bottom: 24px;">
+                <div style="display: flex; align-items: flex-start; gap: 12px;">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <div>
+                        <strong style="color: #fca5a5; font-size: 15px; display: block; margin-bottom: 6px;">{{ _('Lỗi:') }} {{ error }}</strong>
+                        {% if is_turnstile or 'Turnstile' in error or 'xác minh' in error %}
+                            <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(248, 113, 113, 0.3); border-radius: 10px; padding: 12px 16px; margin-top: 10px; color: #fecaca; font-size: 13.5px; line-height: 1.6;">
+                                <div style="font-weight: 700; color: #f87171; margin-bottom: 4px; display: flex; align-items: center; gap: 6px;">
+                                    <span>🛡️ Vì sao gặp lỗi này & Cách giải quyết:</span>
+                                </div>
+                                Virtual Judge (vjudge.net) vừa bật tính năng <strong>Cloudflare Turnstile CAPTCHA</strong> để chặn các máy chủ tự động gửi username/password.
+                                Vì vậy máy chủ từ xa sẽ bị Cloudflare nhận diện là robot.
+                                <br>
+                                ➔ <strong>Cách xử lý:</strong> Hãy chuyển sang <strong>Cách 1: Kết nối bằng Session Cookie (JSESSIONID)</strong> ở bên dưới. Bạn chỉ cần đăng nhập tài khoản trên trình duyệt thật 1 lần để vượt qua Captcha, sau đó copy cookie dán vào đây là hệ thống hoạt động bình thường!
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         {% endif %}
 
@@ -196,13 +212,33 @@
                 <span>{{ _('Đã kết nối thành công!') }}</span>
             </div>
 
-            <div style="margin-bottom: 24px;">
-                <p style="color: #e2e8f0; font-size: 15px; margin: 0 0 6px 0;">
-                    {{ _('Tài khoản VJudge liên kết:') }} <strong style="color: #38bdf8;">{{ profile.vjudge_username or 'VJudge User' }}</strong>
-                </p>
-                <p style="color: #94a3b8; font-size: 13.5px; margin: 0;">
-                    {{ _('Phiên đăng nhập đang hoạt động. Hệ thống đã tự động lưu phiên làm việc để nộp bài.') }}
-                </p>
+            <div style="margin-bottom: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 18px 22px;">
+                <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <div style="color: #e2e8f0; font-size: 15px; margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+                            <span>{{ _('Tài khoản VJudge liên kết:') }}</span>
+                            <strong style="color: #38bdf8; font-size: 16px;">{{ profile.vjudge_username or 'VJudge User' }}</strong>
+                        </div>
+                        <p style="color: #94a3b8; font-size: 13px; margin: 0;">
+                            {{ _('Phiên đăng nhập đang hoạt động. Hệ thống sẽ sử dụng tài khoản này để nộp bài.') }}
+                        </p>
+                    </div>
+                    <button type="button" onclick="var f = document.getElementById('edit-username-box'); f.style.display = (f.style.display === 'none' ? 'block' : 'none');"
+                            style="background: rgba(56,189,248,0.15); border: 1px solid rgba(56,189,248,0.3); color: #38bdf8; border-radius: 8px; padding: 6px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer;">
+                        <i class="fa fa-pencil"></i> {{ _('Đổi tên hiển thị') }}
+                    </button>
+                </div>
+                <!-- Inline Edit Form -->
+                <form id="edit-username-box" action="" method="post" style="display: none; margin-top: 14px; padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08);">
+                    {% csrf_token %}
+                    <label class="form-label" for="id_new_vjudge_username" style="font-size: 12.5px;">{{ _('Nhập tên tài khoản VJudge hiển thị mới:') }}</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="text" id="id_new_vjudge_username" name="update_vjudge_username" value="{{ profile.vjudge_username }}" class="form-input-vjudge" style="max-width: 280px; padding: 8px 14px; font-size: 13px;" placeholder="Ví dụ: my_vjudge_user" required>
+                        <button type="submit" class="btn-primary-glow" style="padding: 8px 18px; font-size: 13px;">
+                            <span>{{ _('Lưu tên') }}</span>
+                        </button>
+                    </div>
+                </form>
             </div>
 
             <h3 style="color: #ffffff; font-size: 17px; margin: 24px 0 12px 0;">
@@ -246,69 +282,158 @@
                 </form>
             </div>
 
-        {% else %}
+                {% else %}
             <div class="status-badge status-disconnected">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                 <span>{{ _('Chưa kết nối tài khoản Virtual Judge') }}</span>
             </div>
 
-            <!-- Automatic Login Form (Username & Password) -->
-            <form action="" method="post" class="auto-login-box">
-                {% csrf_token %}
-                <h3 style="color: #ffffff; font-size: 17px; margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                    {{ _('Đăng nhập tài khoản Virtual Judge') }}
-                </h3>
-                <p style="color: #94a3b8; font-size: 13.5px; margin-bottom: 20px; line-height: 1.5;">
-                    {{ _('Nhập tên đăng nhập và mật khẩu tài khoản Virtual Judge (vjudge.net). Hệ thống sẽ tự động đăng nhập an toàn và lưu phiên làm việc để nộp bài.') }}
-                </p>
-
-                <div class="form-group">
-                    <label class="form-label" for="id_vjudge_username">
-                        {{ _('Tên đăng nhập (Username)') }} <span style="color: #ef4444;">*</span>
-                    </label>
-                    <input type="text" id="id_vjudge_username" name="vjudge_username" class="form-input-vjudge"
-                           placeholder="Ví dụ: my_vjudge_account" value="{{ vjudge_username or profile.vjudge_username }}" required autofocus>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-label" for="id_vjudge_password">
-                        {{ _('Mật khẩu (Password)') }} <span style="color: #ef4444;">*</span>
-                    </label>
-                    <input type="password" id="id_vjudge_password" name="vjudge_password" class="form-input-vjudge"
-                           placeholder="{{ _('Nhập mật khẩu VJudge') }}" required>
-                </div>
-
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
-                    <a href="{{ url('problem_list') }}" style="color: #94a3b8; font-weight: 600; text-decoration: none; font-size: 14px;">{{ _('Quay lại') }}</a>
-                    <button type="submit" class="btn-primary-glow">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                        <span>{{ _('Đăng nhập & Tự động kết nối') }}</span>
-                    </button>
-                </div>
-
-                <div>
-                    <span class="cookie-fallback-toggle" onclick="var f = document.getElementById('cookie-fallback-form'); f.style.display = (f.style.display === 'none' ? 'block' : 'none');">
-                        {{ _('Tùy chọn nâng cao: Nhập cookie phiên làm việc thủ công (nếu có)') }}
-                    </span>
-                </div>
-            </form>
-
-            <!-- Collapsible Cookie Fallback -->
-            <form id="cookie-fallback-form" action="" method="post" style="display: none; background: rgba(255,255,255,0.02); border: 1px dashed rgba(255,255,255,0.15); border-radius: 12px; padding: 20px; margin-top: 16px;">
-                {% csrf_token %}
-                <h4 style="color: #cbd5e1; margin: 0 0 12px 0; font-size: 14.5px;">{{ _('Nhập Session Cookie thủ công') }}</h4>
-                <div class="form-group">
-                    <label class="form-label" for="id_vjudge_cookie_manual">
-                        {{ _('Session Cookie (JSESSIONID)') }}
-                    </label>
-                    <textarea id="id_vjudge_cookie_manual" name="vjudge_cookie" class="form-input-vjudge" rows="2"
-                              placeholder="JSESSIONID=..."></textarea>
-                </div>
-                <button type="submit" class="btn-primary-glow" style="padding: 8px 18px; font-size: 13px;">
-                    <span>{{ _('Lưu Cookie') }}</span>
+            <!-- Tab Navigation for connection methods -->
+            <div style="display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+                <button type="button" id="tab-btn-cookie" onclick="switchVJudgeTab('cookie')"
+                        style="background: #0284c7; border: 1px solid rgba(56,189,248,0.4); color: #fff; padding: 10px 20px; border-radius: 100px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+                    <i class="fa fa-shield"></i> {{ _('Cách 1: Kết nối bằng Session Cookie (Tránh bị Captcha / Turnstile)') }}
                 </button>
-            </form>
+                <button type="button" id="tab-btn-password" onclick="switchVJudgeTab('password')"
+                        style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 10px 20px; border-radius: 100px; font-size: 13.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+                    <i class="fa fa-key"></i> {{ _('Cách 2: Đăng nhập bằng Mật khẩu') }}
+                </button>
+            </div>
+
+            <!-- TAB 1: COOKIE CONNECTION (RECOMMENDED) -->
+            <div id="vjudge-tab-cookie" style="display: block;">
+                <!-- Instructions Card -->
+                <div style="background: rgba(56, 189, 248, 0.08); border: 1.5px solid rgba(56, 189, 248, 0.28); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px;">
+                    <h3 style="color: #38bdf8; font-size: 16px; margin: 0 0 12px 0; display: flex; align-items: center; gap: 8px; font-weight: 700;">
+                        <i class="fa fa-info-circle"></i> Hướng dẫn lấy cookie JSESSIONID từ trình duyệt (chính xác 100%):
+                    </h3>
+                    <div style="color: #fde68a; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 13px; line-height: 1.5;">
+                        ⚠️ <em>Lưu ý quan trọng:</em> Cookie <code>JSESSIONID</code> là loại bảo mật (HttpOnly) nên <strong>không thể</strong> lấy bằng lệnh JavaScript Console (<code>document.cookie</code>). Hãy làm theo 1 trong 2 cách sau:
+                    </div>
+                    
+                    <div style="margin-bottom: 14px;">
+                        <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 6px;">👉 Cách 1 (Đơn giản nhất qua thẻ Application / Storage):</strong>
+                        <ol style="margin: 0 0 0 20px; padding: 0; color: #cbd5e1; font-size: 13.5px; line-height: 1.7;">
+                            <li>Đăng nhập tài khoản của bạn tại <a href="https://vjudge.net" target="_blank" rel="noopener" style="color: #60a5fa; text-decoration: underline; font-weight: 700;">https://vjudge.net</a> trên trình duyệt.</li>
+                            <li>Bấm phím <code>F12</code> (hoặc nhấp chuột phải chọn <em>Kiểm tra / Inspect</em>).</li>
+                            <li>Chọn thẻ <strong>Application</strong> (trên Chrome, Edge, Cốc Cốc) hoặc thẻ <strong>Storage</strong> (trên Firefox).</li>
+                            <li>Ở danh mục bên trái: mở mục <strong>Cookies</strong> &rarr; chọn <code>https://vjudge.net</code>.</li>
+                            <li>Tại bảng danh sách bên phải: tìm dòng có tên <strong><code>JSESSIONID</code></strong> &rarr; nhấp đúp vào cột <strong>Value</strong> để copy giá trị (ví dụ: <code>3341751E143840100C1737BB3ACBA1DA</code>).</li>
+                            <li>Dán giá trị đó vào ô bên dưới rồi bấm <strong>Lưu Cookie &amp; Kết nối ngay</strong>.</li>
+                        </ol>
+                    </div>
+
+                    <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;">
+                        <strong style="color: #ffffff; font-size: 14px; display: block; margin-bottom: 6px;">👉 Cách 2 (Lấy từ thẻ Network / Mạng):</strong>
+                        <ol style="margin: 0 0 0 20px; padding: 0; color: #cbd5e1; font-size: 13.5px; line-height: 1.7;">
+                            <li>Trên trang <code>vjudge.net</code>, mở <code>F12</code> &rarr; chọn thẻ <strong>Network</strong> &rarr; bấm <code>F5</code> tải lại trang.</li>
+                            <li>Bấm vào dòng request đầu tiên (tên <code>vjudge.net</code>) &rarr; chọn thẻ <strong>Headers</strong> &rarr; kéo xuống phần <strong>Request Headers</strong>.</li>
+                            <li>Copy toàn bộ giá trị sau chữ <strong><code>Cookie:</code></strong> và dán vào ô bên dưới.</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Cookie Submit Form -->
+                <form action="" method="post" style="background: rgba(14, 165, 233, 0.05); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: 14px; padding: 24px;">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label" for="id_vjudge_cookie">
+                            {{ _('Session Cookie (JSESSIONID hoặc toàn bộ chuỗi cookie)') }} <span style="color: #ef4444;">*</span>
+                        </label>
+                        <textarea id="id_vjudge_cookie" name="vjudge_cookie" class="form-input-vjudge" rows="3"
+                                  placeholder="Ví dụ: D5C7F46B8374E581373A8B3591244D42 hoặc JSESSIONID=D5C7F46B... hoặc dán kết quả từ document.cookie"
+                                  style="font-family: monospace; font-size: 13px;" required>{{ vjudge_cookie or '' }}</textarea>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="id_vjudge_username_cookie">
+                            {{ _('Tên tài khoản VJudge (tùy chọn, hệ thống có thể tự nhận diện)') }}
+                        </label>
+                        <input type="text" id="id_vjudge_username_cookie" name="vjudge_username" class="form-input-vjudge"
+                               placeholder="Ví dụ: my_vjudge_account (có thể để trống)" value="{{ vjudge_username or profile.vjudge_username }}">
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+                        <a href="{{ url('problem_list') }}" style="color: #94a3b8; font-weight: 600; text-decoration: none; font-size: 14px;">{{ _('Quay lại') }}</a>
+                        <button type="submit" class="btn-primary-glow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span>{{ _('Lưu Cookie & Kết nối ngay') }}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- TAB 2: PASSWORD AUTO LOGIN -->
+            <div id="vjudge-tab-password" style="display: none;">
+                <form action="" method="post" class="auto-login-box">
+                    {% csrf_token %}
+                    <h3 style="color: #ffffff; font-size: 16px; margin: 0 0 14px 0; display: flex; align-items: center; gap: 8px;">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                        {{ _('Đăng nhập tài khoản Virtual Judge bằng Mật khẩu') }}
+                    </h3>
+                    <p style="color: #94a3b8; font-size: 13.5px; margin-bottom: 20px; line-height: 1.5;">
+                        {{ _('Lưu ý: Nếu VJudge bật Cloudflare Turnstile để chống bot, phương thức này sẽ bị chặn và bạn cần dùng Cách 1 (Kết nối bằng Cookie).') }}
+                    </p>
+
+                    <div class="form-group">
+                        <label class="form-label" for="id_vjudge_username">
+                            {{ _('Tên đăng nhập (Username)') }} <span style="color: #ef4444;">*</span>
+                        </label>
+                        <input type="text" id="id_vjudge_username" name="vjudge_username" class="form-input-vjudge"
+                               placeholder="Ví dụ: my_vjudge_account" value="{{ vjudge_username or profile.vjudge_username }}">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="id_vjudge_password">
+                            {{ _('Mật khẩu (Password)') }} <span style="color: #ef4444;">*</span>
+                        </label>
+                        <input type="password" id="id_vjudge_password" name="vjudge_password" class="form-input-vjudge"
+                               placeholder="{{ _('Nhập mật khẩu VJudge') }}">
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 24px;">
+                        <a href="{{ url('problem_list') }}" style="color: #94a3b8; font-weight: 600; text-decoration: none; font-size: 14px;">{{ _('Quay lại') }}</a>
+                        <button type="submit" class="btn-primary-glow">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                            <span>{{ _('Đăng nhập & Tự động kết nối') }}</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <script>
+                function switchVJudgeTab(tab) {
+                    var isCookie = (tab === 'cookie');
+                    document.getElementById('vjudge-tab-cookie').style.display = isCookie ? 'block' : 'none';
+                    document.getElementById('vjudge-tab-password').style.display = isCookie ? 'none' : 'block';
+
+                    var btnCookie = document.getElementById('tab-btn-cookie');
+                    var btnPass = document.getElementById('tab-btn-password');
+
+                    if (isCookie) {
+                        btnCookie.style.background = '#0284c7';
+                        btnCookie.style.borderColor = 'rgba(56,189,248,0.4)';
+                        btnCookie.style.color = '#fff';
+                        btnPass.style.background = 'rgba(255,255,255,0.05)';
+                        btnPass.style.borderColor = 'rgba(255,255,255,0.1)';
+                        btnPass.style.color = '#94a3b8';
+                    } else {
+                        btnPass.style.background = '#0284c7';
+                        btnPass.style.borderColor = 'rgba(56,189,248,0.4)';
+                        btnPass.style.color = '#fff';
+                        btnCookie.style.background = 'rgba(255,255,255,0.05)';
+                        btnCookie.style.borderColor = 'rgba(255,255,255,0.1)';
+                        btnCookie.style.color = '#94a3b8';
+                    }
+                }
+                // If active_tab is specified or default
+                {% if active_tab == 'password' and not is_turnstile %}
+                    switchVJudgeTab('password');
+                {% else %}
+                    switchVJudgeTab('cookie');
+                {% endif %}
+            </script>
+
         {% endif %}
     </div>
 </div>

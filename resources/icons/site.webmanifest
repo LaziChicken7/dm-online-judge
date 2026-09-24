@@ -1,6 +1,6 @@
 {
-  "name": "DMOJ",
-  "short_name": "DMOJ",
+  "name": "OmniJudge Online Judge",
+  "short_name": "OmniJudge",
   "icons": [
     {
       "src": "/web-app-manifest-192x192.png",

@@ -3,8 +3,8 @@
 {% elif logo_override_image is defined and logo_override_image %}
     <img src="{{ logo_override_image|camo }}" alt="{{ SITE_NAME }}" height="40" style="border-radius: 50%; border: none;">
 {% else %}
-    <img src="{{ static('icons/csat_logo_circle.png') }}" alt="CSAT Tutor" width="40" height="40"
-         onerror="this.src=&quot;{{ static('icons/csat_logo.png') }}&quot;; this.onerror=null"
+    <img src="{{ static('icons/omnijudge_circle.png') }}" alt="{{ SITE_NAME }}" width="40" height="40"
+         onerror="this.src=&quot;{{ static('icons/logo.png') }}&quot;; this.onerror=null"
          style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.45); border: 1.5px solid rgba(255, 255, 255, 0.15); display: block; transition: transform 0.2s ease, border-color 0.2s ease;"
-         class="nav-csat-logo">
+         class="nav-omnijudge-logo">
 {% endif %}
