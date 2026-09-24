@@ -1203,6 +1203,10 @@ class ContestEditView(TitleMixin, View):
         selected_org_ids = list(self.contest.organizations.values_list('id', flat=True))
         selected_tag_ids = list(self.contest.tags.values_list('id', flat=True))
 
+        now = timezone.now()
+        is_editor = hasattr(request, 'profile') and request.profile and request.profile.id in self.contest.editor_ids
+        is_tester = hasattr(request, 'profile') and request.profile and request.profile.id in self.contest.tester_ids
+
         return render(request, "contest/edit.html", {
             "title": self.get_title(),
             "contest": self.contest,
@@ -1216,7 +1220,11 @@ class ContestEditView(TitleMixin, View):
             "user_orgs": user_orgs,
             "selected_org_ids": selected_org_ids,
             "selected_tag_ids": selected_tag_ids,
+            "now": now,
             "can_edit": True,
+            "is_editor": is_editor,
+            "is_tester": is_tester,
+            "has_moss_api_key": settings.MOSS_API_KEY is not None,
         })
 
     def post(self, request, contest):
@@ -1254,6 +1262,10 @@ class ContestEditView(TitleMixin, View):
         end_val = self.contest.end_time.astimezone(tz).strftime('%Y-%m-%dT%H:%M') if self.contest.end_time else ''
         time_limit_val = time_limit_str
 
+        now = timezone.now()
+        is_editor = hasattr(request, 'profile') and request.profile and request.profile.id in self.contest.editor_ids
+        is_tester = hasattr(request, 'profile') and request.profile and request.profile.id in self.contest.tester_ids
+
         def render_error(err_msg):
             return render(request, "contest/edit.html", {
                 "title": self.get_title(),
@@ -1270,7 +1282,11 @@ class ContestEditView(TitleMixin, View):
                 "selected_org_ids": selected_org_ids,
                 "selected_tag_ids": selected_tag_ids,
                 "post": request.POST,
+                "now": now,
                 "can_edit": True,
+                "is_editor": is_editor,
+                "is_tester": is_tester,
+                "has_moss_api_key": settings.MOSS_API_KEY is not None,
             })
 
         if not name:

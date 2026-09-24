@@ -548,15 +548,15 @@
 
 {% block body %}
 <div class="create-contest-wrapper">
-    <form method="post" action="{{ url('contest_add') }}{% if selected_org %}?org={{ selected_org.id }}{% endif %}" id="contest-create-form">
+    <form method="post" action="{{ url('contest_edit', contest.key) }}" id="contest-edit-form">
         {% csrf_token %}
 
         <div class="create-card">
             <span class="create-tag">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                WORKSPACE / CONTEST CREATION
+                WORKSPACE / CONTEST EDIT
             </span>
-            <h1 class="create-title">{{ _('Create New Contest') }}</h1>
+            <h1 class="create-title">{{ _('Chỉnh sửa kỳ thi') }}: {{ contest.name }}</h1>
             <p class="create-desc">
                 {{ _('Thiết lập thông số kỳ thi, thời gian biểu, thể thức thi đấu và các bài tập đi kèm.') }}
             </p>
