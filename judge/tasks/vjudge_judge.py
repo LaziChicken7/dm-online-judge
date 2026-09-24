@@ -28,6 +28,12 @@ def format_vjudge_error(raw_err, oj="CodeForces"):
         if not i18n_key:
             i18n_key = raw_err.get('i18nKey', '')
 
+    if 'login_required' in err_str or 'login_required' in i18n_key:
+        return (
+            "Phiên đăng nhập Virtual Judge chưa được kết nối hoặc đã hết hạn (Cookie JSESSIONID). "
+            "Vui lòng vào mục 'Kết nối Virtual Judge' (https://omnijudge.id.vn/user/vjudge/connect/) "
+            "để cập nhật lại Cookie phiên làm việc mới từ vjudge.net trước khi nộp bài."
+        )
     if 'illegal_language' in err_str or 'illegal_language' in i18n_key:
         return (
             f"Trình biên dịch đã chọn không được Virtual Judge hoặc {oj} hỗ trợ cho đề bài này. "

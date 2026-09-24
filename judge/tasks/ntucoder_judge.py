@@ -4,9 +4,11 @@ from celery import shared_task
 from django.utils import timezone
 from judge import event_poster as event
 from judge.models import Submission, SubmissionTestCase
+from judge.judgeapi import _post_update_submission
 from judge.utils.ntucoder_service import check_ntucoder_login, login_ntucoder, poll_ntucoder_submission, submit_ntucoder_solution
 
 logger = logging.getLogger('judge.ntucoder_judge')
+
 
 @shared_task(bind=True, max_retries=3, default_retry_delay=5)
 def judge_ntucoder_submission_task(self, submission_id: int):
@@ -18,6 +20,7 @@ def judge_ntucoder_submission_task(self, submission_id: int):
 
     problem = submission.problem
     profile = submission.user
+
     if not problem.is_ntucoder:
         logger.error(f"Problem {problem.code} is not an NTUCoder problem.")
         return False
@@ -26,6 +29,7 @@ def judge_ntucoder_submission_task(self, submission_id: int):
     submission.status = 'QU'
     submission.save(update_fields=['status'])
     event.post(f'sub_{submission.id_secret}', {'type': 'grading-begin'})
+    _post_update_submission(submission)
 
     # 2. Check & ensure NTUCoder login session
     cookie = profile.ntucoder_cookie
@@ -48,7 +52,11 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         submission.result = 'IE'
         submission.error = "Chưa kết nối hoặc phiên đăng nhập NTUCoder đã hết hạn. Vui lòng kết nối lại tài khoản NTUCoder của bạn."
         submission.save(update_fields=['status', 'result', 'error'])
+        submission.refresh_from_db()
+        submission.update_contest()
+        profile.calculate_points()
         event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
+        _post_update_submission(submission, done=True)
         return False
 
     # 3. Submit solution to NTUCoder
@@ -65,7 +73,11 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         submission.result = 'IE'
         submission.error = f"Lỗi nộp bài sang NTUCoder: {sub_res.get('error', 'Không xác định')}"
         submission.save(update_fields=['status', 'result', 'error'])
+        submission.refresh_from_db()
+        submission.update_contest()
+        profile.calculate_points()
         event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
+        _post_update_submission(submission, done=True)
         return False
 
     ntucoder_sub_id = sub_res["submission_id"]
@@ -74,7 +86,7 @@ def judge_ntucoder_submission_task(self, submission_id: int):
     logger.info(f"Submission {submission.id} submitted to NTUCoder as #{ntucoder_sub_id}")
 
     # 4. Poll for verdict with timeout
-    max_attempts = 45 # 45 * 2s = 90s
+    max_attempts = 45  # 45 * 2s = 90s
     poll_result = None
 
     for attempt in range(max_attempts):
@@ -89,12 +101,16 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         submission.result = 'IE'
         submission.error = "Hết thời gian chờ kết quả chấm từ NTUCoder."
         submission.save(update_fields=['status', 'result', 'error'])
+        submission.refresh_from_db()
+        submission.update_contest()
+        profile.calculate_points()
         event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
+        _post_update_submission(submission, done=True)
         return False
 
     # 5. Record result and test cases
     verdict = poll_result["verdict"]
-    submission.status = 'D'
+    submission.status = 'CE' if verdict == 'CE' else 'D'
     submission.result = verdict
     submission.time = poll_result.get("time_seconds", 0.0)
     submission.memory = poll_result.get("memory_kb", 0)
@@ -105,7 +121,6 @@ def judge_ntucoder_submission_task(self, submission_id: int):
     # Create synthetic testcase entries
     submission.test_cases.all().delete()
     failed_case = poll_result.get("failed_case")
-
     cases_to_create = []
     total_cases = max(10, (failed_case or 10))
 
@@ -149,7 +164,12 @@ def judge_ntucoder_submission_task(self, submission_id: int):
     SubmissionTestCase.objects.bulk_create(cases_to_create)
     submission.save(update_fields=['status', 'result', 'time', 'memory', 'points', 'error', 'judged_date', 'case_points', 'case_total'])
 
-    # 6. Broadcast completed websocket event
+    # 6. Update contest rankings & user profile points
+    submission.refresh_from_db()
+    submission.update_contest()
+    profile.calculate_points()
+
+    # 7. Broadcast completed websocket event
     event.post(f'sub_{submission.id_secret}', {
         'type': 'grading-end',
         'result': verdict,
@@ -157,9 +177,11 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         'time': submission.time,
         'memory': submission.memory,
     })
+    _post_update_submission(submission, done=True)
 
     logger.info(f"Graded NTUCoder submission {submission.id} (#{ntucoder_sub_id}): {verdict} ({submission.points} pts)")
     return True
+
 
 def judge_ntucoder_submission_async(submission: Submission):
     """
