@@ -1061,9 +1061,14 @@ class ProblemCreateForm(forms.ModelForm):
         self.fields['is_public'].initial = False
         self.fields['submission_source_visibility_mode'].initial = 'A'
 
-        uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
-        if uncat_type:
-            self.fields['types'].initial = [uncat_type.id]
+        self.fields['types'].required = False
+        default_type = (
+            ProblemType.objects.filter(name__iexact='simple math').first() or
+            ProblemType.objects.filter(name__icontains='math').first() or
+            ProblemType.objects.first()
+        )
+        if default_type:
+            self.fields['types'].initial = [default_type.id]
 
         uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
         if uncat_group:
@@ -1073,6 +1078,7 @@ class ProblemCreateForm(forms.ModelForm):
             (p[0], f"{p[0]} - {p[1]}") for p in Problem.objects.values_list('code', 'name').order_by('code')
         ]
         self.fields['mirror_from'].choices = existing
+        self.fields['types'].required = False
 
 
 class ProblemCreateView(TitleMixin, View):
@@ -1108,7 +1114,11 @@ class ProblemCreateView(TitleMixin, View):
         existing_problems = Problem.objects.values_list('code', 'name').order_by('code')
         all_types = ProblemType.objects.all().order_by('name')
         all_groups = ProblemGroup.objects.all().order_by('name')
-        uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
+        default_type = (
+            ProblemType.objects.filter(name__iexact='simple math').first() or
+            ProblemType.objects.filter(name__icontains='math').first() or
+            ProblemType.objects.first()
+        )
         uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
         user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') else []
         if self.selected_org:
@@ -1119,7 +1129,8 @@ class ProblemCreateView(TitleMixin, View):
             "existing_problems": existing_problems,
             "all_types": all_types,
             "all_groups": all_groups,
-            "default_type_id": uncat_type.id if uncat_type else None,
+            "default_type": default_type,
+            "default_type_id": default_type.id if default_type else None,
             "default_group_id": uncat_group.id if uncat_group else None,
             "selected_org": self.selected_org,
             "user_orgs": user_orgs,
@@ -1130,7 +1141,11 @@ class ProblemCreateView(TitleMixin, View):
         existing_problems = Problem.objects.values_list('code', 'name').order_by('code')
         all_types = ProblemType.objects.all().order_by('name')
         all_groups = ProblemGroup.objects.all().order_by('name')
-        uncat_type = ProblemType.objects.filter(name__iexact='uncategorized').first()
+        default_type = (
+            ProblemType.objects.filter(name__iexact='simple math').first() or
+            ProblemType.objects.filter(name__icontains='math').first() or
+            ProblemType.objects.first()
+        )
         uncat_group = ProblemGroup.objects.filter(name__iexact='uncategorized').first()
         if not form.is_valid():
             err_msg = ""
@@ -1142,7 +1157,8 @@ class ProblemCreateView(TitleMixin, View):
                 "existing_problems": existing_problems,
                 "all_types": all_types,
                 "all_groups": all_groups,
-                "default_type_id": uncat_type.id if uncat_type else None,
+                "default_type": default_type,
+                "default_type_id": default_type.id if default_type else None,
                 "default_group_id": uncat_group.id if uncat_group else None,
                 "error": err_msg or _("Dữ liệu nhập vào chưa hợp lệ."),
             })
@@ -1184,6 +1200,9 @@ class ProblemCreateView(TitleMixin, View):
                 problem.is_public = True
             problem.save()
             form.save_m2m()
+
+            if not problem.types.exists() and default_type:
+                problem.types.add(default_type)
 
             if hasattr(request, 'profile'):
                 problem.authors.add(request.profile)
@@ -1419,6 +1438,15 @@ class ProblemEditView(TitleMixin, View):
                     problem_obj.save()
 
             form.save_m2m()
+
+            if not problem_obj.types.exists():
+                default_type = (
+                    ProblemType.objects.filter(name__iexact='simple math').first() or
+                    ProblemType.objects.filter(name__icontains='math').first() or
+                    ProblemType.objects.first()
+                )
+                if default_type:
+                    problem_obj.types.add(default_type)
 
             # Handle private users (testers)
             private_users_str = form.cleaned_data.get('private_users', '').strip()

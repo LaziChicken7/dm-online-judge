@@ -820,19 +820,19 @@
             <!-- 12. Problem types (Dropdown with Tags & Custom Vector Down Arrow) -->
             <div class="form-row">
                 <div class="form-label-col">
-                    <label>{{ _('Problem types:') }}<span class="req-star">*</span></label>
+                    <label>{{ _('Problem types:') }}</label>
                 </div>
                 <div class="form-control-col">
                     <div class="custom-dropdown-wrap" id="problem-types-dropdown">
                         <div class="custom-dropdown-header" id="types-dropdown-header" onclick="toggleTypesDropdown(event)">
                             <div class="selected-types-tags" id="selected-types-tags">
-                                {% if default_type_id %}
-                                    <span class="type-tag" data-val="{{ default_type_id }}">
-                                        Chưa phân loại
-                                        <span class="tag-remove" onclick="removeType(event, '{{ default_type_id }}')">×</span>
+                                {% if default_type %}
+                                    <span class="type-tag" data-val="{{ default_type.id }}">
+                                        {{ default_type.full_name or default_type.name }}
+                                        <span class="tag-remove" onclick="removeType(event, '{{ default_type.id }}')">×</span>
                                     </span>
                                 {% else %}
-                                    <span class="placeholder-text">Chọn thể loại bài tập...</span>
+                                    <span class="placeholder-text">Chọn thể loại bài tập (Mặc định: Simple Math)...</span>
                                 {% endif %}
                             </div>
                             <svg class="dropdown-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -850,7 +850,7 @@
                     </div>
                     <div class="form-help-text">
                         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                        <span>The type of problem, as shown on the problem's page.</span>
+                        <span>The type of problem, as shown on the problem's page. (Không bắt buộc, mặc định: Simple Math)</span>
                     </div>
                 </div>
             </div>
@@ -1011,7 +1011,7 @@
 
             var checkboxes = menu.querySelectorAll('input[type="checkbox"]:checked');
             if (!checkboxes.length) {
-                tagsWrap.innerHTML = '<span class="placeholder-text">Chọn thể loại bài tập...</span>';
+                tagsWrap.innerHTML = '<span class="placeholder-text">Chọn thể loại bài tập (Mặc định: Simple Math)...</span>';
                 return;
             }
 
