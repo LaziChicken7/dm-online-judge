@@ -716,6 +716,15 @@
             var origLeft = 0, origTop = 0;
             var hasMoved = false;
 
+            function setContestPos(left, top) {
+                var el = $contestInfo[0];
+                if (!el) return;
+                el.style.setProperty('left', left + 'px', 'important');
+                el.style.setProperty('top', top + 'px', 'important');
+                el.style.setProperty('bottom', 'auto', 'important');
+                el.style.setProperty('right', 'auto', 'important');
+            }
+
             // Load saved position if valid
             try {
                 var saved = localStorage.getItem("contest_timer_pos");
@@ -723,17 +732,16 @@
                     var parts = saved.split(":");
                     var leftVal = parseFloat(parts[0]);
                     var topVal = parseFloat(parts[1]);
-                    if (!isNaN(leftVal) && !isNaN(topVal)) {
+                    // If invalid or stuck in the top navbar area (top <= 80px), reset to comfortable bottom position
+                    if (!isNaN(leftVal) && !isNaN(topVal) && topVal > 80) {
                         var maxL = Math.max(10, window.innerWidth - 300);
-                        var maxT = Math.max(10, window.innerHeight - 80);
+                        var maxT = Math.max(10, window.innerHeight - 60);
                         var validL = Math.min(Math.max(12, leftVal), maxL);
-                        var validT = Math.min(Math.max(12, topVal), maxT);
-                        $contestInfo.css({
-                            left: validL + 'px',
-                            top: validT + 'px',
-                            bottom: 'auto',
-                            right: 'auto'
-                        });
+                        var validT = Math.min(Math.max(85, topVal), maxT);
+                        setContestPos(validL, validT);
+                    } else {
+                        // Clear old corrupted/stuck position from localStorage
+                        localStorage.removeItem("contest_timer_pos");
                     }
                 }
             } catch (err) {}
@@ -754,7 +762,7 @@
                 if (!selected) return;
                 var dx = clientX - startX;
                 var dy = clientY - startY;
-                if (!hasMoved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+                if (!hasMoved && (Math.abs(dx) > 3 || Math.abs(dy) > 3)) {
                     hasMoved = true;
                     selected.addClass('is-dragging');
                 }
@@ -763,18 +771,14 @@
                     var elH = selected.outerHeight();
                     var newLeft = Math.max(10, Math.min(window.innerWidth - elW - 10, origLeft + dx));
                     var newTop = Math.max(10, Math.min(window.innerHeight - elH - 10, origTop + dy));
-                    selected.css({
-                        left: newLeft + 'px',
-                        top: newTop + 'px',
-                        bottom: 'auto',
-                        right: 'auto'
-                    });
+                    setContestPos(newLeft, newTop);
                 }
             }
 
             function onDragEnd() {
                 if (selected && hasMoved) {
-                    localStorage.setItem("contest_timer_pos", selected.css('left') + ":" + selected.css('top'));
+                    var rect = selected[0].getBoundingClientRect();
+                    localStorage.setItem("contest_timer_pos", Math.round(rect.left) + "px:" + Math.round(rect.top) + "px");
                 }
                 if (selected) {
                     selected.removeClass('is-dragging');
@@ -6088,8 +6092,8 @@
             position: fixed !important;
             left: 24px;
             bottom: 24px;
-            top: auto !important;
-            right: auto !important;
+            top: auto;
+            right: auto;
             z-index: 100000 !important;
             display: none; /* Managed by JS show() */
             align-items: center !important;
