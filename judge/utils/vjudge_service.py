@@ -409,21 +409,38 @@ def get_vjudge_problem_data(oj: str, prob_num: str, cookie: str = None) -> dict:
 def clean_vjudge_math(txt: str) -> str:
     """
     Convert LaTeX formulas from VJudge/Codeforces/CSES format to DMOJ MathJax format:
+    0. Codeforces 6-dollar display math $$$$$$...$$$$$$ -> \[...\]
     1. CSES KaTeX math spans:
        <span class="math math-inline">$ n $</span> -> ~n~
-       <span class="math math-display">$$ ... $$</span> -> \n\n$$...$$\n\n
+       <span class="math math-display">$$ ... $$</span> -> \n\n\[...\]\n\n
     2. Codeforces triple dollars $$$...$$$ -> ~...~
-    3. LaTeX inline math: $...$ (not $$) -> ~...~
-    Leaves block math $$...$$ and \\[...\\] intact.
+    3. LaTeX display math: $$...$$ -> \[...\]
+    4. LaTeX inline math: $...$ (not $$) -> ~...~
+    Leaves \\[...\\] and ~...~ intact.
     """
     if not txt:
         return ""
+
+    # 0. Codeforces display math stored by VJudge as 6 dollars: $$$$$$...$$$$$$ -> \[...\]
+    #    This MUST come before the $$$...$$$ step or it gets mis-split into empty matches.
+    def replace_six_dollar(m):
+        inner = m.group(1).strip()
+        return f"\n\n\[{inner}\]\n\n"
+
+    txt = re.sub(r'\${6}(.*?)\${6}', replace_six_dollar, txt, flags=re.DOTALL)
+
+    # Also handle 4-dollar display math $$$$...$$$$ (2-dollar CF wrapped)
+    def replace_four_dollar(m):
+        inner = m.group(1).strip()
+        return f"\n\n\[{inner}\]\n\n"
+
+    txt = re.sub(r'\${4}(.*?)\${4}', replace_four_dollar, txt, flags=re.DOTALL)
 
     # 1. Clean math-display spans (strip any $$ or $ and extra spaces inside)
     def replace_display(m):
         inner = m.group(1).strip()
         inner = re.sub(r'^\$+|\$+$', '', inner).strip()
-        return f"\n\n$${inner}$$\n\n"
+        return f"\n\n\[{inner}\]\n\n"
 
     txt = re.sub(r'<span class=[\'"]math math-display[\'"]>(.*?)</span>', replace_display, txt, flags=re.DOTALL)
 
@@ -443,10 +460,17 @@ def clean_vjudge_math(txt: str) -> str:
 
     txt = re.sub(r'<span class=[\'"]math[\'"]>(.*?)</span>', replace_any_math, txt, flags=re.DOTALL)
 
-    # 4. Codeforces triple dollars $$$...$$$ -> ~...~
+    # 4. Codeforces triple dollars $$$...$$$ -> ~...~  (inline; comes after 6/4 dollar handling)
     txt = re.sub(r'\$\$\$(.*?)\$\$\$', r'~\1~', txt, flags=re.DOTALL)
 
-    # 5. LaTeX inline math $...$ -> ~...~ (when not $$)
+    # 5. LaTeX display math $$...$$ (standard) -> \[...\]
+    def replace_double_dollar(m):
+        inner = m.group(1).strip()
+        return f"\n\n\[{inner}\]\n\n"
+
+    txt = re.sub(r'(?<!\$)\$\$((?!\$).*?(?<!\$))\$\$(?!\$)', replace_double_dollar, txt, flags=re.DOTALL)
+
+    # 6. LaTeX inline math $...$ -> ~...~ (when not $$)
     def replace_single_dollar(m):
         inner = m.group(1).strip()
         return f"~{inner}~"
