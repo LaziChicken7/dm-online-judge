@@ -1177,7 +1177,7 @@ class ProblemCreateView(TitleMixin, View):
         with revisions.create_revision(atomic=True):
             problem = form.save(commit=False)
             problem.code = clean_code
-            problem.is_manually_managed = True
+            problem.is_manually_managed = False
             problem.date = timezone.now()
             if target_org:
                 problem.is_organization_private = True
