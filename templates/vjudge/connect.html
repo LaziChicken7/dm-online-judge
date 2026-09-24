@@ -271,7 +271,52 @@
                 </a>
             </div>
 
-            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; display: flex; justify-content: space-between; align-items: center;">
+            <!-- Compact Extension Card for already-connected users -->
+            <div style="margin-top: 24px; background: linear-gradient(135deg, rgba(14, 165, 233, 0.1) 0%, rgba(99, 102, 241, 0.08) 100%); border: 1.5px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
+                <div>
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                        <span style="font-size: 20px;">🚀</span>
+                        <strong style="color: #38bdf8; font-size: 15.5px;">Tiện ích OmniJudge VJudge Auto-Sync</strong>
+                        <span style="background: rgba(34, 197, 94, 0.15); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.3); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">Khuyên dùng</span>
+                    </div>
+                    <p style="margin: 0; color: #cbd5e1; font-size: 13px; line-height: 1.5; max-width: 520px;">
+                        Cài đặt tiện ích để <strong>tự động duy trì và gia hạn phiên đăng nhập</strong> mỗi khi bạn truy cập VJudge. Không còn lo cookie bị hết hạn hay phải kết nối lại thủ công!
+                    </p>
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <a href="{{ static('vjudge-extension.zip') }}" download="omnijudge-vjudge-extension.zip"
+                       style="background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%); color: #021427; font-weight: 800; font-size: 13.5px; padding: 11px 20px; border-radius: 10px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; box-shadow: 0 4px 14px rgba(14, 165, 233, 0.3); transition: transform 0.15s ease;"
+                       onmouseover="this.style.transform='translateY(-2px)'"
+                       onmouseout="this.style.transform='none'">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        <span>Tải Extension (.zip)</span>
+                        <span style="background: rgba(0, 0, 0, 0.18); color: #021427; font-size: 11px; padding: 1px 5px; border-radius: 5px; font-weight: 700;">4.6 KB</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Accordion / Instructions for Extension -->
+            <details style="margin-top: 14px; background: rgba(15, 23, 42, 0.5); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 12px 18px; color: #cbd5e1; font-size: 13px;">
+                <summary style="cursor: pointer; font-weight: 700; color: #38bdf8; display: flex; align-items: center; gap: 8px; user-select: none;">
+                    <span>📖 Xem hướng dẫn cài đặt Extension (3 bước nhanh)</span>
+                </summary>
+                <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                    <div>
+                        <strong style="color: #fff; font-size: 13px; display: block; margin-bottom: 4px;">1. Tải &amp; Giải nén:</strong>
+                        Bấm nút tải ở trên &rarr; Chuột phải vào file <code>omnijudge-vjudge-extension.zip</code> &rarr; Chọn <em>Extract All (Giải nén)</em>.
+                    </div>
+                    <div>
+                        <strong style="color: #fff; font-size: 13px; display: block; margin-bottom: 4px;">2. Cài vào Chrome / Edge:</strong>
+                        Mở <code>chrome://extensions/</code> (hoặc <code>edge://extensions/</code>) &rarr; Bật <em>Developer mode</em> (góc trên phải) &rarr; Bấm <em>Load unpacked</em> &rarr; Chọn thư mục vừa giải nén.
+                    </div>
+                    <div>
+                        <strong style="color: #4ade80; font-size: 13px; display: block; margin-bottom: 4px;">3. Tự động đồng bộ:</strong>
+                        Truy cập <a href="https://vjudge.net" target="_blank" style="color: #38bdf8; text-decoration: underline;">vjudge.net</a> đăng nhập bình thường &rarr; Cookie tự động đồng bộ sang OmniJudge!
+                    </div>
+                </div>
+            </details>
+
+            <div style="border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
                 <span style="color: #64748b; font-size: 13px;">{{ _('Nếu muốn đổi tài khoản:') }}</span>
                 <form action="{{ url('vjudge_disconnect') }}" method="post" style="margin: 0;">
                     {% csrf_token %}
@@ -289,15 +334,95 @@
             </div>
 
             <!-- Tab Navigation for connection methods -->
-            <div style="display: flex; gap: 12px; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 12px;">
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 14px;">
+                <button type="button" id="tab-btn-extension" onclick="switchVJudgeTab('extension')"
+                        style="background: #0284c7; border: 1px solid rgba(56,189,248,0.4); color: #fff; padding: 10px 18px; border-radius: 100px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+                    <span>🚀</span> {{ _('Cách 1: Tự động qua Tiện ích (Khuyên dùng)') }}
+                </button>
                 <button type="button" id="tab-btn-cookie" onclick="switchVJudgeTab('cookie')"
-                        style="background: #0284c7; border: 1px solid rgba(56,189,248,0.4); color: #fff; padding: 10px 20px; border-radius: 100px; font-size: 13.5px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
-                    <i class="fa fa-shield"></i> {{ _('Cách 1: Kết nối bằng Session Cookie (Tránh bị Captcha / Turnstile)') }}
+                        style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 10px 18px; border-radius: 100px; font-size: 13.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+                    <i class="fa fa-shield"></i> {{ _('Cách 2: Nhập Cookie thủ công') }}
                 </button>
                 <button type="button" id="tab-btn-password" onclick="switchVJudgeTab('password')"
-                        style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 10px 20px; border-radius: 100px; font-size: 13.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
-                    <i class="fa fa-key"></i> {{ _('Cách 2: Đăng nhập bằng Mật khẩu') }}
+                        style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #94a3b8; padding: 10px 18px; border-radius: 100px; font-size: 13.5px; font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: all 0.2s ease;">
+                    <i class="fa fa-key"></i> {{ _('Cách 3: Đăng nhập bằng Mật khẩu') }}
                 </button>
+            </div>
+
+            <!-- TAB 0: EXTENSION AUTO-SYNC (RECOMMENDED & FASTEST) -->
+            <div id="vjudge-tab-extension" style="display: block;">
+                <div style="background: linear-gradient(135deg, rgba(14, 165, 233, 0.12) 0%, rgba(99, 102, 241, 0.12) 100%); border: 1.5px solid rgba(56, 189, 248, 0.35); border-radius: 18px; padding: 26px 28px; margin-bottom: 24px; box-shadow: 0 8px 30px rgba(14, 165, 233, 0.1);">
+                    <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 22px;">
+                        <div>
+                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
+                                <span style="font-size: 26px;">🚀</span>
+                                <h3 style="margin: 0; color: #38bdf8; font-size: 20px; font-weight: 800; letter-spacing: -0.3px;">
+                                    Tiện ích OmniJudge VJudge Auto-Sync
+                                </h3>
+                                <span style="background: rgba(34, 197, 94, 0.2); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.4); font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 9999px;">
+                                    v1.0.0
+                                </span>
+                            </div>
+                            <p style="margin: 0; color: #cbd5e1; font-size: 13.5px; line-height: 1.6; max-width: 540px;">
+                                Tiện ích tự động nhận diện và đồng bộ <strong>JSESSIONID</strong> mỗi khi bạn đăng nhập <a href="https://vjudge.net" target="_blank" style="color: #38bdf8; text-decoration: underline;">vjudge.net</a> trên trình duyệt. Không cần copy-paste thủ công, không bị Cloudflare Captcha chặn!
+                            </p>
+                        </div>
+                        <a href="{{ static('vjudge-extension.zip') }}" download="omnijudge-vjudge-extension.zip"
+                           style="background: linear-gradient(135deg, #0ea5e9 0%, #38bdf8 100%); color: #021427; font-weight: 800; font-size: 14px; padding: 12px 22px; border-radius: 12px; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; box-shadow: 0 4px 18px rgba(14, 165, 233, 0.35); transition: transform 0.15s ease;"
+                           onmouseover="this.style.transform='translateY(-2px)'"
+                           onmouseout="this.style.transform='none'">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            <span>Tải Extension (.zip)</span>
+                            <span style="background: rgba(0, 0, 0, 0.18); color: #021427; font-size: 11px; padding: 2px 6px; border-radius: 6px; font-weight: 700;">4.6 KB</span>
+                        </a>
+                    </div>
+
+                    <!-- Step-by-step Visual Cards -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 14px; margin-top: 14px;">
+                        <!-- Step 1 -->
+                        <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #38bdf8; color: #0f172a; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px;">1</span>
+                                <strong style="color: #f1f5f9; font-size: 14px;">Tải &amp; Giải nén</strong>
+                            </div>
+                            <p style="color: #94a3b8; font-size: 12.5px; line-height: 1.6; margin: 0;">
+                                Bấm nút <strong>Tải Extension (.zip)</strong> ở trên về máy. Sau đó nhấp chuột phải vào file <code>omnijudge-vjudge-extension.zip</code> &rarr; chọn <strong>Extract All (Giải nén)</strong> ra một thư mục.
+                            </p>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 18px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #38bdf8; color: #0f172a; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px;">2</span>
+                                <strong style="color: #f1f5f9; font-size: 14px;">Cài vào Trình duyệt</strong>
+                            </div>
+                            <p style="color: #94a3b8; font-size: 12.5px; line-height: 1.6; margin: 0;">
+                                Mở tab mới và gõ: <code>chrome://extensions/</code> (Chrome/Cốc Cốc) hoặc <code>edge://extensions/</code> (Edge). Bật công tắc <strong>Developer mode (Chế độ cho nhà phát triển)</strong> &rarr; Bấm <strong>Load unpacked (Tải tiện ích đã giải nén)</strong> &rarr; Chọn thư mục vừa giải nén.
+                            </p>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div style="background: rgba(15, 23, 42, 0.65); border: 1px solid rgba(34, 197, 94, 0.25); border-radius: 12px; padding: 18px;">
+                            <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
+                                <span style="background: #22c55e; color: #0f172a; width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px;">3</span>
+                                <strong style="color: #4ade80; font-size: 14px;">Đăng nhập VJudge</strong>
+                            </div>
+                            <p style="color: #94a3b8; font-size: 12.5px; line-height: 1.6; margin: 0;">
+                                Đăng nhập tài khoản của bạn tại <a href="https://vjudge.net" target="_blank" rel="noopener" style="color: #38bdf8; text-decoration: underline; font-weight: 700;">vjudge.net</a>. Tiện ích sẽ <strong>tự động nhận diện và gửi Cookie sang OmniJudge</strong> tức thì!
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px;">
+                        <span style="color: #94a3b8; font-size: 13px;">
+                            💡 Sau khi hoàn tất đăng nhập VJudge, bấm nút bên cạnh để kiểm tra trạng thái:
+                        </span>
+                        <button type="button" onclick="window.location.reload();" class="btn-primary-glow" style="padding: 9px 20px; font-size: 13.5px;">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            <span>{{ _('Tải lại trang để kiểm tra') }}</span>
+                        </button>
+                    </div>
+                </div>
             </div>
 
             <!-- TAB 1: COOKIE CONNECTION (RECOMMENDED) -->
@@ -403,34 +528,33 @@
 
             <script>
                 function switchVJudgeTab(tab) {
-                    var isCookie = (tab === 'cookie');
-                    document.getElementById('vjudge-tab-cookie').style.display = isCookie ? 'block' : 'none';
-                    document.getElementById('vjudge-tab-password').style.display = isCookie ? 'none' : 'block';
-
-                    var btnCookie = document.getElementById('tab-btn-cookie');
-                    var btnPass = document.getElementById('tab-btn-password');
-
-                    if (isCookie) {
-                        btnCookie.style.background = '#0284c7';
-                        btnCookie.style.borderColor = 'rgba(56,189,248,0.4)';
-                        btnCookie.style.color = '#fff';
-                        btnPass.style.background = 'rgba(255,255,255,0.05)';
-                        btnPass.style.borderColor = 'rgba(255,255,255,0.1)';
-                        btnPass.style.color = '#94a3b8';
-                    } else {
-                        btnPass.style.background = '#0284c7';
-                        btnPass.style.borderColor = 'rgba(56,189,248,0.4)';
-                        btnPass.style.color = '#fff';
-                        btnCookie.style.background = 'rgba(255,255,255,0.05)';
-                        btnCookie.style.borderColor = 'rgba(255,255,255,0.1)';
-                        btnCookie.style.color = '#94a3b8';
-                    }
+                    var tabs = ['extension', 'cookie', 'password'];
+                    tabs.forEach(function(t) {
+                        var el = document.getElementById('vjudge-tab-' + t);
+                        var btn = document.getElementById('tab-btn-' + t);
+                        if (el) el.style.display = (t === tab) ? 'block' : 'none';
+                        if (btn) {
+                            if (t === tab) {
+                                btn.style.background = '#0284c7';
+                                btn.style.borderColor = 'rgba(56,189,248,0.4)';
+                                btn.style.color = '#fff';
+                                btn.style.fontWeight = '700';
+                            } else {
+                                btn.style.background = 'rgba(255,255,255,0.05)';
+                                btn.style.borderColor = 'rgba(255,255,255,0.1)';
+                                btn.style.color = '#94a3b8';
+                                btn.style.fontWeight = '600';
+                            }
+                        }
+                    });
                 }
                 // If active_tab is specified or default
                 {% if active_tab == 'password' and not is_turnstile %}
                     switchVJudgeTab('password');
-                {% else %}
+                {% elif active_tab == 'cookie' %}
                     switchVJudgeTab('cookie');
+                {% else %}
+                    switchVJudgeTab('extension');
                 {% endif %}
             </script>
 
