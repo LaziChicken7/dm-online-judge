@@ -151,7 +151,7 @@
     </div>
 </div>
 
-{% if submission.error and submission.status in ('IE', 'CE') %}
+{% if submission.error and (submission.status in ('IE', 'CE') or submission.result in ('IE', 'CE')) %}
     <div class="verdict-error-box" style="margin-top: 16px; margin-bottom: 20px; background: rgba(239, 68, 68, 0.12); border: 1px solid rgba(239, 68, 68, 0.35); border-radius: 12px; padding: 18px 22px; color: #fca5a5; box-shadow: 0 4px 18px rgba(0,0,0,0.25);">
         <div style="font-weight: 700; font-size: 15px; color: #f87171; display: flex; align-items: center; gap: 8px; margin-bottom: 8px;">
             <i class="fa fa-exclamation-circle" style="font-size: 18px;"></i>
@@ -188,7 +188,7 @@
 {% endif %}
 
 {# 3. Status Messages (CE, IE, Processing) #}
-{% if submission.status != 'IE' %}
+{% if submission.status != 'IE' and submission.result != 'IE' %}
     {% if submission.status == 'QU' %}
         <div style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 14px; padding: 20px; margin-bottom: 20px; display: flex; align-items: center; gap: 14px; color: #38bdf8;">
             <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
@@ -199,7 +199,7 @@
             <i class="fa fa-circle-o-notch fa-spin fa-2x"></i>
             <span style="font-size: 15px; font-weight: 600;">{{ _('Your submission is being processed...') }}</span>
         </div>
-    {% elif submission.status == 'CE' %}
+    {% elif submission.status == 'CE' or submission.result == 'CE' %}
         <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 14px; padding: 20px; margin-bottom: 24px;">
             <h3 style="color: #f87171; margin-top: 0; display: flex; align-items: center; gap: 8px;">
                 <i class="fa fa-exclamation-circle"></i> {{ _('Compilation Error') }}
@@ -207,7 +207,7 @@
             <pre style="background: #070a14; padding: 14px; border-radius: 8px; color: #fca5a5; font-family: 'Fira Code', monospace; font-size: 12.5px; overflow-x: auto; white-space: pre-wrap; margin: 0;">{{ submission.error|ansi2html }}</pre>
         </div>
     {% else %}
-        {% if submission.error and submission.status in ('IE', 'CE') %}
+        {% if submission.error and (submission.status in ('IE', 'CE') or submission.result in ('IE', 'CE')) %}
             <div style="background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 14px; padding: 18px; margin-bottom: 20px;">
                 <h4 style="color: #f59e0b; margin-top: 0; display: flex; align-items: center; gap: 8px;">
                     <i class="fa fa-exclamation-triangle"></i> {{ _('Compilation Warnings') }}

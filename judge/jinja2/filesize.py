@@ -6,7 +6,12 @@ from . import registry
 
 
 def _format_size(bytes, formats, decimals):
-    bytes = float(bytes)
+    if bytes is None:
+        return '---'
+    try:
+        bytes = float(bytes)
+    except (ValueError, TypeError):
+        return '---'
 
     KB = 1 << 10
     MB = 1 << 20
@@ -23,13 +28,19 @@ def _format_size(bytes, formats, decimals):
     elif bytes < TB:
         return formats[3] % floatformat(bytes / GB, decimals[3])
     elif bytes < PB:
-        return formats[4] % floatformat(bytes / TB, decimals[4])
+        return formats[4] % floatformat(bytes / PB, decimals[4])
     else:
         return formats[5] % floatformat(bytes / PB, decimals[5])
 
 
 @registry.filter
 def kbdetailformat(kb):
+    if kb is None:
+        return '---'
+    try:
+        kb = float(kb)
+    except (ValueError, TypeError):
+        return '---'
     formats = [_('%s B'), _('%s KB'), _('%s MB'), _('%s GB'), _('%s TB'), _('%s PB')]
     decimals = [0, 2, 2, 2, 2, 2]
     return avoid_wrapping(_format_size(kb * 1024, formats, decimals))
@@ -37,6 +48,12 @@ def kbdetailformat(kb):
 
 @registry.filter
 def kbsimpleformat(kb):
+    if kb is None:
+        return '---'
+    try:
+        kb = float(kb)
+    except (ValueError, TypeError):
+        return '---'
     formats = [_('%sB'), _('%sK'), _('%sM'), _('%sG'), _('%sT'), _('%sP')]
     decimals = [0, 0, 0, 0, 0, 0]
     return _format_size(kb * 1024, formats, decimals)

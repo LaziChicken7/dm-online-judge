@@ -43,7 +43,7 @@ def judge_ltpt_submission_task(self, submission_id: int):
             is_valid = True
 
     if not is_valid or not cookie:
-        submission.status = 'D'
+        submission.status = 'IE'
         submission.result = 'IE'
         submission.error = "Chưa kết nối hoặc phiên đăng nhập LapTrinhPhoThong đã hết hạn. Vui lòng kết nối lại tài khoản LTPT của bạn."
         submission.save(update_fields=['status', 'result', 'error'])
@@ -59,7 +59,7 @@ def judge_ltpt_submission_task(self, submission_id: int):
     )
 
     if not sub_res.get("success"):
-        submission.status = 'D'
+        submission.status = 'IE'
         submission.result = 'IE'
         submission.error = f"Lỗi nộp bài sang LTPT: {sub_res.get('error', 'Không xác định')}"
         submission.save(update_fields=['status', 'result', 'error'])
@@ -83,7 +83,7 @@ def judge_ltpt_submission_task(self, submission_id: int):
             break
 
     if not poll_result:
-        submission.status = 'D'
+        submission.status = 'IE'
         submission.result = 'IE'
         submission.error = "Hết thời gian chờ kết quả chấm từ LapTrinhPhoThong."
         submission.save(update_fields=['status', 'result', 'error'])
