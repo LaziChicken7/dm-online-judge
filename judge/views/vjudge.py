@@ -4,6 +4,9 @@ from django.shortcuts import render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _, gettext
 from django.views import View
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+import json
 
 from judge.utils.vjudge_service import check_vjudge_login, get_vjudge_remote_accounts, login_vjudge, normalize_vjudge_cookie
 from judge.utils.views import TitleMixin
@@ -158,3 +161,57 @@ class VJudgeRemoteAccountsApi(LoginRequiredMixin, View):
             "username": profile.vjudge_username,
             "accounts": accounts,
         })
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class VJudgeAutoSyncView(View):
+    """
+    Chrome extension calls this to auto-sync JSESSIONID.
+    Auth: reads 'sessionid' cookie, looks up Django session to find user.
+    POST JSON: {"jsessionid": "..."}
+    Returns JSON: {"ok": true, "username": "..."}  or  {"ok": false, "error": "..."}
+    """
+    def post(self, request):
+        # Authenticate via session cookie
+        session_key = request.COOKIES.get('sessionid')
+        if not session_key:
+            return JsonResponse({'ok': False, 'error': 'not_authenticated'}, status=401)
+        try:
+            from django.contrib.sessions.backends.db import SessionStore
+            session = SessionStore(session_key=session_key)
+            uid = session.get('_auth_user_id')
+            if not uid:
+                return JsonResponse({'ok': False, 'error': 'not_authenticated'}, status=401)
+            from django.contrib.auth.models import User
+            user = User.objects.get(pk=uid)
+        except Exception:
+            return JsonResponse({'ok': False, 'error': 'session_invalid'}, status=401)
+
+        try:
+            body = json.loads(request.body)
+        except Exception:
+            return JsonResponse({'ok': False, 'error': 'invalid_json'}, status=400)
+
+        jsessionid = body.get('jsessionid', '').strip()
+        if not jsessionid:
+            return JsonResponse({'ok': False, 'error': 'missing_jsessionid'}, status=400)
+
+        cookie = normalize_vjudge_cookie(jsessionid)
+        result = check_vjudge_login(cookie)
+        if not result.get('logged_in'):
+            return JsonResponse({'ok': False, 'error': 'cookie_invalid'}, status=400)
+
+        profile = user.profile
+        raw = result.get('raw', '')
+        username = ''
+        try:
+            rdata = json.loads(raw)
+            username = rdata.get('username', '')
+        except Exception:
+            if raw not in ('true', '1'):
+                username = raw
+        profile.vjudge_cookie = cookie
+        if username:
+            profile.vjudge_username = username
+        profile.save(update_fields=['vjudge_cookie', 'vjudge_username'])
+        return JsonResponse({'ok': True, 'username': profile.vjudge_username or 'VJudge'})

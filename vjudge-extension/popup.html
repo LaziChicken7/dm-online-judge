@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OmniJudge – VJudge Sync</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    width: 300px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: #0f172a;
+    color: #e2e8f0;
+    padding: 16px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid #1e293b;
+    padding-bottom: 12px;
+  }
+  .header-logo {
+    width: 32px; height: 32px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: #fff;
+  }
+  .header-title { font-size: 14px; font-weight: 600; color: #f1f5f9; }
+  .header-sub { font-size: 11px; color: #64748b; }
+
+  .status-card {
+    border-radius: 10px;
+    padding: 12px 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .status-card.synced   { background: #052e16; border: 1px solid #166534; }
+  .status-card.error    { background: #1c0a00; border: 1px solid #92400e; }
+  .status-card.waiting  { background: #0c1a2e; border: 1px solid #1e3a5f; }
+
+  .status-dot {
+    width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+  }
+  .synced   .status-dot { background: #22c55e; box-shadow: 0 0 6px #22c55e88; }
+  .error    .status-dot { background: #f59e0b; box-shadow: 0 0 6px #f59e0b88; }
+  .waiting  .status-dot { background: #38bdf8; box-shadow: 0 0 6px #38bdf888; }
+
+  .status-text { font-size: 13px; }
+  .status-text strong { display: block; font-size: 13px; color: #f1f5f9; }
+  .status-text small { color: #64748b; font-size: 11px; }
+
+  .btn {
+    display: block; width: 100%;
+    padding: 9px 14px;
+    border-radius: 8px;
+    border: none; cursor: pointer;
+    font-size: 13px; font-weight: 600;
+    margin-bottom: 8px;
+    transition: opacity .15s;
+  }
+  .btn:hover { opacity: .85; }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn-primary { background: #0ea5e9; color: #fff; }
+  .btn-danger  { background: transparent; color: #ef4444; border: 1px solid #ef444466; }
+
+  .footer {
+    font-size: 10.5px; color: #475569; text-align: center;
+    margin-top: 4px;
+  }
+  .footer a { color: #38bdf8; text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-logo">OJ</div>
+  <div>
+    <div class="header-title">VJudge Auto-Sync</div>
+    <div class="header-sub">OmniJudge Extension</div>
+  </div>
+</div>
+
+<div id="status-card" class="status-card waiting">
+  <div class="status-dot"></div>
+  <div class="status-text">
+    <strong id="status-title">Đang kiểm tra…</strong>
+    <small id="status-sub"></small>
+  </div>
+</div>
+
+<button class="btn btn-primary" id="btn-sync">🔄 Đồng bộ ngay</button>
+<button class="btn btn-danger"  id="btn-open-connect">⚙️ Quản lý trên OmniJudge</button>
+
+<div class="footer">
+  Kết nối tài khoản tại
+  <a href="https://omnijudge.id.vn/user/vjudge/connect/" target="_blank">omnijudge.id.vn</a>
+</div>
+
+<script src="popup.js"></script>
+</body>
+</html>
