@@ -65,6 +65,13 @@ def get_vjudge_remote_accounts(cookie: str, oj: str = "CodeForces") -> list:
     if not cookie:
         return []
 
+    import hashlib
+    from django.core.cache import cache
+    cache_key = f"vjudge_remote_accs_{hashlib.md5(f'{cookie}:{oj}'.encode()).hexdigest()}"
+    cached = cache.get(cache_key)
+    if cached is not None:
+        return cached
+
     url = f"https://vjudge.net/user/remoteAccounts/list?oj={urllib.parse.quote(oj)}"
     headers = dict(HEADERS)
     headers['Cookie'] = cookie
@@ -102,6 +109,7 @@ def get_vjudge_remote_accounts(cookie: str, oj: str = "CodeForces") -> list:
                     "isIncomplete": is_incomplete,
                     "isReady": (runtime_status == "READY" and not is_incomplete),
                 })
+            cache.set(cache_key, result, 60)
             return result
     except Exception as e:
         logger.warning(f"get_vjudge_remote_accounts error: {e}")
@@ -196,7 +204,10 @@ def poll_vjudge_submission(
                 if not data.get('error'):
                     status_text = data.get('status') or ''
                     processing = bool(data.get('processing', False))
-                    if any(w in status_text.lower() for w in ['queue', 'judg', 'compil', 'run']):
+                    st_lower = status_text.lower()
+                    if 'compilation error' in st_lower or 'compile error' in st_lower:
+                        processing = False
+                    elif any(w in st_lower for w in ['queuing', 'judging', 'compiling', 'running', 'pending', 'submitted']):
                         processing = True
                     add_info = data.get('additionalInfo')
                     add_info_str = ''
@@ -239,7 +250,10 @@ def poll_vjudge_submission(
             if target:
                 status_text = target.get('status') or ''
                 processing = bool(target.get('processing', False))
-                if any(w in status_text.lower() for w in ['queue', 'judg', 'compil', 'run']):
+                st_lower = status_text.lower()
+                if 'compilation error' in st_lower or 'compile error' in st_lower:
+                    processing = False
+                elif any(w in st_lower for w in ['queuing', 'judging', 'compiling', 'running', 'pending', 'submitted']):
                     processing = True
 
                 add_info_str = ''

@@ -936,6 +936,15 @@ class ProblemSubmit(LoginRequiredMixin, ProblemMixin, TitleMixin, SingleObjectFo
         if self.object.is_vjudge:
             context['no_judges'] = False
             context['is_vjudge'] = True
+            cookie = getattr(self.request.profile, 'vjudge_cookie', None)
+            remote_accs = []
+            has_ready = False
+            if cookie:
+                from judge.utils.vjudge_service import get_vjudge_remote_accounts
+                remote_accs = get_vjudge_remote_accounts(cookie, oj=self.object.vjudge_oj)
+                has_ready = any(acc.get('isReady') for acc in remote_accs)
+            context['vjudge_remote_accounts'] = remote_accs
+            context['vjudge_has_ready_account'] = has_ready
         elif getattr(self.object, 'is_clue', False):
             context['no_judges'] = False
             context['is_clue'] = True
