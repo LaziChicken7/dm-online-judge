@@ -732,10 +732,67 @@
                     </div>
                 </div>
 
-                <!-- Section 2: Branding -->
+                                <!-- Section 2: Membership & Access -->
+                <div class="form-section-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                    <span>2. {{ _('Thành viên & Quyền tham gia (Membership & Access)') }}</span>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_is_open">{{ _('Hình thức gia nhập') }}</label>
+                    </div>
+                    <div class="edit-form-control" style="display: flex; flex-direction: column; gap: 10px; padding-top: 6px;">
+                        <label class="cyber-checkbox-label" style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; color: #f1f5f9; font-size: 13.5px;">
+                            <input type="checkbox" name="is_open" id="id_is_open" {% if form.is_open.value() %}checked{% endif %} style="width: 16px; height: 16px; accent-color: #38bdf8; cursor: pointer;">
+                            <span>{{ _('Mở tự do (Cho phép thành viên tự tham gia không cần phê duyệt)') }}</span>
+                        </label>
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Nếu bỏ chọn, người dùng sẽ phải gửi yêu cầu tham gia để ban quản trị phê duyệt.') }}</span>
+                        </div>
+                        {% if form.is_open.errors %}
+                            <div class="form-field-error">{{ form.is_open.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_access_code">{{ _('Mã tham gia (Access Code)') }}</label>
+                    </div>
+                    <div class="edit-form-control">
+                        <input type="text" name="access_code" id="id_access_code" class="form-input-cyber short" value="{{ form.access_code.value() or '' }}" placeholder="Ví dụ: ABC1234" maxlength="7">
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Mã tham gia nhanh (tối đa 7 ký tự) cho phép học sinh tự gia nhập.') }}</span>
+                        </div>
+                        {% if form.access_code.errors %}
+                            <div class="form-field-error">{{ form.access_code.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="edit-form-row">
+                    <div class="edit-form-label">
+                        <label for="id_slots">{{ _('Giới hạn thành viên (Slots)') }}</label>
+                    </div>
+                    <div class="edit-form-control">
+                        <input type="number" name="slots" id="id_slots" class="form-input-cyber short" value="{{ form.slots.value() or '' }}" placeholder="Để trống nếu không giới hạn">
+                        <div class="form-help-text">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                            <span>{{ _('Số lượng thành viên tối đa có thể tham gia tổ chức.') }}</span>
+                        </div>
+                        {% if form.slots.errors %}
+                            <div class="form-field-error">{{ form.slots.errors|join(', ') }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Section 3: Branding -->
                 <div class="form-section-title">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    <span>2. {{ _('Hình ảnh & Thương hiệu (Branding & Logo)') }}</span>
+                    <span>3. {{ _('Hình ảnh & Thương hiệu (Branding & Logo)') }}</span>
                 </div>
 
                 <div class="edit-form-row">
@@ -757,7 +814,7 @@
                 <!-- Section 3: Administrators -->
                 <div class="form-section-title">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
-                    <span>3. {{ _('Ban quản trị (Administrators)') }}</span>
+                    <span>4. {{ _('Ban quản trị (Administrators)') }}</span>
                 </div>
 
                 <div class="edit-form-row">
@@ -779,7 +836,7 @@
                 <!-- Section 4: About / Description (Exact Image #2 Layout) -->
                 <div class="form-section-title">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    <span>4. {{ _('Mô tả & Giới thiệu (About & Description)') }}</span>
+                    <span>5. {{ _('Mô tả & Giới thiệu (About & Description)') }}</span>
                 </div>
 
                 <div class="edit-form-row">

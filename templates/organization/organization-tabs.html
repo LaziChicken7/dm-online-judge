@@ -155,11 +155,8 @@
     {% if can_review_requests %}
         {{ make_tab('requests', 'fa-list', url('organization_requests_pending', organization.id, organization.slug), _('Requests')) }}
     {% endif %}
-    {% if can_edit %}
-        {{ make_tab('edit', 'fa-edit', url('edit_organization', organization.id, organization.slug), _('Edit')) }}
-    {% endif %}
-    {% if perms.judge.change_organization %}
-        {{ make_tab('admin', 'fa-gavel', url('admin:judge_organization_change', organization.id), _('Admin')) }}
+    {% if can_edit or perms.judge.change_organization %}
+        {{ make_tab('edit', 'fa-cogs', url('edit_organization', organization.id, organization.slug), _('Admin')) }}
     {% endif %}
     {% if request.user.is_authenticated %}
         {% if request.profile in organization %}

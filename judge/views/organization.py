@@ -61,8 +61,16 @@ class OrganizationMixin(object):
             org = self.object
         if not self.request.user.is_authenticated:
             return False
-        profile_id = self.request.profile.id
-        return org.admins.filter(id=profile_id).exists()
+        if (self.request.user.is_superuser or
+                self.request.user.is_staff or
+                self.request.user.has_perm('judge.edit_all_organization') or
+                self.request.user.has_perm('judge.organization_admin') or
+                self.request.user.has_perm('judge.change_organization')):
+            return True
+        profile = getattr(self.request, 'profile', None)
+        if profile:
+            return org.admins.filter(id=profile.id).exists()
+        return False
 
 
 class BaseOrganizationListView(OrganizationMixin, ListView):
@@ -493,8 +501,13 @@ class EditOrganization(LoginRequiredMixin, TitleMixin, OrganizationMixin, Update
 
     def get_form(self, form_class=None):
         form = super(EditOrganization, self).get_form(form_class)
-        form.fields['admins'].queryset = \
-            Profile.objects.filter(Q(organizations=self.object) | Q(admin_of=self.object)).distinct()
+        if (self.request.user.is_superuser or
+                self.request.user.is_staff or
+                self.request.user.has_perm('judge.edit_all_organization')):
+            form.fields['admins'].queryset = Profile.objects.all().order_by('user__username')
+        else:
+            form.fields['admins'].queryset = \
+                Profile.objects.filter(Q(organizations=self.object) | Q(admin_of=self.object)).distinct()
         return form
 
     def form_valid(self, form):
