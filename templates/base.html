@@ -710,49 +710,116 @@
         <script>$(function () {
             count_down($("#contest-time-remaining"));
 
-            var selected = null,
-                x_pos = 0, y_pos = 0,
-                x_elem = 0, y_elem = 0;
+            var $contestInfo = $('#contest-info');
+            var selected = null;
+            var startX = 0, startY = 0;
+            var origLeft = 0, origTop = 0;
+            var hasMoved = false;
 
-            $('#contest-info').mousedown(function () {
-                selected = $(this);
-                x_elem = x_pos - selected.offset().left;
-                y_elem = y_pos - (selected.offset().top - $(window).scrollTop());
-                return false;
-            });
+            // Load saved position if valid
+            try {
+                var saved = localStorage.getItem("contest_timer_pos");
+                if (saved) {
+                    var parts = saved.split(":");
+                    var leftVal = parseFloat(parts[0]);
+                    var topVal = parseFloat(parts[1]);
+                    if (!isNaN(leftVal) && !isNaN(topVal)) {
+                        var maxL = Math.max(10, window.innerWidth - 300);
+                        var maxT = Math.max(10, window.innerHeight - 80);
+                        var validL = Math.min(Math.max(12, leftVal), maxL);
+                        var validT = Math.min(Math.max(12, topVal), maxT);
+                        $contestInfo.css({
+                            left: validL + 'px',
+                            top: validT + 'px',
+                            bottom: 'auto',
+                            right: 'auto'
+                        });
+                    }
+                }
+            } catch (err) {}
 
-            if (localStorage.getItem("contest_timer_pos")) {
-                data = localStorage.getItem("contest_timer_pos").split(":");
-                $("#contest-info").css({
-                    left: data[0],
-                    top: data[1]
-                });
+            $contestInfo.css('display', 'inline-flex');
+
+            function onDragStart(clientX, clientY) {
+                selected = $contestInfo;
+                startX = clientX;
+                startY = clientY;
+                var rect = selected[0].getBoundingClientRect();
+                origLeft = rect.left;
+                origTop = rect.top;
+                hasMoved = false;
             }
 
-            $("#contest-info").show();
-
-            $(document).mousemove(function (e) {
-                x_pos = e.screenX;
-                y_pos = e.screenY;
-                x_pos = Math.max(Math.min(x_pos, window.innerWidth), 0);
-                y_pos = Math.max(Math.min(y_pos, window.innerHeight), 0);
-
-                if (selected !== null) {
-                    left_px = (x_pos - x_elem) + 'px';
-                    top_px = (y_pos - y_elem) + 'px';
-
-                    localStorage.setItem("contest_timer_pos", left_px + ":" + top_px);
-
+            function onDragMove(clientX, clientY) {
+                if (!selected) return;
+                var dx = clientX - startX;
+                var dy = clientY - startY;
+                if (!hasMoved && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+                    hasMoved = true;
+                    selected.addClass('is-dragging');
+                }
+                if (hasMoved) {
+                    var elW = selected.outerWidth();
+                    var elH = selected.outerHeight();
+                    var newLeft = Math.max(10, Math.min(window.innerWidth - elW - 10, origLeft + dx));
+                    var newTop = Math.max(10, Math.min(window.innerHeight - elH - 10, origTop + dy));
                     selected.css({
-                        left: left_px,
-                        top: top_px
+                        left: newLeft + 'px',
+                        top: newTop + 'px',
+                        bottom: 'auto',
+                        right: 'auto'
                     });
+                }
+            }
+
+            function onDragEnd() {
+                if (selected && hasMoved) {
+                    localStorage.setItem("contest_timer_pos", selected.css('left') + ":" + selected.css('top'));
+                }
+                if (selected) {
+                    selected.removeClass('is-dragging');
+                    selected = null;
+                }
+            }
+
+            $contestInfo.on('mousedown', function (e) {
+                onDragStart(e.clientX, e.clientY);
+            });
+
+            $(document).on('mousemove', function (e) {
+                onDragMove(e.clientX, e.clientY);
+            });
+
+            $(document).on('mouseup', function () {
+                onDragEnd();
+            });
+
+            // Touch events support for mobile devices
+            $contestInfo.on('touchstart', function (e) {
+                var touch = e.originalEvent.touches[0];
+                if (touch) onDragStart(touch.clientX, touch.clientY);
+            });
+
+            $(document).on('touchmove', function (e) {
+                if (!selected) return;
+                var touch = e.originalEvent.touches[0];
+                if (touch) {
+                    onDragMove(touch.clientX, touch.clientY);
+                    if (hasMoved) e.preventDefault();
                 }
             });
 
-            $(document).mouseup(function () {
-                selected = null;
-            })
+            $(document).on('touchend', function () {
+                onDragEnd();
+            });
+
+            // Allow clicking links unless dragged
+            $contestInfo.find('a').on('click', function (e) {
+                if (hasMoved) {
+                    e.preventDefault();
+                    return false;
+                }
+            });
         });
         </script>
     {% endif %}
@@ -6013,19 +6080,249 @@
     </div>
 </nav>
 {% if request.in_contest %}
-    <div id="contest-info">
-        <a href="{{ url('contest_view', request.participation.contest.key) }}" style="vertical-align: middle">
-            {{ request.participation.contest.name }} -
+    <style>
+        /* =========================================================
+           MODERN FLOATING CONTEST CAPSULE BAR (#contest-info)
+           ========================================================= */
+        #contest-info {
+            position: fixed !important;
+            left: 24px;
+            bottom: 24px;
+            top: auto !important;
+            right: auto !important;
+            z-index: 100000 !important;
+            display: none; /* Managed by JS show() */
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 6px 14px 6px 10px !important;
+            background: rgba(11, 18, 33, 0.82) !important;
+            backdrop-filter: blur(20px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+            border: 1.5px solid rgba(56, 189, 248, 0.35) !important;
+            border-radius: 100px !important;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.55), 0 0 20px rgba(56, 189, 248, 0.18) !important;
+            color: #ffffff !important;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+            font-size: 13.5px !important;
+            cursor: default !important;
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.2s ease !important;
+            max-width: calc(100vw - 32px) !important;
+            box-sizing: border-box !important;
+            height: auto !important;
+            margin: 0 !important;
+        }
+
+        #contest-info:hover {
+            border-color: rgba(56, 189, 248, 0.7) !important;
+            box-shadow: 0 16px 42px rgba(0, 0, 0, 0.7), 0 0 28px rgba(56, 189, 248, 0.32) !important;
+        }
+
+        #contest-info.is-dragging {
+            cursor: grabbing !important;
+            transform: scale(1.02) !important;
+            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.8), 0 0 35px rgba(56, 189, 248, 0.45) !important;
+            transition: none !important;
+        }
+
+        /* Drag grip handle */
+        #contest-info .contest-drag-handle {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: rgba(148, 163, 184, 0.55) !important;
+            cursor: grab !important;
+            padding: 4px 2px 4px 4px !important;
+            transition: color 0.2s, transform 0.2s !important;
+            flex-shrink: 0 !important;
+        }
+        #contest-info .contest-drag-handle:hover {
+            color: #38bdf8 !important;
+            transform: scale(1.1) !important;
+        }
+        #contest-info.is-dragging .contest-drag-handle {
+            cursor: grabbing !important;
+            color: #38bdf8 !important;
+        }
+
+        /* Contest link & title */
+        #contest-info a.contest-bar-link {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            color: #f1f5f9 !important;
+            max-width: 280px !important;
+            height: auto !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            cursor: pointer !important;
+            transition: color 0.2s !important;
+            border: none !important;
+            background: transparent !important;
+        }
+        #contest-info a.contest-bar-link:hover .contest-name-text {
+            color: #38bdf8 !important;
+        }
+
+        #contest-info .contest-trophy-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50% !important;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(37, 99, 235, 0.25)) !important;
+            border: 1px solid rgba(56, 189, 248, 0.4) !important;
+            color: #38bdf8 !important;
+            flex-shrink: 0 !important;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.2) !important;
+        }
+
+        #contest-info .contest-name-text {
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            color: #f8fafc !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            line-height: 1.2 !important;
+            transition: color 0.2s !important;
+        }
+
+        /* Vertical divider */
+        #contest-info .contest-bar-divider {
+            width: 1px !important;
+            height: 18px !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Timer section */
+        #contest-info .contest-timer-section {
+            display: inline-flex !important;
+            align-items: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        #contest-info .contest-timer-capsule {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 7px !important;
+            padding: 5px 12px !important;
+            border-radius: 100px !important;
+            background: rgba(56, 189, 248, 0.12) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            color: #38bdf8 !important;
+            font-family: 'Google Sans Code', 'Fira Code', ui-monospace, SFMono-Regular, monospace !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px !important;
+            white-space: nowrap !important;
+            box-shadow: 0 0 12px rgba(56, 189, 248, 0.15) !important;
+            line-height: 1 !important;
+        }
+
+        #contest-info .contest-live-dot {
+            width: 7px !important;
+            height: 7px !important;
+            border-radius: 50% !important;
+            background: #10b981 !important;
+            box-shadow: 0 0 8px #10b981 !important;
+            animation: contestPulse 2s infinite ease-in-out !important;
+            flex-shrink: 0 !important;
+        }
+
+        @keyframes contestPulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.35); opacity: 0.55; }
+        }
+
+        #contest-info .contest-state-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 4px 10px !important;
+            border-radius: 100px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            text-transform: uppercase !important;
+            letter-spacing: 0.5px !important;
+        }
+        #contest-info .contest-state-badge.spectate {
+            background: rgba(148, 163, 184, 0.15) !important;
+            border: 1px solid rgba(148, 163, 184, 0.3) !important;
+            color: #cbd5e1 !important;
+        }
+        #contest-info .contest-state-badge.virtual {
+            background: rgba(168, 85, 247, 0.15) !important;
+            border: 1px solid rgba(168, 85, 247, 0.35) !important;
+            color: #c084fc !important;
+        }
+
+        #contest-info #contest-time-remaining {
+            display: inline-block !important;
+            font-variant-numeric: tabular-nums !important;
+            color: inherit !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            background: transparent !important;
+            border: none !important;
+        }
+    </style>
+
+    <div id="contest-info" class="contest-floating-bar" title="{{ _('Drag to move') }}">
+        <div class="contest-drag-handle" title="{{ _('Drag to move') }}">
+            <svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor">
+                <circle cx="2" cy="2" r="1.5"/>
+                <circle cx="8" cy="2" r="1.5"/>
+                <circle cx="2" cy="8" r="1.5"/>
+                <circle cx="8" cy="8" r="1.5"/>
+                <circle cx="2" cy="14" r="1.5"/>
+                <circle cx="8" cy="14" r="1.5"/>
+            </svg>
+        </div>
+
+        <a href="{{ url('contest_view', request.participation.contest.key) }}" class="contest-bar-link" title="{{ request.participation.contest.name }}">
+            <span class="contest-trophy-badge">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                    <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                    <path d="M4 22h16"/>
+                    <path d="M10 14.66V17c0 .55-.45 1-1 1H8c-.55 0-1 .45-1 1v1h10v-1c0-.55-.45-1-1-1h-1c-.55 0-1-.45-1-1v-2.34"/>
+                    <path d="M6 4h12v7a6 6 0 0 1-12 0V4z"/>
+                </svg>
+            </span>
+            <span class="contest-name-text">{{ request.participation.contest.name }}</span>
+        </a>
+
+        <div class="contest-bar-divider"></div>
+
+        <div class="contest-timer-section">
             {% if request.participation.spectate %}
-                {{ _('spectating') }}
+                <span class="contest-state-badge spectate">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>{{ _('spectating') }}</span>
+                </span>
             {% elif request.participation.end_time %}
-                <div id="contest-time-remaining" data-secs="{{ request.participation.time_remaining|seconds }}">
-                    {{ request.participation.time_remaining|timedelta("localized") }}
+                <div class="contest-timer-capsule" title="{{ _('Time remaining') }}">
+                    <span class="contest-live-dot"></span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                    <div id="contest-time-remaining" data-secs="{{ request.participation.time_remaining|seconds }}">
+                        {{ request.participation.time_remaining|timedelta("localized") }}
+                    </div>
                 </div>
             {% else %}
-                {{ _('virtual') }}
+                <span class="contest-state-badge virtual">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <span>{{ _('virtual') }}</span>
+                </span>
             {% endif %}
-        </a>
+        </div>
     </div>
 {% endif %}
 <div id="page-container">
