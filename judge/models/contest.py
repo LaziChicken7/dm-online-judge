@@ -447,12 +447,18 @@ class Contest(models.Model):
             return True
 
     def is_editable_by(self, user):
-        # If the user can edit all contests
-        if user.has_perm('judge.edit_all_contest'):
+        if not user.is_authenticated:
+            return False
+        # Superuser or user who can edit all contests
+        if user.is_superuser or user.has_perm('judge.edit_all_contest'):
             return True
 
         # If the user is a contest organizer or curator
-        if user.has_perm('judge.edit_own_contest') and user.profile.id in self.editor_ids:
+        if user.has_perm('judge.edit_own_contest') and hasattr(user, 'profile') and user.profile.id in self.editor_ids:
+            return True
+
+        # If the user is an admin of an organization hosting the contest
+        if hasattr(user, 'profile') and self.organizations.filter(admins=user.profile).exists():
             return True
 
         return False

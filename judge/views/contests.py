@@ -1137,3 +1137,271 @@ class ContestCreateView(TitleMixin, View):
             logger.exception("Failed to create contest: %s", e)
             return render_error(_("Không thể tạo kỳ thi: %s") % str(e))
 
+
+
+class ContestEditView(TitleMixin, View):
+    title = gettext_lazy("Edit Contest")
+
+    def dispatch(self, request, contest, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return HttpResponseRedirect(reverse('auth_login') + '?next=' + request.path)
+
+        from judge.models import Contest
+        self.contest = get_object_or_404(
+            Contest.objects.prefetch_related('organizations', 'tags', 'authors', 'curators'),
+            key=contest
+        )
+
+        is_org_admin = (
+            hasattr(request, 'profile') and request.profile and
+            self.contest.organizations.filter(admins=request.profile).exists()
+        )
+
+        can_edit = (
+            self.contest.is_editable_by(request.user) or
+            request.user.is_staff or
+            request.user.is_superuser or
+            is_org_admin
+        )
+
+        if not can_edit:
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied()
+
+        return super().dispatch(request, contest, *args, **kwargs)
+
+    def get_title(self):
+        return _("Chỉnh sửa kỳ thi: %(name)s") % {'name': self.contest.name}
+
+    def get(self, request, contest):
+        from judge import contest_format
+        from judge.models import Problem, ContestTag
+        formats = contest_format.choices()
+        all_problems = Problem.objects.values('code', 'name', 'points').order_by('code')
+        all_tags = ContestTag.objects.all().order_by('name')
+
+        contest_problems = self.contest.contest_problems.all().select_related('problem').order_by('order')
+
+        # Formatted start / end times in user's or current timezone
+        tz = timezone.get_current_timezone()
+        start_val = self.contest.start_time.astimezone(tz).strftime('%Y-%m-%dT%H:%M') if self.contest.start_time else ''
+        end_val = self.contest.end_time.astimezone(tz).strftime('%Y-%m-%dT%H:%M') if self.contest.end_time else ''
+
+        # Time limit formatted
+        time_limit_val = ''
+        if self.contest.time_limit:
+            total_sec = int(self.contest.time_limit.total_seconds())
+            h = total_sec // 3600
+            m = (total_sec % 3600) // 60
+            s = total_sec % 60
+            if s > 0:
+                time_limit_val = f'{h:02d}:{m:02d}:{s:02d}'
+            else:
+                time_limit_val = f'{h:02d}:{m:02d}'
+
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') and request.profile else []
+        selected_org_ids = list(self.contest.organizations.values_list('id', flat=True))
+        selected_tag_ids = list(self.contest.tags.values_list('id', flat=True))
+
+        return render(request, "contest/edit.html", {
+            "title": self.get_title(),
+            "contest": self.contest,
+            "formats": formats,
+            "all_problems": all_problems,
+            "all_tags": all_tags,
+            "contest_problems": contest_problems,
+            "start_val": start_val,
+            "end_val": end_val,
+            "time_limit_val": time_limit_val,
+            "user_orgs": user_orgs,
+            "selected_org_ids": selected_org_ids,
+            "selected_tag_ids": selected_tag_ids,
+            "can_edit": True,
+        })
+
+    def post(self, request, contest):
+        from judge import contest_format
+        from judge.models import Problem, ContestProblem, ContestTag, Organization
+        import logging
+        logger = logging.getLogger('judge.contests')
+
+        formats = contest_format.choices()
+        all_problems = Problem.objects.values('code', 'name', 'points').order_by('code')
+        all_tags = ContestTag.objects.all().order_by('name')
+        contest_problems = self.contest.contest_problems.all().select_related('problem').order_by('order')
+
+        name = request.POST.get('name', '').strip()
+        summary = request.POST.get('summary', '').strip()
+        description = request.POST.get('description', '').strip()
+        start_time_str = request.POST.get('start_time', '').strip()
+        end_time_str = request.POST.get('end_time', '').strip()
+        time_limit_str = request.POST.get('time_limit', '').strip()
+        format_name = request.POST.get('format_name', 'default').strip()
+        scoreboard_visibility = request.POST.get('scoreboard_visibility', 'V').strip()
+        is_visible = bool(request.POST.get('is_visible'))
+        is_rated = bool(request.POST.get('is_rated'))
+        use_clarifications = bool(request.POST.get('use_clarifications'))
+        hide_problem_tags = bool(request.POST.get('hide_problem_tags'))
+        hide_problem_authors = bool(request.POST.get('hide_problem_authors'))
+        access_code = request.POST.get('access_code', '').strip()
+
+        user_orgs = request.profile.organizations.all() if hasattr(request, 'profile') and request.profile else []
+        selected_org_ids = list(self.contest.organizations.values_list('id', flat=True))
+        selected_tag_ids = list(self.contest.tags.values_list('id', flat=True))
+
+        tz = timezone.get_current_timezone()
+        start_val = self.contest.start_time.astimezone(tz).strftime('%Y-%m-%dT%H:%M') if self.contest.start_time else ''
+        end_val = self.contest.end_time.astimezone(tz).strftime('%Y-%m-%dT%H:%M') if self.contest.end_time else ''
+        time_limit_val = time_limit_str
+
+        def render_error(err_msg):
+            return render(request, "contest/edit.html", {
+                "title": self.get_title(),
+                "contest": self.contest,
+                "error": err_msg,
+                "formats": formats,
+                "all_problems": all_problems,
+                "all_tags": all_tags,
+                "contest_problems": contest_problems,
+                "start_val": start_time_str or start_val,
+                "end_val": end_time_str or end_val,
+                "time_limit_val": time_limit_val,
+                "user_orgs": user_orgs,
+                "selected_org_ids": selected_org_ids,
+                "selected_tag_ids": selected_tag_ids,
+                "post": request.POST,
+                "can_edit": True,
+            })
+
+        if not name:
+            return render_error(_("Vui lòng nhập tên cuộc thi."))
+
+        # Parse start_time & end_time
+        try:
+            start_time = datetime.datetime.fromisoformat(start_time_str.replace(' ', 'T'))
+            if timezone.is_naive(start_time):
+                start_time = timezone.make_aware(start_time)
+        except Exception:
+            return render_error(_("Thời gian bắt đầu không hợp lệ."))
+
+        try:
+            end_time = datetime.datetime.fromisoformat(end_time_str.replace(' ', 'T'))
+            if timezone.is_naive(end_time):
+                end_time = timezone.make_aware(end_time)
+        except Exception:
+            return render_error(_("Thời gian kết thúc không hợp lệ."))
+
+        if end_time <= start_time:
+            return render_error(_("Thời gian kết thúc phải diễn ra sau thời gian bắt đầu."))
+
+        # Duration limit
+        time_limit = None
+        if time_limit_str:
+            try:
+                parts = time_limit_str.split(':')
+                if len(parts) == 3:
+                    time_limit = timedelta(hours=int(parts[0]), minutes=int(parts[1]), seconds=int(parts[2]))
+                elif len(parts) == 2:
+                    time_limit = timedelta(hours=int(parts[0]), minutes=int(parts[1]))
+                elif len(parts) == 1 and parts[0].isdigit():
+                    time_limit = timedelta(minutes=int(parts[0]))
+            except Exception:
+                time_limit = None
+
+        try:
+            with revisions.create_revision(atomic=True):
+                self.contest.name = name
+                self.contest.summary = summary
+                self.contest.description = description
+                self.contest.start_time = start_time
+                self.contest.end_time = end_time
+                self.contest.time_limit = time_limit
+                self.contest.format_name = format_name
+                self.contest.scoreboard_visibility = scoreboard_visibility
+                self.contest.is_visible = is_visible
+                self.contest.is_rated = is_rated
+                self.contest.use_clarifications = use_clarifications
+                self.contest.hide_problem_tags = hide_problem_tags
+                self.contest.hide_problem_authors = hide_problem_authors
+                self.contest.access_code = access_code
+
+                # Update organization if provided
+                org_id = request.POST.get('organization_id')
+                if org_id is not None:
+                    if org_id.strip() == '':
+                        self.contest.organizations.clear()
+                        self.contest.is_organization_private = False
+                    else:
+                        try:
+                            org_obj = Organization.objects.get(id=int(org_id))
+                            self.contest.organizations.set([org_obj])
+                            self.contest.is_organization_private = True
+                        except (Organization.DoesNotExist, ValueError):
+                            pass
+
+                self.contest.save()
+
+                # Update tags
+                selected_tags = request.POST.getlist('tags')
+                if selected_tags:
+                    self.contest.tags.set(ContestTag.objects.filter(id__in=selected_tags))
+                else:
+                    self.contest.tags.clear()
+
+                # Update problems
+                prob_codes = request.POST.getlist('problem_code[]')
+                if not prob_codes:
+                    prob_codes = request.POST.getlist('problem_codes')
+                prob_points = request.POST.getlist('problem_points[]')
+
+                seen_problems = set()
+                kept_cp_ids = set()
+                order_idx = 1
+
+                for idx, code in enumerate(prob_codes):
+                    code = code.strip()
+                    if not code or code in seen_problems:
+                        continue
+                    try:
+                        prob_obj = Problem.objects.get(code=code)
+                        if prob_obj.id in seen_problems:
+                            continue
+                        seen_problems.add(prob_obj.id)
+                        seen_problems.add(code)
+
+                        pts = None
+                        if idx < len(prob_points) and prob_points[idx].strip():
+                            try:
+                                pts = int(round(float(prob_points[idx].strip())))
+                            except (ValueError, TypeError):
+                                pts = None
+                        final_pts = pts if pts is not None else (int(round(prob_obj.points)) if prob_obj.points is not None else 100)
+
+                        cp, created = ContestProblem.objects.update_or_create(
+                            contest=self.contest,
+                            problem=prob_obj,
+                            defaults={
+                                'order': order_idx,
+                                'points': final_pts,
+                                'partial': True,
+                            }
+                        )
+                        kept_cp_ids.add(cp.id)
+                        order_idx += 1
+                    except Problem.DoesNotExist:
+                        continue
+
+                # Delete removed contest problems
+                self.contest.contest_problems.exclude(id__in=kept_cp_ids).delete()
+
+                # Recompute results for all participations in this contest
+                for part in self.contest.users.all():
+                    part.recompute_results()
+
+                revisions.set_user(request.user)
+                revisions.set_comment(_("Edited contest via custom edit contest form"))
+
+            return HttpResponseRedirect(reverse('contest_view', args=[self.contest.key]))
+        except Exception as e:
+            logger.exception("Failed to update contest: %s", e)
+            return render_error(_("Không thể cập nhật kỳ thi: %s") % str(e))

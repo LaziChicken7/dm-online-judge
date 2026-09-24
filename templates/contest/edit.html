@@ -1,0 +1,1109 @@
+{% extends "base.html" %}
+
+{% block title_ruler %}{% endblock %}
+
+{% block title_row %}
+    {% set tab = 'edit' %}
+    {% include "contest/contest-tabs.html" %}
+{% endblock %}
+
+{% block media %}
+    <style>
+        .create-contest-wrapper {
+            max-width: 1380px;
+            margin: 0 auto 50px auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
+
+        .create-card {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(16px) !important;
+            padding: 36px 44px !important;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+        .create-card:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+        }
+
+        .create-tag {
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 2px !important;
+            color: #38bdf8 !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            font-family: 'Google Sans Code', monospace !important;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .create-title {
+            font-size: 26px !important;
+            font-weight: 800 !important;
+            color: #ffffff !important;
+            margin: 0 0 10px 0 !important;
+            letter-spacing: -0.01em !important;
+        }
+        .create-desc {
+            color: #94a3b8 !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin-bottom: 26px !important;
+        }
+
+        /* Error Alert */
+        .create-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 12px !important;
+            padding: 16px 20px !important;
+            color: #fca5a5 !important;
+            font-size: 14px !important;
+            margin-bottom: 26px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2) !important;
+        }
+
+        /* Form Rows Layout */
+        .form-row {
+            display: flex;
+            align-items: flex-start;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            box-sizing: border-box;
+        }
+        .form-row:last-of-type {
+            border-bottom: none;
+        }
+        .form-label-col {
+            width: 240px;
+            min-width: 240px;
+            font-weight: 700;
+            font-size: 13.5px;
+            color: #e2e8f0;
+            padding-top: 8px;
+            box-sizing: border-box;
+        }
+        .form-label-col .req-star {
+            color: #f87171;
+            margin-left: 3px;
+            font-weight: 800;
+        }
+        .form-control-col {
+            flex: 1;
+            min-width: 0;
+            box-sizing: border-box;
+        }
+
+        /* Inputs */
+        .form-input-cyber {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 16px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            font-family: inherit !important;
+        }
+        .form-input-cyber.short {
+            max-width: 440px;
+        }
+        .form-input-cyber:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background: rgba(15, 23, 42, 0.85) !important;
+        }
+
+        .form-textarea-cyber {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.6) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 12px 16px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            line-height: 1.6 !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+            font-family: inherit !important;
+            resize: vertical !important;
+            min-height: 100px;
+        }
+        .form-textarea-cyber:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background: rgba(15, 23, 42, 0.85) !important;
+        }
+
+        /* Select styling */
+        .custom-arrow-select {
+            width: 100%;
+            box-sizing: border-box;
+            background-color: rgba(15, 23, 42, 0.7) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            border-radius: 10px !important;
+            padding: 10px 38px 10px 14px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            cursor: pointer !important;
+            transition: all 0.2s ease !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            -moz-appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            background-size: 14px 14px !important;
+        }
+        .custom-arrow-select.short {
+            max-width: 440px;
+        }
+        .custom-arrow-select:hover {
+            border-color: rgba(56, 189, 248, 0.4) !important;
+        }
+        .custom-arrow-select:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+            background-color: rgba(15, 23, 42, 0.9) !important;
+        }
+        .custom-arrow-select option {
+            background: #0f172a !important;
+            color: #ffffff !important;
+            padding: 8px 12px !important;
+        }
+
+        .help-text {
+            color: #64748b;
+            font-size: 12.5px;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        /* Checkbox styling */
+        .cyber-checkbox-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            user-select: none;
+            color: #cbd5e1;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .cyber-checkbox-label input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #0284c7;
+            cursor: pointer;
+        }
+
+        /* Problems Management Area */
+        .problems-picker-box {
+            background: rgba(15, 23, 42, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 16px;
+        }
+        .problems-picker-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .add-problem-inline-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(14, 165, 233, 0.2);
+            color: #38bdf8;
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            border-radius: 8px;
+            padding: 9px 18px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .add-problem-inline-btn:hover {
+            background: #0284c7;
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+        }
+
+        .problems-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 14px;
+        }
+        .problems-table th {
+            text-align: left;
+            padding: 10px 14px;
+            color: #94a3b8;
+            font-size: 12.5px;
+            font-weight: 700;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .problems-table td {
+            padding: 12px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #e2e8f0;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+        .problem-remove-btn {
+            background: transparent;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+        .problem-remove-btn:hover {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+        }
+
+                /* ── Searchable Problem Combobox ── */
+        .problems-picker-box {
+            background: rgba(15, 23, 42, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 22px;
+            margin-top: 12px;
+            box-sizing: border-box;
+        }
+        .problems-picker-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .problem-combobox-wrap {
+            position: relative;
+            flex: 1;
+            min-width: 320px;
+        }
+        .problem-search-box {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: 100%;
+        }
+        .search-box-icon {
+            position: absolute;
+            left: 14px;
+            color: #38bdf8;
+            pointer-events: none;
+            flex-shrink: 0;
+        }
+        .problem-search-input {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(15, 23, 42, 0.75) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            border-radius: 12px !important;
+            padding: 12px 42px 12px 44px !important;
+            color: #ffffff !important;
+            font-size: 14px !important;
+            outline: none !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            font-family: inherit !important;
+        }
+        .problem-search-input:focus {
+            border-color: #38bdf8 !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25), 0 4px 16px rgba(0, 0, 0, 0.4) !important;
+        }
+        .search-clear-btn {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        .search-clear-btn:hover {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        /* Results Dropdown */
+        .problem-search-results {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            background: rgba(15, 23, 42, 0.98) !important;
+            backdrop-filter: blur(20px) !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            border: 1px solid rgba(56, 189, 248, 0.35) !important;
+            border-radius: 16px !important;
+            max-height: 360px;
+            overflow-y: auto;
+            box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.7), 0 0 24px rgba(2, 132, 199, 0.2) !important;
+            z-index: 1000;
+            padding: 6px;
+            box-sizing: border-box;
+            animation: fadeInResults 0.18s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes fadeInResults {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .problem-result-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 10px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            box-sizing: border-box;
+            border: 1px solid transparent;
+        }
+        .problem-result-item:hover,
+        .problem-result-item.is-selected {
+            background: rgba(56, 189, 248, 0.12) !important;
+            border-color: rgba(56, 189, 248, 0.35) !important;
+            transform: translateX(3px);
+        }
+        .result-item-main {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+            flex: 1;
+        }
+        .result-code-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(56, 189, 248, 0.12);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            color: #38bdf8;
+            font-family: 'Google Sans Code', monospace;
+            font-size: 12px;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+        .result-name-text {
+            color: #f1f5f9;
+            font-size: 13.5px;
+            font-weight: 600;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .result-item-side {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .result-points-badge {
+            font-size: 12px;
+            font-weight: 700;
+            color: #10b981;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 2px 7px;
+            border-radius: 6px;
+        }
+        .result-add-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #ffffff;
+            background: #0284c7;
+            padding: 4px 10px;
+            border-radius: 100px;
+            transition: all 0.15s ease;
+        }
+        .problem-result-item:hover .result-add-chip,
+        .problem-result-item.is-selected .result-add-chip {
+            background: #0ea5e9;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.5);
+        }
+        .result-added-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 10px;
+            border-radius: 100px;
+        }
+        .results-empty-hint {
+            padding: 24px 16px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 13.5px;
+        }
+        .results-footer-hint {
+            padding: 6px 14px 4px 14px;
+            font-size: 11.5px;
+            color: #64748b;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .toast-added-problem {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            border-radius: 12px;
+            padding: 12px 20px;
+            color: #ffffff;
+            font-size: 13.5px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5), 0 0 20px rgba(16, 185, 129, 0.2);
+            z-index: 9999;
+            animation: slideInToast 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+        @keyframes slideInToast {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Action Buttons */
+        .form-actions-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-top: 24px;
+            margin-top: 10px;
+        }
+        .btn-submit-contest {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 32px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.4);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .btn-submit-contest:hover {
+            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3);
+        }
+        .btn-cancel {
+            color: #94a3b8;
+            font-size: 14.5px;
+            font-weight: 600;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 100px;
+            transition: all 0.2s ease;
+        }
+        .btn-cancel:hover {
+            color: #f1f5f9;
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<div class="create-contest-wrapper">
+    <form method="post" action="{{ url('contest_add') }}{% if selected_org %}?org={{ selected_org.id }}{% endif %}" id="contest-create-form">
+        {% csrf_token %}
+
+        <div class="create-card">
+            <span class="create-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                WORKSPACE / CONTEST CREATION
+            </span>
+            <h1 class="create-title">{{ _('Create New Contest') }}</h1>
+            <p class="create-desc">
+                {{ _('Thiết lập thông số kỳ thi, thời gian biểu, thể thức thi đấu và các bài tập đi kèm.') }}
+            </p>
+
+            {% if error %}
+                <div class="create-error-alert">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2.2" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <div><strong>{{ _('Lỗi tạo kỳ thi:') }}</strong> {{ error }}</div>
+                </div>
+            {% endif %}
+
+            <!-- Section 1: Basic Information -->
+            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 20px 0 10px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 6px;">
+                1. {{ _('Thông tin cơ bản (Basic Info)') }}
+            </h3>
+
+            {% if selected_org %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label>{{ _('Tổ chức (Organization)') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
+                        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-weight: 700; font-size: 14px;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
+                            <span>{{ selected_org.name }} (#{{ selected_org.id }})</span>
+                        </div>
+                        <div class="help-text" style="color: #38bdf8; margin-top: 6px;">
+                            <i class="fa fa-lock" style="margin-right: 4px;"></i>
+                            {{ _('Kỳ thi này sẽ được gắn với tổ chức và đặt ở chế độ RIÊNG TƯ: Chỉ thành viên trong tổ chức mới có thể xem và tham gia.') }}
+                        </div>
+                    </div>
+                </div>
+            {% elif user_orgs %}
+                <div class="form-row">
+                    <div class="form-label-col">
+                        <label for="id_organization_id">{{ _('Tổ chức (Organization)') }}</label>
+                    </div>
+                    <div class="form-control-col">
+                        <select name="organization_id" id="id_organization_id" class="form-input-cyber" style="max-width: 380px;">
+                            <option value="">-- {{ _('Công khai (Không gắn với tổ chức)') }} --</option>
+                            {% for org in user_orgs %}
+                                <option value="{{ org.id }}" {% if (post and post.organization_id == org.id|string) or (not post and org.id in selected_org_ids) %}selected{% endif %}>{{ org.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="help-text">
+                            {{ _('Nếu chọn tổ chức, kỳ thi sẽ được tự động bảo mật riêng tư cho các thành viên trong tổ chức đó.') }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_name">{{ _('Tên kỳ thi (Name)') }} <span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" name="name" id="id_name" class="form-input-cyber" placeholder="Ví dụ: Kỳ thi Lập trình Tháng 9" value="{{ post.name if post else contest.name }}" required autocomplete="off">
+                    <div class="help-text">{{ _('Tên đầy đủ của kỳ thi hiển thị trên danh sách và bảng xếp hạng.') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_key">{{ _('Mã kỳ thi (ID/Key)') }} <span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" name="key" id="id_key" class="form-input-cyber short" value="{{ contest.key }}" readonly style="opacity: 0.65; cursor: not-allowed;" title="{{ _('Mã kỳ thi cố định không thể thay đổi sau khi tạo') }}">
+                    <div class="help-text">{{ _('Mã định danh duy nhất trong URL (/contest/<key>/). Chỉ chứa chữ cái và số.') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_summary">{{ _('Tóm tắt ngắn (Summary)') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" name="summary" id="id_summary" class="form-input-cyber" placeholder="Mô tả ngắn gọn về kỳ thi..." value="{{ post.summary if post else (contest.summary or '') }}">
+                    <div class="help-text">{{ _('Đoạn mô tả ngắn hiển thị khi chia sẻ liên kết mạng xã hội.') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_description">{{ _('Mô tả chi tiết (Description)') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <textarea name="description" id="id_description" class="form-textarea-cyber" placeholder="Mô tả chi tiết, thể lệ, quy tắc tính điểm (hỗ trợ định dạng Markdown)...">{{ post.description if post else (contest.description or '') }}</textarea>
+                </div>
+            </div>
+
+            <!-- Section 2: Schedule & Duration -->
+            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 6px;">
+                2. {{ _('Thời gian biểu & Thời lượng (Schedule & Duration)') }}
+            </h3>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_start_time">{{ _('Thời gian bắt đầu') }} <span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="datetime-local" name="start_time" id="id_start_time" class="form-input-cyber short" value="{{ post.start_time if post else start_val }}" required>
+                    <div class="help-text">{{ _('Thời điểm kỳ thi chính thức mở.') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_end_time">{{ _('Thời gian kết thúc') }} <span class="req-star">*</span></label>
+                </div>
+                <div class="form-control-col">
+                    <input type="datetime-local" name="end_time" id="id_end_time" class="form-input-cyber short" value="{{ post.end_time if post else end_val }}" required>
+                    <div class="help-text">{{ _('Thời điểm kỳ thi đóng hoàn toàn.') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_time_limit">{{ _('Thời lượng làm bài (Time Limit)') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" name="time_limit" id="id_time_limit" class="form-input-cyber short" placeholder="Ví dụ: 02:30:00 (hoặc để trống)" value="{{ post.time_limit if post else (time_limit_val or '') }}">
+                    <div class="help-text">{{ _('Giới hạn thời gian làm bài kể từ lúc thí sinh bấm "Tham gia" (Định dạng HH:MM:SS). Để trống nếu thi đồng thời từ đầu đến cuối khung giờ.') }}</div>
+                </div>
+            </div>
+
+            <!-- Section 3: Format & Scoreboard -->
+            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 6px;">
+                3. {{ _('Thể thức thi đấu & Bảng điểm (Format & Scoreboard)') }}
+            </h3>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_format_name">{{ _('Thể thức tính điểm (Format)') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <select name="format_name" id="id_format_name" class="custom-arrow-select short">
+                        {% for key, name in formats %}
+                            <option value="{{ key }}" {% if (post and post.format_name == key) or (not post and key == contest.format_name) %}selected{% endif %}>{{ name }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="help-text">{{ _('Quy tắc tính điểm và xếp hạng (Default, IOI, ICPC, AtCoder...).') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_scoreboard_visibility">{{ _('Hiển thị bảng điểm (Scoreboard)') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <select name="scoreboard_visibility" id="id_scoreboard_visibility" class="custom-arrow-select short">
+                        <option value="V" {% if (post and post.scoreboard_visibility == 'V') or (not post and contest.scoreboard_visibility == 'V') %}selected{% endif %}>{{ _('Công khai trong suốt kỳ thi (Visible)') }}</option>
+                        <option value="C" {% if (post and post.scoreboard_visibility == 'C') or (not post and contest.scoreboard_visibility == 'C') %}selected{% endif %}>{{ _('Ẩn trong suốt thời gian kỳ thi diễn ra') }}</option>
+                        <option value="P" {% if (post and post.scoreboard_visibility == 'P') or (not post and contest.scoreboard_visibility == 'P') %}selected{% endif %}>{{ _('Ẩn trong thời gian thí sinh làm bài') }}</option>
+                        <option value="H" {% if (post and post.scoreboard_visibility == 'H') or (not post and contest.scoreboard_visibility == 'H') %}selected{% endif %}>{{ _('Ẩn vĩnh viễn (Hidden permanently)') }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">{{ _('Tính năng bổ trợ') }}</div>
+                <div class="form-control-col" style="display: flex; flex-direction: column; gap: 12px; padding-top: 6px;">
+                    <label class="cyber-checkbox-label">
+                        <input type="checkbox" name="is_rated" id="id_is_rated" {% if (post and post.is_rated) or (not post and contest.is_rated) %}checked{% endif %}>
+                        <span>{{ _('Tính điểm xếp hạng (Rated Contest)') }}</span>
+                    </label>
+                    <label class="cyber-checkbox-label">
+                        <input type="checkbox" name="use_clarifications" id="id_use_clarifications" {% if (post and post.use_clarifications) or (not post and contest.use_clarifications) %}checked{% endif %}>
+                        <span>{{ _('Bật hệ thống hỏi đáp thắc mắc (Clarifications)') }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Section 4: Contest Problems -->
+            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.08); padding-bottom: 8px;">
+                4. {{ _('Danh sách bài tập trong kỳ thi (Problems)') }}
+            </h3>
+            <div class="problems-picker-box">
+                <div class="problems-picker-header">
+                    <div class="problem-combobox-wrap" id="problem-combobox-wrap">
+                        <div class="problem-search-box">
+                            <svg class="search-box-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                            <input type="text" id="problem-search-input" class="problem-search-input"
+                                   placeholder="{{ _('Gõ mã bài hoặc tên bài để tìm nhanh (ví dụ: aplusb, n010, nhap xuat)...') }}"
+                                   autocomplete="off">
+                            <button type="button" id="problem-search-clear" class="search-clear-btn" style="display: none;" title="Xóa khỏi kỳ thi">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                            </button>
+                        </div>
+                        <div id="problem-search-results" class="problem-search-results" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <!-- Hidden data source -->
+                <select id="problem-selector" style="display: none;">
+                    {% for prob in all_problems %}
+                        <option value="{{ prob.code }}" data-name="{{ prob.name|e }}" data-points="{{ prob.points }}">
+                            {{ prob.code }} - {{ prob.name }} ({{ prob.points }} pts)
+                        </option>
+                    {% endfor %}
+                </select>
+
+                <table class="problems-table" id="contest-problems-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;">#</th>
+                            <th style="width: 180px;">{{ _('Mã bài') }}</th>
+                            <th>{{ _('Tên bài tập') }}</th>
+                            <th style="width: 140px;">{{ _('Điểm') }}</th>
+                            <th style="width: 80px; text-align: center;">{{ _('Xóa') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="contest-problems-body">
+                        <!-- Dynamically added rows -->
+                    </tbody>
+                </table>
+                <div id="no-problems-hint" class="help-text" style="text-align: center; padding: 24px 0;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    {{ _('Chưa có bài tập nào được thêm. Hãy gõ tên hoặc mã bài ở ô tìm kiếm trên để thêm bài nhanh vào kỳ thi.') }}
+                </div>
+            </div>
+            <!-- Section 5: Access & Security -->
+            <h3 style="color: #38bdf8; font-size: 16.5px; font-weight: 700; margin: 30px 0 10px 0; border-bottom: 1px solid rgba(56, 189, 248, 0.2); padding-bottom: 6px;">
+                5. {{ _('Bảo mật & Hiển thị (Access & Visibility)') }}
+            </h3>
+
+            <div class="form-row">
+                <div class="form-label-col">
+                    <label for="id_access_code">{{ _('Mã tham gia (Access Code)') }}</label>
+                </div>
+                <div class="form-control-col">
+                    <input type="text" name="access_code" id="id_access_code" class="form-input-cyber short" placeholder="Để trống nếu không cần mật khẩu..." value="{{ post.access_code if post else (contest.access_code or '') }}">
+                    <div class="help-text">{{ _('Mật khẩu bảo vệ kỳ thi, yêu cầu thí sinh nhập để tham gia.') }}</div>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-label-col">{{ _('Hiển thị công khai') }}</div>
+                <div class="form-control-col" style="display: flex; flex-direction: column; gap: 12px; padding-top: 6px;">
+                    <label class="cyber-checkbox-label">
+                        <input type="checkbox" name="is_visible" id="id_is_visible" {% if (post and post.is_visible) or (not post and contest.is_visible) %}checked{% endif %}>
+                        <span>{{ _('Công khai kỳ thi lên danh sách (Publicly visible)') }}</span>
+                    </label>
+                    <label class="cyber-checkbox-label">
+                        <input type="checkbox" name="hide_problem_tags" id="id_hide_problem_tags" {% if (post and post.hide_problem_tags) or (not post and contest.hide_problem_tags) %}checked{% endif %}>
+                        <span>{{ _('Ẩn thẻ tag của các bài tập trong kỳ thi') }}</span>
+                    </label>
+                    <label class="cyber-checkbox-label">
+                        <input type="checkbox" name="hide_problem_authors" id="id_hide_problem_authors" {% if (post and post.hide_problem_authors) or (not post and contest.hide_problem_authors) %}checked{% endif %}>
+                        <span>{{ _('Ẩn tác giả của các bài tập trong kỳ thi') }}</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="form-actions-bar">
+                <button type="submit" class="btn-submit-contest">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>{{ _('Lưu thay đổi') }}</span>
+                </button>
+                <a href="{{ url('contest_view', contest.key) }}" class="btn-cancel">{{ _('Hủy bỏ') }}</a>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    var addedProblems = [
+        {% for cp in contest_problems %}
+        {
+            code: "{{ cp.problem.code|escapejs }}",
+            name: "{{ cp.problem.name|escapejs }}",
+            points: {{ cp.points|floatformat(0) }}
+        },
+        {% endfor %}
+    ];
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    function removeVietnameseTones(str) {
+        str = str || '';
+        str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        str = str.replace(/[đĐ]/g, 'd');
+        return str.toLowerCase().trim();
+    }
+
+    function showToast(message) {
+        var existing = document.querySelector('.toast-added-problem');
+        if (existing) existing.remove();
+
+        var toast = document.createElement('div');
+        toast.className = 'toast-added-problem';
+        toast.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+            '<span>' + escapeHtml(message) + '</span>';
+        document.body.appendChild(toast);
+
+        setTimeout(function() {
+            toast.style.opacity = '0';
+            toast.style.transition = 'opacity 0.3s ease';
+            setTimeout(function() { toast.remove(); }, 300);
+        }, 2200);
+    }
+
+    function updateProblemsTable() {
+        var tbody = document.getElementById('contest-problems-body');
+        var hint = document.getElementById('no-problems-hint');
+        tbody.innerHTML = '';
+        if (addedProblems.length === 0) {
+            hint.style.display = 'block';
+            return;
+        }
+        hint.style.display = 'none';
+        addedProblems.forEach(function(p, idx) {
+            var tr = document.createElement('tr');
+            tr.innerHTML = '<td><strong>' + (idx + 1) + '</strong></td>' +
+                '<td><span class="result-code-badge">' + escapeHtml(p.code) + '</span><input type="hidden" name="problem_code[]" value="' + escapeHtml(p.code) + '"></td>' +
+                '<td><strong>' + escapeHtml(p.name) + '</strong></td>' +
+                '<td><input type="number" step="any" class="form-input-cyber" style="padding: 6px 10px; font-size: 13px; max-width: 100px;" name="problem_points[]" value="' + escapeHtml(String(p.points)) + '"></td>' +
+                '<td style="text-align: center;"><button type="button" class="problem-remove-btn" onclick="removeProblem(' + idx + ')" title="Xóa khỏi kỳ thi">&times;</button></td>';
+            tbody.appendChild(tr);
+        });
+    }
+
+    function addProblemByObject(code, name, points) {
+        for (var i = 0; i < addedProblems.length; i++) {
+            if (addedProblems[i].code === code) {
+                showToast('Bài tập ' + code + ' đã có trong kỳ thi!');
+                return false;
+            }
+        }
+        addedProblems.push({
+            code: code,
+            name: name,
+            points: points || 100
+        });
+        updateProblemsTable();
+        showToast('Đã thêm: ' + code + ' (' + name + ')');
+        return true;
+    }
+
+    function removeProblem(idx) {
+        var removed = addedProblems.splice(idx, 1);
+        updateProblemsTable();
+        if (removed && removed[0]) {
+            showToast('Đã xóa bài tập: ' + removed[0].code);
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // 1. Key is locked in edit mode
+        var nameInput = document.getElementById('id_name');
+        var keyInput = null;
+        if (nameInput && keyInput) {
+            nameInput.addEventListener('input', function() {
+                if (!keyInput.dataset.manual) {
+                    var val = nameInput.value.trim().toLowerCase()
+                        .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                        .replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
+                    keyInput.value = val.substring(0, 64);
+                }
+            });
+            keyInput.addEventListener('input', function() {
+                keyInput.dataset.manual = "true";
+            });
+        }
+
+        // Initial render of existing contest problems
+        updateProblemsTable();
+
+        // 2. Load all available problems from selector into memory
+        var allProblems = [];
+        var opts = document.querySelectorAll('#problem-selector option');
+        opts.forEach(function(opt) {
+            if (opt.value) {
+                allProblems.push({
+                    code: opt.value,
+                    name: opt.getAttribute('data-name') || opt.value,
+                    points: opt.getAttribute('data-points') || 100,
+                    cleanCode: removeVietnameseTones(opt.value),
+                    cleanName: removeVietnameseTones(opt.getAttribute('data-name') || opt.value)
+                });
+            }
+        });
+
+        // 3. Search input & results dropdown logic
+        var searchInput = document.getElementById('problem-search-input');
+        var clearBtn = document.getElementById('problem-search-clear');
+        var resultsBox = document.getElementById('problem-search-results');
+        var comboboxWrap = document.getElementById('problem-combobox-wrap');
+        var selectedIdx = -1;
+        var currentFiltered = [];
+
+        function renderResults(filtered, query) {
+            currentFiltered = filtered;
+            selectedIdx = -1;
+            if (filtered.length === 0) {
+                resultsBox.innerHTML = '<div class="results-empty-hint">' +
+                    'Không tìm thấy bài tập nào khớp với từ khóa "' + escapeHtml(query) + '".' +
+                    '</div>';
+                resultsBox.style.display = 'block';
+                return;
+            }
+
+            var html = '';
+            var maxShow = Math.min(filtered.length, 30);
+            for (var i = 0; i < maxShow; i++) {
+                var p = filtered[i];
+                var isAlreadyAdded = false;
+                for (var j = 0; j < addedProblems.length; j++) {
+                    if (addedProblems[j].code === p.code) {
+                        isAlreadyAdded = true;
+                        break;
+                    }
+                }
+
+                html += '<div class="problem-result-item" data-index="' + i + '" data-code="' + escapeHtml(p.code) + '">' +
+                    '<div class="result-item-main">' +
+                        '<span class="result-code-badge">' + escapeHtml(p.code) + '</span>' +
+                        '<span class="result-name-text">' + escapeHtml(p.name) + '</span>' +
+                    '</div>' +
+                    '<div class="result-item-side">' +
+                        '<span class="result-points-badge">' + escapeHtml(String(p.points)) + ' pts</span>' +
+                        (isAlreadyAdded
+                            ? '<span class="result-added-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Đã thêm</span>'
+                            : '<span class="result-add-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg> Thêm</span>'
+                        ) +
+                    '</div>' +
+                '</div>';
+            }
+
+            html += '<div class="results-footer-hint">' +
+                '<span>Hiển thị ' + maxShow + ' / ' + filtered.length + ' bài tập</span>' +
+                '<span>Dùng phím ↑ ↓ để chọn, Enter để thêm</span>' +
+            '</div>';
+
+            resultsBox.innerHTML = html;
+            resultsBox.style.display = 'block';
+
+            // Attach click listeners to items
+            resultsBox.querySelectorAll('.problem-result-item').forEach(function(item) {
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var idx = parseInt(item.getAttribute('data-index'), 10);
+                    if (!isNaN(idx) && currentFiltered[idx]) {
+                        var p = currentFiltered[idx];
+                        addProblemByObject(p.code, p.name, p.points);
+                        searchInput.value = '';
+                        clearBtn.style.display = 'none';
+                        resultsBox.style.display = 'none';
+                        searchInput.focus();
+                    }
+                });
+            });
+        }
+
+        function filterProblems(query) {
+            query = query || '';
+            var cleanQ = removeVietnameseTones(query);
+            if (!cleanQ) {
+                renderResults(allProblems.slice(0, 15), '');
+                return;
+            }
+
+            var matched = [];
+            allProblems.forEach(function(p) {
+                if (p.cleanCode.indexOf(cleanQ) !== -1 || p.cleanName.indexOf(cleanQ) !== -1) {
+                    matched.push(p);
+                }
+            });
+            renderResults(matched, query);
+        }
+
+        searchInput.addEventListener('input', function() {
+            var q = searchInput.value.trim();
+            clearBtn.style.display = q ? 'flex' : 'none';
+            filterProblems(q);
+        });
+
+        searchInput.addEventListener('focus', function() {
+            filterProblems(searchInput.value.trim());
+        });
+
+        clearBtn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchInput.value = '';
+            clearBtn.style.display = 'none';
+            resultsBox.style.display = 'none';
+            searchInput.focus();
+        });
+
+        // Keyboard navigation
+        searchInput.addEventListener('keydown', function(e) {
+            if (resultsBox.style.display === 'none' && (e.key === 'ArrowDown' || e.key === 'ArrowUp')) {
+                filterProblems(searchInput.value.trim());
+                return;
+            }
+
+            var items = resultsBox.querySelectorAll('.problem-result-item');
+            if (!items.length) return;
+
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedIdx = (selectedIdx + 1) % items.length;
+                updateHighlightedItem(items);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedIdx = (selectedIdx - 1 + items.length) % items.length;
+                updateHighlightedItem(items);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                var targetIdx = selectedIdx >= 0 ? selectedIdx : 0;
+                if (currentFiltered[targetIdx]) {
+                    var p = currentFiltered[targetIdx];
+                    addProblemByObject(p.code, p.name, p.points);
+                    searchInput.value = '';
+                    clearBtn.style.display = 'none';
+                    resultsBox.style.display = 'none';
+                    searchInput.focus();
+                }
+            } else if (e.key === 'Escape') {
+                resultsBox.style.display = 'none';
+            }
+        });
+
+        function updateHighlightedItem(items) {
+            items.forEach(function(it, idx) {
+                if (idx === selectedIdx) {
+                    it.classList.add('is-selected');
+                    it.scrollIntoView({ block: 'nearest' });
+                } else {
+                    it.classList.remove('is-selected');
+                }
+            });
+        }
+
+        document.addEventListener('click', function(e) {
+            if (!comboboxWrap.contains(e.target)) {
+                resultsBox.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}
