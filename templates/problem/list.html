@@ -235,41 +235,74 @@ html body #content-left.problems {
     margin: 0 !important;
 }
 
-.tabs .tab a,
-.tabs .tab span {
+/* Tabs Clean Expo Style (Image #1 fix) */
+.tabs .tab > a,
+.tabs .tab > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    padding: 5px 12px !important;
+    height: 30px !important;
+    border-radius: 6px !important;
     background: var(--expo-surface-card) !important;
     border: 1px solid var(--expo-hairline) !important;
-    border-radius: 8px !important; /* {rounded.md} */
     color: var(--expo-body) !important;
-    font-size: 13.5px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
     font-weight: 500 !important;
-    padding: 8px 16px !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
     transition: all 0.15s ease !important;
-    box-shadow: var(--expo-card-shadow) !important;
 }
-
-.tabs .tab a:hover {
+.tabs .tab > a:hover {
     background: var(--expo-surface-strong) !important;
     color: var(--expo-ink) !important;
     border-color: var(--expo-hairline-strong) !important;
+    transform: none !important;
+    box-shadow: none !important;
 }
-
-.tabs .tab.active a,
-.tabs .tab.active span {
+.tabs .tab.active > a,
+.tabs .tab.active > span {
     background: var(--expo-surface-strong) !important;
     border: 1px solid var(--expo-hairline-strong) !important;
     color: var(--expo-ink) !important;
     font-weight: 600 !important;
     box-shadow: none !important;
 }
-
-html[data-theme="light"] .tabs .tab.active a,
-html[data-theme="light"] .tabs .tab.active span,
-html.theme-light .tabs .tab.active a,
-html.theme-light .tabs .tab.active span {
+.tabs .tab.active > a:hover {
+    background: var(--expo-surface-strong) !important;
+    border-color: var(--expo-hairline-strong) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .tabs .tab.active > a,
+html[data-theme="light"] .tabs .tab.active > span,
+html.theme-light .tabs .tab.active > a,
+html.theme-light .tabs .tab.active > span {
     background: #000000 !important;
     border-color: #000000 !important;
     color: #ffffff !important;
+    box-shadow: none !important;
+}
+/* Completely reset and strip any styles from inner spans in tabs */
+.tabs .tab a .tab-text,
+.tabs .tab a span,
+.tabs .tab > a > span,
+.tabs .tab > span > span {
+    all: unset !important;
+    display: inline !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    border-radius: 0 !important;
 }
 
 /* 4. Toolbar: Filter Button, Active Chips, Pagination */
