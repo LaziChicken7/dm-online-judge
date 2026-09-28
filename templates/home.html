@@ -41,7 +41,7 @@
             --expo-semantic-success: #16a34a;
             --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
             --expo-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --expo-hero-wash: radial-gradient(ellipse 90% 60% at 50% -10%, #cfe7ff 0%, #e0f2fe 32%, rgba(255, 255, 255, 0.95) 75%, #ffffff 100%);
+            --expo-hero-wash: #ffffff;
             --expo-ide-bg: #171717;
             --expo-ide-border: #2e2e32;
         }
@@ -86,6 +86,11 @@
             background-image: none !important;
             color: var(--expo-ink) !important;
             font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+        }
+        html[data-theme="light"], html[data-theme="light"] body,
+        html.theme-light, html.theme-light body {
+            background-color: #ffffff !important;
+            background-image: none !important;
         }
 
         #content {
@@ -134,7 +139,8 @@
 
         html[data-theme=light] .expo-hero-band,
         html.theme-light .expo-hero-band {
-            background: radial-gradient(ellipse 90% 60% at 50% -10%, #cfe7ff 0%, #e0f2fe 32%, rgba(255, 255, 255, 0.95) 75%, #ffffff 100%) !important;
+            background: #ffffff !important;
+            background-image: none !important;
             border-color: #f0f0f3 !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
         }
@@ -234,7 +240,8 @@
 
         html[data-theme=light] .expo-workflow-section,
         html.theme-light .expo-workflow-section {
-            background: #fafafa !important;
+            background: #ffffff !important;
+            background-image: none !important;
             border-color: #f0f0f3 !important;
         }
         html[data-theme=light] .expo-workflow-card,
