@@ -5968,6 +5968,288 @@
 
 </style>
 
+<style>
+/* =========================================================
+   EXPO NAVIGATION BAR - STRICT SPECIFICATION (DESIGN.md)
+   ========================================================= */
+/* 1. Outer Navigation Bar: Rounded Rectangle 12px (rounded.lg) */
+#portfolio-nav {
+    border-radius: 12px !important; /* {rounded.lg}, NEVER 100px pill */
+    background: rgba(18, 18, 20, 0.88) !important;
+    backdrop-filter: blur(20px) saturate(160%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(160%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important; /* {colors.hairline} */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45) !important;
+    padding: 6px 14px !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease !important;
+}
+
+/* Navbar on hover: border color and subtle shadow (DESIGN.md) */
+#portfolio-nav:hover {
+    border-color: rgba(255, 255, 255, 0.22) !important; /* {colors.hairline-strong} */
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.04) !important;
+}
+
+/* Remove blue radial glow effect */
+#portfolio-nav::after {
+    display: none !important;
+}
+
+/* 2. Nav Link Items: Rounded Rectangle 8px (rounded.md) */
+.portfolio-nav-link {
+    border-radius: 8px !important; /* {rounded.md} */
+    border: 1px solid transparent !important;
+    color: #a1a1aa !important;
+    padding: 7px 14px !important;
+    height: 36px !important;
+    box-sizing: border-box !important;
+    transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.portfolio-nav-link svg {
+    stroke: #a1a1aa !important;
+    width: 17px !important;
+    height: 17px !important;
+    transition: stroke 0.15s ease !important;
+}
+
+/* Nav Link on hover: subtle surface strong + hairline strong border */
+.portfolio-nav-link:hover {
+    background: rgba(255, 255, 255, 0.08) !important; /* {colors.surface-strong} */
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.portfolio-nav-link:hover svg {
+    stroke: #ffffff !important;
+}
+
+/* Active Nav Link: 8px rounded rectangle, surface strong, clean white text, NO blue neon */
+.portfolio-nav-link.portfolio-nav-active {
+    background: rgba(255, 255, 255, 0.12) !important; /* {colors.surface-strong} */
+    border: 1px solid rgba(255, 255, 255, 0.22) !important; /* {colors.hairline-strong} */
+    color: #ffffff !important;
+    stroke: #ffffff !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25) !important;
+}
+
+.portfolio-nav-link.portfolio-nav-active span {
+    color: #ffffff !important;
+}
+
+.portfolio-nav-link.portfolio-nav-active svg {
+    stroke: #ffffff !important;
+}
+
+/* 3. Theme Toggle: Rounded Rectangle 8px (rounded.md, NEVER 50% circle) */
+.portfolio-theme-toggle {
+    border-radius: 8px !important; /* {rounded.md} */
+    width: 36px !important;
+    height: 36px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f4f4f5 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    transition: all 0.18s ease !important;
+    box-shadow: none !important;
+}
+
+.portfolio-theme-toggle:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* 4. Language Selector: Rounded Rectangle 8px (rounded.md, NEVER 100px pill) */
+.portfolio-lang-pill {
+    border-radius: 8px !important; /* {rounded.md} */
+    height: 36px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f4f4f5 !important;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+    transition: all 0.18s ease !important;
+    box-shadow: none !important;
+}
+
+.portfolio-lang-pill:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+/* 5. User Profile: Rounded Rectangle 8px (rounded.md, NEVER 100px pill) */
+.portfolio-user-pill {
+    border-radius: 8px !important; /* {rounded.md} */
+    height: 36px !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #f4f4f5 !important;
+    padding: 4px 12px 4px 5px !important;
+    box-sizing: border-box !important;
+    transition: all 0.18s ease !important;
+    box-shadow: none !important;
+}
+
+.portfolio-user-pill:hover {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+}
+
+.portfolio-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 6px !important; /* {rounded.sm} rounded rectangle, NEVER 50% circle */
+    object-fit: cover !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 6. Dropdown Menu Items: Rounded Rectangle 8px (rounded.md) */
+.portfolio-dropdown {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-radius: 10px !important;
+    padding: 6px !important;
+    gap: 4px !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+}
+
+.portfolio-dropdown a, 
+.portfolio-dropdown-btn, 
+.lang-pill-btn {
+    border-radius: 8px !important; /* {rounded.md} */
+    padding: 8px 12px !important;
+    color: #a1a1aa !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    box-shadow: none !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease !important;
+}
+
+.portfolio-dropdown a:hover, 
+.portfolio-dropdown-btn:hover, 
+.lang-pill-btn:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #ffffff !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+.lang-pill-btn.active {
+    background: rgba(255, 255, 255, 0.12) !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   LIGHT MODE NAVBAR SPECIFICATION (DESIGN.md)
+   ========================================================= */
+html[data-theme=light] #portfolio-nav {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border: 1px solid #f0f0f3 !important; /* {colors.hairline} */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+    border-radius: 12px !important;
+}
+
+html[data-theme=light] #portfolio-nav:hover {
+    border-color: #dcdee0 !important; /* {colors.hairline-strong} */
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+html[data-theme=light] .portfolio-nav-link {
+    color: #60646c !important; /* {colors.body} */
+    border-radius: 8px !important;
+}
+
+html[data-theme=light] .portfolio-nav-link svg {
+    stroke: #60646c !important;
+}
+
+html[data-theme=light] .portfolio-nav-link:hover {
+    background: #f0f0f3 !important; /* {colors.surface-strong} */
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important; /* {colors.ink} */
+}
+
+html[data-theme=light] .portfolio-nav-link:hover svg {
+    stroke: #171717 !important;
+}
+
+html[data-theme=light] .portfolio-nav-link.portfolio-nav-active {
+    background: #f0f0f3 !important; /* {colors.surface-strong} */
+    border: 1px solid #dcdee0 !important; /* {colors.hairline-strong} */
+    color: #171717 !important; /* {colors.ink} */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+}
+
+html[data-theme=light] .portfolio-nav-link.portfolio-nav-active span {
+    color: #171717 !important;
+}
+
+html[data-theme=light] .portfolio-nav-link.portfolio-nav-active svg {
+    stroke: #171717 !important;
+}
+
+html[data-theme=light] .portfolio-theme-toggle,
+html[data-theme=light] .portfolio-lang-pill,
+html[data-theme=light] .portfolio-user-pill {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    color: #171717 !important;
+    border-radius: 8px !important;
+}
+
+html[data-theme=light] .portfolio-theme-toggle:hover,
+html[data-theme=light] .portfolio-lang-pill:hover,
+html[data-theme=light] .portfolio-user-pill:hover {
+    background: #f0f0f3 !important;
+    border-color: #dcdee0 !important;
+    color: #171717 !important;
+}
+
+html[data-theme=light] .portfolio-dropdown {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08) !important;
+    border-radius: 10px !important;
+}
+
+html[data-theme=light] .portfolio-dropdown a,
+html[data-theme=light] .portfolio-dropdown-btn,
+html[data-theme=light] .lang-pill-btn {
+    color: #60646c !important;
+    border-radius: 8px !important;
+}
+
+html[data-theme=light] .portfolio-dropdown a:hover,
+html[data-theme=light] .portfolio-dropdown-btn:hover,
+html[data-theme=light] .lang-pill-btn:hover {
+    background: #f0f0f3 !important;
+    color: #171717 !important;
+    border-color: #dcdee0 !important;
+}
+
+html[data-theme=light] .lang-pill-btn.active {
+    background: #f0f0f3 !important;
+    border-color: #dcdee0 !important;
+    color: #171717 !important;
+}
+</style>
+
 <nav id="portfolio-nav" class="unselectable">
     <div class="portfolio-nav-left">
         <a href="/" style="display:flex; align-items:center;">
