@@ -413,19 +413,28 @@
             cursor: not-allowed !important;
 
     
-    /* ── Glowing hover border for #problem-table & .contest-list (matching Image #1 & #2 request) ── */
+    /* Table hover border (DESIGN.md - Clean Hairlines) */
     #problem-table tbody tr:hover td,
     .contest-list tbody tr:hover td {
-        border-top-color: rgba(56, 189, 248, 0.55) !important;
-        border-bottom-color: rgba(56, 189, 248, 0.55) !important;
+        border-top-color: rgba(255, 255, 255, 0.12) !important;
+        border-bottom-color: rgba(255, 255, 255, 0.12) !important;
     }
     #problem-table tbody tr:hover td:first-child,
     .contest-list tbody tr:hover td:first-child {
-        border-left-color: rgba(56, 189, 248, 0.55) !important;
+        border-left-color: rgba(255, 255, 255, 0.12) !important;
     }
     #problem-table tbody tr:hover td:last-child,
     .contest-list tbody tr:hover td:last-child {
-        border-right-color: rgba(56, 189, 248, 0.55) !important;
+        border-right-color: rgba(255, 255, 255, 0.12) !important;
+    }
+    html[data-theme="light"] #problem-table tbody tr:hover td,
+    html[data-theme="light"] .contest-list tbody tr:hover td,
+    html.theme-light #problem-table tbody tr:hover td,
+    html.theme-light .contest-list tbody tr:hover td {
+        border-top-color: #dcdee0 !important;
+        border-bottom-color: #dcdee0 !important;
+        border-left-color: #dcdee0 !important;
+        border-right-color: #dcdee0 !important;
     }
     #problem-table tbody td,
     .contest-list tbody td {
@@ -1184,7 +1193,7 @@
 
     /* Khoảng cách nội dung trang cân đối với thanh điều hướng fixed (~24px) */
     #page-container {
-        padding-top: 96px !important; 
+        padding-top: 98px !important; 
     }
     #page-container > br {
         display: none !important;
@@ -6119,7 +6128,9 @@
    EXPO NAVIGATION BAR - STRICT SPECIFICATION (DESIGN.md)
    ========================================================= */
 /* 1. Outer Navigation Bar: Rounded Rectangle 12px (rounded.lg) */
+/* Symmetric vertical balance: 24px above navbar == 24px below navbar */
 #portfolio-nav {
+    top: 24px !important;
     border-radius: 12px !important; /* {rounded.lg}, NEVER 100px pill */
     background: rgba(18, 18, 20, 0.88) !important;
     backdrop-filter: blur(20px) saturate(160%) !important;

@@ -89,9 +89,11 @@
         }
 
         #content {
-            max-width: 1240px !important;
-            margin: 96px auto 40px !important;
-            padding: 0 24px !important;
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
+            padding: 0 !important;
+            box-sizing: border-box !important;
         }
 
         .hero-container {
@@ -482,6 +484,7 @@
            1. HERO BAND (Atmospheric Sky-Blue Wash & Mega Display)
            ========================================================================== */
         .expo-hero-band {
+            margin-top: 0 !important;
             position: relative;
             background: var(--expo-hero-wash);
             border: 1px solid var(--expo-hairline);
@@ -1597,9 +1600,25 @@
         html[data-theme=light] section.post .codehilite pre,
         html.theme-light section.post .content-description pre,
         html.theme-light section.post .codehilite pre {
-            background: #171717 !important;
-            border-color: #2e2e32 !important;
-            color: #f4f4f5 !important;
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            padding: 12px 16px !important;
+            margin: 12px 0 !important;
+            color: #0f172a !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            box-shadow: none !important;
+        }
+        html[data-theme=light] section.post .content-description pre *,
+        html[data-theme=light] section.post .codehilite pre *,
+        html.theme-light section.post .content-description pre *,
+        html.theme-light section.post .codehilite pre * {
+            background: transparent !important;
+            border: none !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            box-shadow: none !important;
         }
         html[data-theme=light] section.post .content-description pre span,
         html[data-theme=light] section.post .codehilite pre span,
@@ -1634,6 +1653,26 @@
         html[data-theme=light] .portfolio-lang-pill svg:not(.flag-icon),
         html.theme-light .portfolio-lang-pill svg:not(.flag-icon) {
             stroke: #171717 !important;
+        }
+
+    
+        /* Flush alignment of post content (Welcome block aligned with First Post title) */
+        html body section.post .summary,
+        html body section.post .content-description,
+        html body section.post .content-description > div,
+        html body section.post .content-description p {
+            margin-left: 0 !important;
+            padding-left: 0 !important;
+            text-indent: 0 !important;
+        }
+
+        /* Universal JetBrains Mono for post code blocks */
+        section.post .content-description pre,
+        section.post .codehilite pre,
+        section.post pre code,
+        section.post code,
+        section.post pre span {
+            font-family: 'JetBrains Mono', Consolas, Monaco, monospace !important;
         }
 
         </style>

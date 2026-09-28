@@ -295,6 +295,330 @@
 {% endblock %}
 
 {% block body %}
+<style>
+/* =========================================================
+   EXPO DESIGN SYSTEM - SUBMISSIONS LIST (DESIGN.md)
+   Length and Width: 100% UNCHANGED
+   ========================================================= */
+/* 1. Global Spacing */
+#content {
+    margin: 0 auto 40px !important;
+}
+
+/* 2. Top & Bottom Pagination: 8px Developer Radii */
+.top-pagination-bar,
+.bottom-pagination-bar {
+    display: flex !important;
+    justify-content: flex-start !important;
+    width: 100% !important;
+    margin: 16px 0 !important;
+}
+
+ul.pagination {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    gap: 6px !important;
+    list-style: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+ul.pagination > li {
+    display: flex !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+ul.pagination > li > a,
+ul.pagination > li > span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #a1a1aa !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+}
+
+ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+    background: #242428 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+ul.pagination > .active-page > a,
+ul.pagination > .active-page > span {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-color: #ffffff !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] ul.pagination > li > a,
+html[data-theme="light"] ul.pagination > li > span,
+html.theme-light ul.pagination > li > a,
+html.theme-light ul.pagination > li > span {
+    background: #ffffff !important;
+    border-color: #f0f0f3 !important;
+    color: #60646c !important;
+}
+
+html[data-theme="light"] ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover,
+html.theme-light ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+    background: #f0f0f3 !important;
+    color: #171717 !important;
+    border-color: #dcdee0 !important;
+}
+
+html[data-theme="light"] ul.pagination > .active-page > a,
+html[data-theme="light"] ul.pagination > .active-page > span,
+html.theme-light ul.pagination > .active-page > a,
+html.theme-light ul.pagination > .active-page > span {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+}
+
+/* 3. Submissions Table & Rows */
+#submissions-table {
+    border-radius: 12px !important; /* {rounded.lg} */
+    overflow: hidden !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #121214 !important;
+}
+
+html[data-theme="light"] #submissions-table,
+html.theme-light #submissions-table {
+    border-color: #f0f0f3 !important;
+    background: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.submission-row {
+    background: transparent !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    padding: 14px 20px !important;
+    transition: background 0.15s ease !important;
+}
+
+.submission-row:last-child {
+    border-bottom: none !important;
+}
+
+.submission-row:hover {
+    background: rgba(255, 255, 255, 0.04) !important;
+}
+
+html[data-theme="light"] .submission-row,
+html.theme-light .submission-row {
+    border-bottom-color: #f0f0f3 !important;
+}
+
+html[data-theme="light"] .submission-row:hover,
+html.theme-light .submission-row:hover {
+    background: #f8fafc !important;
+}
+
+/* Problem Title Link */
+.submission-row .sub-main .name a {
+    color: #f4f4f5 !important;
+    font-size: 14.5px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+.submission-row .sub-main .name a:hover {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .name a,
+html.theme-light .submission-row .sub-main .name a {
+    color: #171717 !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .name a:hover,
+html.theme-light .submission-row .sub-main .name a:hover {
+    color: #000000 !important;
+}
+
+/* Meta line */
+.submission-row .sub-main .sub-meta {
+    color: #71717a !important;
+    font-size: 12.5px !important;
+}
+
+.submission-row .sub-main .sub-meta .user a {
+    color: #a1a1aa !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .sub-meta,
+html.theme-light .submission-row .sub-main .sub-meta {
+    color: #999999 !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .sub-meta .user a,
+html.theme-light .submission-row .sub-main .sub-meta .user a {
+    color: #171717 !important;
+}
+
+/* Status Badges */
+.submission-row .sub-result {
+    border-radius: 8px !important; /* {rounded.md} */
+    box-shadow: none !important;
+}
+
+.sub-result.AC {
+    background: rgba(22, 163, 74, 0.12) !important;
+    border: 1px solid rgba(22, 163, 74, 0.28) !important;
+}
+.sub-result.AC .score, .sub-result.AC .state {
+    color: #16a34a !important;
+    text-shadow: none !important;
+}
+
+.sub-result.WA, .sub-result.RTE {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border: 1px solid rgba(239, 68, 68, 0.28) !important;
+}
+.sub-result.WA .score, .sub-result.WA .state,
+.sub-result.RTE .score, .sub-result.RTE .state {
+    color: #ef4444 !important;
+    text-shadow: none !important;
+}
+
+.sub-result.TLE, .sub-result.MLE {
+    background: rgba(245, 158, 11, 0.12) !important;
+    border: 1px solid rgba(245, 158, 11, 0.28) !important;
+}
+.sub-result.TLE .score, .sub-result.TLE .state,
+.sub-result.MLE .score, .sub-result.MLE .state {
+    color: #f59e0b !important;
+    text-shadow: none !important;
+}
+
+.sub-result.CE, .sub-result.IE, .sub-result.AB {
+    background: rgba(113, 113, 122, 0.12) !important;
+    border: 1px solid rgba(113, 113, 122, 0.28) !important;
+}
+.sub-result.CE .score, .sub-result.CE .state,
+.sub-result.IE .score, .sub-result.IE .state,
+.sub-result.AB .score, .sub-result.AB .state {
+    color: #71717a !important;
+    text-shadow: none !important;
+}
+
+/* Action Buttons: 8px rounded rectangles */
+.submission-row .sub-pill-btn,
+.submission-row .sub-action-btn {
+    border-radius: 8px !important; /* {rounded.md}, NEVER 100px pill */
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #a1a1aa !important;
+    width: 32px !important;
+    height: 32px !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+}
+
+.submission-row .sub-pill-btn:hover,
+.submission-row .sub-action-btn:hover {
+    background: #242428 !important;
+    border-color: rgba(255, 255, 255, 0.22) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="light"] .submission-row .sub-pill-btn,
+html[data-theme="light"] .submission-row .sub-action-btn,
+html.theme-light .submission-row .sub-pill-btn,
+html.theme-light .submission-row .sub-action-btn {
+    background: #f0f0f3 !important;
+    border-color: #dcdee0 !important;
+    color: #60646c !important;
+}
+
+html[data-theme="light"] .submission-row .sub-pill-btn:hover,
+html[data-theme="light"] .submission-row .sub-action-btn:hover,
+html.theme-light .submission-row .sub-pill-btn:hover,
+html.theme-light .submission-row .sub-action-btn:hover {
+    background: #e4e4e7 !important;
+    color: #171717 !important;
+}
+
+/* 4. Filter Sidebar Cards */
+#content-right.submission .info-float .sidebox {
+    background: #121214 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    padding: 22px 24px !important;
+    margin-bottom: 20px !important;
+}
+
+html[data-theme="light"] #content-right.submission .info-float .sidebox,
+html.theme-light #content-right.submission .info-float .sidebox {
+    background: #ffffff !important;
+    border-color: #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+#content-right.submission .sidebox h3 {
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.2px !important;
+    color: #f4f4f5 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding-bottom: 12px !important;
+}
+
+html[data-theme="light"] #content-right.submission .sidebox h3,
+html.theme-light #content-right.submission .sidebox h3 {
+    color: #171717 !important;
+    border-bottom-color: #f0f0f3 !important;
+}
+
+/* Submit Go Button */
+#content-right.submission .form-submit-group .button {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    border: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.15s ease !important;
+}
+
+#content-right.submission .form-submit-group .button:hover {
+    opacity: 0.9 !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="light"] #content-right.submission .form-submit-group .button,
+html.theme-light #content-right.submission .form-submit-group .button {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+</style>
     <div class="top-pagination-bar">{% include "list-pages.html" %}</div>
 
     <div id="common-content">
