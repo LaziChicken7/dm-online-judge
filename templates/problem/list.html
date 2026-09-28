@@ -174,9 +174,9 @@
 }
 
 html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
-    --expo-canvas: #09090b;
-    --expo-surface-card: #121214;
-    --expo-surface-strong: #18181b;
+    --expo-canvas: #101012;
+    --expo-surface-card: #18181b;
+    --expo-surface-strong: #202024;
     --expo-surface-dark: #171717;
     --expo-primary: #ffffff;
     --expo-primary-active: #e5e5e5;
@@ -518,33 +518,33 @@ ul.pagination > .active-page > span {
     font-weight: 600 !important;
 }
 
-/* 6. Problem Table - Neutral Gray (Image #2 fix), Flat Sharp Edges (border-radius: 0), JetBrains Mono Headers */
+/* 6. Problem Table - Xám Đen Theme (#18181b / #202024), Flat Sharp Edges (border-radius: 0) */
 #problem-table {
     width: 100% !important;
     border-radius: 0 !important;
     overflow: hidden !important;
-    border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    background: #121214 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    background: #18181b !important;
     box-shadow: none !important;
     border-collapse: collapse !important;
 }
 
 #problem-table tbody tr {
-    background: #121214 !important;
+    background: #18181b !important;
     transition: background 0.15s ease !important;
 }
 
 #problem-table tbody tr:hover,
 #problem-table tbody tr:hover td {
-    background: #1a1a1e !important;
+    background: #242428 !important;
 }
 
 #problem-table thead th,
 #problem-table thead th a {
-    background: var(--expo-surface-strong) !important;
-    border-bottom: 1px solid var(--expo-hairline) !important;
-    color: var(--expo-muted) !important;
-    font-family: 'JetBrains Mono', monospace !important; /* JetBrains Mono header per Image #6 request */
+    background: #202024 !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    color: #a1a1aa !important;
+    font-family: 'JetBrains Mono', monospace !important;
     font-size: 11px !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
@@ -563,7 +563,7 @@ ul.pagination > .active-page > span {
 
 #problem-table tbody td {
     padding: 14px 16px !important;
-    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
     color: var(--expo-body) !important;
     font-size: 13.5px !important;
     vertical-align: middle !important;
