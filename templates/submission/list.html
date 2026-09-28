@@ -392,12 +392,22 @@ html.theme-light ul.pagination > .active-page > span {
     border-color: #000000 !important;
 }
 
-/* 3. Submissions Table & Rows */
+/* 3. Submissions Table & Rows - 4 Rounded Corners (Image #2 fix) */
 #submissions-table {
-    border-radius: 0 !important;
+    border-radius: 12px !important; /* {rounded.lg} bo tròn 4 góc */
     overflow: hidden !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     background: #121214 !important;
+}
+
+.submission-row:first-child {
+    border-top-left-radius: 11px !important;
+    border-top-right-radius: 11px !important;
+}
+
+.submission-row:last-child {
+    border-bottom-left-radius: 11px !important;
+    border-bottom-right-radius: 11px !important;
 }
 
 html[data-theme="light"] #submissions-table,
@@ -563,14 +573,16 @@ html.theme-light .submission-row .sub-action-btn:hover {
     color: #171717 !important;
 }
 
-/* 4. Filter Sidebar Cards */
-#content-right.submission .info-float .sidebox {
+/* 4. Filter Sidebar Cards - 4 Rounded Corners (Image #1 fix) */
+#content-right.submission .info-float .sidebox,
+#content-right.submission .sidebox {
     background: #121214 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 0 !important;
+    border-radius: 12px !important; /* {rounded.lg} bo tròn 4 góc */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
     padding: 22px 24px !important;
     margin-bottom: 20px !important;
+    overflow: hidden !important;
 }
 
 html[data-theme="light"] #content-right.submission .info-float .sidebox,

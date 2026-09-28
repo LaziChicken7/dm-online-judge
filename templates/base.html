@@ -5055,14 +5055,24 @@ html.theme-light .portfolio-user-pill {
         min-width: 280px !important;
         max-width: 280px !important;
     }
-    /* Submissions Table Flat Container (border-radius: 0 per Expo standard) */
+    /* Submissions Table Container (Image #2: 4 rounded corners) */
     #submissions-table {
         background: #121214 !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 0 !important; /* Flat sharp edges per Expo standard */
+        border-radius: 12px !important; /* {rounded.lg} bo tròn 4 góc */
         box-shadow: none !important;
         overflow: hidden !important;
         margin-bottom: 24px !important;
+    }
+
+    .submission-row:first-child {
+        border-top-left-radius: 11px !important;
+        border-top-right-radius: 11px !important;
+    }
+
+    .submission-row:last-child {
+        border-bottom-left-radius: 11px !important;
+        border-bottom-right-radius: 11px !important;
     }
     html[data-theme="light"] #submissions-table,
     html.theme-light #submissions-table {
@@ -5421,12 +5431,12 @@ html.theme-light .portfolio-user-pill {
     html.theme-light .submission-row .sub-usage .memory {
         color: #64748b !important;
     }
-    /* Submissions Filter Sidebar Cards */
+    /* Submissions Filter Sidebar Cards (Image #1: 4 rounded corners) */
     #content-right.submission .sidebox,
     .problem-search-sidebox {
         background: #121214 !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 8px !important; /* {rounded.md} */
+        border-radius: 12px !important; /* {rounded.lg} bo tròn 4 góc */
         box-shadow: none !important;
         padding: 20px 22px !important;
         margin-bottom: 20px !important;
