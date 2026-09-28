@@ -884,6 +884,41 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&family=Fira+Code:wght@400;500;600&display=swap');
 
+    
+    /* Expo Design System Variables */
+    :root, html[data-theme="light"], html.theme-light {
+        --expo-canvas: #ffffff;
+        --expo-surface-card: #ffffff;
+        --expo-surface-strong: #f0f0f3;
+        --expo-surface-dark: #171717;
+        --expo-primary: #000000;
+        --expo-primary-active: #1a1a1a;
+        --expo-on-primary: #ffffff;
+        --expo-ink: #171717;
+        --expo-body: #60646c;
+        --expo-muted: #999999;
+        --expo-hairline: #f0f0f3;
+        --expo-hairline-strong: #dcdee0;
+        --expo-text-link: #0d74ce;
+        --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    }
+    html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
+        --expo-canvas: #09090b;
+        --expo-surface-card: #121214;
+        --expo-surface-strong: #18181b;
+        --expo-surface-dark: #171717;
+        --expo-primary: #ffffff;
+        --expo-primary-active: #e5e5e5;
+        --expo-on-primary: #000000;
+        --expo-ink: #f4f4f5;
+        --expo-body: #a1a1aa;
+        --expo-muted: #71717a;
+        --expo-hairline: rgba(255, 255, 255, 0.08);
+        --expo-hairline-strong: rgba(255, 255, 255, 0.2);
+        --expo-text-link: #38bdf8;
+        --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
     /* Geist Design System Variables */
     :root {
         --geist-ink: #171717;
@@ -3365,15 +3400,15 @@
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 6px !important;
-        padding: 5px 12px !important;
-        height: 30px !important;
-        border-radius: 6px !important; /* {rounded.sm} */
-        background: var(--expo-surface-card) !important;
-        border: 1px solid var(--expo-hairline) !important;
-        color: var(--expo-body) !important;
+        gap: 7px !important;
+        padding: 6px 14px !important;
+        height: 34px !important;
+        border-radius: 8px !important; /* Bo vuông 8px như Image #2 */
+        background: #18181b !important; /* Nền xám như Image #2 */
+        border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Viền như Image #2 */
+        color: #a1a1aa !important;
         font-family: 'Inter', sans-serif !important;
-        font-size: 12px !important; /* Smaller size for List & Admin */
+        font-size: 13px !important;
         font-weight: 500 !important;
         box-shadow: none !important;
         text-decoration: none !important;
@@ -3381,15 +3416,16 @@
     }
     .tabs .tab > a .tab-icon,
     .tabs .tab > span .tab-icon {
-        width: 12px !important;
-        height: 12px !important;
+        width: 13px !important;
+        height: 13px !important;
+        stroke: currentColor !important;
+        flex-shrink: 0 !important;
     }
     .tabs .tab > a:hover {
-        background: var(--expo-surface-strong) !important;
-        color: var(--expo-ink) !important;
-        border-color: var(--expo-hairline-strong) !important;
+        background: #242428 !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
     }
-    
     /* Clean Single Pill Tabs: Strip all styling from inner spans (Image #3 fix) */
     .tabs .tab a .tab-text,
     .tabs .tab a span,
@@ -3409,22 +3445,41 @@
         line-height: inherit !important;
         border-radius: 0 !important;
     }
-
-.tabs .tab.active > a, .tabs .tab.active > span {
-        background: var(--expo-surface-strong) !important;
-        border: 1px solid var(--expo-hairline-strong) !important;
-        color: var(--expo-ink) !important;
+    .tabs .tab.active > a, .tabs .tab.active > span {
+        background: #242428 !important; /* Nền xám nổi bật cho active */
+        border: 1px solid rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
         font-weight: 600 !important;
+    }
+    .tabs .tab.active > a:hover {
+        background: #2a2a30 !important;
+        border-color: rgba(255, 255, 255, 0.35) !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .tabs .tab > a,
+    html[data-theme="light"] .tabs .tab > span,
+    html.theme-light .tabs .tab > a,
+    html.theme-light .tabs .tab > span {
+        background: #f0f0f3 !important;
+        border: 1px solid #dcdee0 !important;
+        color: #60646c !important;
+    }
+    html[data-theme="light"] .tabs .tab > a:hover,
+    html.theme-light .tabs .tab > a:hover {
+        background: #e4e4e7 !important;
+        color: #171717 !important;
     }
     html[data-theme="light"] .tabs .tab.active > a,
     html[data-theme="light"] .tabs .tab.active > span,
     html.theme-light .tabs .tab.active > a,
     html.theme-light .tabs .tab.active > span {
-        background: #000000 !important;
-        border-color: #000000 !important;
-        color: #ffffff !important;
+        background: #ffffff !important;
+        border: 1px solid #dcdee0 !important;
+        color: #171717 !important;
+        font-weight: 600 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
     }
-        .tabs .tab i {
+    .tabs .tab i {
         margin-right: 2px !important;
         font-size: 14px !important;
     }

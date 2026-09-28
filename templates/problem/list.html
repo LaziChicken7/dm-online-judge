@@ -239,55 +239,72 @@ html body #content-left.problems {
     margin: 0 !important;
 }
 
-/* Tabs Clean Expo Style (Image #1 fix) */
+/* Tabs Clean Expo Style (Image #2 fix) */
 .tabs .tab > a,
 .tabs .tab > span {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 6px !important;
-    padding: 5px 12px !important;
-    height: 30px !important;
-    border-radius: 6px !important;
-    background: var(--expo-surface-card) !important;
-    border: 1px solid var(--expo-hairline) !important;
-    color: var(--expo-body) !important;
+    gap: 7px !important;
+    padding: 6px 14px !important;
+    height: 34px !important;
+    border-radius: 8px !important; /* Bo vuông 8px như Image #2 */
+    background: #18181b !important; /* Nền xám như Image #2 */
+    border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Viền như Image #2 */
+    color: #a1a1aa !important;
     font-family: 'Inter', sans-serif !important;
-    font-size: 12px !important;
+    font-size: 13px !important;
     font-weight: 500 !important;
     box-shadow: none !important;
     text-decoration: none !important;
     transition: all 0.15s ease !important;
 }
+.tabs .tab > a .tab-icon,
+.tabs .tab > span .tab-icon {
+    width: 13px !important;
+    height: 13px !important;
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
 .tabs .tab > a:hover {
-    background: var(--expo-surface-strong) !important;
-    color: var(--expo-ink) !important;
-    border-color: var(--expo-hairline-strong) !important;
-    transform: none !important;
-    box-shadow: none !important;
+    background: #242428 !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
 }
 .tabs .tab.active > a,
 .tabs .tab.active > span {
-    background: var(--expo-surface-strong) !important;
-    border: 1px solid var(--expo-hairline-strong) !important;
-    color: var(--expo-ink) !important;
+    background: #242428 !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
     font-weight: 600 !important;
-    box-shadow: none !important;
 }
 .tabs .tab.active > a:hover {
-    background: var(--expo-surface-strong) !important;
-    border-color: var(--expo-hairline-strong) !important;
-    transform: none !important;
-    box-shadow: none !important;
+    background: #2a2a30 !important;
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .tabs .tab > a,
+html[data-theme="light"] .tabs .tab > span,
+html.theme-light .tabs .tab > a,
+html.theme-light .tabs .tab > span {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #60646c !important;
+}
+html[data-theme="light"] .tabs .tab > a:hover,
+html.theme-light .tabs .tab > a:hover {
+    background: #e4e4e7 !important;
+    color: #171717 !important;
 }
 html[data-theme="light"] .tabs .tab.active > a,
 html[data-theme="light"] .tabs .tab.active > span,
 html.theme-light .tabs .tab.active > a,
 html.theme-light .tabs .tab.active > span {
-    background: #000000 !important;
-    border-color: #000000 !important;
-    color: #ffffff !important;
-    box-shadow: none !important;
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
 }
 /* Completely reset and strip any styles from inner spans in tabs */
 .tabs .tab a .tab-text,
