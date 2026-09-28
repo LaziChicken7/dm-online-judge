@@ -2244,36 +2244,38 @@
         stroke: #60646c !important;
     }
     html[data-theme=light] .portfolio-nav-link:hover {
-        background: #f0f0f3 !important; /* {colors.surface-strong} */
-        border: 1px solid #dcdee0 !important;
-        color: #171717 !important; /* {colors.ink} */
-    }
-    html[data-theme=light] .portfolio-nav-link:hover svg {
-        stroke: #171717 !important;
-    }
-    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active {
-        background: #f0f0f3 !important; /* {colors.surface-strong} */
-        border: 1px solid #dcdee0 !important; /* {colors.hairline-strong} */
-        color: #171717 !important; /* {colors.ink} */
-        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
-        font-weight: 600 !important;
-        border-radius: 8px !important;
-    }
-    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active span {
+        background: #f0f0f3 !important;
         color: #171717 !important;
     }
-    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active svg {
-        stroke: #171717 !important;
-    }
+    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active,
+html.theme-light .portfolio-nav-link.portfolio-nav-active {
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+    font-weight: 600 !important;
+    border-radius: 8px !important;
+}
+    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active span,
+html.theme-light .portfolio-nav-link.portfolio-nav-active span {
+    color: #ffffff !important;
+}
+    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active svg,
+html.theme-light .portfolio-nav-link.portfolio-nav-active svg {
+    stroke: #ffffff !important;
+}
 
     html[data-theme=light] .portfolio-theme-toggle,
-    html[data-theme=light] .portfolio-lang-pill,
-    html[data-theme=light] .portfolio-user-pill {
-        background: #ffffff !important;
-        border: 1px solid #f0f0f3 !important;
-        color: #171717 !important;
-        border-radius: 8px !important;
-    }
+html[data-theme=light] .portfolio-lang-pill,
+html[data-theme=light] .portfolio-user-pill,
+html.theme-light .portfolio-theme-toggle,
+html.theme-light .portfolio-lang-pill,
+html.theme-light .portfolio-user-pill {
+    background: #f8fafc !important;
+    border: 1px solid #dcdee0 !important;
+    color: #0f172a !important;
+    border-radius: 8px !important;
+}
     html[data-theme=light] .portfolio-theme-toggle:hover,
     html[data-theme=light] .portfolio-lang-pill:hover,
     html[data-theme=light] .portfolio-user-pill:hover {
@@ -5603,70 +5605,169 @@
         color: #0369a1;
     }
 
-    /* Navbar */
-    html[data-theme="light"] #portfolio-nav {
-        background: rgba(255, 255, 255, 0.92) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 10px 32px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    /* Navbar Light Mode (Expo Design System - Image #1 fix) */
+    html[data-theme="light"] #portfolio-nav,
+    html.theme-light #portfolio-nav {
+        background: rgba(255, 255, 255, 0.98) !important;
+        border: 1px solid #dcdee0 !important;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+        border-radius: 100px !important;
+        backdrop-filter: blur(16px) !important;
+        -webkit-backdrop-filter: blur(16px) !important;
     }
-    html[data-theme="light"] .portfolio-nav-link {
-        color: #475569 !important;
+    html[data-theme="light"] #portfolio-nav:hover,
+    html.theme-light #portfolio-nav:hover {
+        border-color: #cbd5e1 !important;
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08) !important;
+        transform: translateX(-50%) !important;
     }
-    html[data-theme="light"] .portfolio-nav-link svg {
-        stroke: #64748b !important;
+    html[data-theme="light"] #portfolio-nav::after,
+    html.theme-light #portfolio-nav::after {
+        display: none !important;
     }
-    html[data-theme="light"] .portfolio-nav-link:hover {
-        background: rgba(2, 132, 199, 0.08) !important;
-        color: #0284c7 !important;
-    }
-    html[data-theme="light"] .portfolio-nav-link:hover svg {
-        stroke: #0284c7 !important;
-    }
-    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active {
-        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-        border: 1px solid #0284c7 !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3) !important;
-        font-weight: 700 !important;
-    }
-    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active span {
-        color: #ffffff !important;
-    }
-    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active svg {
-        stroke: #ffffff !important;
-    }
-    html[data-theme="light"] .portfolio-theme-toggle,
-    html[data-theme="light"] .portfolio-lang-pill,
-    html[data-theme="light"] .portfolio-user-pill {
-        background: rgba(0, 0, 0, 0.04) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        color: #0f172a !important;
-    }
-    html[data-theme="light"] .portfolio-theme-toggle:hover,
-    html[data-theme="light"] .portfolio-lang-pill:hover,
-    html[data-theme="light"] .portfolio-user-pill:hover {
-        background: rgba(0, 0, 0, 0.08) !important;
-    }
-    html[data-theme="light"] .portfolio-dropdown {
-        background: #ffffff !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12) !important;
-    }
-    html[data-theme="light"] .portfolio-dropdown a {
-        color: #334155 !important;
-    }
-    html[data-theme="light"] .portfolio-dropdown a:hover {
-        background: #f1f5f9 !important;
-        color: #0284c7 !important;
-    }
-    html[data-theme="light"] .portfolio-dropdown-btn {
-        color: #334155 !important;
-    }
-    html[data-theme="light"] .portfolio-dropdown-btn:hover {
-        background: #f1f5f9 !important;
-        color: #ef4444 !important;
+    
+    html[data-theme="light"] img.nav-omnijudge-logo,
+    html.theme-light img.nav-omnijudge-logo {
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08) !important;
+        border: 1.5px solid #dcdee0 !important;
     }
 
+    html[data-theme="light"] .portfolio-nav-link,
+    html.theme-light .portfolio-nav-link {
+        color: #64748b !important;
+        border-radius: 8px !important;
+        border: 1px solid transparent !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link svg,
+    html.theme-light .portfolio-nav-link svg {
+        stroke: #64748b !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link:hover,
+    html.theme-light .portfolio-nav-link:hover {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link:hover svg,
+    html.theme-light .portfolio-nav-link:hover svg {
+        stroke: #0f172a !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link:hover span,
+    html.theme-light .portfolio-nav-link:hover span {
+        color: #0f172a !important;
+    }
+
+    /* Active Nav Link - Solid Black Pill ({rounded.md}) per Expo Design */
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active,
+    html.theme-light .portfolio-nav-link.portfolio-nav-active {
+        background: #000000 !important;
+        color: #ffffff !important;
+        border: 1px solid #000000 !important;
+        border-radius: 8px !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        font-weight: 600 !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active span,
+    html.theme-light .portfolio-nav-link.portfolio-nav-active span {
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active svg,
+    html.theme-light .portfolio-nav-link.portfolio-nav-active svg {
+        stroke: #ffffff !important;
+    }
+
+    /* Right Controls */
+    html[data-theme="light"] .portfolio-theme-toggle,
+    html.theme-light .portfolio-theme-toggle {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        border-radius: 8px !important;
+        width: 34px !important;
+        height: 34px !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        cursor: pointer !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-theme-toggle:hover,
+    html.theme-light .portfolio-theme-toggle:hover {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    html[data-theme="light"] .portfolio-lang-pill,
+    html.theme-light .portfolio-lang-pill {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        border-radius: 8px !important;
+        padding: 6px 12px !important;
+        color: #0f172a !important;
+        font-weight: 500 !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-lang-pill:hover,
+    html.theme-light .portfolio-lang-pill:hover {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #000000 !important;
+    }
+
+    html[data-theme="light"] .portfolio-user-pill,
+    html.theme-light .portfolio-user-pill {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        border-radius: 8px !important;
+        color: #0f172a !important;
+        padding: 3px 12px 3px 3px !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-user-pill:hover,
+    html.theme-light .portfolio-user-pill:hover {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-avatar,
+    html.theme-light .portfolio-avatar {
+        border-radius: 6px !important;
+    }
+
+    /* Dropdown Menus in Light Mode */
+    html[data-theme="light"] .portfolio-dropdown,
+    html.theme-light .portfolio-dropdown {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown a,
+    html[data-theme="light"] .portfolio-dropdown-btn,
+    html[data-theme="light"] .portfolio-dropdown button,
+    html.theme-light .portfolio-dropdown a,
+    html.theme-light .portfolio-dropdown-btn,
+    html.theme-light .portfolio-dropdown button {
+        background: #ffffff !important;
+        border: 1px solid #dcdee0 !important;
+        color: #0f172a !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08) !important;
+        border-radius: 8px !important;
+    }
+    html[data-theme="light"] .portfolio-dropdown a:hover,
+    html[data-theme="light"] .portfolio-dropdown-btn:hover,
+    html[data-theme="light"] .portfolio-dropdown button:hover,
+    html.theme-light .portfolio-dropdown a:hover,
+    html.theme-light .portfolio-dropdown-btn:hover,
+    html.theme-light .portfolio-dropdown button:hover {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #000000 !important;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12) !important;
+        transform: scale(1.02) !important;
+    }
+    
     /* Cards & Containers */
     html[data-theme="light"] .hero-container,
     html[data-theme="light"] .stat-card,
@@ -6440,29 +6541,35 @@ html[data-theme=light] .portfolio-nav-link:hover svg {
     stroke: #171717 !important;
 }
 
-html[data-theme=light] .portfolio-nav-link.portfolio-nav-active {
-    background: #f0f0f3 !important; /* {colors.surface-strong} */
-    border: 1px solid #dcdee0 !important; /* {colors.hairline-strong} */
-    color: #171717 !important; /* {colors.ink} */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+html[data-theme=light] .portfolio-nav-link.portfolio-nav-active,
+html.theme-light .portfolio-nav-link.portfolio-nav-active {
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
     font-weight: 600 !important;
     border-radius: 8px !important;
 }
 
-html[data-theme=light] .portfolio-nav-link.portfolio-nav-active span {
-    color: #171717 !important;
+html[data-theme=light] .portfolio-nav-link.portfolio-nav-active span,
+html.theme-light .portfolio-nav-link.portfolio-nav-active span {
+    color: #ffffff !important;
 }
 
-html[data-theme=light] .portfolio-nav-link.portfolio-nav-active svg {
-    stroke: #171717 !important;
+html[data-theme=light] .portfolio-nav-link.portfolio-nav-active svg,
+html.theme-light .portfolio-nav-link.portfolio-nav-active svg {
+    stroke: #ffffff !important;
 }
 
 html[data-theme=light] .portfolio-theme-toggle,
 html[data-theme=light] .portfolio-lang-pill,
-html[data-theme=light] .portfolio-user-pill {
-    background: #ffffff !important;
-    border: 1px solid #f0f0f3 !important;
-    color: #171717 !important;
+html[data-theme=light] .portfolio-user-pill,
+html.theme-light .portfolio-theme-toggle,
+html.theme-light .portfolio-lang-pill,
+html.theme-light .portfolio-user-pill {
+    background: #f8fafc !important;
+    border: 1px solid #dcdee0 !important;
+    color: #0f172a !important;
     border-radius: 8px !important;
 }
 

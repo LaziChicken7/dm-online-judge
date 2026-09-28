@@ -122,9 +122,25 @@
         }
         html body .portfolio-nav-link.portfolio-nav-active span,
         html body .portfolio-nav-link.portfolio-nav-active {
+            border-radius: 8px !important;
+        }
+        html[data-theme="light"] html body .portfolio-nav-link.portfolio-nav-active span,
+        html[data-theme="light"] html body .portfolio-nav-link.portfolio-nav-active,
+        html.theme-light html body .portfolio-nav-link.portfolio-nav-active span,
+        html.theme-light html body .portfolio-nav-link.portfolio-nav-active {
+            color: #ffffff !important;
+            background: #000000 !important;
+        }
+        html[data-theme="light"] html body .portfolio-nav-link.portfolio-nav-active svg,
+        html.theme-light html body .portfolio-nav-link.portfolio-nav-active svg {
+            stroke: #ffffff !important;
+        }
+        html[data-theme="dark"] html body .portfolio-nav-link.portfolio-nav-active span,
+        html[data-theme="dark"] html body .portfolio-nav-link.portfolio-nav-active,
+        html.theme-dark html body .portfolio-nav-link.portfolio-nav-active span,
+        html.theme-dark html body .portfolio-nav-link.portfolio-nav-active {
             color: var(--expo-ink) !important;
             background: var(--expo-surface-strong) !important;
-            border-radius: 8px !important;
         }
 
         /* =========================================================
