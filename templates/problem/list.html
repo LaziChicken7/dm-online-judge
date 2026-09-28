@@ -606,7 +606,30 @@ ul.pagination > .active-page > span {
     box-shadow: none !important;
 }
 
-/* 7. Filter Drawer (Off-canvas) */
+/* 7. Filter Drawer (Off-canvas) & Fullscreen Backdrop */
+.problem-filter-drawer-backdrop {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(0, 0, 0, 0.55) !important;
+    backdrop-filter: blur(4px) !important;
+    -webkit-backdrop-filter: blur(4px) !important;
+    z-index: 9999 !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    pointer-events: none !important;
+    transition: opacity 0.25s ease, visibility 0.25s ease !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.problem-filter-drawer-backdrop.is-open {
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+}
+
 #content-right.problems {
     position: fixed !important;
     top: 0 !important;
@@ -616,9 +639,9 @@ ul.pagination > .active-page > span {
     max-width: 92vw !important;
     height: 100vh !important;
     z-index: 10000 !important;
-    background: var(--expo-surface-card) !important;
-    border-left: 1px solid var(--expo-hairline) !important;
-    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.45) !important;
+    background: #121214 !important;
+    border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.6) !important;
     transform: translateX(105%) !important;
     transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
     margin: 0 !important;
@@ -627,24 +650,54 @@ ul.pagination > .active-page > span {
     flex-direction: column !important;
     box-sizing: border-box !important;
 }
-
 #content-right.problems.is-open {
     transform: translateX(0) !important;
+}
+html[data-theme="light"] #content-right.problems,
+html.theme-light #content-right.problems {
+    background: #ffffff !important;
+    border-left: 1px solid #dcdee0 !important;
+    box-shadow: -12px 0 40px rgba(0, 0, 0, 0.15) !important;
 }
 
 .problem-filter-drawer-header {
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    padding: 18px 24px !important;
-    border-bottom: 1px solid var(--expo-hairline) !important;
-    background: var(--expo-surface-strong) !important;
+    padding: 16px 20px !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #18181b !important;
+}
+html[data-theme="light"] .problem-filter-drawer-header,
+html.theme-light .problem-filter-drawer-header {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
 }
 
 .filter-drawer-title {
-    font-size: 15px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px !important;
     font-weight: 600 !important;
-    color: var(--expo-ink) !important;
+    color: #f4f4f5 !important;
+    letter-spacing: -0.2px !important;
+}
+.filter-drawer-title svg {
+    stroke: currentColor !important;
+    color: #a1a1aa !important;
+    width: 16px !important;
+    height: 16px !important;
+    flex-shrink: 0 !important;
+}
+html[data-theme="light"] .filter-drawer-title,
+html.theme-light .filter-drawer-title {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .filter-drawer-title svg,
+html.theme-light .filter-drawer-title svg {
+    color: #475569 !important;
 }
 
 .filter-drawer-close-btn {
@@ -654,18 +707,35 @@ ul.pagination > .active-page > span {
     width: 32px !important;
     height: 32px !important;
     border-radius: 6px !important;
-    background: transparent !important;
-    border: 1px solid var(--expo-hairline) !important;
-    color: var(--expo-muted) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #e4e4e7 !important;
     cursor: pointer !important;
     transition: all 0.15s ease !important;
+    padding: 0 !important;
 }
-
 .filter-drawer-close-btn:hover {
-    background: var(--expo-surface-strong) !important;
-    color: var(--expo-ink) !important;
+    background: rgba(255, 255, 255, 0.14) !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
 }
-
+.filter-drawer-close-btn svg {
+    width: 15px !important;
+    height: 15px !important;
+    stroke: currentColor !important;
+    stroke-width: 2.2 !important;
+}
+html[data-theme="light"] .filter-drawer-close-btn,
+html.theme-light .filter-drawer-close-btn {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+}
+html[data-theme="light"] .filter-drawer-close-btn:hover,
+html.theme-light .filter-drawer-close-btn:hover {
+    background: #e2e8f0 !important;
+    color: #0f172a !important;
+}
 .problem-filter-drawer-body {
     flex: 1 !important;
     overflow-y: auto !important;
@@ -761,48 +831,61 @@ ul.pagination > .active-page > span {
     accent-color: var(--expo-primary) !important;
 }
 
-/* noUiSlider Styling (Monochrome, no blue glow) */
+/* noUiSlider Styling (Monochrome Neutral Gray, NO Blue Glow) */
 .noUi-target {
-    background: rgba(128, 128, 128, 0.2) !important;
+    background: #27272a !important;
     border: none !important;
     box-shadow: none !important;
     height: 4px !important;
     border-radius: 2px !important;
 }
-
 .noUi-connect {
-    background: var(--expo-primary) !important;
+    background: #52525b !important;
 }
-
 .noUi-handle {
     width: 16px !important;
     height: 16px !important;
     border-radius: 50% !important;
-    background: var(--expo-primary) !important;
-    border: 2px solid var(--expo-canvas) !important;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3) !important;
+    background: #ffffff !important;
+    border: 2px solid #18181b !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
     cursor: grab !important;
     top: -6px !important;
     right: -8px !important;
+    outline: none !important;
 }
-
 .noUi-handle:before, .noUi-handle:after {
     display: none !important;
 }
-
 .noUi-tooltip {
-    background: var(--expo-surface-card) !important;
-    border: 1px solid var(--expo-hairline-strong) !important;
-    color: var(--expo-ink) !important;
+    background: #27272a !important;
+    color: #f4f4f5 !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 11px !important;
     font-weight: 600 !important;
-    border-radius: 6px !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 4px !important;
     padding: 2px 6px !important;
-    box-shadow: var(--expo-card-shadow) !important;
-    bottom: 125% !important;
 }
-
+html[data-theme="light"] .noUi-target,
+html.theme-light .noUi-target {
+    background: #e2e8f0 !important;
+}
+html[data-theme="light"] .noUi-connect,
+html.theme-light .noUi-connect {
+    background: #94a3b8 !important;
+}
+html[data-theme="light"] .noUi-handle,
+html.theme-light .noUi-handle {
+    background: #000000 !important;
+    border: 2px solid #ffffff !important;
+}
+html[data-theme="light"] .noUi-tooltip,
+html.theme-light .noUi-tooltip {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
 </style>
     <div class="top-pagination-bar problem-top-toolbar">
         {% include "list-pages.html" %}
@@ -833,13 +916,13 @@ ul.pagination > .active-page > span {
             <div id="content-right" class="problems">
                 <div class="problem-filter-drawer-header">
                     <div class="filter-drawer-title">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
                         </svg>
                         <span>{{ _('Filter & Search') }}</span>
                     </div>
-                    <button type="button" class="filter-drawer-close-btn" aria-label="{{ _('Close') }}">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <button type="button" class="filter-drawer-close-btn" aria-label="{{ _('Close') }}" title="{{ _('Close') }}">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
                             <line x1="6" y1="6" x2="18" y2="18"></line>
                         </svg>
@@ -1061,6 +1144,21 @@ document.addEventListener('DOMContentLoaded', function () {
             closeDrawer();
         });
     }
+
+    // Close drawer when clicking anywhere outside
+    document.addEventListener('click', function (e) {
+        if (!drawer || !drawer.classList.contains('is-open')) return;
+        var clickedInside = drawer.contains(e.target);
+        var clickedTrigger = false;
+        triggers.forEach(function (btn) {
+            if (btn && (btn === e.target || btn.contains(e.target))) {
+                clickedTrigger = true;
+            }
+        });
+        if (!clickedInside && !clickedTrigger) {
+            closeDrawer();
+        }
+    });
 
     document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && drawer && drawer.classList.contains('is-open')) {

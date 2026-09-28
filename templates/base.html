@@ -4849,19 +4849,36 @@
     #go,
     #filter-form #go,
     .form-submit-group a#go {
-        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
+        background: #ffffff !important;
+        border: none !important;
+        color: #000000 !important;
+        box-shadow: none !important;
+        border-radius: 6px !important;
+        font-weight: 600 !important;
     }
 
     #go:hover,
     #filter-form #go:hover,
     .form-submit-group a#go:hover {
-        background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-        transform: translateY(-2px) !important;
-        border-color: rgba(56, 189, 248, 0.9) !important;
-        box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
+        background: #e5e5e5 !important;
+        color: #000000 !important;
+        transform: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] #go,
+    html[data-theme="light"] #filter-form #go,
+    html[data-theme="light"] .form-submit-group a#go,
+    html.theme-light #go,
+    html.theme-light #filter-form #go,
+    html.theme-light .form-submit-group a#go {
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] #go:hover,
+    html.theme-light #go:hover {
+        background: #262626 !important;
+        color: #ffffff !important;
     }
 
     /* #random secondary glass button */
