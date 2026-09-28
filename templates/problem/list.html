@@ -291,35 +291,66 @@ html.theme-light .tabs .tab.active span {
     margin-left: auto !important;
 }
 
-/* Filter Button (Developer Radii 8px) */
-html body .problem-toolbar-filter-btn {
+/* Filter Button Next to Add Problem (Image #1 fix) */
+html body .problem-toolbar-filter-btn,
+html body .problem-filter-drawer-trigger {
     display: inline-flex !important;
     align-items: center !important;
     gap: 8px !important;
     padding: 0 16px !important;
-    height: 38px !important;
-    border-radius: 8px !important; /* {rounded.md}, NEVER 100px pill */
-    background: var(--expo-surface-card) !important;
-    border: 1px solid var(--expo-hairline) !important;
-    color: var(--expo-ink) !important;
+    height: 36px !important;
+    border-radius: 6px !important; /* {rounded.sm} */
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #f4f4f5 !important;
     font-family: 'Inter', -apple-system, sans-serif !important;
     font-weight: 500 !important;
-    font-size: 13.5px !important;
+    font-size: 13px !important;
     cursor: pointer !important;
-    transition: all 0.15s ease !important;
-    box-shadow: var(--expo-card-shadow) !important;
     user-select: none !important;
+    width: auto !important;
+    min-width: auto !important;
+    max-width: none !important;
+    flex: none !important;
+    white-space: nowrap !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important;
+    position: static !important;
+    margin: 0 !important;
 }
-
-html body .problem-toolbar-filter-btn:hover {
-    background: var(--expo-surface-strong) !important;
-    border-color: var(--expo-hairline-strong) !important;
-    color: var(--expo-ink) !important;
-    transform: translateY(-1px) !important;
+html body .problem-toolbar-filter-btn:hover,
+html body .problem-filter-drawer-trigger:hover {
+    background: #242428 !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: none !important;
 }
-
-html body .problem-toolbar-filter-btn svg {
+html body .problem-toolbar-filter-btn svg,
+html body .problem-filter-drawer-trigger svg {
     stroke: currentColor !important;
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0 !important;
+}
+html body .problem-toolbar-filter-btn .trigger-label,
+html body .problem-filter-drawer-trigger .trigger-label {
+    display: inline !important;
+    color: inherit !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+html[data-theme="light"] html body .problem-toolbar-filter-btn,
+html[data-theme="light"] html body .problem-filter-drawer-trigger,
+html.theme-light html body .problem-toolbar-filter-btn,
+html.theme-light html body .problem-filter-drawer-trigger {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+html[data-theme="light"] html body .problem-toolbar-filter-btn:hover,
+html.theme-light html body .problem-toolbar-filter-btn:hover {
+    background: #f0f0f3 !important;
+    border-color: #dcdee0 !important;
 }
 
 /* Active Filter Chips */
@@ -433,15 +464,25 @@ ul.pagination > .active-page > span {
     font-weight: 600 !important;
 }
 
-/* 6. Problem Table - NO ROUNDED CORNERS (border-radius: 0), JetBrains Mono Headers */
+/* 6. Problem Table - Neutral Gray (Image #2 fix), Flat Sharp Edges (border-radius: 0), JetBrains Mono Headers */
 #problem-table {
     width: 100% !important;
-    border-radius: 0 !important; /* Flat sharp edges per Image #4 request */
+    border-radius: 0 !important;
     overflow: hidden !important;
-    border: 1px solid var(--expo-hairline) !important;
-    background: var(--expo-surface-card) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    background: #121214 !important;
     box-shadow: none !important;
     border-collapse: collapse !important;
+}
+
+#problem-table tbody tr {
+    background: #121214 !important;
+    transition: background 0.15s ease !important;
+}
+
+#problem-table tbody tr:hover,
+#problem-table tbody tr:hover td {
+    background: #1a1a1e !important;
 }
 
 #problem-table thead th,
@@ -690,16 +731,7 @@ ul.pagination > .active-page > span {
     text-decoration: none !important;
 }
 
-/* Square Icon-Only Filter Button (38px x 38px) */
-html body .problem-toolbar-filter-btn {
-    width: 38px !important;
-    min-width: 38px !important;
-    max-width: 38px !important;
-    height: 38px !important;
-    padding: 0 !important;
-    justify-content: center !important;
-    border-radius: 8px !important;
-}
+
 
 /* Filter Drawer Section Tags & Headings: JetBrains Mono */
 .problem-filter-drawer-body .filter-tag,
@@ -777,6 +809,15 @@ html body .problem-toolbar-filter-btn {
         <div class="problem-toolbar-actions">
             {% if not request.in_contest %}
                 <div class="active-filter-chips-container" id="active-filter-chips"></div>
+                <button type="button" class="problem-filter-drawer-trigger problem-toolbar-filter-btn" title="{{ _('Filter & Search Problems') }}" aria-label="{{ _('Filter & Search Problems') }}">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                    </svg>
+                    <span class="trigger-label">{{ _('Filter') }}</span>
+                    {% if search_query or category or selected_types or hide_solved or full_text or has_public_editorial or point_start or point_end %}
+                        <span class="filter-active-dot" title="{{ _('Filters active') }}"></span>
+                    {% endif %}
+                </button>
                 
             {% endif %}
             {% if request.user.is_authenticated and (perms.judge.edit_all_problem or perms.judge.edit_public_problem or perms.judge.edit_own_problem or request.user.is_staff) %}
@@ -788,15 +829,7 @@ html body .problem-toolbar-filter-btn {
         {% block before_table %}{% endblock %}
         {% if not request.in_contest %}
             <div class="problem-filter-drawer-backdrop" aria-hidden="true"></div>
-            <button type="button" class="problem-filter-drawer-trigger" title="{{ _('Filter & Search Problems') }}" aria-label="{{ _('Filter & Search Problems') }}">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                </svg>
-                <span class="trigger-label">{{ _('Filter') }}</span>
-                {% if search_query or category or selected_types or hide_solved or full_text or has_public_editorial or point_start or point_end %}
-                    <span class="filter-active-dot" title="{{ _('Filters active') }}"></span>
-                {% endif %}
-            </button>
+
             <div id="content-right" class="problems">
                 <div class="problem-filter-drawer-header">
                     <div class="filter-drawer-title">

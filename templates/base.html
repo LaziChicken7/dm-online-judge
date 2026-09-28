@@ -2927,18 +2927,15 @@
     }
     
     #problem-table tbody tr {
-        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        background: #0d1322 !important;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
+        transition: background 0.15s ease !important;
+        background: #121214 !important;
+        box-shadow: none !important;
     }
-    
-        
-    
 
     #problem-table tbody tr:hover {
-        background: rgba(0, 112, 243, 0.15) !important;
-        transform: translateY(-2px) scale(1.005) !important;
-        box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
+        background: #1a1a1e !important;
+        transform: none !important;
+        box-shadow: none !important;
     }
     
     #problem-table thead th, 
@@ -3027,7 +3024,7 @@
         white-space: nowrap !important;
     }
     #problem-table td.problem a:hover {
-        color: #38bdf8 !important;
+        color: #ffffff !important;
         text-decoration: none !important;
     }
     
@@ -3300,12 +3297,13 @@
     }
 
     .problems.h-scrollable-table {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(12px) !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        backdrop-filter: none !important;
         overflow-x: auto !important;
         padding-top: 0 !important;
+        box-shadow: none !important;
     }
     .problems.h-scrollable-table .table {
         background: transparent !important;
@@ -3401,7 +3399,28 @@
         color: var(--expo-ink) !important;
         border-color: var(--expo-hairline-strong) !important;
     }
-    .tabs .tab.active > a, .tabs .tab.active > span {
+    
+    /* Clean Single Pill Tabs: Strip all styling from inner spans (Image #3 fix) */
+    .tabs .tab a .tab-text,
+    .tabs .tab a span,
+    .tabs .tab > a > span,
+    .tabs .tab > span > span {
+        all: unset !important;
+        display: inline !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        line-height: inherit !important;
+        border-radius: 0 !important;
+    }
+
+.tabs .tab.active > a, .tabs .tab.active > span {
         background: var(--expo-surface-strong) !important;
         border: 1px solid var(--expo-hairline-strong) !important;
         color: var(--expo-ink) !important;
@@ -4775,8 +4794,8 @@
     }
 
     /* Top Pill Buttons (List, Admin, Header Actions) */
-    .tabs .tab a, 
-    .tabs .tab span,
+    .tabs .tab > a, 
+    .tabs .tab > span,
     .header-action-btn, 
     .header-submit-btn {
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
@@ -5685,8 +5704,8 @@
     html[data-theme="light"] .tabs h2 {
         color: #0f172a !important;
     }
-    html[data-theme="light"] .tabs .tab a,
-    html[data-theme="light"] .tabs .tab span {
+    html[data-theme="light"] .tabs .tab > a,
+    html[data-theme="light"] .tabs .tab > span {
         background: #f8fafc !important;
         border: 1px solid rgba(0, 0, 0, 0.08) !important;
         color: #475569 !important;
@@ -5701,8 +5720,8 @@
     html[data-theme="light"] .tabs .tab a:hover svg {
         stroke: #0f172a !important;
     }
-    html[data-theme="light"] .tabs .tab.active a,
-    html[data-theme="light"] .tabs .tab.active span {
+    html[data-theme="light"] .tabs .tab.active > a,
+    html[data-theme="light"] .tabs .tab.active > span {
         background: linear-gradient(135deg, #0284c7, #0369a1) !important;
         border-color: #0284c7 !important;
         color: #ffffff !important;
