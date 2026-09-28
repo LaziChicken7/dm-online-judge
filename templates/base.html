@@ -30,7 +30,7 @@
     {% endif %}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
     {% if not INLINE_FONTAWESOME %}
         <link rel="stylesheet" href="{{ FONTAWESOME_CSS }}">
     {% endif %}
@@ -873,7 +873,7 @@
     </defs>
 </svg>
 <style>
-    @import url('https://fonts.googleapis.com/css2?family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&family=Fira+Code:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Google+Sans+Code:ital,wght@0,400..700;1,400..700&family=Fira+Code:wght@400;500;600&display=swap');
 
     /* Geist Design System Variables */
     :root {
@@ -2655,6 +2655,28 @@
         min-height: 180px !important;
         border: none !important;
     }
+    
+    /* JetBrains Mono strictly applied to New Comment and Ace Editor */
+    #new-comment .ace_editor,
+    #new-comment .ace_editor *,
+    #new-comment .ace_text-layer,
+    #new-comment .ace_text-layer *,
+    #new-comment .ace_line,
+    #new-comment .ace_line *,
+    #new-comment .ace_gutter,
+    #new-comment .ace_gutter *,
+    #new-comment .ace_gutter-cell,
+    #new-comment .ace_content,
+    #new-comment .ace_text-input,
+    #new-comment textarea.ace_text-input,
+    #new-comment textarea,
+    #new-comment .martor-field,
+    #new-comment .martor-preview,
+    #new-comment .martor-preview pre,
+    #new-comment .martor-preview code {
+        font-family: 'JetBrains Mono', Consolas, Monaco, monospace !important;
+    }
+
     #new-comment .ace_gutter {
         background: #121214 !important;
         color: #71717a !important;
@@ -2690,7 +2712,29 @@
         color: #0f172a !important;
     }
     html[data-theme="light"] #new-comment .ace_gutter,
-    html.theme-light #new-comment .ace_gutter {
+    html.theme-light 
+    /* JetBrains Mono strictly applied to New Comment and Ace Editor */
+    #new-comment .ace_editor,
+    #new-comment .ace_editor *,
+    #new-comment .ace_text-layer,
+    #new-comment .ace_text-layer *,
+    #new-comment .ace_line,
+    #new-comment .ace_line *,
+    #new-comment .ace_gutter,
+    #new-comment .ace_gutter *,
+    #new-comment .ace_gutter-cell,
+    #new-comment .ace_content,
+    #new-comment .ace_text-input,
+    #new-comment textarea.ace_text-input,
+    #new-comment textarea,
+    #new-comment .martor-field,
+    #new-comment .martor-preview,
+    #new-comment .martor-preview pre,
+    #new-comment .martor-preview code {
+        font-family: 'JetBrains Mono', Consolas, Monaco, monospace !important;
+    }
+
+    #new-comment .ace_gutter {
         background: #f0f0f3 !important;
         border-right: 1px solid #dcdee0 !important;
         color: #94a3b8 !important;

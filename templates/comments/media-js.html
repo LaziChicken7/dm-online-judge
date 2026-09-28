@@ -81,6 +81,24 @@
 
         $(document).ready(function () {
             vectorize_martor_icons();
+            // Configure Ace editor font to JetBrains Mono
+            function apply_jetbrains_font() {
+                $('.ace_editor').each(function() {
+                    try {
+                        var ed = ace.edit(this.id || this);
+                        if (ed) {
+                            ed.setOptions({
+                                fontFamily: "'JetBrains Mono', Consolas, monospace",
+                                fontSize: "13.5px"
+                            });
+                            ed.renderer.updateFontSize();
+                        }
+                    } catch(e) {}
+                });
+            }
+            apply_jetbrains_font();
+            setTimeout(apply_jetbrains_font, 300);
+            setTimeout(apply_jetbrains_font, 1000);
 
             window.reply_comment = function (parent) {
                 var $comment_reply = $('#comment-' + parent + '-reply');
