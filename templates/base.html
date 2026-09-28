@@ -6294,6 +6294,38 @@ html[data-theme=light] .portfolio-user-pill:hover {
     color: #171717 !important;
 }
 
+/* Flag icon: never stroke */
+.flag-icon, .flag-icon *,
+html[data-theme="light"] .flag-icon,
+html[data-theme="light"] .flag-icon *,
+html.theme-light .flag-icon,
+html.theme-light .flag-icon * {
+    stroke: none !important;
+}
+.portfolio-lang-pill svg:not(.flag-icon),
+html[data-theme="light"] .portfolio-lang-pill svg:not(.flag-icon),
+html.theme-light .portfolio-lang-pill svg:not(.flag-icon) {
+    stroke: #171717 !important;
+}
+.portfolio-lang-code {
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    color: var(--expo-ink) !important;
+}
+html[data-theme="light"] .portfolio-lang-code,
+html.theme-light .portfolio-lang-code {
+    color: #171717 !important;
+}
+html[data-theme="light"] .portfolio-user-pill,
+html[data-theme="light"] .portfolio-user-pill span,
+html[data-theme="light"] .portfolio-username,
+html.theme-light .portfolio-user-pill,
+html.theme-light .portfolio-user-pill span,
+html.theme-light .portfolio-username {
+    color: #171717 !important;
+}
+
 html[data-theme=light] .portfolio-dropdown {
     background: #ffffff !important;
     border: 1px solid #f0f0f3 !important;

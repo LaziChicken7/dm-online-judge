@@ -288,8 +288,21 @@
             color: #000000 !important;
         }
         html[data-theme=light] section.post .time,
-        html.theme-light section.post .time {
-            color: #999999 !important;
+        html[data-theme=light] section.post .time span,
+        html[data-theme=light] section.post .time .time-with-rel,
+        html.theme-light section.post .time,
+        html.theme-light section.post .time span,
+        html.theme-light section.post .time .time-with-rel {
+            color: #60646c !important;
+        }
+        html[data-theme=light] section.post .time i.fa-star,
+        html.theme-light section.post .time i.fa-star {
+            color: #f59e0b !important;
+        }
+        html[data-theme=light] section.post .time .post-authors a,
+        html.theme-light section.post .time .post-authors a {
+            color: #0d74ce !important;
+            font-weight: 600 !important;
         }
         html[data-theme=light] section.post .comment-data a,
         html.theme-light section.post .comment-data a {
@@ -301,17 +314,69 @@
         html.theme-light section.post .content-description p {
             color: #60646c !important;
         }
-        html[data-theme=light] section.post .content-description pre,
-        html.theme-light section.post .content-description pre {
-            background: #171717 !important;
-            border-color: #2e2e32 !important;
-            color: #f4f4f5 !important;
+        /* Clean light mode code block */
+        html[data-theme=light] section.post .codehilite,
+        html.theme-light section.post .codehilite {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 12px 0 !important;
         }
-        html[data-theme=light] section.post .content-description code,
-        html.theme-light section.post .content-description code {
+        html[data-theme=light] section.post .content-description pre,
+        html[data-theme=light] section.post .codehilite pre,
+        html.theme-light section.post .content-description pre,
+        html.theme-light section.post .codehilite pre {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            border-radius: 8px !important;
+            padding: 12px 16px !important;
+            margin: 0 !important;
+            color: #0f172a !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            box-shadow: none !important;
+        }
+        html[data-theme=light] section.post .content-description pre code,
+        html[data-theme=light] section.post .codehilite pre code,
+        html[data-theme=light] section.post .content-description pre span,
+        html[data-theme=light] section.post .codehilite pre span,
+        html.theme-light section.post .content-description pre code,
+        html.theme-light section.post .codehilite pre code,
+        html.theme-light section.post .content-description pre span,
+        html.theme-light section.post .codehilite pre span {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            color: inherit !important;
+            box-shadow: none !important;
+        }
+        html[data-theme=light] section.post pre .nb,
+        html.theme-light section.post pre .nb {
+            color: #0284c7 !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme=light] section.post pre .s1,
+        html[data-theme=light] section.post pre .s2,
+        html.theme-light section.post pre .s1,
+        html.theme-light section.post pre .s2 {
+            color: #16a34a !important;
+        }
+        html[data-theme=light] section.post pre .p,
+        html.theme-light section.post pre .p {
+            color: #475569 !important;
+        }
+        html[data-theme=light] section.post p > code,
+        html[data-theme=light] section.post li > code,
+        html.theme-light section.post p > code,
+        html.theme-light section.post li > code {
             background: #f0f0f3 !important;
-            border-color: #dcdee0 !important;
+            border: 1px solid #dcdee0 !important;
+            border-radius: 4px !important;
+            padding: 2px 6px !important;
             color: #171717 !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 12.5px !important;
         }
 
         html[data-theme=light] ul.pagination > .active-page > a,
@@ -1548,6 +1613,21 @@
         html.theme-light section.post .comment-data a i,
         html.theme-light section.post .comment-data a span {
             color: #60646c !important;
+        }
+
+    
+        /* Flag icon: never stroke */
+        .flag-icon, .flag-icon *,
+        html[data-theme=light] .flag-icon,
+        html[data-theme=light] .flag-icon *,
+        html.theme-light .flag-icon,
+        html.theme-light .flag-icon * {
+            stroke: none !important;
+        }
+        .portfolio-lang-pill svg:not(.flag-icon),
+        html[data-theme=light] .portfolio-lang-pill svg:not(.flag-icon),
+        html.theme-light .portfolio-lang-pill svg:not(.flag-icon) {
+            stroke: #171717 !important;
         }
 
         </style>
