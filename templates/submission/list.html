@@ -412,9 +412,9 @@ html.theme-light ul.pagination > .active-page > span {
 
 html[data-theme="light"] #submissions-table,
 html.theme-light #submissions-table {
-    border-color: #f0f0f3 !important;
+    border: none !important;
     background: #ffffff !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    box-shadow: none !important;
 }
 
 .submission-row {
@@ -586,10 +586,12 @@ html.theme-light .submission-row .sub-action-btn:hover {
 }
 
 html[data-theme="light"] #content-right.submission .info-float .sidebox,
-html.theme-light #content-right.submission .info-float .sidebox {
-    background: #ffffff !important;
-    border-color: #f0f0f3 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+html.theme-light #content-right.submission .info-float .sidebox,
+html[data-theme="light"] #content-right.submission .sidebox,
+html.theme-light #content-right.submission .sidebox {
+    background: #f8fafc !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 #content-right.submission .sidebox h3 {
