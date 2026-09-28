@@ -5,11 +5,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block before_posts %}
+    <!-- ==========================================================================
+         EXPO DESIGN SYSTEM - CRITICAL SPECIFICITY OVERRIDES (Rendered after base.html)
+         ========================================================================== -->
     <style>
-        /* ==========================================================================
-           EXPO DESIGN SYSTEM - DESIGN.md SPECIFICATION
-           ========================================================================== */
-        :root, html[data-theme="light"] {
+        :root, html[data-theme="light"], html.theme-light {
             --expo-canvas: #ffffff;
             --expo-canvas-soft: #fafafa;
             --expo-surface-card: #ffffff;
@@ -43,13 +46,13 @@
             --expo-ide-border: #2e2e32;
         }
 
-        html[data-theme="dark"] {
+        html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
             --expo-canvas: #09090b;
             --expo-canvas-soft: #111113;
-            --expo-surface-card: #141416;
-            --expo-surface-strong: #1f1f23;
+            --expo-surface-card: #121214;
+            --expo-surface-strong: #1a1a1e;
             --expo-surface-dark: #171717;
-            --expo-surface-dark-elevated: #222226;
+            --expo-surface-dark-elevated: #202024;
             --expo-primary: #ffffff;
             --expo-primary-active: #e5e5e5;
             --expo-on-primary: #000000;
@@ -60,7 +63,7 @@
             --expo-muted-soft: #52525b;
             --expo-hairline: rgba(255, 255, 255, 0.08);
             --expo-hairline-soft: rgba(255, 255, 255, 0.05);
-            --expo-hairline-strong: rgba(255, 255, 255, 0.15);
+            --expo-hairline-strong: rgba(255, 255, 255, 0.16);
             --expo-text-link: #38bdf8;
             --expo-text-link-secondary: #60a5fa;
             --expo-sky-light: #0369a1;
@@ -77,17 +80,44 @@
             --expo-ide-border: rgba(255, 255, 255, 0.1);
         }
 
-        /* --- Global Reset for Home Page --- */
+        /* --- Global Reset & Page Canvas --- */
+        html body, html {
+            background-color: var(--expo-canvas) !important;
+            background-image: none !important;
+            color: var(--expo-ink) !important;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+        }
+
         #content {
             max-width: 1240px !important;
             margin: 70px auto 40px !important;
             padding: 0 24px !important;
-            font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
         }
 
-        /* Hide the old legacy hero completely */
         .hero-container {
             display: none !important;
+        }
+
+        /* Top Navbar Expo Polish */
+        html body #portfolio-nav {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+        }
+        html body .portfolio-nav-link span,
+        html body .portfolio-nav-link {
+            color: var(--expo-body) !important;
+        }
+        html body .portfolio-nav-link:hover span,
+        html body .portfolio-nav-link:hover {
+            color: var(--expo-ink) !important;
+        }
+        html body .portfolio-nav-link.portfolio-nav-active span,
+        html body .portfolio-nav-link.portfolio-nav-active {
+            color: var(--expo-ink) !important;
+            background: var(--expo-surface-strong) !important;
+            border-radius: 8px !important;
         }
 
         /* ==========================================================================
@@ -97,7 +127,7 @@
             position: relative;
             background: var(--expo-hero-wash);
             border: 1px solid var(--expo-hairline);
-            border-radius: 24px;
+            border-radius: 20px;
             padding: 56px 32px 48px;
             margin-bottom: 32px;
             display: flex;
@@ -160,7 +190,6 @@
             margin: 0 auto 32px;
         }
 
-        /* --- Buttons (8px CTAs, strictly following DESIGN.md) --- */
         .expo-actions-row {
             display: flex;
             align-items: center;
@@ -331,7 +360,6 @@
         .expo-code-num { color: #fbbf24; }
         .expo-code-cm { color: #71717a; font-style: italic; }
 
-        /* Floating Verdict Pill on IDE card */
         .expo-verdict-pill {
             position: absolute;
             bottom: -16px;
@@ -444,7 +472,7 @@
         .expo-workflow-section {
             background: var(--expo-canvas-soft);
             border: 1px solid var(--expo-hairline);
-            border-radius: 20px;
+            border-radius: 16px;
             padding: 40px 32px;
             margin-bottom: 40px;
         }
@@ -530,23 +558,23 @@
         }
 
         /* ==========================================================================
-           5. ANNOUNCEMENTS & CONTEST SIDEBOX RESTYLING (Complete Expo Polish)
+           5. ANNOUNCEMENTS & CONTEST SIDEBOX (HIGH SPECIFICITY OVERRIDES)
            ========================================================================== */
-        #blog-container {
+        html body #content #blog-container {
             display: flex !important;
             gap: 32px !important;
             width: 100% !important;
             margin-top: 16px !important;
         }
 
-        .blog-main-col {
+        html body #content .blog-main-col {
             flex: 1 1 66% !important;
             min-width: 0 !important;
             display: flex !important;
             flex-direction: column !important;
         }
 
-        .blog-sidebar {
+        html body #content .blog-sidebar {
             flex: 0 0 350px !important;
             width: 350px !important;
             display: flex !important;
@@ -554,9 +582,12 @@
             gap: 20px !important;
         }
 
-        /* News Blog Card Container */
-        #blog-container .blog-content.sidebox,
-        .blog-content.sidebox {
+        /* Overwrite #0d1322 navy blue sidebox styling */
+        html body #content #blog-container .blog-content.sidebox,
+        html body #content #blog-container .blog-sidebox.sidebox,
+        html body #content .blog-content.sidebox,
+        html body #content .blog-sidebox.sidebox,
+        html body .sidebox {
             background: var(--expo-surface-card) !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 12px !important; /* {rounded.lg} */
@@ -566,7 +597,7 @@
             outline: none !important;
         }
 
-        .blog-header-row {
+        html body .blog-header-row {
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
@@ -575,26 +606,27 @@
             margin-bottom: 20px !important;
         }
 
-        .blog-header-row h3 {
-            font-size: 17px !important;
+        html body .blog-header-row h3,
+        html body .blog-sidebox h3 {
+            font-size: 16px !important;
             font-weight: 600 !important;
             color: var(--expo-ink) !important;
-            letter-spacing: -0.3px !important;
+            letter-spacing: -0.2px !important;
             margin: 0 !important;
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
         }
 
-        /* Hide cheesy terminal icon */
-        .blog-header-left h3 i,
-        .blog-header-row h3 i {
+        html body .blog-header-left h3 i,
+        html body .blog-header-row h3 i {
             display: none !important;
         }
 
-        /* Post Items inside News */
-        .blog-main-col section.post,
-        section.post {
+        /* Overwrite #111828 post card styling */
+        html body #content #blog-container .blog-main-col section.post,
+        html body #content .post,
+        html body section.post {
             background: var(--expo-surface-card) !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 10px !important;
@@ -605,23 +637,19 @@
             transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .blog-main-col section.post:hover,
-        section.post:hover {
+        html body #content #blog-container .blog-main-col section.post:hover,
+        html body section.post:hover {
             background: var(--expo-surface-card) !important;
             border-color: var(--expo-hairline-strong) !important;
             transform: translateY(-1px) !important;
             box-shadow: var(--expo-card-hover-shadow) !important;
         }
 
-        .blog-main-col section.post:last-child {
-            margin-bottom: 0 !important;
-        }
-
-        section.post h2.title {
+        html body section.post h2.title {
             margin: 6px 0 10px 0 !important;
         }
 
-        section.post h2.title a {
+        html body section.post h2.title a {
             font-size: 19px !important;
             font-weight: 600 !important;
             letter-spacing: -0.35px !important;
@@ -630,11 +658,11 @@
             transition: color 0.15s ease !important;
         }
 
-        section.post h2.title a:hover {
+        html body section.post h2.title a:hover {
             color: var(--expo-text-link) !important;
         }
 
-        section.post .time {
+        html body section.post .time {
             display: inline-flex !important;
             align-items: center !important;
             gap: 6px !important;
@@ -643,22 +671,17 @@
             margin-bottom: 8px !important;
         }
 
-        section.post .time i.fa-star {
+        html body section.post .time i.fa-star {
             color: var(--expo-accent-warning) !important;
         }
 
-        section.post .time a {
+        html body section.post .time a {
             color: var(--expo-text-link) !important;
             font-weight: 500 !important;
             text-decoration: none !important;
         }
 
-        section.post .comment-data {
-            font-size: 12.5px !important;
-            margin-left: 8px !important;
-        }
-
-        section.post .comment-data a {
+        html body section.post .comment-data a {
             display: inline-flex !important;
             align-items: center !important;
             gap: 5px !important;
@@ -670,39 +693,32 @@
             font-weight: 600 !important;
             color: var(--expo-body) !important;
             text-decoration: none !important;
-            transition: all 0.15s ease !important;
         }
 
-        section.post .comment-data a:hover {
-            background: var(--expo-hairline-strong) !important;
-            color: var(--expo-ink) !important;
-        }
-
-        section.post .summary,
-        section.post .content-description {
+        html body section.post .summary,
+        html body section.post .content-description {
             font-size: 14.5px !important;
             line-height: 1.65 !important;
             color: var(--expo-body) !important;
             margin-top: 10px !important;
         }
 
-        section.post .content-description p {
+        html body section.post .content-description p {
             color: var(--expo-body) !important;
             font-size: 14.5px !important;
             line-height: 1.65 !important;
             margin: 0 0 10px 0 !important;
         }
 
-        section.post .content-description a {
+        html body section.post .content-description a {
             color: var(--expo-text-link) !important;
             text-decoration: underline !important;
             font-weight: 500 !important;
         }
 
-        /* Post code blocks */
-        section.post .content-description pre,
-        section.post .codehilite pre,
-        section.post .codehilite {
+        html body section.post .content-description pre,
+        html body section.post .codehilite pre,
+        html body section.post .codehilite {
             background: var(--expo-surface-dark) !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 8px !important; /* {rounded.md} */
@@ -715,7 +731,7 @@
             color: #e4e4e7 !important;
         }
 
-        section.post .content-description code {
+        html body section.post .content-description code {
             font-family: 'JetBrains Mono', monospace !important;
             font-size: 12.5px !important;
             background: var(--expo-surface-strong) !important;
@@ -725,7 +741,7 @@
             color: var(--expo-ink) !important;
         }
 
-        section.post .content-description pre code {
+        html body section.post .content-description pre code {
             background: transparent !important;
             border: none !important;
             padding: 0 !important;
@@ -733,10 +749,10 @@
         }
 
         /* ==========================================================================
-           6. PAGINATION CONTROLS (8px Developer Radii, Black Active CTA)
+           6. PAGINATION CONTROLS (CRUSHING 100px BLUE CAPSULE)
            ========================================================================== */
-        .bottom-pagination-bar,
-        .top-pagination-bar {
+        html body .bottom-pagination-bar,
+        html body .top-pagination-bar {
             display: flex !important;
             justify-content: flex-start !important;
             width: 100% !important;
@@ -744,7 +760,7 @@
             margin-bottom: 24px !important;
         }
 
-        ul.pagination {
+        html body ul.pagination {
             display: inline-flex !important;
             align-items: center !important;
             background: transparent !important;
@@ -758,7 +774,7 @@
             margin: 0 !important;
         }
 
-        ul.pagination > li {
+        html body ul.pagination > li {
             display: flex !important;
             margin: 0 !important;
             padding: 0 !important;
@@ -767,8 +783,8 @@
             box-shadow: none !important;
         }
 
-        ul.pagination > li > a,
-        ul.pagination > li > span {
+        html body ul.pagination > li > a,
+        html body ul.pagination > li > span {
             display: flex !important;
             align-items: center !important;
             justify-content: center !important;
@@ -787,16 +803,15 @@
             margin: 0 !important;
         }
 
-        ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+        html body ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
             background: var(--expo-surface-strong) !important;
             color: var(--expo-ink) !important;
             border-color: var(--expo-hairline-strong) !important;
             transform: translateY(-1px) !important;
         }
 
-        /* Active Page: Pure black or pure white (DESIGN.md black CTA rule) */
-        ul.pagination > .active-page > a,
-        ul.pagination > .active-page > span {
+        html body ul.pagination > .active-page > a,
+        html body ul.pagination > .active-page > span {
             background: var(--expo-primary) !important;
             color: var(--expo-on-primary) !important;
             border-color: var(--expo-primary) !important;
@@ -804,16 +819,15 @@
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
         }
 
-        /* Page arrows */
-        ul.pagination > li.page-arrow > a,
-        ul.pagination > li.page-arrow > span {
-            border-radius: 8px !important; /* NOT a 50% circle */
+        html body ul.pagination > li.page-arrow > a,
+        html body ul.pagination > li.page-arrow > span {
+            border-radius: 8px !important;
             width: 36px !important;
             height: 36px !important;
         }
 
-        ul.pagination > li.disabled-page > span,
-        ul.pagination > li.disabled-page > a {
+        html body ul.pagination > li.disabled-page > span,
+        html body ul.pagination > li.disabled-page > a {
             opacity: 0.4 !important;
             cursor: not-allowed !important;
             background: var(--expo-surface-strong) !important;
@@ -822,51 +836,30 @@
         }
 
         /* ==========================================================================
-           7. SIDEBAR CARDS (Recent Comments, New Problems, New Users)
+           7. SIDEBAR LIST ITEMS (CRUSHING #111828 CHUNKY BUTTONS)
            ========================================================================== */
-        #blog-container .blog-sidebox.sidebox,
-        .blog-sidebar .blog-sidebox.sidebox,
-        .blog-sidebox.sidebox {
-            background: var(--expo-surface-card) !important;
-            border: 1px solid var(--expo-hairline) !important;
-            border-radius: 12px !important; /* {rounded.lg} */
-            padding: 20px 22px !important;
-            box-shadow: var(--expo-card-shadow) !important;
-            margin-bottom: 20px !important;
-            outline: none !important;
-        }
-
-        .blog-sidebox h3 {
-            font-size: 15px !important;
-            font-weight: 600 !important;
-            letter-spacing: -0.2px !important;
-            color: var(--expo-ink) !important;
-            margin: 0 0 14px 0 !important;
-            padding-bottom: 12px !important;
-            border-bottom: 1px solid var(--expo-hairline) !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-        }
-
-        .blog-sidebar .sidebox-content ul {
+        html body .blog-sidebar .sidebox-content ul {
             list-style: none !important;
             padding-left: 0 !important;
             margin: 0 !important;
         }
 
-        /* Clean List Items instead of chunky nested button pills */
-        .comment-card,
-        .problem-list li,
-        .user-list li,
-        .open-tickets li,
-        .blog-sidebar .sidebox-content > ul > li {
+        html body #content #blog-container .comment-card,
+        html body #content #blog-container .problem-list li,
+        html body #content #blog-container .user-list li,
+        html body #content #blog-container .open-tickets li,
+        html body #content #blog-container .blog-sidebar .sidebox-content > ul > li,
+        html body .comment-card,
+        html body .problem-list li,
+        html body .user-list li,
+        html body .open-tickets li {
             background: transparent !important;
             border: none !important;
             border-bottom: 1px solid var(--expo-hairline) !important;
             border-radius: 6px !important;
             padding: 10px 8px !important;
             margin-bottom: 0 !important;
+            margin-top: 0 !important;
             box-shadow: none !important;
             transition: all 0.15s ease !important;
             display: flex !important;
@@ -874,46 +867,50 @@
             gap: 4px !important;
         }
 
-        .comment-card:last-child,
-        .problem-list li:last-child,
-        .user-list li:last-child,
-        .open-tickets li:last-child,
-        .blog-sidebar .sidebox-content > ul > li:last-child {
+        html body #content #blog-container .comment-card:last-child,
+        html body #content #blog-container .problem-list li:last-child,
+        html body #content #blog-container .user-list li:last-child,
+        html body #content #blog-container .open-tickets li:last-child,
+        html body .comment-card:last-child,
+        html body .problem-list li:last-child,
+        html body .user-list li:last-child {
             border-bottom: none !important;
         }
 
-        .comment-card:hover,
-        .problem-list li:hover,
-        .user-list li:hover,
-        .open-tickets li:hover,
-        .blog-sidebar .sidebox-content > ul > li:hover {
+        html body #content #blog-container .comment-card:hover,
+        html body #content #blog-container .problem-list li:hover,
+        html body #content #blog-container .user-list li:hover,
+        html body #content #blog-container .open-tickets li:hover,
+        html body .comment-card:hover,
+        html body .problem-list li:hover,
+        html body .user-list li:hover {
             background: var(--expo-surface-strong) !important;
             transform: none !important;
+            box-shadow: none !important;
             padding-left: 10px !important;
         }
 
-        /* Recent Comments Item */
-        .comment-header {
+        html body .comment-header {
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
         }
 
-        .comment-avatar {
+        html body .comment-avatar {
             width: 20px !important;
             height: 20px !important;
             border-radius: 6px !important;
             flex-shrink: 0 !important;
         }
 
-        .comment-header .poster a {
+        html body .comment-header .poster a {
             font-size: 13px !important;
             font-weight: 600 !important;
             color: var(--expo-ink) !important;
             text-decoration: none !important;
         }
 
-        .comment-body a {
+        html body .comment-body a {
             font-size: 13px !important;
             line-height: 1.4 !important;
             color: var(--expo-body) !important;
@@ -924,12 +921,11 @@
             white-space: nowrap !important;
         }
 
-        .comment-body a:hover {
+        html body .comment-body a:hover {
             color: var(--expo-text-link) !important;
         }
 
-        /* New Problems Item */
-        .problem-list li a {
+        html body .problem-list li a {
             font-size: 13px !important;
             font-weight: 500 !important;
             color: var(--expo-ink) !important;
@@ -939,61 +935,56 @@
             transition: color 0.15s ease !important;
         }
 
-        .problem-list li a:hover {
+        html body .problem-list li a:hover {
             color: var(--expo-text-link) !important;
         }
 
-        /* New Users Item */
-        .user-list li {
+        html body .user-list li {
             flex-direction: row !important;
             align-items: center !important;
             justify-content: space-between !important;
         }
 
-        .user-list .comment-header {
+        html body .user-list .comment-header {
             flex: 1 !important;
         }
 
-        .user-list .poster a {
+        html body .user-list .poster a {
             font-size: 13px !important;
             font-weight: 600 !important;
             color: var(--expo-ink) !important;
             text-decoration: none !important;
         }
 
-        .user-list .time {
+        html body .user-list .time {
             font-size: 12px !important;
             color: var(--expo-muted) !important;
             flex-shrink: 0 !important;
         }
 
         /* Ongoing Contests Card */
-        .ongoing-contest-card {
+        html body .ongoing-contest-card {
             background: var(--expo-surface-strong) !important;
             border: 1px solid var(--expo-hairline) !important;
-            border-radius: 8px !important; /* {rounded.md} */
+            border-radius: 8px !important;
             padding: 14px !important;
             margin-bottom: 12px !important;
             transition: all 0.2s ease !important;
         }
 
-        .ongoing-contest-card:hover {
+        html body .ongoing-contest-card:hover {
             border-color: var(--expo-hairline-strong) !important;
             transform: translateY(-1px) !important;
             box-shadow: var(--expo-card-hover-shadow) !important;
         }
 
-        .ongoing-contest-card a {
+        html body .ongoing-contest-card a {
             color: var(--expo-ink) !important;
             font-weight: 600 !important;
             text-decoration: none !important;
         }
 
-        .ongoing-contest-card a:hover {
-            color: var(--expo-text-link) !important;
-        }
-
-        .ongoing-action-btn {
+        html body .ongoing-action-btn {
             border-radius: 8px !important; /* {rounded.md} */
             font-size: 13px !important;
             font-weight: 500 !important;
@@ -1010,22 +1001,22 @@
             transition: all 0.15s ease !important;
         }
 
-        .ongoing-action-btn:hover {
+        html body .ongoing-action-btn:hover {
             opacity: 0.9 !important;
             transform: translateY(-1px) !important;
         }
 
         /* ==========================================================================
-           8. FOOTER RESTYLING (Expo Developer-Ergonomic Footer)
+           8. FOOTER RESTYLING (CRUSHING #0d1322 FOOTER)
            ========================================================================== */
-        footer.modern-site-footer,
-        .modern-site-footer {
+        html body footer.modern-site-footer,
+        html body .modern-site-footer {
             margin-top: 48px !important;
             margin-bottom: 32px !important;
             padding: 0 !important;
         }
 
-        .footer-inner-card {
+        html body .footer-inner-card {
             background: var(--expo-surface-card) !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 12px !important; /* {rounded.lg} */
@@ -1033,31 +1024,30 @@
             padding: 20px 28px !important;
         }
 
-        .footer-brand-name {
+        html body .footer-brand-name {
             color: var(--expo-ink) !important;
             font-weight: 600 !important;
             font-size: 14px !important;
             letter-spacing: -0.2px !important;
         }
 
-        .footer-brand-dot {
+        html body .footer-brand-dot {
             color: var(--expo-hairline-strong) !important;
         }
 
-        .footer-dmoj-link {
+        html body .footer-dmoj-link {
             color: var(--expo-muted) !important;
         }
-        .footer-dmoj-link:hover {
+        html body .footer-dmoj-link:hover {
             color: var(--expo-text-link) !important;
         }
 
-        .footer-subtitle {
+        html body .footer-subtitle {
             color: var(--expo-body) !important;
             font-size: 12px !important;
         }
 
-        /* Language Switcher in Footer: 8px Developer Radii (NEVER 100px pills) */
-        .footer-lang-group {
+        html body .footer-lang-group {
             background: var(--expo-surface-strong) !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 8px !important; /* {rounded.md} */
@@ -1065,7 +1055,7 @@
             gap: 4px !important;
         }
 
-        .footer-lang-pill {
+        html body .footer-lang-pill {
             border-radius: 6px !important;
             font-size: 12px !important;
             font-weight: 500 !important;
@@ -1078,12 +1068,12 @@
             box-shadow: none !important;
         }
 
-        .footer-lang-pill:hover {
+        html body .footer-lang-pill:hover {
             color: var(--expo-ink) !important;
             background: var(--expo-surface-card) !important;
         }
 
-        .footer-lang-pill.active {
+        html body .footer-lang-pill.active {
             background: var(--expo-surface-card) !important;
             border-color: var(--expo-hairline-strong) !important;
             color: var(--expo-ink) !important;
@@ -1095,15 +1085,15 @@
            ========================================================================== */
         @media (max-width: 1024px) {
             .expo-stats-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr) !important;
             }
             .expo-workflow-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, 1fr) !important;
             }
-            #blog-container {
+            html body #content #blog-container {
                 flex-direction: column !important;
             }
-            .blog-sidebar {
+            html body #content .blog-sidebar {
                 width: 100% !important;
                 flex: none !important;
             }
@@ -1111,52 +1101,46 @@
 
         @media (max-width: 640px) {
             .expo-hero-band {
-                padding: 40px 18px 36px;
+                padding: 40px 18px 36px !important;
             }
             .expo-hero-title {
-                font-size: 32px;
-                letter-spacing: -0.8px;
+                font-size: 32px !important;
+                letter-spacing: -0.8px !important;
             }
             .expo-stats-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
             .expo-workflow-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
             .expo-ide-code {
-                font-size: 12px;
-                padding: 16px;
+                font-size: 12px !important;
+                padding: 16px !important;
             }
             .expo-verdict-pill {
-                position: static;
-                margin-top: 12px;
-                display: flex;
-                justify-content: center;
+                position: static !important;
+                margin-top: 12px !important;
+                display: flex !important;
+                justify-content: center !important;
             }
         }
     </style>
-{% endblock %}
 
-{% block before_posts %}
     <!-- ========================================================================
          HERO BAND (Expo Aesthetic)
          ======================================================================== -->
     <div class="expo-hero-band">
-        <!-- Badge Pill -->
         <div class="expo-badge-pill">
             <span class="expo-badge-pulse"></span>
             <span>OmniJudge Platform &bull; Infrastructure for Competitive Programming</span>
         </div>
 
-        <!-- Display Mega Headline -->
         <h1 class="expo-hero-title">Nền tảng luyện thi lập trình thế hệ mới.</h1>
 
-        <!-- Subtitle -->
         <p class="expo-hero-subtitle">
             Hệ thống chấm bài tự động tốc độ cao, kho bài tập tuyển chọn phong phú và môi trường thi đấu trực tuyến thời gian thực dành cho học sinh, sinh viên và lập trình viên.
         </p>
 
-        <!-- CTA Row (8px developer radii, strictly matching DESIGN.md) -->
         <div class="expo-actions-row">
             <a href="{{ url('problem_list') }}" class="expo-btn-primary">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
@@ -1172,7 +1156,6 @@
             </a>
         </div>
 
-        <!-- IDE & Code Mockup Surface (Page Chrome) -->
         <div class="expo-ide-container">
             <div class="expo-ide-card">
                 <div class="expo-ide-header">
@@ -1212,7 +1195,6 @@
     <span class="expo-code-kw">return</span> <span class="expo-code-num">0</span>;
 }</code></pre>
             </div>
-            <!-- Floating Verdict Pill -->
             <div class="expo-verdict-pill">
                 <span class="expo-verdict-tag">
                     <span class="expo-verdict-dot"></span>
