@@ -11,7 +11,7 @@ from django.views.generic import RedirectView
 
 from judge.feed import AtomBlogFeed, AtomCommentFeed, AtomProblemFeed, BlogFeed, CommentFeed, ProblemFeed
 from judge.sitemap import sitemaps
-from judge.views import TitledTemplateView, api, blog, comment, contests, language, license, mailgun, organization, \
+from judge.views import TitledTemplateView, api, blog, comment, contests, tuition, language, license, mailgun, organization, \
     preview, problem, problem_manage, ranked_submission, register, stats, status, submission, tasks, ticket, \
     two_factor, user, widgets, vjudge, clue, ntucoder, ltpt
 from judge.views.problem_data import ProblemDataView, ProblemSubmissionDiff, \
@@ -209,6 +209,17 @@ urlpatterns = [
         path('votes/ajax', comment.CommentVotesAjax.as_view(), name='comment_votes_ajax'),
         path('render', comment.CommentContent.as_view(), name='comment_content'),
     ])),
+
+    # Tuition / Teaching fee management
+    path('tuition/', tuition.TuitionDashboardView.as_view(), name='tuition_dashboard'),
+    path('tuition/settings/', tuition.TuitionSettingsView.as_view(), name='tuition_settings'),
+    path('tuition/payment/', tuition.TuitionPaymentUpdateView.as_view(), name='tuition_payment_update'),
+    path('tuition/contest-fee/', tuition.TuitionContestFeeView.as_view(), name='tuition_contest_fee'),
+    path('tuition/student-detail/', tuition.TuitionStudentDetailView.as_view(), name='tuition_student_detail'),
+    path('tuition/exclude-session/', tuition.TuitionExcludeSessionView.as_view(), name='tuition_exclude_session'),
+    path('tuition/restore-session/', tuition.TuitionRestoreSessionView.as_view(), name='tuition_restore_session'),
+    path('tuition/delete-payment/', tuition.TuitionDeletePaymentView.as_view(), name='tuition_delete_payment'),
+    path('tuition/unlink-contest/', tuition.TuitionUnlinkContestView.as_view(), name='tuition_unlink_contest'),
 
     path('contests/add/', contests.ContestCreateView.as_view(), name='contest_add'),
     path('contest/add/', contests.ContestCreateView.as_view(), name='contest_add_alt'),

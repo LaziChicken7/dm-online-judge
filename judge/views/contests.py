@@ -1095,6 +1095,7 @@ class ContestCreateView(TitleMixin, View):
                 if not prob_codes:
                     prob_codes = request.POST.getlist('problem_codes')
                 prob_points = request.POST.getlist('problem_points[]')
+                prob_orders = request.POST.getlist('problem_order[]')
 
                 seen_problems = set()
                 order_idx = 1
@@ -1118,10 +1119,19 @@ class ContestCreateView(TitleMixin, View):
 
                         final_pts = pts if pts is not None else (int(round(prob_obj.points)) if prob_obj.points is not None else 100)
 
+                        order_val = order_idx
+                        if prob_orders and idx < len(prob_orders) and prob_orders[idx].strip():
+                            try:
+                                parsed_order = int(prob_orders[idx].strip())
+                                if parsed_order > 0:
+                                    order_val = parsed_order
+                            except (ValueError, TypeError):
+                                pass
+
                         ContestProblem.objects.create(
                             contest=contest,
                             problem=prob_obj,
-                            order=order_idx,
+                            order=order_val,
                             points=final_pts,
                             partial=True,
                         )
@@ -1369,6 +1379,7 @@ class ContestEditView(TitleMixin, View):
                 if not prob_codes:
                     prob_codes = request.POST.getlist('problem_codes')
                 prob_points = request.POST.getlist('problem_points[]')
+                prob_orders = request.POST.getlist('problem_order[]')
 
                 seen_problems = set()
                 kept_cp_ids = set()
@@ -1393,11 +1404,20 @@ class ContestEditView(TitleMixin, View):
                                 pts = None
                         final_pts = pts if pts is not None else (int(round(prob_obj.points)) if prob_obj.points is not None else 100)
 
+                        order_val = order_idx
+                        if prob_orders and idx < len(prob_orders) and prob_orders[idx].strip():
+                            try:
+                                parsed_order = int(prob_orders[idx].strip())
+                                if parsed_order > 0:
+                                    order_val = parsed_order
+                            except (ValueError, TypeError):
+                                pass
+
                         cp, created = ContestProblem.objects.update_or_create(
                             contest=self.contest,
                             problem=prob_obj,
                             defaults={
-                                'order': order_idx,
+                                'order': order_val,
                                 'points': final_pts,
                                 'partial': True,
                             }

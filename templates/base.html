@@ -5996,6 +5996,12 @@
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
             <span>{{ _('Contests') }}</span>
         </a>
+        {% if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser or (request.profile and request.profile.admin_of.exists())) %}
+        <a href="/tuition/" class="portfolio-nav-link {% if request.path.startswith('/tuition') %}portfolio-nav-active{% endif %}" title="{{ _('Quản lý tiền dạy học') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 12h.01M18 12h.01"/></svg>
+            <span>{{ _('Tiền dạy học') }}</span>
+        </a>
+        {% endif %}
         <div class="portfolio-nav-item">
             <a href="/about/" class="portfolio-nav-link {% if request.path.startswith('/about') %}portfolio-nav-active{% endif %}">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>

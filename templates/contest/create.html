@@ -281,6 +281,78 @@
             background: rgba(239, 68, 68, 0.2);
             color: #fca5a5;
         }
+        /* Drag and Drop & Order column styling */
+        .drag-handle-cell {
+            text-align: center;
+            vertical-align: middle;
+            width: 44px;
+            padding: 8px 4px !important;
+        }
+        .drag-handle-grip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            color: #64748b;
+            cursor: grab;
+            cursor: -webkit-grab;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .drag-handle-grip:hover {
+            color: #38bdf8;
+            background: rgba(56, 189, 248, 0.15);
+        }
+        .drag-handle-grip:active {
+            cursor: grabbing;
+            cursor: -webkit-grabbing;
+        }
+        .problem-row-item {
+            transition: background-color 0.2s ease, opacity 0.2s ease;
+        }
+        .problem-row-item.is-dragging {
+            opacity: 0.35 !important;
+            background: rgba(56, 189, 248, 0.12) !important;
+        }
+        .problem-row-item.drag-over-top td {
+            border-top: 2px solid #38bdf8 !important;
+        }
+        .problem-row-item.drag-over-bottom td {
+            border-bottom: 2px solid #38bdf8 !important;
+        }
+        .problem-row-item.row-highlight {
+            animation: highlightMovedRow 1.2s ease-out;
+        }
+        @keyframes highlightMovedRow {
+            0% { background: rgba(56, 189, 248, 0.35); }
+            100% { background: transparent; }
+        }
+        .problem-order-input {
+            width: 60px;
+            text-align: center;
+            padding: 6px 4px !important;
+            font-size: 13.5px !important;
+            font-weight: 700 !important;
+            color: #38bdf8 !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
+            background: rgba(15, 23, 42, 0.7) !important;
+            border-radius: 8px !important;
+            outline: none !important;
+            transition: all 0.2s ease !important;
+        }
+        .problem-order-input:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+            color: #ffffff !important;
+        }
+        .problem-order-input::-webkit-inner-spin-button,
+        .problem-order-input::-webkit-outer-spin-button {
+            opacity: 0.7;
+            cursor: pointer;
+        }
 
                 /* ── Searchable Problem Combobox ── */
         .problems-picker-box {
@@ -762,14 +834,20 @@
                     {% endfor %}
                 </select>
 
-                <table class="problems-table" id="contest-problems-table">
+                                <table class="problems-table" id="contest-problems-table">
                     <thead>
                         <tr>
-                            <th style="width: 60px;">#</th>
-                            <th style="width: 180px;">{{ _('Mã bài') }}</th>
+                            <th style="width: 44px; text-align: center;" title="{{ _('Kéo thả để đổi thứ tự bài tập') }}">
+                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6; vertical-align: middle;">
+                                    <polyline points="7 15 12 20 17 15"></polyline>
+                                    <polyline points="7 9 12 4 17 9"></polyline>
+                                </svg>
+                            </th>
+                            <th style="width: 75px; text-align: center;">{{ _('Thứ tự') }}</th>
+                            <th style="width: 170px;">{{ _('Mã bài') }}</th>
                             <th>{{ _('Tên bài tập') }}</th>
-                            <th style="width: 140px;">{{ _('Điểm') }}</th>
-                            <th style="width: 80px; text-align: center;">{{ _('Xóa') }}</th>
+                            <th style="width: 130px;">{{ _('Điểm') }}</th>
+                            <th style="width: 70px; text-align: center;">{{ _('Xóa') }}</th>
                         </tr>
                     </thead>
                     <tbody id="contest-problems-body">
@@ -828,6 +906,7 @@
 
 <script>
     var addedProblems = [];
+    var draggedIdx = null;
 
     function escapeHtml(text) {
         if (!text) return '';
@@ -837,7 +916,7 @@
 
     function removeVietnameseTones(str) {
         str = str || '';
-        str = str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        str = str.normalize('NFD').replace(/[̀-ͯ]/g, '');
         str = str.replace(/[đĐ]/g, 'd');
         return str.toLowerCase().trim();
     }
@@ -859,7 +938,18 @@
         }, 2200);
     }
 
-    function updateProblemsTable() {
+    function syncPointsFromDOM() {
+        var pointInputs = document.querySelectorAll('#contest-problems-body input[name="problem_points[]"]');
+        pointInputs.forEach(function(input) {
+            var idx = parseInt(input.getAttribute('data-idx'), 10);
+            if (!isNaN(idx) && addedProblems[idx]) {
+                var val = parseFloat(input.value);
+                addedProblems[idx].points = isNaN(val) ? 100 : val;
+            }
+        });
+    }
+
+    function updateProblemsTable(highlightIdx) {
         var tbody = document.getElementById('contest-problems-body');
         var hint = document.getElementById('no-problems-hint');
         tbody.innerHTML = '';
@@ -868,13 +958,195 @@
             return;
         }
         hint.style.display = 'none';
+
+        var total = addedProblems.length;
+
         addedProblems.forEach(function(p, idx) {
             var tr = document.createElement('tr');
-            tr.innerHTML = '<td><strong>' + (idx + 1) + '</strong></td>' +
-                '<td><span class="result-code-badge">' + escapeHtml(p.code) + '</span><input type="hidden" name="problem_code[]" value="' + escapeHtml(p.code) + '"></td>' +
-                '<td><strong>' + escapeHtml(p.name) + '</strong></td>' +
-                '<td><input type="number" step="any" class="form-input-cyber" style="padding: 6px 10px; font-size: 13px; max-width: 100px;" name="problem_points[]" value="' + escapeHtml(String(p.points)) + '"></td>' +
-                '<td style="text-align: center;"><button type="button" class="problem-remove-btn" onclick="removeProblem(' + idx + ')" title="Xóa khỏi kỳ thi">&times;</button></td>';
+            tr.className = 'problem-row-item' + (highlightIdx === idx ? ' row-highlight' : '');
+            tr.setAttribute('data-idx', String(idx));
+
+            // 1. Drag Handle
+            var tdDrag = document.createElement('td');
+            tdDrag.className = 'drag-handle-cell';
+            var grip = document.createElement('div');
+            grip.className = 'drag-handle-grip';
+            grip.setAttribute('draggable', 'true');
+            grip.title = '{{ _("Kéo thả để đổi thứ tự bài tập") }}';
+            grip.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">' +
+                '<circle cx="9" cy="6" r="1.8"></circle><circle cx="15" cy="6" r="1.8"></circle>' +
+                '<circle cx="9" cy="12" r="1.8"></circle><circle cx="15" cy="12" r="1.8"></circle>' +
+                '<circle cx="9" cy="18" r="1.8"></circle><circle cx="15" cy="18" r="1.8"></circle>' +
+                '</svg>';
+            tdDrag.appendChild(grip);
+
+            // 2. Order Input (Editable)
+            var tdOrder = document.createElement('td');
+            tdOrder.style.textAlign = 'center';
+            var orderInput = document.createElement('input');
+            orderInput.type = 'number';
+            orderInput.min = '1';
+            orderInput.max = String(total);
+            orderInput.className = 'form-input-cyber problem-order-input';
+            orderInput.name = 'problem_order[]';
+            orderInput.value = String(idx + 1);
+            orderInput.setAttribute('data-idx', String(idx));
+            orderInput.title = '{{ _("Nhập số thứ tự từ 1 đến ") }}' + total;
+            tdOrder.appendChild(orderInput);
+
+            // 3. Problem Code
+            var tdCode = document.createElement('td');
+            tdCode.innerHTML = '<span class="result-code-badge">' + escapeHtml(p.code) + '</span>' +
+                '<input type="hidden" name="problem_code[]" value="' + escapeHtml(p.code) + '">';
+
+            // 4. Problem Name
+            var tdName = document.createElement('td');
+            tdName.innerHTML = '<strong>' + escapeHtml(p.name) + '</strong>';
+
+            // 5. Problem Points
+            var tdPoints = document.createElement('td');
+            var pointsInput = document.createElement('input');
+            pointsInput.type = 'number';
+            pointsInput.step = 'any';
+            pointsInput.className = 'form-input-cyber problem-points-input';
+            pointsInput.style.cssText = 'padding: 6px 10px; font-size: 13px; max-width: 100px;';
+            pointsInput.name = 'problem_points[]';
+            pointsInput.value = escapeHtml(String(p.points));
+            pointsInput.setAttribute('data-idx', String(idx));
+            tdPoints.appendChild(pointsInput);
+
+            // 6. Action / Remove Button
+            var tdAction = document.createElement('td');
+            tdAction.style.textAlign = 'center';
+            var removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'problem-remove-btn';
+            removeBtn.title = '{{ _("Xóa khỏi kỳ thi") }}';
+            removeBtn.innerHTML = '&times;';
+            removeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                removeProblem(idx);
+            });
+            tdAction.appendChild(removeBtn);
+
+            tr.appendChild(tdDrag);
+            tr.appendChild(tdOrder);
+            tr.appendChild(tdCode);
+            tr.appendChild(tdName);
+            tr.appendChild(tdPoints);
+            tr.appendChild(tdAction);
+
+            // Keep points updated in addedProblems array
+            pointsInput.addEventListener('input', function() {
+                var currentIdx = parseInt(this.getAttribute('data-idx'), 10);
+                if (!isNaN(currentIdx) && addedProblems[currentIdx]) {
+                    var v = parseFloat(this.value);
+                    addedProblems[currentIdx].points = isNaN(v) ? 0 : v;
+                }
+            });
+
+            // Prevent drag when interacting with inputs
+            [orderInput, pointsInput, removeBtn].forEach(function(el) {
+                el.addEventListener('mousedown', function(e) {
+                    e.stopPropagation();
+                });
+            });
+
+            // Order input change handler
+            function commitOrderChange() {
+                var oldIdx = parseInt(orderInput.getAttribute('data-idx'), 10);
+                var rawVal = parseInt(orderInput.value, 10);
+                if (isNaN(rawVal)) {
+                    orderInput.value = String(oldIdx + 1);
+                    return;
+                }
+                var val = Math.max(1, Math.min(total, rawVal));
+                var targetIdx = val - 1;
+                if (targetIdx !== oldIdx) {
+                    syncPointsFromDOM();
+                    var movedItem = addedProblems.splice(oldIdx, 1)[0];
+                    addedProblems.splice(targetIdx, 0, movedItem);
+                    updateProblemsTable(targetIdx);
+                    showToast('{{ _("Đã chuyển bài") }} ' + movedItem.code + ' {{ _("sang thứ tự") }} ' + val);
+                } else {
+                    orderInput.value = String(oldIdx + 1);
+                }
+            }
+
+            orderInput.addEventListener('change', commitOrderChange);
+            orderInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    orderInput.blur();
+                }
+            });
+
+            // Drag and drop event listeners
+            grip.addEventListener('dragstart', function(e) {
+                syncPointsFromDOM();
+                draggedIdx = idx;
+                tr.classList.add('is-dragging');
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', String(idx));
+                if (e.dataTransfer.setDragImage) {
+                    e.dataTransfer.setDragImage(tr, 20, 20);
+                }
+            });
+
+            grip.addEventListener('dragend', function() {
+                draggedIdx = null;
+                tr.classList.remove('is-dragging');
+                document.querySelectorAll('.problem-row-item').forEach(function(row) {
+                    row.classList.remove('drag-over-top', 'drag-over-bottom', 'is-dragging');
+                });
+            });
+
+            tr.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                var currentOverIdx = parseInt(tr.getAttribute('data-idx'), 10);
+                if (draggedIdx === null || draggedIdx === currentOverIdx) return;
+
+                var rect = tr.getBoundingClientRect();
+                var relY = e.clientY - rect.top;
+                if (relY < rect.height / 2) {
+                    tr.classList.add('drag-over-top');
+                    tr.classList.remove('drag-over-bottom');
+                } else {
+                    tr.classList.add('drag-over-bottom');
+                    tr.classList.remove('drag-over-top');
+                }
+            });
+
+            tr.addEventListener('dragleave', function() {
+                tr.classList.remove('drag-over-top', 'drag-over-bottom');
+            });
+
+            tr.addEventListener('drop', function(e) {
+                e.preventDefault();
+                tr.classList.remove('drag-over-top', 'drag-over-bottom');
+                var fromIdx = draggedIdx !== null ? draggedIdx : parseInt(e.dataTransfer.getData('text/plain'), 10);
+                var toIdx = parseInt(tr.getAttribute('data-idx'), 10);
+
+                if (isNaN(fromIdx) || isNaN(toIdx) || fromIdx === toIdx) return;
+
+                var rect = tr.getBoundingClientRect();
+                var relY = e.clientY - rect.top;
+                var insertIdx = toIdx;
+
+                if (relY < rect.height / 2) {
+                    insertIdx = fromIdx < toIdx ? toIdx - 1 : toIdx;
+                } else {
+                    insertIdx = fromIdx < toIdx ? toIdx : toIdx + 1;
+                }
+
+                syncPointsFromDOM();
+                var item = addedProblems.splice(fromIdx, 1)[0];
+                addedProblems.splice(insertIdx, 0, item);
+                updateProblemsTable(insertIdx);
+                showToast('{{ _("Đã chuyển bài") }} ' + item.code + ' {{ _("sang thứ tự") }} ' + (insertIdx + 1));
+            });
+
             tbody.appendChild(tr);
         });
     }
@@ -882,25 +1154,28 @@
     function addProblemByObject(code, name, points) {
         for (var i = 0; i < addedProblems.length; i++) {
             if (addedProblems[i].code === code) {
-                showToast('Bài tập ' + code + ' đã có trong kỳ thi!');
+                showToast('{{ _("Bài tập") }} ' + code + ' {{ _("đã có trong kỳ thi!") }}');
                 return false;
             }
         }
+        syncPointsFromDOM();
         addedProblems.push({
             code: code,
             name: name,
             points: points || 100
         });
-        updateProblemsTable();
-        showToast('Đã thêm: ' + code + ' (' + name + ')');
+        var newIdx = addedProblems.length - 1;
+        updateProblemsTable(newIdx);
+        showToast('{{ _("Đã thêm:") }} ' + code + ' (' + name + ')');
         return true;
     }
 
     function removeProblem(idx) {
+        syncPointsFromDOM();
         var removed = addedProblems.splice(idx, 1);
         updateProblemsTable();
         if (removed && removed[0]) {
-            showToast('Đã xóa bài tập: ' + removed[0].code);
+            showToast('{{ _("Đã xóa bài tập:") }} ' + removed[0].code);
         }
     }
 

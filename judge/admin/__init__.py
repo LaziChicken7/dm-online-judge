@@ -1,3 +1,5 @@
+from judge.admin.tuition import ContestTuitionAdmin, OrganizationTuitionAdmin, StudentTuitionPaymentAdmin, StudentSessionExclusionAdmin
+from judge.models.tuition import ContestTuition, OrganizationTuition, StudentTuitionPayment, StudentSessionExclusion
 from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.auth.models import User
@@ -43,3 +45,8 @@ admin.site.register(Submission, SubmissionAdmin)
 admin.site.register(Ticket, TicketAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
+
+admin.site.register(OrganizationTuition, OrganizationTuitionAdmin)
+admin.site.register(ContestTuition, ContestTuitionAdmin)
+admin.site.register(StudentTuitionPayment, StudentTuitionPaymentAdmin)
+admin.site.register(StudentSessionExclusion, StudentSessionExclusionAdmin)

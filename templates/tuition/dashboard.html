@@ -1,0 +1,1821 @@
+{% extends "base.html" %}
+
+{% block title_ruler %}{% endblock %}
+
+{% block media %}
+<style>
+    /* ── Tuition Dashboard Cyber Container ── */
+    .tuition-wrapper {
+        max-width: 1420px;
+        margin: 20px auto 60px auto;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    /* ── Header Card ── */
+    .tuition-header-card {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 20px !important;
+        backdrop-filter: blur(20px) !important;
+        padding: 28px 36px !important;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4) !important;
+        margin-bottom: 24px !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .tuition-header-left {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+    .tuition-header-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(14, 165, 233, 0.05) 100%);
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #38bdf8;
+        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+    }
+    .tuition-title {
+        font-size: 24px !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        margin: 0 0 4px 0 !important;
+        letter-spacing: -0.01em !important;
+    }
+    .tuition-subtitle {
+        color: #94a3b8 !important;
+        font-size: 13.5px !important;
+        margin: 0 !important;
+    }
+    .tuition-header-filters {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* Select elements */
+    .tuition-select {
+        background-color: rgba(15, 23, 42, 0.8) !important;
+        border: 1px solid rgba(56, 189, 248, 0.3) !important;
+        border-radius: 12px !important;
+        padding: 9px 34px 9px 14px !important;
+        color: #ffffff !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        outline: none !important;
+        cursor: pointer !important;
+        transition: all 0.2s ease !important;
+        appearance: none !important;
+        -webkit-appearance: none !important;
+        background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+        background-repeat: no-repeat !important;
+        background-position: right 12px center !important;
+    }
+    .tuition-select:hover {
+        border-color: #38bdf8 !important;
+        box-shadow: 0 0 15px rgba(56, 189, 248, 0.25) !important;
+    }
+    .tuition-select option {
+        background: #0f172a !important;
+        color: #ffffff !important;
+    }
+
+    .btn-tuition-action {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        border-radius: 12px;
+        padding: 9px 18px;
+        font-size: 13.5px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .btn-tuition-action:hover {
+        background: #0284c7;
+        color: #ffffff;
+        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
+    }
+
+    .btn-tuition-print {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.05);
+        color: #cbd5e1;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 12px;
+        padding: 9px 16px;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .btn-tuition-print:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+    }
+
+    /* ── Mode Banner Card ── */
+    .mode-banner-card {
+        background: rgba(15, 23, 42, 0.65) !important;
+        border: 1px solid rgba(56, 189, 248, 0.25) !important;
+        border-radius: 18px !important;
+        padding: 20px 28px !important;
+        margin-bottom: 24px !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+    }
+    .mode-banner-left {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .mode-badge-wrap {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+    .mode-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 5px 12px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    .mode-badge.individual {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .mode-badge.center {
+        background: rgba(168, 85, 247, 0.15);
+        color: #c084fc;
+        border: 1px solid rgba(168, 85, 247, 0.4);
+    }
+    .mode-rate-badge {
+        font-size: 13.5px;
+        font-weight: 700;
+        color: #38bdf8;
+    }
+    .teacher-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.35);
+        padding: 4px 10px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .mode-desc-text {
+        font-size: 13.5px;
+        color: #94a3b8;
+    }
+    .btn-mode-quick-toggle {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #f1f5f9;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        border-radius: 12px;
+        padding: 9px 18px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .btn-mode-quick-toggle:hover {
+        background: rgba(56, 189, 248, 0.2);
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.4);
+        box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
+    }
+
+    /* ── Metrics Grid ── */
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 16px;
+        margin-bottom: 28px;
+    }
+    .stat-card {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 16px !important;
+        padding: 20px 24px !important;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        transition: all 0.25s ease !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
+    }
+    .stat-card:hover {
+        border-color: rgba(56, 189, 248, 0.35) !important;
+        transform: translateY(-2px);
+    }
+    .stat-card-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: #94a3b8;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .stat-card-value {
+        font-size: 24px;
+        font-weight: 800;
+        color: #ffffff;
+        letter-spacing: -0.01em;
+    }
+    .stat-card-value.revenue {
+        color: #38bdf8;
+    }
+    .stat-card-value.collected {
+        color: #34d399;
+    }
+    .stat-card-value.outstanding {
+        color: #f87171;
+    }
+    .stat-card-sub {
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    /* ── Navigation Tabs ── */
+    .tuition-nav-tabs {
+        display: flex;
+        gap: 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin-bottom: 20px;
+    }
+    .tuition-tab-btn {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        padding: 12px 20px;
+        font-size: 14.5px;
+        font-weight: 700;
+        cursor: pointer;
+        border-bottom: 2px solid transparent;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .tuition-tab-btn:hover {
+        color: #ffffff;
+    }
+    .tuition-tab-btn.is-active {
+        color: #38bdf8;
+        border-bottom-color: #38bdf8;
+    }
+    .tab-badge-count {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 2px 8px;
+        border-radius: 100px;
+        font-size: 12px;
+    }
+    .tuition-tab-btn.is-active .tab-badge-count {
+        background: rgba(56, 189, 248, 0.2);
+        color: #38bdf8;
+    }
+
+    /* ── Data Tables ── */
+    .tuition-card {
+        background: rgba(15, 23, 42, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 18px !important;
+        overflow: hidden;
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+    }
+    .tuition-table-toolbar {
+        padding: 16px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        flex-wrap: wrap;
+    }
+    .search-input-wrap {
+        position: relative;
+        flex: 1;
+        max-width: 380px;
+    }
+    .tuition-search-input {
+        width: 100%;
+        box-sizing: border-box;
+        background: rgba(15, 23, 42, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        border-radius: 10px !important;
+        padding: 8px 14px 8px 36px !important;
+        color: #ffffff !important;
+        font-size: 13.5px !important;
+        outline: none !important;
+        transition: all 0.2s ease !important;
+    }
+    .tuition-search-input:focus {
+        border-color: #38bdf8 !important;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+    }
+    .search-icon-pos {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+        pointer-events: none;
+    }
+
+    .tuition-data-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    .tuition-data-table th {
+        text-align: left;
+        padding: 12px 18px;
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(15, 23, 42, 0.4);
+    }
+    .tuition-data-table td {
+        padding: 14px 18px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        color: #e2e8f0;
+        font-size: 13.5px;
+        vertical-align: middle;
+    }
+    .tuition-data-table tr:hover td {
+        background: rgba(56, 189, 248, 0.04);
+    }
+
+    /* Badges */
+    .badge-session {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        padding: 3px 8px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .badge-session.attended {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .badge-session.absent {
+        background: rgba(239, 68, 68, 0.12);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+    .badge-session.billable {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+    .badge-session.excluded {
+        background: rgba(239, 68, 68, 0.18);
+        color: #fca5a5;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+    .badge-multi-session {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(168, 85, 247, 0.15);
+        color: #c084fc;
+        border: 1px solid rgba(168, 85, 247, 0.35);
+        padding: 2px 7px;
+        border-radius: 6px;
+        font-size: 11.5px;
+        font-weight: 800;
+    }
+
+    .badge-pay {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 10px;
+        border-radius: 100px;
+        font-size: 12px;
+        font-weight: 700;
+    }
+    .badge-pay.paid {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.4);
+    }
+    .badge-pay.partial {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.4);
+    }
+    .badge-pay.unpaid {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.4);
+    }
+
+    .btn-row-action {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: #cbd5e1;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-size: 12.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    .btn-row-action:hover {
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border-color: rgba(56, 189, 248, 0.35);
+    }
+    .btn-row-action.primary {
+        background: rgba(14, 165, 233, 0.2);
+        color: #38bdf8;
+        border-color: rgba(14, 165, 233, 0.4);
+    }
+    .btn-row-action.primary:hover {
+        background: #0284c7;
+        color: #ffffff;
+    }
+    .btn-row-action.danger {
+        color: #f87171;
+        border-color: rgba(239, 68, 68, 0.3);
+    }
+    .btn-row-action.danger:hover {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+        border-color: #ef4444;
+    }
+
+    /* Session action buttons in detail modal */
+    .btn-session-delete {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.35);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s ease;
+    }
+    .btn-session-delete:hover {
+        background: #dc2626;
+        color: #ffffff;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+    }
+    .btn-session-restore {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.35);
+        padding: 4px 10px;
+        border-radius: 6px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.18s ease;
+    }
+    .btn-session-restore:hover {
+        background: #059669;
+        color: #ffffff;
+        box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+    }
+
+    /* ── Modals ── */
+    .tuition-modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        padding: 20px;
+        box-sizing: border-box;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.25s ease;
+    }
+    .tuition-modal-backdrop.is-open {
+        opacity: 1;
+        pointer-events: auto;
+    }
+    .tuition-modal-box {
+        background: #0f172a;
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 20px;
+        max-width: 680px;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
+        transform: scale(0.95);
+        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .tuition-modal-backdrop.is-open .tuition-modal-box {
+        transform: scale(1);
+    }
+    .tuition-modal-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .tuition-modal-title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #ffffff;
+        margin: 0;
+    }
+    .tuition-modal-close {
+        background: transparent;
+        border: none;
+        color: #94a3b8;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 4px;
+        line-height: 1;
+        border-radius: 6px;
+    }
+    .tuition-modal-close:hover {
+        color: #ffffff;
+        background: rgba(255, 255, 255, 0.1);
+    }
+    .tuition-modal-body {
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+    .tuition-modal-footer {
+        padding: 16px 24px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+    }
+
+    /* Radio cards */
+    .radio-card-group {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .radio-card {
+        display: flex;
+        align-items: flex-start;
+        gap: 14px;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        padding: 14px 18px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .radio-card:hover {
+        border-color: rgba(56, 189, 248, 0.4);
+        background: rgba(56, 189, 248, 0.05);
+    }
+    .radio-card.selected {
+        border-color: #38bdf8;
+        background: rgba(56, 189, 248, 0.1);
+        box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
+    }
+    .radio-card input[type="radio"] {
+        margin-top: 3px;
+        accent-color: #0284c7;
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+    }
+    .radio-card-content {
+        flex: 1;
+    }
+    .radio-card-title {
+        font-size: 14.5px;
+        font-weight: 700;
+        color: #ffffff;
+        margin-bottom: 4px;
+    }
+    .radio-card-desc {
+        font-size: 13px;
+        color: #94a3b8;
+        line-height: 1.5;
+    }
+
+    /* Form groups */
+    .form-group-label {
+        font-size: 13px;
+        font-weight: 700;
+        color: #e2e8f0;
+        margin-bottom: 6px;
+        display: block;
+    }
+    .tuition-modal-input {
+        width: 100%;
+        box-sizing: border-box;
+        background: rgba(15, 23, 42, 0.8) !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 10px !important;
+        padding: 10px 14px !important;
+        color: #ffffff !important;
+        font-size: 14px !important;
+        outline: none !important;
+        transition: all 0.2s ease !important;
+    }
+    .tuition-modal-input:focus {
+        border-color: #38bdf8 !important;
+        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+    }
+
+    /* Print styles */
+    @media print {
+        #portfolio-nav,
+        .tuition-header-filters,
+        .btn-mode-quick-toggle,
+        .tuition-nav-tabs,
+        .btn-row-action,
+        .tuition-search-input,
+        .search-icon-pos {
+            display: none !important;
+        }
+        .tuition-wrapper {
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        body {
+            background: #ffffff !important;
+            color: #000000 !important;
+        }
+        .tuition-header-card, .mode-banner-card, .stat-card, .tuition-card {
+            background: #ffffff !important;
+            border: 1px solid #cccccc !important;
+            box-shadow: none !important;
+            color: #000000 !important;
+        }
+        .tuition-data-table th, .tuition-data-table td {
+            color: #000000 !important;
+            border-bottom: 1px solid #dddddd !important;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="tuition-wrapper">
+    <!-- Header Card -->
+    <div class="tuition-header-card">
+        <div class="tuition-header-left">
+            <div class="tuition-header-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                    <circle cx="12" cy="12" r="2.5"></circle>
+                    <path d="M6 12h.01M18 12h.01"></path>
+                </svg>
+            </div>
+            <div>
+                <h1 class="tuition-title">{{ _('Quản lý tiền dạy học (Học phí)') }}</h1>
+                <p class="tuition-subtitle">
+                    {{ _('Thống kê chi phí theo từng contest/buổi học, cho phép chỉnh sửa tiền & số buổi của từng contest, xóa buổi và xóa tiền.') }}
+                </p>
+            </div>
+        </div>
+
+        <div class="tuition-header-filters">
+            <!-- Organization Selector -->
+            <div>
+                <select id="org-filter-select" class="tuition-select" onchange="switchOrganization(this.value)">
+                    {% for org in organizations %}
+                        <option value="{{ org.id }}" {% if selected_org and selected_org.id == org.id %}selected{% endif %}>
+                            {{ org.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Period Selector -->
+            <div>
+                <select id="period-filter-select" class="tuition-select" onchange="switchPeriod(this.value)">
+                    <option value="all" {% if selected_period == 'all' %}selected{% endif %}>{{ _('Tất cả thời gian') }}</option>
+                    {% for p in available_periods %}
+                        <option value="{{ p }}" {% if selected_period == p %}selected{% endif %}>
+                            Tháng {{ p }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Settings Button -->
+            <button type="button" class="btn-tuition-action" onclick="openSettingsModal()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                <span>{{ _('Cài đặt lớp & Đơn giá') }}</span>
+            </button>
+
+            <!-- Print Button -->
+            <button type="button" class="btn-tuition-print" onclick="window.print()" title="{{ _('In bảng kê học phí') }}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                <span>{{ _('In bảng kê') }}</span>
+            </button>
+        </div>
+    </div>
+
+    {% if selected_org %}
+    <!-- Mode Banner Card -->
+    <div class="mode-banner-card">
+        <div class="mode-banner-left">
+            <div class="mode-badge-wrap">
+                {% if org_tuition.billing_type == 'individual' %}
+                    <span class="mode-badge individual">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        {{ _('Dạy kèm riêng / Tính theo người đi học') }}
+                    </span>
+                {% else %}
+                    <span class="mode-badge center">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 14 14"></polyline></svg>
+                        {{ _('Lớp trung tâm / Tính cố định cả khi nghỉ') }}
+                    </span>
+                {% endif %}
+                <span class="mode-rate-badge">Đơn giá chuẩn: {{ org_tuition.default_fee_per_session|int }} đ / buổi</span>
+
+                <!-- Teacher Identification -->
+                {% if org_admins %}
+                    <span class="teacher-badge" title="{{ _('Giáo viên quản lý lớp học (không tính vào danh sách học viên nộp tiền)') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        Giáo viên: <strong>{% for adm in org_admins %}{{ adm.display_name or adm.user.username }}{% if not loop.last %}, {% endif %}{% endfor %}</strong>
+                    </span>
+                {% endif %}
+            </div>
+            <div class="mode-desc-text">
+                {% if org_tuition.billing_type == 'individual' %}
+                    {{ _('Chỉ tính tiền cho những học viên có tham gia contest (buổi học). Học viên vắng/nghỉ = 0 đ (không tính tiền).') }}
+                {% else %}
+                    {{ _('Tính tiền cho toàn bộ học viên trong lớp cho mỗi contest (buổi học), kể cả khi vắng mặt (thêm 1 contest = tính 1 buổi cả lớp).') }}
+                {% endif %}
+                <span style="margin-left: 10px;">
+                    {% if include_admins %}
+                        <a href="?org={{ selected_org.id }}&period={{ selected_period }}&include_admins=0" style="color: #38bdf8; text-decoration: underline; font-size: 12.5px;">(Đang hiện cả giáo viên &bull; Bấm để ẩn giáo viên)</a>
+                    {% else %}
+                        <a href="?org={{ selected_org.id }}&period={{ selected_period }}&include_admins=1" style="color: #64748b; text-decoration: underline; font-size: 12.5px;">(Đã ẩn tài khoản giáo viên &bull; Bấm để hiện cả giáo viên)</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div>
+            {% if org_tuition.billing_type == 'individual' %}
+                <button type="button" class="btn-mode-quick-toggle" onclick="quickSwitchBillingType('center')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    <span>{{ _('Chuyển sang: Tính cố định cả khi nghỉ (Trung tâm)') }}</span>
+                </button>
+            {% else %}
+                <button type="button" class="btn-mode-quick-toggle" onclick="quickSwitchBillingType('individual')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="17 1 21 5 17 9"></polyline><path d="M3 11V9a4 4 0 0 1 4-4h14"></path><polyline points="7 23 3 19 7 15"></polyline><path d="M21 13v2a4 4 0 0 1-4 4H3"></path></svg>
+                    <span>{{ _('Chuyển sang: Chỉ tính người đi học (Dạy kèm riêng)') }}</span>
+                </button>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Overview Metrics Grid -->
+    <div class="metrics-grid">
+        <div class="stat-card">
+            <div class="stat-card-title">
+                <span>{{ _('Tổng buổi học (Contests)') }}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <div class="stat-card-value">{{ total_sessions }} <span style="font-size: 14px; font-weight: 600; color: #94a3b8;">buổi</span></div>
+            <div class="stat-card-sub">{{ total_contests }} {{ _('kỳ thi/contest') }} &bull; {{ total_students }} {{ _('học viên') }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-title">
+                <span>{{ _('Lượt điểm danh') }}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div class="stat-card-value" style="font-size: 20px;">
+                <span style="color: #34d399;">{{ total_attendance_count }} có mặt</span> / <span style="color: #f87171;">{{ total_absence_count }} vắng</span>
+            </div>
+            <div class="stat-card-sub">{{ _('Dựa trên số buổi của từng contest') }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-title">
+                <span>{{ _('Học phí dự kiến') }}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg>
+            </div>
+            <div class="stat-card-value revenue">{{ total_expected_revenue_fmt }}</div>
+            <div class="stat-card-sub">{{ _('Tính theo loại hình lớp & đơn giá từng contest') }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-title">
+                <span>{{ _('Đã thu') }}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="stat-card-value collected">{{ total_collected_amount_fmt }}</div>
+            <div class="stat-card-sub">{{ _('Số tiền học viên đã hoàn thành') }}</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-card-title">
+                <span>{{ _('Chưa thu (Còn lại)') }}</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f87171" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+            </div>
+            <div class="stat-card-value outstanding">{{ total_outstanding_amount_fmt }}</div>
+            <div class="stat-card-sub">{{ _('Công nợ học phí cần thu') }}</div>
+        </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="tuition-nav-tabs">
+        <button type="button" class="tuition-tab-btn is-active" id="tab-btn-students" onclick="switchTab('students')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+            <span>{{ _('Danh sách học viên & Học phí') }}</span>
+            <span class="tab-badge-count">{{ total_students }}</span>
+        </button>
+        <button type="button" class="tuition-tab-btn" id="tab-btn-contests" onclick="switchTab('contests')">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <span>{{ _('Danh sách các buổi học / Contests') }}</span>
+            <span class="tab-badge-count">{{ total_contests }} ({{ total_sessions }} buổi)</span>
+        </button>
+    </div>
+
+    <!-- TAB 1: Students Tuition Table -->
+    <div id="tab-content-students">
+        <div class="tuition-card">
+            <div class="tuition-table-toolbar">
+                <div class="search-input-wrap">
+                    <svg class="search-icon-pos" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                    <input type="text" id="student-search-input" class="tuition-search-input" placeholder="{{ _('Tìm theo tên học viên, username...') }}" oninput="filterStudents(this.value)">
+                </div>
+                <div style="font-size: 13px; color: #94a3b8;">
+                    {{ _('Hiển thị') }} <strong id="student-count-display" style="color: #ffffff;">{{ total_students }}</strong> {{ _('học viên') }}
+                    {% if not include_admins %}<span style="color: #10b981; margin-left: 6px;">&bull; {{ _('Đã loại trừ tài khoản giáo viên') }}</span>{% endif %}
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="tuition-data-table" id="students-tuition-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>{{ _('Học viên') }}</th>
+                            <th style="text-align: center;">{{ _('Có mặt') }}</th>
+                            <th style="text-align: center;">{{ _('Vắng') }}</th>
+                            <th style="text-align: center;">{{ _('Số buổi tính tiền') }}</th>
+                            <th style="text-align: right;">{{ _('Đơn giá chuẩn') }}</th>
+                            <th style="text-align: right;">{{ _('Tổng học phí') }}</th>
+                            <th style="text-align: right;">{{ _('Đã nộp') }}</th>
+                            <th style="text-align: right;">{{ _('Còn lại') }}</th>
+                            <th style="text-align: center;">{{ _('Trạng thái') }}</th>
+                            <th style="text-align: center; width: 200px;">{{ _('Thao tác') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="students-table-body">
+                        {% for st in students_stats %}
+                        <tr class="student-row" data-name="{{ st.username|lower }} {{ st.display_name|lower }}">
+                            <td><strong>{{ loop.index }}</strong></td>
+                            <td>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="width: 32px; height: 32px; border-radius: 50%; background: #0284c7; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #ffffff; font-size: 13px;">
+                                        {{ st.username[0]|upper }}
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 700; color: #ffffff;">{{ st.display_name }}</div>
+                                        <div style="font-size: 12px; color: #64748b;">@{{ st.username }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge-session attended">{{ st.attended_sessions }} buổi</span>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge-session absent">{{ st.absent_sessions }} buổi</span>
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge-session billable" title="{{ _('Số buổi tính phí: ') }}{% if org_tuition.billing_type == 'center' %}{{ _('Tính cả khi nghỉ (trung tâm)') }}{% else %}{{ _('Chỉ tính buổi có mặt (kèm riêng)') }}{% endif %}">
+                                    {{ st.billable_sessions }} buổi
+                                </span>
+                                {% if st.excluded_sessions > 0 %}
+                                    <div style="margin-top: 3px;">
+                                        <span class="badge-session excluded" title="{{ _('Số buổi đã xóa khỏi tính phí') }}">
+                                            -{{ st.excluded_sessions }} đã xóa
+                                        </span>
+                                    </div>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: right; color: #94a3b8;">{{ st.rate_per_session_fmt }}</td>
+                            <td style="text-align: right; font-weight: 800; color: #38bdf8; font-size: 14.5px;">{{ st.total_fee_fmt }}</td>
+                            <td style="text-align: right; color: #34d399; font-weight: 700;">{{ st.paid_amount_fmt }}</td>
+                            <td style="text-align: right; font-weight: 700; {% if st.remaining_amount > 0 %}color: #f87171;{% else %}color: #64748b;{% endif %}">
+                                {{ st.remaining_amount_fmt }}
+                            </td>
+                            <td style="text-align: center;">
+                                {% if st.status == 'paid' %}
+                                    <span class="badge-pay paid"><i class="fa fa-check"></i> Đã nộp</span>
+                                {% elif st.status == 'partial' %}
+                                    <span class="badge-pay partial"><i class="fa fa-adjust"></i> Một phần</span>
+                                {% else %}
+                                    <span class="badge-pay unpaid"><i class="fa fa-times"></i> Chưa nộp</span>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: center;">
+                                <div style="display: inline-flex; gap: 6px; flex-wrap: wrap; justify-content: center;">
+                                    <button type="button" class="btn-row-action" title="{{ _('Xem chi tiết từng buổi học & Xóa buổi') }}"
+                                            onclick="openStudentDetailModal({{ selected_org.id }}, {{ st.profile_id }})">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                        <span>Xem & Xóa buổi</span>
+                                    </button>
+                                    <button type="button" class="btn-row-action primary" title="{{ _('Thu tiền / Xóa tiền học phí') }}"
+                                            onclick="openPaymentModal({{ selected_org.id }}, {{ st.profile_id }}, '{{ st.display_name|escapejs }}', {{ st.total_fee }}, {{ st.paid_amount }}, '{{ st.status }}', '{{ st.note|escapejs }}')">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <span>Thu / Xóa tiền</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="11" style="text-align: center; padding: 36px 0; color: #94a3b8;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 8px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                                <div>{{ _('Chưa có học viên nào trong lớp này.') }}</div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 2: Sessions / Contests List -->
+    <div id="tab-content-contests" style="display: none;">
+        <div class="tuition-card">
+            <div class="tuition-table-toolbar">
+                <div style="font-size: 14px; font-weight: 700; color: #ffffff;">
+                    {{ _('Danh sách các buổi học (Contests)') }} - {{ selected_org.name }}
+                </div>
+                <div style="font-size: 13px; color: #94a3b8;">
+                    {{ _('Cho phép chỉnh sửa số buổi (ví dụ: làm trong 2 buổi) và đơn giá riêng cho từng contest') }}
+                </div>
+            </div>
+
+            <div style="overflow-x: auto;">
+                <table class="tuition-data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>{{ _('Buổi học / Kỳ thi (Contest)') }}</th>
+                            <th>{{ _('Ngày giờ bắt đầu') }}</th>
+                            <th style="text-align: center;">{{ _('Số buổi học') }}</th>
+                            <th style="text-align: right;">{{ _('Học phí của contest này') }}</th>
+                            <th style="text-align: center;">{{ _('Số học viên tham gia') }}</th>
+                            <th style="text-align: center;">{{ _('Tính phí') }}</th>
+                            <th>{{ _('Ghi chú') }}</th>
+                            <th style="text-align: center; width: 230px;">{{ _('Thao tác') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for c in contests %}
+                        <tr id="contest-row-{{ c.id }}">
+                            <td><strong>{{ loop.index }}</strong></td>
+                            <td>
+                                <a href="{{ url('contest_view', c.key) }}" style="color: #38bdf8; font-weight: 700; text-decoration: none;">
+                                    {{ c.name }}
+                                </a>
+                                <div style="font-size: 12px; color: #64748b;">Mã: {{ c.key }}</div>
+                            </td>
+                            <td style="color: #cbd5e1;">{{ c.start_time_fmt }}</td>
+                            <td style="text-align: center;">
+                                {% if c.session_count > 1 %}
+                                    <span class="badge-multi-session">{{ c.session_count }} buổi</span>
+                                {% else %}
+                                    <span class="badge-session attended" style="font-weight: 600;">1 buổi</span>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: right; font-weight: 800; color: #38bdf8;">
+                                {{ c.effective_fee_fmt }}
+                                {% if c.fee_override is not none %}
+                                    <div style="font-size: 11px; color: #fbbf24; font-weight: 600;">(Đã tùy chỉnh giá)</div>
+                                {% elif c.session_count > 1 %}
+                                    <div style="font-size: 11px; color: #94a3b8; font-weight: 500;">({{ c.session_count }} &times; {{ org_tuition.default_fee_per_session|int }}đ)</div>
+                                {% endif %}
+                            </td>
+                            <td style="text-align: center;">
+                                <span class="badge-session attended">{{ c.participant_count }} học viên</span>
+                            </td>
+                            <td style="text-align: center;">
+                                {% if c.is_billed %}
+                                    <span class="badge-pay paid" style="font-size: 11px;">Có tính phí</span>
+                                {% else %}
+                                    <span class="badge-pay unpaid" style="font-size: 11px;">Miễn phí</span>
+                                {% endif %}
+                            </td>
+                            <td style="font-size: 12.5px; color: #94a3b8;">{{ c.note or '—' }}</td>
+                            <td style="text-align: center;">
+                                <div style="display: inline-flex; gap: 6px;">
+                                    <button type="button" class="btn-row-action primary" title="{{ _('Chỉnh sửa số buổi và tiền của contest này') }}"
+                                            onclick="openContestFeeModal({{ c.id }}, '{{ c.name|escapejs }}', {{ c.session_count }}, {{ c.fee_override if c.fee_override is not none else 'null' }}, {{ 'true' if c.is_billed else 'false' }}, '{{ c.note|escapejs }}')">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+                                        <span>Sửa tiền & buổi</span>
+                                    </button>
+                                    <button type="button" class="btn-row-action danger" title="{{ _('Xóa buổi học này khỏi lớp học') }}"
+                                            onclick="unlinkContestFromOrg({{ selected_org.id }}, {{ c.id }}, '{{ c.name|escapejs }}')">
+                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                                        <span>Xóa buổi</span>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% else %}
+                        <tr>
+                            <td colspan="9" style="text-align: center; padding: 36px 0; color: #94a3b8;">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-bottom: 8px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                                <div>{{ _('Chưa có kỳ thi hoặc buổi học nào được gán cho tổ chức này.') }}</div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<!-- =========================================================
+     MODAL 1: Cài đặt học phí tổ chức / lớp học
+     ========================================================= -->
+<div class="tuition-modal-backdrop" id="modal-settings">
+    <div class="tuition-modal-box">
+        <div class="tuition-modal-header">
+            <h3 class="tuition-modal-title">{{ _('Cài đặt học phí lớp học') }}</h3>
+            <button type="button" class="tuition-modal-close" onclick="closeModal('modal-settings')">&times;</button>
+        </div>
+        <form id="form-org-settings" onsubmit="submitOrgSettings(event)">
+            <input type="hidden" name="org_id" id="settings-org-id" value="{{ selected_org.id if selected_org else '' }}">
+            <div class="tuition-modal-body">
+                <div>
+                    <label class="form-group-label">{{ _('Lớp học / Tổ chức') }}</label>
+                    <div style="font-size: 15px; font-weight: 700; color: #38bdf8;">{{ selected_org.name if selected_org else '' }}</div>
+                </div>
+
+                <div>
+                    <label class="form-group-label">{{ _('Chọn loại hình tính học phí') }}</label>
+                    <div class="radio-card-group">
+                        <label class="radio-card {% if org_tuition and org_tuition.billing_type == 'individual' %}selected{% endif %}" id="radio-card-ind">
+                            <input type="radio" name="billing_type" value="individual" {% if org_tuition and org_tuition.billing_type == 'individual' %}checked{% endif %} onchange="updateRadioSelection()">
+                            <div class="radio-card-content">
+                                <div class="radio-card-title">{{ _('1. Dạy kèm riêng / Tính theo người đi học') }}</div>
+                                <div class="radio-card-desc">
+                                    {{ _('Chỉ tính học phí cho những học viên có tham gia contest (buổi học). Nếu học viên vắng mặt thì buổi đó KHÔNG tính tiền (0 đ).') }}
+                                </div>
+                            </div>
+                        </label>
+
+                        <label class="radio-card {% if org_tuition and org_tuition.billing_type == 'center' %}selected{% endif %}" id="radio-card-cen">
+                            <input type="radio" name="billing_type" value="center" {% if org_tuition and org_tuition.billing_type == 'center' %}checked{% endif %} onchange="updateRadioSelection()">
+                            <div class="radio-card-content">
+                                <div class="radio-card-title">{{ _('2. Học theo kiểu trung tâm / Tính cố định cả khi nghỉ') }}</div>
+                                <div class="radio-card-desc">
+                                    {{ _('Mỗi khi thêm 1 contest vào tổ chức thì sẽ tự động tính tiền 1 buổi cho tất cả học viên trong lớp, kể cả khi học viên đó vắng mặt / không tham gia.') }}
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-group-label">{{ _('Chi phí mặc định mỗi buổi học (VNĐ)') }}</label>
+                    <input type="number" step="1000" name="default_fee_per_session" id="settings-default-fee" class="tuition-modal-input" value="{{ org_tuition.default_fee_per_session if org_tuition else 200000 }}" placeholder="Ví dụ: 200000">
+                    <div style="font-size: 12px; color: #64748b; margin-top: 5px;">
+                        {{ _('Chi phí này sẽ áp dụng mặc định cho các contest (buổi học) 1 buổi của lớp.') }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-group-label">{{ _('Ghi chú nội bộ') }}</label>
+                    <input type="text" name="note" id="settings-note" class="tuition-modal-input" value="{{ org_tuition.note if org_tuition else '' }}" placeholder="{{ _('Ghi chú về lớp, lịch học, hình thức chuyển khoản...') }}">
+                </div>
+            </div>
+            <div class="tuition-modal-footer">
+                <button type="button" class="btn-tuition-print" onclick="closeModal('modal-settings')">{{ _('Hủy bỏ') }}</button>
+                <button type="submit" class="btn-tuition-action">{{ _('Lưu cài đặt') }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================
+     MODAL 2: Cập nhật & Xóa thanh toán học phí học viên
+     ========================================================= -->
+<div class="tuition-modal-backdrop" id="modal-payment">
+    <div class="tuition-modal-box">
+        <div class="tuition-modal-header">
+            <h3 class="tuition-modal-title">{{ _('Cập nhật & Xóa tiền học phí') }}</h3>
+            <button type="button" class="tuition-modal-close" onclick="closeModal('modal-payment')">&times;</button>
+        </div>
+        <form id="form-payment" onsubmit="submitPayment(event)">
+            <input type="hidden" name="org_id" id="pay-org-id" value="{{ selected_org.id if selected_org else '' }}">
+            <input type="hidden" name="profile_id" id="pay-profile-id" value="">
+            <input type="hidden" name="period" id="pay-period" value="{{ selected_period }}">
+            <div class="tuition-modal-body">
+                <div>
+                    <label class="form-group-label">{{ _('Học viên') }}</label>
+                    <div id="pay-student-name" style="font-size: 16px; font-weight: 800; color: #ffffff;">—</div>
+                </div>
+
+                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
+                    <span style="color: #94a3b8; font-size: 13.5px;">{{ _('Tổng học phí cần đóng:') }}</span>
+                    <span id="pay-total-fee-display" style="font-size: 17px; font-weight: 800; color: #38bdf8;">0 đ</span>
+                </div>
+
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <label class="form-group-label" style="margin: 0;">{{ _('Số tiền học viên đã nộp (VNĐ)') }}</label>
+                        <div style="display: flex; gap: 6px;">
+                            <button type="button" class="btn-row-action" style="padding: 2px 8px; font-size: 11px;" onclick="setQuickPaidAmount('full')">{{ _('Nộp đủ') }}</button>
+                            <button type="button" class="btn-row-action danger" style="padding: 2px 8px; font-size: 11px;" onclick="setQuickPaidAmount('zero')" title="{{ _('Reset số tiền đã nộp về 0đ') }}">{{ _('Xóa tiền về 0đ') }}</button>
+                        </div>
+                    </div>
+                    <input type="number" step="1000" name="paid_amount" id="pay-paid-amount" class="tuition-modal-input" placeholder="0" oninput="autoUpdateStatusByAmount()">
+                </div>
+
+                <div>
+                    <label class="form-group-label">{{ _('Trạng thái thanh toán') }}</label>
+                    <select name="status" id="pay-status" class="tuition-select" style="width: 100%;">
+                        <option value="unpaid">{{ _('Chưa thanh toán') }}</option>
+                        <option value="partial">{{ _('Đã thanh toán một phần') }}</option>
+                        <option value="paid">{{ _('Đã hoàn thành học phí') }}</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="form-group-label">{{ _('Ghi chú giao dịch') }}</label>
+                    <input type="text" name="note" id="pay-note" class="tuition-modal-input" placeholder="{{ _('Ví dụ: CK VCB ngày 15/09, phụ huynh xin nộp đợt 2...') }}">
+                </div>
+            </div>
+            <div class="tuition-modal-footer">
+                <button type="button" class="btn-row-action danger" onclick="deletePaymentRecord()" style="margin-right: auto;">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                    <span>{{ _('Xóa bản ghi nộp tiền') }}</span>
+                </button>
+                <button type="button" class="btn-tuition-print" onclick="closeModal('modal-payment')">{{ _('Hủy bỏ') }}</button>
+                <button type="submit" class="btn-tuition-action">{{ _('Lưu thanh toán') }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- =========================================================
+     MODAL 3: Chi tiết các buổi học & Xóa buổi trực tiếp
+     ========================================================= -->
+<div class="tuition-modal-backdrop" id="modal-student-detail">
+    <div class="tuition-modal-box" style="max-width: 920px;">
+        <div class="tuition-modal-header">
+            <div>
+                <h3 class="tuition-modal-title" id="detail-student-title">{{ _('Chi tiết các buổi học & Xóa buổi') }}</h3>
+                <div id="detail-student-subtitle" style="font-size: 12.5px; color: #94a3b8; margin-top: 3px;">—</div>
+            </div>
+            <button type="button" class="tuition-modal-close" onclick="closeStudentDetailModal()">&times;</button>
+        </div>
+        <div class="tuition-modal-body" style="padding: 0;">
+            <div style="padding: 12px 20px; background: rgba(56, 189, 248, 0.08); border-bottom: 1px solid rgba(56, 189, 248, 0.2); font-size: 13px; color: #e2e8f0; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+                <div style="display: flex; align-items: center; gap: 8px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <span>{{ _('Bạn có thể xem từng buổi học, sửa tiền hoặc bấm nút đỏ "Xóa buổi này" để trừ tiền/buổi học đó khỏi học phí của học viên.') }}</span>
+                </div>
+            </div>
+            <div style="max-height: 480px; overflow-y: auto;">
+                <table class="tuition-data-table" style="margin: 0;">
+                    <thead>
+                        <tr>
+                            <th style="width: 35px;">#</th>
+                            <th>{{ _('Buổi học / Contest') }}</th>
+                            <th>{{ _('Ngày giờ') }}</th>
+                            <th style="text-align: center;">{{ _('Số buổi') }}</th>
+                            <th style="text-align: center;">{{ _('Tham gia') }}</th>
+                            <th style="text-align: right;">{{ _('Học phí tính') }}</th>
+                            <th>{{ _('Lý do tính phí') }}</th>
+                            <th style="text-align: center; width: 170px;">{{ _('Thao tác') }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="detail-sessions-body">
+                        <!-- Populated dynamically by JS -->
+                    </tbody>
+                </table>
+            </div>
+            <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+                <div style="font-size: 13.5px; color: #94a3b8;">
+                    {{ _('Số buổi tính phí:') }} <strong id="detail-total-billable-sessions" style="color: #38bdf8; font-size: 15px;">0</strong> {{ _('buổi') }}
+                </div>
+                <div style="font-size: 15px; font-weight: 800; color: #ffffff;">
+                    {{ _('Tổng tiền học phí:') }} <span id="detail-total-amount" style="color: #38bdf8; font-size: 19px;">0 đ</span>
+                </div>
+            </div>
+        </div>
+        <div class="tuition-modal-footer">
+            <button type="button" class="btn-tuition-action" onclick="closeStudentDetailModal()">{{ _('Đóng & Cập nhật bảng') }}</button>
+        </div>
+    </div>
+</div>
+
+<!-- =========================================================
+     MODAL 4: Chỉnh sửa chi phí & số buổi của contest cụ thể
+     ========================================================= -->
+<div class="tuition-modal-backdrop" id="modal-contest-fee">
+    <div class="tuition-modal-box">
+        <div class="tuition-modal-header">
+            <div>
+                <h3 class="tuition-modal-title">{{ _('Chỉnh sửa tiền & số buổi của Contest') }}</h3>
+                <div style="font-size: 12.5px; color: #94a3b8; margin-top: 3px;">{{ _('Áp dụng nếu contest kéo dài 2 buổi trở lên hoặc có đơn giá đặc biệt') }}</div>
+            </div>
+            <button type="button" class="tuition-modal-close" onclick="closeModal('modal-contest-fee')">&times;</button>
+        </div>
+        <form id="form-contest-fee" onsubmit="submitContestFee(event)">
+            <input type="hidden" name="contest_id" id="cf-contest-id" value="">
+            <div class="tuition-modal-body">
+                <div>
+                    <label class="form-group-label">{{ _('Kỳ thi / Buổi học') }}</label>
+                    <div id="cf-contest-name" style="font-size: 16px; font-weight: 700; color: #38bdf8;">—</div>
+                </div>
+
+                <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0;">
+                    <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; color: #e2e8f0; font-size: 14px; font-weight: 600;">
+                        <input type="checkbox" name="is_billed" id="cf-is-billed" style="width: 18px; height: 18px; accent-color: #0284c7;">
+                        <span>{{ _('Có tính học phí buổi học này') }}</span>
+                    </label>
+                </div>
+
+                <!-- Number of sessions (số buổi) -->
+                <div>
+                    <label class="form-group-label">
+                        {{ _('Số buổi học mà contest này đại diện') }}
+                        <span style="color: #38bdf8; font-weight: 500; font-size: 12px; margin-left: 6px;">(Ví dụ: làm bài trong 2 buổi thì nhập 2)</span>
+                    </label>
+                    <input type="number" min="1" max="10" name="session_count" id="cf-session-count" class="tuition-modal-input" value="1" oninput="calculateSuggestedFee()">
+                    <div style="font-size: 12px; color: #64748b; margin-top: 5px;">
+                        {{ _('Nếu làm bài trong 2 buổi trở lên, học viên tham gia sẽ được tính số buổi tương ứng.') }}
+                    </div>
+                </div>
+
+                <!-- Suggested fee box -->
+                <div id="cf-suggested-box" style="padding: 12px 16px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 12px; color: #94a3b8;">{{ _('Giá tính theo số buổi &times; đơn giá lớp:') }}</div>
+                        <div id="cf-suggested-val" style="font-size: 15px; font-weight: 800; color: #38bdf8;">200.000 đ</div>
+                    </div>
+                    <button type="button" class="btn-row-action primary" style="font-size: 11.5px; padding: 4px 10px;" onclick="applySuggestedFee()">
+                        {{ _('Áp dụng giá này') }}
+                    </button>
+                </div>
+
+                <!-- Fee override -->
+                <div>
+                    <label class="form-group-label">
+                        {{ _('Học phí của contest này (VNĐ)') }}
+                        <span style="color: #94a3b8; font-weight: 500; font-size: 12px; margin-left: 6px;">(Tùy chỉnh riêng cho contest này)</span>
+                    </label>
+                    <input type="number" step="1000" name="fee_override" id="cf-fee-override" class="tuition-modal-input" placeholder="{{ _('Để trống để dùng giá tự động theo số buổi') }}">
+                    <div style="font-size: 12px; color: #64748b; margin-top: 5px;">
+                        {{ _('Để trống: tự tính (Số buổi &times; Đơn giá lớp). Hoặc nhập số tiền cụ thể nếu buổi này có chi phí riêng.') }}
+                    </div>
+                </div>
+
+                <div>
+                    <label class="form-group-label">{{ _('Ghi chú') }}</label>
+                    <input type="text" name="note" id="cf-note" class="tuition-modal-input" placeholder="{{ _('Ví dụ: Làm bài trong 2 buổi, bài kiểm tra đặc biệt...') }}">
+                </div>
+            </div>
+            <div class="tuition-modal-footer">
+                <button type="button" class="btn-tuition-print" onclick="closeModal('modal-contest-fee')">{{ _('Hủy bỏ') }}</button>
+                <button type="submit" class="btn-tuition-action">{{ _('Lưu thay đổi') }}</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var currentTotalFee = 0;
+    var defaultOrgFee = {{ org_tuition.default_fee_per_session if org_tuition else 200000 }};
+    var activeOrgId = null;
+    var activeProfileId = null;
+    var hasExclusionChanged = false;
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        var map = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' };
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
+
+    function switchOrganization(orgId) {
+        var period = document.getElementById('period-filter-select').value;
+        window.location.href = '/tuition/?org=' + encodeURIComponent(orgId) + '&period=' + encodeURIComponent(period);
+    }
+
+    function switchPeriod(period) {
+        var orgId = document.getElementById('org-filter-select').value;
+        window.location.href = '/tuition/?org=' + encodeURIComponent(orgId) + '&period=' + encodeURIComponent(period);
+    }
+
+    function switchTab(tabName) {
+        var tabStudents = document.getElementById('tab-btn-students');
+        var tabContests = document.getElementById('tab-btn-contests');
+        var contentStudents = document.getElementById('tab-content-students');
+        var contentContests = document.getElementById('tab-content-contests');
+
+        if (tabName === 'students') {
+            tabStudents.classList.add('is-active');
+            tabContests.classList.remove('is-active');
+            contentStudents.style.display = 'block';
+            contentContests.style.display = 'none';
+        } else {
+            tabContests.classList.add('is-active');
+            tabStudents.classList.remove('is-active');
+            contentContests.style.display = 'block';
+            contentStudents.style.display = 'none';
+        }
+    }
+
+    function filterStudents(query) {
+        query = (query || '').toLowerCase().trim();
+        var rows = document.querySelectorAll('.student-row');
+        var visibleCount = 0;
+        rows.forEach(function(row) {
+            var text = row.getAttribute('data-name') || '';
+            if (!query || text.indexOf(query) !== -1) {
+                row.style.display = '';
+                visibleCount++;
+            } else {
+                row.style.display = 'none';
+            }
+        });
+        var countDisp = document.getElementById('student-count-display');
+        if (countDisp) countDisp.innerText = String(visibleCount);
+    }
+
+    function openModal(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.add('is-open');
+    }
+
+    function closeModal(id) {
+        var el = document.getElementById(id);
+        if (el) el.classList.remove('is-open');
+    }
+
+    function openSettingsModal() {
+        openModal('modal-settings');
+    }
+
+    function updateRadioSelection() {
+        var isInd = document.querySelector('input[name="billing_type"][value="individual"]').checked;
+        document.getElementById('radio-card-ind').classList.toggle('selected', isInd);
+        document.getElementById('radio-card-cen').classList.toggle('selected', !isInd);
+    }
+
+    function quickSwitchBillingType(newType) {
+        var orgId = document.getElementById('org-filter-select').value;
+        var currentFee = document.getElementById('settings-default-fee').value;
+        var formData = new FormData();
+        formData.append('org_id', orgId);
+        formData.append('billing_type', newType);
+        formData.append('default_fee_per_session', currentFee);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/settings/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                window.location.reload();
+            } else {
+                alert(data.message || 'Lỗi cập nhật');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function submitOrgSettings(e) {
+        e.preventDefault();
+        var form = document.getElementById('form-org-settings');
+        var formData = new FormData(form);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/settings/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                closeModal('modal-settings');
+                window.location.reload();
+            } else {
+                alert(data.message || 'Lỗi cập nhật');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function openPaymentModal(orgId, profileId, studentName, totalFee, paidAmount, status, note) {
+        document.getElementById('pay-org-id').value = orgId;
+        document.getElementById('pay-profile-id').value = profileId;
+        document.getElementById('pay-student-name').innerText = studentName;
+        currentTotalFee = totalFee;
+        document.getElementById('pay-total-fee-display').innerText = (totalFee || 0).toLocaleString('vi-VN') + ' đ';
+        document.getElementById('pay-paid-amount').value = paidAmount || 0;
+        document.getElementById('pay-status').value = status || 'unpaid';
+        document.getElementById('pay-note').value = note || '';
+        openModal('modal-payment');
+    }
+
+    function setQuickPaidAmount(mode) {
+        var input = document.getElementById('pay-paid-amount');
+        if (mode === 'full') {
+            input.value = currentTotalFee;
+        } else {
+            input.value = 0;
+        }
+        autoUpdateStatusByAmount();
+    }
+
+    function autoUpdateStatusByAmount() {
+        var paid = parseFloat(document.getElementById('pay-paid-amount').value) || 0;
+        var statusSelect = document.getElementById('pay-status');
+        if (paid <= 0) {
+            statusSelect.value = 'unpaid';
+        } else if (paid >= currentTotalFee) {
+            statusSelect.value = 'paid';
+        } else {
+            statusSelect.value = 'partial';
+        }
+    }
+
+    function submitPayment(e) {
+        e.preventDefault();
+        var form = document.getElementById('form-payment');
+        var formData = new FormData(form);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/payment/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                closeModal('modal-payment');
+                window.location.reload();
+            } else {
+                alert(data.message || 'Lỗi cập nhật');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function deletePaymentRecord() {
+        if (!confirm('{{ _("Bạn có chắc chắn muốn xóa bản ghi thanh toán này và đặt lại số tiền về 0 đ?") }}')) return;
+        var orgId = document.getElementById('pay-org-id').value;
+        var profileId = document.getElementById('pay-profile-id').value;
+        var period = document.getElementById('pay-period').value;
+
+        var formData = new FormData();
+        formData.append('org_id', orgId);
+        formData.append('profile_id', profileId);
+        formData.append('period', period);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/delete-payment/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                closeModal('modal-payment');
+                window.location.reload();
+            } else {
+                alert(data.message || 'Lỗi xóa thanh toán');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function openContestFeeModal(contestId, contestName, sessionCount, feeOverride, isBilled, note) {
+        document.getElementById('cf-contest-id').value = contestId;
+        document.getElementById('cf-contest-name').innerText = contestName;
+        document.getElementById('cf-session-count').value = sessionCount || 1;
+        document.getElementById('cf-is-billed').checked = !!isBilled;
+        document.getElementById('cf-fee-override').value = (feeOverride !== null && feeOverride !== undefined) ? feeOverride : '';
+        document.getElementById('cf-note').value = note || '';
+        calculateSuggestedFee();
+        openModal('modal-contest-fee');
+    }
+
+    function calculateSuggestedFee() {
+        var count = parseInt(document.getElementById('cf-session-count').value, 10) || 1;
+        if (count < 1) count = 1;
+        var suggested = count * defaultOrgFee;
+        document.getElementById('cf-suggested-val').innerText = count + ' × ' + defaultOrgFee.toLocaleString('vi-VN') + ' đ = ' + suggested.toLocaleString('vi-VN') + ' đ';
+    }
+
+    function applySuggestedFee() {
+        var count = parseInt(document.getElementById('cf-session-count').value, 10) || 1;
+        if (count < 1) count = 1;
+        document.getElementById('cf-fee-override').value = count * defaultOrgFee;
+    }
+
+    function submitContestFee(e) {
+        e.preventDefault();
+        var form = document.getElementById('form-contest-fee');
+        var formData = new FormData(form);
+        formData.append('is_billed', document.getElementById('cf-is-billed').checked ? 'true' : 'false');
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/contest-fee/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                closeModal('modal-contest-fee');
+                if (activeProfileId) {
+                    reloadStudentDetailData();
+                } else {
+                    window.location.reload();
+                }
+            } else {
+                alert(data.message || 'Lỗi cập nhật');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function unlinkContestFromOrg(orgId, contestId, contestName) {
+        if (!confirm('{{ _("Bạn có chắc muốn xóa buổi học") }} "' + contestName + '" {{ _("khỏi lớp học này không? (Buổi học sẽ không còn được tính vào học phí của lớp này).") }}')) {
+            return;
+        }
+
+        var formData = new FormData();
+        formData.append('org_id', orgId);
+        formData.append('contest_id', contestId);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/unlink-contest/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                window.location.reload();
+            } else {
+                alert(data.message || 'Lỗi xóa buổi học');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function openStudentDetailModal(orgId, profileId) {
+        activeOrgId = orgId;
+        activeProfileId = profileId;
+        hasExclusionChanged = false;
+
+        var period = document.getElementById('period-filter-select').value;
+        var tbody = document.getElementById('detail-sessions-body');
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 24px; color: #94a3b8;">Đang tải dữ liệu...</td></tr>';
+
+        openModal('modal-student-detail');
+        reloadStudentDetailData();
+    }
+
+    function closeStudentDetailModal() {
+        closeModal('modal-student-detail');
+        activeProfileId = null;
+        if (hasExclusionChanged) {
+            window.location.reload();
+        }
+    }
+
+    function reloadStudentDetailData() {
+        var period = document.getElementById('period-filter-select').value;
+        var tbody = document.getElementById('detail-sessions-body');
+
+        fetch('/tuition/student-detail/?org_id=' + activeOrgId + '&profile_id=' + activeProfileId + '&period=' + encodeURIComponent(period))
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status !== 'ok') {
+                tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #f87171; padding: 20px;">' + escapeHtml(data.message || 'Lỗi tải dữ liệu') + '</td></tr>';
+                return;
+            }
+
+            document.getElementById('detail-student-title').innerText = data.student.display_name + ' (@' + data.student.username + ')';
+            document.getElementById('detail-student-subtitle').innerText = data.organization.name + ' • ' + data.billing_type_display + ' • Đơn giá chuẩn: ' + data.default_fee_fmt + '/buổi';
+            document.getElementById('detail-total-billable-sessions').innerText = data.total_billable_sessions;
+            document.getElementById('detail-total-amount').innerText = data.total_amount_fmt;
+
+            var html = '';
+            if (!data.sessions || data.sessions.length === 0) {
+                html = '<tr><td colspan="8" style="text-align: center; padding: 24px; color: #94a3b8;">Không có buổi học nào trong kỳ này.</td></tr>';
+            } else {
+                data.sessions.forEach(function(s, idx) {
+                    var actionBtns = '<div style="display: inline-flex; gap: 4px; flex-wrap: wrap; justify-content: center;">';
+
+                    // Quick edit contest fee from inside student detail
+                    actionBtns += '<button type="button" class="btn-row-action primary" style="padding: 3px 8px; font-size: 11px;" title="Chỉnh sửa đơn giá hoặc số buổi của contest này" onclick="openContestFeeModal(' + s.contest_id + ', \'' + escapeHtml(s.contest_name) + '\', ' + s.session_count + ', ' + (s.fee_override !== null && s.fee_override !== undefined ? s.fee_override : 'null') + ', ' + s.is_billed + ', \'\')">' +
+                        '<span>Sửa giá</span>' +
+                        '</button>';
+
+                    if (s.is_excluded) {
+                        actionBtns += '<button type="button" class="btn-session-restore" style="padding: 3px 8px; font-size: 11px;" onclick="restoreSession(' + s.contest_id + ')">' +
+                            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>' +
+                            '<span>Khôi phục</span>' +
+                            '</button>';
+                    } else {
+                        actionBtns += '<button type="button" class="btn-session-delete" style="padding: 3px 8px; font-size: 11px;" onclick="excludeSession(' + s.contest_id + ', \'' + escapeHtml(s.contest_name) + '\', ' + s.has_participation + ')">' +
+                            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>' +
+                            '<span>Xóa buổi</span>' +
+                            '</button>';
+                    }
+                    actionBtns += '</div>';
+
+                    html += '<tr style="' + (s.is_excluded ? 'opacity: 0.6; background: rgba(239, 68, 68, 0.04);' : '') + '">' +
+                        '<td>' + (idx + 1) + '</td>' +
+                        '<td><strong style="color: #ffffff;">' + escapeHtml(s.contest_name) + '</strong></td>' +
+                        '<td style="color: #cbd5e1;">' + escapeHtml(s.start_time) + '</td>' +
+                        '<td style="text-align: center;">' +
+                            (s.session_count > 1 ? '<span class="badge-multi-session">' + s.session_count + ' buổi</span>' : '<span style="color:#94a3b8; font-size:12px;">1 buổi</span>') +
+                        '</td>' +
+                        '<td style="text-align: center;">' +
+                            (s.attended
+                                ? '<span class="badge-session attended"><i class="fa fa-check"></i> Có mặt ' + (s.score !== null ? '(' + s.score + 'đ)' : '') + '</span>'
+                                : '<span class="badge-session absent"><i class="fa fa-times"></i> Vắng mặt</span>'
+                            ) +
+                        '</td>' +
+                        '<td style="text-align: right; font-weight: 700;' + (s.charged ? ' color: #38bdf8;' : ' color: #64748b;') + '">' +
+                            escapeHtml(s.charge_amount_fmt) +
+                        '</td>' +
+                        '<td style="font-size: 12.5px; color: ' + (s.is_excluded ? '#f87171;' : '#94a3b8;') + '">' +
+                            escapeHtml(s.charge_reason) +
+                        '</td>' +
+                        '<td style="text-align: center;">' + actionBtns + '</td>' +
+                    '</tr>';
+                });
+            }
+            tbody.innerHTML = html;
+        })
+        .catch(function(err) {
+            tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; color: #f87171; padding: 20px;">Lỗi kết nối máy chủ.</td></tr>';
+        });
+    }
+
+    function excludeSession(contestId, contestName, hasParticipation) {
+        var msg = '{{ _("Bạn có chắc muốn xóa buổi học") }} "' + contestName + '" {{ _("khỏi danh sách tính tiền của học viên này?") }}';
+        var removePart = false;
+        if (hasParticipation) {
+            if (!confirm(msg)) return;
+            removePart = confirm('{{ _("Học viên này đã có bài làm trong kỳ thi. Bạn có muốn xóa luôn lượt tham gia kỳ thi của học viên không? (Bấm OK để xóa cả lượt tham gia, bấm Cancel để chỉ trừ tiền học phí).") }}');
+        } else {
+            if (!confirm(msg)) return;
+        }
+
+        var formData = new FormData();
+        formData.append('org_id', activeOrgId);
+        formData.append('profile_id', activeProfileId);
+        formData.append('contest_id', contestId);
+        formData.append('remove_participation', removePart ? 'true' : 'false');
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/exclude-session/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                hasExclusionChanged = true;
+                reloadStudentDetailData();
+            } else {
+                alert(data.message || 'Lỗi xóa buổi học');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    function restoreSession(contestId) {
+        var formData = new FormData();
+        formData.append('org_id', activeOrgId);
+        formData.append('profile_id', activeProfileId);
+        formData.append('contest_id', contestId);
+        formData.append('csrfmiddlewaretoken', '{{ csrf_token }}');
+
+        fetch('/tuition/restore-session/', {
+            method: 'POST',
+            body: formData,
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(data) {
+            if (data.status === 'ok') {
+                hasExclusionChanged = true;
+                reloadStudentDetailData();
+            } else {
+                alert(data.message || 'Lỗi khôi phục buổi học');
+            }
+        })
+        .catch(function(err) {
+            alert('Lỗi kết nối máy chủ');
+        });
+    }
+
+    // Close modal on backdrop click
+    document.querySelectorAll('.tuition-modal-backdrop').forEach(function(backdrop) {
+        backdrop.addEventListener('click', function(e) {
+            if (e.target === backdrop) {
+                if (backdrop.id === 'modal-student-detail') {
+                    closeStudentDetailModal();
+                } else {
+                    backdrop.classList.remove('is-open');
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

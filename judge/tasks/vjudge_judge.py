@@ -243,6 +243,16 @@ def judge_vjudge_submission_task(submission_id, method=0, binding_id=None, open_
             raw_err = res.get('error')
             err_msg = format_vjudge_error(raw_err, oj=problem.vjudge_oj)
             logger.error(f"Submission #{submission_id} VJudge submission error: {err_msg}")
+
+            if 'login_required' in str(raw_err).lower():
+                try:
+                    profile.vjudge_cookie = ''
+                    profile.vjudge_username = ''
+                    profile.vjudge_binding_id = None
+                    profile.save(update_fields=['vjudge_cookie', 'vjudge_username', 'vjudge_binding_id'])
+                except Exception:
+                    pass
+
             Submission.objects.filter(id=submission_id).update(status='IE', result='IE', error=err_msg)
             event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
             _post_update_submission(submission, done=True)
