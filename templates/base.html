@@ -3791,15 +3791,10 @@
     /* ==========================================================================
        Interactive Card Hover Effects (DESIGN.md - Clean Hairline Standards)
        ========================================================================== */
-    .tabs,
-    .problems.h-scrollable-table,
     .problem-search-sidebox,
     .sidebox {
         transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
     }
-
-    .tabs:hover,
-    .problems.h-scrollable-table:hover,
     .problem-search-sidebox:hover,
     .sidebox:hover {
         border-color: rgba(255, 255, 255, 0.2) !important; /* {colors.hairline-strong} */
@@ -3807,7 +3802,14 @@
         transform: translateY(-1px) !important;
         background: #121214 !important;
     }
-
+    .tabs,
+    .tabs:hover {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
     html[data-theme=light] .sidebox:hover,
     html.theme-light .sidebox:hover {
         border-color: #dcdee0 !important; /* {colors.hairline-strong} */
