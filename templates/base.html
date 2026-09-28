@@ -1349,16 +1349,19 @@
         display: flex;
         flex-direction: column;
     }
+    /* =========================================================
+       EXPO NEWS & BLOG CARDS (DESIGN.md)
+       ========================================================= */
     #blog-container .blog-content.sidebox,
     #blog-container .blog-sidebox.sidebox,
     .sidebox {
-        background: #0d1322 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 20px !important;
-        padding: 26px !important;
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
+        background: #121214 !important; /* {colors.surface-card} */
+        border: 1px solid rgba(255, 255, 255, 0.08) !important; /* {colors.hairline} */
+        border-radius: 12px !important; /* {rounded.lg} */
+        padding: 24px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
         outline: none !important;
-        margin-bottom: 24px;
+        margin-bottom: 24px !important;
     }
     .blog-main-col .blog-content.sidebox {
         margin-bottom: 0 !important;
@@ -1379,46 +1382,54 @@
         margin: 0 !important;
     }
     .blog-header-row h3 {
-        color: #ffffff !important;
-        font-size: 20px;
-        font-weight: 700;
+        color: #f4f4f5 !important;
+        font-size: 17px;
+        font-weight: 600;
+        letter-spacing: -0.2px;
         margin: 0 !important;
         border: none !important;
         display: flex;
         align-items: center;
     }
+    .blog-header-left h3 i {
+        display: none !important;
+    }
     .blog-subtitle {
-        color: #9ca3af;
+        color: #71717a;
         font-size: 12px;
         margin: 0;
     }
     .blog-header-right a, .blog-header-right .rss-text {
-        color: #9ca3af;
+        color: #a1a1aa;
         font-size: 12px;
         text-decoration: none;
-        font-weight: 600;
+        font-weight: 500;
     }
-    
+    .blog-header-right a:hover {
+        color: #ffffff;
+    }
+    /* News Post Card */
     .post {
-        background: #111828 !important;
-        border: 1px solid rgba(255, 255, 255, 0.07) !important;
-        border-radius: 16px !important;
+        background: #121214 !important; /* {colors.surface-card} */
+        border: 1px solid rgba(255, 255, 255, 0.08) !important; /* {colors.hairline} */
+        border-radius: 12px !important; /* {rounded.lg} */
         padding: 24px !important;
         margin-bottom: 20px !important;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
         cursor: pointer;
-        transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
     }
+    /* Post hover: Hairline strong border, NO BLUE OUTLINE! */
     .post:hover {
-        background: #141d30 !important;
-        border-color: rgba(59, 130, 246, 0.35) !important;
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+        background: #121214 !important;
+        border-color: rgba(255, 255, 255, 0.2) !important; /* {colors.hairline-strong} */
+        transform: translateY(-1px);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45) !important;
     }
     .post:hover h2.title a {
-        color: #93c5fd !important;
+        color: #ffffff !important; /* Crisp white on hover, NO light blue */
     }
     .post:last-child {
         margin-bottom: 0 !important;
@@ -1428,54 +1439,65 @@
         margin-bottom: 8px;
     }
     .post h2.title a {
-        color: #60a5fa !important;
-        font-size: 22px;
-        font-weight: 700;
+        color: #f4f4f5 !important;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: -0.35px;
         text-decoration: none !important;
-        transition: color 0.2s;
-    }
-    .post h2.title a:hover {
-        color: #93c5fd !important;
-        text-decoration: underline !important;
+        transition: color 0.15s ease;
     }
     .post .time {
         order: -1;
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        color: #94a3b8;
-        font-size: 13px;
+        color: #71717a;
+        font-size: 12.5px;
         margin-bottom: 6px;
     }
     .post .time i.fa-star {
-        color: #fbbf24;
+        color: #f59e0b;
+    }
+    .post .time a {
+        color: #a1a1aa !important;
+        text-decoration: none !important;
+    }
+    .post .time a:hover {
+        color: #ffffff !important;
     }
     .post .comment-data {
         margin-bottom: 14px;
-        font-size: 13px;
+        font-size: 12.5px;
     }
     .post .comment-data a {
-        color: #94a3b8 !important;
+        color: #a1a1aa !important;
         text-decoration: none !important;
         display: inline-flex;
         align-items: center;
         gap: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 9999px;
+        padding: 2px 10px;
+        font-size: 11px;
+        font-weight: 600;
+        transition: all 0.15s ease;
     }
     .post .comment-data a:hover {
-        color: #38bdf8 !important;
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: #ffffff !important;
     }
-    
     /* Post content full display */
     .post .content-description {
-        color: #e2e8f0;
-        font-size: 15px;
-        line-height: 1.7;
+        color: #a1a1aa;
+        font-size: 14.5px;
+        line-height: 1.65;
     }
     .post .content-description p {
-        margin: 0 0 14px 0 !important;
-        color: #e2e8f0 !important;
-        font-size: 15px !important;
-        line-height: 1.7 !important;
+        margin: 0 0 12px 0 !important;
+        color: #a1a1aa !important;
+        font-size: 14.5px !important;
+        line-height: 1.65 !important;
         display: block !important;
     }
     .post .content-description p:last-child {
@@ -1497,35 +1519,38 @@
         margin: 0 !important;
         box-shadow: none !important;
         display: list-item !important;
-        color: #cbd5e1 !important;
+        color: #a1a1aa !important;
         font-size: 14px !important;
     }
     .post .content-description a {
-        color: #38bdf8 !important;
+        color: #38bdf8 !important; /* Inline body link only */
         text-decoration: underline;
     }
     .post .content-description a:hover {
         color: #7dd3fc !important;
     }
-    .post .content-description pre {
-        background: #080c16 !important;
+    .post .content-description pre,
+    .post .codehilite pre,
+    .post .codehilite {
+        background: #171717 !important; /* {colors.surface-dark} */
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 10px !important;
+        border-radius: 8px !important; /* {rounded.md} */
         padding: 14px 18px !important;
         margin: 14px 0 !important;
         overflow-x: auto;
-        color: #f1f5f9;
-        font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
-        font-size: 13.5px;
-    }
-    .post .content-description code {
-        background: #080c16 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 6px;
-        padding: 2px 6px;
-        color: #93c5fd;
+        color: #f4f4f5;
         font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
         font-size: 13px;
+        line-height: 1.55;
+    }
+    .post .content-description code {
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 4px;
+        padding: 2px 6px;
+        color: #f4f4f5;
+        font-family: 'JetBrains Mono', Consolas, Monaco, monospace;
+        font-size: 12.5px;
     }
     .post .content-description pre code {
         border: none !important;
@@ -1538,7 +1563,6 @@
         border-top: 1px solid rgba(255, 255, 255, 0.08);
         margin: 20px 0;
     }
-    
     /* Comment Stream & Sidebar Lists */
     .blog-sidebar .sidebox-content ul {
         list-style: none !important;
@@ -1549,24 +1573,34 @@
     .problem-list li,
     .open-tickets li,
     .blog-sidebar .sidebox-content > ul > li {
-        background: #111828 !important;
-        border: 1px solid rgba(255, 255, 255, 0.07) !important;
-        border-radius: 12px !important;
-        padding: 14px 16px !important;
-        margin-bottom: 12px !important;
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important; /* {colors.hairline} */
+        border-radius: 6px !important;
+        padding: 10px 8px !important;
+        margin-bottom: 0 !important;
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-        transition: background 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+        gap: 4px;
+        box-shadow: none !important;
+        transition: background 0.15s ease, padding 0.15s ease;
     }
+    .comment-card:last-child, 
+    .problem-list li:last-child,
+    .open-tickets li:last-child,
+    .blog-sidebar .sidebox-content > ul > li:last-child {
+        border-bottom: none !important;
+    }
+    /* Hover on list items: surface strong background, NO BLUE BORDER! */
     .comment-card:hover, 
     .problem-list li:hover,
     .open-tickets li:hover,
     .blog-sidebar .sidebox-content > ul > li:hover {
-        background: #162034 !important;
-        border-color: rgba(59, 130, 246, 0.3) !important;
-        transform: translateY(-1px);
+        background: rgba(255, 255, 255, 0.06) !important; /* {colors.surface-strong} */
+        border-color: rgba(255, 255, 255, 0.08) !important;
+        transform: none !important;
+        padding-left: 10px !important;
+        box-shadow: none !important;
     }
     .comment-header {
         display: flex;
@@ -1574,48 +1608,63 @@
         gap: 8px;
     }
     .comment-avatar {
-        width: 24px;
-        height: 24px;
-        border-radius: 50%;
+        width: 22px;
+        height: 22px;
+        border-radius: 6px; /* {rounded.sm} */
+        flex-shrink: 0;
     }
     .comment-card .poster {
         font-weight: 600;
-        color: #f3f4f6;
-        font-size: 14px;
+        color: #f4f4f5;
+        font-size: 13.5px;
     }
-    .comment-body a {
-        color: #94a3b8;
-        font-size: 14px;
-        line-height: 1.5;
-        display: block;
+    .comment-card .poster a {
+        color: #f4f4f5;
         text-decoration: none;
     }
+    .comment-card .poster a:hover {
+        color: #ffffff;
+    }
+    .comment-body a {
+        color: #a1a1aa;
+        font-size: 13px;
+        line-height: 1.45;
+        display: block;
+        text-decoration: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transition: color 0.15s ease;
+    }
+    /* Link hover: Clean white, NO electric blue! */
     .comment-body a:hover {
-        color: #60a5fa;
+        color: #ffffff !important;
     }
     .problem-list li a, .open-tickets li a {
-        color: #e2e8f0 !important;
-        font-size: 14px;
+        color: #f4f4f5 !important;
+        font-size: 13.5px;
         font-weight: 500;
         text-decoration: none !important;
+        display: block;
+        line-height: 1.45;
+        transition: color 0.15s ease;
     }
+    /* Problem title hover: Clean white, NO electric blue! */
     .problem-list li a:hover, .open-tickets li a:hover {
-        color: #60a5fa !important;
+        color: #ffffff !important;
     }
-    
     .rssatom {
         display: none !important;
     }
-
     .sidebox {
         width: 100% !important;
         box-sizing: border-box !important;
-        background: #0d1322 !important;
+        background: #121214 !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 20px !important;
-        padding: 38px 44px !important;
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
-        margin-bottom: 28px !important;
+        border-radius: 12px !important;
+        padding: 24px 26px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+        margin-bottom: 24px !important;
     }
     .post-detail-title {
         font-size: 32px;
