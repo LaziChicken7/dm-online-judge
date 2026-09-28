@@ -1,42 +1,933 @@
 {% extends "blog/list.html" %}
+
+{% block media %}
+    {{ super() }}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        /* ==========================================================================
+           EXPO DESIGN SYSTEM - DESIGN.md SPECIFICATION
+           ========================================================================== */
+        :root, html[data-theme="light"] {
+            --expo-canvas: #ffffff;
+            --expo-canvas-soft: #fafafa;
+            --expo-surface-card: #ffffff;
+            --expo-surface-strong: #f0f0f3;
+            --expo-surface-dark: #171717;
+            --expo-surface-dark-elevated: #1a1a1a;
+            --expo-primary: #000000;
+            --expo-primary-active: #1a1a1a;
+            --expo-on-primary: #ffffff;
+            --expo-ink: #171717;
+            --expo-body: #60646c;
+            --expo-body-strong: #171717;
+            --expo-muted: #999999;
+            --expo-muted-soft: #cccccc;
+            --expo-hairline: #f0f0f3;
+            --expo-hairline-soft: #f5f5f7;
+            --expo-hairline-strong: #dcdee0;
+            --expo-text-link: #0d74ce;
+            --expo-text-link-secondary: #476cff;
+            --expo-sky-light: #cfe7ff;
+            --expo-sky-mid: #a8c8e8;
+            --expo-accent-warning: #ab6400;
+            --expo-accent-preview: #8145b5;
+            --expo-accent-bright: #47c2ff;
+            --expo-semantic-error: #eb8e90;
+            --expo-semantic-success: #16a34a;
+            --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+            --expo-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --expo-hero-wash: radial-gradient(ellipse 90% 60% at 50% -10%, #cfe7ff 0%, #e0f2fe 32%, rgba(255, 255, 255, 0.95) 75%, #ffffff 100%);
+            --expo-ide-bg: #171717;
+            --expo-ide-border: #2e2e32;
+        }
+
+        html[data-theme="dark"] {
+            --expo-canvas: #09090b;
+            --expo-canvas-soft: #111113;
+            --expo-surface-card: #141416;
+            --expo-surface-strong: #1f1f23;
+            --expo-surface-dark: #171717;
+            --expo-surface-dark-elevated: #222226;
+            --expo-primary: #ffffff;
+            --expo-primary-active: #e5e5e5;
+            --expo-on-primary: #000000;
+            --expo-ink: #f4f4f5;
+            --expo-body: #a1a1aa;
+            --expo-body-strong: #ffffff;
+            --expo-muted: #71717a;
+            --expo-muted-soft: #52525b;
+            --expo-hairline: rgba(255, 255, 255, 0.08);
+            --expo-hairline-soft: rgba(255, 255, 255, 0.05);
+            --expo-hairline-strong: rgba(255, 255, 255, 0.15);
+            --expo-text-link: #38bdf8;
+            --expo-text-link-secondary: #60a5fa;
+            --expo-sky-light: #0369a1;
+            --expo-sky-mid: #0284c7;
+            --expo-accent-warning: #f59e0b;
+            --expo-accent-preview: #a855f7;
+            --expo-accent-bright: #38bdf8;
+            --expo-semantic-error: #ef4444;
+            --expo-semantic-success: #22c55e;
+            --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            --expo-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+            --expo-hero-wash: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(14, 165, 233, 0.16) 0%, rgba(56, 189, 248, 0.06) 35%, rgba(15, 23, 42, 0.2) 75%, transparent 100%);
+            --expo-ide-bg: #121214;
+            --expo-ide-border: rgba(255, 255, 255, 0.1);
+        }
+
+        /* --- Global Reset for Home Page --- */
+        #content {
+            max-width: 1240px !important;
+            margin: 70px auto 40px !important;
+            padding: 0 24px !important;
+            font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+        }
+
+        /* Hide the old legacy hero completely */
+        .hero-container {
+            display: none !important;
+        }
+
+        /* ==========================================================================
+           1. HERO BAND (Atmospheric Sky-Blue Wash & Mega Display)
+           ========================================================================== */
+        .expo-hero-band {
+            position: relative;
+            background: var(--expo-hero-wash);
+            border: 1px solid var(--expo-hairline);
+            border-radius: 24px;
+            padding: 56px 32px 48px;
+            margin-bottom: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            box-shadow: var(--expo-card-shadow);
+        }
+
+        .expo-badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--expo-surface-strong);
+            color: var(--expo-ink);
+            border: 1px solid var(--expo-hairline-strong);
+            border-radius: 9999px; /* {rounded.pill} */
+            padding: 4px 12px;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 1.4;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            user-select: none;
+        }
+
+        .expo-badge-pulse {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: var(--expo-semantic-success);
+            box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.2);
+            animation: expo-pulse 2s infinite;
+        }
+
+        @keyframes expo-pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.15); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .expo-hero-title {
+            font-size: clamp(34px, 5.5vw, 56px);
+            font-weight: 600;
+            line-height: 1.05;
+            letter-spacing: -1.6px;
+            color: var(--expo-ink);
+            max-width: 920px;
+            margin: 0 auto 16px;
+        }
+
+        .expo-hero-subtitle {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 1.6;
+            color: var(--expo-body);
+            max-width: 680px;
+            margin: 0 auto 32px;
+        }
+
+        /* --- Buttons (8px CTAs, strictly following DESIGN.md) --- */
+        .expo-actions-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+        }
+
+        .expo-btn-primary {
+            height: 40px;
+            padding: 0 20px;
+            background: var(--expo-primary);
+            color: var(--expo-on-primary) !important;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px; /* {rounded.md} */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none !important;
+            transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+            border: none;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+        }
+
+        .expo-btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .expo-btn-primary:active {
+            background: var(--expo-primary-active);
+            transform: translateY(0);
+        }
+
+        .expo-btn-secondary {
+            height: 40px;
+            padding: 0 18px;
+            background: var(--expo-surface-card);
+            color: var(--expo-ink) !important;
+            border: 1px solid var(--expo-hairline-strong);
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 8px; /* {rounded.md} */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none !important;
+            transition: all 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--expo-card-shadow);
+        }
+
+        .expo-btn-secondary:hover {
+            background: var(--expo-surface-strong);
+            transform: translateY(-1px);
+        }
+
+        .expo-btn-tertiary {
+            height: 40px;
+            padding: 0 14px;
+            background: transparent;
+            color: var(--expo-text-link) !important;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none !important;
+            transition: all 0.15s ease;
+        }
+
+        .expo-btn-tertiary:hover {
+            text-decoration: underline !important;
+        }
+
+        /* ==========================================================================
+           2. IDE MOCKUP CARD (Page Chrome in Dark Inversion)
+           ========================================================================== */
+        .expo-ide-container {
+            width: 100%;
+            max-width: 880px;
+            position: relative;
+            margin: 0 auto;
+        }
+
+        .expo-ide-card {
+            background: var(--expo-ide-bg);
+            border: 1px solid var(--expo-ide-border);
+            border-radius: 16px; /* {rounded.xl} */
+            overflow: hidden;
+            box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.35);
+            text-align: left;
+        }
+
+        .expo-ide-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid var(--expo-ide-border);
+        }
+
+        .expo-traffic-lights {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .expo-traffic-dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .expo-dot-red { background: #ff5f56; }
+        .expo-dot-yellow { background: #ffbd2e; }
+        .expo-dot-green { background: #27c93f; }
+
+        .expo-ide-tabs {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .expo-ide-tab {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: #888888;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            user-select: none;
+        }
+
+        .expo-ide-tab.active {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f4f4f5;
+            font-weight: 500;
+        }
+
+        .expo-ide-lang {
+            font-family: 'Inter', sans-serif;
+            font-size: 11.5px;
+            font-weight: 500;
+            color: #71717a;
+        }
+
+        .expo-ide-code {
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 13.5px;
+            line-height: 1.6;
+            color: #d4d4d8;
+            padding: 22px 26px;
+            margin: 0;
+            overflow-x: auto;
+            background: transparent;
+        }
+
+        .expo-code-kw { color: #c084fc; font-weight: 500; }
+        .expo-code-fn { color: #60a5fa; }
+        .expo-code-type { color: #38bdf8; }
+        .expo-code-str { color: #4ade80; }
+        .expo-code-num { color: #fbbf24; }
+        .expo-code-cm { color: #71717a; font-style: italic; }
+
+        /* Floating Verdict Pill on IDE card */
+        .expo-verdict-pill {
+            position: absolute;
+            bottom: -16px;
+            right: 28px;
+            background: #18181b;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 9999px;
+            padding: 8px 18px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+            font-size: 13px;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            z-index: 10;
+        }
+
+        .expo-verdict-tag {
+            color: #4ade80;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .expo-verdict-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        /* ==========================================================================
+           3. PLATFORM STATS GRID (4-Up feature-cards)
+           ========================================================================== */
+        .expo-stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 40px 0 32px;
+            width: 100%;
+        }
+
+        .expo-stat-card {
+            background: var(--expo-surface-card);
+            border: 1px solid var(--expo-hairline);
+            border-radius: 12px; /* {rounded.lg} */
+            padding: 22px 24px;
+            text-align: left;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: var(--expo-card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .expo-stat-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--expo-hairline-strong);
+            box-shadow: var(--expo-card-hover-shadow);
+        }
+
+        .expo-stat-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+
+        .expo-stat-label {
+            font-size: 11.5px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.88px;
+            color: var(--expo-muted);
+        }
+
+        .expo-stat-icon-plate {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px; /* {rounded.md} */
+            background: var(--expo-surface-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--expo-ink);
+        }
+
+        .expo-stat-value {
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 1.1;
+            letter-spacing: -0.84px;
+            color: var(--expo-ink);
+            margin-bottom: 6px;
+        }
+
+        .expo-stat-desc {
+            font-size: 13.5px;
+            line-height: 1.45;
+            color: var(--expo-body);
+        }
+
+        /* ==========================================================================
+           4. WORKFLOW STEPS ("Get Started" Developer Sequence)
+           ========================================================================== */
+        .expo-workflow-section {
+            background: var(--expo-canvas-soft);
+            border: 1px solid var(--expo-hairline);
+            border-radius: 20px;
+            padding: 40px 32px;
+            margin-bottom: 40px;
+        }
+
+        .expo-section-badge {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.88px;
+            text-transform: uppercase;
+            color: var(--expo-text-link);
+            margin-bottom: 10px;
+        }
+
+        .expo-section-title {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: -0.6px;
+            color: var(--expo-ink);
+            margin: 0 0 10px;
+        }
+
+        .expo-section-subtitle {
+            font-size: 15px;
+            color: var(--expo-body);
+            max-width: 640px;
+            margin: 0 0 32px;
+            line-height: 1.5;
+        }
+
+        .expo-workflow-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .expo-workflow-card {
+            background: var(--expo-surface-card);
+            border: 1px solid var(--expo-hairline);
+            border-radius: 12px; /* {rounded.lg} */
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            transition: all 0.2s ease;
+            box-shadow: var(--expo-card-shadow);
+        }
+
+        .expo-workflow-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--expo-hairline-strong);
+            box-shadow: var(--expo-card-hover-shadow);
+        }
+
+        .expo-workflow-plate {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px; /* {rounded.md} */
+            background: var(--expo-surface-strong);
+            border: 1px solid var(--expo-hairline);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--expo-ink);
+            margin-bottom: 16px;
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .expo-workflow-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--expo-ink);
+            margin: 0 0 8px;
+            letter-spacing: -0.2px;
+        }
+
+        .expo-workflow-card p {
+            font-size: 13.5px;
+            line-height: 1.5;
+            color: var(--expo-body);
+            margin: 0;
+        }
+
+        /* ==========================================================================
+           5. ANNOUNCEMENTS & CONTEST SIDEBOX RESTYLING (Expo Polish)
+           ========================================================================== */
+        #blog-container {
+            display: flex !important;
+            gap: 32px !important;
+            width: 100% !important;
+            margin-top: 16px !important;
+        }
+
+        .blog-main-col {
+            flex: 1 1 68% !important;
+            min-width: 0 !important;
+        }
+
+        #blog-sidebox {
+            flex: 0 0 340px !important;
+            width: 340px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 20px !important;
+        }
+
+        /* News Blog Card */
+        .blog-content.sidebox {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 16px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            padding: 24px 28px !important;
+            margin-bottom: 24px !important;
+        }
+
+        .blog-header-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding-bottom: 16px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            margin-bottom: 20px !important;
+        }
+
+        .blog-header-row h3 {
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.3px !important;
+            margin: 0 !important;
+        }
+
+        /* Post Items */
+        section.post {
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            padding: 20px 0 !important;
+            transition: all 0.2s ease !important;
+        }
+
+        section.post:last-child {
+            border-bottom: none !important;
+            padding-bottom: 4px !important;
+        }
+
+        section.post h2.title a {
+            font-size: 20px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            text-decoration: none !important;
+            transition: color 0.15s ease !important;
+        }
+
+        section.post h2.title a:hover {
+            color: var(--expo-text-link) !important;
+        }
+
+        section.post .time,
+        section.post .comment-data {
+            font-size: 13px !important;
+            color: var(--expo-muted) !important;
+        }
+
+        section.post .summary {
+            font-size: 15px !important;
+            line-height: 1.6 !important;
+            color: var(--expo-body) !important;
+            margin-top: 10px !important;
+        }
+
+        /* Sidebox Cards */
+        .blog-sidebox.sidebox {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 14px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            padding: 20px 22px !important;
+            margin-bottom: 0 !important;
+        }
+
+        .blog-sidebox h3 {
+            font-size: 15px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.2px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 14px 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .ongoing-contest-card {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 10px !important;
+            padding: 14px !important;
+            margin-bottom: 12px !important;
+            transition: all 0.2s ease !important;
+        }
+
+        .ongoing-contest-card:hover {
+            border-color: var(--expo-hairline-strong) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+        }
+
+        .ongoing-contest-card a {
+            color: var(--expo-ink) !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+        }
+
+        .ongoing-contest-card a:hover {
+            color: var(--expo-text-link) !important;
+        }
+
+        .ongoing-action-btn {
+            border-radius: 8px !important; /* {rounded.md} */
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            background: var(--expo-primary) !important;
+            color: var(--expo-on-primary) !important;
+            padding: 8px 14px !important;
+            border: none !important;
+            box-shadow: none !important;
+            text-decoration: none !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            transition: all 0.15s ease !important;
+        }
+
+        .ongoing-action-btn:hover {
+            opacity: 0.9 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .problem-list li, .user-list li {
+            padding: 8px 0 !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+        }
+        .problem-list li:last-child, .user-list li:last-child {
+            border-bottom: none !important;
+        }
+        .problem-list li a {
+            color: var(--expo-ink) !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: color 0.15s ease !important;
+        }
+        .problem-list li a:hover {
+            color: var(--expo-text-link) !important;
+        }
+
+        /* ==========================================================================
+           6. RESPONSIVE BREAKPOINTS (Following DESIGN.md)
+           ========================================================================== */
+        @media (max-width: 1024px) {
+            .expo-stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .expo-workflow-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            #blog-container {
+                flex-direction: column !important;
+            }
+            #blog-sidebox {
+                width: 100% !important;
+                flex: none !important;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .expo-hero-band {
+                padding: 40px 18px 36px;
+            }
+            .expo-hero-title {
+                font-size: 32px;
+                letter-spacing: -0.8px;
+            }
+            .expo-stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .expo-workflow-grid {
+                grid-template-columns: 1fr;
+            }
+            .expo-ide-code {
+                font-size: 12px;
+                padding: 16px;
+            }
+            .expo-verdict-pill {
+                position: static;
+                margin-top: 12px;
+                display: flex;
+                justify-content: center;
+            }
+        }
+    </style>
+{% endblock %}
+
 {% block before_posts %}
-    <div class="hero-container">
-        <div class="hero-left">
-            <div class="hero-logo-box">
-                <img src="{{ static('icons/omnijudge_hero.png') }}" class="hero-brand-logo" alt="OmniJudge"
-                     style="height: 40px; border-radius: 8px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35); flex-shrink: 0; vertical-align: middle;">
-                <div class="hero-logo-text">
-                    <strong>OmniJudge</strong>
-                    <span>{{ _('Online Judge Platform') }}</span>
+    <!-- ========================================================================
+         HERO BAND (Expo Aesthetic)
+         ======================================================================== -->
+    <div class="expo-hero-band">
+        <!-- Badge Pill -->
+        <div class="expo-badge-pill">
+            <span class="expo-badge-pulse"></span>
+            <span>OmniJudge Platform &bull; Infrastructure for Competitive Programming</span>
+        </div>
+
+        <!-- Display Mega Headline -->
+        <h1 class="expo-hero-title">Nền tảng luyện thi lập trình thế hệ mới.</h1>
+
+        <!-- Subtitle -->
+        <p class="expo-hero-subtitle">
+            Hệ thống chấm bài tự động tốc độ cao, kho bài tập tuyển chọn phong phú và môi trường thi đấu trực tuyến thời gian thực dành cho học sinh, sinh viên và lập trình viên.
+        </p>
+
+        <!-- CTA Row (8px developer radii, strictly matching DESIGN.md) -->
+        <div class="expo-actions-row">
+            <a href="{{ url('problem_list') }}" class="expo-btn-primary">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>{{ _('Khám phá bài tập') }}</span>
+            </a>
+            <a href="{{ url('contest_list') }}" class="expo-btn-secondary">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+                <span>{{ _('Tham gia kỳ thi') }}</span>
+            </a>
+            <a href="{{ url('user_list') }}" class="expo-btn-tertiary">
+                <span>{{ _('Bảng xếp hạng rating') }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <!-- IDE & Code Mockup Surface (Page Chrome) -->
+        <div class="expo-ide-container">
+            <div class="expo-ide-card">
+                <div class="expo-ide-header">
+                    <div class="expo-traffic-lights">
+                        <span class="expo-traffic-dot expo-dot-red"></span>
+                        <span class="expo-traffic-dot expo-dot-yellow"></span>
+                        <span class="expo-traffic-dot expo-dot-green"></span>
+                    </div>
+                    <div class="expo-ide-tabs">
+                        <div class="expo-ide-tab active">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span>solution.cpp</span>
+                        </div>
+                        <div class="expo-ide-tab">test_data.in</div>
+                        <div class="expo-ide-tab">checker.py</div>
+                    </div>
+                    <div class="expo-ide-lang">C++20 (GCC 13.2)</div>
                 </div>
+                <pre class="expo-ide-code"><code><span class="expo-code-kw">#include</span> <span class="expo-code-str">&lt;iostream&gt;</span>
+<span class="expo-code-kw">#include</span> <span class="expo-code-str">&lt;vector&gt;</span>
+<span class="expo-code-kw">#include</span> <span class="expo-code-str">&lt;algorithm&gt;</span>
+
+<span class="expo-code-kw">using namespace</span> std;
+
+<span class="expo-code-type">int</span> <span class="expo-code-fn">main</span>() {
+    <span class="expo-code-cm">// Tối ưu I/O tốc độ cao</span>
+    ios_base::<span class="expo-code-fn">sync_with_stdio</span>(<span class="expo-code-kw">false</span>);
+    cin.<span class="expo-code-fn">tie</span>(<span class="expo-code-kw">NULL</span>);
+
+    <span class="expo-code-type">int</span> n;
+    <span class="expo-code-kw">if</span> (!(cin &gt;&gt; n)) <span class="expo-code-kw">return</span> <span class="expo-code-num">0</span>;
+    vector&lt;<span class="expo-code-type">long long</span>&gt; a(n);
+    <span class="expo-code-kw">for</span> (<span class="expo-code-type">int</span> i = <span class="expo-code-num">0</span>; i &lt; n; ++i) cin &gt;&gt; a[i];
+
+    <span class="expo-code-cm">// Tự động biên dịch &amp; chấm điểm trong Sandbox cô lập an toàn</span>
+    cout &lt;&lt; <span class="expo-code-str">"OMNIJUDGE_EVALUATION_READY\n"</span>;
+    <span class="expo-code-kw">return</span> <span class="expo-code-num">0</span>;
+}</code></pre>
             </div>
-            <h1 class="hero-title">Nền tảng luyện thi lập trình competitive programming.</h1>
-            <p class="hero-subtitle">OmniJudge Online Judge là hệ thống online judge dành cho học sinh THCS, THPT và sinh viên luyện tập thuật toán, cấu trúc dữ liệu và chuẩn bị cho các kỳ thi học sinh giỏi tin học...</p>
-            <div class="hero-buttons">
-                <a href="{{ url('problem_list') }}" class="hero-btn primary">{{ _('Explore problems') }}</a>
-                <a href="{{ url('contest_list') }}" class="hero-btn secondary">{{ _('View contests') }}</a>
-                <a href="#blog-container" class="hero-btn transparent">{{ _('Go to blog') }}</a>
+            <!-- Floating Verdict Pill -->
+            <div class="expo-verdict-pill">
+                <span class="expo-verdict-tag">
+                    <span class="expo-verdict-dot"></span>
+                    <span>Accepted (AC)</span>
+                </span>
+                <span style="color: #a1a1aa;">&bull;</span>
+                <span style="color: #ffffff; font-weight: 600;">100 / 100</span>
+                <span style="color: #71717a;">&bull;</span>
+                <span style="color: #d4d4d8;">0.02s</span>
+                <span style="color: #71717a;">&bull;</span>
+                <span style="color: #d4d4d8;">2.1 MB</span>
             </div>
         </div>
-        <div class="hero-right">
-            <div class="stat-card">
-                <div class="stat-title">{{ _('PROBLEMS') }}</div>
-                <div class="stat-value">{{ problem_count() }}</div>
-                <div class="stat-desc">{{ _('Public tasks ready to solve') }}</div>
+    </div>
+
+    <!-- ========================================================================
+         PLATFORM STATS GRID (4-Up Cards)
+         ======================================================================== -->
+    <div class="expo-stats-grid">
+        <div class="expo-stat-card">
+            <div class="expo-stat-header">
+                <span class="expo-stat-label">{{ _('Kho bài tập') }}</span>
+                <div class="expo-stat-icon-plate">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-title">{{ _('SUBMISSIONS') }}</div>
-                <div class="stat-value">{{ submission_count() }}</div>
-                <div class="stat-desc">{{ _('Attempts recorded on the platform') }}</div>
+            <div class="expo-stat-value">{{ problem_count() }}</div>
+            <div class="expo-stat-desc">{{ _('Đề thi Olympic, HSG và bài tập giải thuật sẵn sàng giải') }}</div>
+        </div>
+
+        <div class="expo-stat-card">
+            <div class="expo-stat-header">
+                <span class="expo-stat-label">{{ _('Lượt nộp bài') }}</span>
+                <div class="expo-stat-icon-plate">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-title">{{ _('LANGUAGES') }}</div>
-                <div class="stat-value">{{ language_count() }}</div>
-                <div class="stat-desc">{{ _('Compilers and runtimes available') }}</div>
+            <div class="expo-stat-value">{{ submission_count() }}</div>
+            <div class="expo-stat-desc">{{ _('Mã nguồn được biên dịch và đánh giá chính xác từng mili-giây') }}</div>
+        </div>
+
+        <div class="expo-stat-card">
+            <div class="expo-stat-header">
+                <span class="expo-stat-label">{{ _('Ngôn ngữ hỗ trợ') }}</span>
+                <div class="expo-stat-icon-plate">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                </div>
+            </div>
+            <div class="expo-stat-value">{{ language_count() }}</div>
+            <div class="expo-stat-desc">{{ _('C++20, Python 3, PyPy, Java, Pascal và các trình biên dịch hiện đại') }}</div>
+        </div>
+
+        <div class="expo-stat-card">
+            <div class="expo-stat-header">
+                <span class="expo-stat-label">{{ _('Tốc độ chấm') }}</span>
+                <div class="expo-stat-icon-plate">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                </div>
+            </div>
+            <div class="expo-stat-value">&lt; 0.05s</div>
+            <div class="expo-stat-desc">{{ _('Hạ tầng WebSocket truyền tải trạng thái nộp bài theo thời gian thực') }}</div>
+        </div>
+    </div>
+
+    <!-- ========================================================================
+         WORKFLOW STEPS (Developer Roadmap)
+         ======================================================================== -->
+    <div class="expo-workflow-section">
+        <span class="expo-section-badge">How OmniJudge Works</span>
+        <h2 class="expo-section-title">Quy trình luyện tập &amp; thi đấu chuẩn quốc tế</h2>
+        <p class="expo-section-subtitle">
+            Mọi tính năng được tối ưu hóa theo phong cách tối giản, tốc độ và tin cậy tuyệt đối.
+        </p>
+
+        <div class="expo-workflow-grid">
+            <div class="expo-workflow-card">
+                <div class="expo-workflow-plate">01</div>
+                <h4>1. Khám phá đề bài</h4>
+                <p>Bộ lọc thông minh theo chủ đề giải thuật, cấu trúc dữ liệu, kỳ thi HSG và tích hợp Virtual Judge (Codeforces).</p>
+            </div>
+
+            <div class="expo-workflow-card">
+                <div class="expo-workflow-plate">02</div>
+                <h4>2. Chấm tự động Sandbox</h4>
+                <p>Môi trường sandbox cách ly Linux an toàn, đo lường chính xác giới hạn thời gian (Time Limit) và bộ nhớ (Memory Limit).</p>
+            </div>
+
+            <div class="expo-workflow-card">
+                <div class="expo-workflow-plate">03</div>
+                <h4>3. Thi đấu Live Contests</h4>
+                <p>Tham gia kỳ thi trực tuyến với bảng xếp hạng realtime, tự động tính điểm phạt ICPC/IOI và phân hạng Elo rating.</p>
+            </div>
+
+            <div class="expo-workflow-card">
+                <div class="expo-workflow-plate">04</div>
+                <h4>4. Quản lý Lớp học</h4>
+                <p>Hệ thống chuyên biệt hỗ trợ giáo viên quản lý lớp, giao bài tập, theo dõi tiến độ và đối soát học phí trực quan.</p>
             </div>
         </div>
     </div>
 {% endblock %}
+
 {% block meta %}
     {% if misc_config.meta_description %}
         <meta name="description" content="{{ misc_config['meta_description'] }}">
