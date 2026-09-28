@@ -530,7 +530,7 @@
         }
 
         /* ==========================================================================
-           5. ANNOUNCEMENTS & CONTEST SIDEBOX RESTYLING (Expo Polish)
+           5. ANNOUNCEMENTS & CONTEST SIDEBOX RESTYLING (Complete Expo Polish)
            ========================================================================== */
         #blog-container {
             display: flex !important;
@@ -540,61 +540,91 @@
         }
 
         .blog-main-col {
-            flex: 1 1 68% !important;
+            flex: 1 1 66% !important;
             min-width: 0 !important;
+            display: flex !important;
+            flex-direction: column !important;
         }
 
-        #blog-sidebox {
-            flex: 0 0 340px !important;
-            width: 340px !important;
+        .blog-sidebar {
+            flex: 0 0 350px !important;
+            width: 350px !important;
             display: flex !important;
             flex-direction: column !important;
             gap: 20px !important;
         }
 
-        /* News Blog Card */
+        /* News Blog Card Container */
+        #blog-container .blog-content.sidebox,
         .blog-content.sidebox {
             background: var(--expo-surface-card) !important;
             border: 1px solid var(--expo-hairline) !important;
-            border-radius: 16px !important;
+            border-radius: 12px !important; /* {rounded.lg} */
             box-shadow: var(--expo-card-shadow) !important;
             padding: 24px 28px !important;
             margin-bottom: 24px !important;
+            outline: none !important;
         }
 
         .blog-header-row {
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
-            padding-bottom: 16px !important;
+            padding-bottom: 14px !important;
             border-bottom: 1px solid var(--expo-hairline) !important;
             margin-bottom: 20px !important;
         }
 
         .blog-header-row h3 {
-            font-size: 18px !important;
+            font-size: 17px !important;
             font-weight: 600 !important;
             color: var(--expo-ink) !important;
             letter-spacing: -0.3px !important;
             margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
 
-        /* Post Items */
+        /* Hide cheesy terminal icon */
+        .blog-header-left h3 i,
+        .blog-header-row h3 i {
+            display: none !important;
+        }
+
+        /* Post Items inside News */
+        .blog-main-col section.post,
         section.post {
-            border-bottom: 1px solid var(--expo-hairline) !important;
-            padding: 20px 0 !important;
-            transition: all 0.2s ease !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 10px !important;
+            padding: 20px 22px !important;
+            margin-bottom: 16px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            cursor: pointer !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        section.post:last-child {
-            border-bottom: none !important;
-            padding-bottom: 4px !important;
+        .blog-main-col section.post:hover,
+        section.post:hover {
+            background: var(--expo-surface-card) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+        }
+
+        .blog-main-col section.post:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        section.post h2.title {
+            margin: 6px 0 10px 0 !important;
         }
 
         section.post h2.title a {
-            font-size: 20px !important;
+            font-size: 19px !important;
             font-weight: 600 !important;
-            letter-spacing: -0.4px !important;
+            letter-spacing: -0.35px !important;
             color: var(--expo-ink) !important;
             text-decoration: none !important;
             transition: color 0.15s ease !important;
@@ -604,27 +634,206 @@
             color: var(--expo-text-link) !important;
         }
 
-        section.post .time,
-        section.post .comment-data {
-            font-size: 13px !important;
+        section.post .time {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-size: 12.5px !important;
             color: var(--expo-muted) !important;
+            margin-bottom: 8px !important;
         }
 
-        section.post .summary {
-            font-size: 15px !important;
-            line-height: 1.6 !important;
+        section.post .time i.fa-star {
+            color: var(--expo-accent-warning) !important;
+        }
+
+        section.post .time a {
+            color: var(--expo-text-link) !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+        }
+
+        section.post .comment-data {
+            font-size: 12.5px !important;
+            margin-left: 8px !important;
+        }
+
+        section.post .comment-data a {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 9999px !important;
+            padding: 2px 9px !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            color: var(--expo-body) !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+
+        section.post .comment-data a:hover {
+            background: var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+        }
+
+        section.post .summary,
+        section.post .content-description {
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
             color: var(--expo-body) !important;
             margin-top: 10px !important;
         }
 
-        /* Sidebox Cards */
+        section.post .content-description p {
+            color: var(--expo-body) !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin: 0 0 10px 0 !important;
+        }
+
+        section.post .content-description a {
+            color: var(--expo-text-link) !important;
+            text-decoration: underline !important;
+            font-weight: 500 !important;
+        }
+
+        /* Post code blocks */
+        section.post .content-description pre,
+        section.post .codehilite pre,
+        section.post .codehilite {
+            background: var(--expo-surface-dark) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important; /* {rounded.md} */
+            padding: 14px 18px !important;
+            margin: 12px 0 !important;
+            overflow-x: auto !important;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+            font-size: 13px !important;
+            line-height: 1.55 !important;
+            color: #e4e4e7 !important;
+        }
+
+        section.post .content-description code {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 12.5px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 4px !important;
+            padding: 2px 6px !important;
+            color: var(--expo-ink) !important;
+        }
+
+        section.post .content-description pre code {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            color: inherit !important;
+        }
+
+        /* ==========================================================================
+           6. PAGINATION CONTROLS (8px Developer Radii, Black Active CTA)
+           ========================================================================== */
+        .bottom-pagination-bar,
+        .top-pagination-bar {
+            display: flex !important;
+            justify-content: flex-start !important;
+            width: 100% !important;
+            margin-top: 24px !important;
+            margin-bottom: 24px !important;
+        }
+
+        ul.pagination {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            padding: 0 !important;
+            gap: 6px !important;
+            backdrop-filter: none !important;
+            list-style: none !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+        }
+
+        ul.pagination > li {
+            display: flex !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+
+        ul.pagination > li > a,
+        ul.pagination > li > span {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 36px !important;
+            height: 36px !important;
+            padding: 0 !important;
+            border-radius: 8px !important; /* {rounded.md} developer-ergonomic, NEVER pill */
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            color: var(--expo-body) !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            transition: all 0.15s ease !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            text-decoration: none !important;
+            margin: 0 !important;
+        }
+
+        ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Active Page: Pure black or pure white (DESIGN.md black CTA rule) */
+        ul.pagination > .active-page > a,
+        ul.pagination > .active-page > span {
+            background: var(--expo-primary) !important;
+            color: var(--expo-on-primary) !important;
+            border-color: var(--expo-primary) !important;
+            font-weight: 600 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* Page arrows */
+        ul.pagination > li.page-arrow > a,
+        ul.pagination > li.page-arrow > span {
+            border-radius: 8px !important; /* NOT a 50% circle */
+            width: 36px !important;
+            height: 36px !important;
+        }
+
+        ul.pagination > li.disabled-page > span,
+        ul.pagination > li.disabled-page > a {
+            opacity: 0.4 !important;
+            cursor: not-allowed !important;
+            background: var(--expo-surface-strong) !important;
+            border-color: var(--expo-hairline) !important;
+            color: var(--expo-muted) !important;
+        }
+
+        /* ==========================================================================
+           7. SIDEBAR CARDS (Recent Comments, New Problems, New Users)
+           ========================================================================== */
+        #blog-container .blog-sidebox.sidebox,
+        .blog-sidebar .blog-sidebox.sidebox,
         .blog-sidebox.sidebox {
             background: var(--expo-surface-card) !important;
             border: 1px solid var(--expo-hairline) !important;
-            border-radius: 14px !important;
-            box-shadow: var(--expo-card-shadow) !important;
+            border-radius: 12px !important; /* {rounded.lg} */
             padding: 20px 22px !important;
-            margin-bottom: 0 !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            margin-bottom: 20px !important;
+            outline: none !important;
         }
 
         .blog-sidebox h3 {
@@ -633,15 +842,136 @@
             letter-spacing: -0.2px !important;
             color: var(--expo-ink) !important;
             margin: 0 0 14px 0 !important;
+            padding-bottom: 12px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
         }
 
+        .blog-sidebar .sidebox-content ul {
+            list-style: none !important;
+            padding-left: 0 !important;
+            margin: 0 !important;
+        }
+
+        /* Clean List Items instead of chunky nested button pills */
+        .comment-card,
+        .problem-list li,
+        .user-list li,
+        .open-tickets li,
+        .blog-sidebar .sidebox-content > ul > li {
+            background: transparent !important;
+            border: none !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            border-radius: 6px !important;
+            padding: 10px 8px !important;
+            margin-bottom: 0 !important;
+            box-shadow: none !important;
+            transition: all 0.15s ease !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+        }
+
+        .comment-card:last-child,
+        .problem-list li:last-child,
+        .user-list li:last-child,
+        .open-tickets li:last-child,
+        .blog-sidebar .sidebox-content > ul > li:last-child {
+            border-bottom: none !important;
+        }
+
+        .comment-card:hover,
+        .problem-list li:hover,
+        .user-list li:hover,
+        .open-tickets li:hover,
+        .blog-sidebar .sidebox-content > ul > li:hover {
+            background: var(--expo-surface-strong) !important;
+            transform: none !important;
+            padding-left: 10px !important;
+        }
+
+        /* Recent Comments Item */
+        .comment-header {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+
+        .comment-avatar {
+            width: 20px !important;
+            height: 20px !important;
+            border-radius: 6px !important;
+            flex-shrink: 0 !important;
+        }
+
+        .comment-header .poster a {
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            text-decoration: none !important;
+        }
+
+        .comment-body a {
+            font-size: 13px !important;
+            line-height: 1.4 !important;
+            color: var(--expo-body) !important;
+            text-decoration: none !important;
+            display: block !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            white-space: nowrap !important;
+        }
+
+        .comment-body a:hover {
+            color: var(--expo-text-link) !important;
+        }
+
+        /* New Problems Item */
+        .problem-list li a {
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            color: var(--expo-ink) !important;
+            text-decoration: none !important;
+            display: block !important;
+            line-height: 1.45 !important;
+            transition: color 0.15s ease !important;
+        }
+
+        .problem-list li a:hover {
+            color: var(--expo-text-link) !important;
+        }
+
+        /* New Users Item */
+        .user-list li {
+            flex-direction: row !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+        }
+
+        .user-list .comment-header {
+            flex: 1 !important;
+        }
+
+        .user-list .poster a {
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            text-decoration: none !important;
+        }
+
+        .user-list .time {
+            font-size: 12px !important;
+            color: var(--expo-muted) !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Ongoing Contests Card */
         .ongoing-contest-card {
             background: var(--expo-surface-strong) !important;
             border: 1px solid var(--expo-hairline) !important;
-            border-radius: 10px !important;
+            border-radius: 8px !important; /* {rounded.md} */
             padding: 14px !important;
             margin-bottom: 12px !important;
             transition: all 0.2s ease !important;
@@ -685,26 +1015,83 @@
             transform: translateY(-1px) !important;
         }
 
-        .problem-list li, .user-list li {
-            padding: 8px 0 !important;
-            border-bottom: 1px solid var(--expo-hairline) !important;
+        /* ==========================================================================
+           8. FOOTER RESTYLING (Expo Developer-Ergonomic Footer)
+           ========================================================================== */
+        footer.modern-site-footer,
+        .modern-site-footer {
+            margin-top: 48px !important;
+            margin-bottom: 32px !important;
+            padding: 0 !important;
         }
-        .problem-list li:last-child, .user-list li:last-child {
-            border-bottom: none !important;
+
+        .footer-inner-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important; /* {rounded.lg} */
+            box-shadow: var(--expo-card-shadow) !important;
+            padding: 20px 28px !important;
         }
-        .problem-list li a {
+
+        .footer-brand-name {
             color: var(--expo-ink) !important;
-            font-size: 13.5px !important;
-            font-weight: 500 !important;
-            text-decoration: none !important;
-            transition: color 0.15s ease !important;
+            font-weight: 600 !important;
+            font-size: 14px !important;
+            letter-spacing: -0.2px !important;
         }
-        .problem-list li a:hover {
+
+        .footer-brand-dot {
+            color: var(--expo-hairline-strong) !important;
+        }
+
+        .footer-dmoj-link {
+            color: var(--expo-muted) !important;
+        }
+        .footer-dmoj-link:hover {
             color: var(--expo-text-link) !important;
         }
 
+        .footer-subtitle {
+            color: var(--expo-body) !important;
+            font-size: 12px !important;
+        }
+
+        /* Language Switcher in Footer: 8px Developer Radii (NEVER 100px pills) */
+        .footer-lang-group {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important; /* {rounded.md} */
+            padding: 3px !important;
+            gap: 4px !important;
+        }
+
+        .footer-lang-pill {
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            padding: 6px 12px !important;
+            border: 1px solid transparent !important;
+            color: var(--expo-muted) !important;
+            background: transparent !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: none !important;
+        }
+
+        .footer-lang-pill:hover {
+            color: var(--expo-ink) !important;
+            background: var(--expo-surface-card) !important;
+        }
+
+        .footer-lang-pill.active {
+            background: var(--expo-surface-card) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+        }
+
         /* ==========================================================================
-           6. RESPONSIVE BREAKPOINTS (Following DESIGN.md)
+           9. RESPONSIVE BREAKPOINTS (Following DESIGN.md)
            ========================================================================== */
         @media (max-width: 1024px) {
             .expo-stats-grid {
@@ -716,7 +1103,7 @@
             #blog-container {
                 flex-direction: column !important;
             }
-            #blog-sidebox {
+            .blog-sidebar {
                 width: 100% !important;
                 flex: none !important;
             }
