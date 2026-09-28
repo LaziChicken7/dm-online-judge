@@ -343,7 +343,7 @@ ul.pagination > li > span {
     width: 36px !important;
     height: 36px !important;
     padding: 0 !important;
-    border-radius: 8px !important; /* {rounded.md} */
+    border-radius: 6px !important;
     background: #18181b !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     color: #a1a1aa !important;
@@ -394,7 +394,7 @@ html.theme-light ul.pagination > .active-page > span {
 
 /* 3. Submissions Table & Rows */
 #submissions-table {
-    border-radius: 12px !important; /* {rounded.lg} */
+    border-radius: 0 !important;
     overflow: hidden !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
     background: #121214 !important;
@@ -477,7 +477,7 @@ html.theme-light .submission-row .sub-main .sub-meta .user a {
 
 /* Status Badges */
 .submission-row .sub-result {
-    border-radius: 8px !important; /* {rounded.md} */
+    border-radius: 6px !important;
     box-shadow: none !important;
 }
 
@@ -522,9 +522,13 @@ html.theme-light .submission-row .sub-main .sub-meta .user a {
 }
 
 /* Action Buttons: 8px rounded rectangles */
+.submission-row .sub-pill-btn .label,
+.submission-row .sub-action-btn .label {
+    display: none !important;
+}
 .submission-row .sub-pill-btn,
 .submission-row .sub-action-btn {
-    border-radius: 8px !important; /* {rounded.md}, NEVER 100px pill */
+    border-radius: 6px !important; /* {rounded.md}, NEVER 100px pill */
     background: #18181b !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     color: #a1a1aa !important;
@@ -563,7 +567,7 @@ html.theme-light .submission-row .sub-action-btn:hover {
 #content-right.submission .info-float .sidebox {
     background: #121214 !important;
     border: 1px solid rgba(255, 255, 255, 0.08) !important;
-    border-radius: 12px !important; /* {rounded.lg} */
+    border-radius: 0 !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
     padding: 22px 24px !important;
     margin-bottom: 20px !important;
@@ -595,7 +599,7 @@ html.theme-light #content-right.submission .sidebox h3 {
 #content-right.submission .form-submit-group .button {
     background: #ffffff !important;
     color: #000000 !important;
-    border-radius: 8px !important; /* {rounded.md} */
+    border-radius: 6px !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
     height: 38px !important;
