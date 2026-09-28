@@ -5161,8 +5161,16 @@ html.theme-light .portfolio-user-pill {
         display: flex !important;
         align-items: center !important;
         gap: 4px !important;
-        opacity: 0.9 !important;
         text-shadow: none !important;
+    }
+    .submission-row .sub-result .state span,
+    .submission-row .sub-result .state .status,
+    .submission-row .sub-result .state .language,
+    .submission-row .sub-result .state .state-sep {
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
     }
     .submission-row .sub-result .state .state-sep {
         opacity: 0.5 !important;
@@ -5443,10 +5451,16 @@ html.theme-light .portfolio-user-pill {
         margin-bottom: 20px !important;
     }
     html[data-theme="light"] #content-right.submission .sidebox,
-    html.theme-light #content-right.submission .sidebox {
-        background: #f8fafc !important;
-        border: none !important;
-        box-shadow: none !important;
+    html[data-theme="light"] #content-right.submission .info-float .sidebox,
+    html.theme-light #content-right.submission .sidebox,
+    html.theme-light #content-right.submission .info-float .sidebox {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 12px !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+        margin-bottom: 20px !important;
+        padding: 22px 24px !important;
+        overflow: hidden !important;
     }
     .problem-search-sidebox .filter-tag {
         font-family: 'JetBrains Mono', monospace !important;
@@ -5627,39 +5641,57 @@ html.theme-light .portfolio-user-pill {
         border-color: #cbd5e1 !important;
     }
 
-    html[data-theme="light"] .sub-result.AC {
+        html[data-theme="light"] .sub-result.AC,
+    html.theme-light .sub-result.AC {
         background: rgba(22, 163, 74, 0.1) !important;
         border: 1px solid rgba(22, 163, 74, 0.25) !important;
     }
-    html[data-theme="light"] .sub-result.AC .score { color: #15803d !important; }
-    html[data-theme="light"] .sub-result.AC .state { color: #166534 !important; font-weight: 600 !important; }
-
-    html[data-theme="light"] .sub-result._AC {
-        background: rgba(245, 158, 11, 0.1) !important;
-        border: 1px solid rgba(245, 158, 11, 0.25) !important;
-    }
-    html[data-theme="light"] .sub-result._AC .score { color: #b45309 !important; }
-    html[data-theme="light"] .sub-result._AC .state { color: #92400e !important; font-weight: 600 !important; }
+    html[data-theme="light"] .sub-result.AC .score,
+    html.theme-light .sub-result.AC .score { color: #15803d !important; }
+    html[data-theme="light"] .sub-result.AC .state,
+    html[data-theme="light"] .sub-result.AC .state span,
+    html.theme-light .sub-result.AC .state,
+    html.theme-light .sub-result.AC .state span { color: #166534 !important; font-weight: 600 !important; }
 
     html[data-theme="light"] .sub-result.WA,
-    html[data-theme="light"] .sub-result.RTE {
+    html[data-theme="light"] .sub-result.RTE,
+    html.theme-light .sub-result.WA,
+    html.theme-light .sub-result.RTE {
         background: rgba(239, 68, 68, 0.08) !important;
         border: 1px solid rgba(239, 68, 68, 0.2) !important;
     }
     html[data-theme="light"] .sub-result.WA .score,
-    html[data-theme="light"] .sub-result.RTE .score { color: #dc2626 !important; }
+    html[data-theme="light"] .sub-result.RTE .score,
+    html.theme-light .sub-result.WA .score,
+    html.theme-light .sub-result.RTE .score { color: #dc2626 !important; }
     html[data-theme="light"] .sub-result.WA .state,
-    html[data-theme="light"] .sub-result.RTE .state { color: #991b1b !important; font-weight: 600 !important; }
+    html[data-theme="light"] .sub-result.WA .state span,
+    html[data-theme="light"] .sub-result.RTE .state,
+    html[data-theme="light"] .sub-result.RTE .state span,
+    html.theme-light .sub-result.WA .state,
+    html.theme-light .sub-result.WA .state span,
+    html.theme-light .sub-result.RTE .state,
+    html.theme-light .sub-result.RTE .state span { color: #991b1b !important; font-weight: 600 !important; }
 
     html[data-theme="light"] .sub-result.TLE,
-    html[data-theme="light"] .sub-result.MLE {
+    html[data-theme="light"] .sub-result.MLE,
+    html.theme-light .sub-result.TLE,
+    html.theme-light .sub-result.MLE {
         background: rgba(245, 158, 11, 0.1) !important;
         border: 1px solid rgba(245, 158, 11, 0.25) !important;
     }
     html[data-theme="light"] .sub-result.TLE .score,
-    html[data-theme="light"] .sub-result.MLE .score { color: #b45309 !important; }
+    html[data-theme="light"] .sub-result.MLE .score,
+    html.theme-light .sub-result.TLE .score,
+    html.theme-light .sub-result.MLE .score { color: #b45309 !important; }
     html[data-theme="light"] .sub-result.TLE .state,
-    html[data-theme="light"] .sub-result.MLE .state { color: #92400e !important; font-weight: 600 !important; }
+    html[data-theme="light"] .sub-result.TLE .state span,
+    html[data-theme="light"] .sub-result.MLE .state,
+    html[data-theme="light"] .sub-result.MLE .state span,
+    html.theme-light .sub-result.TLE .state,
+    html.theme-light .sub-result.TLE .state span,
+    html.theme-light .sub-result.MLE .state,
+    html.theme-light .sub-result.MLE .state span { color: #92400e !important; font-weight: 600 !important; }
 
     html[data-theme="light"] .sub-result.CE,
     html[data-theme="light"] .sub-result.IE,
@@ -5667,25 +5699,35 @@ html.theme-light .portfolio-user-pill {
     html[data-theme="light"] .sub-result.QU,
     html[data-theme="light"] .sub-result.P,
     html[data-theme="light"] .sub-result.G,
-    html[data-theme="light"] .sub-result.OTH {
+    html[data-theme="light"] .sub-result.OTH,
+    html.theme-light .sub-result.CE,
+    html.theme-light .sub-result.IE,
+    html.theme-light .sub-result.AB,
+    html.theme-light .sub-result.QU,
+    html.theme-light .sub-result.P,
+    html.theme-light .sub-result.G,
+    html.theme-light .sub-result.OTH {
         background: rgba(100, 116, 139, 0.1) !important;
         border: 1px solid rgba(100, 116, 139, 0.25) !important;
     }
     html[data-theme="light"] .sub-result.CE .score,
     html[data-theme="light"] .sub-result.IE .score,
-    html[data-theme="light"] .sub-result.AB .score { color: #4b5563 !important; }
+    html[data-theme="light"] .sub-result.AB .score,
+    html.theme-light .sub-result.CE .score,
+    html.theme-light .sub-result.IE .score,
+    html.theme-light .sub-result.AB .score { color: #4b5563 !important; }
     html[data-theme="light"] .sub-result.CE .state,
+    html[data-theme="light"] .sub-result.CE .state span,
     html[data-theme="light"] .sub-result.IE .state,
-    html[data-theme="light"] .sub-result.AB .state { color: #374151 !important; font-weight: 600 !important; }
-
-    html[data-theme="light"] .problem-search-sidebox h3 svg,
-    html[data-theme="light"] .problem-search-sidebox h3 i,
-    html.theme-light .problem-search-sidebox h3 svg,
-    html.theme-light .problem-search-sidebox h3 i {
-        color: #64748b !important;
-        fill: #64748b !important;
-    }
-
+    html[data-theme="light"] .sub-result.IE .state span,
+    html[data-theme="light"] .sub-result.AB .state,
+    html[data-theme="light"] .sub-result.AB .state span,
+    html.theme-light .sub-result.CE .state,
+    html.theme-light .sub-result.CE .state span,
+    html.theme-light .sub-result.IE .state,
+    html.theme-light .sub-result.IE .state span,
+    html.theme-light .sub-result.AB .state,
+    html.theme-light .sub-result.AB .state span { color: #374151 !important; font-weight: 600 !important; }
     /* Disconnected Alert Banner */
     .ws-closed {
         background: rgba(239, 68, 68, 0.12) !important;

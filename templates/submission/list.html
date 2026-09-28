@@ -589,9 +589,13 @@ html[data-theme="light"] #content-right.submission .info-float .sidebox,
 html.theme-light #content-right.submission .info-float .sidebox,
 html[data-theme="light"] #content-right.submission .sidebox,
 html.theme-light #content-right.submission .sidebox {
-    background: #f8fafc !important;
-    border: none !important;
-    box-shadow: none !important;
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+    padding: 22px 24px !important;
+    margin-bottom: 20px !important;
+    overflow: hidden !important;
 }
 
 #content-right.submission .sidebox h3 {
@@ -636,6 +640,71 @@ html.theme-light #content-right.submission .form-submit-group .button {
     color: #ffffff !important;
     border: none !important;
 }
+
+.submission-row .sub-result .state,
+.submission-row .sub-result .state span,
+.submission-row .sub-result .state .status,
+.submission-row .sub-result .state .language,
+.submission-row .sub-result .state .state-sep {
+    color: inherit !important;
+}
+
+html[data-theme="light"] .sub-result.AC .state,
+html[data-theme="light"] .sub-result.AC .state span,
+html.theme-light .sub-result.AC .state,
+html.theme-light .sub-result.AC .state span {
+    color: #166534 !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .sub-result._AC .state,
+html[data-theme="light"] .sub-result._AC .state span,
+html.theme-light .sub-result._AC .state,
+html.theme-light .sub-result._AC .state span {
+    color: #92400e !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .sub-result.WA .state,
+html[data-theme="light"] .sub-result.WA .state span,
+html[data-theme="light"] .sub-result.RTE .state,
+html[data-theme="light"] .sub-result.RTE .state span,
+html.theme-light .sub-result.WA .state,
+html.theme-light .sub-result.WA .state span,
+html.theme-light .sub-result.RTE .state,
+html.theme-light .sub-result.RTE .state span {
+    color: #991b1b !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .sub-result.TLE .state,
+html[data-theme="light"] .sub-result.TLE .state span,
+html[data-theme="light"] .sub-result.MLE .state,
+html[data-theme="light"] .sub-result.MLE .state span,
+html.theme-light .sub-result.TLE .state,
+html.theme-light .sub-result.TLE .state span,
+html.theme-light .sub-result.MLE .state,
+html.theme-light .sub-result.MLE .state span {
+    color: #92400e !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .sub-result.CE .state,
+html[data-theme="light"] .sub-result.CE .state span,
+html[data-theme="light"] .sub-result.IE .state,
+html[data-theme="light"] .sub-result.IE .state span,
+html[data-theme="light"] .sub-result.AB .state,
+html[data-theme="light"] .sub-result.AB .state span,
+html.theme-light .sub-result.CE .state,
+html.theme-light .sub-result.CE .state span,
+html.theme-light .sub-result.IE .state,
+html.theme-light .sub-result.IE .state span,
+html.theme-light .sub-result.AB .state,
+html.theme-light .sub-result.AB .state span {
+    color: #374151 !important;
+    font-weight: 600 !important;
+}
+
 </style>
     <div class="top-pagination-bar">{% include "list-pages.html" %}</div>
 
