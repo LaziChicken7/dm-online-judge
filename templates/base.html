@@ -2170,103 +2170,130 @@
         stroke: #94a3b8 !important;
     }
 
-    /* Light Mode Overrides */
-    html[data-theme="light"],
-    html[data-theme="light"] body {
-        background-color: #f8fafc !important;
-        background-image: 
-            radial-gradient(circle at 0% 0%, rgba(2, 132, 199, 0.08), transparent 50%),
-            radial-gradient(circle at 100% 100%, rgba(99, 102, 241, 0.06), transparent 50%) !important;
-        color: #0f172a !important;
+    /* =========================================================
+       LIGHT MODE OVERRIDES (DESIGN.md - EXPO SPECIFICATION)
+       ========================================================= */
+    html[data-theme=light],
+    html[data-theme=light] body,
+    html.theme-light,
+    html.theme-light body {
+        background-color: #ffffff !important;
+        background-image: none !important;
+        color: #171717 !important;
     }
 
-    html[data-theme="light"] #portfolio-nav {
-        background: rgba(255, 255, 255, 0.88) !important;
-        border-color: rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08) !important;
-        color: #0f172a !important;
+    html[data-theme=light] #portfolio-nav {
+        background: rgba(255, 255, 255, 0.92) !important;
+        border: 1px solid #f0f0f3 !important; /* {colors.hairline} */
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+        border-radius: 12px !important;
+    }
+    html[data-theme=light] #portfolio-nav:hover {
+        border-color: #dcdee0 !important; /* {colors.hairline-strong} */
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
     }
 
-    html[data-theme="light"] .portfolio-nav-link {
-        color: #475569 !important;
+    html[data-theme=light] .portfolio-nav-link {
+        color: #60646c !important; /* {colors.body} */
+        border-radius: 8px !important;
+    }
+    html[data-theme=light] .portfolio-nav-link svg {
+        stroke: #60646c !important;
+    }
+    html[data-theme=light] .portfolio-nav-link:hover {
+        background: #f0f0f3 !important; /* {colors.surface-strong} */
+        border: 1px solid #dcdee0 !important;
+        color: #171717 !important; /* {colors.ink} */
+    }
+    html[data-theme=light] .portfolio-nav-link:hover svg {
+        stroke: #171717 !important;
+    }
+    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active {
+        background: #f0f0f3 !important; /* {colors.surface-strong} */
+        border: 1px solid #dcdee0 !important; /* {colors.hairline-strong} */
+        color: #171717 !important; /* {colors.ink} */
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+        font-weight: 600 !important;
+        border-radius: 8px !important;
+    }
+    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active span {
+        color: #171717 !important;
+    }
+    html[data-theme=light] .portfolio-nav-link.portfolio-nav-active svg {
+        stroke: #171717 !important;
     }
 
-    html[data-theme="light"] .portfolio-nav-link:hover,
-    html[data-theme="light"] .portfolio-nav-link.portfolio-nav-active {
-        color: #0284c7 !important;
-        background: rgba(2, 132, 199, 0.08) !important;
-    }
-
-    html[data-theme="light"] .portfolio-theme-toggle,
-    html[data-theme="light"] .portfolio-lang-pill,
-    html[data-theme="light"] .portfolio-user-pill {
-        background: rgba(0, 0, 0, 0.04) !important;
-        border-color: rgba(0, 0, 0, 0.1) !important;
-        color: #0f172a !important;
-    }
-
-    html[data-theme="light"] .hero-container,
-    html[data-theme="light"] .stat-card,
-    html[data-theme="light"] .sidebox,
-    html[data-theme="light"] #blog-container .blog-content.sidebox,
-    html[data-theme="light"] #blog-container .blog-sidebox.sidebox,
-    html[data-theme="light"] #new-comment.comment-submit,
-    html[data-theme="light"] .comment-display,
-    html[data-theme="light"] .footer-inner-card,
-    html[data-theme="light"] .problem-header-card,
-    html[data-theme="light"] .edit-card,
-    html[data-theme="light"] .user-sidebar,
-    html[data-theme="light"] .user-content {
+    html[data-theme=light] .portfolio-theme-toggle,
+    html[data-theme=light] .portfolio-lang-pill,
+    html[data-theme=light] .portfolio-user-pill {
         background: #ffffff !important;
-        border-color: rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06) !important;
-        color: #0f172a !important;
+        border: 1px solid #f0f0f3 !important;
+        color: #171717 !important;
+        border-radius: 8px !important;
+    }
+    html[data-theme=light] .portfolio-theme-toggle:hover,
+    html[data-theme=light] .portfolio-lang-pill:hover,
+    html[data-theme=light] .portfolio-user-pill:hover {
+        background: #f0f0f3 !important;
+        border-color: #dcdee0 !important;
+        color: #171717 !important;
     }
 
-    html[data-theme="light"] h1,
-    html[data-theme="light"] h2,
-    html[data-theme="light"] h3,
-    html[data-theme="light"] h4,
-    html[data-theme="light"] .hero-title,
-    html[data-theme="light"] .stat-value,
-    html[data-theme="light"] .post-detail-title,
-    html[data-theme="light"] .footer-brand-name {
-        color: #0f172a !important;
+    html[data-theme=light] .sidebox,
+    html[data-theme=light] #blog-container .blog-content.sidebox,
+    html[data-theme=light] #blog-container .blog-sidebox.sidebox,
+    html[data-theme=light] #new-comment.comment-submit,
+    html[data-theme=light] .comment-display,
+    html[data-theme=light] .footer-inner-card,
+    html[data-theme=light] .problem-header-card,
+    html[data-theme=light] .edit-card,
+    html[data-theme=light] .user-sidebar,
+    html[data-theme=light] .user-content {
+        background: #ffffff !important;
+        border: 1px solid #f0f0f3 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+        border-radius: 12px !important;
+        color: #171717 !important;
     }
 
-    html[data-theme="light"] p,
-    html[data-theme="light"] .hero-subtitle,
-    html[data-theme="light"] .stat-desc,
-    html[data-theme="light"] .footer-subtitle,
-    html[data-theme="light"] .comment-display .detail .header,
-    html[data-theme="light"] .content-description {
-        color: #475569 !important;
+    html[data-theme=light] h1,
+    html[data-theme=light] h2,
+    html[data-theme=light] h3,
+    html[data-theme=light] h4,
+    html[data-theme=light] .hero-title,
+    html[data-theme=light] .stat-value,
+    html[data-theme=light] .post-detail-title,
+    html[data-theme=light] .footer-brand-name {
+        color: #171717 !important;
     }
 
-    html[data-theme="light"] .comment-display .content.content-description {
-        background: #f1f5f9 !important;
-        border-color: #cbd5e1 !important;
-        border-left-color: #0284c7 !important;
-        color: #0f172a !important;
+    html[data-theme=light] p,
+    html[data-theme=light] .hero-subtitle,
+    html[data-theme=light] .stat-desc,
+    html[data-theme=light] .footer-subtitle,
+    html[data-theme=light] .comment-display .detail .header,
+    html[data-theme=light] .content-description {
+        color: #60646c !important;
     }
 
-    html[data-theme="light"] .comment-display .content .comment-body {
-        color: #0f172a !important;
+    html[data-theme=light] .comment-display .content.content-description {
+        background: #fafafa !important;
+        border: 1px solid #f0f0f3 !important;
+        color: #171717 !important;
     }
-
-    html[data-theme="light"] .comment-display .content .comment-body p {
-        color: #0f172a !important;
+    html[data-theme=light] .comment-display .content .comment-body {
+        color: #171717 !important;
     }
-
-    html[data-theme="light"] .comment-display .vote {
-        background: #f1f5f9 !important;
-        border-color: #cbd5e1 !important;
+    html[data-theme=light] .comment-display .content .comment-body p {
+        color: #60646c !important;
     }
-
-    html[data-theme="light"] .comment-display .vote .comment-score {
-        color: #0f172a !important;
+    html[data-theme=light] .comment-display .vote {
+        background: #f0f0f3 !important;
+        border-color: #dcdee0 !important;
     }
-
+    html[data-theme=light] .comment-display .vote .comment-score {
+        color: #171717 !important;
+    }
     /* =========================================================
        MODERN FOOTER & NAVBAR LANGUAGE SWITCHER STYLING
        ========================================================= */
