@@ -6640,6 +6640,98 @@ html[data-theme=light] .lang-pill-btn.active {
     border-color: #dcdee0 !important;
     color: #171717 !important;
 }
+
+/* Theme toggle icon monochrome colors (Images #2 & #3 fix) */
+.portfolio-theme-toggle {
+    color: var(--expo-ink) !important;
+}
+.portfolio-theme-toggle svg {
+    stroke: currentColor !important;
+}
+html[data-theme="light"] .portfolio-theme-toggle,
+html.theme-light .portfolio-theme-toggle {
+    color: #171717 !important;
+}
+html[data-theme="light"] .portfolio-theme-toggle svg,
+html.theme-light .portfolio-theme-toggle svg {
+    stroke: currentColor !important;
+    color: #171717 !important;
+}
+html[data-theme="dark"] .portfolio-theme-toggle,
+html.theme-dark .portfolio-theme-toggle,
+html:not([data-theme="light"]) .portfolio-theme-toggle {
+    color: #f4f4f5 !important;
+}
+html[data-theme="dark"] .portfolio-theme-toggle svg,
+html.theme-dark .portfolio-theme-toggle svg,
+html:not([data-theme="light"]) .portfolio-theme-toggle svg {
+    stroke: currentColor !important;
+    color: #f4f4f5 !important;
+}
+
+/* Language dropdown text visibility in light mode (Image #1 fix) */
+.lang-pill-btn span,
+.portfolio-dropdown-btn span,
+.portfolio-dropdown a span {
+    color: inherit !important;
+}
+
+html[data-theme="light"] .lang-pill-btn,
+html[data-theme="light"] .portfolio-dropdown-btn,
+html[data-theme="light"] .portfolio-dropdown a,
+html.theme-light .lang-pill-btn,
+html.theme-light .portfolio-dropdown-btn,
+html.theme-light .portfolio-dropdown a {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #0f172a !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06) !important;
+    border-radius: 8px !important;
+}
+
+html[data-theme="light"] .lang-pill-btn span,
+html[data-theme="light"] .portfolio-dropdown-btn span,
+html[data-theme="light"] .portfolio-dropdown a span,
+html.theme-light .lang-pill-btn span,
+html.theme-light .portfolio-dropdown-btn span,
+html.theme-light .portfolio-dropdown a span {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .lang-pill-btn:hover,
+html[data-theme="light"] .portfolio-dropdown-btn:hover,
+html[data-theme="light"] .portfolio-dropdown a:hover,
+html.theme-light .lang-pill-btn:hover,
+html.theme-light .portfolio-dropdown-btn:hover,
+html.theme-light .portfolio-dropdown a:hover {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #000000 !important;
+}
+
+html[data-theme="light"] .lang-pill-btn:hover span,
+html[data-theme="light"] .portfolio-dropdown-btn:hover span,
+html[data-theme="light"] .portfolio-dropdown a:hover span,
+html.theme-light .lang-pill-btn:hover span,
+html.theme-light .portfolio-dropdown-btn:hover span,
+html.theme-light .portfolio-dropdown a:hover span {
+    color: #000000 !important;
+}
+
+html[data-theme="light"] .lang-pill-btn.active,
+html.theme-light .lang-pill-btn.active {
+    background: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .lang-pill-btn.active span,
+html.theme-light .lang-pill-btn.active span {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+}
+
 </style>
 
 <nav id="portfolio-nav" class="unselectable">
@@ -6690,8 +6782,8 @@ html[data-theme=light] .lang-pill-btn.active {
     <div class="portfolio-nav-right">
         <!-- Theme Toggle Button (Light/Dark Mode) -->
         <button type="button" id="theme-toggle-btn" class="portfolio-theme-toggle" onclick="window.toggleTheme()" title="{{ _('Toggle Light / Dark Mode') }}">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon sun-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon moon-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon sun-icon"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="theme-icon moon-icon"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
         </button>
 
         <!-- Language Switcher in Navbar -->
