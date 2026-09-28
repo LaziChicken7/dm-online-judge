@@ -433,26 +433,27 @@ ul.pagination > .active-page > span {
     font-weight: 600 !important;
 }
 
-/* 6. Problem Table */
+/* 6. Problem Table - NO ROUNDED CORNERS (border-radius: 0), JetBrains Mono Headers */
 #problem-table {
     width: 100% !important;
-    border-radius: 12px !important; /* {rounded.lg} */
+    border-radius: 0 !important; /* Flat sharp edges per Image #4 request */
     overflow: hidden !important;
     border: 1px solid var(--expo-hairline) !important;
     background: var(--expo-surface-card) !important;
-    box-shadow: var(--expo-card-shadow) !important;
-    border-collapse: separate !important;
-    border-spacing: 0 !important;
+    box-shadow: none !important;
+    border-collapse: collapse !important;
 }
 
-#problem-table thead th {
+#problem-table thead th,
+#problem-table thead th a {
     background: var(--expo-surface-strong) !important;
     border-bottom: 1px solid var(--expo-hairline) !important;
     color: var(--expo-muted) !important;
-    font-size: 11.5px !important;
+    font-family: 'JetBrains Mono', monospace !important; /* JetBrains Mono header per Image #6 request */
+    font-size: 11px !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
-    letter-spacing: 0.88px !important;
+    letter-spacing: 1px !important;
     padding: 12px 16px !important;
 }
 
@@ -521,6 +522,47 @@ ul.pagination > .active-page > span {
 
 #problem-table td.category a:hover {
     color: var(--expo-ink) !important;
+}
+
+
+/* Filter Drawer typography per Image #3 */
+.problem-filter-drawer-body .filter-tag,
+.problem-search-sidebox .filter-tag,
+.problem-search-sidebox label[for="category"],
+.problem-search-sidebox .form-label,
+.problem-search-sidebox label[for="types"] {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    color: var(--expo-muted) !important;
+}
+
+/* Checkbox labels in filter drawer - Font gốc (Inter) per Image #3 */
+.problem-filter-drawer-body #filter-form label:not([for="category"]):not(.form-label),
+.problem-filter-drawer-body .filter-checkbox-item label,
+.problem-search-sidebox label:not([for="category"]):not(.form-label) {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 400 !important;
+    color: var(--expo-body) !important;
+}
+
+/* Remove blue colors on Go and Random buttons */
+.problem-search-sidebox .form-submit-group #go {
+    background: var(--expo-primary) !important;
+    color: var(--expo-on-primary) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
+    border: none !important;
+}
+.problem-search-sidebox .form-submit-group #random {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+    border-radius: 8px !important;
+    box-shadow: none !important;
 }
 
 /* 7. Filter Drawer (Off-canvas) */
@@ -735,15 +777,7 @@ html body .problem-toolbar-filter-btn {
         <div class="problem-toolbar-actions">
             {% if not request.in_contest %}
                 <div class="active-filter-chips-container" id="active-filter-chips"></div>
-                <button type="button" class="problem-toolbar-filter-btn" title="{{ _('Search & Filter Problems') }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
-                    </svg>
-                    <span>{{ _('Filter') }}</span>
-                    {% if search_query or category or selected_types or hide_solved or full_text or has_public_editorial or point_start or point_end %}
-                        <span class="filter-active-dot"></span>
-                    {% endif %}
-                </button>
+                
             {% endif %}
             {% if request.user.is_authenticated and (perms.judge.edit_all_problem or perms.judge.edit_public_problem or perms.judge.edit_own_problem or request.user.is_staff) %}
                 {% include "problem/add-problem-dropdown.html" %}

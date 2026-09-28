@@ -3314,7 +3314,7 @@
         margin-bottom: 0 !important;
     }
 
-    /* Workspace Header Design (Clean Expo Style - NO Card Background) */
+/* Workspace Header Design (Clean Expo Style - NO Card Background, NO Overlapping) */
     .tabs {
         background: transparent !important;
         border: none !important;
@@ -3323,67 +3323,78 @@
         padding: 0 !important;
         margin-bottom: 24px !important;
         box-shadow: none !important;
-        /* Grid layout for left/right alignment */
-        display: grid !important;
-        grid-template-areas: 
-            workspace tabs
-            title tabs !important;
-        justify-content: space-between !important;
-        align-items: end !important;
-        box-sizing: border-box !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        position: relative !important;
         width: 100% !important;
+        box-sizing: border-box !important;
     }
     .tabs:not(#mobile)::before {
-        grid-area: workspace;
-        content: WORKSPACE;
+        content: "WORKSPACE" !important;
+        display: block !important;
         font-family: 'JetBrains Mono', monospace !important;
         font-size: 11px !important;
         font-weight: 600 !important;
         letter-spacing: 1.5px !important;
         color: #71717a !important;
         text-transform: uppercase !important;
-        margin-bottom: 6px !important;
+        margin: 0 0 6px 0 !important;
+        line-height: 1 !important;
     }
     html[data-theme="light"] .tabs:not(#mobile)::before,
     html.theme-light .tabs:not(#mobile)::before {
         color: #999999 !important;
     }
     .tabs h2 {
-        grid-area: title;
         font-family: 'Inter', sans-serif !important;
-        font-size: 30px !important;
+        font-size: 26px !important;
         font-weight: 600 !important;
-        letter-spacing: -0.8px !important;
+        letter-spacing: -0.6px !important;
         color: var(--expo-ink) !important;
         margin: 0 !important;
-        border-bottom: none !important;
-        padding-bottom: 0 !important;
+        line-height: 1.2 !important;
+        border: none !important;
+        padding: 0 !important;
     }
     .tabs ul {
-        grid-area: tabs;
-        margin-top: 0 !important;
-        border-bottom: none !important;
-        align-self: center !important;
+        position: absolute !important;
+        right: 0 !important;
+        bottom: 0 !important;
         display: flex !important;
-        gap: 8px !important;
+        align-items: center !important;
+        gap: 6px !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        list-style: none !important;
+    }
+    .tabs .tab {
+        margin: 0 !important;
+        padding: 0 !important;
     }
     .tabs .tab > a, .tabs .tab > span {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 6px !important;
-        padding: 7px 16px !important;
-        height: 36px !important;
-        border-radius: 8px !important; /* {rounded.md}, NEVER 100px pill */
+        padding: 5px 12px !important;
+        height: 30px !important;
+        border-radius: 6px !important; /* {rounded.sm} */
         background: var(--expo-surface-card) !important;
         border: 1px solid var(--expo-hairline) !important;
         color: var(--expo-body) !important;
         font-family: 'Inter', sans-serif !important;
-        font-size: 13.5px !important;
+        font-size: 12px !important; /* Smaller size for List & Admin */
         font-weight: 500 !important;
         box-shadow: none !important;
         text-decoration: none !important;
         transition: all 0.15s ease !important;
+    }
+    .tabs .tab > a .tab-icon,
+    .tabs .tab > span .tab-icon {
+        width: 12px !important;
+        height: 12px !important;
     }
     .tabs .tab > a:hover {
         background: var(--expo-surface-strong) !important;
@@ -3391,183 +3402,149 @@
         border-color: var(--expo-hairline-strong) !important;
     }
     .tabs .tab.active > a, .tabs .tab.active > span {
-        background: rgba(0, 112, 243, 0.15) !important;
-        border-color: rgba(0, 112, 243, 0.4) !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
+        font-weight: 600 !important;
+    }
+    html[data-theme="light"] .tabs .tab.active > a,
+    html[data-theme="light"] .tabs .tab.active > span,
+    html.theme-light .tabs .tab.active > a,
+    html.theme-light .tabs .tab.active > span {
+        background: #000000 !important;
+        border-color: #000000 !important;
         color: #ffffff !important;
-        box-shadow: inset 0 2px 4px rgba(255,255,255,0.05), 0 4px 12px rgba(0, 112, 243, 0.2) !important;
     }
-    /* Strip any styles from inner spans so it stays a single clean pill as in Image #2 */
-    .tabs:not(.org-tabs) .tab a span,
-    .tabs:not(.org-tabs) .tab span span,
-    .tabs:not(.org-tabs) .tab > a > span,
-    .tabs:not(.org-tabs) .tab > span > span {
-        all: unset !important;
-        display: inline !important;
-        color: inherit !important;
-        font-family: inherit !important;
-        font-size: inherit !important;
-        font-weight: inherit !important;
-        background: transparent !important;
-        border: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        box-shadow: none !important;
-    }
-    .tabs .tab i {
+        .tabs .tab i {
         margin-right: 2px !important;
         font-size: 14px !important;
     }
 
 
-    /* --- Universal Modern Pill Pagination --- */
-    .top-pagination-bar {
-        display: flex !important;
-        justify-content: flex-start !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        margin-top: 0 !important;
-        margin-bottom: 20px !important;
-    }
-
+    /* Expo Pagination (DESIGN.md - Uniform 34px buttons, NO circles, NO blue glow) */
+    .top-pagination-bar,
     .bottom-pagination-bar {
         display: flex !important;
         justify-content: flex-start !important;
         width: 100% !important;
         box-sizing: border-box !important;
-        margin-top: 24px !important;
-        margin-bottom: 36px !important;
+        margin: 16px 0 !important;
     }
-
     ul.pagination {
         display: inline-flex !important;
         align-items: center !important;
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 100px !important;
-        padding: 6px 16px !important;
-        gap: 8px !important;
-        backdrop-filter: blur(12px) !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 0 !important;
+        gap: 6px !important;
+        backdrop-filter: none !important;
         list-style: none !important;
         box-shadow: none !important;
         margin: 0 !important;
     }
-
     ul.pagination > li {
         display: flex !important;
         margin: 0 !important;
         padding: 0 !important;
-        border: none !important; /* No vertical divider lines */
+        border: none !important;
         background: transparent !important;
         box-shadow: none !important;
     }
-
     ul.pagination > li > a, 
     ul.pagination > li > span {
-        position: static !important;
-        float: none !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
-        width: 36px !important;
-        height: 36px !important;
+        width: 34px !important;
+        height: 34px !important;
         padding: 0 !important;
-        border-radius: 12px !important;
-        background: transparent !important;
-        border: none !important;
-        color: rgba(255, 255, 255, 0.8) !important;
+        border-radius: 6px !important; /* {rounded.sm}, NEVER 50% circle */
+        background: #18181b !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #a1a1aa !important;
+        font-family: 'JetBrains Mono', 'Inter', monospace !important;
         font-weight: 500 !important;
-        font-size: 15px !important;
-        transition: all 0.2s ease !important;
+        font-size: 13px !important;
+        transition: all 0.15s ease !important;
         margin: 0 !important;
+        box-shadow: none !important;
     }
-
     ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-        color: #fff !important;
+        background: #242428 !important;
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.22) !important;
     }
-
-    /* Active page */
     ul.pagination > .active-page > a,
     ul.pagination > .active-page > span {
-        background-color: #38bdf8 !important;
-        color: #ffffff !important;
-        box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3) !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border-color: #ffffff !important;
+        box-shadow: none !important;
         font-weight: 600 !important;
+        border-radius: 6px !important;
     }
-
-    /* Arrows (prev/next) */
     ul.pagination > li.page-arrow > a,
     ul.pagination > li.page-arrow > span {
-        border-radius: 50% !important;
-        width: 32px !important;
-        height: 32px !important;
-        background: rgba(255, 255, 255, 0.04) !important;
-        color: rgba(255, 255, 255, 0.6) !important;
+        border-radius: 6px !important; /* {rounded.sm}, NEVER 50% circle */
+        width: 34px !important;
+        height: 34px !important;
+        background: #18181b !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #a1a1aa !important;
+        box-shadow: none !important;
     }
-
     ul.pagination > li.page-arrow:not(.disabled-page) > a:hover {
-        background: rgba(255, 255, 255, 0.1) !important;
-        color: #fff !important;
+        background: #242428 !important;
+        color: #ffffff !important;
+        border-color: rgba(255, 255, 255, 0.22) !important;
     }
-
-    /* Disabled items */
     ul.pagination > .disabled-page > span,
     ul.pagination > .disabled-page > a {
-        color: rgba(255, 255, 255, 0.4) !important;
-        background: transparent !important;
-        width: auto !important; 
-        padding: 0 4px !important;
-        cursor: default !important;
+        color: rgba(255, 255, 255, 0.3) !important;
+        background: #121214 !important;
+        border: 1px solid rgba(255, 255, 255, 0.05) !important;
+        cursor: not-allowed !important;
         opacity: 0.5 !important;
     }
-
-    ul.pagination svg {
-        fill: currentColor !important;
-        width: 14px !important;
-        height: 14px !important;
+    html[data-theme="light"] ul.pagination > li > a,
+    html[data-theme="light"] ul.pagination > li > span,
+    html.theme-light ul.pagination > li > a,
+    html.theme-light ul.pagination > li > span {
+        background: #ffffff !important;
+        border: 1px solid #dcdee0 !important;
+        color: #60646c !important;
     }
-
-
-    /* ==========================================================================
-       Problem Search Sidebox (Modern Glass Dashboard Filter)
-       ========================================================================== */
-    .problem-search-sidebox {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(12px) !important;
-        padding: 24px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-        margin-bottom: 24px !important;
+    html[data-theme="light"] ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover,
+    html.theme-light ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+        background: #f0f0f3 !important;
+        color: #171717 !important;
+        border-color: #dcdee0 !important;
     }
-
-    .problem-search-sidebox .filter-tag {
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 2px !important;
-        color: rgba(255, 255, 255, 0.4) !important;
-        text-transform: uppercase !important;
-        margin-bottom: 6px !important;
-    }
-
-    .problem-search-sidebox h3 {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        font-size: 20px !important;
-        font-weight: 800 !important;
+    html[data-theme="light"] ul.pagination > .active-page > a,
+    html[data-theme="light"] ul.pagination > .active-page > span,
+    html.theme-light ul.pagination > .active-page > a,
+    html.theme-light ul.pagination > .active-page > span {
+        background: #000000 !important;
         color: #ffffff !important;
-        margin: 0 0 20px 0 !important;
-        border: none !important;
-        padding: 0 !important;
+        border-color: #000000 !important;
     }
-
-    .problem-search-sidebox h3 i.fa-search {
-        color: rgba(255, 255, 255, 0.3) !important;
-        font-size: 15px !important;
+    html[data-theme="light"] ul.pagination > li.page-arrow > a,
+    html[data-theme="light"] ul.pagination > li.page-arrow > span,
+    html.theme-light ul.pagination > li.page-arrow > a,
+    html.theme-light ul.pagination > li.page-arrow > span {
+        background: #ffffff !important;
+        border: 1px solid #dcdee0 !important;
+        color: #60646c !important;
     }
-
-    /* Search Input Box */
+    html[data-theme="light"] ul.pagination > .disabled-page > span,
+    html[data-theme="light"] ul.pagination > .disabled-page > a,
+    html.theme-light ul.pagination > .disabled-page > span,
+    html.theme-light ul.pagination > .disabled-page > a {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        color: #94a3b8 !important;
+    }
     .problem-search-sidebox #search {
         width: 100% !important;
         box-sizing: border-box !important;
