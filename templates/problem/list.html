@@ -518,15 +518,33 @@ ul.pagination > .active-page > span {
     font-weight: 600 !important;
 }
 
-/* 6. Problem Table - Xám Đen Theme (#18181b / #202024), Flat Sharp Edges (border-radius: 0) */
+/* 6. Problem Table - Xám Đen Theme (#18181b / #202024), Bo Vuông Nhẹ Expo ({rounded.md} 10px) */
 #problem-table {
     width: 100% !important;
-    border-radius: 0 !important;
+    border-radius: 10px !important; /* Bo vuông nhẹ chuẩn Expo Design */
     overflow: hidden !important;
     border: 1px solid rgba(255, 255, 255, 0.1) !important;
     background: #18181b !important;
     box-shadow: none !important;
-    border-collapse: collapse !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+#problem-table thead tr:first-child th:first-child {
+    border-top-left-radius: 9px !important;
+}
+#problem-table thead tr:first-child th:last-child {
+    border-top-right-radius: 9px !important;
+}
+#problem-table tbody tr:last-child td:first-child {
+    border-bottom-left-radius: 9px !important;
+}
+#problem-table tbody tr:last-child td:last-child {
+    border-bottom-right-radius: 9px !important;
+}
+
+.problems.h-scrollable-table {
+    border-radius: 10px !important;
 }
 
 #problem-table tbody tr {
