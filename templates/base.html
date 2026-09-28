@@ -2306,109 +2306,99 @@
         color: #171717 !important;
     }
     /* =========================================================
-       MODERN FOOTER & NAVBAR LANGUAGE SWITCHER STYLING
+       MODERN FOOTER & NAVBAR LANGUAGE SWITCHER STYLING (EXPO DESIGN - Image #2)
        ========================================================= */
     footer,
     .modern-site-footer {
         position: relative !important;
         background: transparent !important;
         border: none !important;
-        margin-top: 64px !important;
-        margin-bottom: 30px !important;
+        margin-top: 48px !important;
+        margin-bottom: 32px !important;
         padding: 0 20px !important;
         width: 100% !important;
         box-sizing: border-box !important;
         clear: both !important;
     }
-
     .footer-inner-card {
         max-width: 1296px !important;
         margin: 0 auto !important;
-        background: #0d1322 !important;
+        background: #121214 !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 20px !important;
-        backdrop-filter: blur(16px) !important;
-        padding: 24px 32px !important;
+        border-radius: 12px !important; /* {rounded.lg} */
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+        padding: 20px 28px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: space-between !important;
         flex-wrap: wrap !important;
         gap: 16px !important;
         box-sizing: border-box !important;
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45) !important;
     }
-
     .footer-brand-line {
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
         font-size: 14px !important;
     }
-
     .footer-brand-name {
-        font-weight: 700 !important;
-        color: #ffffff !important;
-        letter-spacing: -0.01em !important;
+        color: #f4f4f5 !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        letter-spacing: -0.2px !important;
     }
-
     .footer-brand-dot {
-        color: rgba(255, 255, 255, 0.3) !important;
+        color: rgba(255, 255, 255, 0.2) !important;
     }
-
     .footer-dmoj-link {
-        color: #94a3b8 !important;
+        color: #71717a !important;
         text-decoration: none !important;
-        transition: color 0.2s ease !important;
+        transition: color 0.15s ease !important;
     }
-
     .footer-dmoj-link:hover {
-        color: #38bdf8 !important;
+        color: #ffffff !important;
     }
-
     .footer-subtitle {
+        color: #a1a1aa !important;
         font-size: 12px !important;
-        color: #64748b !important;
         margin-top: 4px !important;
     }
-
     .footer-lang-group {
         display: flex !important;
         align-items: center !important;
-        gap: 8px !important;
-        background: rgba(0, 0, 0, 0.35) !important;
-        padding: 5px 8px !important;
-        border-radius: 100px !important;
+        background: #18181b !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important; /* {rounded.md} */
+        padding: 3px !important;
+        gap: 4px !important;
     }
-
     .footer-lang-pill {
         display: inline-flex !important;
         align-items: center !important;
         gap: 6px !important;
-        padding: 6px 14px !important;
-        border-radius: 100px !important;
-        background: transparent !important;
-        border: 1px solid transparent !important;
-        color: #94a3b8 !important;
+        border-radius: 6px !important;
         font-size: 12px !important;
-        font-weight: 600 !important;
+        font-weight: 500 !important;
+        padding: 6px 12px !important;
+        border: 1px solid transparent !important;
+        color: #71717a !important;
+        background: transparent !important;
         cursor: pointer !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.15s ease !important;
+        box-shadow: none !important;
         outline: none !important;
     }
-
     .footer-lang-pill:hover {
-        color: #ffffff !important;
-        background: rgba(255, 255, 255, 0.06) !important;
+        color: #f4f4f5 !important;
+        background: #121214 !important;
     }
-
     .footer-lang-pill.active {
-        background: rgba(56, 189, 248, 0.15) !important;
-        border-color: rgba(56, 189, 248, 0.35) !important;
-        color: #38bdf8 !important;
-        box-shadow: 0 2px 8px rgba(56, 189, 248, 0.2) !important;
+        background: #121214 !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #f4f4f5 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     }
-
+    
     /* Navbar Lang Pill */
     .portfolio-lang-pill {
         display: inline-flex !important;
@@ -6078,30 +6068,55 @@
         color: #0284c7 !important;
     }
 
-    /* Footer */
-    html[data-theme="light"] .footer-inner-card {
+    /* Footer Light Mode (Image #2) */
+    html[data-theme="light"] .footer-inner-card,
+    html.theme-light .footer-inner-card {
         background: #ffffff !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+        border: 1px solid #dcdee0 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     }
-    html[data-theme="light"] .footer-brand-name {
-        color: #0f172a !important;
+    html[data-theme="light"] .footer-brand-name,
+    html.theme-light .footer-brand-name {
+        color: #171717 !important;
     }
-    html[data-theme="light"] .footer-subtitle {
-        color: #64748b !important;
+    html[data-theme="light"] .footer-brand-dot,
+    html.theme-light .footer-brand-dot {
+        color: #dcdee0 !important;
     }
-    html[data-theme="light"] .footer-lang-pill {
-        background: rgba(0, 0, 0, 0.04) !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        color: #334155 !important;
+    html[data-theme="light"] .footer-dmoj-link,
+    html.theme-light .footer-dmoj-link {
+        color: #999999 !important;
     }
-    html[data-theme="light"] .footer-lang-pill.active {
+    html[data-theme="light"] .footer-dmoj-link:hover,
+    html.theme-light .footer-dmoj-link:hover {
+        color: #171717 !important;
+    }
+    html[data-theme="light"] .footer-subtitle,
+    html.theme-light .footer-subtitle {
+        color: #60646c !important;
+    }
+    html[data-theme="light"] .footer-lang-group,
+    html.theme-light .footer-lang-group {
+        background: #f0f0f3 !important;
+        border: 1px solid #dcdee0 !important;
+    }
+    html[data-theme="light"] .footer-lang-pill,
+    html.theme-light .footer-lang-pill {
+        color: #999999 !important;
+    }
+    html[data-theme="light"] .footer-lang-pill:hover,
+    html.theme-light .footer-lang-pill:hover {
+        color: #171717 !important;
         background: #ffffff !important;
-        border-color: #0284c7 !important;
-        color: #0284c7 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
     }
-
+    html[data-theme="light"] .footer-lang-pill.active,
+    html.theme-light .footer-lang-pill.active {
+        background: #ffffff !important;
+        border: 1px solid #dcdee0 !important;
+        color: #171717 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    }
+    
     /* Code Blocks & Clipboard */
     html[data-theme="light"] pre,
     html[data-theme="light"] pre code,
