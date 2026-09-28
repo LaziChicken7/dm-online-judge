@@ -87,12 +87,9 @@
                         background 0.25s ease !important;
         }
         .contest-table-card:hover {
-            border-color: rgba(56, 189, 248, 0.55) !important;
-            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                        0 0 25px rgba(56, 189, 248, 0.2), 
-                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-            transform: translateY(-2px) !important;
-            background: rgba(255, 255, 255, 0.045) !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+            transform: translateY(-1px) !important;
         }
 
         .contest-empty-card {
@@ -1864,7 +1861,7 @@
     }
 
     .comment-display:hover {
-        border-color: rgba(56, 189, 248, 0.3) !important;
+        border-color: rgba(255, 255, 255, 0.18) !important;
     }
 
     .comment:target > .comment-display {
@@ -2034,10 +2031,9 @@
 
     .comment-display .content.content-description:hover,
     .comment-display .content:hover {
-        background: rgba(15, 23, 42, 0.9) !important;
-        border-color: rgba(56, 189, 248, 0.45) !important;
-        border-left-color: #38bdf8 !important;
-        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35), 0 0 16px rgba(56, 189, 248, 0.12) !important;
+        background: rgba(255, 255, 255, 0.04) !important;
+        border-color: rgba(255, 255, 255, 0.15) !important;
+        box-shadow: none !important;
     }
 
     .comment-display .content .comment-body {
@@ -3692,34 +3688,43 @@
 
 
     /* ==========================================================================
-       Interactive Glowing Card Hover Effects
+       Interactive Card Hover Effects (DESIGN.md - Clean Hairline Standards)
        ========================================================================== */
     .tabs,
     .problems.h-scrollable-table,
     .problem-search-sidebox,
-    .sidebox,
-    ul.pagination {
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.25s ease, 
-                    box-shadow 0.25s ease,
-                    background 0.25s ease !important;
+    .sidebox {
+        transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease !important;
     }
 
     .tabs:hover,
     .problems.h-scrollable-table:hover,
     .problem-search-sidebox:hover,
-    .sidebox:hover,
-    ul.pagination:hover {
-        border-color: rgba(56, 189, 248, 0.55) !important;
-        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                    0 0 25px rgba(56, 189, 248, 0.2), 
-                    inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-        transform: translateY(-2px) !important;
-        background: rgba(255, 255, 255, 0.045) !important;
+    .sidebox:hover {
+        border-color: rgba(255, 255, 255, 0.2) !important; /* {colors.hairline-strong} */
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+        transform: translateY(-1px) !important;
+        background: #121214 !important;
     }
 
+    html[data-theme=light] .sidebox:hover,
+    html.theme-light .sidebox:hover {
+        border-color: #dcdee0 !important; /* {colors.hairline-strong} */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05) !important;
+        transform: translateY(-1px) !important;
+        background: #ffffff !important;
+    }
 
-    /* ==========================================================================
+    /* Universal clean pagination hover - NO BORDER, NO GLOW */
+    ul.pagination,
+    ul.pagination:hover {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+        transform: none !important;
+        outline: none !important;
+    }
+/* ==========================================================================
        Problem Detail Page Redesign (Cyber Glassmorphism Theme)
        ========================================================================== */
     
@@ -3742,11 +3747,9 @@
     }
 
     .problem-header-card:hover {
-        border-color: rgba(56, 189, 248, 0.55) !important;
-        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                    0 0 25px rgba(56, 189, 248, 0.2), 
-                    inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-        transform: translateY(-2px) !important;
+        border-color: rgba(255, 255, 255, 0.2) !important;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
+        transform: translateY(-1px) !important;
     }
 
     .problem-header-tag {
@@ -3950,13 +3953,7 @@
         font-size: 15px !important;
     }
 
-    .content-description:hover {
-        border-color: rgba(56, 189, 248, 0.55) !important;
-        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                    0 0 25px rgba(56, 189, 248, 0.2), 
-                    inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-        transform: translateY(-2px) !important;
-    }
+    /* .content-description:hover removed */
 
     .content-description h3, 
     .content-description h4 {

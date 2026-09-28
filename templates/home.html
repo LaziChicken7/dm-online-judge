@@ -872,6 +872,17 @@
             outline: none !important;
         }
 
+        html body #content #blog-container .blog-content.sidebox:hover,
+        html body #content #blog-container .blog-sidebox.sidebox:hover,
+        html body #content .sidebox:hover,
+        html body .sidebox:hover {
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+            transform: none !important;
+            background: var(--expo-surface-card) !important;
+            outline: none !important;
+        }
+
         html body .blog-header-row {
             display: flex !important;
             align-items: center !important;
@@ -933,7 +944,22 @@
             transition: color 0.15s ease !important;
         }
 
-        html body section.post h2.title a:hover {
+        /* Explicit reset of any border/box-shadow on content-description and summary hover */
+        html body .content-description,
+        html body .content-description:hover,
+        html body .summary,
+        html body .summary:hover,
+        html body section.post .content-description,
+        html body section.post .content-description:hover,
+        html body section.post .summary:hover {
+            border: none !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+            transform: none !important;
+            outline: none !important;
+        }
+
+                html body section.post h2.title a:hover {
             color: var(--expo-body-strong) !important;
         }
 
@@ -1033,6 +1059,18 @@
             width: 100% !important;
             margin-top: 24px !important;
             margin-bottom: 24px !important;
+        }
+
+        html body ul.pagination,
+        html body ul.pagination:hover,
+        html body .bottom-pagination-bar ul.pagination,
+        html body .bottom-pagination-bar ul.pagination:hover {
+            border: none !important;
+            border-color: transparent !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            transform: none !important;
+            outline: none !important;
         }
 
         html body ul.pagination {
