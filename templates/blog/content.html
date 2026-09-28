@@ -373,7 +373,37 @@
         text-align: center !important;
     }
 
-    /* Comment Item */
+    /* Target Comment Highlight (DESIGN.md - Clean Hairline) */
+    .comment:target > .comment-display {
+        border-color: rgba(255, 255, 255, 0.28) !important;
+        background: #18181b !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.15) !important;
+    }
+    html[data-theme="light"] .comment:target > .comment-display,
+    html.theme-light .comment:target > .comment-display {
+        border-color: #dcdee0 !important;
+        background: #f8fafc !important;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 0 0 1px #dcdee0 !important;
+    }
+
+    /* Comment Content - Remove nested cyan box */
+    .comment-display .content.content-description,
+    .comment-display .content {
+        background: transparent !important;
+        border: none !important;
+        border-left: none !important;
+        border-radius: 0 !important;
+        padding: 4px 0 0 0 !important;
+        margin-top: 4px !important;
+        margin-bottom: 0 !important;
+        box-shadow: none !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        display: block !important;
+        overflow: visible !important;
+    }
+
+        /* Comment Item */
     li.comment {
         list-style: none !important;
         margin-bottom: 12px !important;
@@ -477,7 +507,96 @@
         color: var(--expo-body) !important;
     }
 
-    /* New Comment Form */
+    /* Martor Editor Expo Polish */
+    #new-comment .tab-martor-menu {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 0 12px 0 !important;
+        display: flex !important;
+        gap: 6px !important;
+    }
+    #new-comment .tab-martor-menu a.item {
+        border-radius: 6px !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        padding: 6px 14px !important;
+        color: var(--expo-muted) !important;
+        background: transparent !important;
+        border: 1px solid var(--expo-hairline) !important;
+        box-shadow: none !important;
+        transition: all 0.15s ease !important;
+    }
+    #new-comment .tab-martor-menu a.item:hover {
+        background: var(--expo-surface-strong) !important;
+        color: var(--expo-ink) !important;
+    }
+    #new-comment .tab-martor-menu a.item.active {
+        background: var(--expo-surface-strong) !important;
+        border-color: var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
+        box-shadow: none !important;
+        font-weight: 600 !important;
+    }
+    html[data-theme="light"] #new-comment .tab-martor-menu a.item.active,
+    html.theme-light #new-comment .tab-martor-menu a.item.active {
+        background: #000000 !important;
+        border-color: #000000 !important;
+        color: #ffffff !important;
+    }
+
+    #new-comment .martor-toolbar {
+        background: transparent !important;
+        border: none !important;
+        padding: 0 0 8px 0 !important;
+    }
+    #new-comment .martor-toolbar a,
+    #new-comment .martor-toolbar button {
+        color: var(--expo-muted) !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 4px !important;
+        padding: 4px 6px !important;
+    }
+    #new-comment .martor-toolbar a:hover,
+    #new-comment .martor-toolbar button:hover {
+        color: var(--expo-ink) !important;
+        background: var(--expo-surface-strong) !important;
+    }
+
+    #new-comment .ui.segment.tab,
+    #new-comment .tab.segment,
+    #new-comment .martor-field,
+    #new-comment .ace_editor {
+        background: #171717 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important;
+        color: #f4f4f5 !important;
+    }
+    #new-comment .ace_gutter {
+        background: #121214 !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #71717a !important;
+    }
+    html[data-theme="light"] #new-comment .ui.segment.tab,
+    html[data-theme="light"] #new-comment .tab.segment,
+    html[data-theme="light"] #new-comment .martor-field,
+    html[data-theme="light"] #new-comment .ace_editor,
+    html.theme-light #new-comment .ui.segment.tab,
+    html.theme-light #new-comment .tab.segment,
+    html.theme-light #new-comment .martor-field,
+    html.theme-light #new-comment .ace_editor {
+        background: #f8fafc !important;
+        border-color: #dcdee0 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] #new-comment .ace_gutter,
+    html.theme-light #new-comment .ace_gutter {
+        background: #f0f0f3 !important;
+        border-right: 1px solid #dcdee0 !important;
+        color: #94a3b8 !important;
+    }
+
+        /* New Comment Form */
     #new-comment.comment-submit {
         background: var(--expo-surface-card) !important;
         border: 1px solid var(--expo-hairline) !important;
