@@ -2493,31 +2493,35 @@
     }
 
     /* ========================================================
-       NEW COMMENT CARD & MARTOR BLACK EDITOR STYLING
+       NEW COMMENT CARD & MARTOR EDITOR (DESIGN.md)
        ======================================================== */
+    /* Remove outer card border and background (User Image #2) */
     #new-comment.comment-submit {
-        background: #0d1322 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 20px !important;
-        padding: 28px 32px !important;
-        margin-top: 28px !important;
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4) !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 24px 0 0 0 !important;
+        margin-top: 24px !important;
+        box-shadow: none !important;
         width: 100% !important;
         box-sizing: border-box !important;
     }
-
     #new-comment h3 {
-        font-size: 18px !important;
-        font-weight: 700 !important;
-        color: #ffffff !important;
-        margin: 0 0 20px 0 !important;
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        color: #f4f4f5 !important;
+        margin: 0 0 16px 0 !important;
         display: flex !important;
         align-items: center !important;
         gap: 10px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-        padding-bottom: 14px !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding-bottom: 12px !important;
     }
-
+    html[data-theme="light"] #new-comment h3,
+    html.theme-light #new-comment h3 {
+        color: #171717 !important;
+        border-bottom: 1px solid #f0f0f3 !important;
+    }
     #new-comment > hr {
         display: none !important;
     }
@@ -2532,270 +2536,287 @@
         box-shadow: none !important;
     }
 
-    #new-comment .main-martor:focus-within {
-        border: none !important;
-        box-shadow: none !important;
-    }
-
-    /* Tabs & Toolbar Header: Remove white underline */
+    /* Tabs & Toolbar Header */
     #new-comment .tab-martor-menu {
         background: transparent !important;
         border: none !important;
-        border-bottom: none !important;
         box-shadow: none !important;
-        padding: 0 0 14px 0 !important;
+        padding: 0 0 12px 0 !important;
         display: flex !important;
         align-items: center !important;
+        gap: 6px !important;
         min-height: auto !important;
     }
-
-    #new-comment .tab-martor-menu::after {
-        display: none !important;
-    }
-
     #new-comment .tab-martor-menu a.item {
-        color: #94a3b8 !important;
-        background: rgba(255, 255, 255, 0.04) !important;
+        color: #a1a1aa !important;
+        background: transparent !important;
         font-size: 13px !important;
-        font-weight: 600 !important;
-        border: none !important;
-        border-radius: 8px !important;
-        padding: 7px 16px !important;
-        margin: 0 8px 0 0 !important;
-        transition: all 0.2s ease !important;
+        font-weight: 500 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 6px !important; /* {rounded.sm} */
+        padding: 6px 14px !important;
+        margin: 0 !important;
+        transition: all 0.15s ease !important;
         display: inline-flex !important;
         align-items: center !important;
         gap: 6px !important;
+        box-shadow: none !important;
     }
-
     #new-comment .tab-martor-menu a.item:hover {
         color: #ffffff !important;
         background: rgba(255, 255, 255, 0.08) !important;
+        border-color: rgba(255, 255, 255, 0.15) !important;
     }
-
     #new-comment .tab-martor-menu a.item.active {
         color: #ffffff !important;
         background: #202024 !important;
         font-weight: 600 !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.22) !important;
         box-shadow: none !important;
     }
-    html[data-theme=light] #new-comment .tab-martor-menu a.item.active,
+    html[data-theme="light"] #new-comment .tab-martor-menu a.item,
+    html.theme-light #new-comment .tab-martor-menu a.item {
+        color: #60646c !important;
+        border-color: #dcdee0 !important;
+    }
+    html[data-theme="light"] #new-comment .tab-martor-menu a.item:hover,
+    html.theme-light #new-comment .tab-martor-menu a.item:hover {
+        color: #171717 !important;
+        background: #f0f0f3 !important;
+    }
+    html[data-theme="light"] #new-comment .tab-martor-menu a.item.active,
     html.theme-light #new-comment .tab-martor-menu a.item.active {
         color: #ffffff !important;
         background: #000000 !important;
         border-color: #000000 !important;
     }
 
+    /* Toolbar icons */
     #new-comment .martor-toolbar {
         background: transparent !important;
         border: none !important;
         padding: 0 !important;
         margin: 0 !important;
     }
-
     #new-comment .martor-toolbar a,
     #new-comment .martor-toolbar button,
     #new-comment .martor-toolbar i,
     #new-comment .martor-toolbar .button {
-        color: #94a3b8 !important;
+        color: #71717a !important;
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 6px 8px !important;
-        border-radius: 6px !important;
+        padding: 5px 7px !important;
+        border-radius: 4px !important;
         font-size: 13px !important;
         transition: all 0.15s ease !important;
     }
-
     #new-comment .martor-toolbar a:hover,
     #new-comment .martor-toolbar button:hover,
-    #new-comment .martor-toolbar .button:hover,
     #new-comment .martor-toolbar i:hover {
-        color: #38bdf8 !important;
-        background: rgba(56, 189, 248, 0.15) !important;
-        transform: translateY(-1px);
+        color: #ffffff !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        transform: none !important;
+    }
+    html[data-theme="light"] #new-comment .martor-toolbar a,
+    html[data-theme="light"] #new-comment .martor-toolbar button,
+    html[data-theme="light"] #new-comment .martor-toolbar i,
+    html.theme-light #new-comment .martor-toolbar a,
+    html.theme-light #new-comment .martor-toolbar button,
+    html.theme-light #new-comment .martor-toolbar i {
+        color: #60646c !important;
+    }
+    html[data-theme="light"] #new-comment .martor-toolbar a:hover,
+    html[data-theme="light"] #new-comment .martor-toolbar button:hover,
+    html[data-theme="light"] #new-comment .martor-toolbar i:hover,
+    html.theme-light #new-comment .martor-toolbar a:hover,
+    html.theme-light #new-comment .martor-toolbar button:hover,
+    html.theme-light #new-comment .martor-toolbar i:hover {
+        color: #171717 !important;
+        background: #f0f0f3 !important;
     }
 
-    #new-comment .ui.dropdown .menu {
-        background: #0f172a !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        border-radius: 10px !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
-    }
-
-    #new-comment .ui.dropdown .menu > .item {
-        color: #cbd5e1 !important;
-        font-size: 13px !important;
-        padding: 8px 14px !important;
-    }
-
-    #new-comment .ui.dropdown .menu > .item:hover {
-        background: rgba(56, 189, 248, 0.15) !important;
-        color: #38bdf8 !important;
-    }
-
-    /* Code Area with Rounded Corners and Subtle Border */
+    /* Editor box */
     #new-comment .ui.segment.tab,
-    #new-comment .tab.segment[data-tab^="editor-tab-"] {
-        background: #060913 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 14px !important;
-        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-        padding: 0 !important;
-        margin: 0 !important;
-        overflow: hidden !important;
-    }
-
-    #new-comment .martor-field {
-        height: 260px !important;
-        min-height: 220px !important;
-        background: #060913 !important;
-        border: none !important;
-        border-radius: 14px !important;
-    }
-
+    #new-comment .tab.segment[data-tab^=editor-tab-],
+    #new-comment .martor-field,
     #new-comment .ace_editor {
-        background: #060913 !important;
-        color: #f1f5f9 !important;
-        font-family: 'Google Sans Code', monospace !important;
-        font-size: 14px !important;
-        line-height: 1.65 !important;
-        border: none !important;
-        border-radius: 14px !important;
+        background: #171717 !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important; /* {rounded.md} */
+        box-shadow: none !important;
+        color: #f4f4f5 !important;
+        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        font-size: 13.5px !important;
+        line-height: 1.6 !important;
     }
-
+    #new-comment .martor-field {
+        height: 220px !important;
+        min-height: 180px !important;
+        border: none !important;
+    }
     #new-comment .ace_gutter {
-        background: #04060d !important;
-        color: #475569 !important;
-        border: none !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
+        background: #121214 !important;
+        color: #71717a !important;
+        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
     }
-
     #new-comment .ace_gutter-cell {
-        color: #475569 !important;
+        color: #71717a !important;
         padding-right: 10px !important;
-        font-family: 'Google Sans Code', monospace !important;
+        font-family: 'JetBrains Mono', monospace !important;
     }
-
     #new-comment .ace_gutter-active-line {
         background: rgba(255, 255, 255, 0.04) !important;
-        color: #38bdf8 !important;
+        color: #ffffff !important;
     }
-
     #new-comment .ace_marker-layer .ace_active-line {
         background: rgba(255, 255, 255, 0.03) !important;
     }
-
-    #new-comment .ace_marker-layer .ace_selection {
-        background: rgba(56, 189, 248, 0.25) !important;
-        border-radius: 3px;
-    }
-
     #new-comment .ace_cursor {
-        color: #38bdf8 !important;
-        border-left: 2px solid #38bdf8 !important;
+        color: #ffffff !important;
+        border-left: 2px solid #ffffff !important;
     }
 
-    #new-comment .ace_print-margin {
-        display: none !important;
-        opacity: 0 !important;
-        width: 0 !important;
+    html[data-theme="light"] #new-comment .ui.segment.tab,
+    html[data-theme="light"] #new-comment .tab.segment[data-tab^=editor-tab-],
+    html[data-theme="light"] #new-comment .martor-field,
+    html[data-theme="light"] #new-comment .ace_editor,
+    html.theme-light #new-comment .ui.segment.tab,
+    html.theme-light #new-comment .tab.segment[data-tab^=editor-tab-],
+    html.theme-light #new-comment .martor-field,
+    html.theme-light #new-comment .ace_editor {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] #new-comment .ace_gutter,
+    html.theme-light #new-comment .ace_gutter {
+        background: #f0f0f3 !important;
+        border-right: 1px solid #dcdee0 !important;
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] #new-comment .ace_gutter-cell,
+    html.theme-light #new-comment .ace_gutter-cell {
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] #new-comment .ace_cursor,
+    html.theme-light #new-comment .ace_cursor {
+        color: #000000 !important;
+        border-left: 2px solid #000000 !important;
     }
 
     /* Preview Pane */
     #new-comment .tab.segment.martor-preview,
     #new-comment .martor-preview {
-        background: #060913 !important;
-        color: #cbd5e1 !important;
-        min-height: 220px !important;
-        padding: 24px 28px !important;
+        background: #171717 !important;
+        color: #d4d4d8 !important;
+        min-height: 180px !important;
+        padding: 20px 24px !important;
         border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 14px !important;
-        box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
         font-size: 14.5px !important;
-        line-height: 1.7 !important;
+        line-height: 1.65 !important;
         margin: 0 !important;
     }
-
-    /* Footer: Notice & Buttons */
-    #new-comment .section-martor > hr {
-        display: none !important;
+    html[data-theme="light"] #new-comment .tab.segment.martor-preview,
+    html[data-theme="light"] #new-comment .martor-preview,
+    html.theme-light #new-comment .tab.segment.martor-preview,
+    html.theme-light #new-comment .martor-preview {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        color: #0f172a !important;
     }
 
-    /* Bottom tabs (show-on-editor vs show-on-preview) */
-    #new-comment .show-on-editor[style*="display: none"],
-    #new-comment .show-on-preview[style*="display: none"],
-    #new-comment .show-on-editor[style*="display:none"],
-    #new-comment .show-on-preview[style*="display:none"] {
+    /* Bottom tabs & Notice */
+    #new-comment .show-on-editor[style*=display: none],
+    #new-comment .show-on-preview[style*=display: none],
+    #new-comment .show-on-editor[style*=display:none],
+    #new-comment .show-on-preview[style*=display:none] {
         display: none !important;
     }
-
     #new-comment .show-on-editor,
     #new-comment .show-on-preview {
-        margin-top: 18px !important;
+        margin-top: 16px !important;
         align-items: center !important;
         justify-content: space-between !important;
         width: 100% !important;
     }
-
     #new-comment .show-on-editor p {
-        color: #94a3b8 !important;
+        color: #71717a !important;
         font-size: 13px !important;
         display: inline-flex !important;
         align-items: center !important;
         gap: 6px !important;
         margin: 0 !important;
     }
-
+    html[data-theme="light"] #new-comment .show-on-editor p,
+    html.theme-light #new-comment .show-on-editor p {
+        color: #60646c !important;
+    }
     #new-comment .show-on-editor p::before {
-        content: "\f05a";
+        content: f05a;
         font-family: FontAwesome;
-        color: #38bdf8;
+        color: #71717a;
         font-size: 14px;
     }
+    html[data-theme="light"] #new-comment .show-on-editor p::before,
+    html.theme-light #new-comment .show-on-editor p::before {
+        color: #999999;
+    }
 
-    /* Modern Post Button */
-    #new-comment input[type="submit"].button,
-    #new-comment button[type="submit"].button {
-        padding: 9px 24px !important;
-        border-radius: 100px !important;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    /* Submit Button (DESIGN.md: 8px rounded rectangle, pure black/white) */
+    #new-comment input[type=submit].button,
+    #new-comment button[type=submit].button,
+    #new-comment input[type=submit],
+    #new-comment button[type=submit] {
+        padding: 8px 22px !important;
+        border-radius: 8px !important; /* {rounded.md}, NEVER 100px pill */
+        font-weight: 500 !important;
+        font-size: 13.5px !important;
+        transition: all 0.15s ease !important;
         margin-left: auto !important;
         float: right !important;
         box-sizing: border-box !important;
         line-height: 1.4 !important;
-    }
-
-    #new-comment input[type="submit"].button.disabled,
-    #new-comment button[type="submit"].button.disabled {
-        background: rgba(255, 255, 255, 0.05) !important;
-        color: rgba(255, 255, 255, 0.3) !important;
-        cursor: not-allowed !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        box-shadow: none !important;
-    }
-
-    #new-comment .show-on-preview input[type="submit"].button,
-    #new-comment .show-on-preview button[type="submit"].button {
-        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-        color: #ffffff !important;
-        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: none !important;
         cursor: pointer !important;
-        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     }
-
-    #new-comment .show-on-preview input[type="submit"].button:hover,
-    #new-comment .show-on-preview button[type="submit"].button:hover {
-        background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
+    #new-comment input[type=submit].button:hover,
+    #new-comment button[type=submit].button:hover {
+        opacity: 0.9 !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 22px rgba(56, 189, 248, 0.55), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-        border-color: rgba(56, 189, 248, 0.8) !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+    }
+    #new-comment input[type=submit].button.disabled,
+    #new-comment button[type=submit].button.disabled,
+    #new-comment input[type=submit]:disabled,
+    #new-comment button[type=submit]:disabled {
+        background: #242428 !important;
+        color: #71717a !important;
+        cursor: not-allowed !important;
+        border: none !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    html[data-theme="light"] #new-comment input[type=submit].button,
+    html[data-theme="light"] #new-comment button[type=submit].button,
+    html.theme-light #new-comment input[type=submit].button,
+    html.theme-light #new-comment button[type=submit].button {
+        background: #000000 !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] #new-comment input[type=submit].button.disabled,
+    html[data-theme="light"] #new-comment button[type=submit].button.disabled,
+    html.theme-light #new-comment input[type=submit].button.disabled,
+    html.theme-light #new-comment button[type=submit].button.disabled {
+        background: #e4e4e7 !important;
+        color: #a1a1aa !important;
     }
 
-    
     /* Problem Page Vector Icon Alignments */
     .header-action-btn svg,
     .header-submit-btn svg {
@@ -4169,31 +4190,27 @@
         line-height: 1.5 !important;
     }
 
-    /* 5. Comments Section */
+    /* 5. Comments Section Container (Clean Expo layout - NO outer border, NO cyan glow) */
     #comments, 
     .clarifications-area {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(12px) !important;
-        padding: 28px 32px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-        margin-top: 24px !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        margin-top: 0 !important;
         box-sizing: border-box !important;
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.25s ease, 
-                    box-shadow 0.25s ease !important;
+        transform: none !important;
     }
-
     #comments:hover,
     .clarifications-area:hover {
-        border-color: rgba(56, 189, 248, 0.55) !important;
-        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                    0 0 25px rgba(56, 189, 248, 0.2), 
-                    inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-        transform: translateY(-2px) !important;
+        border: none !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
     }
-
+    
     .button.clarify {
         display: inline-flex !important;
         align-items: center !important;

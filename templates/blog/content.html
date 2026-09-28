@@ -344,6 +344,21 @@
         transform: none !important;
     }
 
+    /* Comments container reset - Remove outer blue border */
+    #comments {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    #comments:hover {
+        border: none !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+
     #comments > h2 {
         font-size: 18px !important;
         font-weight: 600 !important;
@@ -596,13 +611,14 @@
         color: #94a3b8 !important;
     }
 
-        /* New Comment Form */
+        /* New Comment Form - No outer border surrounding this block */
     #new-comment.comment-submit {
-        background: var(--expo-surface-card) !important;
-        border: 1px solid var(--expo-hairline) !important;
-        border-radius: 8px !important; /* {rounded.md} */
-        padding: 20px 24px !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 24px 0 0 0 !important;
         margin-top: 24px !important;
+        box-shadow: none !important;
     }
 
     #new-comment h3 {
@@ -717,8 +733,9 @@
 
     html[data-theme="light"] #new-comment.comment-submit,
     html.theme-light #new-comment.comment-submit {
-        background: #fafafa !important;
-        border-color: #f0f0f3 !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
     html[data-theme="light"] #new-comment input[type="submit"],
