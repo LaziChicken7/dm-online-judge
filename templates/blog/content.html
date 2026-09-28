@@ -662,86 +662,288 @@
         background-image: none !important;
         color: #171717 !important;
     }
-
     html[data-theme="light"] .post-detail-card,
     html.theme-light .post-detail-card,
     html[data-theme="light"] .post-comments-card,
     html.theme-light .post-comments-card {
         background: #ffffff !important;
-        border-color: #f0f0f3 !important;
+        border: 1px solid #f0f0f3 !important;
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
     }
-
     html[data-theme="light"] .post-detail-title,
     html.theme-light .post-detail-title {
         color: #171717 !important;
     }
-
     html[data-theme="light"] .post-detail-body,
     html.theme-light .post-detail-body,
     html[data-theme="light"] .post-detail-body p,
     html.theme-light .post-detail-body p {
         color: #60646c !important;
     }
-
     html[data-theme="light"] .post-detail-body a,
     html.theme-light .post-detail-body a {
         color: #0d74ce !important;
     }
 
+    /* Top bar buttons */
     html[data-theme="light"] .back-to-news,
-    html.theme-light .back-to-news {
+    html[data-theme="light"] .back-to-news span,
+    html.theme-light .back-to-news,
+    html.theme-light .back-to-news span {
         background: #ffffff !important;
         border-color: #dcdee0 !important;
         color: #171717 !important;
     }
-
+    html[data-theme="light"] .back-to-news svg,
+    html.theme-light .back-to-news svg {
+        stroke: #171717 !important;
+    }
     html[data-theme="light"] .back-to-news:hover,
     html.theme-light .back-to-news:hover {
         background: #f0f0f3 !important;
         color: #171717 !important;
     }
-
-    html[data-theme="light"] .comment-display,
-    html.theme-light .comment-display {
-        background: #fafafa !important;
-        border-color: #f0f0f3 !important;
+    html[data-theme="light"] .post-edit-btn,
+    html[data-theme="light"] .post-edit-btn span,
+    html.theme-light .post-edit-btn,
+    html.theme-light .post-edit-btn span {
+        background: #fef3c7 !important;
+        border-color: #fde68a !important;
+        color: #b45309 !important;
+    }
+    html[data-theme="light"] .post-edit-btn svg,
+    html.theme-light .post-edit-btn svg {
+        stroke: #b45309 !important;
     }
 
+    /* Post detail meta line */
+    html[data-theme="light"] .post-detail-meta,
+    html[data-theme="light"] .post-detail-meta span,
+    html[data-theme="light"] .post-detail-meta .post-time,
+    html[data-theme="light"] .post-detail-meta .date,
+    html.theme-light .post-detail-meta,
+    html.theme-light .post-detail-meta span,
+    html.theme-light .post-detail-meta .post-time,
+    html.theme-light .post-detail-meta .date {
+        color: #60646c !important;
+    }
+    html[data-theme="light"] .post-detail-meta .author a,
+    html.theme-light .post-detail-meta .author a {
+        color: #171717 !important;
+        font-weight: 600 !important;
+    }
+
+    /* Post detail code blocks */
+    html[data-theme="light"] .post-detail-body .codehilite,
+    html.theme-light .post-detail-body .codehilite {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 14px 0 !important;
+    }
+    html[data-theme="light"] .post-detail-body pre,
+    html[data-theme="light"] .post-detail-body .codehilite pre,
+    html.theme-light .post-detail-body pre,
+    html.theme-light .post-detail-body .codehilite pre {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        box-shadow: none !important;
+        color: #0f172a !important;
+        padding: 12px 16px !important;
+    }
+    html[data-theme="light"] .post-detail-body pre code,
+    html[data-theme="light"] .post-detail-body pre span,
+    html.theme-light .post-detail-body pre code,
+    html.theme-light .post-detail-body pre span {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        color: inherit !important;
+    }
+    html[data-theme="light"] .post-detail-body pre .nb,
+    html.theme-light .post-detail-body pre .nb {
+        color: #0284c7 !important;
+    }
+    html[data-theme="light"] .post-detail-body pre .s1,
+    html[data-theme="light"] .post-detail-body pre .s2,
+    html.theme-light .post-detail-body pre .s1,
+    html.theme-light .post-detail-body pre .s2 {
+        color: #16a34a !important;
+    }
+    html[data-theme="light"] .post-detail-body pre .p,
+    html.theme-light .post-detail-body pre .p {
+        color: #475569 !important;
+    }
+
+    /* Comments Section */
+    html[data-theme="light"] #comments > h2,
+    html.theme-light #comments > h2 {
+        color: #171717 !important;
+        border-bottom-color: #f0f0f3 !important;
+    }
+    html[data-theme="light"] .comment-display,
+    html.theme-light .comment-display {
+        background: #ffffff !important;
+        border: 1px solid #f0f0f3 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
     html[data-theme="light"] .comment-display:hover,
     html.theme-light .comment-display:hover {
         border-color: #dcdee0 !important;
     }
-
     html[data-theme="light"] .comment-display .vote,
     html.theme-light .comment-display .vote {
         background: #f0f0f3 !important;
-        border-color: #dcdee0 !important;
+        border: 1px solid #dcdee0 !important;
     }
-
-    html[data-theme="light"] .comment-author-wrap a,
-    html.theme-light .comment-author-wrap a {
+    html[data-theme="light"] .comment-display .vote .comment-score,
+    html.theme-light .comment-display .vote .comment-score {
         color: #171717 !important;
     }
-
+    html[data-theme="light"] .comment-display .vote a svg,
+    html.theme-light .comment-display .vote a svg {
+        stroke: #60646c !important;
+    }
+    html[data-theme="light"] .comment-display .detail .header,
+    html[data-theme="light"] .comment-author-wrap,
+    html[data-theme="light"] .comment-author-wrap span,
+    html[data-theme="light"] .comment-time,
+    html[data-theme="light"] .comment-time span,
+    html.theme-light .comment-display .detail .header,
+    html.theme-light .comment-author-wrap,
+    html.theme-light .comment-author-wrap span,
+    html.theme-light .comment-time,
+    html.theme-light .comment-time span {
+        color: #60646c !important;
+        border-bottom-color: #f0f0f3 !important;
+    }
+    html[data-theme="light"] .comment-author-wrap a,
+    html[data-theme="light"] .comment-author-wrap .user a,
+    html[data-theme="light"] .comment-author-wrap .admin a,
+    html.theme-light .comment-author-wrap a,
+    html.theme-light .comment-author-wrap .user a,
+    html.theme-light .comment-author-wrap .admin a {
+        color: #171717 !important;
+        font-weight: 600 !important;
+    }
+    html[data-theme="light"] .comment-display .content,
+    html[data-theme="light"] .comment-display .content.content-description,
+    html.theme-light .comment-display .content,
+    html.theme-light .comment-display .content.content-description {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 4px 0 0 0 !important;
+    }
     html[data-theme="light"] .comment-display .content .comment-body,
-    html.theme-light .comment-display .content .comment-body,
     html[data-theme="light"] .comment-display .content .comment-body p,
+    html.theme-light .comment-display .content .comment-body,
     html.theme-light .comment-display .content .comment-body p {
         color: #171717 !important;
+        font-size: 14.5px !important;
+        line-height: 1.6 !important;
+    }
+    html[data-theme="light"] .comment-operation a,
+    html.theme-light .comment-operation a {
+        color: #60646c !important;
+        background: #ffffff !important;
+        border: 1px solid #dcdee0 !important;
+        border-radius: 6px !important;
+    }
+    html[data-theme="light"] .comment-operation a svg,
+    html.theme-light .comment-operation a svg {
+        stroke: #60646c !important;
+    }
+    html[data-theme="light"] .comment-operation a:hover,
+    html.theme-light .comment-operation a:hover {
+        color: #171717 !important;
+        background: #f0f0f3 !important;
     }
 
+    /* New Comment Form */
     html[data-theme="light"] #new-comment.comment-submit,
     html.theme-light #new-comment.comment-submit {
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
+        padding: 24px 0 0 0 !important;
+    }
+    html[data-theme="light"] #new-comment h3,
+    html.theme-light #new-comment h3 {
+        color: #171717 !important;
+        border-bottom-color: #f0f0f3 !important;
+    }
+    html[data-theme="light"] #new-comment .tab-martor-menu a.item,
+    html.theme-light #new-comment .tab-martor-menu a.item {
+        color: #60646c !important;
+        border-color: #dcdee0 !important;
+        background: #ffffff !important;
+    }
+    html[data-theme="light"] #new-comment .tab-martor-menu a.item.active,
+    html.theme-light #new-comment .tab-martor-menu a.item.active {
+        color: #ffffff !important;
+        background: #000000 !important;
+        border-color: #000000 !important;
+    }
+    html[data-theme="light"] #new-comment .martor-toolbar a,
+    html[data-theme="light"] #new-comment .martor-toolbar button,
+    html.theme-light #new-comment .martor-toolbar a,
+    html.theme-light #new-comment .martor-toolbar button {
+        color: #60646c !important;
+    }
+    html[data-theme="light"] #new-comment .ui.segment.tab,
+    html[data-theme="light"] #new-comment .tab.segment,
+    html[data-theme="light"] #new-comment .martor-field,
+    html[data-theme="light"] #new-comment .ace_editor,
+    html.theme-light #new-comment .ui.segment.tab,
+    html.theme-light #new-comment .tab.segment,
+    html.theme-light #new-comment .martor-field,
+    html.theme-light #new-comment .ace_editor {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        border-bottom: 1px solid #dcdee0 !important;
+        box-shadow: none !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] #new-comment .ace_gutter,
+    html.theme-light #new-comment .ace_gutter {
+        background: #f0f0f3 !important;
+        border-right: 1px solid #dcdee0 !important;
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] #new-comment .show-on-editor p,
+    html.theme-light #new-comment .show-on-editor p {
+        color: #60646c !important;
+    }
+    html[data-theme="light"] #new-comment .show-on-editor p::before,
+    html.theme-light #new-comment .show-on-editor p::before {
+        color: #999999 !important;
     }
 
+    /* Submit Button */
     html[data-theme="light"] #new-comment input[type="submit"],
-    html.theme-light #new-comment input[type="submit"] {
+    html[data-theme="light"] #new-comment button[type="submit"],
+    html.theme-light #new-comment input[type="submit"],
+    html.theme-light #new-comment button[type="submit"] {
         background: #000000 !important;
         color: #ffffff !important;
+        border-radius: 8px !important;
+        border: none !important;
+    }
+    html[data-theme="light"] #new-comment input[type="submit"]:disabled,
+    html[data-theme="light"] #new-comment button[type="submit"]:disabled,
+    html[data-theme="light"] #new-comment input[type="submit"].disabled,
+    html[data-theme="light"] #new-comment button[type="submit"].disabled,
+    html.theme-light #new-comment input[type="submit"]:disabled,
+    html.theme-light #new-comment button[type="submit"]:disabled,
+    html.theme-light #new-comment input[type="submit"].disabled,
+    html.theme-light #new-comment button[type="submit"].disabled {
+        background: #f0f0f3 !important;
+        color: #8c8c8c !important;
+        border: 1px solid #dcdee0 !important;
+        border-radius: 8px !important;
     }
 </style>
 
