@@ -90,7 +90,7 @@
 
         #content {
             max-width: 1240px !important;
-            margin: 70px auto 40px !important;
+            margin: 96px auto 40px !important;
             padding: 0 24px !important;
         }
 
@@ -167,11 +167,17 @@
         }
 
         html[data-theme=light] .expo-btn-secondary,
-        html.theme-light .expo-btn-secondary {
+        html[data-theme=light] .expo-btn-secondary span,
+        html.theme-light .expo-btn-secondary,
+        html.theme-light .expo-btn-secondary span {
             background: #ffffff !important;
-            border: 1px solid #dcdee0 !important;
+            border-color: #dcdee0 !important;
             color: #171717 !important;
             border-radius: 8px !important;
+        }
+        html[data-theme=light] .expo-btn-secondary svg,
+        html.theme-light .expo-btn-secondary svg {
+            stroke: #171717 !important;
         }
         html[data-theme=light] .expo-btn-secondary:hover,
         html.theme-light .expo-btn-secondary:hover {
@@ -179,8 +185,14 @@
         }
 
         html[data-theme=light] .expo-btn-tertiary,
-        html.theme-light .expo-btn-tertiary {
+        html[data-theme=light] .expo-btn-tertiary span,
+        html.theme-light .expo-btn-tertiary,
+        html.theme-light .expo-btn-tertiary span {
             color: #0d74ce !important;
+        }
+        html[data-theme=light] .expo-btn-tertiary svg,
+        html.theme-light .expo-btn-tertiary svg {
+            stroke: #0d74ce !important;
         }
 
         html[data-theme=light] .expo-stat-card,
@@ -403,7 +415,7 @@
             background: var(--expo-hero-wash);
             border: 1px solid var(--expo-hairline);
             border-radius: 20px;
-            padding: 56px 32px 48px;
+            padding: 48px 32px 44px;
             margin-bottom: 32px;
             display: flex;
             flex-direction: column;
@@ -1437,7 +1449,108 @@
                 justify-content: center !important;
             }
         }
-    </style>
+
+        /* Top Navbar Light Mode Elements */
+        html[data-theme=light] .portfolio-user-pill,
+        html[data-theme=light] .portfolio-user-pill span,
+        html[data-theme=light] .portfolio-user-pill .portfolio-username,
+        html[data-theme=light] .portfolio-username,
+        html.theme-light .portfolio-user-pill,
+        html.theme-light .portfolio-user-pill span,
+        html.theme-light .portfolio-user-pill .portfolio-username,
+        html.theme-light .portfolio-username {
+            color: #171717 !important;
+        }
+        html[data-theme=light] .portfolio-lang-pill,
+        html[data-theme=light] .portfolio-lang-pill span,
+        html[data-theme=light] .portfolio-lang-code,
+        html.theme-light .portfolio-lang-pill,
+        html.theme-light .portfolio-lang-pill span,
+        html.theme-light .portfolio-lang-code {
+            color: #171717 !important;
+        }
+        html[data-theme=light] .portfolio-lang-pill svg,
+        html.theme-light .portfolio-lang-pill svg {
+            stroke: #171717 !important;
+        }
+
+        /* IDE Mockup Dark Inversion Rules (Always dark on both light and dark modes) */
+        .expo-ide-card,
+        .expo-ide-card pre,
+        .expo-ide-card code,
+        .expo-ide-code,
+        .expo-ide-code code,
+        .expo-ide-code pre,
+        html[data-theme=light] .expo-ide-card,
+        html[data-theme=light] .expo-ide-card pre,
+        html[data-theme=light] .expo-ide-card code,
+        html[data-theme=light] .expo-ide-code,
+        html[data-theme=light] .expo-ide-code code,
+        html.theme-light .expo-ide-card,
+        html.theme-light .expo-ide-card pre,
+        html.theme-light .expo-ide-card code,
+        html.theme-light .expo-ide-code,
+        html.theme-light .expo-ide-code code {
+            background: #121214 !important;
+            border: none !important;
+            color: #d4d4d8 !important;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+        }
+        .expo-ide-code span,
+        html[data-theme=light] .expo-ide-code span,
+        html.theme-light .expo-ide-code span {
+            background: transparent !important;
+        }
+
+        /* Post content description & codehilite clean styling */
+        section.post .codehilite {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 10px 0 !important;
+            box-shadow: none !important;
+        }
+        section.post .content-description pre,
+        section.post .codehilite pre {
+            background: #171717 !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important;
+            padding: 12px 16px !important;
+            margin: 0 !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 13px !important;
+            line-height: 1.5 !important;
+            color: #f4f4f5 !important;
+        }
+        html[data-theme=light] section.post .content-description pre,
+        html[data-theme=light] section.post .codehilite pre,
+        html.theme-light section.post .content-description pre,
+        html.theme-light section.post .codehilite pre {
+            background: #171717 !important;
+            border-color: #2e2e32 !important;
+            color: #f4f4f5 !important;
+        }
+        html[data-theme=light] section.post .content-description pre span,
+        html[data-theme=light] section.post .codehilite pre span,
+        html.theme-light section.post .content-description pre span,
+        html.theme-light section.post .codehilite pre span {
+            background: transparent !important;
+        }
+
+        html[data-theme=light] section.post .comment-data a,
+        html.theme-light section.post .comment-data a {
+            background: #f0f0f3 !important;
+            border-color: #dcdee0 !important;
+            color: #60646c !important;
+        }
+        html[data-theme=light] section.post .comment-data a i,
+        html[data-theme=light] section.post .comment-data a span,
+        html.theme-light section.post .comment-data a i,
+        html.theme-light section.post .comment-data a span {
+            color: #60646c !important;
+        }
+
+        </style>
 
     <!-- ========================================================================
          HERO BAND (Expo Aesthetic)
