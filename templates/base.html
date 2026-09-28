@@ -3462,7 +3462,7 @@ html.theme-light .portfolio-user-pill {
     html.theme-light .tabs .tab > a,
     html.theme-light .tabs .tab > span {
         background: #f0f0f3 !important;
-        border: 1px solid #dcdee0 !important;
+        border: none !important;
         color: #60646c !important;
     }
     html[data-theme="light"] .tabs .tab > a:hover,
@@ -3475,10 +3475,10 @@ html.theme-light .portfolio-user-pill {
     html.theme-light .tabs .tab.active > a,
     html.theme-light .tabs .tab.active > span {
         background: #ffffff !important;
-        border: 1px solid #dcdee0 !important;
+        border: none !important;
         color: #171717 !important;
         font-weight: 600 !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
     }
     .tabs .tab i {
         margin-right: 2px !important;
@@ -3576,8 +3576,8 @@ html.theme-light .portfolio-user-pill {
     html[data-theme="light"] ul.pagination > li > span,
     html.theme-light ul.pagination > li > a,
     html.theme-light ul.pagination > li > span {
-        background: #ffffff !important;
-        border: 1px solid #dcdee0 !important;
+        background: #f0f0f3 !important;
+        border: none !important;
         color: #60646c !important;
     }
     html[data-theme="light"] ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover,
@@ -3598,8 +3598,8 @@ html.theme-light .portfolio-user-pill {
     html[data-theme="light"] ul.pagination > li.page-arrow > span,
     html.theme-light ul.pagination > li.page-arrow > a,
     html.theme-light ul.pagination > li.page-arrow > span {
-        background: #ffffff !important;
-        border: 1px solid #dcdee0 !important;
+        background: #f0f0f3 !important;
+        border: none !important;
         color: #60646c !important;
     }
     html[data-theme="light"] ul.pagination > .disabled-page > span,
@@ -5885,9 +5885,17 @@ html.theme-light .portfolio-user-pill {
         box-shadow: none !important;
     }
     html[data-theme="light"] .tabs .tab.active a svg,
-    html[data-theme="light"] .tabs .tab.active a i {
-        stroke: #ffffff !important;
-        color: #ffffff !important;
+    html[data-theme="light"] .tabs .tab.active a i,
+    html.theme-light .tabs .tab.active a svg,
+    html.theme-light .tabs .tab.active a i {
+        stroke: #171717 !important;
+        color: #171717 !important;
+    }
+    html[data-theme="light"] .tabs .tab a svg,
+    html[data-theme="light"] .tabs .tab a i,
+    html.theme-light .tabs .tab a svg,
+    html.theme-light .tabs .tab a i {
+        stroke: currentColor !important;
     }
 
     /* All Tables Across Site */
