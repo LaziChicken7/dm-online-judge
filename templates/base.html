@@ -5893,11 +5893,12 @@ html.theme-light .portfolio-user-pill {
         color: #64748b !important;
     }
 
-    /* Tabs Bar */
-    html[data-theme="light"] .tabs {
-        background: #ffffff !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05) !important;
+    /* Tabs Bar (No faint border/shadow in light mode) */
+    html[data-theme="light"] .tabs,
+    html.theme-light .tabs {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
     html[data-theme="light"] .tabs:not(#mobile)::before {
         color: #64748b !important;
@@ -5906,10 +5907,12 @@ html.theme-light .portfolio-user-pill {
         color: #0f172a !important;
     }
     html[data-theme="light"] .tabs .tab > a,
-    html[data-theme="light"] .tabs .tab > span {
-        background: #f8fafc !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        color: #475569 !important;
+    html[data-theme="light"] .tabs .tab > span,
+    html.theme-light .tabs .tab > a,
+    html.theme-light .tabs .tab > span {
+        background: #f0f0f3 !important;
+        border: none !important;
+        color: #60646c !important;
     }
     html[data-theme="light"] .tabs .tab a svg {
         stroke: #64748b !important;
@@ -6083,11 +6086,14 @@ html.theme-light .portfolio-user-pill {
         color: #ffffff !important;
     }
 
-    /* Pagination */
-    html[data-theme="light"] .pagination {
-        background: #ffffff !important;
-        border: 1px solid rgba(0, 0, 0, 0.08) !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+    /* Pagination (No faint border/shadow in light mode) */
+    html[data-theme="light"] .pagination,
+    html.theme-light .pagination,
+    html[data-theme="light"] ul.pagination,
+    html.theme-light ul.pagination {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
     html[data-theme="light"] .pagination a,
     html[data-theme="light"] .pagination span {

@@ -1154,6 +1154,29 @@ html.theme-light .problems.h-scrollable-table {
     box-shadow: none !important;
 }
 
+
+/* Remove faint lines and borders on tabs and pagination in light mode */
+html[data-theme="light"] .tabs,
+html.theme-light .tabs {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] .pagination,
+html.theme-light .pagination,
+html[data-theme="light"] ul.pagination,
+html.theme-light ul.pagination {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] hr,
+html.theme-light hr {
+    display: none !important;
+}
+
 </style>
     <div class="top-pagination-bar problem-top-toolbar">
         {% include "list-pages.html" %}
