@@ -3212,43 +3212,46 @@ html.theme-light .portfolio-user-pill {
         margin: 24px 10px 16px 10px !important;
     }
     .noUi-target {
-        background: #1e293b !important;
+        background: #27272a !important;
         border: none !important;
-        border-radius: 100px !important;
-        box-shadow: inset 0 1px 3px rgba(0,0,0,0.5) !important;
-        height: 6px !important;
+        border-radius: 2px !important;
+        box-shadow: none !important;
+        height: 4px !important;
     }
     .noUi-connect {
-        background: linear-gradient(90deg, #3b82f6, #06b6d4) !important;
+        background: #52525b !important;
+        border-radius: 2px !important;
     }
     .noUi-handle {
-        border: 2px solid #3b82f6 !important;
+        border: 2px solid #18181b !important;
         background: #ffffff !important;
         border-radius: 50% !important;
-        box-shadow: 0 2px 6px rgba(0,0,0,0.3) !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.4) !important;
         width: 16px !important;
         height: 16px !important;
         right: -8px !important;
-        top: -5px !important;
+        top: -6px !important;
         cursor: grab !important;
+        outline: none !important;
     }
     .noUi-handle:before, .noUi-handle:after {
         display: none !important;
     }
     .noUi-tooltip {
-        background: #111827 !important;
-        color: #93c5fd !important;
-        font-size: 12px !important;
+        background: #27272a !important;
+        color: #f4f4f5 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 11px !important;
         font-weight: 600 !important;
-        padding: 3px 8px !important;
-        border-radius: 6px !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 2px 6px !important;
+        border-radius: 4px !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
         position: absolute !important;
-        top: -34px !important;
+        top: -30px !important;
         transform: translateX(-50%) !important;
         left: 50% !important;
         display: block !important;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+        box-shadow: none !important;
     }
     .form-label, .point-range-label {
         color: #cbd5e1 !important;
@@ -3613,28 +3616,42 @@ html.theme-light .portfolio-user-pill {
     .problem-search-sidebox #search {
         width: 100% !important;
         box-sizing: border-box !important;
-        background: rgba(255, 255, 255, 0.04) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 12px !important;
-        padding: 11px 16px !important;
-        color: #ffffff !important;
-        font-size: 14px !important;
+        background: #18181b !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        border-radius: 8px !important;
+        padding: 10px 14px !important;
+        color: #f4f4f5 !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 13px !important;
         outline: none !important;
-        transition: all 0.2s ease !important;
+        transition: border-color 0.15s ease !important;
         margin-bottom: 16px !important;
-        font-family: inherit !important;
     }
-
     .problem-search-sidebox #search::placeholder {
-        color: rgba(255, 255, 255, 0.3) !important;
+        color: #71717a !important;
+        font-family: 'JetBrains Mono', monospace !important;
     }
-
     .problem-search-sidebox #search:focus {
-        border-color: #38bdf8 !important;
-        background: rgba(255, 255, 255, 0.07) !important;
-        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        background: #18181b !important;
+        box-shadow: none !important;
     }
-
+    html[data-theme="light"] .problem-search-sidebox #search,
+    html.theme-light .problem-search-sidebox #search {
+        background: #f8fafc !important;
+        border: 1px solid #dcdee0 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox #search::placeholder,
+    html.theme-light .problem-search-sidebox #search::placeholder {
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox #search:focus,
+    html.theme-light .problem-search-sidebox #search:focus {
+        border-color: #a1a1aa !important;
+        background: #ffffff !important;
+        box-shadow: none !important;
+    }
     /* Checkbox Items */
     .problem-search-sidebox .filter-checkbox-item {
         display: flex !important;
@@ -3734,50 +3751,67 @@ html.theme-light .portfolio-user-pill {
         border-color: rgba(255, 255, 255, 0.5) transparent transparent transparent !important;
     }
 
-    /* Point Slider (noUiSlider) Styling */
+    /* Point Slider (noUiSlider) Styling (Monochrome, JetBrains Mono) */
     .problem-search-sidebox #point-slider {
-        margin: 36px 10px 24px 10px !important;
-        height: 6px !important;
-        background: rgba(255, 255, 255, 0.08) !important;
+        margin: 32px 10px 20px 10px !important;
+        height: 4px !important;
+        background: #27272a !important;
         border: none !important;
-        border-radius: 6px !important;
+        border-radius: 2px !important;
         box-shadow: none !important;
     }
-
     .problem-search-sidebox #point-slider .noUi-connect {
-        background: #38bdf8 !important;
-        border-radius: 6px !important;
+        background: #52525b !important;
+        border-radius: 2px !important;
     }
-
     .problem-search-sidebox #point-slider .noUi-handle {
-        width: 18px !important;
-        height: 18px !important;
+        width: 16px !important;
+        height: 16px !important;
         border-radius: 50% !important;
         background: #ffffff !important;
-        border: 3px solid #0284c7 !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5) !important;
+        border: 2px solid #18181b !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4) !important;
         top: -6px !important;
-        right: -9px !important;
+        right: -8px !important;
         cursor: grab !important;
         outline: none !important;
     }
-
     .problem-search-sidebox #point-slider .noUi-handle::before,
     .problem-search-sidebox #point-slider .noUi-handle::after {
         display: none !important;
     }
-
     .problem-search-sidebox #point-slider .noUi-tooltip {
-        background: #0f172a !important;
+        background: #27272a !important;
         border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        color: #38bdf8 !important;
+        color: #f4f4f5 !important;
+        font-family: 'JetBrains Mono', monospace !important;
         font-size: 11px !important;
-        font-weight: 700 !important;
-        border-radius: 6px !important;
+        font-weight: 600 !important;
+        border-radius: 4px !important;
         padding: 2px 6px !important;
         bottom: 120% !important;
+        box-shadow: none !important;
     }
-
+    html[data-theme="light"] .problem-search-sidebox #point-slider,
+    html.theme-light .problem-search-sidebox #point-slider {
+        background: #e2e8f0 !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox #point-slider .noUi-connect,
+    html.theme-light .problem-search-sidebox #point-slider .noUi-connect {
+        background: #94a3b8 !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox #point-slider .noUi-handle,
+    html.theme-light .problem-search-sidebox #point-slider .noUi-handle {
+        background: #000000 !important;
+        border: 2px solid #ffffff !important;
+    }
+    html[data-theme="light"] .problem-search-sidebox #point-slider .noUi-tooltip,
+    html.theme-light .problem-search-sidebox #point-slider .noUi-tooltip {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+        font-family: 'JetBrains Mono', monospace !important;
+    }
     /* Submit Action Buttons (Go & Random) */
     .problem-search-sidebox .form-submit-group {
         display: flex !important;

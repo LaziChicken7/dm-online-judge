@@ -841,15 +841,25 @@ html.theme-light .filter-drawer-close-btn:hover {
 }
 
 .problem-search-sidebox #search {
-    background: var(--expo-surface-strong) !important;
-    border: 1px solid var(--expo-hairline-strong) !important;
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
     border-radius: 8px !important; /* {rounded.md} */
-    color: var(--expo-ink) !important;
+    color: #f4f4f5 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 13px !important;
     padding: 10px 14px !important;
-    font-size: 13.5px !important;
     width: 100% !important;
     box-sizing: border-box !important;
     outline: none !important;
+    transition: border-color 0.15s ease !important;
+}
+.problem-search-sidebox #search::placeholder {
+    color: #71717a !important;
+    font-family: 'JetBrains Mono', monospace !important;
+}
+.problem-search-sidebox #search:focus {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    box-shadow: none !important;
 }
 
 .problem-search-sidebox .form-submit-group {
@@ -903,7 +913,15 @@ html.theme-light .filter-drawer-close-btn:hover {
     font-weight: 600 !important;
     letter-spacing: 1.5px !important;
     text-transform: uppercase !important;
-    color: var(--expo-muted) !important;
+    color: #71717a !important;
+}
+.problem-search-sidebox label[for="category"] i,
+.problem-search-sidebox label[for="types"] i {
+    font-style: normal !important;
+}
+.problem-search-sidebox select#category {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 13.5px !important;
 }
 
 /* Checkbox labels in filter drawer - Font gốc (Inter) */
