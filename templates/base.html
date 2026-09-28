@@ -6589,10 +6589,46 @@ html.theme-light .flag-icon,
 html.theme-light .flag-icon * {
     stroke: none !important;
 }
+/* Language dropdown chevron arrow (Dark Mode fix) */
 .portfolio-lang-pill svg:not(.flag-icon),
+.portfolio-lang-chevron {
+    stroke: currentColor !important;
+    width: 10px !important;
+    height: 10px !important;
+    transition: transform 0.2s ease, stroke 0.2s ease !important;
+}
+
+html[data-theme="dark"] .portfolio-lang-pill svg:not(.flag-icon),
+html[data-theme="dark"] .portfolio-lang-chevron,
+html.theme-dark .portfolio-lang-pill svg:not(.flag-icon),
+html.theme-dark .portfolio-lang-chevron,
+html:not([data-theme="light"]) .portfolio-lang-pill svg:not(.flag-icon),
+html:not([data-theme="light"]) .portfolio-lang-chevron {
+    stroke: #e4e4e7 !important;
+    color: #e4e4e7 !important;
+    opacity: 1 !important;
+}
+
+.portfolio-lang-pill:hover svg:not(.flag-icon),
+.portfolio-lang-pill:hover .portfolio-lang-chevron {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
 html[data-theme="light"] .portfolio-lang-pill svg:not(.flag-icon),
-html.theme-light .portfolio-lang-pill svg:not(.flag-icon) {
+html[data-theme="light"] .portfolio-lang-chevron,
+html.theme-light .portfolio-lang-pill svg:not(.flag-icon),
+html.theme-light .portfolio-lang-chevron {
+    stroke: #60646c !important;
+    color: #60646c !important;
+}
+
+html[data-theme="light"] .portfolio-lang-pill:hover svg:not(.flag-icon),
+html[data-theme="light"] .portfolio-lang-pill:hover .portfolio-lang-chevron,
+html.theme-light .portfolio-lang-pill:hover svg:not(.flag-icon),
+html.theme-light .portfolio-lang-pill:hover .portfolio-lang-chevron {
     stroke: #171717 !important;
+    color: #171717 !important;
 }
 .portfolio-lang-code {
     font-size: 12px !important;
@@ -6796,7 +6832,7 @@ html.theme-light .lang-pill-btn.active span {
                     <svg width="18" height="12" viewBox="0 0 20 14" class="flag-icon" style="border-radius: 2px; overflow: hidden; flex-shrink: 0;"><rect width="20" height="14" fill="#ffffff"/><rect y="0" width="20" height="1.08" fill="#b22234"/><rect y="2.15" width="20" height="1.08" fill="#b22234"/><rect y="4.31" width="20" height="1.08" fill="#b22234"/><rect y="6.46" width="20" height="1.08" fill="#b22234"/><rect y="8.62" width="20" height="1.08" fill="#b22234"/><rect y="10.77" width="20" height="1.08" fill="#b22234"/><rect y="12.92" width="20" height="1.08" fill="#b22234"/><rect width="8" height="7.54" fill="#3c3b6e"/><circle cx="2" cy="1.8" r="0.6" fill="#fff"/><circle cx="4" cy="1.8" r="0.6" fill="#fff"/><circle cx="6" cy="1.8" r="0.6" fill="#fff"/><circle cx="3" cy="3.8" r="0.6" fill="#fff"/><circle cx="5" cy="3.8" r="0.6" fill="#fff"/><circle cx="2" cy="5.8" r="0.6" fill="#fff"/><circle cx="4" cy="5.8" r="0.6" fill="#fff"/><circle cx="6" cy="5.8" r="0.6" fill="#fff"/></svg>
                     <span class="portfolio-lang-code">EN</span>
                 {% endif %}
-                <svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.6;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="portfolio-lang-chevron"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
             <div class="portfolio-dropdown portfolio-dropdown-right portfolio-lang-dropdown">
                 <form id="navbar-lang-form" action="{{ url('set_language') }}" method="post" style="margin:0; display:flex; flex-direction:column; gap:8px;">
