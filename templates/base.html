@@ -4835,16 +4835,30 @@ html.theme-light .portfolio-user-pill {
     #content-right.problems .info-float,
     #content-right.problems .info-float:hover,
     #content-right .info-float:has(.sidebox),
-    #content-right .info-float:has(.sidebox):hover {
+    #content-right .info-float:has(.sidebox):hover,
+    html[data-theme="light"] #content-right .info-float,
+    html[data-theme="light"] #content-right .info-float:hover,
+    html[data-theme="light"] #content-right.submission .info-float,
+    html[data-theme="light"] #content-right.submission .info-float:hover,
+    html.theme-light #content-right .info-float,
+    html.theme-light #content-right .info-float:hover,
+    html.theme-light #content-right.submission .info-float,
+    html.theme-light #content-right.submission .info-float:hover {
         background: transparent !important;
         border: none !important;
         box-shadow: none !important;
-        padding: 8px 4px 0 4px !important;
+        padding: 0 !important;
         backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
         transform: none !important;
         outline: none !important;
         overflow: visible !important;
         max-height: none !important;
+    }
+
+    #content-right.submission .sidebox:hover,
+    #content-right.submission .info-float .sidebox:hover {
+        transform: none !important;
     }
 
     .problem-search-sidebox {
@@ -5954,7 +5968,6 @@ html.theme-light .portfolio-user-pill {
     html[data-theme="light"] .users.h-scrollable-table,
     html[data-theme="light"] .problems.h-scrollable-table,
     html[data-theme="light"] .sidebox,
-    html[data-theme="light"] #content-right .info-float,
     html[data-theme="light"] .users-sidebar-card,
     html[data-theme="light"] .footer-inner-card,
     html[data-theme="light"] .comment-card,
