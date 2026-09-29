@@ -3952,439 +3952,431 @@ html.theme-light .portfolio-user-pill {
         transform: none !important;
         outline: none !important;
     }
-/* ==========================================================================
-       Problem Detail Page Redesign (Cyber Glassmorphism Theme)
-       ========================================================================== */
-    
-    /* 1. Problem Header Card */
-    .problem-header-card {
-        position: relative !important;
-        background: rgba(13, 19, 34, 0.95) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(16px) !important;
-        padding: 16px 28px !important;
-        margin-bottom: 24px !important;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45) !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        box-sizing: border-box !important;
-        width: 100% !important;
-        transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
-    }
-
-    .problem-header-card:hover {
-        border-color: rgba(255, 255, 255, 0.2) !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
-        transform: translateY(-1px) !important;
-    }
-
-    .problem-header-tag {
-        font-size: 11px !important;
-        font-weight: 800 !important;
-        letter-spacing: 2px !important;
-        color: rgba(255, 255, 255, 0.4) !important;
-        text-transform: uppercase !important;
-        margin-bottom: 6px !important;
-    }
-
-    .problem-title-group {
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-    }
-
-    .problem-title-group h2 {
-        font-size: 28px !important;
-        font-weight: 800 !important;
-        color: #ffffff !important;
-        margin: 0 !important;
-        border: none !important;
-        padding: 0 !important;
-    }
-
-    .problem-title-group .title-state-icon {
-        font-size: 24px !important;
-    }
-
-    
-    /* ── Modern Organization Badge on Problem Page (Image #1 Redesign) ── */
-    .organization-tags {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        margin-left: 8px !important;
-        padding: 0 !important;
-        vertical-align: middle !important;
-        flex-shrink: 0 !important;
-    }
-    .organization-tag {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-        padding: 4px 12px !important;
-        border-radius: 100px !important;
-        background: rgba(2, 132, 199, 0.12) !important;
-        border: 1px solid rgba(56, 189, 248, 0.35) !important;
-        color: #38bdf8 !important;
-        font-size: 13px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.2px !important;
-        white-space: nowrap !important;
-        line-height: 1.4 !important;
-        transform: none !important;
-        margin: 0 !important;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.15) !important;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        cursor: pointer !important;
-    }
-    .organization-tag:hover {
-        background: linear-gradient(135deg, rgba(2, 132, 199, 0.3), rgba(14, 165, 233, 0.2)) !important;
-        border-color: rgba(56, 189, 248, 0.8) !important;
-        box-shadow: 0 4px 16px rgba(56, 189, 248, 0.35), 0 0 16px rgba(56, 189, 248, 0.25) !important;
-        transform: translateY(-1px) !important;
-    }
-    .organization-tag a {
-        color: inherit !important;
-        text-decoration: none !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 6px !important;
-    }
-    .organization-tag svg {
-        color: #38bdf8 !important;
-        flex-shrink: 0 !important;
-        transition: transform 0.2s ease !important;
-    }
-    .organization-tag:hover svg {
-        transform: scale(1.1) !important;
-        color: #ffffff !important;
-    }
-    html[data-theme="light"] .organization-tag,
-    html.theme-light .organization-tag {
-        background: rgba(2, 132, 199, 0.08) !important;
-        border: 1px solid rgba(2, 132, 199, 0.3) !important;
-        color: #0284c7 !important;
-    }
-    html[data-theme="light"] .organization-tag:hover,
-    html.theme-light .organization-tag:hover {
-        background: rgba(2, 132, 199, 0.15) !important;
-        border-color: #0284c7 !important;
-    }
-
-    .problem-header-right {
-        display: flex !important;
-        align-items: center !important;
-        gap: 12px !important;
-    }
-
-    .header-action-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        padding: 9px 20px !important;
-        border-radius: 100px !important;
-        background: rgba(255, 255, 255, 0.04) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-        font-weight: 600 !important;
-        font-size: 13.5px !important;
-        text-decoration: none !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .header-action-btn:hover {
-        background: rgba(255, 255, 255, 0.08) !important;
-        color: #ffffff !important;
-        transform: translateY(-1px) !important;
-    }
-
-    .header-submit-btn {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 8px !important;
-        padding: 9px 24px !important;
-        border-radius: 100px !important;
-        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-        border: none !important;
-        color: #ffffff !important;
-        font-weight: 700 !important;
-        font-size: 13.5px !important;
-        text-decoration: none !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-        transition: all 0.2s ease !important;
-    }
-
-    .header-submit-btn:hover {
-        background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-        box-shadow: 0 6px 18px rgba(14, 165, 233, 0.5) !important;
-        transform: translateY(-1px) !important;
-    }
-
-    /* 2. Layout & Columns */
-    #common-content {
-        display: flex !important;
-        gap: 24px !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-    }
-
-    #content-left.split-common-content {
-        flex: 1 !important;
-        min-width: 0 !important;
-        width: auto !important;
-        margin-right: 0 !important;
-    }
-
-    #content-right {
-        width: 280px !important;
-        min-width: 280px !important;
-        max-width: 280px !important;
-        float: none !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-
-    /* 3. Problem Description Card */
-    .content-description:has(.vjudge-statement-wrapper) {
-        background: transparent !important;
-        border: none !important;
-        border-radius: 0 !important;
-        padding: 0 !important;
-        box-shadow: none !important;
-        backdrop-filter: none !important;
-        margin-bottom: 0 !important;
-        overflow: visible !important;
-    }
-    .content-description:has(.vjudge-statement-wrapper):hover {
-        border-color: transparent !important;
-        box-shadow: none !important;
-        transform: none !important;
-    }
-    .content-description {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(12px) !important;
-        padding: 32px 36px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-        margin-bottom: 24px !important;
-        box-sizing: border-box !important;
-        display: flow-root !important;
-        overflow: hidden !important;
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.25s ease, 
-                    box-shadow 0.25s ease !important;
-        color: rgba(255, 255, 255, 0.88) !important;
-        line-height: 1.75 !important;
-        font-size: 15px !important;
-    }
-
-    /* .content-description:hover removed */
-
-    .content-description h3, 
-    .content-description h4 {
-        color: #ffffff !important;
-        font-weight: 700 !important;
-        margin-top: 32px !important;
-        margin-bottom: 14px !important;
-        border-left: 3px solid #38bdf8 !important;
-        padding-left: 14px !important;
-        font-size: 18px !important;
-        letter-spacing: 0.3px !important;
-    }
-
-    .content-description p {
-        margin-bottom: 16px !important;
-        color: rgba(255, 255, 255, 0.85) !important;
-    }
-
-    /* Code Blocks and Preformatted Text */
-    .content-description pre {
-        background: #090d16 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 12px !important;
-        padding: 16px 20px !important;
-        color: #f1f5f9 !important;
-        font-family: 'JetBrains Mono', Fira Code, monospace !important;
-        font-size: 14px !important;
-        margin: 14px 0 22px 0 !important;
-        position: relative !important;
-        line-height: 1.5 !important;
-    }
-
-    .vjudge-rendered-body .copy-clipboard,
-#vjudge-statement-content .copy-clipboard,
-.vjudge-statement-wrapper .copy-clipboard,
-.vjudge_sample pre .copy-clipboard {
-    display: none !important;
+/* Top Problem Header Card */
+.problem-header-card {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    box-shadow: var(--expo-card-shadow) !important;
+    padding: 18px 24px !important;
+    margin-bottom: 24px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
-.copy-clipboard {
-        float: right !important;
-        margin-bottom: -32px !important;
-        position: relative !important;
-        z-index: 5 !important;
-    }
+html[data-theme="light"] .problem-header-card,
+html.theme-light .problem-header-card {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
 
-    .btn-clipboard {
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 8px !important;
-        color: rgba(255, 255, 255, 0.75) !important;
-        padding: 4px 10px !important;
-        font-size: 12px !important;
-        font-weight: 600 !important;
-        transition: all 0.2s ease !important;
-        cursor: pointer !important;
-        display: inline-block !important;
-    }
+.problem-header-tag {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    color: var(--expo-muted) !important;
+    text-transform: uppercase !important;
+    margin-bottom: 4px !important;
+}
 
-    .btn-clipboard:hover {
-        background: rgba(56, 189, 248, 0.2) !important;
-        border-color: #38bdf8 !important;
-        color: #ffffff !important;
-    }
+html[data-theme="light"] .problem-header-tag,
+html.theme-light .problem-header-tag {
+    color: #64748b !important;
+}
 
-    .content-description hr {
-        border: none !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
-        margin: 28px 0 !important;
-    }
+.problem-title-group h2 {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 22px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.4px !important;
+    color: var(--expo-ink) !important;
+    margin: 0 !important;
+    border: none !important;
+    padding: 0 !important;
+}
 
-    /* 4. Sidebar Glass Card - Pushed to top & responsive for small screens */
-    #content-right .info-float {
-        position: sticky !important;
-        top: 98px !important;
-        max-height: calc(100vh - 110px) !important;
-        overflow-y: auto !important;
-        scrollbar-width: thin !important;
-        scrollbar-color: rgba(255, 255, 255, 0.2) transparent !important;
-        background: rgba(255, 255, 255, 0.03) !important;
-        border: 1px solid rgba(255, 255, 255, 0.05) !important;
-        border-radius: 16px !important;
-        backdrop-filter: blur(12px) !important;
-        padding: 20px 16px !important;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-        box-sizing: border-box !important;
-        width: 100% !important;
-        transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                    border-color 0.25s ease, 
-                    box-shadow 0.25s ease !important;
-    }
+html[data-theme="light"] .problem-title-group h2,
+html.theme-light .problem-title-group h2 {
+    color: #0f172a !important;
+}
 
-    #content-right .info-float::-webkit-scrollbar {
-        width: 4px !important;
-    }
-    #content-right .info-float::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.15) !important;
-        border-radius: 4px !important;
-    }
+/* Header Action Buttons (All submissions, Best submissions) */
+.problem-header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
 
-    #content-right .info-float:hover {
-        border-color: rgba(56, 189, 248, 0.55) !important;
-        box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                    0 0 25px rgba(56, 189, 248, 0.2), 
-                    inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-        transform: translateY(-2px) !important;
-    }
+.header-action-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    box-sizing: border-box !important;
+}
 
-    #content-right .info-float .button.full {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 100% !important;
-        box-sizing: border-box !important;
-        padding: 12px 20px !important;
-        border-radius: 12px !important;
-        background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-        color: #ffffff !important;
-        font-weight: 700 !important;
-        font-size: 14px !important;
-        border: none !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-        transition: all 0.2s ease !important;
-        text-decoration: none !important;
-        margin-bottom: 16px !important;
-    }
+.header-action-btn span {
+    color: inherit !important;
+}
 
-    #content-right .info-float .button.full:hover {
-        background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-        box-shadow: 0 6px 18px rgba(14, 165, 233, 0.5) !important;
-        transform: translateY(-1px) !important;
-    }
+.header-action-btn svg,
+.header-action-btn i {
+    stroke: currentColor !important;
+    color: inherit !important;
+    font-size: 13px !important;
+}
 
-    #content-right .info-float hr {
-        border: none !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-        margin: 14px 0 !important;
-    }
+.header-action-btn:hover {
+    background: #27272a !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
 
-    #content-right .info-float > div > a:not(.button) {
-        display: flex !important;
-        align-items: center !important;
-        padding: 7px 12px !important;
-        border-radius: 8px !important;
-        color: rgba(255, 255, 255, 0.75) !important;
-        font-size: 13.5px !important;
-        font-weight: 500 !important;
-        text-decoration: none !important;
-        transition: all 0.15s ease !important;
-    }
+html[data-theme="light"] .header-action-btn,
+html.theme-light .header-action-btn {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
 
-    #content-right .info-float > div > a:not(.button):hover {
-        background: rgba(255, 255, 255, 0.05) !important;
-        color: #38bdf8 !important;
-    }
+html[data-theme="light"] .header-action-btn span,
+html.theme-light .header-action-btn span {
+    color: #171717 !important;
+}
 
-    /* Stats Key-Value rows */
-    .problem-info-entry {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        padding: 8px 4px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
-        font-size: 13.5px !important;
-    }
+html[data-theme="light"] .header-action-btn:hover,
+html.theme-light .header-action-btn:hover {
+    background: #e4e4e7 !important;
+    border-color: #cbd5e1 !important;
+    color: #000000 !important;
+}
 
-    .problem-info-entry i {
-        color: rgba(255, 255, 255, 0.4) !important;
-        margin-right: 8px !important;
-    }
+/* Submit Solution Button (Expo Primary Button) */
+.header-submit-btn,
+#content-right .info-float .button.full {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    height: 38px !important;
+    padding: 0 20px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+}
 
-    .problem-info-entry .pi-name {
-        color: rgba(255, 255, 255, 0.6) !important;
-        font-weight: 500 !important;
-        flex: 1 !important;
-    }
+.header-submit-btn span,
+#content-right .info-float .button.full span {
+    color: inherit !important;
+}
 
-    .problem-info-entry .pi-value {
-        color: #ffffff !important;
-        font-weight: 600 !important;
-    }
+.header-submit-btn svg,
+.header-submit-btn i,
+#content-right .info-float .button.full svg,
+#content-right .info-float .button.full i {
+    stroke: currentColor !important;
+    color: inherit !important;
+}
 
-    #problem-types, #allowed-langs {
-        padding-top: 12px !important;
-        font-size: 13px !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-    }
+.header-submit-btn:hover,
+#content-right .info-float .button.full:hover {
+    opacity: 0.92 !important;
+    transform: translateY(-1px) !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+}
 
-    #problem-types .pi-name, #allowed-langs .pi-name {
-        color: rgba(255, 255, 255, 0.45) !important;
-        font-weight: 700 !important;
-        text-transform: uppercase !important;
-        font-size: 11px !important;
-        letter-spacing: 1px !important;
-        display: block !important;
-        margin-bottom: 6px !important;
-    }
+html[data-theme="light"] .header-submit-btn,
+html[data-theme="light"] #content-right .info-float .button.full,
+html.theme-light .header-submit-btn,
+html.theme-light #content-right .info-float .button.full {
+    background: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
 
-    #problem-types .pi-value, #allowed-langs .pi-value {
-        color: rgba(255, 255, 255, 0.8) !important;
-        line-height: 1.5 !important;
-    }
+html[data-theme="light"] .header-submit-btn span,
+html[data-theme="light"] #content-right .info-float .button.full span,
+html.theme-light .header-submit-btn span,
+html.theme-light #content-right .info-float .button.full span {
+    color: #ffffff !important;
+}
 
+html[data-theme="light"] .header-submit-btn:hover,
+html[data-theme="light"] #content-right .info-float .button.full:hover,
+html.theme-light .header-submit-btn:hover,
+html.theme-light #content-right .info-float .button.full:hover {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Problem Description Card */
+#content-left .content-description.screen,
+#content-left .content-description {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    box-shadow: var(--expo-card-shadow) !important;
+    padding: 28px 32px !important;
+    margin-bottom: 28px !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: var(--expo-body) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 14.5px !important;
+    line-height: 1.7 !important;
+}
+
+html[data-theme="light"] #content-left .content-description.screen,
+html[data-theme="light"] #content-left .content-description,
+html.theme-light #content-left .content-description.screen,
+html.theme-light #content-left .content-description {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    color: #334155 !important;
+}
+
+#content-left .content-description h2,
+#content-left .content-description h3,
+#content-left .content-description h4 {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.2px !important;
+    color: var(--expo-ink) !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin: 24px 0 12px 0 !important;
+    display: block !important;
+}
+
+html[data-theme="light"] #content-left .content-description h2,
+html[data-theme="light"] #content-left .content-description h3,
+html[data-theme="light"] #content-left .content-description h4,
+html.theme-light #content-left .content-description h2,
+html.theme-light #content-left .content-description h3,
+html.theme-light #content-left .content-description h4 {
+    color: #0f172a !important;
+}
+
+#content-left .content-description pre {
+    background: #141416 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px !important;
+    padding: 14px 18px !important;
+    color: #f4f4f5 !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 13px !important;
+}
+
+html[data-theme="light"] #content-left .content-description pre,
+html.theme-light #content-left .content-description pre {
+    background: #f8fafc !important;
+    border: 1px solid #dcdee0 !important;
+    color: #0f172a !important;
+}
+
+/* Right Sidebar Card */
+#content-right .info-float {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    box-shadow: var(--expo-card-shadow) !important;
+    padding: 18px 20px !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+html[data-theme="light"] #content-right .info-float,
+html.theme-light #content-right .info-float {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+#content-right .info-float > div > a:not(.button),
+.sidebar-action-item a {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 7px 10px !important;
+    border-radius: 6px !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--expo-body) !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+}
+
+#content-right .info-float > div > a:not(.button) span,
+.sidebar-action-item a span {
+    color: inherit !important;
+}
+
+#content-right .info-float > div > a:not(.button) i,
+#content-right .info-float > div > a:not(.button) svg,
+.sidebar-action-item a i,
+.sidebar-action-item a svg {
+    color: var(--expo-muted) !important;
+    font-size: 13px !important;
+    width: 16px !important;
+    text-align: center !important;
+    flex-shrink: 0 !important;
+}
+
+#content-right .info-float > div > a:not(.button):hover,
+.sidebar-action-item a:hover {
+    background: var(--expo-surface-strong) !important;
+    color: var(--expo-ink) !important;
+}
+
+html[data-theme="light"] #content-right .info-float > div > a:not(.button),
+html[data-theme="light"] #content-right .info-float > div > a:not(.button) span,
+html[data-theme="light"] .sidebar-action-item a,
+html[data-theme="light"] .sidebar-action-item a span,
+html.theme-light #content-right .info-float > div > a:not(.button),
+html.theme-light #content-right .info-float > div > a:not(.button) span,
+html.theme-light .sidebar-action-item a,
+html.theme-light .sidebar-action-item a span {
+    color: #334155 !important;
+}
+
+html[data-theme="light"] #content-right .info-float > div > a:not(.button) i,
+html[data-theme="light"] #content-right .info-float > div > a:not(.button) svg,
+html[data-theme="light"] .sidebar-action-item a i,
+html[data-theme="light"] .sidebar-action-item a svg,
+html.theme-light #content-right .info-float > div > a:not(.button) i,
+html.theme-light #content-right .info-float > div > a:not(.button) svg,
+html.theme-light .sidebar-action-item a i,
+html.theme-light .sidebar-action-item a svg {
+    color: #64748b !important;
+}
+
+html[data-theme="light"] #content-right .info-float > div > a:not(.button):hover,
+html[data-theme="light"] .sidebar-action-item a:hover,
+html.theme-light #content-right .info-float > div > a:not(.button):hover,
+html.theme-light .sidebar-action-item a:hover {
+    background: #f0f0f3 !important;
+    color: #0f172a !important;
+}
+
+/* Specs (Points, Time limit, Memory limit, Author) */
+.problem-info-entry {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 7px 4px !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    font-size: 13px !important;
+}
+
+.problem-info-entry > span:first-child,
+.problem-info-entry > div > span:first-child {
+    font-family: "Inter", sans-serif !important;
+    color: var(--expo-muted) !important;
+}
+
+.problem-info-entry > span:last-child,
+.problem-info-entry > div > span:last-child,
+.problem-info-entry a {
+    font-family: "JetBrains Mono", monospace !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="light"] .problem-info-entry i,
+html[data-theme="light"] .problem-info-entry svg,
+html.theme-light .problem-info-entry i,
+html.theme-light .problem-info-entry svg {
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .problem-info-entry > span:first-child,
+html[data-theme="light"] .problem-info-entry > div > span:first-child,
+html.theme-light .problem-info-entry > span:first-child,
+html.theme-light .problem-info-entry > div > span:first-child {
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .problem-info-entry > span:last-child,
+html[data-theme="light"] .problem-info-entry > div > span:last-child,
+html[data-theme="light"] .problem-info-entry a,
+html.theme-light .problem-info-entry > span:last-child,
+html.theme-light .problem-info-entry > div > span:last-child,
+html.theme-light .problem-info-entry a {
+    color: #0f172a !important;
+}
+
+#problem-types, #allowed-langs, #available-judges {
+    border-top: 1px solid var(--expo-hairline) !important;
+    padding-top: 10px !important;
+    margin-top: 10px !important;
+}
+
+#problem-types a, #allowed-langs a, #available-judges a {
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--expo-muted) !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="light"] #problem-types a,
+html[data-theme="light"] #allowed-langs a,
+html[data-theme="light"] #available-judges a,
+html.theme-light #problem-types a,
+html.theme-light #allowed-langs a,
+html.theme-light #available-judges a {
+    color: #475569 !important;
+}
+
+#problem-types-list, #allowed-langs-list, #available-judges-list {
+    padding-top: 6px !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 12.5px !important;
+    color: var(--expo-body) !important;
+}
+
+html[data-theme="light"] #problem-types-list,
+html[data-theme="light"] #allowed-langs-list,
+html[data-theme="light"] #available-judges-list,
+html.theme-light #problem-types-list,
+html.theme-light #allowed-langs-list,
+html.theme-light #available-judges-list {
+    color: #64748b !important;
+}
+    
     /* 5. Comments Section Container (Clean Expo layout - NO outer border, NO cyan glow) */
     #comments, 
     .clarifications-area {
