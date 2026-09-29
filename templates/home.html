@@ -1127,18 +1127,28 @@
         }
 
         html body section.post .content-description pre,
-        html body section.post .codehilite pre,
-        html body section.post .codehilite {
+        html body section.post .codehilite pre {
             background: var(--expo-surface-dark) !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 8px !important; /* {rounded.md} */
-            padding: 14px 18px !important;
-            margin: 12px 0 !important;
+            padding: 12px 16px !important;
+            margin: 14px 0 !important;
             overflow-x: auto !important;
             font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
             font-size: 13px !important;
             line-height: 1.55 !important;
             color: #e4e4e7 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+
+        html body section.post .codehilite,
+        section.post .codehilite {
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+            margin: 14px 0 !important;
+            box-shadow: none !important;
         }
 
         html body section.post .content-description code {
@@ -1679,24 +1689,59 @@
         }
 
     
-        /* Align post content with inner code block */
+        /* Unified inner card container for post content in both Dark Mode and Light Mode */
         html body section.post .summary,
-        html body section.post .content-description,
-        html body section.post .content-description > div {
+        html body section.post .content-description {
+            border-radius: 12px !important;
+            padding: 22px 26px !important;
+            padding-left: 26px !important;
+            padding-right: 26px !important;
+            margin-top: 14px !important;
+            margin-bottom: 8px !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+
+        html[data-theme="dark"] section.post .summary,
+        html[data-theme="dark"] section.post .content-description,
+        html.theme-dark section.post .summary,
+        html.theme-dark section.post .content-description,
+        html:not([data-theme="light"]) section.post .summary,
+        html:not([data-theme="light"]) section.post .content-description {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.07) !important;
+            box-shadow: none !important;
+        }
+
+        /* Light Mode inner card: matching Dark Mode layout */
+        html[data-theme="light"] section.post .summary,
+        html[data-theme="light"] section.post .content-description,
+        html.theme-light section.post .summary,
+        html.theme-light section.post .content-description {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        /* Flush alignment inside inner card: text and code block share exact same left margin */
+        html body section.post .content-description p,
+        html body section.post .content-description > div,
+        html body section.post .content-description > div > p {
             margin-left: 0 !important;
             padding-left: 0 !important;
             text-indent: 0 !important;
         }
 
         html body section.post .content-description p {
-            margin-left: 19px !important;
-            padding-left: 0 !important;
-            text-indent: 0 !important;
+            font-size: 14.5px !important;
+            line-height: 1.65 !important;
+            margin-bottom: 12px !important;
+            color: var(--expo-body) !important;
         }
 
-        html[data-theme="light"] section.post .content-description p,
-        html.theme-light section.post .content-description p {
-            margin-left: 0 !important;
+        html body section.post .content-description p:last-child {
+            margin-bottom: 0 !important;
         }
 
         /* Universal JetBrains Mono for post code blocks */
