@@ -52,7 +52,7 @@
         --expo-muted: #71717a;
         --expo-hairline: rgba(255, 255, 255, 0.08);
         --expo-hairline-strong: rgba(255, 255, 255, 0.2);
-        --expo-text-link: #38bdf8;
+        --expo-text-link: #60a5fa;
         --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         --expo-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
     }
@@ -230,9 +230,15 @@
     }
 
     .post-detail-body a {
-        color: var(--expo-text-link) !important;
+        color: #60a5fa !important;
         text-decoration: underline !important;
+        text-underline-offset: 3px !important;
+        text-decoration-thickness: 1px !important;
         font-weight: 500 !important;
+        transition: color 0.15s ease !important;
+    }
+    .post-detail-body a:hover {
+        color: #93c5fd !important;
     }
 
     .post-detail-body .codehilite {
@@ -240,12 +246,14 @@
         border: none !important;
         padding: 0 !important;
         margin: 14px 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
     }
 
     .post-detail-body pre,
     .post-detail-body .codehilite pre {
         background: #171717 !important; /* {colors.surface-dark} Dark Inversion */
-        border: 1px solid #2e2e32 !important;
+        border: 1px solid rgba(255, 255, 255, 0.1) !important;
         border-radius: 8px !important; /* {rounded.md} */
         padding: 14px 18px !important;
         margin: 14px 0 !important;
@@ -254,6 +262,7 @@
         font-family: 'JetBrains Mono', Consolas, monospace !important;
         font-size: 13px !important;
         line-height: 1.55 !important;
+        box-shadow: none !important;
     }
 
     .post-detail-body code {
@@ -686,6 +695,13 @@
     html[data-theme="light"] .post-detail-body a,
     html.theme-light .post-detail-body a {
         color: #0d74ce !important;
+        text-decoration: underline !important;
+        text-underline-offset: 3px !important;
+        text-decoration-thickness: 1px !important;
+    }
+    html[data-theme="light"] .post-detail-body a:hover,
+    html.theme-light .post-detail-body a:hover {
+        color: #0369a1 !important;
     }
 
     /* Top bar buttons */
