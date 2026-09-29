@@ -406,6 +406,23 @@ html.theme-light html body .problem-toolbar-filter-btn:hover {
     background: #f0f0f3 !important;
     border-color: #dcdee0 !important;
 }
+/* Add Problem dropdown item text visibility in Light Mode */
+.add-problem-hover-menu .dropdown-item-btn span {
+    color: inherit !important;
+}
+html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn,
+html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn span,
+html.theme-light .add-problem-hover-menu .dropdown-item-btn,
+html.theme-light .add-problem-hover-menu .dropdown-item-btn span {
+    color: #171717 !important;
+}
+html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn:hover,
+html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn:hover span,
+html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover,
+html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover span {
+    color: #000000 !important;
+    background: #f0f0f3 !important;
+}
 
 /* Active Filter Chips */
 html body .active-filter-chips-container {

@@ -605,12 +605,36 @@ html.theme-light #content-right.submission .sidebox {
     color: #f4f4f5 !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
     padding-bottom: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+#content-right.submission .sidebox h3 .sidebox-header-icon {
+    flex-shrink: 0 !important;
+    color: #71717a !important;
+    stroke: currentColor !important;
+    transition: color 0.15s ease !important;
+}
+
+#content-right.submission .sidebox:hover .sidebox-header-icon {
+    color: #a1a1aa !important;
 }
 
 html[data-theme="light"] #content-right.submission .sidebox h3,
 html.theme-light #content-right.submission .sidebox h3 {
     color: #171717 !important;
     border-bottom-color: #f0f0f3 !important;
+}
+
+html[data-theme="light"] #content-right.submission .sidebox h3 .sidebox-header-icon,
+html.theme-light #content-right.submission .sidebox h3 .sidebox-header-icon {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="light"] #content-right.submission .sidebox:hover .sidebox-header-icon,
+html.theme-light #content-right.submission .sidebox:hover .sidebox-header-icon {
+    color: #64748b !important;
 }
 
 /* Submit Go Button */
@@ -748,7 +772,10 @@ html.theme-light #content-right.submission .info-float:hover {
             <div class="info-float">
                 <div class="sidebox problem-search-sidebox">
                     <div class="filter-tag">FILTER</div>
-                    <h3>{{ _('Filter submissions') }} <i class="fa fa-search"></i></h3>
+                    <h3>{{ _('Filter submissions') }} <svg class="sidebox-header-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg></h3>
                     <div class="sidebox-content">
                         <form id="filter-form" name="form" action="{{ first_page_href }}" method="get">
                             <div class="filter-form-group">
@@ -779,7 +806,10 @@ html.theme-light #content-right.submission .info-float:hover {
                 <div class="sidebox problem-search-sidebox">
                     <div id="statistics-table">
                         <div class="filter-tag">OVERVIEW</div>
-                        <h3>{{ _('Statistics') }} <i class="fa fa-pie-chart" style="color: #38bdf8;"></i></h3>
+                        <h3>{{ _('Statistics') }} <svg class="sidebox-header-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                            <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                        </svg></h3>
                         <div class="sidebox-content">
                             <div id="status-graph">
                                 <canvas width="230" height="170"></canvas>

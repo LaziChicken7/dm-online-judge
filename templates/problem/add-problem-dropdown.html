@@ -134,11 +134,19 @@
         cursor: pointer !important;
         box-shadow: none !important;
     }
+    .add-problem-hover-menu .dropdown-item-btn span {
+        color: inherit !important;
+        display: inline !important;
+    }
 
     .add-problem-hover-menu .dropdown-item-btn:hover {
         background: rgba(255, 255, 255, 0.08) !important;
         color: #ffffff !important;
         transform: none !important;
+    }
+
+    .add-problem-hover-menu .dropdown-item-btn:hover span {
+        color: #ffffff !important;
     }
 
     .add-problem-hover-menu .dropdown-item-btn svg {
@@ -156,14 +164,18 @@
     }
 
     html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn,
-    html.theme-light .add-problem-hover-menu .dropdown-item-btn {
-        color: #60646c !important;
+    html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn span,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn span {
+        color: #171717 !important;
     }
 
     html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn:hover,
-    html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover {
+    html[data-theme="light"] .add-problem-hover-menu .dropdown-item-btn:hover span,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover,
+    html.theme-light .add-problem-hover-menu .dropdown-item-btn:hover span {
         background: #f0f0f3 !important;
-        color: #171717 !important;
+        color: #000000 !important;
     }
 </style>
 
