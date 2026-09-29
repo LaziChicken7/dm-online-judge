@@ -1891,24 +1891,24 @@
     }
     .comment-display {
         display: flex !important;
-        background: #0d1322 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 16px !important;
-        padding: 14px 18px !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3) !important;
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline) !important;
+        border-radius: 8px !important; /* {rounded.md} */
+        padding: 7px 18px 14px !important;
+        box-shadow: var(--expo-card-shadow) !important;
         gap: 14px !important;
         align-items: flex-start !important;
         box-sizing: border-box !important;
-        transition: border-color 0.2s ease, background 0.2s ease;
+        transition: all 0.15s ease !important;
+        margin-bottom: 12px !important;
     }
-
     .comment-display:hover {
-        border-color: rgba(255, 255, 255, 0.18) !important;
+        border-color: var(--expo-hairline-strong) !important;
+        box-shadow: var(--expo-card-hover-shadow) !important;
     }
-
     .comment:target > .comment-display {
         border-color: rgba(255, 255, 255, 0.25) !important;
-        background: #18181b !important;
+        background: var(--expo-surface-strong) !important;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(255, 255, 255, 0.12) !important;
     }
     html[data-theme=light] .comment:target > .comment-display,
@@ -1917,7 +1917,6 @@
         background: #f8fafc !important;
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06), 0 0 0 1px #dcdee0 !important;
     }
-
     /* Info Column: Only Vote Pill */
     .comment-display .info {
         display: flex !important;
@@ -1930,22 +1929,20 @@
         min-width: 30px !important;
         flex-shrink: 0 !important;
     }
-
     .comment-display .vote {
         display: flex !important;
         flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        background: rgba(0, 0, 0, 0.4) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 10px !important;
-        padding: 4px 2px !important;
+        background: rgb(26, 26, 30) !important;
+        border: 1px solid var(--expo-hairline) !important;
+        border-radius: 6px !important;
+        padding: 4px 6px !important;
         width: 30px !important;
         min-width: 30px !important;
         box-sizing: border-box !important;
         margin: 0 !important;
     }
-
     .comment-display .vote br {
         display: none !important;
     }
@@ -2087,16 +2084,16 @@
         border: none !important;
         padding: 0 !important;
         margin: 0 !important;
-        font-size: 14.5px !important;
+        font-size: 14px !important;
         line-height: 1.6 !important;
-        color: #f1f5f9 !important;
+        color: var(--expo-body) !important;
     }
 
     .comment-display .content .comment-body p {
         margin: 0 !important;
-        font-size: 14.5px !important;
-        color: #f1f5f9 !important;
-        font-weight: 500 !important;
+        font-size: 14px !important;
+        color: var(--expo-body) !important;
+        font-weight: 400 !important;
     }
 
     /* Header Spacer & Action Buttons pinned to far right */
