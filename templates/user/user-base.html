@@ -988,98 +988,123 @@ html.theme-light .sub-score-box {
     color: #64748b !important;
 }
 
-/* Main Details (Title & Meta) */
-.sub-main {
-    flex: 1 !important;
+/* Main Details (Title & Meta) - Left aligned */
+.sub-main-col {
+    flex: 1 1 auto !important;
     min-width: 0 !important;
     display: flex !important;
     flex-direction: column !important;
+    align-items: flex-start !important;
+    text-align: left !important;
     gap: 4px !important;
 }
 
-.sub-title a {
+.sub-problem-title {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+    text-align: left !important;
+    width: 100% !important;
+}
+
+.sub-problem-link {
     font-family: "Inter", -apple-system, sans-serif !important;
     font-size: 14.5px !important;
     font-weight: 600 !important;
     color: var(--expo-ink) !important;
     text-decoration: none !important;
+    text-align: left !important;
     transition: color 0.15s ease !important;
 }
 
-.sub-title a:hover {
+.sub-problem-link:hover {
     color: var(--expo-text-link) !important;
 }
 
-html[data-theme="light"] .sub-title a,
-html.theme-light .sub-title a {
+html[data-theme="light"] .sub-problem-link,
+html.theme-light .sub-problem-link {
     color: #0f172a !important;
 }
 
-html[data-theme="light"] .sub-title a:hover,
-html.theme-light .sub-title a:hover {
+html[data-theme="light"] .sub-problem-link:hover,
+html.theme-light .sub-problem-link:hover {
     color: #0d74ce !important;
 }
 
-.sub-code {
+.sub-problem-code {
+    display: inline-block !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 11px !important;
     color: var(--expo-muted) !important;
     background: var(--expo-surface-strong) !important;
     border: 1px solid var(--expo-hairline) !important;
     border-radius: 4px !important;
-    padding: 1px 5px !important;
-    margin-left: 6px !important;
+    padding: 1px 6px !important;
+    margin-left: 2px !important;
+    white-space: nowrap !important;
 }
 
-html[data-theme="light"] .sub-code,
-html.theme-light .sub-code {
+html[data-theme="light"] .sub-problem-code,
+html.theme-light .sub-problem-code {
     background: #f0f0f3 !important;
-    border-color: #dcdee0 !important;
+    border: 1px solid #dcdee0 !important;
     color: #64748b !important;
 }
 
-.sub-meta {
+.sub-meta-row {
     display: flex !important;
     align-items: center !important;
-    gap: 12px !important;
+    gap: 8px !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 12px !important;
     color: var(--expo-muted) !important;
+    text-align: left !important;
 }
 
-.sub-meta a {
+.sub-meta-row .sub-meta-item,
+.sub-meta-row .sub-meta-dot,
+.sub-meta-row .sub-meta-link {
     color: inherit !important;
-    text-decoration: none !important;
 }
 
-.sub-meta a:hover {
+.sub-meta-row .sub-meta-link:hover {
     color: var(--expo-ink) !important;
 }
 
-html[data-theme="light"] .sub-meta,
-html.theme-light .sub-meta {
+html[data-theme="light"] .sub-meta-row,
+html.theme-light .sub-meta-row {
     color: #64748b !important;
 }
 
 /* Points Column */
-.sub-points-col {
+.sub-pp-col {
     display: flex !important;
     flex-direction: column !important;
     align-items: flex-end !important;
+    justify-content: center !important;
     gap: 3px !important;
     min-width: 90px !important;
+    flex-shrink: 0 !important;
 }
 
-.sub-points-val {
+.sub-pp-value a {
     font-family: "JetBrains Mono", monospace !important;
     font-size: 15px !important;
     font-weight: 700 !important;
     color: var(--expo-ink) !important;
+    text-decoration: none !important;
 }
 
-html[data-theme="light"] .sub-points-val,
-html.theme-light .sub-points-val {
+html[data-theme="light"] .sub-pp-value a,
+html.theme-light .sub-pp-value a {
     color: #0f172a !important;
+}
+
+.pp-unit {
+    font-size: 11.5px !important;
+    color: var(--expo-muted) !important;
+    font-weight: 500 !important;
 }
 
 .sub-weight-pill {
@@ -1090,7 +1115,7 @@ html.theme-light .sub-points-val {
     border-radius: 4px !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 10.5px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     background: var(--expo-surface-strong) !important;
     border: 1px solid var(--expo-hairline) !important;
     color: var(--expo-body) !important;
@@ -1103,6 +1128,281 @@ html.theme-light .sub-weight-pill {
     color: #60646c !important;
 }
 
+.sub-weight-val {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    color: var(--expo-muted) !important;
+    margin-left: 4px !important;
+}
+
+html[data-theme="light"] .sub-weight-val,
+html.theme-light .sub-weight-val {
+    color: #64748b !important;
+}
+
+/* Problem Categories & Accordions (Expo Design) */
+.user-problem-group {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    margin-bottom: 14px !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    transition: border-color 0.15s ease !important;
+}
+
+.user-problem-group:hover {
+    border-color: var(--expo-hairline-strong) !important;
+}
+
+html[data-theme="light"] .user-problem-group,
+html.theme-light .user-problem-group {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.user-category-header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    padding: 12px 18px !important;
+    background: var(--expo-surface-strong) !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    cursor: pointer !important;
+    user-select: none !important;
+    transition: background 0.15s ease !important;
+}
+
+.user-category-header:hover {
+    background: var(--expo-surface-card) !important;
+}
+
+html[data-theme="light"] .user-category-header,
+html.theme-light .user-category-header {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #f0f0f3 !important;
+}
+
+.cat-left {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.cat-chevron {
+    font-size: 11px !important;
+    color: var(--expo-muted) !important;
+    transition: transform 0.2s ease !important;
+}
+
+.cat-name {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+}
+
+.cat-name i {
+    color: var(--expo-muted) !important;
+    font-size: 13px !important;
+}
+
+html[data-theme="light"] .cat-name,
+html.theme-light .cat-name {
+    color: #0f172a !important;
+}
+
+.cat-right {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.cat-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 3px 9px !important;
+    border-radius: 6px !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-muted) !important;
+}
+
+.cat-badge i {
+    color: inherit !important;
+    font-size: 10px !important;
+}
+
+html[data-theme="light"] .cat-badge,
+html.theme-light .cat-badge {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #64748b !important;
+}
+
+.user-category-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+}
+
+.user-category-table thead th {
+    background: var(--expo-surface-card) !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    color: var(--expo-muted) !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+    padding: 10px 18px !important;
+    text-align: left !important;
+}
+
+html[data-theme="light"] .user-category-table thead th,
+html.theme-light .user-category-table thead th {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #f0f0f3 !important;
+    color: #64748b !important;
+}
+
+.user-category-table tbody tr {
+    background: transparent !important;
+    border: none !important;
+    transition: background 0.15s ease !important;
+}
+
+.user-category-table tbody tr:hover {
+    background: var(--expo-surface-strong) !important;
+}
+
+html[data-theme="light"] .user-category-table tbody tr:hover,
+html.theme-light .user-category-table tbody tr:hover {
+    background: #f8fafc !important;
+}
+
+.user-category-table tbody td {
+    padding: 12px 18px !important;
+    border: none !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    font-size: 13.5px !important;
+    color: var(--expo-body) !important;
+    vertical-align: middle !important;
+}
+
+.user-category-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+.category-problem-link {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+.category-problem-link:hover {
+    color: var(--expo-text-link) !important;
+}
+
+html[data-theme="light"] .category-problem-link,
+html.theme-light .category-problem-link {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .category-problem-link:hover,
+html.theme-light .category-problem-link:hover {
+    color: #0d74ce !important;
+}
+
+.category-problem-code {
+    display: inline-block !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    color: var(--expo-muted) !important;
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 4px !important;
+    padding: 1px 5px !important;
+}
+
+html[data-theme="light"] .category-problem-code,
+html.theme-light .category-problem-code {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #64748b !important;
+}
+
+.category-score-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 12.5px !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+}
+
+.category-score-badge i {
+    color: var(--expo-muted) !important;
+    font-size: 12px !important;
+}
+
+html[data-theme="light"] .category-score-badge,
+html.theme-light .category-score-badge {
+    color: #0f172a !important;
+}
+
+.category-subs-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-muted) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+}
+
+.category-subs-btn:hover {
+    color: var(--expo-ink) !important;
+    border-color: var(--expo-hairline-strong) !important;
+    background: var(--expo-surface-card) !important;
+}
+
+html[data-theme="light"] .category-subs-btn,
+html.theme-light .category-subs-btn {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .category-subs-btn:hover,
+html.theme-light .category-subs-btn:hover {
+    color: #0f172a !important;
+    background: #e4e4e7 !important;
+}
 
 /* High-specificity overrides to beat base.html universal text rules */
 html body .user-info-page .user-org-badge,
