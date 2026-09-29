@@ -225,36 +225,183 @@
 
 {% block media %}
     {{ form.media.css }}
-    <style>
-        .submit-card {
-            background: rgba(255, 255, 255, 0.025) !important;
-            border: 1px solid rgba(255, 255, 255, 0.06) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(16px) !important;
-            -webkit-backdrop-filter: blur(16px) !important;
-            padding: 24px 28px !important;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35) !important;
-            margin-bottom: 28px !important;
+    
+{% endblock %}
+
+{% block body %}
+<style>
+#content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
 
-        /* 1. HIDE DUPLICATE DJANGO-ACE TOOLBAR (Bar with expand icon from Image #1) */
+        /* 1. Problem Header Card */
+        .problem-header-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            padding: 18px 24px !important;
+            margin-bottom: 20px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+        html[data-theme="light"] .problem-header-card,
+        html.theme-light .problem-header-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .problem-header-tag {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 4px !important;
+        }
+        html[data-theme="light"] .problem-header-tag,
+        html.theme-light .problem-header-tag {
+            color: #64748b !important;
+        }
+
+        .problem-title-group h2 {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 !important;
+        }
+        html[data-theme="light"] .problem-title-group h2,
+        html.theme-light .problem-title-group h2 {
+            color: #0f172a !important;
+        }
+
+        .header-action-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            height: 38px !important;
+            padding: 0 16px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 13px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .header-action-btn:hover {
+            background: #27272a !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }
+        html[data-theme="light"] .header-action-btn,
+        html.theme-light .header-action-btn {
+            background: #f0f0f3 !important;
+            border: 1px solid #dcdee0 !important;
+            color: #171717 !important;
+        }
+        html[data-theme="light"] .header-action-btn:hover,
+        html.theme-light .header-action-btn:hover {
+            background: #e4e4e7 !important;
+            border-color: #cbd5e1 !important;
+            color: #000000 !important;
+        }
+
+        /* 2. Warning Alert Banner */
+        .alert.alert-warning {
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            border-radius: 8px !important;
+            color: #fbbf24 !important;
+            padding: 12px 18px !important;
+            margin-bottom: 20px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            backdrop-filter: none !important;
+        }
+        .alert.alert-warning b {
+            color: inherit !important;
+            font-weight: 600 !important;
+        }
+        .alert.alert-warning a.close {
+            color: inherit !important;
+            opacity: 0.6 !important;
+            margin-left: auto !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            font-size: 14px !important;
+        }
+        .alert.alert-warning a.close:hover {
+            opacity: 1 !important;
+        }
+        html[data-theme="light"] .alert.alert-warning,
+        html.theme-light .alert.alert-warning {
+            background: #fffbeb !important;
+            border: 1px solid #fde68a !important;
+            color: #92400e !important;
+        }
+
+        /* 3. Submit Card Form Container */
+        .submit-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 24px 28px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            margin-bottom: 28px !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
+        }
+        html[data-theme="light"] .submit-card,
+        html.theme-light .submit-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
         .django-ace-toolbar {
             display: none !important;
         }
 
-        /* Stylized IDE Code Editor Container */
+        /* 4. IDE Code Editor Container */
         #editor {
-            border-radius: 14px !important;
+            border-radius: 8px !important;
             overflow: hidden !important;
-            border: 1px solid rgba(255, 255, 255, 0.09) !important;
-            background: #020408 !important;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05) !important;
-            margin-bottom: 22px !important;
-            transition: all 0.25s ease !important;
+            border: 1px solid var(--expo-hairline) !important;
+            background: #09090b !important;
+            box-shadow: none !important;
+            margin-bottom: 20px !important;
+            transition: border-color 0.15s ease !important;
         }
-
         #editor:hover {
-            border-color: rgba(56, 189, 248, 0.3) !important;
+            border-color: var(--expo-hairline-strong) !important;
+        }
+        html[data-theme="light"] #editor,
+        html.theme-light #editor {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] #editor:hover,
+        html.theme-light #editor:hover {
+            border-color: #cbd5e1 !important;
         }
 
         /* IDE Top Bar Header */
@@ -262,79 +409,102 @@
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
-            background: #070b14 !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
-            padding: 8px 16px !important;
+            background: #18181b !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            padding: 8px 14px !important;
             user-select: none !important;
+        }
+        html[data-theme="light"] .editor-header-bar,
+        html.theme-light .editor-header-bar {
+            background: #f8fafc !important;
+            border-bottom: 1px solid #e2e8f0 !important;
         }
 
         .editor-header-left {
             display: flex !important;
             align-items: center !important;
-            gap: 16px !important;
+            gap: 12px !important;
         }
-
         .editor-dots {
             display: flex !important;
             align-items: center !important;
             gap: 6px !important;
         }
-
         .editor-dots .dot {
-            width: 10px !important;
-            height: 10px !important;
+            width: 9px !important;
+            height: 9px !important;
             border-radius: 50% !important;
             display: inline-block !important;
         }
-        .editor-dots .dot-red { background: #ef4444 !important; opacity: 0.85; }
-        .editor-dots .dot-yellow { background: #f59e0b !important; opacity: 0.85; }
-        .editor-dots .dot-green { background: #10b981 !important; opacity: 0.85; }
+        .editor-dots .dot-red { background: #ef4444 !important; opacity: 0.9; }
+        .editor-dots .dot-yellow { background: #f59e0b !important; opacity: 0.9; }
+        .editor-dots .dot-green { background: #10b981 !important; opacity: 0.9; }
 
         .editor-tab {
             display: inline-flex !important;
             align-items: center !important;
             gap: 6px !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            background: #27272a !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
             border-radius: 6px !important;
-            padding: 3px 12px !important;
-            font-family: 'Google Sans Code', monospace !important;
+            padding: 3px 10px !important;
+            font-family: 'JetBrains Mono', monospace !important;
             font-size: 12px !important;
             font-weight: 500 !important;
-            color: #38bdf8 !important;
+            color: var(--expo-ink) !important;
         }
-        .editor-tab i {
-            font-size: 11px !important;
-            opacity: 0.8 !important;
+        html[data-theme="light"] .editor-tab,
+        html.theme-light .editor-tab {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #0f172a !important;
         }
 
         .editor-actions {
             display: flex !important;
             align-items: center !important;
-            gap: 6px !important;
+            gap: 4px !important;
         }
-
         .editor-action-icon {
             background: transparent !important;
             border: none !important;
-            color: #64748b !important;
+            color: var(--expo-muted) !important;
             cursor: pointer !important;
             padding: 4px 8px !important;
             border-radius: 6px !important;
             font-size: 13px !important;
             transition: all 0.15s ease !important;
         }
-        .editor-action-icon:hover, .editor-action-icon.active {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.1) !important;
+        .editor-action-icon:hover {
+            color: var(--expo-ink) !important;
+            background: #27272a !important;
+        }
+        .editor-action-icon.active {
+            color: var(--expo-ink) !important;
+            background: #27272a !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+        }
+        html[data-theme="light"] .editor-action-icon,
+        html.theme-light .editor-action-icon {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .editor-action-icon:hover,
+        html.theme-light .editor-action-icon:hover {
+            color: #0f172a !important;
+            background: #e2e8f0 !important;
+        }
+        html[data-theme="light"] .editor-action-icon.active,
+        html.theme-light .editor-action-icon.active {
+            color: #0f172a !important;
+            background: #e2e8f0 !important;
+            border: 1px solid #cbd5e1 !important;
         }
 
-        /* 2. FLAWLESS FULLSCREEN STYLING */
         #editor:fullscreen,
         #editor:-webkit-full-screen {
             width: 100vw !important;
             height: 100vh !important;
-            background: #020408 !important;
+            background: #09090b !important;
             display: flex !important;
             flex-direction: column !important;
             padding: 0 !important;
@@ -343,14 +513,12 @@
             border: none !important;
             z-index: 100000 !important;
         }
-
         #editor:fullscreen .editor-header-bar,
         #editor:-webkit-full-screen .editor-header-bar {
             border-radius: 0 !important;
             padding: 10px 20px !important;
-            background: #070b14 !important;
+            background: #18181b !important;
         }
-
         #editor:fullscreen #ace_source,
         #editor:-webkit-full-screen #ace_source {
             flex: 1 !important;
@@ -358,408 +526,335 @@
             max-height: calc(100vh - 44px) !important;
         }
 
-        /* 3. ACE EDITOR CODE & SYNTAX HIGHLIGHTING FIX */
-        .ace-github,
-        .ace-twilight,
+        /* 5. Ace Editor Code & Syntax Highlighting */
         .ace_editor,
-        .django-ace-widget,
         #ace_source {
-            background-color: #020408 !important;
-            background: #020408 !important;
-            color: #f1f5f9 !important;
-            min-height: 540px !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 14px !important;
+            min-height: 520px !important;
         }
-
         .ace_editor,
         .ace_editor * {
-            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
         }
 
-        /* Transparent inner layers so text is NEVER hidden */
-        .ace_layer:not(.ace_gutter-layer),
-        .ace_scroller,
-        .ace_content,
-        .ace_text-layer,
-        .ace_cursor-layer,
-        .ace_marker-layer {
-            background: transparent !important;
-            background-color: transparent !important;
-        }
-
-        /* Code Text Color (Bright & Readable) */
-        .ace_editor .ace_line,
-        .ace-github .ace_line,
-        .ace-twilight .ace_line {
-            color: #f8fafc !important;
-        }
-
-        /* Vibrant Modern Syntax Highlighting */
-        .ace_editor .ace_keyword, .ace-github .ace_keyword, .ace-twilight .ace_keyword { color: #f43f5e !important; font-weight: 600 !important; }
-        .ace_editor .ace_string, .ace-github .ace_string, .ace-twilight .ace_string { color: #34d399 !important; }
-        .ace_editor .ace_numeric, .ace-github .ace_numeric, .ace-twilight .ace_numeric, .ace_constant { color: #fbbf24 !important; }
-        .ace_editor .ace_function, .ace-github .ace_function, .ace-twilight .ace_function, .ace_support.ace_function { color: #38bdf8 !important; }
-        .ace_editor .ace_variable, .ace-github .ace_variable, .ace-twilight .ace_variable, .ace_identifier { color: #f8fafc !important; }
-        .ace_editor .ace_comment, .ace-github .ace_comment, .ace-twilight .ace_comment { color: #64748b !important; font-style: italic !important; }
-        .ace_editor .ace_operator, .ace-github .ace_operator, .ace-twilight .ace_operator, .ace_punctuation { color: #38bdf8 !important; }
-
-        .ace_gutter,
-        .ace-github .ace_gutter,
-        .ace-twilight .ace_gutter {
-            background: #010204 !important;
-            background-color: #010204 !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.07) !important;
-            color: #475569 !important;
-            font-family: 'Google Sans Code', monospace !important;
-            padding-right: 4px !important;
-        }
-
-        .ace_gutter-active-line {
-            background: rgba(255, 255, 255, 0.04) !important;
-            color: #38bdf8 !important;
-        }
-
-        .ace_marker-layer .ace_active-line {
-            background: rgba(255, 255, 255, 0.025) !important;
-        }
-
-        .ace_marker-layer .ace_selection {
-            background: rgba(56, 189, 248, 0.25) !important;
-        }
-
-        .ace_cursor {
-            color: #38bdf8 !important;
-            border-left: 2px solid #38bdf8 !important;
-        }
-
-        /* Bottom Controls Bar */
+        /* 6. Bottom Controls Bar */
         .submit-controls-bar {
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
-            gap: 20px !important;
+            gap: 16px !important;
             flex-wrap: wrap !important;
+            margin-top: 14px !important;
         }
 
         #language {
-            flex: 1 !important;
+            flex: 1 1 auto !important;
             max-width: 480px !important;
-            min-width: 320px !important;
+            min-width: 280px !important;
         }
-
         #language .select2-container,
         #language-select .select2-container {
-            width: 340px !important;
+            width: 320px !important;
             max-width: 100% !important;
+            min-width: 260px !important;
+        }
+        .judge-select-wrap .select2-container {
+            width: 140px !important;
+            min-width: 140px !important;
         }
 
-        /* Stylized Language Select2 Input Box - Pill Shaped */
+        /* Select2 Language Dropdown Box */
         #language .select2-container--default .select2-selection--single,
-        #language .select2-container--dmoj .select2-selection--single {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 100px !important; /* Pill shape */
-            height: 44px !important;
-            padding: 0 38px 0 18px !important;
-            color: #ffffff !important;
+        #language .select2-container--dmoj .select2-selection--single,
+        .judge-select-wrap .select2-container--dmoj .select2-selection--single,
+        .judge-select-wrap .select2-container--default .select2-selection--single {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            height: 40px !important;
+            padding: 0 36px 0 14px !important;
             display: flex !important;
             align-items: center !important;
             box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-        }
-
-        #language .select2-container--default.select2-container--open .select2-selection--single,
-        #language .select2-container--default.select2-container--focus .select2-selection--single,
-        #language .select2-container--dmoj.select2-container--open .select2-selection--single,
-        #language .select2-container--dmoj.select2-container--focus .select2-selection--single {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
+            box-shadow: none !important;
+            transition: all 0.15s ease !important;
         }
 
         #language .select2-container--default .select2-selection--single .select2-selection__rendered,
-        #language .select2-container--dmoj .select2-selection--single .select2-selection__rendered {
-            color: #ffffff !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 13.5px !important;
+        #language .select2-container--dmoj .select2-selection--single .select2-selection__rendered,
+        #language .select2-selection__rendered,
+        #language .select2-selection__rendered *,
+        #language .select2-selection__rendered span,
+        #language .select2-selection__rendered b,
+        .judge-select-wrap .select2-container--dmoj .select2-selection--single .select2-selection__rendered,
+        .judge-select-wrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: var(--expo-ink) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 13px !important;
             font-weight: 500 !important;
-            line-height: 42px !important;
+            line-height: 38px !important;
             padding: 0 !important;
         }
 
-        /* Universal Crisp SVG Chevron Arrow for BOTH Language and Judge */
-        .select2-container--default .select2-selection--single .select2-selection__arrow,
-        .select2-container--dmoj .select2-selection--single .select2-selection__arrow {
-            position: absolute !important;
-            top: 50% !important;
-            right: 14px !important;
-            width: 14px !important;
-            height: 14px !important;
-            transform: translateY(-50%) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+        html[data-theme="light"] #language .select2-container--default .select2-selection--single,
+        html[data-theme="light"] #language .select2-container--dmoj .select2-selection--single,
+        html[data-theme="light"] .judge-select-wrap .select2-container--dmoj .select2-selection--single,
+        html[data-theme="light"] .judge-select-wrap .select2-container--default .select2-selection--single,
+        html.theme-light #language .select2-container--default .select2-selection--single,
+        html.theme-light #language .select2-container--dmoj .select2-selection--single,
+        html.theme-light .judge-select-wrap .select2-container--dmoj .select2-selection--single,
+        html.theme-light .judge-select-wrap .select2-container--default .select2-selection--single {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
         }
 
-        .select2-container--default .select2-selection--single .select2-selection__arrow b,
-        .select2-container--dmoj .select2-selection--single .select2-selection__arrow b {
-            display: block !important;
-            border: none !important;
-            width: 12px !important;
-            height: 12px !important;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23cbd5e1' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: center !important;
-            background-size: contain !important;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            transform: rotate(0deg) !important;
-            margin: 0 !important;
-            opacity: 0.8 !important;
+        html[data-theme="light"] #language .select2-container--default .select2-selection--single .select2-selection__rendered,
+        html[data-theme="light"] #language .select2-container--dmoj .select2-selection--single .select2-selection__rendered,
+        html[data-theme="light"] #language .select2-selection__rendered,
+        html[data-theme="light"] #language .select2-selection__rendered *,
+        html[data-theme="light"] #language .select2-selection__rendered span,
+        html[data-theme="light"] #language .select2-selection__rendered b,
+        html[data-theme="light"] .judge-select-wrap .select2-container--dmoj .select2-selection--single .select2-selection__rendered,
+        html[data-theme="light"] .judge-select-wrap .select2-container--default .select2-selection--single .select2-selection__rendered,
+        html.theme-light #language .select2-container--default .select2-selection--single .select2-selection__rendered,
+        html.theme-light #language .select2-container--dmoj .select2-selection--single .select2-selection__rendered,
+        html.theme-light #language .select2-selection__rendered,
+        html.theme-light #language .select2-selection__rendered *,
+        html.theme-light #language .select2-selection__rendered span,
+        html.theme-light #language .select2-selection__rendered b,
+        html.theme-light .judge-select-wrap .select2-container--dmoj .select2-selection--single .select2-selection__rendered,
+        html.theme-light .judge-select-wrap .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #0f172a !important;
         }
 
-        .select2-container--default.select2-container--open .select2-selection--single .select2-selection__arrow b,
-        .select2-container--dmoj.select2-container--open .select2-selection--single .select2-selection__arrow b {
-            transform: rotate(180deg) !important;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
-            opacity: 1 !important;
-        }
-
-        /* Language Multi-column Dropdown (Rounded Glass Card) */
+        /* 7. Language Select2 Dropdown Popup */
         #language-select2 {
-            background: rgba(11, 17, 32, 0.96) !important;
-            backdrop-filter: blur(24px) !important;
-            -webkit-backdrop-filter: blur(24px) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 20px !important; /* Rounded popup */
-            box-shadow: 0 20px 48px rgba(0, 0, 0, 0.75), 0 0 25px rgba(56, 189, 248, 0.15) !important;
-            padding: 16px 20px !important;
-            width: auto !important;
-            min-width: 580px !important;
+            background: #18181b !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 12px !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+            padding: 14px 16px !important;
+            min-width: 540px !important;
             max-width: 90vw !important;
+            backdrop-filter: none !important;
             box-sizing: border-box !important;
+        }
+        html[data-theme="light"] #language-select2,
+        html.theme-light #language-select2 {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12) !important;
         }
 
         #language-select2 #result-version-info {
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-            margin-bottom: 12px !important;
-            padding: 6px 8px !important;
-            color: #38bdf8 !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            margin-bottom: 10px !important;
+            padding: 4px 6px !important;
+            color: var(--expo-muted) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 12px !important;
             text-align: right !important;
             display: block !important;
         }
-
-        /* Pill-shaped search bar inside language popup */
-        #language-select2 .select2-search--dropdown {
-            padding: 4px 0 14px 0 !important;
+        html[data-theme="light"] #language-select2 #result-version-info,
+        html.theme-light #language-select2 #result-version-info {
+            border-bottom-color: #f0f0f3 !important;
+            color: #64748b !important;
         }
 
         #language-select2 .select2-search__field {
-            width: 100% !important;
-            box-sizing: border-box !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 100px !important; /* Pill shaped search box */
-            padding: 9px 18px 9px 38px !important;
+            background: #27272a !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 8px 14px !important;
             color: #ffffff !important;
             font-family: 'Inter', sans-serif !important;
-            font-size: 13.5px !important;
+            font-size: 13px !important;
+            box-sizing: border-box !important;
+            width: 100% !important;
             outline: none !important;
-            transition: all 0.2s ease !important;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='11' cy='11' r='8'%3E%3C/circle%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'%3E%3C/line%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: 14px center !important;
-            background-size: 14px 14px !important;
         }
-
-        #language-select2 .select2-search__field:focus {
-            border-color: #38bdf8 !important;
-            background-color: rgba(255, 255, 255, 0.08) !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
+        html[data-theme="light"] #language-select2 .select2-search__field,
+        html.theme-light #language-select2 .select2-search__field {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
         }
 
         #language-select2 .select2-results {
             -webkit-columns: 3 170px !important;
             -moz-columns: 3 170px !important;
             columns: 3 170px !important;
-            column-gap: 16px !important;
+            column-gap: 12px !important;
             max-height: 380px !important;
             padding: 4px 0 !important;
         }
 
-        #language-select2 .select2-results__options {
-            overflow-y: visible !important;
-            padding: 0 !important;
-            margin: 0 !important;
-        }
-
-        /* Pill-shaped options inside columns */
         #language-select2 .select2-results__option {
-            color: rgba(255, 255, 255, 0.45) !important;
             background: transparent !important;
+            background-color: transparent !important;
+            color: var(--expo-body) !important;
             font-family: 'Inter', sans-serif !important;
-            font-size: 13.5px !important;
-            font-weight: 500 !important;
-            padding: 7px 14px !important;
-            border-radius: 100px !important; /* Pill shaped */
-            margin-bottom: 3px !important;
-            break-inside: avoid-column !important;
-            -webkit-column-break-inside: avoid !important;
+            font-size: 13px !important;
+            padding: 6px 12px !important;
+            border-radius: 6px !important;
+            margin-bottom: 2px !important;
             cursor: pointer !important;
             transition: all 0.15s ease !important;
-            white-space: nowrap !important;
-            text-decoration: none !important;
+            break-inside: avoid-column !important;
         }
-
         #language-select2 .select2-results__option--highlighted {
             color: #ffffff !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            transform: translateX(3px) !important;
-            text-decoration: none !important;
-            border-radius: 100px !important;
+            background: #27272a !important;
+            background-color: #27272a !important;
+            transform: none !important;
+            border-radius: 6px !important;
         }
-
         #language-select2 .select2-results__option[aria-selected="true"] {
-            color: #38bdf8 !important;
-            font-weight: 700 !important;
-            background: rgba(56, 189, 248, 0.18) !important;
-            border: 1px solid rgba(56, 189, 248, 0.35) !important;
-            border-radius: 100px !important;
-            box-shadow: 0 0 12px rgba(56, 189, 248, 0.15) !important;
-            text-decoration: none !important;
-        }
-
-        /* 4. REDESIGNED JUDGE SELECT BUTTON & CRISP SVG CHEVRON */
-        .judge-select-wrap {
-            position: relative;
-        }
-
-        .judge-select-wrap .select2-container--dmoj {
-            min-width: 140px !important;
-        }
-
-        .judge-select-wrap .select2-container--dmoj .select2-selection--single {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 100px !important; /* Pill button */
-            height: 42px !important;
-            padding: 0 36px 0 16px !important;
-            display: flex !important;
-            align-items: center !important;
-            box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2) !important;
-        }
-
-        .judge-select-wrap .select2-container--dmoj:hover .select2-selection--single {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-        }
-
-        .judge-select-wrap .select2-container--dmoj.select2-container--open .select2-selection--single,
-        .judge-select-wrap .select2-container--dmoj.select2-container--focus .select2-selection--single {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.25) !important;
-        }
-
-        .judge-select-wrap .select2-container--dmoj .select2-selection--single .select2-selection__rendered {
-            color: #f1f5f9 !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 13px !important;
+            color: #000000 !important;
             font-weight: 600 !important;
-            line-height: 40px !important;
-            padding: 0 !important;
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            border: none !important;
+            border-radius: 6px !important;
+            box-shadow: none !important;
         }
-
-        /* Judge Dropdown Popup */
-        #judge-select2 {
-            background: #0b1120 !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 14px !important;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.7), 0 0 20px rgba(56, 189, 248, 0.15) !important;
-            padding: 6px !important;
-            margin-top: 4px !important;
+        html[data-theme="light"] #language-select2 .select2-results__option,
+        html.theme-light #language-select2 .select2-results__option {
+            background: transparent !important;
+            background-color: transparent !important;
+            color: #334155 !important;
         }
-
-        #judge-select2 .select2-search--dropdown {
-            display: none !important;
+        html[data-theme="light"] #language-select2 .select2-results__option--highlighted,
+        html.theme-light #language-select2 .select2-results__option--highlighted {
+            color: #0f172a !important;
+            background: #f1f5f9 !important;
+            background-color: #f1f5f9 !important;
         }
-
-        #judge-select2 .select2-results__option {
-            padding: 8px 14px !important;
-            border-radius: 100px !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 13px !important;
-            color: rgba(255, 255, 255, 0.75) !important;
-            transition: all 0.15s ease !important;
-        }
-
-        #judge-select2 .select2-results__option--highlighted {
-            background: rgba(56, 189, 248, 0.15) !important;
+        html[data-theme="light"] #language-select2 .select2-results__option[aria-selected="true"],
+        html.theme-light #language-select2 .select2-results__option[aria-selected="true"] {
             color: #ffffff !important;
-            border-radius: 100px !important;
+            background: #000000 !important;
+            background-color: #000000 !important;
         }
 
-        #judge-select2 .select2-results__option[aria-selected="true"] {
-            background: rgba(56, 189, 248, 0.25) !important;
-            color: #38bdf8 !important;
-            font-weight: 700 !important;
-            border-radius: 100px !important;
+        /* 8. Judge Dropdown Popup */
+        #judge-select2 {
+            background: #18181b !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5) !important;
+            padding: 6px !important;
+        }
+        html[data-theme="light"] #judge-select2,
+        html.theme-light #judge-select2 {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
+        }
+        #judge-select2 .select2-results__option {
+            padding: 7px 12px !important;
+            border-radius: 6px !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 13px !important;
+            color: var(--expo-body) !important;
+        }
+        #judge-select2 .select2-results__option--highlighted {
+            background: #27272a !important;
+            color: #ffffff !important;
+            border-radius: 6px !important;
+        }
+        html[data-theme="light"] #judge-select2 .select2-results__option,
+        html.theme-light #judge-select2 .select2-results__option {
+            color: #334155 !important;
+        }
+        html[data-theme="light"] #judge-select2 .select2-results__option--highlighted,
+        html.theme-light #judge-select2 .select2-results__option--highlighted {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
         }
 
+        /* 9. Submit Button (Expo Primary Button) */
         .submit-bar {
             display: flex !important;
             align-items: center !important;
-            gap: 14px !important;
+            gap: 12px !important;
             margin: 0 !important;
             margin-left: auto !important;
         }
-
-        .button-primary-glow {
+        html body #problem_submit button.button.expo-submit-btn,
+        html body #problem_submit button.expo-submit-btn,
+        html body button.button.expo-submit-btn,
+        html body button.expo-submit-btn,
+        #problem_submit button.expo-submit-btn,
+        #problem_submit .expo-submit-btn {
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
+            color: #000000 !important;
+            border-radius: 8px !important;
+            height: 40px !important;
+            padding: 0 24px !important;
+            border: none !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            padding: 11px 28px !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
+            gap: 8px !important;
+            cursor: pointer !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+
+        html body #problem_submit button.button.expo-submit-btn i,
+        html body #problem_submit button.button.expo-submit-btn svg,
+        html body #problem_submit button.expo-submit-btn i,
+        html body #problem_submit button.expo-submit-btn svg {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+
+        html body #problem_submit button.button.expo-submit-btn:hover,
+        html body #problem_submit button.expo-submit-btn:hover {
+            opacity: 0.92 !important;
+            transform: translateY(-1px) !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        html[data-theme="light"] body #problem_submit button.button.expo-submit-btn,
+        html[data-theme="light"] body #problem_submit button.expo-submit-btn,
+        html[data-theme="light"] body button.button.expo-submit-btn,
+        html[data-theme="light"] body button.expo-submit-btn,
+        html[data-theme="light"] #problem_submit button.expo-submit-btn,
+        html[data-theme="light"] #problem_submit .expo-submit-btn,
+        html.theme-light body #problem_submit button.button.expo-submit-btn,
+        html.theme-light body #problem_submit button.expo-submit-btn,
+        html.theme-light body button.button.expo-submit-btn,
+        html.theme-light body button.expo-submit-btn,
+        html.theme-light #problem_submit button.expo-submit-btn,
+        html.theme-light #problem_submit .expo-submit-btn {
+            background: #000000 !important;
+            background-color: #000000 !important;
+            background-image: none !important;
             color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 14px !important;
-            border: none !important;
-            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer !important;
-            text-decoration: none !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
         }
 
-        .button-primary-glow:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-            box-shadow: 0 6px 22px rgba(56, 189, 248, 0.5), 0 0 12px rgba(56, 189, 248, 0.3) !important;
-            transform: translateY(-2px) !important;
-        }
-
-        .alert.alert-warning {
-            background: rgba(245, 158, 11, 0.1) !important;
-            border: 1px solid rgba(245, 158, 11, 0.25) !important;
-            border-radius: 12px !important;
-            color: #fde047 !important;
-            padding: 14px 20px !important;
-            margin-bottom: 20px !important;
-            font-size: 13.5px !important;
-            backdrop-filter: blur(8px) !important;
-        }
-        .alert.alert-warning a.close {
-            color: #fde047 !important;
-            opacity: 0.7 !important;
-            float: right !important;
-            cursor: pointer !important;
-            text-decoration: none !important;
+        html[data-theme="light"] body #problem_submit button.button.expo-submit-btn:hover,
+        html[data-theme="light"] body #problem_submit button.expo-submit-btn:hover,
+        html.theme-light body #problem_submit button.button.expo-submit-btn:hover,
+        html.theme-light body #problem_submit button.expo-submit-btn:hover {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
         }
     </style>
-{% endblock %}
 
-{% block body %}
     {% if not no_judges %}
         {% if default_lang not in form.fields.language.queryset %}
             <div class="alert alert-warning alert-dismissable">
@@ -857,7 +952,7 @@
                             {{ form.judge }}
                         </div>
                     {% endif %}
-                    <button type="submit" class="button-primary-glow"
+                    <button type="submit" class="button expo-submit-btn"
                             {% if request.in_contest and submission_limit and not submissions_left %}disabled{% endif %}>
                         <i class="fa fa-paper-plane" style="margin-right: 6px;"></i> {{ _('Submit!') }}
                     </button>
