@@ -1349,30 +1349,42 @@ html.theme-light .category-problem-code {
     color: #64748b !important;
 }
 
+.category-score-badge,
+.category-score-badge span,
+.category-score-badge i {
+    color: var(--expo-ink) !important;
+}
+
 .category-score-badge {
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 12.5px !important;
-    color: var(--expo-ink) !important;
     text-decoration: none !important;
 }
 
 .category-score-badge i {
-    color: var(--expo-muted) !important;
     font-size: 12px !important;
 }
 
 html[data-theme="light"] .category-score-badge,
-html.theme-light .category-score-badge {
+html[data-theme="light"] .category-score-badge span,
+html.theme-light .category-score-badge,
+html.theme-light .category-score-badge span {
     color: #0f172a !important;
 }
 
+html[data-theme="light"] .category-score-badge i,
+html.theme-light .category-score-badge i {
+    color: #64748b !important;
+}
+
+.category-submissions-btn,
 .category-subs-btn {
     display: inline-flex !important;
     align-items: center !important;
-    gap: 5px !important;
+    gap: 6px !important;
     padding: 4px 10px !important;
     border-radius: 6px !important;
     background: var(--expo-surface-strong) !important;
@@ -1385,23 +1397,35 @@ html.theme-light .category-score-badge {
     transition: all 0.15s ease !important;
 }
 
+.category-submissions-btn i,
+.category-subs-btn i {
+    color: inherit !important;
+    font-size: 11px !important;
+}
+
+.category-submissions-btn:hover,
 .category-subs-btn:hover {
     color: var(--expo-ink) !important;
     border-color: var(--expo-hairline-strong) !important;
     background: var(--expo-surface-card) !important;
 }
 
+html[data-theme="light"] .category-submissions-btn,
 html[data-theme="light"] .category-subs-btn,
+html.theme-light .category-submissions-btn,
 html.theme-light .category-subs-btn {
     background: #f0f0f3 !important;
     border: 1px solid #dcdee0 !important;
-    color: #64748b !important;
+    color: #475569 !important;
 }
 
+html[data-theme="light"] .category-submissions-btn:hover,
 html[data-theme="light"] .category-subs-btn:hover,
+html.theme-light .category-submissions-btn:hover,
 html.theme-light .category-subs-btn:hover {
     color: #0f172a !important;
     background: #e4e4e7 !important;
+    border-color: #cbd5e1 !important;
 }
 
 /* High-specificity overrides to beat base.html universal text rules */
@@ -1522,6 +1546,30 @@ html.theme-dark body .user-info-page .sub-badge.AC * {
 html:not([data-theme="light"]) body .user-info-page .sub-problem-link,
 html[data-theme="dark"] body .user-info-page .sub-problem-link,
 html.theme-dark body .user-info-page .sub-problem-link {
+    color: #f4f4f5 !important;
+}
+
+html body .user-info-page .category-score-badge,
+html body .user-info-page .category-score-badge span,
+html body .user-info-page .category-score-badge *,
+html[data-theme="light"] body .user-info-page .category-score-badge,
+html[data-theme="light"] body .user-info-page .category-score-badge span,
+html[data-theme="light"] body .user-info-page .category-score-badge *,
+html.theme-light body .user-info-page .category-score-badge,
+html.theme-light body .user-info-page .category-score-badge span,
+html.theme-light body .user-info-page .category-score-badge * {
+    color: #0f172a !important;
+}
+
+html:not([data-theme="light"]) body .user-info-page .category-score-badge,
+html:not([data-theme="light"]) body .user-info-page .category-score-badge span,
+html:not([data-theme="light"]) body .user-info-page .category-score-badge *,
+html[data-theme="dark"] body .user-info-page .category-score-badge,
+html[data-theme="dark"] body .user-info-page .category-score-badge span,
+html[data-theme="dark"] body .user-info-page .category-score-badge *,
+html.theme-dark body .user-info-page .category-score-badge,
+html.theme-dark body .user-info-page .category-score-badge span,
+html.theme-dark body .user-info-page .category-score-badge * {
     color: #f4f4f5 !important;
 }
 
