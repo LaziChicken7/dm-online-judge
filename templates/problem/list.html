@@ -228,7 +228,7 @@ html body #content-left.problems {
     box-shadow: none !important;
     transform: none !important;
     padding: 0 !important;
-    margin-bottom: 20px !important;
+    margin-bottom: 24px !important;
 }
 
 .tabs h2 {
@@ -521,81 +521,89 @@ ul.pagination > .active-page > span {
 /* 6. Problem Table - Xám Đen Theme (#18181b / #202024), Bo Vuông Nhẹ Expo ({rounded.md} 10px) */
 #problem-table {
     width: 100% !important;
-    border-radius: 10px !important; /* Bo vuông nhẹ chuẩn Expo Design */
+    border-radius: 12px !important; /* Bo góc 12px chuẩn Expo ({rounded.lg}) đồng nhất với /users/ */
     overflow: hidden !important;
-    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
     background: #18181b !important;
-    box-shadow: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
+    margin: 0 !important;
+    margin-top: 0 !important;
 }
-
 #problem-table thead tr:first-child th:first-child {
-    border-top-left-radius: 9px !important;
+    border-top-left-radius: 11px !important;
 }
 #problem-table thead tr:first-child th:last-child {
-    border-top-right-radius: 9px !important;
+    border-top-right-radius: 11px !important;
 }
 #problem-table tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 9px !important;
+    border-bottom-left-radius: 11px !important;
 }
 #problem-table tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 9px !important;
+    border-bottom-right-radius: 11px !important;
 }
-
 .problems.h-scrollable-table {
-    border-radius: 10px !important;
+    border-radius: 12px !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
-
 #problem-table tbody tr {
     background: #18181b !important;
     transition: background 0.15s ease !important;
 }
-
 #problem-table tbody tr:hover,
 #problem-table tbody tr:hover td {
     background: #242428 !important;
 }
-
 #problem-table thead th,
-#problem-table thead th a,
 #problem-table thead th.problem-id {
     background: #202024 !important;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
     color: #a1a1aa !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 11px !important;
     font-weight: 600 !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
-    padding: 15px 18px !important;
+    padding: 14px 18px !important;
     height: 48px !important;
     vertical-align: middle !important;
     line-height: 1.2 !important;
     box-sizing: border-box !important;
+    white-space: nowrap !important;
 }
-
 #problem-table thead th.solved {
     text-align: center !important;
     width: 44px !important;
-    padding: 15px 10px !important;
+    padding: 14px 10px !important;
 }
-
 #problem-table thead th.solved i {
     vertical-align: middle !important;
     display: inline-block !important;
     font-size: 12px !important;
 }
-
 #problem-table thead th a {
     color: var(--expo-muted) !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
     text-decoration: none !important;
+    transition: color 0.15s ease !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    height: auto !important;
+    box-shadow: none !important;
 }
-
 #problem-table thead th a:hover {
     color: var(--expo-ink) !important;
 }
-
 #problem-table tbody td {
     padding: 14px 16px !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
@@ -1058,18 +1066,25 @@ html.theme-light #problem-table td.category a {
     border: none !important;
     background: #f0f0f3 !important;
 }
-
 html[data-theme="light"] #problem-table thead th,
-html[data-theme="light"] #problem-table thead th a,
 html[data-theme="light"] #problem-table thead th.problem-id,
 html.theme-light #problem-table thead th,
-html.theme-light #problem-table thead th a,
 html.theme-light #problem-table thead th.problem-id {
     background: #f8fafc !important;
     border-bottom: 1px solid #dcdee0 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
     color: #64748b !important;
 }
-
+html[data-theme="light"] #problem-table thead th a,
+html.theme-light #problem-table thead th a {
+    color: #64748b !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: none !important;
+    padding: 0 !important;
+}
 html[data-theme="light"] #problem-table thead th a:hover,
 html.theme-light #problem-table thead th a:hover {
     color: #0f172a !important;
