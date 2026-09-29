@@ -2323,7 +2323,6 @@ html.theme-light .portfolio-user-pill {
     html[data-theme=light] .sidebox,
     html[data-theme=light] #blog-container .blog-content.sidebox,
     html[data-theme=light] #blog-container .blog-sidebox.sidebox,
-    html[data-theme=light] #new-comment.comment-submit,
     html[data-theme=light] .comment-display,
     html[data-theme=light] .footer-inner-card,
     html[data-theme=light] .problem-header-card,
@@ -2565,7 +2564,12 @@ html.theme-light .portfolio-user-pill {
        NEW COMMENT CARD & MARTOR EDITOR (DESIGN.md)
        ======================================================== */
     /* Remove outer card border and background (User Image #2) */
-    #new-comment.comment-submit {
+    #new-comment.comment-submit,
+    #new-comment,
+    html[data-theme="light"] #new-comment.comment-submit,
+    html[data-theme="light"] #new-comment,
+    html.theme-light #new-comment.comment-submit,
+    html.theme-light #new-comment {
         background: transparent !important;
         border: none !important;
         border-radius: 0 !important;
