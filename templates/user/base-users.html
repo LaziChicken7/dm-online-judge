@@ -127,8 +127,21 @@ html body #common-content {
     padding: 0 !important;
     margin-bottom: 24px !important;
     display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+}
+
+.tabs h2 {
+    text-align: left !important;
+}
+
+.tabs:not(#mobile)::before {
+    text-align: left !important;
 }
 
 .tabs h2 {
@@ -308,32 +321,79 @@ ul.pagination > .disabled-page > a {
 }
 
 /* Add User Button - 8px Developer Radii, NO 100px pill */
-.add-user-btn {
+.add-user-btn,
+.user-top-toolbar .add-user-btn {
     display: inline-flex !important;
     align-items: center !important;
     gap: 8px !important;
     height: 38px !important;
     padding: 0 16px !important;
     border-radius: 8px !important; /* {rounded.md} */
-    background: var(--expo-primary) !important;
-    color: var(--expo-on-primary) !important;
+    background: #ffffff !important;
+    color: #000000 !important;
     border: none !important;
     font-family: "Inter", -apple-system, sans-serif !important;
     font-weight: 500 !important;
     font-size: 13.5px !important;
     text-decoration: none !important;
-    box-shadow: var(--expo-card-shadow) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     transition: all 0.15s ease !important;
     cursor: pointer !important;
     margin-left: auto !important;
     letter-spacing: 0 !important;
 }
 
-.add-user-btn:hover {
-    opacity: 0.9 !important;
+.add-user-btn span,
+.user-top-toolbar .add-user-btn span {
+    color: #000000 !important;
+    display: inline !important;
+}
+
+.add-user-btn svg,
+.user-top-toolbar .add-user-btn svg {
+    stroke: #000000 !important;
+    color: #000000 !important;
+}
+
+.add-user-btn:hover,
+.user-top-toolbar .add-user-btn:hover {
+    opacity: 0.92 !important;
     transform: translateY(-1px) !important;
-    box-shadow: var(--expo-card-hover-shadow) !important;
-    color: var(--expo-on-primary) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+html[data-theme="light"] .add-user-btn,
+html[data-theme="light"] .user-top-toolbar .add-user-btn,
+html.theme-light .add-user-btn,
+html.theme-light .user-top-toolbar .add-user-btn {
+    background: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] .add-user-btn span,
+html[data-theme="light"] .user-top-toolbar .add-user-btn span,
+html.theme-light .add-user-btn span,
+html.theme-light .user-top-toolbar .add-user-btn span {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .add-user-btn svg,
+html[data-theme="light"] .user-top-toolbar .add-user-btn svg,
+html.theme-light .add-user-btn svg,
+html.theme-light .user-top-toolbar .add-user-btn svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .add-user-btn:hover,
+html[data-theme="light"] .user-top-toolbar .add-user-btn:hover,
+html.theme-light .add-user-btn:hover,
+html.theme-light .user-top-toolbar .add-user-btn:hover {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
 }
 
 /* 5. Leaderboard Table Container (#content-left.users) */
@@ -529,14 +589,19 @@ html.theme-dark .users-table td.user-name a.admin {
     color: #38bdf8 !important;
 }
 
-/* Points column (warm amber/gold in both modes) */
+/* Points column (white in dark mode, dark ink in light mode - Image #3 fix) */
 .users-table tbody td.user-points {
     font-family: "JetBrains Mono", monospace !important;
     font-weight: 600 !important;
     font-size: 13.5px !important;
-    color: #f59e0b !important;
+    color: #f4f4f5 !important;
     text-align: right !important;
     padding-right: 24px !important;
+}
+
+html[data-theme="light"] .users-table tbody td.user-points,
+html.theme-light .users-table tbody td.user-points {
+    color: #171717 !important;
 }
 
 /* Problems column */
@@ -700,55 +765,147 @@ html.theme-dark .users-table td.user-name a.admin {
     background: var(--expo-primary) !important;
 }
 
-/* Admin Card Actions */
+/* Admin Card Actions (Image #1 & Image #2 fix) */
+#content-right.users .add-user-sidebar-btn,
+#content-right.users a.add-user-sidebar-btn,
 .add-user-sidebar-btn {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 8px !important;
+    width: 100% !important;
     height: 38px !important;
     padding: 0 16px !important;
     border-radius: 8px !important; /* {rounded.md} */
-    background: var(--expo-primary) !important;
-    color: var(--expo-on-primary) !important;
+    background: #ffffff !important;
+    background-image: none !important;
+    color: #000000 !important;
     border: none !important;
     font-family: "Inter", -apple-system, sans-serif !important;
     font-weight: 500 !important;
     font-size: 13.5px !important;
     text-decoration: none !important;
     margin-bottom: 10px !important;
-    box-shadow: var(--expo-card-shadow) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     transition: all 0.15s ease !important;
+    cursor: pointer !important;
 }
 
+#content-right.users .add-user-sidebar-btn span,
+.add-user-sidebar-btn span {
+    color: #000000 !important;
+    font-weight: 500 !important;
+}
+
+#content-right.users .add-user-sidebar-btn svg,
+.add-user-sidebar-btn svg {
+    stroke: #000000 !important;
+    color: #000000 !important;
+}
+
+#content-right.users .add-user-sidebar-btn:hover,
 .add-user-sidebar-btn:hover {
-    opacity: 0.9 !important;
+    background: #e5e5e5 !important;
+    opacity: 0.92 !important;
     transform: translateY(-1px) !important;
-    color: var(--expo-on-primary) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    color: #000000 !important;
 }
 
+html[data-theme="light"] #content-right.users .add-user-sidebar-btn,
+html[data-theme="light"] #content-right.users a.add-user-sidebar-btn,
+html.theme-light #content-right.users .add-user-sidebar-btn,
+html.theme-light #content-right.users a.add-user-sidebar-btn {
+    background: #000000 !important;
+    background-image: none !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] #content-right.users .add-user-sidebar-btn span,
+html.theme-light #content-right.users .add-user-sidebar-btn span {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] #content-right.users .add-user-sidebar-btn svg,
+html.theme-light #content-right.users .add-user-sidebar-btn svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] #content-right.users .add-user-sidebar-btn:hover,
+html.theme-light #content-right.users .add-user-sidebar-btn:hover {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* Admin Panel Secondary Button */
+#content-right.users .admin-changelist-link,
+#content-right.users a.admin-changelist-link,
 .admin-changelist-link {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 8px !important;
-    height: 36px !important;
+    width: 100% !important;
+    height: 38px !important;
     padding: 0 14px !important;
     border-radius: 8px !important; /* {rounded.md} */
-    background: var(--expo-surface-strong) !important;
-    border: 1px solid var(--expo-hairline-strong) !important;
-    color: var(--expo-body) !important;
+    background: #1e1e24 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #f4f4f5 !important;
     font-family: "Inter", -apple-system, sans-serif !important;
-    font-size: 13px !important;
+    font-size: 13.5px !important;
     font-weight: 500 !important;
     text-decoration: none !important;
     transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
 }
 
+#content-right.users .admin-changelist-link span,
+.admin-changelist-link span {
+    color: #f4f4f5 !important;
+}
+
+#content-right.users .admin-changelist-link i,
+.admin-changelist-link i {
+    color: #a1a1aa !important;
+}
+
+#content-right.users .admin-changelist-link:hover,
 .admin-changelist-link:hover {
-    background: var(--expo-surface-strong) !important;
-    color: var(--expo-ink) !important;
-    border-color: var(--expo-hairline-strong) !important;
+    background: #282830 !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="light"] #content-right.users .admin-changelist-link,
+html[data-theme="light"] #content-right.users a.admin-changelist-link,
+html.theme-light #content-right.users .admin-changelist-link,
+html.theme-light #content-right.users a.admin-changelist-link {
+    background: #f8fafc !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+html[data-theme="light"] #content-right.users .admin-changelist-link span,
+html.theme-light #content-right.users .admin-changelist-link span {
+    color: #171717 !important;
+}
+
+html[data-theme="light"] #content-right.users .admin-changelist-link i,
+html.theme-light #content-right.users .admin-changelist-link i {
+    color: #64748b !important;
+}
+
+html[data-theme="light"] #content-right.users .admin-changelist-link:hover,
+html.theme-light #content-right.users .admin-changelist-link:hover {
+    background: #f0f0f3 !important;
+    border-color: #cbd5e1 !important;
+    color: #000000 !important;
 }
     </style>
 {% endblock %}
@@ -777,7 +934,7 @@ html.theme-dark .users-table td.user-name a.admin {
                             <div class="filter-tag">{{ _('ADMIN') }}</div>
                             <h3>{{ _('Manage') }} <i class="fa fa-shield" style="color: #38bdf8;"></i></h3>
                             <div class="sidebox-content">
-                                <a href="{{ url('admin:auth_user_add') }}" class="button button-primary-glow full add-user-sidebar-btn">
+                                <a href="{{ url('admin:auth_user_add') }}" class="add-user-sidebar-btn">
                                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                         <line x1="12" y1="5" x2="12" y2="19"></line>
                                         <line x1="5" y1="12" x2="19" y2="12"></line>
