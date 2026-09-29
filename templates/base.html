@@ -3990,6 +3990,19 @@ html[data-theme="light"] .problem-header-tag,
 html.theme-light .problem-header-tag {
     color: #64748b !important;
 }
+.problem-title-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+}
+.problem-title-group svg.problem-status-icon {
+    flex-shrink: 0 !important;
+    display: inline-block !important;
+    vertical-align: middle !important;
+    margin: 0 !important;
+}
 
 .problem-title-group h2 {
     font-family: "Inter", -apple-system, sans-serif !important;
@@ -4455,67 +4468,114 @@ html.theme-light #available-judges-list {
         transform: translateY(0) scale(1) !important;
         padding-bottom: 14px !important;
         margin-bottom: 12px !important;
-        border-bottom-color: rgba(255, 255, 255, 0.08) !important;
+        border-bottom-color: var(--expo-hairline) !important;
         pointer-events: auto !important;
     }
-
+    #content-right .info-float .sidebar-scroll-submit-btn,
     .sidebar-scroll-submit-btn {
-        background: #0284c7 !important;
-        color: #ffffff !important;
-        border: 1px solid #38bdf8 !important;
-        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4) !important;
-        border-radius: 20px !important;
-        padding: 8px 14px !important;
-        font-size: 13px !important;
-        font-weight: 700 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: none !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        border-radius: 8px !important;
+        height: 38px !important;
+        padding: 0 16px !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 500 !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 8px !important;
         text-decoration: none !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.15s ease !important;
+        box-sizing: border-box !important;
     }
-
+    #content-right .info-float .sidebar-scroll-submit-btn span,
+    .sidebar-scroll-submit-btn span {
+        color: inherit !important;
+    }
+    #content-right .info-float .sidebar-scroll-submit-btn svg,
+    #content-right .info-float .sidebar-scroll-submit-btn i,
+    .sidebar-scroll-submit-btn svg,
+    .sidebar-scroll-submit-btn i {
+        stroke: currentColor !important;
+        color: inherit !important;
+    }
+    #content-right .info-float .sidebar-scroll-submit-btn:hover,
     .sidebar-scroll-submit-btn:hover {
-        background: #0369a1 !important;
+        opacity: 0.92 !important;
         transform: translateY(-1px) !important;
-        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.6) !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    }
+    html[data-theme="light"] #content-right .info-float .sidebar-scroll-submit-btn,
+    html[data-theme="light"] .sidebar-scroll-submit-btn,
+    html.theme-light #content-right .info-float .sidebar-scroll-submit-btn,
+    html.theme-light .sidebar-scroll-submit-btn {
+        background: #000000 !important;
+        color: #ffffff !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+    }
+    html[data-theme="light"] #content-right .info-float .sidebar-scroll-submit-btn span,
+    html[data-theme="light"] .sidebar-scroll-submit-btn span,
+    html.theme-light #content-right .info-float .sidebar-scroll-submit-btn span,
+    html.theme-light .sidebar-scroll-submit-btn span {
         color: #ffffff !important;
     }
-
+    html[data-theme="light"] #content-right .info-float .sidebar-scroll-submit-btn:hover,
+    html.theme-light #content-right .info-float .sidebar-scroll-submit-btn:hover {
+        background: #1a1a1a !important;
+        color: #ffffff !important;
+    }
     .sidebar-scroll-action-btn {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 20px !important;
-        padding: 7px 14px !important;
-        font-size: 12.5px !important;
-        font-weight: 600 !important;
-        color: #e2e8f0 !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        border-radius: 8px !important;
+        height: 36px !important;
+        padding: 0 14px !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 500 !important;
+        color: var(--expo-ink) !important;
         display: flex !important;
         align-items: center !important;
         gap: 8px !important;
         text-decoration: none !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.15s ease !important;
+        box-sizing: border-box !important;
     }
-
+    .sidebar-scroll-action-btn span {
+        color: inherit !important;
+    }
+    .sidebar-scroll-action-btn svg,
+    .sidebar-scroll-action-btn i {
+        stroke: currentColor !important;
+        color: inherit !important;
+    }
     .sidebar-scroll-action-btn:hover {
-        background: rgba(56, 189, 248, 0.15) !important;
-        border-color: rgba(56, 189, 248, 0.35) !important;
+        background: #27272a !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
         color: #ffffff !important;
         transform: translateY(-1px) !important;
     }
-
-    html[data-theme="light"] .sidebar-scroll-submit-btn {
-        background: #0284c7 !important;
-        color: #ffffff !important;
+    html[data-theme="light"] .sidebar-scroll-action-btn,
+    html.theme-light .sidebar-scroll-action-btn {
+        background: #f0f0f3 !important;
+        border: 1px solid #dcdee0 !important;
+        color: #171717 !important;
     }
-
-    html[data-theme="light"] .sidebar-scroll-action-btn {
-        background: rgba(0, 0, 0, 0.04) !important;
-        border-color: rgba(0, 0, 0, 0.1) !important;
-        color: #0f172a !important;
+    html[data-theme="light"] .sidebar-scroll-action-btn span,
+    html.theme-light .sidebar-scroll-action-btn span {
+        color: #171717 !important;
     }
-
+    html[data-theme="light"] .sidebar-scroll-action-btn:hover,
+    html.theme-light .sidebar-scroll-action-btn:hover {
+        background: #e4e4e7 !important;
+        border-color: #cbd5e1 !important;
+        color: #000000 !important;
+    }
     .sidebar-actions-group {
         display: flex !important;
         flex-direction: column !important;
@@ -4873,12 +4933,20 @@ html.theme-light #available-judges-list {
     #content-right.problems .info-float:hover,
     #content-right .info-float:has(.sidebox),
     #content-right .info-float:has(.sidebox):hover,
-    html[data-theme="light"] #content-right .info-float,
-    html[data-theme="light"] #content-right .info-float:hover,
+    html[data-theme="light"] #content-right.users .info-float,
+    html[data-theme="light"] #content-right.users .info-float:hover,
+    html[data-theme="light"] #content-right.problems .info-float,
+    html[data-theme="light"] #content-right.problems .info-float:hover,
+    html[data-theme="light"] #content-right .info-float:has(.sidebox),
+    html[data-theme="light"] #content-right .info-float:has(.sidebox):hover,
     html[data-theme="light"] #content-right.submission .info-float,
     html[data-theme="light"] #content-right.submission .info-float:hover,
-    html.theme-light #content-right .info-float,
-    html.theme-light #content-right .info-float:hover,
+    html.theme-light #content-right.users .info-float,
+    html.theme-light #content-right.users .info-float:hover,
+    html.theme-light #content-right.problems .info-float,
+    html.theme-light #content-right.problems .info-float:hover,
+    html.theme-light #content-right .info-float:has(.sidebox),
+    html.theme-light #content-right .info-float:has(.sidebox):hover,
     html.theme-light #content-right.submission .info-float,
     html.theme-light #content-right.submission .info-float:hover {
         background: transparent !important;

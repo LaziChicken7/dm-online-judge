@@ -29,9 +29,47 @@
             padding-left: 3em;
         }
 
+        #content {
+            max-width: 1320px !important;
+            width: 92% !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
+        }
+
+        #common-content {
+            display: flex !important;
+            gap: 24px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            align-items: stretch !important;
+        }
+
+        #content-left.split-common-content,
+        #content-left {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            max-width: calc(100% - 344px) !important;
+            width: auto !important;
+            margin: 0 !important;
+        }
+
         #content-right {
-            max-width: 12.5em;
-            min-width: 12.5em;
+            width: 320px !important;
+            min-width: 320px !important;
+            max-width: 320px !important;
+            float: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            flex-shrink: 0 !important;
+        }
+
+        #content-right .info-float {
+            position: sticky !important;
+            top: 76px !important;
+            width: 100% !important;
+            max-height: calc(100vh - 96px) !important;
+            overflow-y: auto !important;
+            box-sizing: border-box !important;
         }
 
         #problem-types, #allowed-langs, #available-judges {
@@ -110,9 +148,9 @@
             <div class="problem-title-group">
                 {% if request.user.is_authenticated %}
                     {% if problem.id in completed_problem_ids %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="title-state-icon"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <svg class="problem-status-icon status-solved" width="22" height="22" viewBox="0 0 16 16" fill="#10b981"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm3.03-8.97a.75.75 0 0 0-1.06-1.06L6.75 8.19 5.53 6.97a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l3.75-3.75z"/></svg>
                     {% elif problem.id in attempted_problems %}
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="title-state-icon"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+                        <svg class="problem-status-icon status-attempted" width="22" height="22" viewBox="0 0 16 16" fill="#f59e0b"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zM4.5 7.25a.75.75 0 0 0 0 1.5h7a.75.75 0 0 0 0-1.5h-7z"/></svg>
                     {% endif %}
                 {% endif %}
                 <h2>{{ title }}</h2>
