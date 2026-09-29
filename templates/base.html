@@ -1852,18 +1852,32 @@
         margin-bottom: 40px !important;
     }
     #comments > h2 {
-        font-size: 22px !important;
-        font-weight: 700 !important;
-        color: #ffffff !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 20px !important;
+        font-weight: 600 !important;
+        letter-spacing: -0.3px !important;
+        color: var(--expo-ink) !important;
         display: flex !important;
-        align-items: center;
-        gap: 10px;
+        align-items: center !important;
+        gap: 10px !important;
         margin-bottom: 24px !important;
         padding-bottom: 16px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
     }
-    #comments > h2 i {
-        color: #60a5fa !important;
+    #comments > h2 i,
+    #comments > h2 svg {
+        color: var(--expo-muted) !important;
+    }
+    html[data-theme="light"] #comments > h2,
+    html.theme-light #comments > h2 {
+        color: #0f172a !important;
+        border-bottom-color: #f0f0f3 !important;
+    }
+    html[data-theme="light"] #comments > h2 i,
+    html[data-theme="light"] #comments > h2 svg,
+    html.theme-light #comments > h2 i,
+    html.theme-light #comments > h2 svg {
+        color: #64748b !important;
     }
     .no-comments-message {
         color: var(--expo-muted) !important;
@@ -4356,10 +4370,16 @@ html.theme-light .problem-info-entry a {
     color: #0f172a !important;
 }
 
-#problem-types, #allowed-langs, #available-judges {
-    border-top: 1px solid var(--expo-hairline) !important;
-    padding-top: 10px !important;
-    margin-top: 10px !important;
+#problem-types, #allowed-langs, #available-judges, #available-judges.problem-info-entry {
+    border: none !important;
+    border-top: none !important;
+    border-bottom: none !important;
+    padding-top: 4px !important;
+    margin-top: 0 !important;
+}
+#available-judges.problem-info-entry {
+    margin-top: 6px !important;
+    padding-top: 7px !important;
 }
 
 #problem-types a, #allowed-langs a, #available-judges a {
