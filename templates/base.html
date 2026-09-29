@@ -5021,23 +5021,45 @@ html.theme-light #available-judges-list {
         background: #f1f5f9 !important;
     }
 
-    /* Martor Editor Tabs in Light Mode */
+    /* Martor Editor Tabs in Light Mode (Inactive, Hover, Active) */
     html[data-theme="light"] .tab-martor-menu a.item,
-    html.theme-light .tab-martor-menu a.item {
+    html[data-theme="light"] .tab-martor-menu a.item *,
+    html[data-theme="light"] .tab-martor-menu a.item .vector-icon-wrap,
+    html[data-theme="light"] .tab-martor-menu a.item svg,
+    html.theme-light .tab-martor-menu a.item,
+    html.theme-light .tab-martor-menu a.item *,
+    html.theme-light .tab-martor-menu a.item .vector-icon-wrap,
+    html.theme-light .tab-martor-menu a.item svg {
         color: #64748b !important;
+        stroke: #64748b !important;
         background: #f1f5f9 !important;
         border: 1px solid #e2e8f0 !important;
         border-radius: 6px !important;
     }
+    html[data-theme="light"] .tab-martor-menu a.item:hover,
+    html[data-theme="light"] .tab-martor-menu a.item:hover *,
+    html[data-theme="light"] .tab-martor-menu a.item:hover .vector-icon-wrap,
+    html[data-theme="light"] .tab-martor-menu a.item:hover svg,
+    html.theme-light .tab-martor-menu a.item:hover,
+    html.theme-light .tab-martor-menu a.item:hover *,
+    html.theme-light .tab-martor-menu a.item:hover .vector-icon-wrap,
+    html.theme-light .tab-martor-menu a.item:hover svg {
+        color: #0f172a !important;
+        stroke: #0f172a !important;
+        background: #e2e8f0 !important;
+    }
     html[data-theme="light"] .tab-martor-menu a.item.active,
-    html.theme-light .tab-martor-menu a.item.active {
+    html[data-theme="light"] .tab-martor-menu a.item.active *,
+    html[data-theme="light"] .tab-martor-menu a.item.active .vector-icon-wrap,
+    html[data-theme="light"] .tab-martor-menu a.item.active svg,
+    html.theme-light .tab-martor-menu a.item.active,
+    html.theme-light .tab-martor-menu a.item.active *,
+    html.theme-light .tab-martor-menu a.item.active .vector-icon-wrap,
+    html.theme-light .tab-martor-menu a.item.active svg {
         color: #ffffff !important;
+        stroke: #ffffff !important;
         background: #000000 !important;
         border-color: #000000 !important;
-    }
-    html[data-theme="light"] .tab-martor-menu a.item svg,
-    html.theme-light .tab-martor-menu a.item svg {
-        stroke: currentColor !important;
     }
 
     /* ==========================================================================
