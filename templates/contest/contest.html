@@ -19,298 +19,731 @@
 {% block content_media %}
     {% include "comments/media-css.html" %}
     <style>
-        /* ── Join Button in Header Tabs ── */
-        .tabs .contest-join-pseudotab,
-        .contest-join-pseudotab {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 0 !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer !important;
-            overflow: hidden !important;
-            text-decoration: none !important;
-        }
-        .tabs .contest-join-pseudotab:hover,
-        .contest-join-pseudotab:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
-        }
-        .contest-join-pseudotab input[type="submit"] {
-            background: transparent !important;
-            border: none !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            padding: 8px 22px !important;
-            cursor: pointer !important;
-            box-shadow: none !important;
-        }
+/* =========================================================
+   EXPO DESIGN SYSTEM - CONTEST DETAIL (DESIGN.md)
+   ========================================================= */
 
-        /* ── Contest Countdown Banner ── */
-        #banner {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(12px) !important;
-            padding: 28px 32px !important;
-            margin-bottom: 24px !important;
-            text-align: center !important;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
-            transition: all 0.25s ease !important;
-        }
-        #banner:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3), 0 0 15px rgba(56, 189, 248, 0.15) !important;
-        }
-        #banner > a {
-            font-size: 22px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            text-decoration: none !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            gap: 10px !important;
-            margin-bottom: 8px !important;
-            letter-spacing: -0.3px !important;
-        }
-        #banner > a .time-remaining {
-            color: #38bdf8 !important;
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            font-size: 26px !important;
-            font-weight: 800 !important;
-            letter-spacing: 1px !important;
-            text-shadow: 0 0 20px rgba(56, 189, 248, 0.4) !important;
-        }
-        #banner #time {
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            color: #94a3b8 !important;
-            font-size: 13.5px !important;
-        }
-        #banner #time b {
-            color: #e2e8f0 !important;
-            font-weight: 600 !important;
-        }
-        #banner #details {
-            margin-top: 16px !important;
-            padding-top: 16px !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-            text-align: left !important;
-            font-size: 13.5px !important;
-            color: #94a3b8 !important;
-        }
+/* 1. CSS Variables */
+:root, html[data-theme="light"], html.theme-light {
+    --expo-canvas: #ffffff;
+    --expo-canvas-soft: #fafafa;
+    --expo-surface-card: #ffffff;
+    --expo-surface-strong: #f0f0f3;
+    --expo-surface-dark: #171717;
+    --expo-primary: #000000;
+    --expo-primary-active: #1a1a1a;
+    --expo-on-primary: #ffffff;
+    --expo-ink: #171717;
+    --expo-body: #60646c;
+    --expo-muted: #999999;
+    --expo-hairline: #f0f0f3;
+    --expo-hairline-soft: #f5f5f7;
+    --expo-hairline-strong: #dcdee0;
+    --expo-text-link: #0d74ce;
+    --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    --expo-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
-        /* ── Content description ── */
-        .content-description:empty {
-            display: none !important;
-        }
-        .content-description {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(12px) !important;
-            padding: 24px 32px !important;
-            margin-bottom: 24px !important;
-        }
+html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
+    --expo-canvas: #101012;
+    --expo-canvas-soft: #111113;
+    --expo-surface-card: #121214;
+    --expo-surface-strong: #18181b;
+    --expo-surface-dark: #171717;
+    --expo-primary: #ffffff;
+    --expo-primary-active: #e5e5e5;
+    --expo-on-primary: #000000;
+    --expo-ink: #f4f4f5;
+    --expo-body: #a1a1aa;
+    --expo-muted: #71717a;
+    --expo-hairline: rgba(255, 255, 255, 0.08);
+    --expo-hairline-soft: rgba(255, 255, 255, 0.05);
+    --expo-hairline-strong: rgba(255, 255, 255, 0.16);
+    --expo-text-link: #38bdf8;
+    --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --expo-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
 
-        /* ── Problems Section ── */
-        .contest-problems {
-            margin-top: 28px !important;
-            margin-bottom: 28px !important;
-        }
-        .contest-problems h2 {
-            color: #ffffff !important;
-            font-size: 20px !important;
-            font-weight: 800 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            margin-bottom: 18px !important;
-            border-left: 3px solid #38bdf8 !important;
-            padding-left: 14px !important;
-            letter-spacing: -0.3px !important;
-        }
-        .contest-problems h2 i {
-            color: #38bdf8 !important;
-            font-size: 17px !important;
-        }
+/* 2. Global Canvas & Spacing */
+html body, html {
+    background-color: var(--expo-canvas) !important;
+    background-image: none !important;
+    color: var(--expo-ink) !important;
+    font-family: "Inter", -apple-system, system-ui, sans-serif !important;
+    min-height: 100vh !important;
+}
 
-        /* ── Card Container (matching Image #2) ── */
-        .contest-table-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(12px) !important;
-            overflow-x: auto !important;
-            padding: 0 !important;
-            margin-bottom: 28px !important;
-            box-sizing: border-box !important;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.25s ease, 
-                        box-shadow 0.25s ease,
-                        background 0.25s ease !important;
-        }
-        .contest-table-card:hover {
-            border-color: rgba(56, 189, 248, 0.55) !important;
-            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                        0 0 25px rgba(56, 189, 248, 0.2), 
-                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-            transform: translateY(-2px) !important;
-            background: rgba(255, 255, 255, 0.045) !important;
-        }
+#content {
+    width: 90% !important;
+    max-width: 100% !important;
+    margin: 0 auto 40px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
 
-        /* ── Table inside container ── */
-        .contest-problems-table,
-        table.contest-problems-table {
-            border-collapse: separate !important;
-            border-spacing: 0 6px !important;
-            width: 100% !important;
-            background: transparent !important;
-            border: none !important;
-            margin-bottom: 0 !important;
-            backdrop-filter: none !important;
-            box-shadow: none !important;
-        }
+#common-content {
+    width: 100% !important;
+}
 
-        .contest-problems-table thead th {
-            background: transparent !important;
-            color: #64748b !important;
-            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.8px !important;
-            padding: 16px 24px !important;
-            border: none !important;
-            vertical-align: middle !important;
-        }
+/* 3. Header Tabs (.tabs) */
+.tabs,
+.tabs:hover {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+}
 
-        .contest-problems-table tbody tr {
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            background: #0d1322 !important;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-        }
-        .contest-problems-table tbody tr:hover {
-            background: rgba(0, 112, 243, 0.15) !important;
-            transform: translateY(-2px) scale(1.002) !important;
-            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
-        }
+.tabs h2 {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.6px !important;
+    color: var(--expo-ink) !important;
+    margin: 0 !important;
+    text-align: left !important;
+}
 
-        .contest-problems-table tbody td {
-            padding: 14px 24px !important;
-            font-size: 15px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-left: none !important;
-            border-right: none !important;
-            vertical-align: middle !important;
-            color: #e2e8f0 !important;
-        }
-        .contest-problems-table tbody td:first-child {
-            border-left: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-top-left-radius: 10px !important;
-            border-bottom-left-radius: 10px !important;
-        }
-        .contest-problems-table tbody td:last-child {
-            border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-top-right-radius: 10px !important;
-            border-bottom-right-radius: 10px !important;
-        }
+.tabs:not(#mobile)::before {
+    text-align: left !important;
+}
 
-        /* Problem Name */
-        .contest-problems-table td.problem a {
-            color: #e2e8f0 !important;
-            font-family: 'Segoe UI', Arial, sans-serif !important;
-            font-weight: 600 !important;
-            font-size: 15px !important;
-            text-decoration: none !important;
-            transition: color 0.2s ease !important;
-        }
-        .contest-problems-table td.problem a:hover {
-            color: #60a5fa !important;
-        }
+.tabs ul {
+    position: absolute !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
 
-        /* Points column (Yellow/Amber like Image #2) */
-        .contest-problems-table td.points {
-            color: #fbbf24 !important;
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            font-weight: 600 !important;
-            font-size: 14.5px !important;
-        }
+.tabs .tab > a,
+.tabs .tab > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 7px 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: var(--expo-body) !important;
+    box-shadow: none !important;
+}
 
-        /* AC Rate column (Teal/Cyan like Image #2) */
-        .contest-problems-table td.ac-rate {
-            color: #2dd4bf !important;
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            font-weight: 500 !important;
-            font-size: 14.5px !important;
-        }
+.tabs .tab > a .tab-icon,
+.tabs .tab > span .tab-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
 
-        /* Users count column (Purple like Image #2) */
-        .contest-problems-table td.users,
-        .contest-problems-table td.users a {
-            color: #a78bfa !important;
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            font-weight: 600 !important;
-            font-size: 14.5px !important;
-            text-decoration: none !important;
-        }
+.tabs .tab > a:hover {
+    background: var(--expo-surface-strong) !important;
+    color: var(--expo-ink) !important;
+    border-color: var(--expo-hairline) !important;
+}
 
-        /* Editorial link */
-        .contest-problems-table td.editorials a {
-            color: #38bdf8 !important;
-            font-size: 13.5px !important;
-        }
+.tabs .tab.active > a,
+.tabs .tab.active > span {
+    background: #242428 !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
 
-        /* ── Social buttons ── */
-        .social {
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
-            margin: 16px 0 24px 0 !important;
-            float: none !important;
-            justify-content: flex-end !important;
-        }
-        .social a {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 36px !important;
-            height: 36px !important;
-            border-radius: 50% !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            color: #94a3b8 !important;
-            transition: all 0.2s ease !important;
-            text-decoration: none !important;
-        }
-        .social a:hover {
-            background: rgba(255, 255, 255, 0.1) !important;
-            transform: translateY(-2px) !important;
-            color: #ffffff !important;
-        }
-        .social a.facebook-this:hover {
-            color: #3b82f6 !important;
-            border-color: rgba(59, 130, 246, 0.4) !important;
-        }
-        .social a.tweet-this:hover {
-            color: #38bdf8 !important;
-            border-color: rgba(56, 189, 248, 0.4) !important;
-        }
+html[data-theme="light"] .tabs .tab > a,
+html[data-theme="light"] .tabs .tab > span,
+html.theme-light .tabs .tab > a,
+html.theme-light .tabs .tab > span {
+    background: #f0f0f3 !important;
+    border: 1px solid transparent !important;
+    color: #60646c !important;
+}
 
-        /* Divider */
-        hr {
-            border: none !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
-            margin: 28px 0 !important;
-        }
+html[data-theme="light"] .tabs .tab > a:hover,
+html.theme-light .tabs .tab > a:hover {
+    background: #e4e4e7 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] .tabs .tab.active > a,
+html[data-theme="light"] .tabs .tab.active > span,
+html.theme-light .tabs .tab.active > a,
+html.theme-light .tabs .tab.active > span {
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-theme="light"] .tabs .tab.active > a svg,
+html[data-theme="light"] .tabs .tab.active > a i,
+html.theme-light .tabs .tab.active > a svg,
+html.theme-light .tabs .tab.active > a i {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+/* 4. Join / Virtual Join Pseudotab Button (Expo Primary Button) */
+.tabs .contest-join-pseudotab,
+.contest-join-pseudotab,
+form.contest-join-pseudotab {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    margin-left: 8px !important;
+}
+
+.contest-join-pseudotab input[type="submit"] {
+    background: transparent !important;
+    border: none !important;
+    color: #000000 !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+
+.tabs .contest-join-pseudotab:hover,
+.contest-join-pseudotab:hover {
+    opacity: 0.92 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    background: #ffffff !important;
+}
+
+html[data-theme="light"] .tabs .contest-join-pseudotab,
+html[data-theme="light"] .contest-join-pseudotab,
+html[data-theme="light"] form.contest-join-pseudotab,
+html.theme-light .tabs .contest-join-pseudotab,
+html.theme-light .contest-join-pseudotab,
+html.theme-light form.contest-join-pseudotab {
+    background: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] .contest-join-pseudotab input[type="submit"],
+html.theme-light .contest-join-pseudotab input[type="submit"] {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .tabs .contest-join-pseudotab:hover,
+html[data-theme="light"] .contest-join-pseudotab:hover,
+html.theme-light .tabs .contest-join-pseudotab:hover,
+html.theme-light .contest-join-pseudotab:hover {
+    background: #1a1a1a !important;
+}
+
+/* 5. Contest Banner (#banner) */
+#banner {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    padding: 28px 32px !important;
+    margin-bottom: 28px !important;
+    text-align: center !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+}
+
+#banner:hover {
+    border-color: var(--expo-hairline-strong) !important;
+    box-shadow: var(--expo-card-hover-shadow) !important;
+    transform: none !important;
+}
+
+html[data-theme="light"] #banner,
+html.theme-light #banner {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+#banner > a {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin-bottom: 10px !important;
+    letter-spacing: -0.3px !important;
+}
+
+html[data-theme="light"] #banner > a,
+html.theme-light #banner > a {
+    color: #0f172a !important;
+}
+
+#banner > a .time-remaining {
+    color: var(--expo-text-link) !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.5px !important;
+    text-shadow: none !important;
+}
+
+#banner #time {
+    font-family: "JetBrains Mono", monospace !important;
+    color: var(--expo-body) !important;
+    font-size: 13.5px !important;
+    line-height: 1.5 !important;
+}
+
+html[data-theme="light"] #banner #time,
+html.theme-light #banner #time {
+    color: #64748b !important;
+}
+
+#banner #time b {
+    color: var(--expo-ink) !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] #banner #time b,
+html.theme-light #banner #time b {
+    color: #0f172a !important;
+}
+
+#banner #details {
+    margin-top: 18px !important;
+    padding-top: 18px !important;
+    border-top: 1px solid var(--expo-hairline) !important;
+    text-align: left !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    color: var(--expo-body) !important;
+}
+
+html[data-theme="light"] #banner #details,
+html.theme-light #banner #details {
+    border-top-color: #f0f0f3 !important;
+    color: #475569 !important;
+}
+
+#banner #details ul {
+    margin: 0 !important;
+    padding-left: 20px !important;
+}
+
+#banner #details li {
+    margin-bottom: 6px !important;
+}
+
+#banner #details a {
+    color: var(--expo-text-link) !important;
+    text-decoration: none !important;
+}
+
+#banner #details a:hover {
+    text-decoration: underline !important;
+}
+
+/* 6. Content Description */
+.content-description {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    padding: 24px 32px !important;
+    margin-bottom: 28px !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    color: var(--expo-body) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 14.5px !important;
+    line-height: 1.6 !important;
+}
+
+html[data-theme="light"] .content-description,
+html.theme-light .content-description {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    color: #334155 !important;
+}
+
+.content-description:empty {
+    display: none !important;
+}
+
+/* 7. Section Headings (Problems, Comments) - Clean Expo Typography */
+.contest-problems h2,
+#comments.comment-area h2,
+.comments h2,
+#content h2:not(.tabs h2) {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.3px !important;
+    color: var(--expo-ink) !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin: 32px 0 16px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+html[data-theme="light"] .contest-problems h2,
+html[data-theme="light"] #comments.comment-area h2,
+html[data-theme="light"] .comments h2,
+html.theme-light .contest-problems h2,
+html.theme-light #comments.comment-area h2,
+html.theme-light .comments h2 {
+    color: #0f172a !important;
+}
+
+.contest-problems h2 i,
+.comments h2 i {
+    display: none !important;
+}
+
+#comments.comment-area h2 i {
+    color: var(--expo-muted) !important;
+    font-size: 16px !important;
+    display: inline-block !important;
+}
+
+/* 8. Problems Table Container (.contest-table-card) */
+.contest-table-card {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    overflow: hidden !important;
+    padding: 0 !important;
+    margin-bottom: 28px !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.contest-table-card:hover {
+    border-color: var(--expo-hairline-strong) !important;
+    box-shadow: var(--expo-card-hover-shadow) !important;
+    transform: none !important;
+}
+
+html[data-theme="light"] .contest-table-card,
+html.theme-light .contest-table-card {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Table */
+table.contest-problems-table,
+.contest-problems-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Header */
+.contest-problems-table thead th {
+    background: var(--expo-surface-strong) !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    color: var(--expo-muted) !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 14px 20px !important;
+    height: 44px !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+}
+
+html[data-theme="light"] .contest-problems-table thead th,
+html.theme-light .contest-problems-table thead th {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #f0f0f3 !important;
+    color: #64748b !important;
+}
+
+/* Rows */
+.contest-problems-table tbody tr {
+    background: var(--expo-surface-card) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background 0.15s ease !important;
+    border-radius: 0 !important;
+}
+
+.contest-problems-table tbody tr:hover,
+.contest-problems-table tbody tr:hover td {
+    background: var(--expo-surface-strong) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] .contest-problems-table tbody tr,
+html.theme-light .contest-problems-table tbody tr {
+    background: #ffffff !important;
+}
+
+html[data-theme="light"] .contest-problems-table tbody tr:hover,
+html[data-theme="light"] .contest-problems-table tbody tr:hover td,
+html.theme-light .contest-problems-table tbody tr:hover,
+html.theme-light .contest-problems-table tbody tr:hover td {
+    background: #f8fafc !important;
+}
+
+/* Cells */
+.contest-problems-table tbody td {
+    padding: 14px 20px !important;
+    border: none !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-radius: 0 !important;
+    vertical-align: middle !important;
+    color: var(--expo-body) !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+.contest-problems-table tbody tr td:first-child,
+.contest-problems-table tbody tr td:last-child {
+    border-radius: 0 !important;
+}
+
+.contest-problems-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Problem Title */
+.contest-problems-table td.problem a {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 14.5px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+.contest-problems-table td.problem a:hover {
+    color: var(--expo-text-link) !important;
+}
+
+html[data-theme="light"] .contest-problems-table td.problem a,
+html.theme-light .contest-problems-table td.problem a {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .contest-problems-table td.problem a:hover,
+html.theme-light .contest-problems-table td.problem a:hover {
+    color: #0d74ce !important;
+}
+
+/* Points */
+.contest-problems-table td.points {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: #eab308 !important;
+}
+
+html[data-theme="light"] .contest-problems-table td.points,
+html.theme-light .contest-problems-table td.points {
+    color: #ca8a04 !important;
+}
+
+/* AC Rate & Users */
+.contest-problems-table td.ac-rate,
+.contest-problems-table td.users,
+.contest-problems-table td.users a {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    color: var(--expo-body) !important;
+    text-decoration: none !important;
+}
+
+.contest-problems-table td.users a:hover {
+    color: var(--expo-ink) !important;
+}
+
+/* 9. Comments Cards Clean Styling */
+.comment-card,
+.comment-display {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    box-shadow: var(--expo-card-shadow) !important;
+    margin-bottom: 16px !important;
+    overflow: hidden !important;
+}
+
+html[data-theme="light"] .comment-card,
+html[data-theme="light"] .comment-display,
+html.theme-light .comment-card,
+html.theme-light .comment-display {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.comment-display .info {
+    background: transparent !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+}
+
+.comment-card .poster a,
+.comment-display .poster a {
+    font-family: "Inter", sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="light"] .comment-display .detail .header .comment-author-wrap a,
+html.theme-light .comment-display .detail .header .comment-author-wrap a,
+html[data-theme="light"] .comment-display .author-wrap a,
+html.theme-light .comment-display .author-wrap a,
+html[data-theme="light"] .comment-card .poster a,
+html[data-theme="light"] .comment-display .poster a,
+html.theme-light .comment-card .poster a,
+html.theme-light .comment-display .poster a {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .comment-display .vote .comment-score,
+html.theme-light .comment-display .vote .comment-score {
+    color: #0f172a !important;
+}
+
+.comment-display .time {
+    font-family: "Inter", sans-serif !important;
+    font-size: 12.5px !important;
+    color: var(--expo-muted) !important;
+}
+
+.comment-display .content-description {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    padding: 16px 20px !important;
+    margin: 0 !important;
+    color: var(--expo-ink) !important;
+    font-size: 14.5px !important;
+}
+
+html[data-theme="light"] .comment-display .content-description,
+html.theme-light .comment-display .content-description {
+    color: #1e293b !important;
+}
+
+.comment-display .vote {
+    background: var(--expo-surface-strong) !important;
+    border-right: 1px solid var(--expo-hairline) !important;
+}
+
+.comment-display .vote .comment-score {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+}
+
+.comment-display .vote svg {
+    stroke: var(--expo-muted) !important;
+}
+
+/* 10. Social Links & Dividers */
+.social {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin: 16px 0 24px 0 !important;
+    justify-content: flex-end !important;
+}
+
+.social a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 8px !important;
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-muted) !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+}
+
+.social a:hover {
+    color: var(--expo-ink) !important;
+    border-color: var(--expo-hairline-strong) !important;
+    background: var(--expo-surface-strong) !important;
+}
+
+hr {
+    border: none !important;
+    border-top: 1px solid var(--expo-hairline) !important;
+    margin: 32px 0 !important;
+}
     </style>
 {% endblock %}
 {% block body %}
