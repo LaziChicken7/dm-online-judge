@@ -4889,48 +4889,156 @@ html.theme-light #available-judges-list {
         stroke: #ffffff !important;
     }
 
-    /* Problem Description Footer Actions */
+    /* Problem Description Footer Actions (Report an issue / Clarification) */
     .problem-footer-actions {
         display: flex !important;
         justify-content: flex-end !important;
         align-items: center !important;
-        margin-top: 36px !important;
-        padding-top: 20px !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.05) !important;
+        margin-top: 28px !important;
+        padding-top: 18px !important;
+        border-top: 1px solid var(--expo-hairline) !important;
         width: 100% !important;
         box-sizing: border-box !important;
         clear: both !important;
     }
-
-    .problem-footer-actions .button.clarify {
+    html[data-theme="light"] .problem-footer-actions,
+    html.theme-light .problem-footer-actions {
+        border-top-color: #f0f0f3 !important;
+    }
+    .problem-footer-actions .button.clarify,
+    .button.clarify {
         display: inline-flex !important;
         align-items: center !important;
         gap: 8px !important;
         float: none !important;
-        padding: 8px 20px !important;
-        border-radius: 100px !important;
-        background: rgba(255, 255, 255, 0.04) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: rgba(255, 255, 255, 0.75) !important;
+        height: 38px !important;
+        padding: 0 16px !important;
+        border-radius: 8px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
+        font-family: "Inter", sans-serif !important;
         font-size: 13px !important;
         font-weight: 500 !important;
         margin: 0 !important;
         text-decoration: none !important;
-        transition: all 0.2s ease !important;
+        transition: all 0.15s ease !important;
+        box-sizing: border-box !important;
     }
-
-    .problem-footer-actions .button.clarify:hover {
-        background: rgba(255, 255, 255, 0.08) !important;
+    .problem-footer-actions .button.clarify span,
+    .button.clarify span {
+        color: inherit !important;
+    }
+    .problem-footer-actions .button.clarify svg,
+    .button.clarify svg,
+    .problem-footer-actions .button.clarify i,
+    .button.clarify i {
+        stroke: currentColor !important;
+        color: inherit !important;
+        width: 14px !important;
+        height: 14px !important;
+        flex-shrink: 0 !important;
+    }
+    .problem-footer-actions .button.clarify:hover,
+    .button.clarify:hover {
+        background: #27272a !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
         color: #ffffff !important;
-        border-color: rgba(255, 255, 255, 0.15) !important;
         transform: translateY(-1px) !important;
     }
-    
-    .problem-footer-actions .button.clarify i {
-        font-size: 13px !important;
-        color: rgba(255, 255, 255, 0.5) !important;
+    html[data-theme="light"] .problem-footer-actions .button.clarify,
+    html[data-theme="light"] .button.clarify,
+    html.theme-light .problem-footer-actions .button.clarify,
+    html.theme-light .button.clarify {
+        background: #f0f0f3 !important;
+        border: 1px solid #dcdee0 !important;
+        color: #171717 !important;
+    }
+    html[data-theme="light"] .problem-footer-actions .button.clarify span,
+    html[data-theme="light"] .button.clarify span,
+    html.theme-light .problem-footer-actions .button.clarify span,
+    html.theme-light .button.clarify span {
+        color: #171717 !important;
+    }
+    html[data-theme="light"] .problem-footer-actions .button.clarify svg,
+    html[data-theme="light"] .button.clarify svg,
+    html[data-theme="light"] .problem-footer-actions .button.clarify i,
+    html[data-theme="light"] .button.clarify i,
+    html.theme-light .problem-footer-actions .button.clarify svg,
+    html.theme-light .button.clarify svg,
+    html.theme-light .problem-footer-actions .button.clarify i,
+    html.theme-light .button.clarify i {
+        color: #64748b !important;
+        stroke: currentColor !important;
+    }
+    html[data-theme="light"] .problem-footer-actions .button.clarify:hover,
+    html[data-theme="light"] .button.clarify:hover,
+    html.theme-light .problem-footer-actions .button.clarify:hover,
+    html.theme-light .button.clarify:hover {
+        background: #e4e4e7 !important;
+        border-color: #cbd5e1 !important;
+        color: #000000 !important;
+    }
+    html[data-theme="light"] .problem-footer-actions .button.clarify:hover span,
+    html[data-theme="light"] .button.clarify:hover span,
+    html.theme-light .problem-footer-actions .button.clarify:hover span,
+    html.theme-light .button.clarify:hover span {
+        color: #000000 !important;
     }
 
+    /* Martor Comment Editor Toolbar Icons */
+    .martor-toolbar .button,
+    .martor-toolbar .ui.button {
+        background: transparent !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 5px 6px !important;
+        margin: 0 1px !important;
+        box-shadow: none !important;
+    }
+    .martor-toolbar .button:hover,
+    .martor-toolbar .ui.button:hover {
+        background: var(--expo-surface-strong) !important;
+        color: var(--expo-ink) !important;
+    }
+    html[data-theme="light"] .martor-toolbar,
+    html[data-theme="light"] .martor-toolbar *,
+    html[data-theme="light"] .martor-toolbar .vector-icon-wrap,
+    html[data-theme="light"] .martor-toolbar svg,
+    html.theme-light .martor-toolbar,
+    html.theme-light .martor-toolbar *,
+    html.theme-light .martor-toolbar .vector-icon-wrap,
+    html.theme-light .martor-toolbar svg {
+        color: #64748b !important;
+        stroke: #64748b !important;
+    }
+    html[data-theme="light"] .martor-toolbar .button:hover,
+    html[data-theme="light"] .martor-toolbar .button:hover *,
+    html.theme-light .martor-toolbar .button:hover,
+    html.theme-light .martor-toolbar .button:hover * {
+        color: #0f172a !important;
+        stroke: #0f172a !important;
+        background: #f1f5f9 !important;
+    }
+
+    /* Martor Editor Tabs in Light Mode */
+    html[data-theme="light"] .tab-martor-menu a.item,
+    html.theme-light .tab-martor-menu a.item {
+        color: #64748b !important;
+        background: #f1f5f9 !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 6px !important;
+    }
+    html[data-theme="light"] .tab-martor-menu a.item.active,
+    html.theme-light .tab-martor-menu a.item.active {
+        color: #ffffff !important;
+        background: #000000 !important;
+        border-color: #000000 !important;
+    }
+    html[data-theme="light"] .tab-martor-menu a.item svg,
+    html.theme-light .tab-martor-menu a.item svg {
+        stroke: currentColor !important;
+    }
 
     /* ==========================================================================
        Code Block Copy Button Clean Alignment
