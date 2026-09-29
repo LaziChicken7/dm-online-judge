@@ -9,592 +9,704 @@
 
 {% block media %}
     {{ form.media.css }}
-    <style>
-        .create-problem-wrapper {
-            max-width: 1380px;
-            margin: 0 auto 50px auto;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 0 20px;
+    
+{% endblock %}
+
+{% block body %}
+<style>
+#content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
+
+        .create-problem-wrapper {
+            max-width: 1200px !important;
+            margin: 0 auto 50px auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+        }
+
+        /* 1. Main Card */
         .create-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.07) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 36px 44px !important;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 32px 36px !important;
+            box-shadow: var(--expo-card-shadow) !important;
             box-sizing: border-box !important;
             margin-bottom: 24px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: border-color 0.15s ease !important;
         }
         .create-card:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
         }
+
+        html[data-theme="light"] .create-card,
+        html.theme-light .create-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* 2. Header elements inside card */
         .create-tag {
+            font-family: "JetBrains Mono", monospace !important;
             font-size: 11px !important;
-            font-weight: 800 !important;
-            letter-spacing: 2px !important;
-            color: #38bdf8 !important;
-            text-transform: uppercase !important;
-            margin-bottom: 8px !important;
-            font-family: 'Google Sans Code', monospace !important;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .create-title {
-            font-size: 26px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            margin: 0 0 10px 0 !important;
-            letter-spacing: -0.01em !important;
-        }
-        .create-desc {
-            color: #94a3b8 !important;
-            font-size: 14.5px !important;
-            line-height: 1.65 !important;
-            margin-bottom: 26px !important;
-        }
-        /* Error Alert */
-        .create-error-alert {
-            background: rgba(239, 68, 68, 0.12) !important;
-            border: 1px solid rgba(239, 68, 68, 0.35) !important;
-            border-radius: 12px !important;
-            padding: 16px 20px !important;
-            color: #fca5a5 !important;
-            font-size: 14px !important;
-            margin-bottom: 26px !important;
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 12px !important;
-            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2) !important;
-        }
-        /* Form Rows Layout */
-        .form-row {
-            display: flex;
-            align-items: flex-start;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-sizing: border-box;
-        }
-        .form-row:last-of-type {
-            border-bottom: none;
-        }
-        .form-label-col {
-            width: 220px;
-            min-width: 220px;
-            font-weight: 700;
-            font-size: 13.5px;
-            color: #e2e8f0;
-            padding-top: 8px;
-            box-sizing: border-box;
-        }
-        .form-label-col .req-star {
-            color: #f87171;
-            margin-left: 3px;
-            font-weight: 800;
-        }
-        .form-control-col {
-            flex: 1;
-            min-width: 0;
-            box-sizing: border-box;
-        }
-        /* Form Inputs */
-        .form-input-cyber {
-            width: 100%;
-            box-sizing: border-box;
-            background: rgba(15, 23, 42, 0.6) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 10px 16px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
-            outline: none !important;
-            transition: all 0.2s ease !important;
-            font-family: inherit !important;
-        }
-        .form-input-cyber.short {
-            max-width: 440px;
-        }
-        .form-input-cyber:focus {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-            background: rgba(15, 23, 42, 0.85) !important;
-        }
-        /* Select Dropdowns with Custom Cyan Vector Down Arrow */
-        .custom-arrow-select,
-        .create-card select.custom-arrow-select,
-        html[data-theme="light"] .create-card select.custom-arrow-select,
-        html[data-theme="dark"] .create-card select.custom-arrow-select {
-            width: 100%;
-            box-sizing: border-box;
-            background-color: rgba(15, 23, 42, 0.7) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 10px 38px 10px 14px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
-            outline: none !important;
-            cursor: pointer !important;
-            transition: all 0.2s ease !important;
-            appearance: none !important;
-            -webkit-appearance: none !important;
-            -moz-appearance: none !important;
-            background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
-            background-repeat: no-repeat !important;
-            background-position: right 14px center !important;
-            background-size: 14px 14px !important;
-        }
-        .custom-arrow-select.short {
-            max-width: 440px;
-        }
-        .custom-arrow-select:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-        }
-        .custom-arrow-select:focus {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-            background-color: rgba(15, 23, 42, 0.9) !important;
-        }
-        .custom-arrow-select option {
-            background: #0f172a !important;
-            color: #ffffff !important;
-            padding: 8px 12px !important;
-        }
-        /* Custom Tag Dropdown for Problem Types */
-        .custom-dropdown-wrap {
-            position: relative;
-            width: 100%;
-            max-width: 520px;
-        }
-        .custom-dropdown-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            min-height: 42px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            padding: 4px 14px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            box-sizing: border-box;
-            user-select: none;
-        }
-        .custom-dropdown-header:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-        }
-        .custom-dropdown-wrap.open .custom-dropdown-header {
-            border-color: #38bdf8;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
-            background: rgba(15, 23, 42, 0.85);
-        }
-        .dropdown-arrow-icon {
-            color: #38bdf8;
-            transition: transform 0.2s ease;
-            flex-shrink: 0;
-            margin-left: 8px;
-        }
-        .custom-dropdown-wrap.open .dropdown-arrow-icon {
-            transform: rotate(180deg);
-        }
-        .selected-types-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-        .type-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            background: rgba(56, 189, 248, 0.15);
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            color: #38bdf8;
-            border-radius: 6px;
-            padding: 3px 10px;
-            font-size: 12.5px;
-            font-weight: 600;
-        }
-        .type-tag .tag-remove {
-            color: #38bdf8;
-            cursor: pointer;
-            font-size: 14px;
-            line-height: 1;
-            font-weight: bold;
-            opacity: 0.8;
-            transition: opacity 0.15s;
-        }
-        .type-tag .tag-remove:hover {
-            opacity: 1;
-            color: #f87171;
-        }
-        .placeholder-text {
-            color: #64748b;
-            font-size: 13.5px;
-        }
-        .custom-dropdown-menu {
-            position: absolute;
-            top: calc(100% + 6px);
-            left: 0;
-            width: 100%;
-            background: #0f172a;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 10px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6);
-            z-index: 100;
-            max-height: 220px;
-            overflow-y: auto;
-            padding: 6px 0;
-            box-sizing: border-box;
-        }
-        .dropdown-option-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 14px;
-            color: #e2e8f0;
-            font-size: 13.5px;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .dropdown-option-item:hover {
-            background: rgba(56, 189, 248, 0.15);
-            color: #38bdf8;
-        }
-        .dropdown-option-item input[type="checkbox"] {
-            accent-color: #38bdf8;
-            width: 16px;
-            height: 16px;
-            cursor: pointer;
-        }
-        /* Help Text */
-        .form-help-text {
-            display: flex;
-            align-items: flex-start;
-            gap: 6px;
-            margin-top: 6px;
-            font-size: 12.5px;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
-        .form-help-text svg {
-            flex-shrink: 0;
-            margin-top: 2px;
-            color: #38bdf8;
-        }
-        .form-help-text strong {
-            color: #38bdf8;
-        }
-        /* Custom Checkbox */
-        .custom-checkbox-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-            padding: 4px 0;
-        }
-        .custom-checkbox-wrap input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #38bdf8;
-            cursor: pointer;
-            margin: 0;
-        }
-        /* File input */
-        .form-file-cyber {
-            font-size: 13.5px;
-            color: #cbd5e1;
-        }
-        .form-file-cyber::file-selector-button {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 8px;
-            color: #ffffff;
-            padding: 7px 16px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-right: 12px;
-            transition: all 0.2s ease;
-        }
-        .form-file-cyber::file-selector-button:hover {
-            background: rgba(56, 189, 248, 0.2);
-            border-color: #38bdf8;
-        }
-
-        /* =================================================================
-           MARTOR EDITOR CYBER THEME (Exact Image #4 styling)
-           ================================================================= */
-        .create-card .main-martor,
-        .create-card .section-martor {
-            border: none !important;
-            border-radius: 0 !important;
-            overflow: visible !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            width: 100% !important;
-        }
-        .create-card .main-martor:focus-within {
-            border: none !important;
-            box-shadow: none !important;
-        }
-        /* Eliminate the gray horizontal bar on top in Image #2 */
-        .create-card .section-martor .ui.attached.inverted.menu,
-        .create-card .section-martor .tab-martor-menu,
-        .create-card .tab-martor-menu,
-        .create-card .ui.tabular.menu,
-        .create-card .ui.attached.menu,
-        .create-card .ui.pointing.menu,
-        .create-card .ui.menu {
-            background: transparent !important;
-            border: none !important;
-            border-bottom: none !important;
-            box-shadow: none !important;
-            padding: 0 0 14px 0 !important;
-            display: flex !important;
-            align-items: center !important;
-            min-height: auto !important;
-        }
-        .create-card .tab-martor-menu::after,
-        .create-card .tab-martor-menu::before,
-        .create-card .section-martor .ui.menu::after,
-        .create-card .section-martor .ui.menu::before {
-            display: none !important;
-            content: none !important;
-            border: none !important;
-            height: 0 !important;
-        }
-
-        /* Keep fully rounded rectangle corners in Image #3 in all states */
-        .create-card .section-martor .tab-martor-menu a.item,
-        .create-card .section-martor .tab-martor-menu a.item.active,
-        .create-card .section-martor .tab-martor-menu a.item:hover,
-        .create-card .section-martor .ui.tabular.menu .active.item,
-        .create-card .section-martor .ui.tabular.menu .item,
-        .create-card .section-martor .ui.menu .item,
-        .create-card .section-martor .ui.menu .item:first-child,
-        .create-card .section-martor .ui.top.attached.menu > .item:first-child,
-        .create-card .tab-martor-menu a.item,
-        .create-card .tab-martor-menu a.item.active,
-        .create-card .tab-martor-menu a.item:hover {
-            border-radius: 8px !important;
-            -webkit-border-radius: 8px !important;
-        }
-        .create-card .tab-martor-menu a.item {
-            color: #94a3b8 !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            font-size: 13px !important;
             font-weight: 600 !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            padding: 7px 16px !important;
-            margin: 0 8px 0 0 !important;
-            transition: all 0.2s ease !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
             display: inline-flex !important;
             align-items: center !important;
             gap: 6px !important;
-            text-decoration: none !important;
         }
-        .create-card .tab-martor-menu a.item:hover {
-            color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.08) !important;
+        .create-tag svg {
+            stroke: currentColor !important;
         }
-        .create-card .tab-martor-menu a.item.active,
-        .create-card .section-martor .tab-martor-menu a.item.active,
-        .create-card .section-martor .ui.tabular.menu .active.item {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            font-weight: 700 !important;
-            border: 1px solid rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 2px 10px rgba(56, 189, 248, 0.2) !important;
+        html[data-theme="light"] .create-tag,
+        html.theme-light .create-tag {
+            color: #64748b !important;
+        }
+
+        .create-title {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+        }
+        html[data-theme="light"] .create-title,
+        html.theme-light .create-title {
+            color: #0f172a !important;
+        }
+
+        .create-desc {
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 24px !important;
+        }
+        html[data-theme="light"] .create-desc,
+        html.theme-light .create-desc {
+            color: #64748b !important;
+        }
+
+        /* 3. Form rows & labels */
+        .form-row {
+            display: flex !important;
+            align-items: flex-start !important;
+            padding: 14px 0 !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            box-sizing: border-box !important;
+        }
+        .form-row:last-of-type {
+            border-bottom: none !important;
+        }
+        html[data-theme="light"] .form-row,
+        html.theme-light .form-row {
+            border-bottom-color: #f0f0f3 !important;
+        }
+
+        .form-label-col {
+            width: 200px !important;
+            min-width: 200px !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 13.5px !important;
+            color: var(--expo-ink) !important;
+            padding-top: 9px !important;
+            box-sizing: border-box !important;
+        }
+        html[data-theme="light"] .form-label-col,
+        html.theme-light .form-label-col,
+        html[data-theme="light"] .form-label-col label,
+        html.theme-light .form-label-col label {
+            color: #0f172a !important;
+        }
+
+        .form-label-col .req-star {
+            color: #ef4444 !important;
+            margin-left: 2px !important;
+            font-weight: 600 !important;
+        }
+
+        .form-control-col {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        /* 4. Form inputs & selects */
+        .form-input-cyber,
+        input[type="text"].form-input-cyber,
+        input[type="number"].form-input-cyber {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
             border-radius: 8px !important;
-            -webkit-border-radius: 8px !important;
+            padding: 9px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            transition: all 0.15s ease !important;
         }
-        .create-card .martor-toolbar {
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
+        .form-input-cyber.short,
+        input[type="number"].form-input-cyber.short {
+            max-width: 440px !important;
+        }
+
+        .form-input-cyber:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+        }
+
+        html[data-theme="light"] .form-input-cyber,
+        html[data-theme="light"] input[type="text"].form-input-cyber,
+        html[data-theme="light"] input[type="number"].form-input-cyber,
+        html.theme-light .form-input-cyber,
+        html.theme-light input[type="text"].form-input-cyber,
+        html.theme-light input[type="number"].form-input-cyber {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .form-input-cyber:focus,
+        html.theme-light .form-input-cyber:focus {
+            border-color: #000000 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        html[data-theme="light"] .form-input-cyber::placeholder,
+        html.theme-light .form-input-cyber::placeholder {
+            color: #94a3b8 !important;
+            opacity: 1 !important;
+        }
+
+        /* Select dropdowns */
+        .custom-arrow-select,
+        .create-card select.custom-arrow-select,
+        select.form-input-cyber,
+        #id_organization_id {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background-color: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 9px 36px 9px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            background-size: 12px 12px !important;
+        }
+        .custom-arrow-select.short {
+            max-width: 440px !important;
+        }
+
+        .custom-arrow-select:focus,
+        select.form-input-cyber:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .custom-arrow-select option,
+        select.form-input-cyber option {
+            background: #18181b !important;
+            color: #f4f4f5 !important;
+            padding: 8px 12px !important;
+        }
+
+        html[data-theme="light"] .custom-arrow-select,
+        html[data-theme="light"] .create-card select.custom-arrow-select,
+        html[data-theme="light"] select.form-input-cyber,
+        html[data-theme="light"] #id_organization_id,
+        html.theme-light .custom-arrow-select,
+        html.theme-light .create-card select.custom-arrow-select,
+        html.theme-light select.form-input-cyber,
+        html.theme-light #id_organization_id {
+            background-color: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+        }
+        html[data-theme="light"] .custom-arrow-select:focus,
+        html[data-theme="light"] select.form-input-cyber:focus,
+        html.theme-light .custom-arrow-select:focus,
+        html.theme-light select.form-input-cyber:focus {
+            border-color: #000000 !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+        }
+        html[data-theme="light"] .custom-arrow-select option,
+        html[data-theme="light"] select.form-input-cyber option,
+        html.theme-light .custom-arrow-select option,
+        html.theme-light select.form-input-cyber option {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+
+        /* 5. Helper Text */
+        .form-help-text {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+            margin-top: 6px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+            line-height: 1.5 !important;
+        }
+        .form-help-text * {
+            color: inherit !important;
+        }
+        .form-help-text svg {
+            flex-shrink: 0 !important;
+            margin-top: 2px !important;
+            stroke: currentColor !important;
+            color: var(--expo-muted) !important;
+        }
+        .form-help-text strong,
+        .form-help-text a {
+            color: var(--expo-ink) !important;
+            text-decoration: underline !important;
+        }
+        html[data-theme="light"] .form-help-text,
+        html[data-theme="light"] .form-help-text *,
+        html[data-theme="light"] .form-help-text span,
+        html.theme-light .form-help-text,
+        html.theme-light .form-help-text *,
+        html.theme-light .form-help-text span {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .form-help-text svg,
+        html.theme-light .form-help-text svg {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .form-help-text strong,
+        html[data-theme="light"] .form-help-text a,
+        html.theme-light .form-help-text strong,
+        html.theme-light .form-help-text a {
+            color: #0f172a !important;
+        }
+
+        /* 6. Checkboxes */
+        .custom-checkbox-wrap {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            padding: 2px 0 !important;
+        }
+        .custom-checkbox-wrap input[type="checkbox"] {
+            width: 16px !important;
+            height: 16px !important;
+            accent-color: #ffffff !important;
+            cursor: pointer !important;
             margin: 0 !important;
+            border-radius: 4px !important;
+        }
+        html[data-theme="light"] .custom-checkbox-wrap input[type="checkbox"],
+        html.theme-light .custom-checkbox-wrap input[type="checkbox"] {
+            accent-color: #000000 !important;
+        }
+
+        /* 7. File Input */
+        .form-file-cyber {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            color: var(--expo-muted) !important;
+        }
+        .form-file-cyber::file-selector-button {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 6px !important;
+            color: var(--expo-ink) !important;
+            padding: 6px 14px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            margin-right: 12px !important;
+            transition: all 0.15s ease !important;
+        }
+        .form-file-cyber::file-selector-button:hover {
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .form-file-cyber,
+        html.theme-light .form-file-cyber {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .form-file-cyber::file-selector-button,
+        html.theme-light .form-file-cyber::file-selector-button {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .form-file-cyber::file-selector-button:hover,
+        html.theme-light .form-file-cyber::file-selector-button:hover {
+            background: #e2e8f0 !important;
+        }
+
+        /* 8. Problem Types Custom Dropdown */
+        .custom-dropdown-wrap {
+            position: relative !important;
+            width: 100% !important;
+            max-width: 520px !important;
+        }
+        .custom-dropdown-header {
             display: flex !important;
             align-items: center !important;
-            gap: 4px !important;
+            justify-content: space-between !important;
+            min-height: 40px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 4px 12px !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+            user-select: none !important;
         }
+        .custom-dropdown-wrap.open .custom-dropdown-header {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+        }
+        .dropdown-arrow-icon {
+            color: var(--expo-muted) !important;
+            transition: transform 0.2s ease !important;
+            flex-shrink: 0 !important;
+            margin-left: 8px !important;
+        }
+        .custom-dropdown-wrap.open .dropdown-arrow-icon {
+            transform: rotate(180deg) !important;
+        }
+        .type-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            background: #27272a !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            border-radius: 6px !important;
+            padding: 3px 8px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+        }
+        .type-tag .tag-remove {
+            color: var(--expo-muted) !important;
+            cursor: pointer !important;
+            font-size: 13px !important;
+        }
+        .type-tag .tag-remove:hover {
+            color: #ef4444 !important;
+        }
+        .placeholder-text {
+            color: var(--expo-muted) !important;
+            font-size: 13px !important;
+        }
+        .custom-dropdown-menu {
+            position: absolute !important;
+            top: calc(100% + 4px) !important;
+            left: 0 !important;
+            width: 100% !important;
+            background: #18181b !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6) !important;
+            z-index: 100 !important;
+            max-height: 220px !important;
+            overflow-y: auto !important;
+            padding: 4px 0 !important;
+            box-sizing: border-box !important;
+        }
+        .dropdown-option-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 7px 12px !important;
+            color: var(--expo-body) !important;
+            font-size: 13px !important;
+            cursor: pointer !important;
+            transition: background 0.15s !important;
+        }
+        .dropdown-option-item:hover {
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+
+        html[data-theme="light"] .custom-dropdown-header,
+        html.theme-light .custom-dropdown-header {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+        }
+        html[data-theme="light"] .custom-dropdown-wrap.open .custom-dropdown-header,
+        html.theme-light .custom-dropdown-wrap.open .custom-dropdown-header {
+            border-color: #000000 !important;
+        }
+        html[data-theme="light"] .dropdown-arrow-icon,
+        html.theme-light .dropdown-arrow-icon {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .type-tag,
+        html.theme-light .type-tag {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .placeholder-text,
+        html.theme-light .placeholder-text {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .custom-dropdown-menu,
+        html.theme-light .custom-dropdown-menu {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
+        }
+        html[data-theme="light"] .dropdown-option-item,
+        html.theme-light .dropdown-option-item {
+            color: #334155 !important;
+        }
+        html[data-theme="light"] .dropdown-option-item:hover,
+        html.theme-light .dropdown-option-item:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        /* 9. Martor Editor Clean Styling */
+        .create-card .tab-martor-menu a.item {
+            color: var(--expo-muted) !important;
+            background: var(--expo-surface-strong) !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 6px !important;
+            padding: 6px 14px !important;
+            margin: 0 8px 0 0 !important;
+            transition: all 0.15s ease !important;
+        }
+        .create-card .tab-martor-menu a.item.active,
+        .create-card .section-martor .tab-martor-menu a.item.active {
+            color: #000000 !important;
+            background: #ffffff !important;
+            font-weight: 600 !important;
+            border: 1px solid transparent !important;
+        }
+        html[data-theme="light"] .create-card .tab-martor-menu a.item,
+        html.theme-light .create-card .tab-martor-menu a.item {
+            color: #64748b !important;
+            background: #f1f5f9 !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .create-card .tab-martor-menu a.item.active,
+        html.theme-light .create-card .tab-martor-menu a.item.active {
+            color: #ffffff !important;
+            background: #000000 !important;
+        }
+
         .create-card .martor-toolbar a,
         .create-card .martor-toolbar button,
         .create-card .martor-toolbar i,
         .create-card .martor-toolbar .button {
-            color: #94a3b8 !important;
+            color: var(--expo-muted) !important;
             background: transparent !important;
             border: none !important;
-            box-shadow: none !important;
-            padding: 6px 8px !important;
             border-radius: 6px !important;
             font-size: 13px !important;
-            transition: all 0.15s ease !important;
-            cursor: pointer !important;
+            padding: 5px 7px !important;
         }
         .create-card .martor-toolbar a:hover,
         .create-card .martor-toolbar button:hover,
-        .create-card .martor-toolbar .button:hover,
         .create-card .martor-toolbar i:hover {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            transform: translateY(-1px);
+            color: var(--expo-ink) !important;
+            background: #27272a !important;
         }
-        .create-card .ui.dropdown .menu {
-            background: #0f172a !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        html[data-theme="light"] .create-card .martor-toolbar a,
+        html[data-theme="light"] .create-card .martor-toolbar button,
+        html[data-theme="light"] .create-card .martor-toolbar i,
+        html.theme-light .create-card .martor-toolbar a,
+        html.theme-light .create-card .martor-toolbar button,
+        html.theme-light .create-card .martor-toolbar i {
+            color: #64748b !important;
         }
-        .create-card .ui.dropdown .menu > .item {
-            color: #cbd5e1 !important;
-            font-size: 13px !important;
-            padding: 8px 14px !important;
-        }
-        .create-card .ui.dropdown .menu > .item:hover {
-            background: rgba(56, 189, 248, 0.15) !important;
-            color: #38bdf8 !important;
+        html[data-theme="light"] .create-card .martor-toolbar a:hover,
+        html[data-theme="light"] .create-card .martor-toolbar button:hover,
+        html[data-theme="light"] .create-card .martor-toolbar i:hover {
+            color: #0f172a !important;
+            background: #e2e8f0 !important;
         }
 
-        /* Hide ONLY the form textarea, NEVER ace_text-input */
-        .create-card textarea.martor,
-        .create-card textarea[name="description"],
-        .create-card textarea.martor-preview {
-            display: none !important;
-            visibility: hidden !important;
-            width: 0 !important;
-            height: 0 !important;
-            position: absolute !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-
-        /* Explicitly keep ace_text-input active so typing works smoothly */
-        .create-card .ace_editor textarea.ace_text-input {
-            display: block !important;
-            pointer-events: auto !important;
-            visibility: visible !important;
-            opacity: 0 !important;
-        }
-
-        /* Hide inactive tab to eliminate split box */
-        .create-card .ui.segment.tab:not(.active),
-        .create-card .tab.segment:not(.active),
-        .create-card [data-tab^="preview-tab-"]:not(.active),
-        .create-card [data-tab^="editor-tab-"]:not(.active) {
-            display: none !important;
-        }
         .create-card .ui.segment.tab,
-        .create-card .tab.segment[data-tab^="editor-tab-"] {
-            background: #060913 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            overflow: hidden !important;
-            width: 100% !important;
-        }
+        .create-card .tab.segment[data-tab^="editor-tab-"],
         .create-card .martor-field {
-            height: 380px !important;
-            min-height: 320px !important;
-            background: #060913 !important;
-            border: none !important;
-            border-radius: 14px !important;
-            position: relative !important;
-            width: 100% !important;
+            background: #09090b !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
         }
         .create-card .ace_editor {
-            height: 380px !important;
-            width: 100% !important;
-            background: #060913 !important;
-            color: #f1f5f9 !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 14px !important;
-            border-radius: 14px !important;
+            background: #09090b !important;
+            color: #f4f4f5 !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
         }
         .create-card .ace_gutter {
-            background: #060913 !important;
+            background: #09090b !important;
             color: #475569 !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-        }
-        .create-card .ace_gutter-active-line {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.08) !important;
-        }
-        .create-card .ace_cursor {
-            color: #38bdf8 !important;
-            border-left: 2px solid #38bdf8 !important;
+            border-right: 1px solid var(--expo-hairline) !important;
         }
         .create-card .tab.segment.martor-preview {
-            background: #060913 !important;
-            color: #cbd5e1 !important;
-            min-height: 320px !important;
-            padding: 24px 28px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-            font-size: 14.5px !important;
-            line-height: 1.7 !important;
-            margin: 0 !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
+            background: #09090b !important;
+            color: #f4f4f5 !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important;
+            padding: 20px 24px !important;
         }
-        .create-card .section-martor > hr {
-            display: none !important;
+        html[data-theme="light"] .create-card .ui.segment.tab,
+        html[data-theme="light"] .create-card .tab.segment[data-tab^="editor-tab-"],
+        html[data-theme="light"] .create-card .martor-field,
+        html.theme-light .create-card .ui.segment.tab,
+        html.theme-light .create-card .tab.segment[data-tab^="editor-tab-"],
+        html.theme-light .create-card .martor-field {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .create-card .ace_editor,
+        html.theme-light .create-card .ace_editor {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .create-card .ace_gutter,
+        html.theme-light .create-card .ace_gutter {
+            background: #f8fafc !important;
+            color: #94a3b8 !important;
+            border-right: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .create-card .tab.segment.martor-preview,
+        html.theme-light .create-card .tab.segment.martor-preview {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1px solid #e2e8f0 !important;
         }
 
-        /* Action buttons footer */
+        /* 10. Footer Action Buttons */
         .form-actions-cyber {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 16px;
-            margin-top: 32px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 12px !important;
+            margin-top: 28px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
         }
+        html[data-theme="light"] .form-actions-cyber,
+        html.theme-light .form-actions-cyber {
+            border-top-color: #f0f0f3 !important;
+        }
+
         .btn-cancel-cyber {
-            color: #94a3b8;
+            color: var(--expo-muted) !important;
             text-decoration: none !important;
-            font-size: 14.5px;
-            font-weight: 600;
-            padding: 11px 22px;
-            border-radius: 10px;
-            transition: all 0.2s ease;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            height: 40px !important;
+            padding: 0 18px !important;
+            border-radius: 8px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            transition: all 0.15s ease !important;
         }
         .btn-cancel-cyber:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.06);
+            color: var(--expo-ink) !important;
+            background: #27272a !important;
         }
+        html[data-theme="light"] .btn-cancel-cyber,
+        html.theme-light .btn-cancel-cyber {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .btn-cancel-cyber:hover,
+        html.theme-light .btn-cancel-cyber:hover {
+            color: #0f172a !important;
+            background: #f0f0f3 !important;
+        }
+
+        /* Expo Primary Button for Create */
+        button.btn-create-cyber,
         .btn-create-cyber {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 14.5px !important;
-            padding: 11px 32px !important;
-            border-radius: 10px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            height: 40px !important;
+            padding: 0 24px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            background-color: #ffffff !important;
+            background-image: none !important;
+            color: #000000 !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 14px !important;
             border: none !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            transition: all 0.15s ease !important;
             cursor: pointer !important;
-            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35) !important;
-            transition: all 0.2s ease !important;
+            text-decoration: none !important;
         }
+        button.btn-create-cyber i,
+        button.btn-create-cyber svg {
+            stroke: currentColor !important;
+            color: inherit !important;
+        }
+        button.btn-create-cyber:hover,
         .btn-create-cyber:hover {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
-            box-shadow: 0 6px 22px rgba(14, 165, 233, 0.5) !important;
-            transform: translateY(-1px);
+            opacity: 0.92 !important;
+            transform: translateY(-1px) !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+        }
+
+        html[data-theme="light"] button.btn-create-cyber,
+        html[data-theme="light"] .btn-create-cyber,
+        html.theme-light button.btn-create-cyber,
+        html.theme-light .btn-create-cyber {
+            background: #000000 !important;
+            background-color: #000000 !important;
+            background-image: none !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+        html[data-theme="light"] button.btn-create-cyber:hover,
+        html[data-theme="light"] .btn-create-cyber:hover,
+        html.theme-light button.btn-create-cyber:hover,
+        html.theme-light .btn-create-cyber:hover {
+            background: #1a1a1a !important;
+            color: #ffffff !important;
         }
     </style>
-{% endblock %}
 
-{% block body %}
 <div class="create-problem-wrapper">
     <div class="create-card">
         <div class="create-tag">
