@@ -582,14 +582,18 @@ html.theme-light #content-right.submission .select2-container .select2-search--i
     text-shadow: none !important;
 }
 
+/* CE / Error Badges in Dark Mode: High-contrast clean silver */
 .sub-result.CE, .sub-result.IE, .sub-result.AB {
-    background: rgba(113, 113, 122, 0.12) !important;
-    border: 1px solid rgba(113, 113, 122, 0.28) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
 }
 .sub-result.CE .score, .sub-result.CE .state,
 .sub-result.IE .score, .sub-result.IE .state,
-.sub-result.AB .score, .sub-result.AB .state {
-    color: #71717a !important;
+.sub-result.AB .score, .sub-result.AB .state,
+.sub-result.CE .state span, .sub-result.CE .state .status,
+.sub-result.CE .state .language, .sub-result.CE .state .state-sep,
+.sub-result.IE .state span, .sub-result.AB .state span {
+    color: #e4e4e7 !important;
     text-shadow: none !important;
 }
 
@@ -733,6 +737,25 @@ html.theme-light #content-right.submission .form-submit-group .button {
 .submission-row .sub-result .state .language,
 .submission-row .sub-result .state .state-sep {
     color: inherit !important;
+}
+
+/* Dark Mode CE / Error Badges: high-contrast clean silver */
+.sub-result.CE .score,
+.sub-result.CE .state,
+.sub-result.CE .state span,
+.sub-result.CE .state .status,
+.sub-result.CE .state .language,
+.sub-result.CE .state .state-sep,
+.sub-result.IE .state,
+.sub-result.IE .state span,
+.sub-result.AB .state,
+.sub-result.AB .state span,
+html[data-theme="dark"] .sub-result.CE .state,
+html[data-theme="dark"] .sub-result.CE .state span,
+html.theme-dark .sub-result.CE .state,
+html.theme-dark .sub-result.CE .state span {
+    color: #e4e4e7 !important;
+    font-weight: 600 !important;
 }
 
 html[data-theme="light"] .sub-result.AC .state,
