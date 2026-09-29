@@ -56,7 +56,7 @@
 }
 
 html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
-    --expo-canvas: #09090b;
+    --expo-canvas: #101012;
     --expo-canvas-soft: #111113;
     --expo-surface-card: #121214;
     --expo-surface-strong: #18181b;
@@ -81,6 +81,7 @@ html body, html {
     background-image: none !important;
     color: var(--expo-ink) !important;
     font-family: "Inter", -apple-system, system-ui, sans-serif !important;
+    min-height: 100vh !important;
 }
 
 #content {
@@ -301,6 +302,15 @@ html.theme-light .add-contest-btn:hover {
 }
 
 /* 5. Section Headings (h4) - Clean Expo Typography, NO Cyan Vertical Bar */
+html body #content .content-description,
+html body .content-description {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 html body .content-description h4,
 html body #content h4,
 html body .content-description h3,
