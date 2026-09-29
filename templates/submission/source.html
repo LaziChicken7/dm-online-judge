@@ -212,11 +212,20 @@ html.theme-light .src-title-group h2 a {
     gap: 10px !important;
     margin-top: 2px !important;
 }
+.src-meta-subtext span {
+    color: inherit !important;
+}
 .src-meta-subtext i {
     color: inherit !important;
 }
 html[data-theme="light"] .src-meta-subtext,
-html.theme-light .src-meta-subtext {
+html[data-theme="light"] .src-meta-subtext i,
+html.theme-light .src-meta-subtext,
+html.theme-light .src-meta-subtext i {
+    color: #64748b !important;
+}
+html[data-theme="light"] .src-meta-subtext span:not([style*="color"]),
+html.theme-light .src-meta-subtext span:not([style*="color"]) {
     color: #64748b !important;
 }
 
@@ -441,9 +450,11 @@ html.theme-light .code-line-numbers a:hover {
     padding: 0 24px !important;
     color: #f4f4f5 !important;
     flex-grow: 1 !important;
-    white-space: pre !important;
+    white-space: normal !important;
     background: transparent !important;
+    margin: 0 !important;
 }
+.code-actual-body .codehilite,
 .code-actual-body .highlight,
 .code-actual-body pre {
     background: transparent !important;
@@ -456,6 +467,26 @@ html.theme-light .code-line-numbers a:hover {
     padding: 0 !important;
     border: none !important;
     box-shadow: none !important;
+}
+.code-actual-body pre {
+    white-space: pre !important;
+}
+html[data-theme="light"] .code-actual-body pre,
+html[data-theme="light"] .code-actual-body .codehilite,
+html[data-theme="light"] .code-actual-body .highlight,
+html[data-theme="light"] .code-actual-body,
+html.theme-light .code-actual-body pre,
+html.theme-light .code-actual-body .codehilite,
+html.theme-light .code-actual-body .highlight,
+html.theme-light .code-actual-body {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #0f172a !important;
 }
 
 /* Syntax Highlighting for Dark Mode */
@@ -587,9 +618,7 @@ html.theme-light .code-actual-body .nv {
                     <a href="#line-{{ loop.index }}" name="line-{{ loop.index }}">{{ loop.index }}</a>
                 {% endfor %}
             </div>
-            <div class="code-actual-body">
-                {{ highlighted_source }}
-            </div>
+            <div class="code-actual-body">{{ highlighted_source }}</div>
         </div>
     </div>
 {% endblock %}
