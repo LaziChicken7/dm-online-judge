@@ -314,24 +314,36 @@ html.theme-light .user-profile-name {
     display: inline-flex !important;
     align-items: center !important;
     gap: 6px !important;
-    padding: 3px 10px !important;
+    padding: 2px 10px !important;
     border-radius: 6px !important; /* {rounded.sm} */
     font-family: "JetBrains Mono", monospace !important;
     font-size: 11px !important;
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     background: var(--expo-surface-strong) !important;
-    color: var(--expo-text-link) !important;
+    color: var(--expo-muted) !important;
     border: 1px solid var(--expo-hairline-strong) !important;
     margin-bottom: 16px !important;
+}
+
+.user-stat-icon {
+    color: var(--expo-muted) !important;
+    font-size: 13px !important;
+    margin-bottom: 3px !important;
+    opacity: 0.7 !important;
 }
 
 html[data-theme="light"] .user-rank-chip,
 html.theme-light .user-rank-chip {
     background: #f0f0f3 !important;
-    color: #0d74ce !important;
+    color: #64748b !important;
     border: 1px solid #dcdee0 !important;
+}
+
+html[data-theme="light"] .user-stat-icon,
+html.theme-light .user-stat-icon {
+    color: #64748b !important;
 }
 
 /* Metrics Stats Grid - 3 Column Unified Row */
@@ -1039,7 +1051,7 @@ html[data-theme="light"] body .user-info-page .user-rank-chip,
 html[data-theme="light"] body .user-info-page .user-rank-chip *,
 html.theme-light body .user-info-page .user-rank-chip,
 html.theme-light body .user-info-page .user-rank-chip * {
-    color: #0d74ce !important;
+    color: #64748b !important;
 }
 
 html body .user-info-page .user-section-title,
@@ -1111,7 +1123,7 @@ html[data-theme="dark"] body .user-info-page .user-rank-chip,
 html[data-theme="dark"] body .user-info-page .user-rank-chip *,
 html.theme-dark body .user-info-page .user-rank-chip,
 html.theme-dark body .user-info-page .user-rank-chip * {
-    color: #38bdf8 !important;
+    color: var(--expo-muted) !important;
 }
 
 html:not([data-theme="light"]) body .user-info-page .user-section-title,
@@ -1175,25 +1187,24 @@ html.theme-dark body .user-info-page .sub-problem-link {
                 </div>
 
                 <div class="user-rank-chip">
-                    <i class="fa fa-circle"></i>
                     <span>{{ user.display_rank|title if user.display_rank else _('Coder') }}</span>
                 </div>
 
                 <div class="user-stats-grid">
                     <div class="user-stat-card">
-                        <i class="fa fa-check-circle user-stat-icon" style="color: #10b981;"></i>
+                        <i class="fa fa-check-circle user-stat-icon"></i>
                         <div class="user-stat-value">{{ user.problem_count }}</div>
                         <div class="user-stat-label">{{ _('Solved') }}</div>
                     </div>
                     {% if not user.is_unlisted %}
                         <div class="user-stat-card">
-                            <i class="fa fa-trophy user-stat-icon" style="color: #f59e0b;"></i>
+                            <i class="fa fa-trophy user-stat-icon"></i>
                             <div class="user-stat-value">#{{ rank }}</div>
                             <div class="user-stat-label">{{ _('Rank') }}</div>
                         </div>
                     {% endif %}
                     <div class="user-stat-card">
-                        <i class="fa fa-bolt user-stat-icon" style="color: #38bdf8;"></i>
+                        <i class="fa fa-bolt user-stat-icon"></i>
                         <div class="user-stat-value" title="{{ user.performance_points|floatformat(2) }}">
                             {{ user.performance_points|floatformat(0) }}
                         </div>
