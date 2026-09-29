@@ -591,24 +591,38 @@ html.theme-light .user-section-title {
     border-bottom-color: #f0f0f3 !important;
 }
 
-/* Bio / About Box */
+/* Remove redundant inner card wrapper inside user-content */
+.user-content .content-description,
+.user-content > .content-description {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+}
+
+/* Bio / About Box - Clean and flat (no redundant inner box) */
 .user-about-content {
-    background: var(--expo-surface-strong) !important;
-    border: 1px solid var(--expo-hairline) !important;
-    border-radius: 8px !important;
-    padding: 16px 20px !important;
-    margin-bottom: 24px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 8px 0 24px 0 !important;
     color: var(--expo-body) !important;
     font-family: "Inter", sans-serif !important;
-    font-size: 14px !important;
+    font-size: 14.5px !important;
     line-height: 1.6 !important;
 }
 
+html[data-theme="light"] .user-content .content-description,
+html.theme-light .user-content .content-description,
 html[data-theme="light"] .user-about-content,
 html.theme-light .user-about-content {
-    background: #f8fafc !important;
-    border: 1px solid #f0f0f3 !important;
-    color: #334155 !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* 7. Submission Heatmap Calendar on /user/<username> */
