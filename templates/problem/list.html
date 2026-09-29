@@ -1089,15 +1089,28 @@ html.theme-light .problem-search-sidebox .form-submit-group #random:hover {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06) !important;
 }
 
-/* 3. Category Select2 in Filter Drawer */
+/* 3. Category Select2 in Filter Drawer (NO CYAN BORDER OR GLOW IN ANY STATE!) */
 .problem-search-sidebox .select2-container--dmoj .select2-selection--single,
-.problem-search-sidebox .select2-container--default .select2-selection--single {
+.problem-search-sidebox .select2-container--default .select2-selection--single,
+.problem-search-sidebox .select2-container--dmoj.select2-container--focus .select2-selection--single,
+.problem-search-sidebox .select2-container--dmoj.select2-container--open .select2-selection--single,
+.problem-search-sidebox .select2-container--default.select2-container--focus .select2-selection--single,
+.problem-search-sidebox .select2-container--default.select2-container--open .select2-selection--single {
     background: #141416 !important;
     border: 1px solid rgba(255, 255, 255, 0.15) !important;
     border-radius: 8px !important; /* {rounded.md} */
     height: 38px !important;
     display: flex !important;
     align-items: center !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.problem-search-sidebox .select2-container--dmoj.select2-container--focus .select2-selection--single,
+.problem-search-sidebox .select2-container--dmoj.select2-container--open .select2-selection--single,
+.problem-search-sidebox .select2-container--default.select2-container--focus .select2-selection--single,
+.problem-search-sidebox .select2-container--default.select2-container--open .select2-selection--single {
+    border-color: rgba(255, 255, 255, 0.35) !important;
     box-shadow: none !important;
 }
 
@@ -1110,9 +1123,17 @@ html.theme-light .problem-search-sidebox .form-submit-group #random:hover {
 }
 
 html[data-theme="light"] .problem-search-sidebox .select2-container--dmoj .select2-selection--single,
-html.theme-light .problem-search-sidebox .select2-container--dmoj .select2-selection--single,
 html[data-theme="light"] .problem-search-sidebox .select2-container--default .select2-selection--single,
-html.theme-light .problem-search-sidebox .select2-container--default .select2-selection--single {
+html[data-theme="light"] .problem-search-sidebox .select2-container--dmoj.select2-container--focus .select2-selection--single,
+html[data-theme="light"] .problem-search-sidebox .select2-container--dmoj.select2-container--open .select2-selection--single,
+html[data-theme="light"] .problem-search-sidebox .select2-container--default.select2-container--focus .select2-selection--single,
+html[data-theme="light"] .problem-search-sidebox .select2-container--default.select2-container--open .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--dmoj .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--default .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--dmoj.select2-container--focus .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--dmoj.select2-container--open .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--default.select2-container--focus .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--default.select2-container--open .select2-selection--single {
     background: #ffffff !important;
     border: 1px solid #dcdee0 !important;
     border-radius: 8px !important;
@@ -1120,6 +1141,15 @@ html.theme-light .problem-search-sidebox .select2-container--default .select2-se
     display: flex !important;
     align-items: center !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+    outline: none !important;
+}
+
+html[data-theme="light"] .problem-search-sidebox .select2-container--dmoj.select2-container--focus .select2-selection--single,
+html[data-theme="light"] .problem-search-sidebox .select2-container--dmoj.select2-container--open .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--dmoj.select2-container--focus .select2-selection--single,
+html.theme-light .problem-search-sidebox .select2-container--dmoj.select2-container--open .select2-selection--single {
+    border-color: #000000 !important;
+    box-shadow: 0 0 0 1px #000000 !important;
 }
 
 html[data-theme="light"] .problem-search-sidebox .select2-container--dmoj .select2-selection--single .select2-selection__rendered,

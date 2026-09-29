@@ -703,11 +703,140 @@ html.theme-light #content-right.submission .sidebox:hover .sidebox-header-icon {
     color: #64748b !important;
 }
 
+/* Filter Form Groups & Labels (Expo typography) */
+#content-right.submission .filter-form-group {
+    margin-bottom: 18px !important;
+}
+
+#content-right.submission .filter-form-group label,
+#content-right.submission .filter-form-group label i {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    color: #71717a !important;
+    font-style: normal !important;
+    margin-bottom: 8px !important;
+    display: block !important;
+}
+
+html[data-theme="light"] #content-right.submission .filter-form-group label,
+html[data-theme="light"] #content-right.submission .filter-form-group label i,
+html.theme-light #content-right.submission .filter-form-group label,
+html.theme-light #content-right.submission .filter-form-group label i {
+    color: #64748b !important;
+}
+
+/* Select2 Multiple Container (Status & Language) */
+#content-right.submission .select2-container {
+    width: 100% !important;
+}
+
+#content-right.submission .select2-container .select2-selection--multiple {
+    background: #141416 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    min-height: 40px !important;
+    padding: 3px 8px !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 4px !important;
+    box-shadow: none !important;
+    transition: border-color 0.15s ease, background-color 0.15s ease !important;
+}
+
+#content-right.submission .select2-container.select2-container--focus .select2-selection--multiple,
+#content-right.submission .select2-container.select2-container--open .select2-selection--multiple {
+    border-color: rgba(255, 255, 255, 0.35) !important;
+    box-shadow: none !important;
+}
+
+/* Search input & placeholder */
+#content-right.submission .select2-container .select2-search--inline .select2-search__field {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+    font-size: 13.5px !important;
+    color: #f4f4f5 !important;
+    margin: 0 !important;
+    padding: 4px 6px !important;
+    height: 32px !important;
+    line-height: 32px !important;
+}
+
+#content-right.submission .select2-container .select2-search--inline .select2-search__field::placeholder {
+    color: #71717a !important;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+    font-size: 13.5px !important;
+}
+
+/* Choice Tags */
+#content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice {
+    background: #242428 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 6px !important; /* {rounded.sm} */
+    color: #f4f4f5 !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    padding: 2px 8px !important;
+    margin: 2px !important;
+}
+
+#content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice__remove {
+    color: #a1a1aa !important;
+    margin-right: 4px !important;
+}
+
+#content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice__remove:hover {
+    color: #ffffff !important;
+}
+
+/* Light Mode: Expo Pure White Theme */
+html[data-theme="light"] #content-right.submission .select2-container .select2-selection--multiple,
+html.theme-light #content-right.submission .select2-container .select2-selection--multiple {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+html[data-theme="light"] #content-right.submission .select2-container.select2-container--focus .select2-selection--multiple,
+html[data-theme="light"] #content-right.submission .select2-container.select2-container--open .select2-selection--multiple,
+html.theme-light #content-right.submission .select2-container.select2-container--focus .select2-selection--multiple,
+html.theme-light #content-right.submission .select2-container.select2-container--open .select2-selection--multiple {
+    border-color: #000000 !important;
+    box-shadow: 0 0 0 1px #000000 !important;
+}
+
+html[data-theme="light"] #content-right.submission .select2-container .select2-search--inline .select2-search__field,
+html.theme-light #content-right.submission .select2-container .select2-search--inline .select2-search__field {
+    color: #171717 !important;
+}
+
+html[data-theme="light"] #content-right.submission .select2-container .select2-search--inline .select2-search__field::placeholder,
+html.theme-light #content-right.submission .select2-container .select2-search--inline .select2-search__field::placeholder {
+    color: #999999 !important;
+}
+
+html[data-theme="light"] #content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice,
+html.theme-light #content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] #content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice__remove,
+html.theme-light #content-right.submission .select2-container .select2-selection--multiple .select2-selection__choice__remove {
+    color: #60646c !important;
+}
+
 /* Submit Go Button */
 #content-right.submission .form-submit-group .button {
     background: #ffffff !important;
     color: #000000 !important;
-    border-radius: 6px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    font-family: 'Inter', -apple-system, sans-serif !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
     height: 38px !important;
@@ -722,6 +851,7 @@ html.theme-light #content-right.submission .sidebox:hover .sidebox-header-icon {
 #content-right.submission .form-submit-group .button:hover {
     opacity: 0.9 !important;
     transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
 }
 
 html[data-theme="light"] #content-right.submission .form-submit-group .button,
@@ -729,6 +859,15 @@ html.theme-light #content-right.submission .form-submit-group .button {
     background: #000000 !important;
     color: #ffffff !important;
     border: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] #content-right.submission .form-submit-group .button:hover,
+html.theme-light #content-right.submission .form-submit-group .button:hover {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2) !important;
 }
 
 .submission-row .sub-result .state,
