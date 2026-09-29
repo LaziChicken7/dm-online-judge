@@ -9,335 +9,672 @@
 
 {% block users_media %}
     <style>
-        /* ── Contest Ranking Layout ── */
-        #common-content {
-            display: block !important;
-        }
-        #content-left.users {
-            width: 100% !important;
-            flex: 1 1 100% !important;
-            max-width: 100% !important;
-        }
+/* =========================================================
+   EXPO DESIGN SYSTEM - CONTEST RANKINGS & PARTICIPATIONS (DESIGN.md)
+   ========================================================= */
 
-        /* ── Restore td.user-name to proper table-cell for perfect vertical alignment ── */
-        #ranking-table td.user-name,
-        .users-table td.user-name {
-            display: table-cell !important;
-            vertical-align: middle !important;
-            padding-top: 14px !important;
-            padding-bottom: 14px !important;
-        }
+:root, html[data-theme="light"], html.theme-light {
+    --expo-canvas: #ffffff;
+    --expo-canvas-soft: #fafafa;
+    --expo-surface-card: #ffffff;
+    --expo-surface-strong: #f0f0f3;
+    --expo-surface-dark: #171717;
+    --expo-primary: #000000;
+    --expo-primary-active: #1a1a1a;
+    --expo-on-primary: #ffffff;
+    --expo-ink: #171717;
+    --expo-body: #60646c;
+    --expo-muted: #999999;
+    --expo-hairline: #f0f0f3;
+    --expo-hairline-soft: #f5f5f7;
+    --expo-hairline-strong: #dcdee0;
+    --expo-text-link: #0d74ce;
+    --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    --expo-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
-        #ranking-table td.user-name > span.rating {
-            display: inline-flex !important;
-            align-items: center !important;
-            vertical-align: middle !important;
-            line-height: 34px !important;
-        }
-        #ranking-table td.user-name > span.rating a {
-            line-height: 34px !important;
-            vertical-align: middle !important;
-            display: inline-block !important;
-        }
+html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
+    --expo-canvas: #101012;
+    --expo-canvas-soft: #111113;
+    --expo-surface-card: #121214;
+    --expo-surface-strong: #18181b;
+    --expo-surface-dark: #171717;
+    --expo-primary: #ffffff;
+    --expo-primary-active: #e5e5e5;
+    --expo-on-primary: #000000;
+    --expo-ink: #f4f4f5;
+    --expo-body: #a1a1aa;
+    --expo-muted: #71717a;
+    --expo-hairline: rgba(255, 255, 255, 0.08);
+    --expo-hairline-soft: rgba(255, 255, 255, 0.05);
+    --expo-hairline-strong: rgba(255, 255, 255, 0.16);
+    --expo-text-link: #38bdf8;
+    --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --expo-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
 
-        /* ── Position action buttons on right side, vertically centered ── */
-        #ranking-table .contest-participation-operation {
-            float: right !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            margin: 0 !important;
-            vertical-align: middle !important;
-            line-height: 1 !important;
-        }
-        #ranking-table .contest-participation-operation form {
-            display: inline-flex !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
+html body, html {
+    background-color: var(--expo-canvas) !important;
+    background-image: none !important;
+    color: var(--expo-ink) !important;
+    font-family: "Inter", -apple-system, system-ui, sans-serif !important;
+    min-height: 100vh !important;
+}
 
-        /* ── High specificity to OVERRIDE #ranking-table .user-name a inline-block ── */
-        #ranking-table .user-name a.contest-action-btn,
-        #ranking-table .contest-participation-operation a.contest-action-btn,
-        #ranking-table .contest-participation-operation a {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 34px !important;
-            min-width: 34px !important;
-            max-width: 34px !important;
-            height: 34px !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            border-radius: 50% !important;
-            box-sizing: border-box !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            color: #94a3b8 !important;
-            text-decoration: none !important;
-            cursor: pointer !important;
-            overflow: hidden !important;
-            white-space: nowrap !important;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
-            vertical-align: middle !important;
-            transition: max-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        padding 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        background 0.2s ease,
-                        border-color 0.2s ease,
-                        box-shadow 0.2s ease !important;
-        }
+#content {
+    width: 90% !important;
+    max-width: 100% !important;
+    margin: 0 auto 40px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
 
-        /* SVG Icon 100% centered inside 34x34 circle */
-        #ranking-table .contest-action-btn .action-icon {
-            width: 16px !important;
-            height: 16px !important;
-            display: block !important;
-            margin: 0 auto !important;
-            stroke: currentColor !important;
-            flex-shrink: 0 !important;
-        }
+#common-content {
+    width: 100% !important;
+    display: block !important;
+}
 
-        /* Label hidden at rest */
-        #ranking-table .contest-action-btn .action-label {
-            max-width: 0 !important;
-            opacity: 0 !important;
-            overflow: hidden !important;
-            display: inline-block !important;
-            white-space: nowrap !important;
-            font-family: 'Google Sans Code', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-            font-size: 12.5px !important;
-            font-weight: 700 !important;
-            color: #ffffff !important;
-            line-height: 1 !important;
-            margin: 0 !important;
-            pointer-events: none !important;
-            transition: max-width 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity 0.25s ease,
-                        margin-left 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-        }
+#content-left.users {
+    width: 100% !important;
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
 
-        /* ── Hover Expansion ── */
-        #ranking-table .user-name a.contest-action-btn:hover,
-        #ranking-table .contest-participation-operation a:hover {
-            max-width: 130px !important;
-            width: auto !important;
-            border-radius: 100px !important;
-            padding: 0 14px 0 11px !important;
-            transform: translateY(-1px) !important;
-        }
-        #ranking-table .contest-action-btn:hover .action-label {
-            max-width: 90px !important;
-            opacity: 1 !important;
-            margin-left: 7px !important;
-        }
+#content-left.users:hover {
+    border-color: var(--expo-hairline-strong) !important;
+    box-shadow: var(--expo-card-hover-shadow) !important;
+}
 
-        /* Disqualify Button Hover (Red glowing border) */
-        #ranking-table .contest-action-btn.action-disqualify:hover {
-            background: rgba(239, 68, 68, 0.15) !important;
-            border: 1.5px solid #ef4444 !important;
-            color: #f87171 !important;
-            box-shadow: 0 0 16px rgba(239, 68, 68, 0.55), 
-                        inset 0 0 8px rgba(239, 68, 68, 0.2) !important;
-        }
-        #ranking-table .contest-action-btn.action-disqualify:hover .action-icon {
-            stroke: #f87171 !important;
-        }
+html[data-theme="light"] #content-left.users,
+html.theme-light #content-left.users {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
 
-        /* Admin Button Hover (Blue glowing border) */
-        #ranking-table .contest-action-btn.action-admin:hover {
-            background: rgba(37, 99, 235, 0.15) !important;
-            border: 1.5px solid #2563eb !important;
-            color: #60a5fa !important;
-            box-shadow: 0 0 16px rgba(37, 99, 235, 0.6), 
-                        inset 0 0 8px rgba(37, 99, 235, 0.2) !important;
-        }
-        #ranking-table .contest-action-btn.action-admin:hover .action-icon {
-            stroke: #60a5fa !important;
-        }
+.tabs,
+.tabs:hover {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+}
 
-        /* Restore Button Hover (Amber glowing border) */
-        #ranking-table .contest-action-btn.action-undisqualify:hover {
-            background: rgba(245, 158, 11, 0.15) !important;
-            border: 1.5px solid #f59e0b !important;
-            color: #fbbf24 !important;
-            box-shadow: 0 0 16px rgba(245, 158, 11, 0.55), 
-                        inset 0 0 8px rgba(245, 158, 11, 0.2) !important;
-        }
-        #ranking-table .contest-action-btn.action-undisqualify:hover .action-icon {
-            stroke: #fbbf24 !important;
-        }
+.tabs h2 {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.6px !important;
+    color: var(--expo-ink) !important;
+    margin: 0 !important;
+    text-align: left !important;
+}
 
-        /* ── Scoreboard Typography ── */
-        .point-denominator {
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 11px !important;
-            color: #64748b !important;
-            font-weight: 500 !important;
-            margin-top: 2px !important;
-        }
-        .full-score a {
-            color: #22c55e !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-weight: 700 !important;
-            font-size: 15px !important;
-            text-decoration: none !important;
-        }
-        .solving-time {
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 11.5px !important;
-            color: #64748b !important;
-            font-weight: 500 !important;
-            margin-top: 2px !important;
-        }
-        .user-points a {
-            color: #ffffff !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-weight: 700 !important;
-            font-size: 15px !important;
-            text-decoration: none !important;
-        }
-        .start-time {
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 12px !important;
-            color: #64748b !important;
-            margin-top: 4px !important;
-        }
-        .organization-column a {
-            color: #93c5fd !important;
-            text-decoration: none !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 13px !important;
-            padding: 3px 9px !important;
-            background: rgba(59, 130, 246, 0.12) !important;
-            border: 1px solid rgba(59, 130, 246, 0.28) !important;
-            border-radius: 6px !important;
-            display: inline-block !important;
-            transition: all 0.2s ease !important;
-        }
-        .organization-column a:hover {
-            background: rgba(59, 130, 246, 0.22) !important;
-            border-color: rgba(56, 189, 248, 0.55) !important;
-            color: #ffffff !important;
-            transform: translateY(-1px) !important;
-        }
+.tabs ul {
+    position: absolute !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
 
-        /* ── Push the table down generously ── */
-        .before-ranking-bar {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-end !important;
-            margin-top: 10px !important;
-            margin-bottom: 24px !important; /* Generous gap so rank table is NOT squished! */
-            width: 100% !important;
-            box-sizing: border-box !important;
-            gap: 16px !important;
-            flex-wrap: wrap !important;
-        }
+.tabs .tab > a,
+.tabs .tab > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 7px 16px !important;
+    border-radius: 8px !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: var(--expo-body) !important;
+    box-shadow: none !important;
+}
 
-        /* ── Show Organizations as a Single Glowing Pill Block ── */
-        .show-org-toggle {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 9px !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 100px !important; /* Perfect Pill Shape */
-            padding: 8px 18px !important;
-            font-family: 'Google Sans Code', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            color: #e2e8f0 !important;
-            cursor: pointer !important;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            user-select: none !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
-            backdrop-filter: blur(12px) !important;
-        }
+.tabs .tab > a .tab-icon,
+.tabs .tab > span .tab-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: currentColor !important;
+    color: inherit !important;
+    flex-shrink: 0 !important;
+}
 
-        .show-org-toggle:hover {
-            background: rgba(255, 255, 255, 0.09) !important;
-            color: #ffffff !important;
-            border-color: rgba(56, 189, 248, 0.55) !important;
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.35), 0 4px 14px rgba(0, 0, 0, 0.3) !important;
-            transform: translateY(-1px) !important;
-        }
+.tabs .tab > a:hover {
+    background: var(--expo-surface-strong) !important;
+    color: var(--expo-ink) !important;
+    border-color: var(--expo-hairline) !important;
+}
 
-        .show-org-toggle svg {
-            stroke: #38bdf8 !important;
-            width: 15px !important;
-            height: 15px !important;
-            flex-shrink: 0 !important;
-        }
+.tabs .tab.active > a,
+.tabs .tab.active > span {
+    background: #242428 !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
 
-        .show-org-toggle input[type="checkbox"] {
-            accent-color: #0284c7 !important;
-            cursor: pointer !important;
-            width: 15px !important;
-            height: 15px !important;
-            margin: 0 !important;
-        }
+.tabs .tab.active > a .tab-icon,
+.tabs .tab.active > span .tab-icon {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
 
-        /* ── Participation User Search Select2 ── */
-        .before-ranking-bar .select2-container--dmoj {
-            width: 270px !important;
-            margin: 0 !important;
-        }
-        .before-ranking-bar .select2-container--dmoj .select2-selection--single {
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 100px !important;
-            height: 38px !important;
-            display: flex !important;
-            align-items: center !important;
-            padding: 0 16px !important;
-            box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
-        }
-        .before-ranking-bar .select2-container--dmoj.select2-container--focus .select2-selection--single,
-        .before-ranking-bar .select2-container--dmoj.select2-container--open .select2-selection--single {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.35) !important;
-            background: rgba(255, 255, 255, 0.07) !important;
-        }
-        .before-ranking-bar .select2-container--dmoj .select2-selection__rendered {
-            color: #ffffff !important;
-            font-size: 13px !important;
-            font-weight: 500 !important;
-            line-height: 36px !important;
-            padding: 0 !important;
-        }
-        .before-ranking-bar .select2-container--dmoj .select2-selection__placeholder {
-            color: rgba(255, 255, 255, 0.45) !important;
-        }
-        .before-ranking-bar .select2-selection__arrow {
-            display: none !important;
-        }
+html[data-theme="light"] .tabs .tab > a,
+html[data-theme="light"] .tabs .tab > span,
+html.theme-light .tabs .tab > a,
+html.theme-light .tabs .tab > span {
+    background: #f0f0f3 !important;
+    border: 1px solid transparent !important;
+    color: #60646c !important;
+}
 
-        /* Dropdown options styling */
-        .select2-dropdown {
-            background: #0d1322 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 12px !important;
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6) !important;
-            overflow: hidden !important;
-        }
-        .select2-results__option {
-            color: #cbd5e1 !important;
-            padding: 8px 14px !important;
-            font-size: 13px !important;
-            transition: background 0.15s ease !important;
-            white-space: nowrap !important;
-        }
-        .select2-results__option--highlighted {
-            background: rgba(37, 99, 235, 0.25) !important;
-            color: #ffffff !important;
-        }
+html[data-theme="light"] .tabs .tab > a:hover,
+html.theme-light .tabs .tab > a:hover {
+    background: #e4e4e7 !important;
+    color: #171717 !important;
+}
 
-        /* ── Empty Ranking Row ── */
-        .empty-ranking-row td {
-            background: transparent !important;
-            border: none !important;
-        }
+html[data-theme="light"] .tabs .tab.active > a,
+html[data-theme="light"] .tabs .tab.active > span,
+html.theme-light .tabs .tab.active > a,
+html.theme-light .tabs .tab.active > span {
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+html[data-theme="light"] .tabs .tab.active > a .tab-icon,
+html[data-theme="light"] .tabs .tab.active > span .tab-icon,
+html.theme-light .tabs .tab.active > a .tab-icon,
+html.theme-light .tabs .tab.active > span .tab-icon {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+.tabs .contest-join-pseudotab,
+.contest-join-pseudotab,
+form.contest-join-pseudotab {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    margin-left: 8px !important;
+}
+
+.contest-join-pseudotab input[type="submit"] {
+    background: transparent !important;
+    border: none !important;
+    color: #000000 !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    cursor: pointer !important;
+    box-shadow: none !important;
+}
+
+.tabs .contest-join-pseudotab:hover,
+.contest-join-pseudotab:hover {
+    opacity: 0.92 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    background: #ffffff !important;
+}
+
+html[data-theme="light"] .tabs .contest-join-pseudotab,
+html[data-theme="light"] .contest-join-pseudotab,
+html[data-theme="light"] form.contest-join-pseudotab,
+html.theme-light .tabs .contest-join-pseudotab,
+html.theme-light .contest-join-pseudotab,
+html.theme-light form.contest-join-pseudotab {
+    background: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] .contest-join-pseudotab input[type="submit"],
+html.theme-light .contest-join-pseudotab input[type="submit"] {
+    color: #ffffff !important;
+}
+
+.before-ranking-bar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    margin-top: 10px !important;
+    margin-bottom: 24px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    gap: 12px !important;
+    flex-wrap: wrap !important;
+}
+
+.show-org-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: 38px !important;
+    padding: 0 14px !important;
+    border-radius: 8px !important;
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    color: var(--expo-ink) !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    user-select: none !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    box-sizing: border-box !important;
+}
+
+.show-org-toggle:hover {
+    background: var(--expo-surface-strong) !important;
+    border-color: var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+}
+
+.show-org-toggle svg {
+    stroke: currentColor !important;
+    color: inherit !important;
+    width: 14px !important;
+    height: 14px !important;
+    flex-shrink: 0 !important;
+}
+
+.show-org-toggle input[type="checkbox"] {
+    cursor: pointer !important;
+    width: 14px !important;
+    height: 14px !important;
+    margin: 0 !important;
+}
+
+.show-org-toggle,
+.show-org-toggle span {
+    color: var(--expo-ink) !important;
+}
+
+html[data-theme="light"] .show-org-toggle,
+html[data-theme="light"] .show-org-toggle span,
+html.theme-light .show-org-toggle,
+html.theme-light .show-org-toggle span {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+html[data-theme="light"] .before-ranking-bar .select2-container--dmoj .select2-selection__placeholder,
+html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection__placeholder {
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .show-org-toggle:hover,
+html.theme-light .show-org-toggle:hover {
+    background: #f0f0f3 !important;
+    color: #171717 !important;
+}
+
+.before-ranking-bar .select2-container--dmoj {
+    width: 260px !important;
+    margin: 0 !important;
+}
+
+.before-ranking-bar .select2-container--dmoj .select2-selection--single {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    border-radius: 8px !important;
+    height: 38px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 14px !important;
+    box-sizing: border-box !important;
+    transition: border-color 0.15s ease !important;
+}
+
+.before-ranking-bar .select2-container--dmoj .select2-selection__rendered {
+    color: var(--expo-ink) !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    line-height: 36px !important;
+    padding: 0 !important;
+}
+
+.before-ranking-bar .select2-container--dmoj .select2-selection__placeholder {
+    color: var(--expo-muted) !important;
+    font-family: "Inter", sans-serif !important;
+}
+
+.before-ranking-bar .select2-selection__arrow {
+    display: none !important;
+}
+
+html[data-theme="light"] .before-ranking-bar .select2-container--dmoj .select2-selection--single,
+html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection--single {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] .before-ranking-bar .select2-container--dmoj .select2-selection__rendered,
+html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection__rendered {
+    color: #171717 !important;
+}
+
+#ranking-table,
+.users-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+#ranking-table thead th,
+.users-table thead th {
+    background: var(--expo-surface-strong) !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    color: var(--expo-muted) !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 14px 20px !important;
+    height: 44px !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+}
+
+html[data-theme="light"] #ranking-table thead th,
+html[data-theme="light"] .users-table thead th,
+html.theme-light #ranking-table thead th,
+html.theme-light .users-table thead th {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #f0f0f3 !important;
+    color: #64748b !important;
+}
+
+#ranking-table tbody tr,
+.users-table tbody tr {
+    background: var(--expo-surface-card) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background 0.15s ease !important;
+}
+
+#ranking-table tbody tr:hover,
+#ranking-table tbody tr:hover td,
+.users-table tbody tr:hover,
+.users-table tbody tr:hover td {
+    background: var(--expo-surface-strong) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] #ranking-table tbody tr,
+html[data-theme="light"] .users-table tbody tr,
+html.theme-light #ranking-table tbody tr,
+html.theme-light .users-table tbody tr {
+    background: #ffffff !important;
+}
+
+html[data-theme="light"] #ranking-table tbody tr:hover,
+html[data-theme="light"] #ranking-table tbody tr:hover td,
+html.theme-light #ranking-table tbody tr:hover,
+html.theme-light #ranking-table tbody tr:hover td {
+    background: #f8fafc !important;
+}
+
+#ranking-table tbody td,
+.users-table tbody td {
+    padding: 14px 20px !important;
+    border: none !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-radius: 0 !important;
+    vertical-align: middle !important;
+    color: var(--expo-body) !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+#ranking-table tbody tr:last-child td,
+.users-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+#ranking-table td.user-name,
+.users-table td.user-name {
+    display: table-cell !important;
+    vertical-align: middle !important;
+}
+
+#ranking-table td.user-name a,
+.users-table td.user-name a {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 600 !important;
+    font-size: 14.5px !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+#ranking-table td.user-name a:hover,
+.users-table td.user-name a:hover {
+    color: var(--expo-text-link) !important;
+}
+
+html[data-theme="light"] #ranking-table td.user-name a,
+html.theme-light #ranking-table td.user-name a {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] #ranking-table td.user-name a:hover,
+html.theme-light #ranking-table td.user-name a:hover {
+    color: #0d74ce !important;
+}
+
+.point-denominator,
+.solving-time,
+.start-time {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11.5px !important;
+    color: var(--expo-muted) !important;
+}
+
+.full-score a {
+    color: #16a34a !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="dark"] .full-score a,
+html.theme-dark .full-score a {
+    color: #4ade80 !important;
+}
+
+.user-points a,
+.user-points span {
+    font-family: "JetBrains Mono", monospace !important;
+    font-weight: 700 !important;
+    font-size: 14.5px !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="light"] .user-points a,
+html[data-theme="light"] .user-points span,
+html.theme-light .user-points a,
+html.theme-light .user-points span {
+    color: #0f172a !important;
+}
+
+.organization-column a {
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 12px !important;
+    padding: 3px 8px !important;
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 6px !important;
+    display: inline-block !important;
+    transition: all 0.15s ease !important;
+}
+
+.organization-column a:hover {
+    border-color: var(--expo-hairline-strong) !important;
+}
+
+html[data-theme="light"] .organization-column a,
+html.theme-light .organization-column a {
+    background: #f0f0f3 !important;
+    border-color: #dcdee0 !important;
+    color: #171717 !important;
+}
+
+#ranking-table .contest-participation-operation {
+    float: right !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+#ranking-table .user-name a.contest-action-btn,
+#ranking-table .contest-participation-operation a.contest-action-btn,
+#ranking-table .contest-participation-operation a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-muted) !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important;
+}
+
+#ranking-table .contest-action-btn .action-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: currentColor !important;
+    color: inherit !important;
+    flex-shrink: 0 !important;
+}
+
+#ranking-table .contest-action-btn .action-label {
+    display: none !important;
+}
+
+#ranking-table .user-name a.contest-action-btn:hover,
+#ranking-table .contest-participation-operation a:hover {
+    background: #27272a !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+#ranking-table .contest-action-btn.action-disqualify:hover {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.35) !important;
+    color: #f87171 !important;
+}
+
+html[data-theme="light"] #ranking-table .user-name a.contest-action-btn,
+html[data-theme="light"] #ranking-table .contest-participation-operation a.contest-action-btn,
+html[data-theme="light"] #ranking-table .contest-participation-operation a,
+html.theme-light #ranking-table .user-name a.contest-action-btn,
+html.theme-light #ranking-table .contest-participation-operation a.contest-action-btn,
+html.theme-light #ranking-table .contest-participation-operation a {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #64748b !important;
+}
+
+html[data-theme="light"] #ranking-table .user-name a.contest-action-btn:hover,
+html[data-theme="light"] #ranking-table .contest-participation-operation a:hover,
+html.theme-light #ranking-table .user-name a.contest-action-btn:hover,
+html.theme-light #ranking-table .contest-participation-operation a:hover {
+    background: #e4e4e7 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+.users-table td[colspan] {
+    text-align: center !important;
+    padding: 32px 20px !important;
+    color: var(--expo-muted) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 14px !important;
+}
+
+.users-table td[colspan] i {
+    color: inherit !important;
+}
     </style>
 {% endblock %}
 
