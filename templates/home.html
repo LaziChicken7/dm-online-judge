@@ -1679,14 +1679,24 @@
         }
 
     
-        /* Flush alignment of post content (Welcome block aligned with First Post title) */
+        /* Align post content with inner code block */
         html body section.post .summary,
         html body section.post .content-description,
-        html body section.post .content-description > div,
-        html body section.post .content-description p {
+        html body section.post .content-description > div {
             margin-left: 0 !important;
             padding-left: 0 !important;
             text-indent: 0 !important;
+        }
+
+        html body section.post .content-description p {
+            margin-left: 19px !important;
+            padding-left: 0 !important;
+            text-indent: 0 !important;
+        }
+
+        html[data-theme="light"] section.post .content-description p,
+        html.theme-light section.post .content-description p {
+            margin-left: 0 !important;
         }
 
         /* Universal JetBrains Mono for post code blocks */
