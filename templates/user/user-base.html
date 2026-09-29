@@ -707,7 +707,7 @@ html.theme-light #submission-activity-table td {
     color: #64748b !important;
 }
 
-/* 8. Problems Summary Banner on /user/<username>/solved */
+/* 8. Problems Summary Banner on /user/<username>/solved (Expo Minimalist) */
 .problems-summary-banner {
     display: grid !important;
     grid-template-columns: repeat(3, 1fr) !important;
@@ -718,45 +718,60 @@ html.theme-light #submission-activity-table td {
 }
 
 .problems-summary-card {
-    background: var(--expo-surface-strong) !important;
+    background: var(--expo-surface-card) !important;
     border: 1px solid var(--expo-hairline) !important;
-    border-radius: 10px !important; /* {rounded.md} */
-    padding: 14px 18px !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    padding: 16px 20px !important;
     display: flex !important;
     align-items: center !important;
     gap: 14px !important;
-    transition: all 0.15s ease !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
     box-sizing: border-box !important;
+    box-shadow: var(--expo-card-shadow) !important;
 }
 
 .problems-summary-card:hover {
     border-color: var(--expo-hairline-strong) !important;
+    box-shadow: var(--expo-card-hover-shadow) !important;
     transform: none !important;
 }
 
 html[data-theme="light"] .problems-summary-card,
 html.theme-light .problems-summary-card {
-    background: #f8fafc !important;
+    background: #ffffff !important;
     border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
 .summary-card-icon {
     width: 40px !important;
     height: 40px !important;
     border-radius: 8px !important;
-    background: var(--expo-surface-card) !important;
+    background: var(--expo-surface-strong) !important;
     border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-muted) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
     flex-shrink: 0 !important;
+}
+
+.summary-card-icon i,
+.summary-card-icon svg {
+    color: var(--expo-muted) !important;
 }
 
 html[data-theme="light"] .summary-card-icon,
 html.theme-light .summary-card-icon {
-    background: #ffffff !important;
+    background: #f8fafc !important;
     border: 1px solid #e2e8f0 !important;
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .summary-card-icon i,
+html.theme-light .summary-card-icon i {
+    color: #64748b !important;
 }
 
 .summary-card-value {
@@ -1024,14 +1039,16 @@ html.theme-light .sub-points-val {
     font-family: "JetBrains Mono", monospace !important;
     font-size: 10.5px !important;
     font-weight: 600 !important;
-    background: rgba(56, 189, 248, 0.1) !important;
-    color: #38bdf8 !important;
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-body) !important;
 }
 
 html[data-theme="light"] .sub-weight-pill,
 html.theme-light .sub-weight-pill {
     background: #f0f0f3 !important;
-    color: #0d74ce !important;
+    border: 1px solid #dcdee0 !important;
+    color: #60646c !important;
 }
 
 

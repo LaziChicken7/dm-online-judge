@@ -37,7 +37,7 @@
     <div class="problems-summary-banner">
         <div class="problems-summary-card">
             <div class="summary-card-icon">
-                <i class="fa fa-puzzle-piece" style="color: #38bdf8;"></i>
+                <i class="fa fa-puzzle-piece"></i>
             </div>
             <div class="summary-card-info">
                 <div class="summary-card-value">{{ user.problem_count }}</div>
@@ -46,7 +46,7 @@
         </div>
         <div class="problems-summary-card">
             <div class="summary-card-icon">
-                <i class="fa fa-bolt" style="color: #f59e0b;"></i>
+                <i class="fa fa-bolt"></i>
             </div>
             <div class="summary-card-info">
                 <div class="summary-card-value" title="{{ user.performance_points|floatformat(2) }}">
@@ -57,7 +57,7 @@
         </div>
         <div class="problems-summary-card">
             <div class="summary-card-icon">
-                <i class="fa fa-trophy" style="color: #10b981;"></i>
+                <i class="fa fa-trophy"></i>
             </div>
             <div class="summary-card-info">
                 <div class="summary-card-value">
@@ -144,7 +144,7 @@
                         <td><span style="color: #94a3b8; font-size: 13px;">{{ problem.group.full_name }}</span></td>
                         <td style="text-align: right;">
                             <a href="{{ url('ranked_submissions', problem.code) }}" class="category-score-badge">
-                                <i class="fa fa-star" style="color: #f59e0b; font-size: 11px;"></i>
+                                <i class="fa fa-star"></i>
                                 <span>{{ problem.points|floatformat }}{% if problem.partial %}p{% endif %}</span>
                             </a>
                         </td>
@@ -200,7 +200,7 @@
                             </td>
                             <td style="text-align: right;">
                                 <span class="category-score-badge">
-                                    <i class="fa fa-check-circle" style="color: #10b981; font-size: 12px;"></i>
+                                    <i class="fa fa-check-circle"></i>
                                     {%- with points_str=entry.points|floatformat(-3), total_str=entry.total|floatformat(-3) -%}
                                         <span>{{ points_str }} / {{ total_str }}</span>
                                     {%- endwith -%}
