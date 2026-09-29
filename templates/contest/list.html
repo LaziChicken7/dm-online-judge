@@ -820,6 +820,60 @@ html.theme-light .contest-empty-card {
     border: 1px solid #f0f0f3 !important;
     color: #64748b !important;
 }
+
+/* Contest Block Layout */
+.contest-block {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+}
+
+.contest-left-info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 6px !important;
+}
+
+.contest-title-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+
+.contest-meta-row {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    margin-top: 2px !important;
+}
+
+.contest-right-pills {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-left: auto !important;
+    padding-right: 14px !important;
+}
+
+.contest-schedule-dash {
+    color: var(--expo-muted) !important;
+    opacity: 0.5 !important;
+    margin: 0 4px !important;
+    font-size: 11px !important;
+}
+
+.contest-user-divider {
+    color: var(--expo-muted) !important;
+    opacity: 0.45 !important;
+    font-size: 14px !important;
+    font-weight: 300 !important;
+    margin-left: 2px !important;
+    user-select: none !important;
+}
     </style>{% endblock %}
 {% block title_ruler %}{% endblock %}
 {% block title_row %}
@@ -950,7 +1004,14 @@ html.theme-light .contest-empty-card {
                                 <td>
                                     <div class="contest-block">
                                         <div class="contest-left-info">
-                                            {{ contest_head(contest) }}
+                                            <div class="contest-title-row">
+                                                {{ contest_head(contest) }}
+                                            </div>
+                                            {% if contest.start_time %}
+                                                <div class="contest-meta-row">
+                                                    {{ time_left(contest) }}
+                                                </div>
+                                            {% endif %}
                                         </div>
                                         <div class="contest-right-pills">
                                             {% if contest.start_time %}
@@ -959,13 +1020,14 @@ html.theme-light .contest-empty-card {
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                         {{ as_countdown(contest.time_limit_remaining(request.user)) }}
                                                     </span>
+                                                    <span class="contest-user-divider">—</span>
                                                 {% elif contest.time_before_end %}
                                                     <span class="contest-pill contest-pill-countdown" title="{{ _('Ends in') }}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                         {{ as_countdown(contest.time_before_end) }}
                                                     </span>
+                                                    <span class="contest-user-divider">—</span>
                                                 {% endif %}
-                                                {{ time_left(contest) }}
                                             {% endif %}
                                         </div>
                                     </div>
@@ -1000,7 +1062,14 @@ html.theme-light .contest-empty-card {
                             <td>
                                 <div class="contest-block">
                                     <div class="contest-left-info">
-                                        {{ contest_head(contest) }}
+                                        <div class="contest-title-row">
+                                            {{ contest_head(contest) }}
+                                        </div>
+                                        {% if contest.start_time %}
+                                            <div class="contest-meta-row">
+                                                {{ time_left(contest) }}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <div class="contest-right-pills">
                                         {% if contest.start_time and contest.time_before_end %}
@@ -1008,8 +1077,8 @@ html.theme-light .contest-empty-card {
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                                                 {{ as_countdown(contest.time_before_end) }}
                                             </span>
+                                            <span class="contest-user-divider">—</span>
                                         {% endif %}
-                                        {{ time_left(contest) }}
                                     </div>
                                 </div>
                             </td>
@@ -1038,7 +1107,14 @@ html.theme-light .contest-empty-card {
                             <td>
                                 <div class="contest-block">
                                     <div class="contest-left-info">
-                                        {{ contest_head(contest) }}
+                                        <div class="contest-title-row">
+                                            {{ contest_head(contest) }}
+                                        </div>
+                                        {% if contest.start_time %}
+                                            <div class="contest-meta-row">
+                                                {{ time_left(contest) }}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <div class="contest-right-pills">
                                         {% if contest.start_time and contest.time_before_start %}
@@ -1047,7 +1123,6 @@ html.theme-light .contest-empty-card {
                                                 {{ as_countdown(contest.time_before_start) }}
                                             </span>
                                         {% endif %}
-                                        {{ time_left(contest) }}
                                     </div>
                                 </div>
                             </td>
@@ -1112,10 +1187,17 @@ html.theme-light .contest-empty-card {
                             <td>
                                 <div class="contest-block">
                                     <div class="contest-left-info">
-                                        {{ contest_head(contest) }}
+                                        <div class="contest-title-row">
+                                            {{ contest_head(contest) }}
+                                        </div>
+                                        {% if contest.start_time %}
+                                            <div class="contest-meta-row">
+                                                {{ time_left(contest) }}
+                                            </div>
+                                        {% endif %}
                                     </div>
                                     <div class="contest-right-pills">
-                                        {{ time_left(contest) }}
+                                        <span class="contest-user-divider">—</span>
                                     </div>
                                 </div>
                             </td>
