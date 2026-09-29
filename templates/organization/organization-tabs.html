@@ -142,6 +142,28 @@
             color: #ffffff !important;
             box-shadow: 0 4px 16px rgba(239, 68, 68, 0.35) !important;
         }
+        /* Expo Sub-Nav Tabs Light Mode Support */
+        html[data-theme="light"] .tabs.org-tabs li.tab.active a,
+        html[data-theme="light"] .tabs.org-tabs li.tab.active > span,
+        html.theme-light .tabs.org-tabs li.tab.active a,
+        html.theme-light .tabs.org-tabs li.tab.active > span {
+            background: #000000 !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .tabs.org-tabs li.tab:not(.active):not(.org-action-tab) a,
+        html[data-theme="light"] .tabs.org-tabs li.tab:not(.active):not(.org-action-tab) span,
+        html.theme-light .tabs.org-tabs li.tab:not(.active):not(.org-action-tab) a,
+        html.theme-light .tabs.org-tabs li.tab:not(.active):not(.org-action-tab) span {
+            color: #475569 !important;
+        }
+        html[data-theme="light"] .tabs.org-tabs li.tab.leave-tab button,
+        html[data-theme="light"] .tabs.org-tabs li.tab.leave-tab button *,
+        html.theme-light .tabs.org-tabs li.tab.leave-tab button,
+        html.theme-light .tabs.org-tabs li.tab.leave-tab button * {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
     </style>
     {% endblock %}
 
