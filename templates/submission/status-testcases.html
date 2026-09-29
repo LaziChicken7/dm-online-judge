@@ -123,7 +123,7 @@
     <div class="verdict-stats-grid">
         <div class="stat-chip">
             <span class="stat-chip-label">Max Runtime</span>
-            <span class="stat-chip-val" style="color: #38bdf8;">
+            <span class="stat-chip-val">
                 {{ max_execution_time|floatformat(3) }}s
                 <small style="font-size: 11px; color: #64748b;">/ {{ time_limit|floatformat(1) }}s</small>
             </span>
@@ -218,7 +218,7 @@
 
         {% for batch in batches %}
             {% if batch.id %}
-                <div style="font-size: 15px; font-weight: 700; color: #38bdf8; margin: 16px 0 10px 4px; display: flex; align-items: center; gap: 8px;">
+                <div class="batch-title">
                     <i class="fa fa-cubes"></i>
                     <span>{{ _('Batch #%(id)d', id=batch.id) }} &bull; {{ _('%(points)s/%(total)s points', points=batch.points|floatformat(0), total=batch.total|floatformat(0)) }}</span>
                 </div>
@@ -233,7 +233,7 @@
                     <div>{{ _('Points') }}</div>
                     <div style="text-align: right;">
                         {% if can_see_testcases %}
-                            <span style="color: #38bdf8;"><i class="fa fa-shield"></i> {{ _('Admin Inspection') }}</span>
+                            <span class="admin-inspection-badge"><i class="fa fa-shield"></i> {{ _('Admin Inspection') }}</span>
                         {% else %}
                             <span>{{ _('Details') }}</span>
                         {% endif %}
