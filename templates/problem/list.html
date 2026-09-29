@@ -896,12 +896,35 @@ html.theme-light .filter-drawer-close-btn:hover {
     box-sizing: border-box !important;
 }
 
-.problem-filter-drawer-body .sidebox {
+.problem-filter-drawer-body .sidebox,
+.problem-filter-drawer-body .problem-search-sidebox,
+.problem-filter-drawer-body .sidebox.problem-search-sidebox {
     background: transparent !important;
     border: none !important;
+    border-color: transparent !important;
     box-shadow: none !important;
     padding: 0 !important;
     margin-bottom: 24px !important;
+}
+
+/* Remove outer border & box-shadow on filter sidebox in Light Mode */
+html[data-theme="light"] .problem-filter-drawer-body .sidebox,
+html[data-theme="light"] .problem-filter-drawer-body .problem-search-sidebox,
+html[data-theme="light"] .problem-filter-drawer-body .sidebox.problem-search-sidebox,
+html[data-theme="light"] .problem-search-sidebox,
+html[data-theme="light"] #content-right.problems .sidebox,
+html[data-theme="light"] #content-right.problems .problem-search-sidebox,
+html.theme-light .problem-filter-drawer-body .sidebox,
+html.theme-light .problem-filter-drawer-body .problem-search-sidebox,
+html.theme-light .problem-filter-drawer-body .sidebox.problem-search-sidebox,
+html.theme-light .problem-search-sidebox,
+html.theme-light #content-right.problems .sidebox,
+html.theme-light #content-right.problems .problem-search-sidebox {
+    background: transparent !important;
+    border: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
 
 /* 1. Search Input Field (Styled like Image #4 - Expo clean input) */
