@@ -467,22 +467,84 @@ html.theme-light .submission-row .sub-main .name a:hover {
 
 /* Meta line */
 .submission-row .sub-main .sub-meta {
-    color: #71717a !important;
     font-size: 12.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    flex-wrap: wrap !important;
 }
 
-.submission-row .sub-main .sub-meta .user a {
+.submission-row .sub-main .sub-meta,
+.submission-row .sub-main .sub-meta .time,
+.submission-row .sub-main .sub-meta .time span,
+.submission-row .sub-main .sub-meta .time-with-rel {
     color: #a1a1aa !important;
 }
 
-html[data-theme="light"] .submission-row .sub-main .sub-meta,
-html.theme-light .submission-row .sub-main .sub-meta {
-    color: #999999 !important;
+.submission-row .sub-main .sub-meta .meta-sep {
+    color: #71717a !important;
+    opacity: 0.8 !important;
 }
 
-html[data-theme="light"] .submission-row .sub-main .sub-meta .user a,
-html.theme-light .submission-row .sub-main .sub-meta .user a {
+.submission-row .sub-main .sub-meta a {
+    color: #f4f4f5 !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+}
+
+.submission-row .sub-main .sub-meta .admin a,
+.submission-row .sub-main .sub-meta a.admin {
+    color: #38bdf8 !important;
+    font-weight: 700 !important;
+}
+
+/* Light Mode Meta Line: High Contrast & Legibility */
+html[data-theme="light"] .submission-row .sub-main .sub-meta,
+html[data-theme="light"] .submission-row .sub-main .sub-meta .time,
+html[data-theme="light"] .submission-row .sub-main .sub-meta .time span,
+html[data-theme="light"] .submission-row .sub-main .sub-meta .time-with-rel,
+html.theme-light .submission-row .sub-main .sub-meta,
+html.theme-light .submission-row .sub-main .sub-meta .time,
+html.theme-light .submission-row .sub-main .sub-meta .time span,
+html.theme-light .submission-row .sub-main .sub-meta .time-with-rel {
+    color: #60646c !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .sub-meta .meta-sep,
+html.theme-light .submission-row .sub-main .sub-meta .meta-sep {
+    color: #94a3b8 !important;
+    opacity: 1 !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .sub-meta a,
+html.theme-light .submission-row .sub-main .sub-meta a {
     color: #171717 !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .sub-meta a:hover,
+html.theme-light .submission-row .sub-main .sub-meta a:hover {
+    color: #0d74ce !important;
+}
+
+html[data-theme="light"] .submission-row .sub-main .sub-meta .admin a,
+html[data-theme="light"] .submission-row .sub-main .sub-meta a.admin,
+html.theme-light .submission-row .sub-main .sub-meta .admin a,
+html.theme-light .submission-row .sub-main .sub-meta a.admin {
+    color: #0284c7 !important;
+    font-weight: 700 !important;
+}
+
+/* Remove faint inner rectangular border from select2 search input in filters */
+.select2-container .select2-search--inline .select2-search__field,
+.problem-search-sidebox .select2-search__field,
+#content-right.submission .select2-container .select2-search--inline .select2-search__field,
+html[data-theme="light"] #content-right.submission .select2-container .select2-search--inline .select2-search__field,
+html.theme-light #content-right.submission .select2-container .select2-search--inline .select2-search__field {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
 }
 
 /* Status Badges */
