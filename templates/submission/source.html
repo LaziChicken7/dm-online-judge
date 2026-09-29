@@ -4,221 +4,7 @@
 {% block header %}{% endblock %}
 
 {% block media %}
-    <style>
-        /* Submission Header Card */
-        .src-header-card {
-            background: linear-gradient(135deg, rgba(15, 23, 42, 0.95) 0%, rgba(10, 15, 30, 0.98) 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 20px !important;
-            padding: 22px 28px !important;
-            margin-bottom: 22px !important;
-            box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5) !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            backdrop-filter: blur(16px) !important;
-            box-sizing: border-box !important;
-        }
-
-        .src-header-left {
-            display: flex !important;
-            flex-direction: column !important;
-            gap: 5px !important;
-        }
-
-        .src-header-tag {
-            font-size: 11.5px !important;
-            font-weight: 700 !important;
-            letter-spacing: 0.08em !important;
-            text-transform: uppercase !important;
-            color: #38bdf8 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-        }
-
-        .src-title-group {
-            display: flex !important;
-            align-items: center !important;
-            gap: 12px !important;
-        }
-
-        .src-title-group h2 {
-            margin: 0 !important;
-            font-size: 22px !important;
-            font-weight: 700 !important;
-            color: #ffffff !important;
-            letter-spacing: -0.02em !important;
-        }
-
-        .src-title-group h2 a {
-            color: #38bdf8 !important;
-            text-decoration: none !important;
-        }
-
-        .src-title-group h2 a:hover {
-            text-decoration: underline !important;
-        }
-
-        .src-meta-subtext {
-            font-size: 13px !important;
-            color: #94a3b8 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            margin-top: 3px !important;
-        }
-
-        .src-header-right {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            flex-wrap: wrap !important;
-        }
-
-        .src-action-btn {
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            color: #e2e8f0 !important;
-            padding: 8px 16px !important;
-            border-radius: 10px !important;
-            font-size: 13px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 7px !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
-        }
-
-        .src-action-btn:hover {
-            background: rgba(56, 189, 248, 0.15) !important;
-            border-color: rgba(56, 189, 248, 0.35) !important;
-            color: #ffffff !important;
-            transform: translateY(-1px) !important;
-        }
-
-        /* Code Editor Container */
-        .code-editor-card {
-            background: #070b14 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 18px !important;
-            overflow: hidden !important;
-            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5) !important;
-            margin-bottom: 30px !important;
-        }
-
-        .code-editor-topbar {
-            background: #090e1c !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-            padding: 10px 18px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-        }
-
-        .code-window-dots {
-            display: flex !important;
-            align-items: center !important;
-            gap: 7px !important;
-        }
-
-        .dot {
-            width: 11px !important;
-            height: 11px !important;
-            border-radius: 50% !important;
-        }
-
-        .dot-red { background: #ef4444 !important; }
-        .dot-yellow { background: #f59e0b !important; }
-        .dot-green { background: #10b981 !important; }
-
-        .code-filename {
-            font-family: 'Fira Code', monospace !important;
-            font-size: 13px !important;
-            color: #cbd5e1 !important;
-            font-weight: 500 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-        }
-
-        .code-topbar-actions {
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-        }
-
-        .code-btn-mini {
-            background: rgba(255, 255, 255, 0.06) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            color: #94a3b8 !important;
-            padding: 5px 12px !important;
-            border-radius: 6px !important;
-            font-size: 12px !important;
-            font-weight: 600 !important;
-            cursor: pointer !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-            transition: all 0.2s ease !important;
-            text-decoration: none !important;
-        }
-
-        .code-btn-mini:hover {
-            background: rgba(56, 189, 248, 0.15) !important;
-            border-color: rgba(56, 189, 248, 0.3) !important;
-            color: #ffffff !important;
-        }
-
-        /* Code Area */
-        .code-content-wrap {
-            display: flex !important;
-            overflow-x: auto !important;
-            padding: 16px 0 !important;
-            font-family: 'Fira Code', 'JetBrains Mono', monospace !important;
-            font-size: 13.5px !important;
-            line-height: 1.6 !important;
-        }
-
-        .code-line-numbers {
-            padding: 0 16px 0 20px !important;
-            text-align: right !important;
-            color: #475569 !important;
-            user-select: none !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
-        }
-
-        .code-line-numbers a {
-            color: #475569 !important;
-            text-decoration: none !important;
-            display: block !important;
-        }
-
-        .code-line-numbers a:hover {
-            color: #94a3b8 !important;
-        }
-
-        .code-actual-body {
-            padding: 0 24px !important;
-            color: #e2e8f0 !important;
-            flex-grow: 1 !important;
-            white-space: pre !important;
-        }
-
-        .code-actual-body .highlight {
-            background: transparent !important;
-        }
-
-        .code-actual-body pre {
-            margin: 0 !important;
-            background: transparent !important;
-            font-family: inherit !important;
-            font-size: inherit !important;
-            line-height: inherit !important;
-        }
-    </style>
+    
 {% endblock %}
 
 {% block js_media %}
@@ -334,6 +120,441 @@
 {% endblock %}
 
 {% block body %}
+<style>
+/* ==========================================================================
+   Source Code Viewer Redesign (Expo Design System - DESIGN.md)
+   ========================================================================== */
+#content {
+    width: 90% !important;
+    max-width: 100% !important;
+    margin: 0 auto 40px !important;
+    box-sizing: border-box !important;
+}
+
+/* 1. Header Card */
+.src-header-card {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important;
+    padding: 20px 24px !important;
+    margin-bottom: 20px !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-sizing: border-box !important;
+    flex-wrap: wrap !important;
+    gap: 16px !important;
+}
+html[data-theme="light"] .src-header-card,
+html.theme-light .src-header-card {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.src-header-left {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+}
+.src-header-tag {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    color: var(--expo-muted) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+html[data-theme="light"] .src-header-tag,
+html.theme-light .src-header-tag {
+    color: #64748b !important;
+}
+
+.src-title-group {
+    display: flex !important;
+    align-items: center !important;
+    gap: 12px !important;
+}
+.src-title-group h2 {
+    margin: 0 !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.3px !important;
+    color: var(--expo-ink) !important;
+}
+.src-title-group h2 a {
+    color: var(--expo-ink) !important;
+    text-decoration: underline !important;
+}
+.src-title-group h2 a:hover {
+    color: var(--expo-ink) !important;
+}
+html[data-theme="light"] .src-title-group h2,
+html[data-theme="light"] .src-title-group h2 a,
+html.theme-light .src-title-group h2,
+html.theme-light .src-title-group h2 a {
+    color: #0f172a !important;
+}
+
+.src-meta-subtext {
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    color: var(--expo-muted) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 2px !important;
+}
+.src-meta-subtext i {
+    color: inherit !important;
+}
+html[data-theme="light"] .src-meta-subtext,
+html.theme-light .src-meta-subtext {
+    color: #64748b !important;
+}
+
+.src-header-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    flex-wrap: wrap !important;
+}
+.src-action-btn {
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+    padding: 0 14px !important;
+    height: 38px !important;
+    border-radius: 8px !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    box-sizing: border-box !important;
+}
+.src-action-btn i,
+.src-action-btn svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+.src-action-btn:hover {
+    background: #27272a !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+html[data-theme="light"] .src-action-btn,
+html.theme-light .src-action-btn {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+html[data-theme="light"] .src-action-btn:hover,
+html.theme-light .src-action-btn:hover {
+    background: #e4e4e7 !important;
+    border-color: #cbd5e1 !important;
+    color: #000000 !important;
+}
+
+/* 2. Modern IDE Code Viewer Card */
+.code-editor-card {
+    background: #09090b !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important;
+    overflow: hidden !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    margin-bottom: 30px !important;
+}
+html[data-theme="light"] .code-editor-card,
+html.theme-light .code-editor-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.code-editor-topbar {
+    background: #18181b !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    padding: 10px 18px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    user-select: none !important;
+}
+html[data-theme="light"] .code-editor-topbar,
+html.theme-light .code-editor-topbar {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.code-window-dots {
+    display: flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+.dot {
+    width: 9px !important;
+    height: 9px !important;
+    border-radius: 50% !important;
+}
+.dot-red { background: #ef4444 !important; opacity: 0.9; }
+.dot-yellow { background: #f59e0b !important; opacity: 0.9; }
+.dot-green { background: #10b981 !important; opacity: 0.9; }
+
+.code-filename {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 13px !important;
+    color: var(--expo-ink) !important;
+    font-weight: 500 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.code-filename i {
+    color: var(--expo-muted) !important;
+}
+.code-filename small {
+    color: var(--expo-muted) !important;
+    font-family: 'Inter', sans-serif !important;
+}
+.code-filename,
+.code-filename *,
+.code-filename span {
+    color: inherit !important;
+}
+html[data-theme="light"] .code-filename,
+html[data-theme="light"] .code-filename *,
+html[data-theme="light"] .code-filename span,
+html.theme-light .code-filename,
+html.theme-light .code-filename *,
+html.theme-light .code-filename span {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .code-filename i,
+html.theme-light .code-filename i {
+    color: #64748b !important;
+}
+html[data-theme="light"] .code-filename small,
+html.theme-light .code-filename small {
+    color: #64748b !important;
+}
+
+.code-topbar-actions {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.code-btn-mini {
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+    padding: 0 12px !important;
+    height: 32px !important;
+    border-radius: 6px !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+}
+.code-btn-mini i {
+    color: var(--expo-muted) !important;
+}
+.code-btn-mini:hover {
+    background: #27272a !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .code-btn-mini,
+html.theme-light .code-btn-mini {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .code-btn-mini i,
+html.theme-light .code-btn-mini i {
+    color: #64748b !important;
+}
+html[data-theme="light"] .code-btn-mini:hover,
+html.theme-light .code-btn-mini:hover {
+    background: #f1f5f9 !important;
+    color: #000000 !important;
+}
+
+/* 3. Code Area */
+.code-content-wrap {
+    display: flex !important;
+    overflow-x: auto !important;
+    padding: 16px 0 !important;
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+    font-size: 13.5px !important;
+    line-height: 1.6 !important;
+    background: transparent !important;
+}
+
+.code-line-numbers {
+    padding: 0 16px 0 20px !important;
+    text-align: right !important;
+    user-select: none !important;
+    border-right: 1px solid var(--expo-hairline) !important;
+    background: transparent !important;
+}
+.code-line-numbers a {
+    color: #52525b !important;
+    text-decoration: none !important;
+    display: block !important;
+    font-family: inherit !important;
+}
+.code-line-numbers a:hover {
+    color: #a1a1aa !important;
+}
+html[data-theme="light"] .code-line-numbers,
+html.theme-light .code-line-numbers {
+    border-right: 1px solid #e2e8f0 !important;
+    background: #f8fafc !important;
+}
+html[data-theme="light"] .code-line-numbers a,
+html.theme-light .code-line-numbers a {
+    color: #94a3b8 !important;
+}
+html[data-theme="light"] .code-line-numbers a:hover,
+html.theme-light .code-line-numbers a:hover {
+    color: #475569 !important;
+}
+
+.code-actual-body {
+    padding: 0 24px !important;
+    color: #f4f4f5 !important;
+    flex-grow: 1 !important;
+    white-space: pre !important;
+    background: transparent !important;
+}
+.code-actual-body .highlight,
+.code-actual-body pre {
+    background: transparent !important;
+    background-color: transparent !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    line-height: inherit !important;
+    color: inherit !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Syntax Highlighting for Dark Mode */
+.code-actual-body .cp { color: #34d399 !important; }
+.code-actual-body .k, .code-actual-body .kd, .code-actual-body .kn, .code-actual-body .kp, .code-actual-body .kr, .code-actual-body .kt { color: #f43f5e !important; font-weight: 600 !important; }
+.code-actual-body .s, .code-actual-body .s1, .code-actual-body .s2, .code-actual-body .sc, .code-actual-body .sd { color: #34d399 !important; }
+.code-actual-body .m, .code-actual-body .mi, .code-actual-body .mf { color: #fbbf24 !important; }
+.code-actual-body .nf, .code-actual-body .fm { color: #a78bfa !important; }
+.code-actual-body .c, .code-actual-body .c1, .code-actual-body .cm { color: #71717a !important; font-style: italic !important; }
+.code-actual-body .o, .code-actual-body .p { color: #f43f5e !important; }
+.code-actual-body .n, .code-actual-body .na, .code-actual-body .nb, .code-actual-body .nc, .code-actual-body .no, .code-actual-body .nv { color: #f4f4f5 !important; }
+
+/* Syntax Highlighting for Light Mode */
+html[data-theme="light"] .code-actual-body,
+html[data-theme="light"] .code-actual-body pre,
+html.theme-light .code-actual-body,
+html.theme-light .code-actual-body pre {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .code-actual-body span,
+html.theme-light .code-actual-body span {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .code-actual-body .cp,
+html.theme-light .code-actual-body .cp {
+    color: #032f62 !important;
+}
+html[data-theme="light"] .code-actual-body .k,
+html[data-theme="light"] .code-actual-body .kd,
+html[data-theme="light"] .code-actual-body .kn,
+html[data-theme="light"] .code-actual-body .kp,
+html[data-theme="light"] .code-actual-body .kr,
+html[data-theme="light"] .code-actual-body .kt,
+html.theme-light .code-actual-body .k,
+html.theme-light .code-actual-body .kd,
+html.theme-light .code-actual-body .kn,
+html.theme-light .code-actual-body .kp,
+html.theme-light .code-actual-body .kr,
+html.theme-light .code-actual-body .kt {
+    color: #d73a49 !important;
+    font-weight: 600 !important;
+}
+html[data-theme="light"] .code-actual-body .s,
+html[data-theme="light"] .code-actual-body .s1,
+html[data-theme="light"] .code-actual-body .s2,
+html[data-theme="light"] .code-actual-body .sc,
+html[data-theme="light"] .code-actual-body .sd,
+html.theme-light .code-actual-body .s,
+html.theme-light .code-actual-body .s1,
+html.theme-light .code-actual-body .s2,
+html.theme-light .code-actual-body .sc,
+html.theme-light .code-actual-body .sd {
+    color: #032f62 !important;
+}
+html[data-theme="light"] .code-actual-body .m,
+html[data-theme="light"] .code-actual-body .mi,
+html[data-theme="light"] .code-actual-body .mf,
+html.theme-light .code-actual-body .m,
+html.theme-light .code-actual-body .mi,
+html.theme-light .code-actual-body .mf {
+    color: #005cc5 !important;
+}
+html[data-theme="light"] .code-actual-body .nf,
+html[data-theme="light"] .code-actual-body .fm,
+html.theme-light .code-actual-body .nf,
+html.theme-light .code-actual-body .fm {
+    color: #6f42c1 !important;
+}
+html[data-theme="light"] .code-actual-body .c,
+html[data-theme="light"] .code-actual-body .c1,
+html[data-theme="light"] .code-actual-body .cm,
+html.theme-light .code-actual-body .c,
+html.theme-light .code-actual-body .c1,
+html.theme-light .code-actual-body .cm {
+    color: #6a737d !important;
+    font-style: italic !important;
+}
+html[data-theme="light"] .code-actual-body .o,
+html[data-theme="light"] .code-actual-body .p,
+html.theme-light .code-actual-body .o,
+html.theme-light .code-actual-body .p {
+    color: #d73a49 !important;
+}
+html[data-theme="light"] .code-actual-body .n,
+html[data-theme="light"] .code-actual-body .na,
+html[data-theme="light"] .code-actual-body .nb,
+html[data-theme="light"] .code-actual-body .nc,
+html[data-theme="light"] .code-actual-body .no,
+html[data-theme="light"] .code-actual-body .nv,
+html.theme-light .code-actual-body .n,
+html.theme-light .code-actual-body .na,
+html.theme-light .code-actual-body .nb,
+html.theme-light .code-actual-body .nc,
+html.theme-light .code-actual-body .no,
+html.theme-light .code-actual-body .nv {
+    color: #0f172a !important;
+}
+</style>
+
     {% set lines = raw_source.split('
 ') %}
     <!-- Modern IDE Code Viewer Card -->
@@ -346,7 +567,7 @@
                     <span class="dot dot-green"></span>
                 </div>
                 <div class="code-filename">
-                    <i class="fa fa-file-code-o" style="color: #38bdf8;"></i>
+                    <i class="fa fa-file-code-o"></i>
                     <span>solution.{{ submission.language.common_name or 'cpp' }}</span>
                     <small style="color: #64748b; font-weight: normal;">({{ lines|length }} lines &bull; {{ raw_source|length }} bytes)</small>
                 </div>
