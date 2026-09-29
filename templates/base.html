@@ -2048,7 +2048,7 @@
     }
 
     .comment-display .detail .header .comment-author-wrap a {
-        color: #f1f5f9 !important;
+        color: var(--expo-ink) !important;
         font-weight: 700 !important;
         text-decoration: none !important;
         font-size: 14px !important;
@@ -2207,6 +2207,30 @@
     html[data-theme="dark"] .admin a {
         color: #38bdf8 !important;
         font-weight: 700 !important;
+    }
+
+    /* Light mode text fixes for admin rank to prevent white text on light backgrounds */
+    html[data-theme="light"] .admin,
+    html[data-theme="light"] .admin a,
+    html[data-theme="light"] .rate-none.admin a,
+    html.theme-light .admin,
+    html.theme-light .admin a,
+    html.theme-light .rate-none.admin a,
+    html[data-theme="light"] .comment-display .detail .header .comment-author-wrap a,
+    html.theme-light .comment-display .detail .header .comment-author-wrap a,
+    html[data-theme="light"] .comment-display .comment-author-wrap a,
+    html.theme-light .comment-display .comment-author-wrap a {
+        color: #0f172a !important;
+        font-weight: 700 !important;
+    }
+
+    html[data-theme="light"] .admin a:hover,
+    html[data-theme="light"] .rate-none.admin a:hover,
+    html.theme-light .admin a:hover,
+    html.theme-light .rate-none.admin a:hover,
+    html[data-theme="light"] .comment-display .detail .header .comment-author-wrap a:hover,
+    html.theme-light .comment-display .detail .header .comment-author-wrap a:hover {
+        color: #0d74ce !important;
     }
 
     html:not([data-theme="light"]) .tabs .tab.active,
