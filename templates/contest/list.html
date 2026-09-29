@@ -30,483 +30,787 @@
 {% endblock %}
 {% block media %}
     <style>
-        /* ── Card Containers ── */
-        .contest-table-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(12px) !important;
-            overflow-x: auto !important;
-            padding: 8px 16px 12px 16px !important;
-            margin-bottom: 28px !important;
-            box-sizing: border-box !important;
-            transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.25s ease, 
-                        box-shadow 0.25s ease,
-                        background 0.25s ease !important;
-        }
-        .contest-table-card:hover {
-            border-color: rgba(56, 189, 248, 0.55) !important;
-            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                        0 0 25px rgba(56, 189, 248, 0.2), 
-                        inset 0 0 0 1px rgba(56, 189, 248, 0.25) !important;
-            transform: translateY(-2px) !important;
-            background: rgba(255, 255, 255, 0.045) !important;
-        }
+/* =========================================================
+   EXPO DESIGN SYSTEM - CONTESTS LIST (DESIGN.md)
+   ========================================================= */
 
-        .contest-empty-card {
-            background: rgba(255, 255, 255, 0.02) !important;
-            border: 1px solid rgba(255, 255, 255, 0.04) !important;
-            border-radius: 12px !important;
-            padding: 18px 24px !important;
-            color: #64748b !important;
-            font-size: 14px !important;
-            margin-bottom: 24px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-        }
+/* 1. CSS Variables */
+:root, html[data-theme="light"], html.theme-light {
+    --expo-canvas: #ffffff;
+    --expo-canvas-soft: #fafafa;
+    --expo-surface-card: #ffffff;
+    --expo-surface-strong: #f0f0f3;
+    --expo-surface-dark: #171717;
+    --expo-primary: #000000;
+    --expo-primary-active: #1a1a1a;
+    --expo-on-primary: #ffffff;
+    --expo-ink: #171717;
+    --expo-body: #60646c;
+    --expo-muted: #999999;
+    --expo-hairline: #f0f0f3;
+    --expo-hairline-soft: #f5f5f7;
+    --expo-hairline-strong: #dcdee0;
+    --expo-text-link: #0d74ce;
+    --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+    --expo-card-hover-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
 
-        /* ── Table Structure ── */
-        table.contest-list,
-        .contest-list {
-            border-collapse: separate !important;
-            border-spacing: 0 8px !important;
-            width: 100% !important;
-            background: transparent !important;
-            border: none !important;
-            margin-bottom: 0 !important;
-            backdrop-filter: none !important;
-            box-shadow: none !important;
-        }
+html[data-theme="dark"], html.theme-dark, html:not([data-theme="light"]) {
+    --expo-canvas: #09090b;
+    --expo-canvas-soft: #111113;
+    --expo-surface-card: #121214;
+    --expo-surface-strong: #18181b;
+    --expo-surface-dark: #171717;
+    --expo-primary: #ffffff;
+    --expo-primary-active: #e5e5e5;
+    --expo-on-primary: #000000;
+    --expo-ink: #f4f4f5;
+    --expo-body: #a1a1aa;
+    --expo-muted: #71717a;
+    --expo-hairline: rgba(255, 255, 255, 0.08);
+    --expo-hairline-soft: rgba(255, 255, 255, 0.05);
+    --expo-hairline-strong: rgba(255, 255, 255, 0.16);
+    --expo-text-link: #38bdf8;
+    --expo-card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    --expo-card-hover-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
 
-        /* ── Headers ── */
-        .contest-list thead th {
-            background: transparent !important;
-            color: #64748b !important;
-            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.8px !important;
-            padding: 14px 20px !important;
-            border: none !important;
-            vertical-align: middle !important;
-        }
-        .contest-list thead th a,
-        .contest-list thead th a.contest-sort-link {
-            color: #64748b !important;
-            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            text-decoration: none !important;
-            text-transform: uppercase !important;
-            letter-spacing: 0.8px !important;
-        }
-        .contest-list thead th a:hover {
-            color: #94a3b8 !important;
-        }
+/* 2. Global Canvas & Layout Spacing */
+html body, html {
+    background-color: var(--expo-canvas) !important;
+    background-image: none !important;
+    color: var(--expo-ink) !important;
+    font-family: "Inter", -apple-system, system-ui, sans-serif !important;
+}
 
-        /* ── Rows ── */
-        .contest-list tbody tr {
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            background: #0d1322 !important;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06) !important;
-        }
-        .contest-list tbody tr:hover {
-            background: rgba(0, 112, 243, 0.15) !important;
-            transform: translateY(-2px) scale(1.002) !important;
-            box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.1) !important;
-        }
+#content {
+    width: 90% !important;
+    max-width: 100% !important;
+    margin: 0 auto 40px !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+}
 
-        /* ── Cells ── */
-        .contest-list tbody td {
-            padding: 14px 20px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-top: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-left: none !important;
-            border-right: none !important;
-            vertical-align: middle !important;
-            color: #e2e8f0 !important;
-        }
-        .contest-list tbody td:first-child {
-            border-left: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-top-left-radius: 12px !important;
-            border-bottom-left-radius: 12px !important;
-        }
-        .contest-list tbody td:last-child {
-            border-right: 1px solid rgba(255, 255, 255, 0.03) !important;
-            border-top-right-radius: 12px !important;
-            border-bottom-right-radius: 12px !important;
-            text-align: right !important;
-        }
+#common-content {
+    width: 100% !important;
+}
 
-        /* ── Contest block flex layout ── */
-        .contest-block {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            gap: 16px !important;
-            width: 100% !important;
-        }
-        .contest-left-info {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            flex-wrap: wrap !important;
-        }
-        .contest-right-pills {
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-            margin-left: auto !important;
-            padding-right: 8px !important;
-        }
-        .contest-pill {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 6px !important;
-            padding: 5px 12px !important;
-            border-radius: 8px !important;
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            font-size: 13px !important;
-            white-space: nowrap !important;
-            transition: all 0.2s ease !important;
-        }
-        .contest-pill svg {
-            stroke: currentColor !important;
-            flex-shrink: 0 !important;
-        }
+.content-description {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
 
-        /* Countdown pill (Cyan) */
-        .contest-pill-countdown {
-            background: rgba(56, 189, 248, 0.1) !important;
-            border: 1px solid rgba(56, 189, 248, 0.25) !important;
-            color: #38bdf8 !important;
-            font-weight: 700 !important;
-        }
-        .contest-pill-countdown .time-remaining {
-            color: #38bdf8 !important;
-            font-weight: 700 !important;
-        }
+/* 3. Header Tabs (.tabs) - Fix Hover Centering Bug */
+.tabs,
+.tabs:hover {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    transform: none !important;
+    padding: 0 !important;
+    margin-bottom: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    justify-content: flex-start !important;
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+}
 
-        /* Schedule / Calendar pill (Slate) */
-        .contest-pill-schedule {
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            color: #94a3b8 !important;
-            font-weight: 500 !important;
-        }
-        .contest-duration-badge {
-            display: inline-block !important;
-            padding: 1px 6px !important;
-            background: rgba(255, 255, 255, 0.06) !important;
-            border-radius: 4px !important;
-            color: #cbd5e1 !important;
-            font-size: 11.5px !important;
-            margin-left: 4px !important;
-        }
+.tabs h2 {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 26px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.6px !important;
+    color: var(--expo-ink) !important;
+    margin: 0 !important;
+    text-align: left !important;
+}
 
-        /* ── Contest Title ── */
-        .contest-list-title {
-            font-size: 16.5px !important;
-            font-weight: 700 !important;
-            color: #ffffff !important;
-            text-decoration: none !important;
-            transition: color 0.2s ease !important;
-            letter-spacing: -0.2px !important;
-        }
-        .contest-list-title:hover {
-            color: #60a5fa !important;
-            text-decoration: none !important;
-        }
+.tabs:not(#mobile)::before {
+    text-align: left !important;
+}
 
-        /* ── Modern Badges for Contests ── */
-        .contest-tag {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 5px !important;
-            padding: 3px 10px !important;
-            border-radius: 6px !important;
-            font-family: 'Google Sans Code', 'JetBrains Mono', Consolas, monospace !important;
-            font-size: 11.5px !important;
-            font-weight: 600 !important;
-            letter-spacing: 0.3px !important;
-            vertical-align: middle !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
-            transition: all 0.2s ease !important;
-            text-decoration: none !important;
-        }
+.tabs ul {
+    position: absolute !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
 
-        /* Reset inner <a> tag: NEVER border, NEVER background */
-        .contest-tag a,
-        .contest-tags a {
-            background: transparent !important;
-            border: none !important;
-            outline: none !important;
-            box-shadow: none !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            color: inherit !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 4px !important;
-            text-decoration: none !important;
-        }
+.tabs .tab > a,
+.tabs .tab > span {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 7px !important;
+    padding: 7px 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: var(--expo-body) !important;
+    box-shadow: none !important;
+}
 
-        /* Organization Badge (Blue Glass - matching Category Badge) */
-        .contest-tag.contest-tag-org,
-        .contest-tag:has(a[href*="/organization/"]) {
-            background: rgba(59, 130, 246, 0.12) !important;
-            color: #93c5fd !important;
-            border: 1px solid rgba(59, 130, 246, 0.28) !important;
-        }
-        .contest-tag.contest-tag-org a,
-        .contest-tag:has(a[href*="/organization/"]) a {
-            color: #93c5fd !important;
-            border: none !important;
-            background: transparent !important;
-        }
-        .contest-tag.contest-tag-org i,
-        .contest-tag:has(a[href*="/organization/"]) i {
-            color: #60a5fa !important;
-            margin-right: 3px !important;
-        }
-        .contest-tag.contest-tag-org:hover,
-        .contest-tag:has(a[href*="/organization/"]):hover {
-            background: rgba(59, 130, 246, 0.22) !important;
-            border-color: rgba(56, 189, 248, 0.55) !important;
-            transform: translateY(-1px) !important;
-            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.25) !important;
-            color: #ffffff !important;
-        }
-        .contest-tag.contest-tag-org:hover a,
-        .contest-tag:has(a[href*="/organization/"]):hover a {
-            color: #ffffff !important;
-        }
+.tabs .tab > a .tab-icon,
+.tabs .tab > span .tab-icon {
+    width: 14px !important;
+    height: 14px !important;
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
 
-        /* Class / Group Badge (Cyan Glass) */
-        .contest-tag.contest-tag-class {
-            background: rgba(6, 182, 212, 0.12) !important;
-            color: #67e8f9 !important;
-            border: 1px solid rgba(6, 182, 212, 0.28) !important;
-        }
-        .contest-tag.contest-tag-class a {
-            color: #67e8f9 !important;
-        }
-        .contest-tag.contest-tag-class i {
-            color: #22d3ee !important;
-        }
+.tabs .tab > a:hover {
+    background: var(--expo-surface-strong) !important;
+    color: var(--expo-ink) !important;
+    border-color: var(--expo-hairline) !important;
+}
 
-        /* Hidden Badge (Slate Glass) */
-        .contest-tag.contest-tag-hidden {
-            background: rgba(100, 116, 139, 0.14) !important;
-            color: #94a3b8 !important;
-            border: 1px solid rgba(100, 116, 139, 0.25) !important;
-        }
+.tabs .tab.active > a,
+.tabs .tab.active > span {
+    background: #242428 !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+}
 
-        /* Rated Badge (Amber Glass) */
-        .contest-tag.contest-tag-rated {
-            background: rgba(245, 158, 11, 0.14) !important;
-            color: #fcd34d !important;
-            border: 1px solid rgba(245, 158, 11, 0.28) !important;
-        }
+html[data-theme="light"] .tabs .tab > a,
+html[data-theme="light"] .tabs .tab > span,
+html.theme-light .tabs .tab > a,
+html.theme-light .tabs .tab > span {
+    background: #f0f0f3 !important;
+    border: 1px solid transparent !important;
+    color: #60646c !important;
+}
 
-        /* Private Badge (Rose Glass) */
-        .contest-tag.contest-tag-private {
-            background: rgba(244, 63, 94, 0.14) !important;
-            color: #fda4af !important;
-            border: 1px solid rgba(244, 63, 94, 0.28) !important;
-        }
+html[data-theme="light"] .tabs .tab > a:hover,
+html.theme-light .tabs .tab > a:hover {
+    background: #e4e4e7 !important;
+    color: #171717 !important;
+}
 
-        /* ── User Count ── */
-        .contest-list tbody td a[href*="ranking"],
-        .contest-list tbody td:nth-child(2) {
-            font-family: 'Google Sans Code', 'Fira Code', 'JetBrains Mono', Consolas, monospace !important;
-            color: #a78bfa !important;
-            font-weight: 600 !important;
-            font-size: 15px !important;
-        }
-        .contest-list tbody td a[href*="ranking"] {
-            text-decoration: none !important;
-            display: inline-block !important;
-            padding: 4px 10px !important;
-            background: rgba(167, 139, 250, 0.1) !important;
-            border: 1px solid rgba(167, 139, 250, 0.2) !important;
-            border-radius: 8px !important;
-            transition: all 0.2s ease !important;
-        }
-        .contest-list tbody td a[href*="ranking"]:hover {
-            background: rgba(167, 139, 250, 0.2) !important;
-            color: #ffffff !important;
-            transform: translateY(-1px) !important;
-        }
+html[data-theme="light"] .tabs .tab.active > a,
+html[data-theme="light"] .tabs .tab.active > span,
+html.theme-light .tabs .tab.active > a,
+html.theme-light .tabs .tab.active > span {
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
 
-        /* ── Participate Buttons ── */
-        .contest-list .participate-button {
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            padding: 9px 24px !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer !important;
-            width: auto !important;
-            min-width: 90px !important;
-            text-align: center !important;
-        }
-        .contest-list .participate-button:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
-        }
-        .contest-list .participate-button.disabled {
-            background: rgba(255, 255, 255, 0.05) !important;
-            color: #64748b !important;
-            border-color: rgba(255, 255, 255, 0.08) !important;
-            box-shadow: none !important;
-            cursor: not-allowed !important;
-            transform: none !important;
-        }
+html[data-theme="light"] .tabs .tab.active > a svg,
+html[data-theme="light"] .tabs .tab.active > a i,
+html.theme-light .tabs .tab.active > a svg,
+html.theme-light .tabs .tab.active > a i {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
 
-        /* ── Past Contests Toolbar & Search ── */
-        .contest-past-toolbar {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            gap: 16px !important;
-            width: 100% !important;
-            margin: 16px 0 20px 0 !important;
-            box-sizing: border-box !important;
-            flex-wrap: wrap !important;
-        }
-        .contest-toolbar-pagination {
-            display: flex !important;
-            align-items: center !important;
-        }
-        .contest-toolbar-pagination .pagination {
-            margin: 0 !important;
-        }
-        #search-form.contest-search-form,
-        .contest-search-form {
-            display: flex !important;
-            align-items: center !important;
-            margin: 0 !important;
-            margin-left: auto !important;
-            margin-right: 4px !important;
-            width: auto !important;
-        }
-        .contest-search-box {
-            position: relative !important;
-            display: flex !important;
-            align-items: center !important;
-            width: 270px !important;
-            min-width: unset !important;
-            max-width: 100% !important;
-        }
-        .contest-search-icon {
-            position: absolute !important;
-            left: 14px !important;
-            color: rgba(255, 255, 255, 0.4) !important;
-            pointer-events: none !important;
-            transition: color 0.2s ease !important;
-            z-index: 2 !important;
-        }
-        .contest-search-box:focus-within .contest-search-icon {
-            color: #38bdf8 !important;
-        }
-        .contest-search-input {
-            width: 100% !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 100px !important;
-            padding: 8px 36px 8px 38px !important;
-            color: #ffffff !important;
-            font-size: 13.5px !important;
-            font-weight: 500 !important;
-            box-sizing: border-box !important;
-            outline: none !important;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-        }
-        .contest-search-input:hover {
-            background: rgba(255, 255, 255, 0.06) !important;
-            border-color: rgba(56, 189, 248, 0.3) !important;
-        }
-        .contest-search-input:focus {
-            background: rgba(255, 255, 255, 0.08) !important;
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 16px rgba(56, 189, 248, 0.25), inset 0 0 0 1px #38bdf8 !important;
-        }
-        .contest-search-input::placeholder {
-            color: rgba(255, 255, 255, 0.35) !important;
-            font-size: 13px !important;
-        }
-        .contest-search-clear {
-            position: absolute !important;
-            right: 12px !important;
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
-            width: 20px !important;
-            height: 20px !important;
-            border-radius: 50% !important;
-            background: rgba(255, 255, 255, 0.1) !important;
-            color: #94a3b8 !important;
-            text-decoration: none !important;
-            transition: all 0.2s ease !important;
-            cursor: pointer !important;
-            z-index: 2 !important;
-        }
-        .contest-search-clear:hover {
-            background: rgba(239, 68, 68, 0.25) !important;
-            color: #f87171 !important;
-            transform: scale(1.05) !important;
-        }
-        /* ── Top Toolbar with Add Contest Button ── */
-        .contest-top-toolbar {
-            display: flex !important;
-            align-items: center !important;
-            justify-content: flex-end !important;
-            width: 100% !important;
-            box-sizing: border-box !important;
-            margin-bottom: 20px !important;
-            gap: 12px !important;
-        }
-        .add-contest-btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            padding: 9px 22px !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 13.5px !important;
-            text-decoration: none !important;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            cursor: pointer !important;
-            margin-left: auto !important;
-            letter-spacing: 0.2px !important;
-        }
-        .add-contest-btn:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
-            color: #ffffff !important;
-        }
-    </style>
-{% endblock %}
+/* 4. Top Toolbar: Add Contest Button */
+.contest-top-toolbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    margin-bottom: 20px !important;
+    gap: 12px !important;
+}
+
+/* Add Contest Button - 8px Developer Radii, NO 100px pill */
+.add-contest-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    height: 38px !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+    letter-spacing: 0 !important;
+}
+
+.add-contest-btn span {
+    color: #000000 !important;
+    display: inline !important;
+}
+
+.add-contest-btn svg {
+    stroke: #000000 !important;
+    color: #000000 !important;
+}
+
+.add-contest-btn:hover {
+    opacity: 0.92 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+
+html[data-theme="light"] .add-contest-btn,
+html.theme-light .add-contest-btn {
+    background: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] .add-contest-btn span,
+html.theme-light .add-contest-btn span {
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .add-contest-btn svg,
+html.theme-light .add-contest-btn svg {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+
+html[data-theme="light"] .add-contest-btn:hover,
+html.theme-light .add-contest-btn:hover {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* 5. Section Headings (h4) - Clean Expo Typography, NO Cyan Vertical Bar */
+html body .content-description h4,
+html body #content h4,
+html body .content-description h3,
+html body h4 {
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.3px !important;
+    color: var(--expo-ink) !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin: 32px 0 16px 0 !important;
+    display: block !important;
+}
+
+html body .content-description h4:first-of-type {
+    margin-top: 0 !important;
+}
+
+/* 6. Contest Table Cards & Tables */
+.contest-table-card {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important; /* {rounded.lg} */
+    overflow: hidden !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    padding: 0 !important;
+    margin: 0 0 28px 0 !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+}
+
+.contest-table-card:hover {
+    border-color: var(--expo-hairline-strong) !important;
+    box-shadow: var(--expo-card-hover-shadow) !important;
+    transform: none !important;
+}
+
+html[data-theme="light"] .contest-table-card,
+html.theme-light .contest-table-card {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Table */
+table.contest-list,
+.contest-list {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+    background: transparent !important;
+    border: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+/* Header */
+html body .contest-table-card .contest-list thead th,
+html[data-theme="light"] body .contest-table-card .contest-list thead th,
+html.theme-light body .contest-table-card .contest-list thead th {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #f0f0f3 !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    color: #64748b !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    padding: 14px 20px !important;
+    height: 44px !important;
+    vertical-align: middle !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+}
+
+html[data-theme="dark"] body .contest-table-card .contest-list thead th,
+html.theme-dark body .contest-table-card .contest-list thead th {
+    background: #18181b !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #71717a !important;
+}
+
+.contest-list thead th a,
+.contest-list thead th a.contest-sort-link {
+    color: inherit !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+.contest-list thead th a:hover {
+    color: var(--expo-ink) !important;
+}
+
+/* Rows */
+.contest-list tbody tr {
+    background: var(--expo-surface-card) !important;
+    border: none !important;
+    box-shadow: none !important;
+    transform: none !important;
+    transition: background 0.15s ease !important;
+}
+
+.contest-list tbody tr:hover,
+.contest-list tbody tr:hover td {
+    background: var(--expo-surface-strong) !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] .contest-list tbody tr,
+html.theme-light .contest-list tbody tr {
+    background: #ffffff !important;
+}
+
+html[data-theme="light"] .contest-list tbody tr:hover,
+html[data-theme="light"] .contest-list tbody tr:hover td,
+html.theme-light .contest-list tbody tr:hover,
+html.theme-light .contest-list tbody tr:hover td {
+    background: #f8fafc !important;
+}
+
+/* Cells */
+.contest-list tbody td {
+    padding: 14px 20px !important;
+    border: none !important;
+    border-bottom: 1px solid var(--expo-hairline) !important;
+    border-radius: 0 !important;
+    vertical-align: middle !important;
+    color: var(--expo-body) !important;
+    font-size: 14px !important;
+    box-shadow: none !important;
+}
+
+.contest-list tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Contest Title */
+.contest-list-title {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+    transition: color 0.15s ease !important;
+}
+
+.contest-list-title:hover {
+    color: var(--expo-text-link) !important;
+}
+
+html[data-theme="light"] .contest-list-title,
+html.theme-light .contest-list-title {
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .contest-list-title:hover,
+html.theme-light .contest-list-title:hover {
+    color: #0d74ce !important;
+}
+
+/* Tags */
+.contest-tag {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 2px 7px !important;
+    border-radius: 6px !important; /* {rounded.sm} */
+    font-family: "Inter", sans-serif !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #cbd5e1 !important;
+}
+
+.contest-tag-org a {
+    color: inherit !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="light"] .contest-tag,
+html.theme-light .contest-tag,
+html[data-theme="light"] .contest-tag.contest-tag-org,
+html.theme-light .contest-tag.contest-tag-org {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] .contest-tag.contest-tag-org a,
+html.theme-light .contest-tag.contest-tag-org a {
+    color: #171717 !important;
+}
+
+/* Pills (Schedule, Countdown) */
+.contest-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important; /* {rounded.sm} */
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 12px !important;
+    white-space: nowrap !important;
+    background: #202024 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #f4f4f5 !important;
+}
+
+.contest-pill span:not(.contest-duration-badge) {
+    color: inherit !important;
+}
+
+.contest-pill svg {
+    stroke: currentColor !important;
+    color: inherit !important;
+    flex-shrink: 0 !important;
+}
+
+.contest-pill-countdown {
+    background: rgba(16, 185, 129, 0.12) !important;
+    border-color: rgba(16, 185, 129, 0.28) !important;
+    color: #10b981 !important;
+}
+
+.contest-duration-badge {
+    background: rgba(255, 255, 255, 0.08) !important;
+    padding: 1px 6px !important;
+    border-radius: 4px !important;
+    font-size: 11px !important;
+    color: #a1a1aa !important;
+    margin-left: 4px !important;
+}
+
+html[data-theme="light"] .contest-pill,
+html.theme-light .contest-pill,
+html[data-theme="light"] .contest-pill.contest-pill-schedule,
+html.theme-light .contest-pill.contest-pill-schedule {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] .contest-duration-badge,
+html.theme-light .contest-duration-badge {
+    background: #e4e4e7 !important;
+    color: #60646c !important;
+}
+
+html[data-theme="light"] .contest-pill.contest-pill-countdown,
+html.theme-light .contest-pill.contest-pill-countdown {
+    background: rgba(22, 163, 74, 0.1) !important;
+    border-color: rgba(22, 163, 74, 0.25) !important;
+    color: #15803d !important;
+}
+
+/* User Count */
+.contest-list td a:not(.contest-list-title) {
+    font-family: "JetBrains Mono", monospace !important;
+    font-weight: 500 !important;
+    font-size: 13.5px !important;
+    color: var(--expo-body) !important;
+    text-decoration: none !important;
+}
+
+.contest-list td a:not(.contest-list-title):hover {
+    color: var(--expo-ink) !important;
+}
+
+/* Participate Buttons */
+.participate-button,
+input[type="submit"].participate-button {
+    height: 34px !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-weight: 500 !important;
+    font-size: 13px !important;
+    cursor: pointer !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.15s ease !important;
+}
+
+.participate-button:hover,
+input[type="submit"].participate-button:hover {
+    opacity: 0.9 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.participate-button.disabled,
+input[type="submit"].participate-button:disabled {
+    opacity: 0.4 !important;
+    cursor: not-allowed !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] .participate-button,
+html[data-theme="light"] input[type="submit"].participate-button,
+html.theme-light .participate-button,
+html.theme-light input[type="submit"].participate-button {
+    background: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+}
+
+html[data-theme="light"] .participate-button:hover,
+html[data-theme="light"] input[type="submit"].participate-button:hover,
+html.theme-light .participate-button:hover,
+html.theme-light input[type="submit"].participate-button:hover {
+    background: #1a1a1a !important;
+    color: #ffffff !important;
+}
+
+/* 7. Past Contests Toolbar & Search Input */
+.contest-past-toolbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    margin-bottom: 16px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+/* Pagination in Toolbar */
+ul.pagination {
+    display: inline-flex !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    gap: 6px !important;
+    list-style: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+}
+
+ul.pagination > li {
+    display: flex !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+
+ul.pagination > li > a,
+ul.pagination > li > span {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-body) !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+}
+
+ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+    background: var(--expo-surface-strong) !important;
+    color: var(--expo-ink) !important;
+    border-color: var(--expo-hairline-strong) !important;
+}
+
+ul.pagination > .active-page > a,
+ul.pagination > .active-page > span {
+    background: var(--expo-primary) !important;
+    color: var(--expo-on-primary) !important;
+    border-color: var(--expo-primary) !important;
+    font-weight: 600 !important;
+}
+
+ul.pagination > .disabled-page > span,
+ul.pagination > .disabled-page > a {
+    opacity: 0.35 !important;
+    cursor: not-allowed !important;
+}
+
+html[data-theme="light"] ul.pagination > li > a,
+html[data-theme="light"] ul.pagination > li > span,
+html.theme-light ul.pagination > li > a,
+html.theme-light ul.pagination > li > span {
+    background: #f0f0f3 !important;
+    border: none !important;
+    color: #60646c !important;
+}
+
+html[data-theme="light"] ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover,
+html.theme-light ul.pagination > li:not(.active-page):not(.disabled-page) > a:hover {
+    background: #e4e4e7 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] ul.pagination > .active-page > a,
+html[data-theme="light"] ul.pagination > .active-page > span,
+html.theme-light ul.pagination > .active-page > a,
+html.theme-light ul.pagination > .active-page > span {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border-color: #000000 !important;
+}
+
+/* Search Box in Past Contests Toolbar */
+.contest-search-box {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.contest-search-icon {
+    position: absolute !important;
+    left: 12px !important;
+    color: #71717a !important;
+    pointer-events: none !important;
+}
+
+.contest-search-input {
+    height: 38px !important;
+    padding: 0 36px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: #141416 !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    color: #f4f4f5 !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    box-sizing: border-box !important;
+    outline: none !important;
+    transition: border-color 0.15s ease !important;
+    width: 240px !important;
+}
+
+.contest-search-input::placeholder {
+    color: #71717a !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+}
+
+.contest-search-input:focus {
+    border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
+html[data-theme="light"] .contest-search-icon,
+html.theme-light .contest-search-icon {
+    color: #94a3b8 !important;
+}
+
+html[data-theme="light"] .contest-search-input,
+html.theme-light .contest-search-input {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+html[data-theme="light"] .contest-search-input::placeholder,
+html.theme-light .contest-search-input::placeholder {
+    color: #999999 !important;
+}
+
+html[data-theme="light"] .contest-search-input:focus,
+html.theme-light .contest-search-input:focus {
+    border-color: #000000 !important;
+}
+
+/* Empty Card */
+.contest-empty-card {
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 12px !important;
+    padding: 24px 28px !important;
+    color: var(--expo-muted) !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 14px !important;
+    margin-bottom: 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+html[data-theme="light"] .contest-empty-card,
+html.theme-light .contest-empty-card {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    color: #64748b !important;
+}
+    </style>{% endblock %}
 {% block title_ruler %}{% endblock %}
 {% block title_row %}
     {% set tab = 'list' %}
