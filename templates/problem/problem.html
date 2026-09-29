@@ -204,7 +204,7 @@
 {% block info_float %}
     <!-- Scroll-revealed submission action group -->
     <div id="sidebar-scroll-actions" class="sidebar-scroll-actions" style="display: none;">
-        <a href="{{ url('problem_submit', problem.code) }}" class="sidebar-scroll-submit-btn">
+        <a href="{{ url('problem_submit', problem.code) }}" class="button sidebar-scroll-submit-btn">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
             <span>{{ _('Submit solution') }}</span>
         </a>
@@ -230,7 +230,7 @@
             {% if vote_perm.can_vote() %}
                 <div class="sidebar-action-item">
                     <a href="#" data-featherlight="{{ url('problem_vote', problem.code) }}" id="problem-vote-button">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                         {%- if vote is none -%}
                             <span>{{ _('Vote on problem points') }}</span>
                         {%- else -%}
@@ -241,7 +241,7 @@
             {% endif %}
             <div class="sidebar-action-item">
                 <a href="#" data-featherlight="{{ url('problem_vote_stats', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                     <span>{{ _('Voting statistics') }}</span>
                 </a>
             </div>
@@ -249,7 +249,7 @@
         {% if (editorial and editorial.is_accessible_by(request.user)) and not request.in_contest %}
             <div class="sidebar-action-item">
                 <a href="{{ url('problem_editorial', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
                     <span>{{ _('Read editorial') }}</span>
                 </a>
             </div>
@@ -257,21 +257,21 @@
         {% if can_edit_problem %}
             <div class="sidebar-action-item">
                 <a href="{{ url('problem_ticket_list', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"></path></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"></path></svg>
                     <span>{{ _('Manage tickets') }}</span>
                     {% if num_open_tickets %}<span class="badge">{{ num_open_tickets }}</span>{% endif %}
                 </a>
             </div>
             <div class="sidebar-action-item">
                 <a href="{{ url('problem_edit', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
                     <span>{{ _('Edit problem') }}</span>
                 </a>
             </div>
             {% if not problem.is_manually_managed %}
                 <div class="sidebar-action-item">
                     <a href="{{ url('problem_data', problem.code) }}">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V2"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0L10 2h4l.5 7.3z"></path></svg>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v7.31"></path><path d="M14 9.3V2"></path><path d="M8.5 2h7"></path><path d="M14 9.3a6.5 6.5 0 1 1-4 0L10 2h4l.5 7.3z"></path></svg>
                         <span>{{ _('Edit test data') }}</span>
                     </a>
                 </div>
@@ -279,7 +279,7 @@
         {% elif request.user.is_authenticated and has_tickets %}
             <div class="sidebar-action-item">
                 <a href="{{ url('problem_ticket_list', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"></path></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v2z"></path></svg>
                     <span>{{ _('My tickets') }}</span>
                     {% if num_open_tickets %}<span class="badge">{{ num_open_tickets }}</span>{% endif %}
                 </a>
@@ -288,7 +288,7 @@
         {% if problem.is_subs_manageable_by(request.user) %}
             <div class="sidebar-action-item">
                 <a href="{{ url('problem_manage_submissions', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><polyline points="3 6 4 7 6 5"></polyline><polyline points="3 12 4 13 6 11"></polyline><polyline points="3 18 4 19 6 17"></polyline></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><polyline points="3 6 4 7 6 5"></polyline><polyline points="3 12 4 13 6 11"></polyline><polyline points="3 18 4 19 6 17"></polyline></svg>
                     <span>{{ _('Manage submissions') }}</span>
                 </a>
             </div>
@@ -296,7 +296,7 @@
         {% if perms.judge.clone_problem %}
             <div class="sidebar-action-item">
                 <a href="{{ url('problem_clone', problem.code) }}">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                     <span>{{ _('Clone problem') }}</span>
                 </a>
             </div>
@@ -308,7 +308,7 @@
 
     <div class="sidebar-specs-group">
         <div class="problem-info-entry">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
             <span class="pi-name">{{ _('Points:') }}</span>
             <span class="pi-value points-val">
                 {% if contest_problem %}
@@ -319,7 +319,7 @@
             </span>
         </div>
         <div class="problem-info-entry">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
             <span class="pi-name">{{ _('Time limit:') }}</span>
             <span class="pi-value time-val">{{ problem.time_limit }}s</span>
         </div>
@@ -332,7 +332,7 @@
             {% endfor %}
         </div>
         <div class="problem-info-entry">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>
             <span class="pi-name">{{ _('Memory limit:') }}</span>
             <span class="pi-value memory-val">{{ problem.memory_limit|kbsimpleformat }}</span>
         </div>
@@ -349,7 +349,7 @@
                 {% with authors=problem.authors.all() %}
                     {% if authors %}
                         <div class="problem-info-entry">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                             <span class="pi-name">{% trans trimmed count=authors|length %}Author:{% pluralize count %}Authors:{% endtrans %}</span>
                             <div class="pi-value authors-value">{{ link_users(authors) }}</div>
                         </div>
@@ -366,7 +366,7 @@
             <div id="problem-types" class="sidebar-toggle-entry">
                 {% with types=problem.types_list %}
                     <div class="toggle closed unselectable">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sidebar-chevron"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sidebar-chevron"><polyline points="9 18 15 12 9 6"></polyline></svg>
                         <span class="toggle-title">{% trans trimmed count=problem.types_list|length %}Problem type{% pluralize count %}Problem types{% endtrans %}</span>
                     </div>
                     <div style="display:none" class="toggled">{{ problem.types_list|join(", ") }}</div>
@@ -376,7 +376,7 @@
         {% if show_languages %}
             <div id="allowed-langs" class="sidebar-toggle-entry">
                 <div class="toggle open unselectable">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sidebar-chevron"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="sidebar-chevron"><polyline points="9 18 15 12 9 6"></polyline></svg>
                     <span class="toggle-title">{{ _('Allowed languages') }}</span>
                 </div>
                 <div class="toggled">
@@ -395,7 +395,7 @@
         {% endif %}
         {% if problem.is_editable_by(request.user) %}
             <div id="available-judges" class="problem-info-entry">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
                 <span class="pi-name">{% trans trimmed count=available_judges|length %}Judge:{% pluralize count %}Judges:{% endtrans %}</span>
                 <div class="pi-value judges-value">
                     {% if available_judges_display %}

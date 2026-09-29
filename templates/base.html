@@ -4581,223 +4581,293 @@ html.theme-light #available-judges-list {
         border-color: #cbd5e1 !important;
         color: #000000 !important;
     }
+        /* Sidebar Actions Group */
     .sidebar-actions-group {
         display: flex !important;
         flex-direction: column !important;
-        gap: 3px !important;
+        gap: 2px !important;
         margin-bottom: 6px !important;
     }
-
     .sidebar-action-item {
         margin: 0 !important;
         padding: 0 !important;
     }
-
     .sidebar-action-item a {
         display: flex !important;
         align-items: center !important;
-        padding: 8px 12px !important;
-        border-radius: 8px !important;
-        color: rgba(255, 255, 255, 0.78) !important;
-        font-size: 13.5px !important;
+        gap: 10px !important;
+        padding: 7px 10px !important;
+        border-radius: 6px !important;
+        color: var(--expo-body) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
         font-weight: 500 !important;
         text-decoration: none !important;
         transition: all 0.15s ease !important;
         box-sizing: border-box !important;
     }
-
-    .sidebar-action-item a i.fa-fw {
-        width: 20px !important;
-        text-align: center !important;
-        margin-right: 10px !important;
-        font-size: 14px !important;
-        color: rgba(255, 255, 255, 0.45) !important;
+    .sidebar-action-item a span {
+        flex: 1 !important;
+        color: inherit !important;
+    }
+    .sidebar-action-item a svg,
+    .sidebar-action-item a i {
+        stroke: currentColor !important;
+        color: var(--expo-muted) !important;
+        width: 14px !important;
+        height: 14px !important;
         flex-shrink: 0 !important;
         transition: color 0.15s ease !important;
     }
-
-    .sidebar-action-item a span {
-        flex: 1 !important;
-    }
-
     .sidebar-action-item a:hover {
-        background: rgba(255, 255, 255, 0.05) !important;
-        color: #38bdf8 !important;
+        background: var(--expo-surface-strong) !important;
+        color: var(--expo-ink) !important;
     }
-
-    .sidebar-action-item a:hover i.fa-fw {
-        color: #38bdf8 !important;
+    .sidebar-action-item a:hover svg,
+    .sidebar-action-item a:hover i {
+        color: var(--expo-ink) !important;
     }
-
+    html[data-theme="light"] .sidebar-action-item a,
+    html[data-theme="light"] .sidebar-action-item a span,
+    html.theme-light .sidebar-action-item a,
+    html.theme-light .sidebar-action-item a span {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .sidebar-action-item a svg,
+    html[data-theme="light"] .sidebar-action-item a i,
+    html.theme-light .sidebar-action-item a svg,
+    html.theme-light .sidebar-action-item a i {
+        color: #64748b !important;
+        stroke: currentColor !important;
+    }
+    html[data-theme="light"] .sidebar-action-item a:hover,
+    html.theme-light .sidebar-action-item a:hover {
+        background: #f0f0f3 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .sidebar-action-item a:hover span,
+    html.theme-light .sidebar-action-item a:hover span {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .sidebar-action-item a:hover svg,
+    html.theme-light .sidebar-action-item a:hover svg {
+        color: #0f172a !important;
+    }
     .sidebar-actions-group:empty,
     .sidebar-actions-group:empty + .sidebar-divider {
         display: none !important;
     }
-
     .sidebar-divider {
         border: none !important;
-        border-top: 1px solid rgba(255, 255, 255, 0.06) !important;
-        margin: 12px 0 !important;
+        border-top: 1px solid var(--expo-hairline) !important;
+        margin: 10px 0 !important;
+    }
+    html[data-theme="light"] .sidebar-divider,
+    html.theme-light .sidebar-divider {
+        border-top: 1px solid #f0f0f3 !important;
     }
 
-    /* Stats Group */
+    /* Specs Group */
     .sidebar-specs-group {
         display: flex !important;
         flex-direction: column !important;
-        gap: 2px !important;
+        gap: 1px !important;
     }
-
     .problem-info-entry {
         display: flex !important;
         align-items: center !important;
-        padding: 8px 12px !important;
-        border-radius: 8px !important;
-        font-size: 13.5px !important;
-        border-bottom: none !important;
+        justify-content: space-between !important;
+        padding: 7px 4px !important;
+        border-radius: 0 !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+        font-size: 13px !important;
         box-sizing: border-box !important;
     }
-
-    .problem-info-entry i.fa-fw {
-        width: 20px !important;
-        text-align: center !important;
-        margin-right: 10px !important;
-        font-size: 14px !important;
-        color: rgba(255, 255, 255, 0.45) !important;
+    .problem-info-entry:last-of-type {
+        border-bottom: none !important;
+    }
+    .problem-info-entry svg,
+    .problem-info-entry i {
+        stroke: currentColor !important;
+        color: var(--expo-muted) !important;
+        width: 14px !important;
+        height: 14px !important;
+        margin-right: 8px !important;
         flex-shrink: 0 !important;
     }
-
-    .problem-info-entry .pi-name {
-        color: rgba(255, 255, 255, 0.65) !important;
+    .problem-info-entry .pi-name,
+    .problem-info-entry > span:first-child {
+        color: var(--expo-muted) !important;
+        font-family: "Inter", sans-serif !important;
         font-weight: 500 !important;
+        font-size: 13px !important;
         flex: 1 !important;
+        display: flex !important;
+        align-items: center !important;
     }
-
-    .problem-info-entry .pi-value {
-        color: #ffffff !important;
+    .problem-info-entry .pi-value,
+    .problem-info-entry .points-val,
+    .problem-info-entry .time-val,
+    .problem-info-entry .memory-val,
+    .problem-info-entry .authors-value a,
+    .problem-info-entry .judges-value a,
+    .problem-info-entry > span:last-child {
+        color: var(--expo-ink) !important;
+        font-family: "JetBrains Mono", monospace !important;
         font-weight: 600 !important;
+        font-size: 13px !important;
         text-align: right !important;
+        text-decoration: none !important;
+    }
+    html[data-theme="light"] .problem-info-entry,
+    html.theme-light .problem-info-entry {
+        border-bottom: 1px solid #f0f0f3 !important;
+    }
+    html[data-theme="light"] .problem-info-entry svg,
+    html[data-theme="light"] .problem-info-entry i,
+    html.theme-light .problem-info-entry svg,
+    html.theme-light .problem-info-entry i {
+        color: #64748b !important;
+        stroke: currentColor !important;
+    }
+    html[data-theme="light"] .problem-info-entry .pi-name,
+    html[data-theme="light"] .problem-info-entry > span:first-child,
+    html.theme-light .problem-info-entry .pi-name,
+    html.theme-light .problem-info-entry > span:first-child {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .problem-info-entry .pi-value,
+    html[data-theme="light"] .problem-info-entry .points-val,
+    html[data-theme="light"] .problem-info-entry .time-val,
+    html[data-theme="light"] .problem-info-entry .memory-val,
+    html[data-theme="light"] .problem-info-entry .authors-value a,
+    html[data-theme="light"] .problem-info-entry .judges-value a,
+    html[data-theme="light"] .problem-info-entry > span:last-child,
+    html.theme-light .problem-info-entry .pi-value,
+    html.theme-light .problem-info-entry .points-val,
+    html.theme-light .problem-info-entry .time-val,
+    html.theme-light .problem-info-entry .memory-val,
+    html.theme-light .problem-info-entry .authors-value a,
+    html.theme-light .problem-info-entry .judges-value a,
+    html.theme-light .problem-info-entry > span:last-child {
+        color: #0f172a !important;
     }
 
-    .problem-info-entry .points-val {
-        color: #fbbf24 !important; /* Gold */
-    }
-
-    .problem-info-entry .time-val {
-        color: #38bdf8 !important; /* Cyan */
-    }
-
-    .problem-info-entry .memory-val {
-        color: #c084fc !important; /* Purple */
-    }
-
-    .problem-info-entry .authors-value a {
-        color: #fbbf24 !important;
-        font-weight: 700 !important;
-    }
-
-    .problem-info-entry .none-val {
-        color: rgba(255, 255, 255, 0.35) !important;
-        font-weight: 400 !important;
-    }
-
-    /* Extra / Expandable Group */
+    /* Extra / Expandable Group (Problem types, Allowed languages) */
     .sidebar-extra-group {
         display: flex !important;
         flex-direction: column !important;
         gap: 2px !important;
     }
-
     .sidebar-toggle-entry .toggle {
         display: flex !important;
         align-items: center !important;
-        padding: 8px 12px !important;
-        border-radius: 8px !important;
+        padding: 6px 8px !important;
+        border-radius: 6px !important;
         cursor: pointer !important;
-        color: rgba(255, 255, 255, 0.78) !important;
-        font-size: 13.5px !important;
+        color: var(--expo-body) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
         font-weight: 500 !important;
         transition: all 0.15s ease !important;
         user-select: none !important;
         box-sizing: border-box !important;
     }
-
-    .sidebar-toggle-entry .toggle:hover {
-        background: rgba(255, 255, 255, 0.04) !important;
-        color: #38bdf8 !important;
-    }
-
-    .sidebar-toggle-entry .toggle i.fa-fw {
-        width: 20px !important;
-        text-align: center !important;
-        margin-right: 10px !important;
-        font-size: 12px !important;
-        color: rgba(255, 255, 255, 0.45) !important;
+    .sidebar-toggle-entry .toggle svg,
+    .sidebar-toggle-entry .toggle i {
+        stroke: currentColor !important;
+        color: var(--expo-muted) !important;
+        width: 12px !important;
+        height: 12px !important;
+        margin-right: 8px !important;
         transition: transform 0.2s ease !important;
         flex-shrink: 0 !important;
     }
-
-    .sidebar-toggle-entry .toggle.open i.fa-fw {
+    .sidebar-toggle-entry .toggle.open svg,
+    .sidebar-toggle-entry .toggle.open i {
         transform: rotate(90deg) !important;
-        color: #38bdf8 !important;
     }
-
     .sidebar-toggle-entry .toggle-title {
         flex: 1 !important;
+        color: inherit !important;
     }
-
-    .sidebar-toggle-entry .toggled {
-        padding: 4px 12px 10px 42px !important;
-        color: rgba(255, 255, 255, 0.6) !important;
-        font-size: 12px !important;
-        line-height: 1.6 !important;
+    .sidebar-toggle-entry .toggle:hover {
+        background: var(--expo-surface-strong) !important;
+        color: var(--expo-ink) !important;
     }
-
-    .sidebar-toggle-entry .lang-tag {
-        color: rgba(255, 255, 255, 0.75) !important;
-    }
-
-    .sidebar-toggle-entry .lang-tag-disabled {
-        color: rgba(255, 255, 255, 0.35) !important;
-    }
-
-
-    #available-judges.problem-info-entry {
-        display: flex !important;
-        align-items: center !important;
-        padding: 8px 12px !important;
-        border-radius: 8px !important;
-        font-size: 13.5px !important;
-        box-sizing: border-box !important;
-        margin-top: 4px !important;
-    }
-    #available-judges.problem-info-entry .pi-name {
-        display: inline !important;
-        text-transform: none !important;
-        font-size: 13.5px !important;
-        font-weight: 500 !important;
-        letter-spacing: normal !important;
-        color: rgba(255, 255, 255, 0.65) !important;
-        margin-bottom: 0 !important;
-        flex: 1 !important;
-    }
-    #available-judges.problem-info-entry .pi-value {
-        display: inline !important;
-        color: rgba(255, 255, 255, 0.4) !important;
-        font-weight: 400 !important;
-        font-size: 13px !important;
-        text-align: right !important;
+    .sidebar-toggle-entry .toggle:hover svg,
+    .sidebar-toggle-entry .toggle:hover i {
+        color: var(--expo-ink) !important;
     }
     .sidebar-toggle-entry .toggled {
-        padding: 6px 12px 10px 42px !important;
-        color: rgba(255, 255, 255, 0.6) !important;
+        padding: 4px 8px 8px 24px !important;
+        color: var(--expo-muted) !important;
+        font-family: "Inter", sans-serif !important;
         font-size: 12.5px !important;
-        line-height: 1.6 !important;
+        line-height: 1.55 !important;
     }
+    .sidebar-toggle-entry .lang-tag {
+        color: var(--expo-body) !important;
+    }
+    .sidebar-toggle-entry .lang-tag-disabled,
     .sidebar-toggle-entry .toggled s {
-        text-decoration: line-through !important;
-        opacity: 0.4 !important;
+        color: #52525b !important;
+        opacity: 0.6 !important;
+    }
+    html[data-theme="light"] .sidebar-toggle-entry .toggle,
+    html[data-theme="light"] .sidebar-toggle-entry .toggle-title,
+    html.theme-light .sidebar-toggle-entry .toggle,
+    html.theme-light .sidebar-toggle-entry .toggle-title {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .sidebar-toggle-entry .toggle svg,
+    html[data-theme="light"] .sidebar-toggle-entry .toggle i,
+    html.theme-light .sidebar-toggle-entry .toggle svg,
+    html.theme-light .sidebar-toggle-entry .toggle i {
+        color: #64748b !important;
+        stroke: currentColor !important;
+    }
+    html[data-theme="light"] .sidebar-toggle-entry .toggle:hover,
+    html.theme-light .sidebar-toggle-entry .toggle:hover {
+        background: #f0f0f3 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .sidebar-toggle-entry .toggled,
+    html.theme-light .sidebar-toggle-entry .toggled {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .sidebar-toggle-entry .lang-tag,
+    html.theme-light .sidebar-toggle-entry .lang-tag {
+        color: #334155 !important;
+    }
+    html[data-theme="light"] .sidebar-toggle-entry .lang-tag-disabled,
+    html[data-theme="light"] .sidebar-toggle-entry .toggled s,
+    html.theme-light .sidebar-toggle-entry .lang-tag-disabled,
+    html.theme-light .sidebar-toggle-entry .toggled s {
+        color: #94a3b8 !important;
+        opacity: 0.65 !important;
     }
 
+    /* Submit solution button specificity in sidebar */
+    #content-right .info-float .sidebar-scroll-submit-btn,
+    #content-right .info-float .sidebar-scroll-submit-btn *,
+    #content-right .info-float > div > a.sidebar-scroll-submit-btn,
+    #content-right .info-float > div > a.sidebar-scroll-submit-btn * {
+        color: #000000 !important;
+        stroke: #000000 !important;
+    }
+    html[data-theme="light"] #content-right .info-float .sidebar-scroll-submit-btn,
+    html[data-theme="light"] #content-right .info-float .sidebar-scroll-submit-btn *,
+    html[data-theme="light"] #content-right .info-float > div > a.sidebar-scroll-submit-btn,
+    html[data-theme="light"] #content-right .info-float > div > a.sidebar-scroll-submit-btn *,
+    html.theme-light #content-right .info-float .sidebar-scroll-submit-btn,
+    html.theme-light #content-right .info-float .sidebar-scroll-submit-btn *,
+    html.theme-light #content-right .info-float > div > a.sidebar-scroll-submit-btn,
+    html.theme-light #content-right .info-float > div > a.sidebar-scroll-submit-btn * {
+        background: #000000 !important;
+        color: #ffffff !important;
+        stroke: #ffffff !important;
+    }
 
     /* Problem Description Footer Actions */
     .problem-footer-actions {
