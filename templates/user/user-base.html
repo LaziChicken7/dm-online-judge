@@ -391,7 +391,16 @@ html.theme-light .user-stat-value {
     margin-top: 3px !important;
 }
 
-/* Sidebar Action Buttons (View submissions) */
+/* Sidebar Action Buttons (View submissions & Edit profile - Expo Design) */
+.user-actions-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 8px !important;
+    width: 100% !important;
+    margin-top: 4px !important;
+    box-sizing: border-box !important;
+}
+
 .user-btn-primary {
     display: inline-flex !important;
     align-items: center !important;
@@ -432,6 +441,55 @@ html[data-theme="light"] .user-btn-primary:hover,
 html.theme-light .user-btn-primary:hover {
     background: #1a1a1a !important;
     color: #ffffff !important;
+}
+
+.user-btn-secondary {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    width: 100% !important;
+    height: 38px !important;
+    box-sizing: border-box !important;
+    padding: 0 16px !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    cursor: pointer !important;
+}
+
+.user-btn-secondary i,
+.user-btn-secondary svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+    font-size: 13px !important;
+}
+
+.user-btn-secondary:hover {
+    background: #27272a !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="light"] .user-btn-secondary,
+html.theme-light .user-btn-secondary {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #171717 !important;
+}
+
+html[data-theme="light"] .user-btn-secondary:hover,
+html.theme-light .user-btn-secondary:hover {
+    background: #e4e4e7 !important;
+    border-color: #cbd5e1 !important;
+    color: #000000 !important;
 }
 
 /* 6. Main Content Card (.user-content) */
@@ -584,11 +642,34 @@ html.theme-light .user-content h3 {
 }
 
 html[data-theme="light"] .submission-activity-calendar,
-html.theme-light .submission-activity-calendar {
-    background: #f8fafc !important;
-    border: 1px solid #f0f0f3 !important;
+/* Submission Activity Heatmap - Remove outer border (User Image #2) */
+#submission-activity,
+.submission-activity-calendar {
+    margin-top: 24px !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
 }
-
+#submission-activity-table,
+table#submission-activity-table {
+    border: none !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin-bottom: 16px !important;
+}
+html[data-theme="light"] #submission-activity,
+html[data-theme="light"] .submission-activity-calendar,
+html[data-theme="light"] #submission-activity-table,
+html.theme-light #submission-activity,
+html.theme-light .submission-activity-calendar,
+html.theme-light #submission-activity-table {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
 #submission-activity-table td {
     font-family: "JetBrains Mono", monospace !important;
     font-size: 10px !important;
