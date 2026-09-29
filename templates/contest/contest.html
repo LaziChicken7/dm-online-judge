@@ -711,7 +711,7 @@ html.theme-light .comment-display .content-description {
 }
 
 /* 10. Social Links & Dividers */
-.social {
+.social { display: none !important; 
     display: flex !important;
     align-items: center !important;
     gap: 8px !important;
@@ -743,6 +743,405 @@ hr {
     border: none !important;
     border-top: 1px solid var(--expo-hairline) !important;
     margin: 32px 0 !important;
+}
+
+/* =========================================================
+   EXPO COMMENTS STYLING (EXACT MATCH /post/1-first-post)
+   ========================================================= */
+.social, span.social {
+    display: none !important;
+}
+
+#comments {
+    margin-top: 32px !important;
+}
+
+#comments.comment-area h2,
+#comments > h2 {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.3px !important;
+    color: var(--expo-ink) !important;
+    border-left: none !important;
+    padding-left: 0 !important;
+    margin: 32px 0 16px 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+#comments.comment-area h2 i,
+#comments > h2 i {
+    color: var(--expo-muted) !important;
+    font-size: 16px !important;
+    display: inline-block !important;
+}
+
+/* Comment Display Card */
+.comment-display {
+    display: flex !important;
+    background: var(--expo-surface-card) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    padding: 14px 18px !important;
+    box-shadow: var(--expo-card-shadow) !important;
+    gap: 14px !important;
+    align-items: flex-start !important;
+    box-sizing: border-box !important;
+    transition: all 0.15s ease !important;
+    margin-bottom: 12px !important;
+}
+
+.comment-display:hover {
+    border-color: var(--expo-hairline-strong) !important;
+    box-shadow: var(--expo-card-hover-shadow) !important;
+}
+
+html[data-theme="light"] .comment-display,
+html.theme-light .comment-display {
+    background: #ffffff !important;
+    border: 1px solid #f0f0f3 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Vote Box */
+.comment-display .vote {
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 6px !important;
+    padding: 4px 6px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    gap: 2px !important;
+    flex-shrink: 0 !important;
+}
+
+.comment-display .vote .comment-score {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+}
+
+.comment-display .vote a svg {
+    stroke: var(--expo-muted) !important;
+    transition: stroke 0.15s ease !important;
+}
+
+.comment-display .vote a:hover svg {
+    stroke: var(--expo-ink) !important;
+}
+
+/* Header & Author */
+.comment-display .detail {
+    flex: 1 !important;
+    min-width: 0 !important;
+}
+
+.comment-display .header {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    margin-bottom: 6px !important;
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+}
+
+.comment-author-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.comment-author-wrap .user-gravatar {
+    width: 22px !important;
+    height: 22px !important;
+    border-radius: 6px !important;
+}
+
+.comment-author-wrap a {
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+    text-decoration: none !important;
+}
+
+html[data-theme="light"] .comment-author-wrap a,
+html.theme-light .comment-author-wrap a {
+    color: #0f172a !important;
+}
+
+.comment-time {
+    font-family: "Inter", sans-serif !important;
+    font-size: 12px !important;
+    color: var(--expo-muted) !important;
+}
+
+/* Comment Operation Buttons - NO CYAN ON HOVER (Expo Design) */
+.comment-display .comment-operation {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+}
+
+.comment-display .comment-operation a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 28px !important;
+    height: 28px !important;
+    border-radius: 6px !important; /* {rounded.sm} */
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline) !important;
+    color: var(--expo-muted) !important;
+    transition: all 0.15s ease !important;
+    text-decoration: none !important;
+    margin-left: 0 !important;
+}
+
+.comment-display .comment-operation a svg {
+    stroke: currentColor !important;
+    width: 13px !important;
+    height: 13px !important;
+}
+
+.comment-display .comment-operation a:hover {
+    background: #27272a !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    transform: translateY(-1px) !important;
+}
+
+.comment-display .comment-operation a:hover svg {
+    stroke: #ffffff !important;
+}
+
+.comment-display .comment-operation a.hide-comment:hover {
+    background: rgba(239, 68, 68, 0.15) !important;
+    border-color: rgba(239, 68, 68, 0.35) !important;
+    color: #f87171 !important;
+}
+
+.comment-display .comment-operation a.hide-comment:hover svg {
+    stroke: #f87171 !important;
+}
+
+html[data-theme="light"] .comment-display .comment-operation a,
+html.theme-light .comment-display .comment-operation a {
+    background: #f0f0f3 !important;
+    border: 1px solid #dcdee0 !important;
+    color: #64748b !important;
+}
+
+html[data-theme="light"] .comment-display .comment-operation a:hover,
+html.theme-light .comment-display .comment-operation a:hover {
+    background: #e4e4e7 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .comment-display .comment-operation a:hover svg,
+html.theme-light .comment-display .comment-operation a:hover svg {
+    stroke: #0f172a !important;
+}
+
+/* Comment Body - Remove nested cyan box */
+.comment-display .content,
+.comment-display .content.content-description,
+.comment-display .content-description {
+    background: transparent !important;
+    border: none !important;
+    border-left: none !important;
+    border-radius: 0 !important;
+    padding: 4px 0 0 0 !important;
+    margin-top: 4px !important;
+    margin-bottom: 0 !important;
+    box-shadow: none !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+    display: block !important;
+    overflow: visible !important;
+}
+
+.comment-display .content .comment-body {
+    font-family: "Inter", sans-serif !important;
+    font-size: 14px !important;
+    line-height: 1.6 !important;
+    color: var(--expo-body) !important;
+}
+
+.comment-display .content .comment-body p {
+    margin: 0 !important;
+    color: var(--expo-body) !important;
+}
+
+html[data-theme="light"] .comment-display .content .comment-body,
+html[data-theme="light"] .comment-display .content .comment-body p,
+html.theme-light .comment-display .content .comment-body,
+html.theme-light .comment-display .content .comment-body p {
+    color: #334155 !important;
+}
+
+/* New Comment Editor - Expo Polish */
+#new-comment,
+.comment-submit-form,
+#comments form {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin-top: 24px !important;
+}
+
+#new-comment h3,
+#comments h3,
+.comment-area h3 {
+    font-family: "Inter", sans-serif !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--expo-ink) !important;
+    margin: 0 0 14px 0 !important;
+}
+
+/* Martor Menu Tabs */
+.tab-martor-menu {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0 12px 0 !important;
+    display: flex !important;
+    gap: 6px !important;
+}
+
+.tab-martor-menu a.item {
+    border-radius: 6px !important;
+    font-family: "Inter", sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 6px 14px !important;
+    color: var(--expo-muted) !important;
+    background: transparent !important;
+    border: 1px solid var(--expo-hairline) !important;
+    box-shadow: none !important;
+    transition: all 0.15s ease !important;
+}
+
+.tab-martor-menu a.item:hover {
+    background: var(--expo-surface-strong) !important;
+    color: var(--expo-ink) !important;
+}
+
+.tab-martor-menu a.item.active {
+    background: #242428 !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+    box-shadow: none !important;
+    font-weight: 600 !important;
+}
+
+html[data-theme="light"] .tab-martor-menu a.item.active,
+html.theme-light .tab-martor-menu a.item.active {
+    background: #000000 !important;
+    border-color: #000000 !important;
+    color: #ffffff !important;
+}
+
+/* Toolbar */
+.martor-toolbar {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 0 8px 0 !important;
+}
+
+.martor-toolbar a,
+.martor-toolbar button {
+    color: var(--expo-muted) !important;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 4px !important;
+    padding: 4px 6px !important;
+}
+
+.martor-toolbar a:hover,
+.martor-toolbar button:hover {
+    color: var(--expo-ink) !important;
+    background: var(--expo-surface-strong) !important;
+}
+
+/* Ace Editor & Gutter */
+.ui.segment.tab,
+.tab.segment,
+.martor-field,
+.ace_editor {
+    background: #141416 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 8px !important;
+    color: #f4f4f5 !important;
+}
+
+.ace_gutter {
+    background: #101012 !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+    color: #71717a !important;
+}
+
+html[data-theme="light"] .ui.segment.tab,
+html[data-theme="light"] .tab.segment,
+html[data-theme="light"] .martor-field,
+html[data-theme="light"] .ace_editor,
+html.theme-light .ui.segment.tab,
+html.theme-light .tab.segment,
+html.theme-light .martor-field,
+html.theme-light .ace_editor {
+    background: #ffffff !important;
+    border-color: #dcdee0 !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="light"] .ace_gutter,
+html.theme-light .ace_gutter {
+    background: #f8fafc !important;
+    border-right: 1px solid #dcdee0 !important;
+    color: #94a3b8 !important;
+}
+
+/* Helper text */
+.show-on-editor p,
+.comment-submit-form p {
+    font-family: "Inter", sans-serif !important;
+    font-size: 12.5px !important;
+    color: var(--expo-muted) !important;
+    margin-top: 8px !important;
+}
+
+/* Submit Button */
+.comment-submit-form input[type="submit"],
+.comment-submit-form button[type="submit"],
+#new-comment input[type="submit"],
+#new-comment button[type="submit"] {
+    background: var(--expo-primary) !important;
+    color: var(--expo-on-primary) !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    font-family: "Inter", sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    height: 38px !important;
+    padding: 0 20px !important;
+    border: none !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    margin-top: 12px !important;
+}
+
+.comment-submit-form input[type="submit"]:hover,
+.comment-submit-form button[type="submit"]:hover,
+#new-comment input[type="submit"]:hover,
+#new-comment button[type="submit"]:hover {
+    opacity: 0.9 !important;
+    transform: translateY(-1px) !important;
 }
     </style>
 {% endblock %}

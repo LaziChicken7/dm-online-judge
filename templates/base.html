@@ -2059,28 +2059,26 @@
         font-size: 12.5px !important;
     }
 
-    /* Prominent highlighted comment bubble */
+    /* Clean Expo comment body matching /post/1-first-post */
     .comment-display .content.content-description,
     .comment-display .content {
-        background: rgba(15, 23, 42, 0.75) !important;
-        border: 1px solid rgba(56, 189, 248, 0.25) !important;
-        border-left: 3.5px solid #38bdf8 !important;
-        border-radius: 12px !important;
-        padding: 10px 16px !important;
-        margin-top: 6px !important;
+        background: transparent !important;
+        border: none !important;
+        border-left: none !important;
+        border-radius: 0 !important;
+        padding: 4px 0 0 0 !important;
+        margin-top: 4px !important;
         margin-bottom: 0 !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05), 0 0 12px rgba(56, 189, 248, 0.06) !important;
+        box-shadow: none !important;
         box-sizing: border-box !important;
         width: 100% !important;
         display: block !important;
         overflow: visible !important;
-        transition: all 0.2s ease !important;
     }
-
     .comment-display .content.content-description:hover,
     .comment-display .content:hover {
-        background: rgba(255, 255, 255, 0.04) !important;
-        border-color: rgba(255, 255, 255, 0.15) !important;
+        background: transparent !important;
+        border: none !important;
         box-shadow: none !important;
     }
 
@@ -2130,10 +2128,19 @@
     }
 
     .comment-display .comment-operation a:hover {
-        background: rgba(56, 189, 248, 0.15) !important;
-        border-color: rgba(56, 189, 248, 0.4) !important;
-        color: #38bdf8 !important;
+        background: #27272a !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
         transform: translateY(-1px) !important;
+    }
+    .comment-display .comment-operation a:hover svg {
+        stroke: #ffffff !important;
+    }
+    html[data-theme="light"] .comment-display .comment-operation a:hover,
+    html.theme-light .comment-display .comment-operation a:hover {
+        background: #e4e4e7 !important;
+        border-color: #cbd5e1 !important;
+        color: #0f172a !important;
     }
 
     .comment-display .comment-operation a.hide-comment:hover {
@@ -2746,7 +2753,11 @@ html.theme-light .portfolio-user-pill {
         color: #0f172a !important;
     }
     html[data-theme="light"] #new-comment .ace_gutter,
-    html.theme-light 
+    html.theme-light #new-comment .ace_gutter {
+        background: #f0f0f3 !important;
+        border-right: 1px solid #dcdee0 !important;
+        color: #94a3b8 !important;
+    }
     /* JetBrains Mono strictly applied to New Comment and Ace Editor */
     #new-comment .ace_editor,
     #new-comment .ace_editor *,
@@ -2768,7 +2779,8 @@ html.theme-light .portfolio-user-pill {
         font-family: 'JetBrains Mono', Consolas, Monaco, monospace !important;
     }
 
-    #new-comment .ace_gutter {
+    html[data-theme="light"] #new-comment .ace_gutter,
+    html.theme-light #new-comment .ace_gutter {
         background: #f0f0f3 !important;
         border-right: 1px solid #dcdee0 !important;
         color: #94a3b8 !important;
