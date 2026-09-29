@@ -342,10 +342,12 @@
         .alert.alert-warning a.close {
             color: inherit !important;
             opacity: 0.6 !important;
+            order: 99 !important;
             margin-left: auto !important;
             cursor: pointer !important;
             text-decoration: none !important;
             font-size: 14px !important;
+            float: none !important;
         }
         .alert.alert-warning a.close:hover {
             opacity: 1 !important;
@@ -532,10 +534,99 @@
             font-family: 'JetBrains Mono', Consolas, monospace !important;
             font-size: 14px !important;
             min-height: 520px !important;
+            background-color: #09090b !important;
+            background: #09090b !important;
+            color: #f4f4f5 !important;
         }
         .ace_editor,
         .ace_editor * {
             font-family: 'JetBrains Mono', Consolas, monospace !important;
+        }
+
+        /* Dark Mode Ace Syntax Highlighting */
+        .ace_editor .ace_line { color: #f4f4f5 !important; }
+        .ace_editor .ace_keyword { color: #f43f5e !important; font-weight: 600 !important; }
+        .ace_editor .ace_string { color: #34d399 !important; }
+        .ace_editor .ace_numeric, .ace_editor .ace_constant { color: #fbbf24 !important; }
+        .ace_editor .ace_function, .ace_editor .ace_support.ace_function { color: #a78bfa !important; }
+        .ace_editor .ace_variable, .ace_editor .ace_identifier { color: #f4f4f5 !important; }
+        .ace_editor .ace_comment { color: #71717a !important; font-style: italic !important; }
+        .ace_editor .ace_operator, .ace_editor .ace_punctuation { color: #f43f5e !important; }
+        .ace_editor .ace_gutter { background: #09090b !important; color: #52525b !important; border-right: 1px solid var(--expo-hairline) !important; }
+        .ace_editor .ace_gutter-active-line { background: #18181b !important; color: #f4f4f5 !important; }
+        .ace_editor .ace_cursor { color: #ffffff !important; border-left: 2px solid #ffffff !important; }
+
+        /* Light Mode Ace Syntax Highlighting */
+        html[data-theme="light"] .ace_editor,
+        html.theme-light .ace_editor {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_line,
+        html.theme-light .ace_editor .ace_line {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor span,
+        html.theme-light .ace_editor span {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_keyword,
+        html.theme-light .ace_editor .ace_keyword {
+            color: #d73a49 !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_string,
+        html.theme-light .ace_editor .ace_string {
+            color: #032f62 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_numeric,
+        html.theme-light .ace_editor .ace_numeric,
+        html[data-theme="light"] .ace_editor .ace_constant,
+        html.theme-light .ace_editor .ace_constant {
+            color: #005cc5 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_function,
+        html.theme-light .ace_editor .ace_function,
+        html[data-theme="light"] .ace_editor .ace_support.ace_function,
+        html.theme-light .ace_editor .ace_support.ace_function {
+            color: #6f42c1 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_variable,
+        html.theme-light .ace_editor .ace_variable,
+        html[data-theme="light"] .ace_editor .ace_identifier,
+        html.theme-light .ace_editor .ace_identifier {
+            color: #24292e !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_comment,
+        html.theme-light .ace_editor .ace_comment {
+            color: #6a737d !important;
+            font-style: italic !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_operator,
+        html.theme-light .ace_editor .ace_operator,
+        html[data-theme="light"] .ace_editor .ace_punctuation,
+        html.theme-light .ace_editor .ace_punctuation {
+            color: #d73a49 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_gutter,
+        html.theme-light .ace_editor .ace_gutter {
+            background: #f8fafc !important;
+            color: #94a3b8 !important;
+            border-right: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_gutter-active-line,
+        html.theme-light .ace_editor .ace_gutter-active-line {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_marker-layer .ace_active-line,
+        html.theme-light .ace_editor .ace_marker-layer .ace_active-line {
+            background: #f8fafc !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_cursor,
+        html.theme-light .ace_editor .ace_cursor {
+            color: #0f172a !important;
+            border-left: 2px solid #0f172a !important;
         }
 
         /* 6. Bottom Controls Bar */
