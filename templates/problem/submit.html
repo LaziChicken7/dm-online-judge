@@ -455,11 +455,28 @@
             font-weight: 500 !important;
             color: var(--expo-ink) !important;
         }
+        .editor-tab *,
+        .editor-tab span,
+        #editor-tab-filename {
+            color: inherit !important;
+        }
         html[data-theme="light"] .editor-tab,
-        html.theme-light .editor-tab {
+        html[data-theme="light"] .editor-tab *,
+        html[data-theme="light"] .editor-tab span,
+        html[data-theme="light"] #editor-tab-filename,
+        html.theme-light .editor-tab,
+        html.theme-light .editor-tab *,
+        html.theme-light .editor-tab span,
+        html.theme-light #editor-tab-filename {
             background: #ffffff !important;
-            border: 1px solid #e2e8f0 !important;
+            border-color: #e2e8f0 !important;
             color: #0f172a !important;
+        }
+        html[data-theme="light"] .editor-tab i,
+        html[data-theme="light"] .editor-tab svg,
+        html.theme-light .editor-tab i,
+        html.theme-light .editor-tab svg {
+            color: #64748b !important;
         }
 
         .editor-actions {
