@@ -1,286 +1,539 @@
 {% extends "base.html" %}
-
 {% block title_ruler %}{% endblock %}
+{% block title_row %}
+    {% set tab = 'import_clue' %}
+    {% include "problem/problem-list-tabs.html" %}
+{% endblock %}
 
 {% block media %}
     <style>
-        .import-clue-wrapper {
-            max-width: 1040px;
-            margin: 20px auto 50px auto;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 0 16px;
+        #content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
 
+        .import-clue-wrapper {
+            max-width: 880px !important;
+            margin: 0 auto 50px auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+        }
+
+        /* 1. Main Card Container */
         .import-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.07) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 36px 40px !important;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 32px 36px !important;
+            box-shadow: var(--expo-card-shadow) !important;
             box-sizing: border-box !important;
             margin-bottom: 24px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: border-color 0.15s ease !important;
         }
-
         .import-card:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+        }
+        html[data-theme="light"] .import-card,
+        html.theme-light .import-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
         }
 
+        /* 2. Header Elements */
         .import-tag {
+            font-family: "JetBrains Mono", monospace !important;
             font-size: 11px !important;
-            font-weight: 800 !important;
-            letter-spacing: 2px !important;
-            color: #38bdf8 !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
             text-transform: uppercase !important;
-            margin-bottom: 8px !important;
-            font-family: 'Google Sans Code', monospace !important;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            margin-bottom: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        .import-tag svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .import-tag,
+        html.theme-light .import-tag {
+            color: #64748b !important;
         }
 
         .import-title {
-            font-size: 26px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            margin: 0 0 10px 0 !important;
-            letter-spacing: -0.01em !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+            line-height: 1.3 !important;
+        }
+        html[data-theme="light"] .import-title,
+        html.theme-light .import-title {
+            color: #0f172a !important;
         }
 
         .import-desc {
-            color: #94a3b8 !important;
-            font-size: 14.5px !important;
-            line-height: 1.65 !important;
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
             margin-bottom: 24px !important;
         }
+        html[data-theme="light"] .import-desc,
+        html.theme-light .import-desc {
+            color: #64748b !important;
+        }
 
-        /* Section Tabs (Public vs Organization) */
+        /* 3. Section Mode Tabs (Public vs Org) */
         .import-mode-tabs {
-            display: flex;
-            gap: 8px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 5px;
-            margin-bottom: 28px;
+            display: flex !important;
+            gap: 6px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 4px !important;
+            margin-bottom: 24px !important;
+        }
+        html[data-theme="light"] .import-mode-tabs,
+        html.theme-light .import-mode-tabs {
+            background: #f1f5f9 !important;
+            border: 1px solid #e2e8f0 !important;
         }
 
         .import-mode-btn {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            background: transparent;
-            border: none;
-            color: #94a3b8;
-            font-size: 14px;
-            font-weight: 600;
-            padding: 10px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
+            flex: 1 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            background: transparent !important;
+            border: 1px solid transparent !important;
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            padding: 8px 16px !important;
+            border-radius: 6px !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            text-align: center !important;
         }
-
+        .import-mode-btn svg {
+            stroke: currentColor !important;
+        }
         .import-mode-btn:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.04);
+            color: var(--expo-ink) !important;
+            background: rgba(255, 255, 255, 0.04) !important;
         }
-
         .import-mode-btn.active {
-            background: #0284c7;
-            color: #ffffff;
-            box-shadow: 0 2px 10px rgba(2, 132, 199, 0.35);
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 600 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            border: 1px solid #ffffff !important;
+        }
+        .import-mode-btn.active *,
+        .import-mode-btn.active span,
+        .import-mode-btn.active svg {
+            color: #000000 !important;
+            stroke: #000000 !important;
         }
 
-        .import-mode-btn.active.org-tab {
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-            box-shadow: 0 2px 12px rgba(124, 58, 237, 0.4);
+        html[data-theme="light"] .import-mode-btn,
+        html.theme-light .import-mode-btn {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .import-mode-btn:hover,
+        html.theme-light .import-mode-btn:hover {
+            color: #0f172a !important;
+            background: #e2e8f0 !important;
+        }
+        html[data-theme="light"] .import-mode-btn.active,
+        html.theme-light .import-mode-btn.active {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+        html[data-theme="light"] .import-mode-btn.active *,
+        html[data-theme="light"] .import-mode-btn.active span,
+        html[data-theme="light"] .import-mode-btn.active svg,
+        html.theme-light .import-mode-btn.active *,
+        html.theme-light .import-mode-btn.active span,
+        html.theme-light .import-mode-btn.active svg {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
         }
 
+        /* 4. Alerts */
         .import-error-alert {
             background: rgba(239, 68, 68, 0.12) !important;
-            border: 1px solid rgba(239, 68, 68, 0.35) !important;
-            border-radius: 12px !important;
-            padding: 16px 20px !important;
-            color: #fca5a5 !important;
-            font-size: 14px !important;
-            margin-bottom: 26px !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            border-radius: 8px !important;
+            padding: 12px 16px !important;
+            color: #f87171 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            margin-bottom: 24px !important;
             display: flex !important;
-            align-items: flex-start !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+        html[data-theme="light"] .import-error-alert,
+        html.theme-light .import-error-alert {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
+
+        /* 5. Organization Auth Card */
+        .org-auth-card {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 10px !important;
+            padding: 18px 22px !important;
+            margin-bottom: 24px !important;
+        }
+        html[data-theme="light"] .org-auth-card,
+        html.theme-light .org-auth-card {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .org-auth-header {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            font-size: 14px !important;
+            margin-bottom: 6px !important;
+        }
+        .org-auth-header svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .org-auth-header,
+        html.theme-light .org-auth-header {
+            color: #0f172a !important;
+        }
+
+        .org-auth-desc {
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            line-height: 1.6 !important;
+        }
+        html[data-theme="light"] .org-auth-desc,
+        html.theme-light .org-auth-desc {
+            color: #475569 !important;
+        }
+
+        /* 6. Selected Org Box */
+        .selected-org-box {
+            margin-bottom: 20px !important;
+            padding: 12px 16px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
             gap: 12px !important;
+            flex-wrap: wrap !important;
+        }
+        html[data-theme="light"] .selected-org-box,
+        html.theme-light .selected-org-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
         }
 
+        .selected-org-title {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+        }
+        html[data-theme="light"] .selected-org-title,
+        html.theme-light .selected-org-title {
+            color: #0f172a !important;
+        }
+
+        .org-badge-lock {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            padding: 3px 8px !important;
+            border-radius: 4px !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            color: #fbbf24 !important;
+        }
+        html[data-theme="light"] .org-badge-lock,
+        html.theme-light .org-badge-lock {
+            background: #fffbeb !important;
+            border: 1px solid #fde68a !important;
+            color: #b45309 !important;
+        }
+
+        .org-select-box {
+            margin-bottom: 20px !important;
+            padding: 12px 16px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            flex-wrap: wrap !important;
+        }
+        html[data-theme="light"] .org-select-box,
+        html.theme-light .org-select-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .org-select-label {
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            white-space: nowrap !important;
+        }
+        html[data-theme="light"] .org-select-label,
+        html.theme-light .org-select-label {
+            color: #0f172a !important;
+        }
+
+        /* 7. Form Grid & Controls */
         .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 24px;
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 18px !important;
+            margin-bottom: 24px !important;
         }
-
-        @media (max-width: 768px) {
+        @media (max-width: 640px) {
             .form-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
         }
-
         .form-group-full {
-            grid-column: 1 / -1;
+            grid-column: 1 / -1 !important;
         }
 
         .form-label {
-            display: block;
-            font-size: 13.5px;
-            font-weight: 600;
-            color: #cbd5e1;
-            margin-bottom: 8px;
+            display: block !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            color: var(--expo-ink) !important;
+            margin-bottom: 6px !important;
+        }
+        html[data-theme="light"] .form-label,
+        html[data-theme="light"] .form-label *,
+        html.theme-light .form-label,
+        html.theme-light .form-label * {
+            color: #0f172a !important;
         }
 
-        .form-label .required {
-            color: #ef4444;
-            font-weight: bold;
+        .form-label .required,
+        html[data-theme="light"] .form-label .required,
+        html.theme-light .form-label .required {
+            color: #ef4444 !important;
         }
-
-        .form-label .optional {
-            color: #64748b;
-            font-weight: 400;
-            font-size: 12px;
-            margin-left: 4px;
+        .form-label .optional,
+        html[data-theme="light"] .form-label .optional,
+        html.theme-light .form-label .optional {
+            color: #64748b !important;
+            font-weight: 400 !important;
+            font-size: 12px !important;
+            margin-left: 4px !important;
         }
 
         .form-input-cyber {
-            width: 100%;
-            box-sizing: border-box;
-            background: rgba(15, 23, 42, 0.65) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 11px 16px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
             outline: none !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.15s ease !important;
         }
-
         .form-input-cyber:focus {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-            background: rgba(15, 23, 42, 0.85) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+        }
+        html[data-theme="light"] .form-input-cyber,
+        html.theme-light .form-input-cyber {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .form-input-cyber:focus,
+        html.theme-light .form-input-cyber:focus {
+            border-color: #000000 !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+        }
+        html[data-theme="light"] .form-input-cyber::placeholder,
+        html.theme-light .form-input-cyber::placeholder {
+            color: #94a3b8 !important;
         }
 
         .form-hint {
-            font-size: 12.5px;
-            color: #64748b;
-            margin-top: 6px;
-            line-height: 1.5;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12px !important;
+            color: var(--expo-muted) !important;
+            margin-top: 5px !important;
+            line-height: 1.45 !important;
         }
-
         .form-hint code {
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.1);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-size: 12px;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11.5px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            padding: 2px 6px !important;
+            border-radius: 4px !important;
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .form-hint,
+        html.theme-light .form-hint {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .form-hint code,
+        html.theme-light .form-hint code {
+            background: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
         }
 
         .custom-checkbox-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            user-select: none;
-            color: #cbd5e1;
-            font-size: 14px;
-            font-weight: 500;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            color: var(--expo-ink) !important;
         }
-
         .custom-checkbox-wrap input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #0284c7;
-            cursor: pointer;
+            width: 16px !important;
+            height: 16px !important;
+            cursor: pointer !important;
+        }
+        html[data-theme="light"] .custom-checkbox-wrap,
+        html[data-theme="light"] .custom-checkbox-wrap span,
+        html.theme-light .custom-checkbox-wrap,
+        html.theme-light .custom-checkbox-wrap span {
+            color: #0f172a !important;
         }
 
-        /* Org Box Info */
-        .org-auth-card {
-            background: rgba(124, 58, 237, 0.08);
-            border: 1px solid rgba(124, 58, 237, 0.25);
-            border-radius: 14px;
-            padding: 18px 22px;
-            margin-bottom: 24px;
-        }
-        .org-auth-header {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 700;
-            color: #c084fc;
-            font-size: 14.5px;
-            margin-bottom: 6px;
-        }
-        .org-auth-desc {
-            color: #cbd5e1;
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
+        /* 8. Form Actions & Buttons */
         .form-actions {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 14px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 12px !important;
+            margin-top: 24px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+        }
+        html[data-theme="light"] .form-actions,
+        html.theme-light .form-actions {
+            border-top: 1px solid #e2e8f0 !important;
         }
 
         .btn-cancel {
-            display: inline-flex;
-            align-items: center;
-            padding: 10px 20px;
-            border-radius: 100px;
-            color: #94a3b8;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: 600;
-            transition: all 0.2s ease;
+            display: inline-flex !important;
+            align-items: center !important;
+            height: 40px !important;
+            padding: 0 18px !important;
+            border-radius: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            color: var(--expo-muted) !important;
+            text-decoration: none !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            background: var(--expo-surface-card) !important;
+            transition: all 0.15s ease !important;
         }
-
         .btn-cancel:hover {
-            color: #ffffff;
-            background: rgba(255, 255, 255, 0.05);
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .btn-cancel,
+        html.theme-light .btn-cancel {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            color: #475569 !important;
+        }
+        html[data-theme="light"] .btn-cancel:hover,
+        html.theme-light .btn-cancel:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
         }
 
         .btn-submit-import {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 11px 26px;
-            border-radius: 100px;
-            background: linear-gradient(135deg, #0284c7, #0369a1);
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 14px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35);
-            cursor: pointer;
-            transition: all 0.2s ease;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            height: 40px !important;
+            padding: 0 22px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            border: 1px solid #ffffff !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
         }
-
+        .btn-submit-import span,
+        .btn-submit-import * {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
         .btn-submit-import:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(56, 189, 248, 0.45);
+            background: #e4e4e7 !important;
+            transform: translateY(-1px) !important;
         }
-
-        .btn-submit-import.org-submit {
-            background: linear-gradient(135deg, #7c3aed, #6d28d9);
-            box-shadow: 0 4px 16px rgba(124, 58, 237, 0.4);
+        html[data-theme="light"] .btn-submit-import,
+        html.theme-light .btn-submit-import {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
         }
-        .btn-submit-import.org-submit:hover {
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-            box-shadow: 0 6px 22px rgba(139, 92, 246, 0.5);
+        html[data-theme="light"] .btn-submit-import span,
+        html[data-theme="light"] .btn-submit-import *,
+        html.theme-light .btn-submit-import span,
+        html.theme-light .btn-submit-import * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+        html[data-theme="light"] .btn-submit-import:hover,
+        html.theme-light .btn-submit-import:hover {
+            background: #1a1a1a !important;
         }
     </style>
 {% endblock %}
@@ -289,29 +542,29 @@
 <div class="import-clue-wrapper">
     <div class="import-card">
         <span class="import-tag">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-            REMOTE OJ / CLUE ONLINE JUDGE
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+            <span>REMOTE OJ / CLUE ONLINE JUDGE</span>
         </span>
         <h1 class="import-title">{{ _('Import Problem from ClueOJ') }}</h1>
         <p class="import-desc">
-            {{ _('Nhập bài tập từ hệ thống Clue Online Judge (oj.clue.edu.vn). Hỗ trợ cả bài tập công khai và bài tập riêng từ Organization.') }}
+            {{ _('Nhập bài tập từ hệ thống Clue Online Judge (oj.clue.edu.vn). Hỗ trợ cả bài tập công khai và bài tập riêng thuộc Organization (tự động tải toàn bộ test case).') }}
         </p>
 
         <!-- Mode Tabs -->
         <div class="import-mode-tabs">
             <button type="button" class="import-mode-btn {% if active_tab != 'org' %}active{% endif %}" id="tab-btn-public" onclick="switchImportMode('public')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1 4-10z"></path></svg>
                 <span>{{ _('1. Nhập bài công khai (Public Problem)') }}</span>
             </button>
-            <button type="button" class="import-mode-btn org-tab {% if active_tab == 'org' %}active{% endif %}" id="tab-btn-org" onclick="switchImportMode('org')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"></path><polyline points="9 21 9 9 15 9 15 21"></polyline></svg>
+            <button type="button" class="import-mode-btn {% if active_tab == 'org' %}active{% endif %}" id="tab-btn-org" onclick="switchImportMode('org')">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                 <span>{{ _('2. Nhập bài từ Organization riêng (Kèm Tải Test Case)') }}</span>
             </button>
         </div>
 
         {% if error %}
             <div class="import-error-alert">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                 <div>
                     <strong>{{ _('Lỗi khi nhập bài tập:') }}</strong> {{ error }}
                 </div>
@@ -322,20 +575,20 @@
             {% csrf_token %}
 
             {% if selected_org %}
-                <div style="margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                    <div style="display: flex; align-items: center; gap: 10px; color: #38bdf8; font-weight: 700; font-size: 14px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
+                <div class="selected-org-box">
+                    <div class="selected-org-title">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                         <span>{{ _('Gắn với tổ chức:') }} {{ selected_org.name }} (#{{ selected_org.id }})</span>
                     </div>
-                    <span style="font-size: 12px; padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
+                    <span class="org-badge-lock">
                         <i class="fa fa-lock"></i> {{ _('Riêng tư nội bộ tổ chức') }}
                     </span>
                     <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
                 </div>
             {% elif user_orgs %}
-                <div style="margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                    <label style="color: #94a3b8; font-size: 13.5px; font-weight: 600; white-space: nowrap;">{{ _('Tổ chức (Tùy chọn):') }}</label>
-                    <select name="organization_id" class="form-input-cyber" style="max-width: 320px; padding: 6px 12px; font-size: 13px;">
+                <div class="org-select-box">
+                    <label class="org-select-label" for="id_organization_id">{{ _('Tổ chức (nhóm bài tập):') }}</label>
+                    <select id="id_organization_id" name="organization_id" class="form-input-cyber" style="max-width: 320px; padding: 6px 12px; font-size: 13px;">
                         <option value="">-- {{ _('Công khai (Không thuộc tổ chức)') }} --</option>
                         {% for org in user_orgs %}
                             <option value="{{ org.id }}">{{ org.name }}</option>
@@ -350,25 +603,24 @@
             <div id="org-auth-section" style="{% if active_tab != 'org' %}display: none;{% endif %}">
                 <div class="org-auth-card">
                     <div class="org-auth-header">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                         <span>{{ _('Yêu cầu tài khoản ClueOJ có quyền xem bài tập Organization') }}</span>
                     </div>
                     <div class="org-auth-desc">
-                        {{ _('Để tải được bài tập và trích xuất toàn bộ Test Case (file zip & init.yml), hệ thống cần phiên đăng nhập ClueOJ hợp lệ. Bạn có thể nhập tài khoản bên dưới hoặc sử dụng tài khoản đã kết nối.') }}
+                        {{ _('Để tải được bài tập và trích xuất toàn bộ Test Case (file zip & init.yml), hệ thống cần phiên đăng nhập tài khoản của bạn để xác thực quyền hạn trên oj.clue.edu.vn.') }}
                     </div>
-
                     <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; margin-top: 14px;">
                         <div>
                             <label class="form-label" for="id_clue_username">{{ _('Tài khoản ClueOJ') }}</label>
-                            <input type="text" id="id_clue_username" name="clue_username" class="form-input-cyber" placeholder="csattutor" value="{{ clue_username or request.profile.clue_username or 'csattutor' }}">
+                            <input type="text" id="id_clue_username" name="clue_username" class="form-input-cyber" placeholder="Username ClueOJ" value="{{ clue_username or '' }}">
                         </div>
                         <div>
                             <label class="form-label" for="id_clue_password">{{ _('Mật khẩu ClueOJ') }}</label>
-                            <input type="password" id="id_clue_password" name="clue_password" class="form-input-cyber" placeholder="••••••••" value="vicsatlanha">
+                            <input type="password" id="id_clue_password" name="clue_password" class="form-input-cyber" placeholder="••••••••">
                         </div>
                         <div>
                             <label class="form-label" for="id_organization">{{ _('Tên Organization') }}</label>
-                            <input type="text" id="id_organization" name="organization" class="form-input-cyber" placeholder="csattutor" value="{{ organization or 'csattutor' }}">
+                            <input type="text" id="id_organization" name="organization" class="form-input-cyber" placeholder="Ví dụ: csattutor" value="{{ organization or '' }}">
                         </div>
                     </div>
                 </div>
@@ -381,10 +633,10 @@
                         {{ _('ClueOJ Problem Code hoặc URL') }} <span class="required">*</span>
                     </label>
                     <input type="text" id="id_clue_input" name="clue_input" class="form-input-cyber"
-                           placeholder="Ví dụ: csattutor_tmath_n0216d hoặc https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d"
+                           placeholder="{% if active_tab == 'org' %}Ví dụ: csattutor_tmath_n0216d hoặc https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d{% else %}Ví dụ: dhbb26_dx36_10_b hoặc https://oj.clue.edu.vn/problem/dhbb26_dx36_10_b{% endif %}"
                            value="{{ clue_input or '' }}" required autofocus>
                     <div class="form-hint" id="clue-input-hint">
-                        {{ _('Nhập mã bài hoặc đường dẫn đầy đủ từ ClueOJ. Ví dụ:') }} <code>csattutor_tmath_n0216d</code> {{ _('hoặc') }} <code>https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d</code>
+                        {{ _('Nhập mã bài hoặc đường dẫn đầy đủ từ ClueOJ. Ví dụ:') }} <code>csattutor_tmath_n0216d</code>, <code>dhbb26_dx36_10_b</code>
                     </div>
                 </div>
 
@@ -442,8 +694,8 @@
 
             <div class="form-actions">
                 <a href="{{ url('problem_list') }}" class="btn-cancel">{{ _('Huỷ bỏ') }}</a>
-                <button type="submit" class="btn-submit-import {% if active_tab == 'org' %}org-submit{% endif %}" id="btn-submit-import">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <button type="submit" class="btn-submit-import" id="btn-submit-import">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
                     <span id="submit-btn-text">{% if active_tab == 'org' %}{{ _('⚡ Nhập bài & Tải toàn bộ Test Case') }}{% else %}{{ _('Tiến hành nhập bài') }}{% endif %}</span>
                 </button>
             </div>
@@ -461,13 +713,11 @@
         var submitText = document.getElementById('submit-btn-text');
         var hint = document.getElementById('clue-input-hint');
         var inputField = document.getElementById('id_clue_input');
-
         if (mode === 'org') {
             tabOrg.classList.add('active');
             tabPublic.classList.remove('active');
             orgSection.style.display = 'block';
             modeInput.value = 'org';
-            submitBtn.classList.add('org-submit');
             submitText.innerText = '⚡ Nhập bài & Tải toàn bộ Test Case';
             inputField.placeholder = 'Ví dụ: csattutor_tmath_n0216d hoặc https://oj.clue.edu.vn/problem/csattutor_tmath_n0216d';
         } else {
@@ -475,7 +725,6 @@
             tabOrg.classList.remove('active');
             orgSection.style.display = 'none';
             modeInput.value = 'public';
-            submitBtn.classList.remove('org-submit');
             submitText.innerText = 'Tiến hành nhập bài';
             inputField.placeholder = 'Ví dụ: dhbb26_dx36_10_b hoặc https://oj.clue.edu.vn/problem/dhbb26_dx36_10_b';
         }
