@@ -414,7 +414,128 @@
             color: #334155 !important;
         }
 
-        /* 3. Right Sidebar Card */
+        /* Request 2: Widen right sidebar */
+#content-right {
+    width: 320px !important;
+    min-width: 320px !important;
+    max-width: 320px !important;
+    flex-shrink: 0 !important;
+}
+#content-left.split-common-content,
+#content-left {
+    flex: 1 1 0% !important;
+    min-width: 0 !important;
+    max-width: calc(100% - 344px) !important;
+    width: auto !important;
+}
+
+/* Request 3: CONTEST and USERS in JetBrains Mono & No color on 0 and 1 badges */
+.contest-table-card thead th {
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    background: #202024 !important;
+    color: #a1a1aa !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 12px 18px !important;
+}
+html[data-theme="light"] .contest-table-card thead th,
+html.theme-light .contest-table-card thead th {
+    background: #f8fafc !important;
+    border-bottom: 1px solid #dcdee0 !important;
+    color: #64748b !important;
+}
+
+.contest-user-badge,
+.contest-user-badge *,
+#content .contest-user-badge,
+html body .contest-user-badge {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 1px solid var(--expo-hairline) !important;
+    border-radius: 6px !important;
+    color: var(--expo-ink) !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    min-width: 32px !important;
+    height: 28px !important;
+    padding: 0 8px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    text-decoration: none !important;
+    transform: none !important;
+}
+.contest-user-badge:hover,
+.contest-user-badge *:hover,
+#content .contest-user-badge:hover,
+html body .contest-user-badge:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    border-color: var(--expo-hairline-strong) !important;
+}
+html[data-theme="light"] .contest-user-badge,
+html[data-theme="light"] .contest-user-badge *,
+html.theme-light .contest-user-badge,
+html.theme-light .contest-user-badge * {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: 1px solid #dcdee0 !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+}
+html[data-theme="light"] .contest-user-badge:hover,
+html[data-theme="light"] .contest-user-badge *:hover,
+html.theme-light .contest-user-badge:hover,
+html.theme-light .contest-user-badge *:hover {
+    border-color: #94a3b8 !important;
+}
+
+/* Request 4: Problem table header exactly matching Image #6 (/problems/) */
+.org-problem-table-block table#problem-table thead th {
+    background: #202024 !important;
+    color: #a1a1aa !important;
+    font-family: "JetBrains Mono", monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1px !important;
+    text-transform: uppercase !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 12px 16px !important;
+    box-sizing: border-box !important;
+}
+.org-problem-table-block table#problem-table thead th.solved {
+    padding: 14px 10px !important;
+    text-align: center !important;
+}
+.org-problem-table-block table#problem-table thead th.problem-id {
+    padding: 14px 18px !important;
+    text-align: center !important;
+}
+.org-problem-table-block table#problem-table thead th.users {
+    padding: 12px 16px !important;
+    text-align: center !important;
+}
+.org-problem-table-block table#problem-table thead th:first-child {
+    border-top-left-radius: 12px !important;
+}
+.org-problem-table-block table#problem-table thead th:last-child {
+    border-top-right-radius: 12px !important;
+}
+html[data-theme="light"] .org-problem-table-block table#problem-table thead th,
+html.theme-light .org-problem-table-block table#problem-table thead th {
+    background: #f8fafc !important;
+    color: #64748b !important;
+    border-bottom: 1px solid #dcdee0 !important;
+}
+
+/* 3. Right Sidebar Card */
         .org-sidebar-card {
             display: flex !important;
             flex-direction: column !important;
@@ -793,13 +914,13 @@
 
         .contest-table-card thead th {
             background: var(--expo-surface-strong) !important;
-            font-family: "Inter", sans-serif !important;
-            font-size: 11.5px !important;
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
             font-weight: 600 !important;
+            letter-spacing: 1px !important;
             text-transform: uppercase !important;
             color: var(--expo-muted) !important;
-            letter-spacing: 0.04em !important;
-            padding: 10px 18px !important;
+            padding: 12px 18px !important;
             border-bottom: 1px solid var(--expo-hairline) !important;
         }
         html[data-theme="light"] .contest-table-card thead th,
@@ -1370,7 +1491,7 @@ html.theme-light .contest-user-badge * {
                                         </div>
                                     </td>
                                     <td style="text-align: center;">
-                                        <a href="{{ url('contest_ranking', c.key) }}" class="contest-user-badge" style="border: 2px solid rgba(167, 139, 250, 0.85) !important; box-shadow: 0 0 12px rgba(167, 139, 250, 0.4) !important;">{{ c.user_count }}</a>
+                                        <a href="{{ url('contest_ranking', c.key) }}" class="contest-user-badge">{{ c.user_count }}</a>
                                     </td>
                                     <td style="text-align: right;">
                                         <form action="{{ url('contest_join', c.key) }}" method="post" style="margin: 0;">
@@ -1410,7 +1531,7 @@ html.theme-light .contest-user-badge * {
                     <table id="problem-table" class="table striped">
                         <thead>
                             <tr>
-                                <th class="solved" style="width: 40px; text-align: center;"><i class="fa fa-check"></i></th>
+                                <th class="solved" style="width: 40px; text-align: center;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></th>
                                 <th class="problem-id" style="width: 180px;">ID</th>
                                 <th class="problem">{{ _('Problem') }}</th>
                                 <th class="category">{{ _('Category') }}</th>
@@ -1451,7 +1572,7 @@ html.theme-light .contest-user-badge * {
                                         </span>
                                     </td>
                                     <td class="users" style="text-align: center;">
-                                        <a href="{{ url('ranked_submissions', p.code) }}" style="color: #a855f7; font-weight: 700;">
+                                        <a href="{{ url('ranked_submissions', p.code) }}" class="problem-user-count">
                                             {{ p.user_count }}
                                         </a>
                                     </td>
