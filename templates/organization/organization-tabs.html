@@ -29,50 +29,69 @@
             color: #0f172a !important;
         }
 
-        /* ── All Tabs: Prominent 46px blocks matching /contests/ tabs (Image #2) ── */
-        .tabs.org-tabs:not(#mobile) li.tab a,
-        .tabs.org-tabs:not(#mobile) li.tab > span,
-        .tabs.org-tabs:not(#mobile) li.tab button {
+        /* ── Standard Tabs: Icon-only by default, text reveals on hover ── */
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) a,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) > span {
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            padding: 0 18px !important;
-            height: 46px !important;
-            gap: 8px !important;
+            padding: 0 14px !important;
+            height: 42px !important;
             border-radius: 8px !important;
             font-family: "Inter", sans-serif !important;
-            font-size: 13.5px !important;
+            font-size: 13px !important;
             font-weight: 500 !important;
-            line-height: normal !important;
-            transition: all 0.15s ease !important;
-            overflow: visible !important;
             box-sizing: border-box !important;
             text-decoration: none !important;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            overflow: hidden !important;
+            gap: 0 !important;
         }
 
-        .tabs.org-tabs:not(#mobile) li.tab .tab-icon,
-        .tabs.org-tabs:not(#mobile) li.tab i {
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) .tab-icon,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) i,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) svg {
             margin-right: 0 !important;
             flex-shrink: 0 !important;
             font-size: 14px !important;
             width: 15px !important;
             height: 15px !important;
+            transition: margin 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        .tabs.org-tabs:not(#mobile) li.tab .tab-text {
+        /* Text revealed ONLY on hover */
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) .tab-text {
             display: inline-block !important;
-            max-width: none !important;
+            max-width: 0 !important;
             width: auto !important;
-            opacity: 1 !important;
-            overflow: visible !important;
+            opacity: 0 !important;
+            overflow: hidden !important;
             white-space: nowrap !important;
             margin-left: 0 !important;
             vertical-align: middle !important;
-            pointer-events: auto !important;
-            font-size: 13.5px !important;
+            pointer-events: none !important;
+            font-size: 13px !important;
+            transition: max-width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+                        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                        margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
         }
 
-        /* Active Tab */
+        /* Hover & Focus state: expand pill and reveal text smoothly */
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover a,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within a,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover > span,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within > span {
+            padding: 0 16px !important;
+        }
+
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover .tab-text,
+        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within .tab-text {
+            max-width: 140px !important;
+            opacity: 1 !important;
+            margin-left: 7px !important;
+        }
+
+        /* Active Tab in Dark Mode: Solid WHITE button with crisp BLACK icon and text */
         .tabs.org-tabs:not(#mobile) li.tab.active a,
         .tabs.org-tabs:not(#mobile) li.tab.active > span {
             background: #ffffff !important;
@@ -81,8 +100,13 @@
             border: 1px solid #ffffff !important;
         }
         .tabs.org-tabs:not(#mobile) li.tab.active a *,
-        .tabs.org-tabs:not(#mobile) li.tab.active > span * {
+        .tabs.org-tabs:not(#mobile) li.tab.active > span *,
+        .tabs.org-tabs:not(#mobile) li.tab.active a svg,
+        .tabs.org-tabs:not(#mobile) li.tab.active > span svg,
+        .tabs.org-tabs:not(#mobile) li.tab.active a .tab-icon,
+        .tabs.org-tabs:not(#mobile) li.tab.active > span .tab-icon {
             color: #000000 !important;
+            stroke: #000000 !important;
         }
 
         /* Inactive Standard Tabs - Dark Mode */
@@ -95,6 +119,7 @@
         .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab) a *,
         .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab) > span * {
             color: inherit !important;
+            stroke: currentColor !important;
         }
         .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab):hover a,
         .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab):hover > span {
@@ -104,32 +129,41 @@
         }
 
         /* Action Tab: Leave Organization */
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab a,
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab button {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            padding: 0 16px !important;
+            height: 42px !important;
+            border-radius: 8px !important;
+            gap: 7px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            box-sizing: border-box !important;
+            text-decoration: none !important;
+        }
+        .tabs.org-tabs:not(#mobile) li.tab.org-action-tab .tab-text {
+            display: inline-block !important;
+            max-width: none !important;
+            opacity: 1 !important;
+            overflow: visible !important;
+            white-space: nowrap !important;
+            font-size: 13px !important;
+        }
         .tabs.org-tabs:not(#mobile) li.tab.leave-tab button {
             background: rgba(239, 68, 68, 0.12) !important;
             border: 1px solid rgba(239, 68, 68, 0.28) !important;
             color: #f87171 !important;
-            cursor: pointer !important;
         }
         .tabs.org-tabs:not(#mobile) li.tab.leave-tab button * {
             color: inherit !important;
+            stroke: currentColor !important;
         }
         .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover button {
             background: rgba(239, 68, 68, 0.22) !important;
-            border-color: rgba(239, 68, 68, 0.45) !important;
-            color: #ffffff !important;
-        }
-
-        /* Action Tab: Join / Request */
-        .tabs.org-tabs:not(#mobile) li.tab.join-tab button,
-        .tabs.org-tabs:not(#mobile) li.tab.request-tab a {
-            background: var(--expo-surface-strong) !important;
-            border: 1px solid var(--expo-hairline-strong) !important;
-            color: var(--expo-ink) !important;
-            cursor: pointer !important;
-        }
-        .tabs.org-tabs:not(#mobile) li.tab.join-tab button:hover,
-        .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a {
-            background: #27272a !important;
             color: #ffffff !important;
         }
 
@@ -144,9 +178,14 @@
         }
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.active a *,
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.active > span *,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.active a svg,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.active > span svg,
         html.theme-light .tabs.org-tabs:not(#mobile) li.tab.active a *,
-        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.active > span * {
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.active > span *,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.active a svg,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.active > span svg {
             color: #ffffff !important;
+            stroke: #ffffff !important;
         }
 
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab) a,
@@ -162,6 +201,7 @@
         html.theme-light .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab) a *,
         html.theme-light .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab) > span * {
             color: inherit !important;
+            stroke: currentColor !important;
         }
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab):hover a,
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab:not(.active):not(.org-action-tab):hover > span,
@@ -181,20 +221,12 @@
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.leave-tab button *,
         html.theme-light .tabs.org-tabs:not(#mobile) li.tab.leave-tab button * {
             color: inherit !important;
+            stroke: currentColor !important;
         }
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover button,
         html.theme-light .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover button {
             background: #fee2e2 !important;
             color: #7f1d1d !important;
-        }
-
-        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab button,
-        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
-        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab button,
-        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab a {
-            background: #f0f0f3 !important;
-            border: 1px solid #dcdee0 !important;
-            color: #171717 !important;
         }
 </style>
     {% endblock %}
