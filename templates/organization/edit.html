@@ -11,502 +11,781 @@
     {{ super() }}
     {{ form.media.css }}
     <style>
-        /* ── Edit Organization Glass Card & Modern Form ── */
-        .edit-org-wrapper {
-            width: 100%;
-            margin-bottom: 30px;
-        }
-        .edit-org-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.06) !important;
-            border-radius: 16px !important;
-            backdrop-filter: blur(12px) !important;
-            padding: 24px 28px !important;
+        #content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
             box-sizing: border-box !important;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        }
+
+        #common-content {
+            display: flex !important;
+            flex-direction: row !important;
+            gap: 24px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            align-items: flex-start !important;
+        }
+
+        #content-left {
+            flex: 1 1 0% !important;
+            min-width: 0 !important;
+            max-width: calc(100% - 344px) !important;
+            width: auto !important;
+            float: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        #content-right {
+            width: 320px !important;
+            min-width: 320px !important;
+            max-width: 320px !important;
+            flex-shrink: 0 !important;
+            float: none !important;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+
+        .info-float {
+            width: 100% !important;
+            max-width: 320px !important;
+            position: static !important;
+        }
+
+        /* 1. Main Edit Card (Outer redundant wrapper eliminated) */
+        .edit-org-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 32px 36px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: border-color 0.15s ease !important;
+            width: 100% !important;
         }
         .edit-org-card:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
         }
+        html[data-theme="light"] .edit-org-card,
+        html.theme-light .edit-org-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* 2. Header elements inside card */
         .edit-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            padding: 3px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            font-family: 'Google Sans Code', monospace;
-        }
-        .edit-title {
-            font-size: 24px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            letter-spacing: -0.01em !important;
-            margin: 0 0 6px 0 !important;
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            background: transparent !important;
             border: none !important;
             padding: 0 !important;
         }
-        .edit-subtitle {
-            font-size: 14px;
-            color: #94a3b8;
-            margin: 0 0 24px 0;
-            line-height: 1.5;
+        .edit-tag svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .edit-tag,
+        html.theme-light .edit-tag {
+            color: #64748b !important;
         }
 
-        /* ── Form Section Headings ── */
+        .edit-title {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        html[data-theme="light"] .edit-title,
+        html.theme-light .edit-title {
+            color: #0f172a !important;
+        }
+
+        .edit-subtitle {
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 24px !important;
+        }
+        html[data-theme="light"] .edit-subtitle,
+        html.theme-light .edit-subtitle {
+            color: #64748b !important;
+        }
+
+        /* 3. Section Headings */
         .form-section-title {
-            color: #38bdf8 !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
             font-size: 16px !important;
-            font-weight: 700 !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.2px !important;
+            color: var(--expo-ink) !important;
             margin: 28px 0 16px 0 !important;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
             padding-bottom: 8px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
         }
+        .form-section-title svg {
+            stroke: currentColor !important;
+            color: var(--expo-muted) !important;
+        }
+        .form-section-title span,
+        .form-section-title * {
+            color: inherit !important;
+        }
+        html[data-theme="light"] .form-section-title,
+        html[data-theme="light"] .form-section-title span,
+        html[data-theme="light"] .form-section-title *,
+        html.theme-light .form-section-title,
+        html.theme-light .form-section-title span,
+        html.theme-light .form-section-title * {
+            color: #0f172a !important;
+            border-bottom-color: #f0f0f3 !important;
+        }
+        html[data-theme="light"] .form-section-title svg,
+        html.theme-light .form-section-title svg {
+            color: #64748b !important;
+        }
 
-        /* ── Form Rows & Controls ── */
+        /* 4. Form rows & labels */
         .edit-form-row {
-            display: flex;
-            margin-bottom: 20px;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .edit-form-label {
-            flex: 0 0 200px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #cbd5e1;
-            padding-top: 8px;
-        }
-        .edit-form-label .req-star {
-            color: #f87171;
-            margin-left: 3px;
-        }
-        .edit-form-control {
-            flex: 1 1 300px;
-            min-width: 0;
-        }
-        .form-input-cyber {
-            width: 100% !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 10px 14px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            padding: 14px 0 !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
             box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
-            outline: none !important;
+            margin-bottom: 0 !important;
+            gap: 20px !important;
         }
-        .form-input-cyber:focus {
-            border-color: #38bdf8 !important;
-            background: rgba(255, 255, 255, 0.07) !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+        .edit-form-row:last-of-type {
+            border-bottom: none !important;
+        }
+        html[data-theme="light"] .edit-form-row,
+        html.theme-light .edit-form-row {
+            border-bottom-color: #f0f0f3 !important;
+        }
+
+        .edit-form-label {
+            width: 220px !important;
+            min-width: 220px !important;
+            flex: 0 0 220px !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 13.5px !important;
+            color: var(--expo-ink) !important;
+            padding-top: 9px !important;
+            box-sizing: border-box !important;
+        }
+        .edit-form-label label,
+        .edit-form-label span,
+        .edit-form-label * {
+            color: inherit !important;
+            font-weight: inherit !important;
+            font-size: inherit !important;
+        }
+        html[data-theme="light"] .edit-form-label,
+        html[data-theme="light"] .edit-form-label label,
+        html[data-theme="light"] .edit-form-label *,
+        html.theme-light .edit-form-label,
+        html.theme-light .edit-form-label label,
+        html.theme-light .edit-form-label * {
+            color: #0f172a !important;
+        }
+
+        .edit-form-label .req-star {
+            color: #ef4444 !important;
+            margin-left: 2px !important;
+            font-weight: 600 !important;
+        }
+
+        .edit-form-control {
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+            box-sizing: border-box !important;
+        }
+
+        .form-help-text {
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+            line-height: 1.5 !important;
+            margin-top: 6px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+        }
+        .form-help-text svg {
+            color: inherit !important;
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+            margin-top: 2px !important;
+        }
+        .form-help-text span,
+        .form-help-text * {
+            color: inherit !important;
+        }
+        html[data-theme="light"] .form-help-text,
+        html[data-theme="light"] .form-help-text span,
+        html[data-theme="light"] .form-help-text *,
+        html.theme-light .form-help-text,
+        html.theme-light .form-help-text span,
+        html.theme-light .form-help-text * {
+            color: #64748b !important;
+        }
+
+        .form-field-error {
+            color: #ef4444 !important;
+            font-size: 12.5px !important;
+            margin-top: 4px !important;
+            font-weight: 500 !important;
+        }
+
+        /* 5. Inputs */
+        .form-input-cyber,
+        input[type="text"].form-input-cyber,
+        input[type="number"].form-input-cyber {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 9px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            transition: all 0.15s ease !important;
         }
         .form-input-cyber.short {
             max-width: 320px !important;
         }
-        .form-help-text {
-            font-size: 12.5px;
-            color: #64748b;
-            margin-top: 6px;
-            line-height: 1.4;
-            display: flex;
-            align-items: flex-start;
-            gap: 6px;
+        .form-input-cyber:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
         }
-        .form-help-text svg {
-            flex-shrink: 0;
-            margin-top: 2px;
-            color: #38bdf8;
+        html[data-theme="light"] .form-input-cyber,
+        html[data-theme="light"] input[type="text"].form-input-cyber,
+        html[data-theme="light"] input[type="number"].form-input-cyber,
+        html.theme-light .form-input-cyber,
+        html.theme-light input[type="text"].form-input-cyber,
+        html.theme-light input[type="number"].form-input-cyber {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
         }
-        .form-field-error {
-            color: #f87171;
-            font-size: 12.5px;
-            margin-top: 4px;
-            font-weight: 600;
-        }
-
-        /* Error Alert Box */
-        .edit-error-alert {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px 18px;
-            border-radius: 12px;
-            background: rgba(239, 68, 68, 0.12);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #fca5a5;
-            font-size: 14px;
-            margin-bottom: 24px;
+        html[data-theme="light"] .form-input-cyber:focus,
+        html.theme-light .form-input-cyber:focus {
+            border-color: #000000 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
         }
 
-        /* ── Action Buttons Bar ── */
-        .edit-actions-bar {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-top: 32px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        /* 6. Checkbox */
+        .edit-form-control input[type="checkbox"] {
+            width: 16px !important;
+            height: 16px !important;
+            accent-color: #ffffff !important;
+            cursor: pointer !important;
+            margin: 0 !important;
+            border-radius: 4px !important;
         }
-        .btn-save-org {
+        .cyber-checkbox-label {
             display: inline-flex !important;
             align-items: center !important;
             gap: 8px !important;
-            padding: 11px 28px !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.18) !important;
-            color: #ffffff !important;
-            font-size: 14.5px !important;
-            font-weight: 700 !important;
             cursor: pointer !important;
-            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            letter-spacing: 0.2px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            user-select: none !important;
         }
-        .btn-save-org:hover {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 6px 22px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
+        .cyber-checkbox-label span,
+        .cyber-checkbox-label * {
+            color: inherit !important;
         }
-        .btn-cancel-org {
-            color: #94a3b8 !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            padding: 10px 22px !important;
-            border-radius: 100px !important;
-            transition: all 0.2s ease !important;
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.06) !important;
+        html[data-theme="light"] .edit-form-control input[type="checkbox"],
+        html.theme-light .edit-form-control input[type="checkbox"],
+        html[data-theme="light"] .cyber-checkbox-label input[type="checkbox"],
+        html.theme-light .cyber-checkbox-label input[type="checkbox"] {
+            accent-color: #000000 !important;
         }
-        .btn-cancel-org:hover {
-            color: #f1f5f9 !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            transform: translateY(-1px) !important;
+        html[data-theme="light"] .cyber-checkbox-label,
+        html[data-theme="light"] .cyber-checkbox-label span,
+        html[data-theme="light"] .cyber-checkbox-label *,
+        html.theme-light .cyber-checkbox-label,
+        html.theme-light .cyber-checkbox-label span,
+        html.theme-light .cyber-checkbox-label * {
+            color: #0f172a !important;
         }
 
-        /* ── Sidebar Preview & Guide Cards ── */
-        .org-preview-card {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .org-preview-avatar {
-            width: 72px;
-            height: 72px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(2, 132, 199, 0.3), rgba(99, 102, 241, 0.2));
-            border: 2px solid rgba(56, 189, 248, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #38bdf8;
-            margin-bottom: 12px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5), 0 0 16px rgba(56, 189, 248, 0.2);
-            overflow: hidden;
-        }
-        .org-preview-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .org-preview-name {
-            font-size: 17px;
-            font-weight: 800;
-            color: #ffffff;
-            margin: 0 0 6px 0;
-            line-height: 1.3;
-        }
-        .org-guide-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 14px;
-            padding: 16px 18px;
-        }
-        .org-guide-title {
-            font-size: 13px;
-            font-weight: 700;
-            color: #38bdf8;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .org-guide-list {
-            margin: 0;
-            padding-left: 18px;
-            font-size: 12.5px;
-            color: #94a3b8;
-            line-height: 1.6;
-        }
-        .org-guide-list li {
-            margin-bottom: 6px;
-        }
-
-        /* Select2 Cyber Theme Overrides */
+        /* 7. Select2 Admin Multi-select */
         .select2-container--default .select2-selection--multiple {
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
             min-height: 42px !important;
             padding: 4px 8px !important;
+            box-sizing: border-box !important;
         }
         .select2-container--default.select2-container--focus .select2-selection--multiple {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
         }
         .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background: rgba(56, 189, 248, 0.15) !important;
-            border: 1px solid rgba(56, 189, 248, 0.35) !important;
-            color: #38bdf8 !important;
+            background: #27272a !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
             border-radius: 6px !important;
-            padding: 2px 8px !important;
+            padding: 3px 10px !important;
             font-size: 13px !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-weight: 600 !important;
         }
         .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: #fca5a5 !important;
+            color: var(--expo-muted) !important;
             margin-right: 6px !important;
         }
-
-        /* ── Modern Martor Markdown Editor (Exact Image #2 Styling) ── */
-        .edit-org-card .main-martor,
-        .edit-org-card .section-martor {
-            border: none !important;
-            border-radius: 0 !important;
-            overflow: visible !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            width: 100% !important;
+        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+            color: #ef4444 !important;
         }
-        .edit-org-card .main-martor:focus-within {
-            border: none !important;
-            box-shadow: none !important;
+        html[data-theme="light"] .select2-container--default .select2-selection--multiple,
+        html.theme-light .select2-container--default .select2-selection--multiple {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
         }
-
-        /* Eliminate gray line / underline above editor */
-        .edit-org-card .section-martor .ui.attached.inverted.menu,
-        .edit-org-card .section-martor .tab-martor-menu,
-        .edit-org-card .tab-martor-menu,
-        .edit-org-card .ui.tabular.menu,
-        .edit-org-card .ui.attached.menu,
-        .edit-org-card .ui.pointing.menu,
-        .edit-org-card .ui.menu {
-            background: transparent !important;
-            border: none !important;
-            border-bottom: none !important;
-            box-shadow: none !important;
-            padding: 0 0 14px 0 !important;
-            display: flex !important;
-            align-items: center !important;
-            min-height: auto !important;
+        html[data-theme="light"] .select2-container--default.select2-container--focus .select2-selection--multiple,
+        html.theme-light .select2-container--default.select2-container--focus .select2-selection--multiple {
+            border-color: #000000 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
         }
-        .edit-org-card .tab-martor-menu::after,
-        .edit-org-card .tab-martor-menu::before,
-        .edit-org-card .section-martor .ui.menu::after,
-        .edit-org-card .section-martor .ui.menu::before {
-            display: none !important;
-            content: none !important;
-            border: none !important;
-            height: 0 !important;
+        html[data-theme="light"] .select2-container--default .select2-selection--multiple .select2-selection__choice,
+        html.theme-light .select2-container--default .select2-selection--multiple .select2-selection__choice {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
         }
 
-        /* Editor & Preview pill buttons */
+        /* 8. Martor Editor Clean Expo Styling */
         .edit-org-card .tab-martor-menu a.item {
-            color: #94a3b8 !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            font-size: 13.5px !important;
-            font-weight: 600 !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 8px !important;
-            padding: 7px 18px !important;
+            color: var(--expo-muted) !important;
+            background: var(--expo-surface-strong) !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 6px !important;
+            padding: 6px 14px !important;
             margin: 0 8px 0 0 !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 7px !important;
-            text-decoration: none !important;
-            cursor: pointer !important;
+            transition: all 0.15s ease !important;
         }
-        .edit-org-card .tab-martor-menu a.item:hover {
+        .edit-org-card .tab-martor-menu a.item.active {
+            color: #000000 !important;
+            background: #ffffff !important;
+            font-weight: 600 !important;
+            border: 1px solid transparent !important;
+        }
+        html[data-theme="light"] .edit-org-card .tab-martor-menu a.item,
+        html.theme-light .edit-org-card .tab-martor-menu a.item {
+            color: #64748b !important;
+            background: #f1f5f9 !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .edit-org-card .tab-martor-menu a.item.active,
+        html.theme-light .edit-org-card .tab-martor-menu a.item.active {
             color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            border-color: rgba(255, 255, 255, 0.15) !important;
-        }
-        .edit-org-card .tab-martor-menu a.item.active,
-        .edit-org-card .section-martor .tab-martor-menu a.item.active,
-        .edit-org-card .section-martor .ui.tabular.menu .active.item {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            font-weight: 700 !important;
-            border: 1px solid rgba(56, 189, 248, 0.45) !important;
-            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.25) !important;
-            border-radius: 8px !important;
-        }
-
-        /* Toolbar icons styling */
-        .edit-org-card .martor-toolbar {
-            background: transparent !important;
-            border: none !important;
-            padding: 0 !important;
-            margin: 0 0 0 10px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 4px !important;
+            background: #000000 !important;
         }
         .edit-org-card .martor-toolbar a,
         .edit-org-card .martor-toolbar button,
         .edit-org-card .martor-toolbar i,
         .edit-org-card .martor-toolbar .button {
-            color: #94a3b8 !important;
+            color: var(--expo-muted) !important;
             background: transparent !important;
             border: none !important;
-            box-shadow: none !important;
-            padding: 6px 8px !important;
             border-radius: 6px !important;
             font-size: 13px !important;
-            transition: all 0.15s ease !important;
-            cursor: pointer !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+            padding: 5px 7px !important;
         }
         .edit-org-card .martor-toolbar a:hover,
         .edit-org-card .martor-toolbar button:hover,
-        .edit-org-card .martor-toolbar .button:hover,
         .edit-org-card .martor-toolbar i:hover {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            transform: translateY(-1px);
+            color: var(--expo-ink) !important;
+            background: #27272a !important;
         }
-
-        .edit-org-card .ui.dropdown .menu {
-            background: #0f172a !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        html[data-theme="light"] .edit-org-card .martor-toolbar a,
+        html.theme-light .edit-org-card .martor-toolbar a {
+            color: #64748b !important;
         }
-        .edit-org-card .ui.dropdown .menu > .item {
-            color: #cbd5e1 !important;
-            font-size: 13px !important;
-            padding: 8px 14px !important;
-        }
-        .edit-org-card .ui.dropdown .menu > .item:hover {
-            background: rgba(56, 189, 248, 0.15) !important;
-            color: #38bdf8 !important;
-        }
-
-        /* Hide form textarea, keep Ace editor active */
-        .edit-org-card textarea.martor,
-        .edit-org-card textarea[name="about"],
-        .edit-org-card textarea.martor-preview {
-            display: none !important;
-            visibility: hidden !important;
-            width: 0 !important;
-            height: 0 !important;
-            position: absolute !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-        .edit-org-card .ace_editor textarea.ace_text-input {
-            display: block !important;
-            pointer-events: auto !important;
-            visibility: visible !important;
-            opacity: 0 !important;
-        }
-
-        /* Ace editor container & preview tab */
-        .edit-org-card .ui.segment.tab:not(.active),
-        .edit-org-card .tab.segment:not(.active),
-        .edit-org-card [data-tab^="preview-tab-"]:not(.active),
-        .edit-org-card [data-tab^="editor-tab-"]:not(.active) {
-            display: none !important;
+        html[data-theme="light"] .edit-org-card .martor-toolbar a:hover,
+        html.theme-light .edit-org-card .martor-toolbar a:hover {
+            color: #0f172a !important;
+            background: #e2e8f0 !important;
         }
         .edit-org-card .ui.segment.tab,
-        .edit-org-card .tab.segment[data-tab^="editor-tab-"] {
-            background: #060913 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            overflow: hidden !important;
-            width: 100% !important;
-        }
+        .edit-org-card .tab.segment[data-tab^="editor-tab-"],
         .edit-org-card .martor-field {
-            height: 380px !important;
-            min-height: 300px !important;
-            background: #060913 !important;
-            border: none !important;
-            border-radius: 14px !important;
-            position: relative !important;
-            width: 100% !important;
+            background: #09090b !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
         }
         .edit-org-card .ace_editor {
-            height: 380px !important;
-            width: 100% !important;
-            background: #060913 !important;
-            color: #f1f5f9 !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 14px !important;
-            border-radius: 14px !important;
-            line-height: 1.65 !important;
+            background: #09090b !important;
+            color: #f4f4f5 !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
         }
         .edit-org-card .ace_gutter {
-            background: #060913 !important;
+            background: #09090b !important;
             color: #475569 !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-        }
-        .edit-org-card .ace_gutter-active-line {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.08) !important;
-        }
-        .edit-org-card .ace_cursor {
-            color: #38bdf8 !important;
-            border-left: 2px solid #38bdf8 !important;
+            border-right: 1px solid var(--expo-hairline) !important;
         }
         .edit-org-card .tab.segment.martor-preview {
-            background: #060913 !important;
-            color: #cbd5e1 !important;
-            min-height: 300px !important;
-            padding: 24px 28px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-            font-size: 14.5px !important;
-            line-height: 1.7 !important;
-            margin: 0 !important;
+            background: #09090b !important;
+            color: #f4f4f5 !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important;
+            padding: 20px 24px !important;
+        }
+        html[data-theme="light"] .edit-org-card .ui.segment.tab,
+        html.theme-light .edit-org-card .ui.segment.tab,
+        html[data-theme="light"] .edit-org-card .martor-field,
+        html.theme-light .edit-org-card .martor-field {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .edit-org-card .ace_editor,
+        html.theme-light .edit-org-card .ace_editor {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .edit-org-card .ace_gutter,
+        html.theme-light .edit-org-card .ace_gutter {
+            background: #f8fafc !important;
+            color: #94a3b8 !important;
+            border-right: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .edit-org-card .tab.segment.martor-preview,
+        html.theme-light .edit-org-card .tab.segment.martor-preview {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1px solid #e2e8f0 !important;
         }
 
-        /* Bottom notice bar (hide redundant hr) */
-        .edit-org-card .section-martor > hr {
-            display: none !important;
+        /* 9. Action Buttons */
+        .edit-actions-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 12px !important;
+            margin-top: 32px !important;
+            padding-top: 24px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
         }
-        .edit-org-card .show-on-editor p {
+        html[data-theme="light"] .edit-actions-bar,
+        html.theme-light .edit-actions-bar {
+            border-top-color: #f0f0f3 !important;
+        }
+
+        .btn-save-org {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            height: 42px !important;
+            padding: 0 24px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            border: 1px solid #ffffff !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        }
+        .btn-save-org span,
+        .btn-save-org * {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+        .btn-save-org:hover {
+            background: #e4e4e7 !important;
+            border-color: #e4e4e7 !important;
+            transform: translateY(-1px) !important;
+        }
+        html[data-theme="light"] .btn-save-org,
+        html.theme-light .btn-save-org {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+        html[data-theme="light"] .btn-save-org span,
+        html.theme-light .btn-save-org span,
+        html[data-theme="light"] .btn-save-org *,
+        html.theme-light .btn-save-org * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+        html[data-theme="light"] .btn-save-org:hover,
+        html.theme-light .btn-save-org:hover {
+            background: #1a1a1a !important;
+            border-color: #1a1a1a !important;
+        }
+
+        .btn-cancel-org {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 42px !important;
+            padding: 0 18px !important;
+            border-radius: 8px !important;
+            background: transparent !important;
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            border: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .btn-cancel-org:hover {
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .btn-cancel-org,
+        html.theme-light .btn-cancel-org {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .btn-cancel-org:hover,
+        html.theme-light .btn-cancel-org:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        /* 10. Right Sidebar Cards (320px) */
+        .org-preview-card,
+        .org-guide-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 22px !important;
+            margin-bottom: 20px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease !important;
+            width: 100% !important;
+        }
+        .org-preview-card:hover,
+        .org-guide-card:hover {
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+        }
+        html[data-theme="light"] .org-preview-card,
+        html[data-theme="light"] .org-guide-card,
+        html.theme-light .org-preview-card,
+        html.theme-light .org-guide-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .org-preview-avatar {
+            width: 64px !important;
+            height: 64px !important;
+            border-radius: 12px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            color: var(--expo-ink) !important;
+            margin: 0 auto 12px auto !important;
+            box-shadow: none !important;
+            overflow: hidden !important;
+        }
+        html[data-theme="light"] .org-preview-avatar,
+        html.theme-light .org-preview-avatar {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+        }
+
+        .org-preview-name {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+            line-height: 1.3 !important;
+        }
+        html[data-theme="light"] .org-preview-name,
+        html.theme-light .org-preview-name {
+            color: #0f172a !important;
+        }
+
+        .org-badge-code {
+            display: inline-block !important;
+            padding: 1px 6px !important;
+            border-radius: 4px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.5px !important;
+        }
+        html[data-theme="light"] .org-badge-code,
+        html.theme-light .org-badge-code {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        .org-status-chip {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            border-radius: 4px !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-weight: 600 !important;
+        }
+        .org-status-chip.open {
+            background: rgba(16, 185, 129, 0.12) !important;
+            border: 1px solid rgba(16, 185, 129, 0.28) !important;
+            color: #10b981 !important;
+        }
+        .org-status-chip.closed {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+        }
+        html[data-theme="light"] .org-status-chip.open,
+        html.theme-light .org-status-chip.open {
+            background: #ecfdf5 !important;
+            border: 1px solid #a7f3d0 !important;
+            color: #065f46 !important;
+        }
+        html[data-theme="light"] .org-status-chip.closed,
+        html.theme-light .org-status-chip.closed {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
+
+        .org-preview-card .stats-row {
+            width: 100% !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+            padding-top: 10px !important;
             font-size: 12.5px !important;
-            margin: 8px 0 0 0 !important;
+            color: var(--expo-muted) !important;
+            display: flex !important;
+            justify-content: space-between !important;
+        }
+        .org-preview-card .stats-row strong {
+            color: var(--expo-ink) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+        }
+        html[data-theme="light"] .org-preview-card .stats-row,
+        html.theme-light .org-preview-card .stats-row {
+            border-top-color: #f0f0f3 !important;
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .org-preview-card .stats-row strong,
+        html.theme-light .org-preview-card .stats-row strong {
+            color: #0f172a !important;
+        }
+
+        .org-guide-title {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        .org-guide-title svg {
+            stroke: currentColor !important;
+        }
+        .org-guide-title span,
+        .org-guide-title * {
+            color: inherit !important;
+        }
+        html[data-theme="light"] .org-guide-title,
+        html[data-theme="light"] .org-guide-title span,
+        html[data-theme="light"] .org-guide-title *,
+        html.theme-light .org-guide-title,
+        html.theme-light .org-guide-title span,
+        html.theme-light .org-guide-title * {
+            color: #64748b !important;
+        }
+
+        .org-guide-list {
+            margin: 0 !important;
+            padding-left: 16px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-body) !important;
+            line-height: 1.6 !important;
+        }
+        .org-guide-list li {
+            margin-bottom: 8px !important;
+        }
+        .org-guide-list strong {
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .org-guide-list,
+        html.theme-light .org-guide-list {
+            color: #334155 !important;
+        }
+        html[data-theme="light"] .org-guide-list strong,
+        html.theme-light .org-guide-list strong {
+            color: #0f172a !important;
+        }
+
+        /* 11. Error Alert */
+        .edit-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 10px !important;
+            padding: 14px 18px !important;
+            color: #f87171 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            margin-bottom: 24px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+        }
+        html[data-theme="light"] .edit-error-alert,
+        html.theme-light .edit-error-alert {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
         }
     </style>
 {% endblock %}
@@ -621,55 +900,10 @@
     </script>
 {% endblock %}
 
-{% block info_float %}
-    <!-- Live Preview Card -->
-    <div class="org-preview-card">
-        <div class="org-preview-avatar">
-            <img id="org_preview_img" src="{{ form.logo_override_image.value() or organization.logo_override_image }}" alt="Logo" {% if not form.logo_override_image.value() and not organization.logo_override_image %}style="display:none;"{% endif %}>
-            <svg id="org_preview_svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" {% if form.logo_override_image.value() or organization.logo_override_image %}style="display:none;"{% endif %}>
-                <path d="M3 21h18"></path>
-                <path d="M5 21V7l8-4v18"></path>
-                <path d="M19 21V11l-6-4"></path>
-                <path d="M9 9h1"></path>
-                <path d="M9 13h1"></path>
-                <path d="M9 17h1"></path>
-            </svg>
-        </div>
-        <h3 class="org-preview-name" id="org_preview_name_text">{{ organization.name }}</h3>
-        <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px;">
-            {% if organization.short_name %}
-                <span class="org-badge-code">{{ organization.short_name }}</span>
-            {% endif %}
-            {% if organization.is_open %}
-                <span class="org-status-chip open" style="font-size: 11px; padding: 2px 8px;"><i class="fa fa-unlock"></i> {{ _('Open') }}</span>
-            {% else %}
-                <span class="org-status-chip closed" style="font-size: 11px; padding: 2px 8px;"><i class="fa fa-lock"></i> {{ _('Approval Required') }}</span>
-            {% endif %}
-        </div>
-        <div style="width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 10px; font-size: 12.5px; color: #94a3b8; display: flex; justify-content: space-between;">
-            <span>{{ _('Members:') }} <strong>{{ organization.members.count() }}</strong></span>
-            <span>{{ _('ID:') }} <strong>#{{ organization.id }}</strong></span>
-        </div>
-    </div>
-
-    <!-- Help & Guidelines Card -->
-    <div class="org-guide-card">
-        <div class="org-guide-title">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-            <span>{{ _('Hướng dẫn quản trị') }}</span>
-        </div>
-        <ul class="org-guide-list">
-            <li><strong>{{ _('Logo tổ chức:') }}</strong> {{ _('Khuyến nghị hình vuông (tối thiểu 128x128px), định dạng PNG trong suốt hoặc SVG để hiển thị đẹp nhất.') }}</li>
-            <li><strong>{{ _('Ban quản trị:') }}</strong> {{ _('Chỉ những người dùng đã tham gia tổ chức mới có thể được chọn làm quản trị viên.') }}</li>
-            <li><strong>{{ _('Quyền hạn:') }}</strong> {{ _('Quản trị viên có quyền thêm bài tập, tạo kỳ thi nội bộ và quản lý yêu cầu tham gia.') }}</li>
-            <li><strong>{{ _('Mô tả:') }}</strong> {{ _('Hỗ trợ đầy đủ cú pháp Markdown và công thức toán LaTeX ($...$).') }}</li>
-        </ul>
-    </div>
-{% endblock %}
-
-{% block description %}
-    <div class="edit-org-wrapper">
-        <div class="edit-org-card">
+{% block body %}
+    <div id="common-content">
+        <div id="content-left">
+            <div class="edit-org-card">
             <div class="edit-tag">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
                 <span>WORKSPACE / ORGANIZATION SETTINGS</span>
@@ -864,7 +1098,54 @@
                 </div>
             </form>
         </div>
+        </div>
+        <div id="content-right">
+            <div class="info-float">
+                <!-- Live Preview Card -->
+    <div class="org-preview-card">
+        <div class="org-preview-avatar">
+            <img id="org_preview_img" src="{{ form.logo_override_image.value() or organization.logo_override_image }}" alt="Logo" {% if not form.logo_override_image.value() and not organization.logo_override_image %}style="display:none;"{% endif %}>
+            <svg id="org_preview_svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" {% if form.logo_override_image.value() or organization.logo_override_image %}style="display:none;"{% endif %}>
+                <path d="M3 21h18"></path>
+                <path d="M5 21V7l8-4v18"></path>
+                <path d="M19 21V11l-6-4"></path>
+                <path d="M9 9h1"></path>
+                <path d="M9 13h1"></path>
+                <path d="M9 17h1"></path>
+            </svg>
+        </div>
+        <h3 class="org-preview-name" id="org_preview_name_text">{{ organization.name }}</h3>
+        <div style="display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; margin-bottom: 14px;">
+            {% if organization.short_name %}
+                <span class="org-badge-code">{{ organization.short_name }}</span>
+            {% endif %}
+            {% if organization.is_open %}
+                <span class="org-status-chip open" style="font-size: 11px; padding: 2px 8px;"><i class="fa fa-unlock"></i> {{ _('Open') }}</span>
+            {% else %}
+                <span class="org-status-chip closed" style="font-size: 11px; padding: 2px 8px;"><i class="fa fa-lock"></i> {{ _('Approval Required') }}</span>
+            {% endif %}
+        </div>
+        <div style="width: 100%; border-top: 1px solid rgba(255, 255, 255, 0.06); padding-top: 10px; font-size: 12.5px; color: #94a3b8; display: flex; justify-content: space-between;">
+            <span>{{ _('Members:') }} <strong>{{ organization.members.count() }}</strong></span>
+            <span>{{ _('ID:') }} <strong>#{{ organization.id }}</strong></span>
+        </div>
+    </div>
+
+    <!-- Help & Guidelines Card -->
+    <div class="org-guide-card">
+        <div class="org-guide-title">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+            <span>{{ _('Hướng dẫn quản trị') }}</span>
+        </div>
+        <ul class="org-guide-list">
+            <li><strong>{{ _('Logo tổ chức:') }}</strong> {{ _('Khuyến nghị hình vuông (tối thiểu 128x128px), định dạng PNG trong suốt hoặc SVG để hiển thị đẹp nhất.') }}</li>
+            <li><strong>{{ _('Ban quản trị:') }}</strong> {{ _('Chỉ những người dùng đã tham gia tổ chức mới có thể được chọn làm quản trị viên.') }}</li>
+            <li><strong>{{ _('Quyền hạn:') }}</strong> {{ _('Quản trị viên có quyền thêm bài tập, tạo kỳ thi nội bộ và quản lý yêu cầu tham gia.') }}</li>
+            <li><strong>{{ _('Mô tả:') }}</strong> {{ _('Hỗ trợ đầy đủ cú pháp Markdown và công thức toán LaTeX ($...$).') }}</li>
+        </ul>
+    </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 
-{% block description_end %}{% endblock %}
