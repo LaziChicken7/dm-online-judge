@@ -441,16 +441,19 @@
         transition: border-color 0.22s ease, background-color 0.22s ease !important;
     }
 
-    /* Global .org-private-pill styling */
+        /* Global .org-private-pill styling: JetBrains Mono, uppercase, no shadow/glow */
     .org-private-pill {
         display: inline-flex !important;
         align-items: center !important;
         gap: 5px !important;
+        font-family: 'JetBrains Mono', monospace !important;
         font-size: 11px !important;
-        font-weight: 700 !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        text-transform: uppercase !important;
         padding: 2px 8px !important;
         border-radius: 100px !important;
-        background: rgba(245, 158, 11, 0.14) !important;
+        background: rgba(245, 158, 11, 0.12) !important;
         border: 1px solid rgba(245, 158, 11, 0.35) !important;
         color: #f59e0b !important;
         white-space: nowrap !important;
@@ -458,120 +461,49 @@
         vertical-align: middle !important;
         line-height: 1.4 !important;
         text-decoration: none !important;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
+        margin-left: 8px !important;
     }
-    .org-private-pill svg {
-        flex-shrink: 0 !important;
-        color: #f59e0b !important;
-    }
-
-
-    
-
-    /* ── Fixed .org-private-pill (never wraps) ── */
-    .org-private-pill {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
-        font-size: 11px !important;
-        font-weight: 700 !important;
-        padding: 3px 9px !important;
-        border-radius: 100px !important;
-        background: rgba(245, 158, 11, 0.14) !important;
-        border: 1px solid rgba(245, 158, 11, 0.35) !important;
-        color: #f59e0b !important;
-        white-space: nowrap !important;
-        flex-shrink: 0 !important;
-        vertical-align: middle !important;
-        line-height: 1.4 !important;
-        text-decoration: none !important;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
-    }
-    .org-private-pill svg {
-        flex-shrink: 0 !important;
-        color: #f59e0b !important;
-    }
-
-    /*── Contest User Count Badge - Clean Neutral Monochrome (No purple, no glow) ── */
-    .contest-user-badge,
-    .contest-list tbody td a.contest-user-badge,
-    .contest-list tbody td a[href*="ranking"] {
-        text-decoration: none !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        padding: 4px 10px !important;
-        min-width: 28px !important;
-        height: 26px !important;
-        background: transparent !important;
-        background-color: transparent !important;
-        border: 1px solid var(--expo-hairline) !important;
-        border-radius: 6px !important;
-        color: var(--expo-ink) !important;
-        font-weight: 600 !important;
-        font-size: 13px !important;
+    .org-private-pill span,
+    .org-private-pill * {
         font-family: 'JetBrains Mono', monospace !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-        transition: border-color 0.15s ease !important;
-    }
-    .contest-user-badge:hover,
-    .contest-list tbody td a.contest-user-badge:hover,
-    .contest-list tbody td a[href*="ranking"]:hover {
-        background: var(--expo-surface-strong) !important;
-        border-color: var(--expo-hairline-strong) !important;
-        box-shadow: none !important;
-        color: var(--expo-ink) !important;
-        transform: none !important;
-    }
-    html[data-theme="light"] .contest-user-badge,
-    html[data-theme="light"] .contest-list tbody td a.contest-user-badge,
-    html[data-theme="light"] .contest-list tbody td a[href*="ranking"],
-    html.theme-light .contest-user-badge,
-    html.theme-light .contest-list tbody td a.contest-user-badge,
-    html.theme-light .contest-list tbody td a[href*="ranking"] {
-        background: transparent !important;
-        background-color: transparent !important;
-        border: 1px solid #dcdee0 !important;
-        color: #0f172a !important;
-        box-shadow: none !important;
-        text-shadow: none !important;
-    }
-    html[data-theme="light"] .contest-user-badge:hover,
-    html[data-theme="light"] .contest-list tbody td a.contest-user-badge:hover,
-    html[data-theme="light"] .contest-list tbody td a[href*="ranking"]:hover,
-    html.theme-light .contest-user-badge:hover,
-    html.theme-light .contest-list tbody td a.contest-user-badge:hover,
-    html.theme-light .contest-list tbody td a[href*="ranking"]:hover {
-        background: #f1f5f9 !important;
-        border-color: #94a3b8 !important;
-        color: #000000 !important;
-    }
-
-    /* ── Fixed .org-private-pill (never wraps) ── */
-    .org-private-pill {
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
         font-size: 11px !important;
-        font-weight: 700 !important;
-        padding: 3px 9px !important;
-        border-radius: 100px !important;
-        background: rgba(245, 158, 11, 0.14) !important;
-        border: 1px solid rgba(245, 158, 11, 0.35) !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.5px !important;
+        text-transform: uppercase !important;
         color: #f59e0b !important;
-        white-space: nowrap !important;
-        flex-shrink: 0 !important;
-        vertical-align: middle !important;
-        line-height: 1.4 !important;
-        text-decoration: none !important;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2) !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+        filter: none !important;
     }
     .org-private-pill svg {
+        width: 10px !important;
+        height: 10px !important;
+        stroke: #f59e0b !important;
         flex-shrink: 0 !important;
-        color: #f59e0b !important;
+        vertical-align: middle !important;
+        display: inline-block !important;
     }
-
+    html[data-theme="light"] .org-private-pill,
+    html.theme-light .org-private-pill {
+        background: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+        color: #b45309 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    html[data-theme="light"] .org-private-pill span,
+    html.theme-light .org-private-pill span,
+    html[data-theme="light"] .org-private-pill *,
+    html.theme-light .org-private-pill * {
+        color: #b45309 !important;
+    }
+    html[data-theme="light"] .org-private-pill svg,
+    html.theme-light .org-private-pill svg {
+        stroke: #b45309 !important;
+    }
     .org-problem-table-block {
             background: rgba(255, 255, 255, 0.03) !important;
             border: 1px solid rgba(255, 255, 255, 0.08) !important;

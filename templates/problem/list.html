@@ -1516,6 +1516,76 @@ html.theme-light hr {
     display: none !important;
 }
 
+/* Private Problem Pill: JetBrains Mono, uppercase, no glow / shadow */
+.org-private-pill,
+#problem-table .org-private-pill,
+html body .org-private-pill {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 2px 7px !important;
+    border-radius: 9999px !important;
+    background: rgba(245, 158, 11, 0.12) !important;
+    border: 1px solid rgba(245, 158, 11, 0.35) !important;
+    color: #f59e0b !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+    white-space: nowrap !important;
+    vertical-align: middle !important;
+    line-height: 1 !important;
+    text-decoration: none !important;
+    margin-left: 8px !important;
+    flex-shrink: 0 !important;
+}
+
+.org-private-pill span,
+.org-private-pill * {
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.5px !important;
+    text-transform: uppercase !important;
+    color: #f59e0b !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+}
+
+.org-private-pill svg {
+    width: 10px !important;
+    height: 10px !important;
+    stroke: #f59e0b !important;
+    flex-shrink: 0 !important;
+    vertical-align: middle !important;
+    display: inline-block !important;
+}
+
+html[data-theme="light"] .org-private-pill,
+html.theme-light .org-private-pill {
+    background: #fffbeb !important;
+    border: 1px solid #fde68a !important;
+    color: #b45309 !important;
+    box-shadow: none !important;
+    text-shadow: none !important;
+    filter: none !important;
+}
+html[data-theme="light"] .org-private-pill span,
+html.theme-light .org-private-pill span,
+html[data-theme="light"] .org-private-pill *,
+html.theme-light .org-private-pill * {
+    color: #b45309 !important;
+}
+html[data-theme="light"] .org-private-pill svg,
+html.theme-light .org-private-pill svg {
+    stroke: #b45309 !important;
+}
+
 </style>
     <div class="top-pagination-bar problem-top-toolbar">
         {% include "list-pages.html" %}
@@ -1680,9 +1750,10 @@ html.theme-light hr {
                             <a href="{{ url('problem_detail', problem.code) }}" class="problem-title-link">
                                 {{- problem.i18n_name or problem.name -}}
                                 {%- if problem.is_organization_private -%}
-                                    <span class="org-private-pill" title="{{ _('Private to organization') }}" style="display: inline-flex !important; align-items: center !important; gap: 5px !important; padding: 2px 9px !important; border-radius: 100px !important; background: rgba(245, 158, 11, 0.16) !important; border: 1.5px solid rgba(245, 158, 11, 0.55) !important; color: #f59e0b !important; font-size: 11.5px !important; font-weight: 700 !important; font-family: 'Google Sans Code', monospace !important; white-space: nowrap !important; flex-shrink: 0 !important; vertical-align: middle !important; box-shadow: 0 0 10px rgba(245, 158, 11, 0.3) !important; margin-left: 8px !important;">
-                                        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #f59e0b !important; flex-shrink: 0 !important;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                                        <span style="color: #f59e0b !important; font-weight: 700 !important; font-size: 11.5px !important; line-height: 1.4 !important;">{{ _('Private') }}</span>
+                                    <span class="org-private-pill" title="{{ _('Private to organization') }}">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                                        <span>{{ _('Private') }}</span>
+                                    </span>
                                     </span>
                                 {%- endif -%}
                             </a>
