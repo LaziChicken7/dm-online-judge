@@ -229,8 +229,28 @@
             align-items: center !important;
             gap: 10px !important;
         }
+        .extension-title span,
+        .extension-title-text {
+            color: inherit !important;
+        }
+        .extension-vector-icon {
+            stroke: var(--expo-ink) !important;
+            color: var(--expo-ink) !important;
+            flex-shrink: 0 !important;
+        }
         html[data-theme="light"] .extension-title,
-        html.theme-light .extension-title {
+        html[data-theme="light"] .extension-title span,
+        html[data-theme="light"] .extension-title *,
+        html[data-theme="light"] .extension-title-text,
+        html.theme-light .extension-title,
+        html.theme-light .extension-title span,
+        html.theme-light .extension-title *,
+        html.theme-light .extension-title-text {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .extension-vector-icon,
+        html.theme-light .extension-vector-icon {
+            stroke: #0f172a !important;
             color: #0f172a !important;
         }
 
@@ -574,7 +594,7 @@
 
         {% if error %}
             <div class="status-badge status-disconnected" style="margin-bottom: 20px;">
-                <span>⚠️ {{ error }}</span>
+                <span> {{ error }}</span>
             </div>
         {% endif %}
 
@@ -639,13 +659,13 @@
             <!-- Tab Navigation for connection methods -->
             <div class="vjudge-tabs-nav">
                 <button type="button" id="tab-btn-extension" class="vjudge-method-tab-btn active" onclick="switchVJudgeTab('extension')">
-                    <span>🚀</span> {{ _('Cách 1: Tự động qua Tiện ích') }}
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg> {{ _('Cách 1: Tự động qua Tiện ích') }}
                 </button>
                 <button type="button" id="tab-btn-cookie" class="vjudge-method-tab-btn" onclick="switchVJudgeTab('cookie')">
-                    <span>🍪</span> {{ _('Cách 2: Nhập Cookie thủ công') }}
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg> {{ _('Cách 2: Nhập Cookie thủ công') }}
                 </button>
                 <button type="button" id="tab-btn-password" class="vjudge-method-tab-btn" onclick="switchVJudgeTab('password')">
-                    <span>🔑</span> {{ _('Cách 3: Đăng nhập bằng Mật khẩu') }}
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;"><circle cx="7.5" cy="15.5" r="5.5"></circle><path d="m21 2-9.6 9.6"></path><path d="m15.5 7.5 3 3L22 7l-3-3"></path></svg> {{ _('Cách 3: Đăng nhập bằng Mật khẩu') }}
                 </button>
             </div>
 
@@ -655,8 +675,8 @@
                     <div class="extension-header">
                         <div>
                             <div class="extension-title">
-                                <span>🚀</span>
-                                <span>Tiện ích OmniJudge VJudge Auto-Sync</span>
+                                <svg class="extension-vector-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"></path><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"></path><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"></path><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"></path></svg>
+                                <span class="extension-title-text">Tiện ích OmniJudge VJudge Auto-Sync</span>
                                 <span class="version-badge">v1.0.0</span>
                             </div>
                             <p class="extension-desc">
@@ -702,7 +722,7 @@
 
                     <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--expo-hairline); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
                         <span style="color: var(--expo-muted); font-size: 13px;">
-                            💡 Sau khi hoàn tất đăng nhập VJudge, bấm nút bên cạnh để kiểm tra trạng thái:
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg> Sau khi hoàn tất đăng nhập VJudge, bấm nút bên cạnh để kiểm tra trạng thái:
                         </span>
                         <button type="button" onclick="window.location.reload();" class="btn-primary-glow">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
