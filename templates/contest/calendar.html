@@ -316,15 +316,23 @@
             opacity: 0.45 !important;
         }
 
-        /* Today highlight */
-        #contest-calendar td.today {
+        /* Today highlight - NO BLUE */
+        #contest-calendar td.today,
+        table#contest-calendar td.today,
+        html body #contest-calendar td.today {
             border: 1.5px solid #ffffff !important;
             background: rgba(255, 255, 255, 0.06) !important;
+            box-shadow: none !important;
         }
         html[data-theme="light"] #contest-calendar td.today,
-        html.theme-light #contest-calendar td.today {
+        html[data-theme="light"] table#contest-calendar td.today,
+        html.theme-light #contest-calendar td.today,
+        html.theme-light table#contest-calendar td.today,
+        html[data-theme="light"] body #contest-calendar td.today,
+        html.theme-light body #contest-calendar td.today {
             border: 1.5px solid #000000 !important;
             background: rgba(0, 0, 0, 0.03) !important;
+            box-shadow: none !important;
         }
 
         /* Day number row */
@@ -345,29 +353,52 @@
             color: inherit !important;
         }
         html[data-theme="light"] #contest-calendar td .num,
-        html[data-theme="light"] #contest-calendar td .num span,
+        html[data-theme="light"] #contest-calendar td .num span:not(.today-number-pill),
         html.theme-light #contest-calendar td .num,
-        html.theme-light #contest-calendar td .num span {
-            color: #64748b !important;
+        html.theme-light #contest-calendar td .num span:not(.today-number-pill) {
+            color: #0f172a !important;
         }
 
-        .today-number-pill {
+        .today-number-pill,
+        #contest-calendar td .num .today-number-pill,
+        #contest-calendar td .num span.today-number-pill,
+        html body #contest-calendar .today-number-pill {
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            width: 22px !important;
-            height: 22px !important;
+            width: 24px !important;
+            height: 24px !important;
             border-radius: 50% !important;
             background: #ffffff !important;
             color: #000000 !important;
+            font-family: 'JetBrains Mono', monospace !important;
             font-weight: 700 !important;
-            font-size: 12px !important;
+            font-size: 12.5px !important;
             box-shadow: none !important;
+            line-height: 1 !important;
+        }
+        .today-number-pill *,
+        .today-number-pill span {
+            color: #000000 !important;
+            font-weight: 700 !important;
         }
         html[data-theme="light"] .today-number-pill,
-        html.theme-light .today-number-pill {
+        html[data-theme="light"] #contest-calendar td .num .today-number-pill,
+        html[data-theme="light"] #contest-calendar td .num span.today-number-pill,
+        html.theme-light .today-number-pill,
+        html.theme-light #contest-calendar td .num .today-number-pill,
+        html.theme-light #contest-calendar td .num span.today-number-pill,
+        html[data-theme="light"] body #contest-calendar .today-number-pill,
+        html.theme-light body #contest-calendar .today-number-pill {
             background: #000000 !important;
             color: #ffffff !important;
+        }
+        html[data-theme="light"] .today-number-pill *,
+        html[data-theme="light"] .today-number-pill span,
+        html.theme-light .today-number-pill *,
+        html.theme-light .today-number-pill span {
+            color: #ffffff !important;
+            font-weight: 700 !important;
         }
 
         /* 4. Event Chips */

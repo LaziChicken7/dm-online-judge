@@ -6558,15 +6558,17 @@ html.theme-light #available-judges-list {
         border-color: rgba(0, 0, 0, 0.04) !important;
     }
     html[data-theme="light"] #contest-calendar td.today {
-        background: rgba(2, 132, 199, 0.06) !important;
-        border: 1.5px solid #0284c7 !important;
-        box-shadow: 0 0 16px rgba(2, 132, 199, 0.15) !important;
+        background: rgba(0, 0, 0, 0.03) !important;
+        border: 1.5px solid #000000 !important;
+        box-shadow: none !important;
     }
     html[data-theme="light"] #contest-calendar td .num {
-        color: #64748b !important;
+        color: #0f172a !important;
     }
-    html[data-theme="light"] .today-number-pill {
-        background: #0284c7 !important;
+    html[data-theme="light"] .today-number-pill,
+    html[data-theme="light"] #contest-calendar td .num .today-number-pill,
+    html[data-theme="light"] #contest-calendar td .num span.today-number-pill {
+        background: #000000 !important;
         color: #ffffff !important;
     }
     html[data-theme="light"] .calendar-month-title {
