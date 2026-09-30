@@ -9,25 +9,38 @@
 
 {% block media %}
     <style>
-        /* ── Modern Contest Calendar Container Card ── */
-        .calendar-container-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 24px 28px !important;
-            margin-bottom: 28px !important;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35) !important;
+        #content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
             box-sizing: border-box !important;
-            transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
-        }
-        .calendar-container-card:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 16px 36px -6px rgba(0, 0, 0, 0.5), 
-                        0 0 25px rgba(56, 189, 248, 0.15) !important;
         }
 
-        /* ── Calendar Top Toolbar ── */
+        /* 1. Main Card Container */
+        .calendar-container-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 24px 28px !important;
+            margin-bottom: 28px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            box-sizing: border-box !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: border-color 0.15s ease !important;
+        }
+        .calendar-container-card:hover {
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+        }
+        html[data-theme="light"] .calendar-container-card,
+        html.theme-light .calendar-container-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* 2. Calendar Top Toolbar */
         .calendar-toolbar {
             display: flex !important;
             align-items: center !important;
@@ -35,50 +48,85 @@
             gap: 16px !important;
             margin-bottom: 22px !important;
             padding-bottom: 18px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
             flex-wrap: wrap !important;
+        }
+        html[data-theme="light"] .calendar-toolbar,
+        html.theme-light .calendar-toolbar {
+            border-bottom-color: #f0f0f3 !important;
         }
 
         /* Month Navigation Button Group */
         .calendar-nav-group {
             display: inline-flex !important;
             align-items: center !important;
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 100px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
             padding: 3px !important;
             gap: 2px !important;
         }
+        html[data-theme="light"] .calendar-nav-group,
+        html.theme-light .calendar-nav-group {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+        }
+
         .cal-nav-btn {
             display: inline-flex !important;
             align-items: center !important;
             gap: 6px !important;
             padding: 6px 14px !important;
-            border-radius: 100px !important;
-            color: rgba(255, 255, 255, 0.75) !important;
+            border-radius: 6px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 13px !important;
-            font-weight: 600 !important;
+            font-weight: 500 !important;
             text-decoration: none !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.15s ease !important;
+        }
+        .cal-nav-btn span,
+        .cal-nav-btn * {
+            color: inherit !important;
         }
         .cal-nav-btn:hover {
-            background: rgba(255, 255, 255, 0.08) !important;
+            background: #27272a !important;
             color: #ffffff !important;
         }
+        html[data-theme="light"] .cal-nav-btn,
+        html.theme-light .cal-nav-btn {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .cal-nav-btn:hover,
+        html.theme-light .cal-nav-btn:hover {
+            background: #ffffff !important;
+            color: #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+        }
+
         .cal-nav-btn.today {
-            background: rgba(56, 189, 248, 0.12) !important;
-            border: 1px solid rgba(56, 189, 248, 0.25) !important;
-            color: #38bdf8 !important;
-            font-weight: 700 !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 600 !important;
         }
-        .cal-nav-btn.today:hover {
-            background: rgba(56, 189, 248, 0.22) !important;
+        .cal-nav-btn.today span {
+            color: #000000 !important;
+        }
+        html[data-theme="light"] .cal-nav-btn.today,
+        html.theme-light .cal-nav-btn.today {
+            background: #000000 !important;
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .cal-nav-btn.today span,
+        html.theme-light .cal-nav-btn.today span {
             color: #ffffff !important;
         }
+
         .cal-nav-btn.disabled {
             opacity: 0.35 !important;
             pointer-events: none !important;
-            color: #64748b !important;
+            color: var(--expo-muted) !important;
         }
 
         /* Month Title */
@@ -86,11 +134,28 @@
             display: flex !important;
             align-items: center !important;
             gap: 10px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
             font-size: 20px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            letter-spacing: -0.01em !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.3px !important;
             margin: 0 !important;
+        }
+        .calendar-month-title svg {
+            color: var(--expo-muted) !important;
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+        }
+        .calendar-month-title span {
+            color: inherit !important;
+        }
+        html[data-theme="light"] .calendar-month-title,
+        html.theme-light .calendar-month-title {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .calendar-month-title svg,
+        html.theme-light .calendar-month-title svg {
+            color: #64748b !important;
         }
 
         /* Right Actions: Legend & Export */
@@ -104,11 +169,22 @@
             display: inline-flex !important;
             align-items: center !important;
             gap: 12px !important;
-            font-size: 12px !important;
-            color: #94a3b8 !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            color: var(--expo-muted) !important;
             padding-right: 12px !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+            border-right: 1px solid var(--expo-hairline) !important;
         }
+        .calendar-legend span {
+            color: inherit !important;
+        }
+        html[data-theme="light"] .calendar-legend,
+        html.theme-light .calendar-legend {
+            color: #64748b !important;
+            border-right-color: #dcdee0 !important;
+        }
+
         .legend-item {
             display: inline-flex !important;
             align-items: center !important;
@@ -122,15 +198,12 @@
         }
         .legend-dot.start {
             background: #10b981 !important;
-            box-shadow: 0 0 6px rgba(16, 185, 129, 0.6) !important;
         }
         .legend-dot.oneday {
-            background: #38bdf8 !important;
-            box-shadow: 0 0 6px rgba(56, 189, 248, 0.6) !important;
+            background: #0284c7 !important;
         }
         .legend-dot.end {
-            background: #c084fc !important;
-            box-shadow: 0 0 6px rgba(192, 132, 252, 0.6) !important;
+            background: #a855f7 !important;
         }
 
         /* Export Button */
@@ -139,24 +212,38 @@
             align-items: center !important;
             gap: 6px !important;
             padding: 7px 16px !important;
-            border-radius: 100px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            color: rgba(255, 255, 255, 0.85) !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 13px !important;
-            font-weight: 600 !important;
+            font-weight: 500 !important;
             text-decoration: none !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+            transition: all 0.15s ease !important;
+        }
+        .cal-export-btn span,
+        .cal-export-btn svg {
+            color: inherit !important;
+            stroke: currentColor !important;
         }
         .cal-export-btn:hover {
-            background: rgba(56, 189, 248, 0.12) !important;
-            border-color: rgba(56, 189, 248, 0.35) !important;
-            color: #38bdf8 !important;
-            transform: translateY(-1px) !important;
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .cal-export-btn,
+        html.theme-light .cal-export-btn {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .cal-export-btn:hover,
+        html.theme-light .cal-export-btn:hover {
+            background: #e2e8f0 !important;
+            color: #000000 !important;
         }
 
-        /* ── Calendar Table ── */
+        /* 3. Calendar Table */
         .calendar-table-wrapper {
             overflow-x: auto !important;
             width: 100% !important;
@@ -174,50 +261,70 @@
         #contest-calendar th {
             background: transparent !important;
             border: none !important;
-            color: #64748b !important;
-            font-family: 'Google Sans Code', 'Fira Code', monospace !important;
-            font-weight: 700 !important;
-            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-weight: 600 !important;
+            font-size: 11.5px !important;
             text-transform: uppercase !important;
             letter-spacing: 1px !important;
             text-align: center !important;
             padding: 10px 4px !important;
             vertical-align: middle !important;
         }
+        html[data-theme="light"] #contest-calendar th,
+        html.theme-light #contest-calendar th {
+            color: #64748b !important;
+        }
+
         #contest-calendar td {
-            height: 120px !important;
+            height: 115px !important;
             vertical-align: top !important;
             padding: 10px 10px !important;
-            border-radius: 12px !important;
-            background: rgba(255, 255, 255, 0.02) !important;
-            border: 1px solid rgba(255, 255, 255, 0.05) !important;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            border-radius: 10px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            box-shadow: none !important;
+            transition: all 0.15s ease !important;
             box-sizing: border-box !important;
         }
         #contest-calendar td:hover {
-            background: rgba(255, 255, 255, 0.045) !important;
-            border-color: rgba(56, 189, 248, 0.35) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.1) !important;
+            background: #27272a !important;
+            border-color: var(--expo-hairline-strong) !important;
+        }
+        html[data-theme="light"] #contest-calendar td,
+        html.theme-light #contest-calendar td {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] #contest-calendar td:hover,
+        html.theme-light #contest-calendar td:hover {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05) !important;
         }
 
         /* Outside month days */
         #contest-calendar td.noday {
             background: rgba(0, 0, 0, 0.25) !important;
-            border: 1px dashed rgba(255, 255, 255, 0.03) !important;
+            border: 1px dashed rgba(255, 255, 255, 0.05) !important;
             opacity: 0.35 !important;
         }
-        #contest-calendar td.noday:hover {
-            opacity: 0.65 !important;
-            border-color: rgba(255, 255, 255, 0.1) !important;
+        html[data-theme="light"] #contest-calendar td.noday,
+        html.theme-light #contest-calendar td.noday {
+            background: #f1f5f9 !important;
+            border: 1px dashed #e2e8f0 !important;
+            opacity: 0.45 !important;
         }
 
         /* Today highlight */
         #contest-calendar td.today {
-            background: rgba(56, 189, 248, 0.07) !important;
-            border: 1.5px solid #38bdf8 !important;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.2), inset 0 0 10px rgba(56, 189, 248, 0.05) !important;
+            border: 1.5px solid #ffffff !important;
+            background: rgba(255, 255, 255, 0.06) !important;
+        }
+        html[data-theme="light"] #contest-calendar td.today,
+        html.theme-light #contest-calendar td.today {
+            border: 1.5px solid #000000 !important;
+            background: rgba(0, 0, 0, 0.03) !important;
         }
 
         /* Day number row */
@@ -225,30 +332,45 @@
             display: flex !important;
             align-items: center !important;
             justify-content: flex-end !important;
-            font-family: 'Google Sans Code', monospace !important;
+            font-family: 'JetBrains Mono', monospace !important;
             font-size: 13px !important;
-            font-weight: 700 !important;
-            color: #94a3b8 !important;
+            font-weight: 600 !important;
+            color: var(--expo-muted) !important;
             margin-bottom: 8px !important;
             border: none !important;
             padding: 0 !important;
             line-height: 1 !important;
         }
+        #contest-calendar td .num span {
+            color: inherit !important;
+        }
+        html[data-theme="light"] #contest-calendar td .num,
+        html[data-theme="light"] #contest-calendar td .num span,
+        html.theme-light #contest-calendar td .num,
+        html.theme-light #contest-calendar td .num span {
+            color: #64748b !important;
+        }
+
         .today-number-pill {
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            width: 24px !important;
-            height: 24px !important;
+            width: 22px !important;
+            height: 22px !important;
             border-radius: 50% !important;
-            background: #38bdf8 !important;
-            color: #090d16 !important;
-            font-weight: 800 !important;
-            font-size: 12.5px !important;
-            box-shadow: 0 0 10px rgba(56, 189, 248, 0.8) !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 700 !important;
+            font-size: 12px !important;
+            box-shadow: none !important;
+        }
+        html[data-theme="light"] .today-number-pill,
+        html.theme-light .today-number-pill {
+            background: #000000 !important;
+            color: #ffffff !important;
         }
 
-        /* ── Event Chips in cells ── */
+        /* 4. Event Chips */
         .cal-event-list {
             list-style: none !important;
             padding: 0 !important;
@@ -263,15 +385,15 @@
             gap: 5px !important;
             padding: 4px 8px !important;
             border-radius: 6px !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 11.5px !important;
-            font-weight: 600 !important;
+            font-weight: 500 !important;
             text-decoration: none !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.15s ease !important;
             overflow: hidden !important;
             white-space: nowrap !important;
             text-overflow: ellipsis !important;
             line-height: 1.3 !important;
-            border: 1px solid transparent !important;
         }
         .cal-event-chip i {
             font-size: 10px !important;
@@ -281,48 +403,70 @@
             overflow: hidden !important;
             text-overflow: ellipsis !important;
             white-space: nowrap !important;
+            color: inherit !important;
         }
 
         /* Starts event (Green) */
         .cal-event-chip.start {
-            background: rgba(16, 185, 129, 0.12) !important;
-            border-color: rgba(16, 185, 129, 0.3) !important;
+            background: rgba(16, 185, 129, 0.15) !important;
+            border: 1px solid rgba(16, 185, 129, 0.3) !important;
             color: #34d399 !important;
         }
         .cal-event-chip.start:hover {
-            background: rgba(16, 185, 129, 0.24) !important;
-            border-color: rgba(16, 185, 129, 0.6) !important;
+            background: rgba(16, 185, 129, 0.25) !important;
             color: #ffffff !important;
-            transform: translateX(2px) !important;
-            box-shadow: 0 0 8px rgba(16, 185, 129, 0.3) !important;
+        }
+        html[data-theme="light"] .cal-event-chip.start,
+        html.theme-light .cal-event-chip.start {
+            background: #ecfdf5 !important;
+            border: 1px solid #a7f3d0 !important;
+            color: #065f46 !important;
+        }
+        html[data-theme="light"] .cal-event-chip.start:hover,
+        html.theme-light .cal-event-chip.start:hover {
+            background: #d1fae5 !important;
         }
 
-        /* 1-Day event (Cyan) */
+        /* 1-Day event (Blue) */
         .cal-event-chip.oneday {
-            background: rgba(56, 189, 248, 0.12) !important;
-            border-color: rgba(56, 189, 248, 0.3) !important;
+            background: rgba(2, 132, 199, 0.15) !important;
+            border: 1px solid rgba(56, 189, 248, 0.3) !important;
             color: #38bdf8 !important;
         }
         .cal-event-chip.oneday:hover {
-            background: rgba(56, 189, 248, 0.24) !important;
-            border-color: rgba(56, 189, 248, 0.6) !important;
+            background: rgba(2, 132, 199, 0.25) !important;
             color: #ffffff !important;
-            transform: translateX(2px) !important;
-            box-shadow: 0 0 8px rgba(56, 189, 248, 0.3) !important;
+        }
+        html[data-theme="light"] .cal-event-chip.oneday,
+        html.theme-light .cal-event-chip.oneday {
+            background: #f0f9ff !important;
+            border: 1px solid #bae6fd !important;
+            color: #0369a1 !important;
+        }
+        html[data-theme="light"] .cal-event-chip.oneday:hover,
+        html.theme-light .cal-event-chip.oneday:hover {
+            background: #e0f2fe !important;
         }
 
         /* Ends event (Purple) */
         .cal-event-chip.end {
-            background: rgba(168, 85, 247, 0.12) !important;
-            border-color: rgba(168, 85, 247, 0.3) !important;
+            background: rgba(168, 85, 247, 0.15) !important;
+            border: 1px solid rgba(168, 85, 247, 0.3) !important;
             color: #c084fc !important;
         }
         .cal-event-chip.end:hover {
-            background: rgba(168, 85, 247, 0.24) !important;
-            border-color: rgba(168, 85, 247, 0.6) !important;
+            background: rgba(168, 85, 247, 0.25) !important;
             color: #ffffff !important;
-            transform: translateX(2px) !important;
-            box-shadow: 0 0 8px rgba(168, 85, 247, 0.3) !important;
+        }
+        html[data-theme="light"] .cal-event-chip.end,
+        html.theme-light .cal-event-chip.end {
+            background: #faf5ff !important;
+            border: 1px solid #e9d5ff !important;
+            color: #6b21a8 !important;
+        }
+        html[data-theme="light"] .cal-event-chip.end:hover,
+        html.theme-light .cal-event-chip.end:hover {
+            background: #f3e8ff !important;
         }
     </style>
 {% endblock %}
