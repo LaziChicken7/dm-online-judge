@@ -667,6 +667,149 @@
         background: #f1f5f9 !important;
         border-color: #94a3b8 !important;
     }
+
+    /* Statement Tables & Subtask Tables (Fix for Image #1) */
+    .table,
+    table.table,
+    #vjudge-statement-content table,
+    .vjudge-rendered-body table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        width: 100% !important;
+        margin: 20px 0 !important;
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline) !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .table,
+    html[data-theme="light"] table.table,
+    html[data-theme="light"] #vjudge-statement-content table,
+    html[data-theme="light"] .vjudge-rendered-body table,
+    html.theme-light .table,
+    html.theme-light table.table,
+    html.theme-light #vjudge-statement-content table,
+    html.theme-light .vjudge-rendered-body table {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+
+    .table th,
+    table.table th,
+    #vjudge-statement-content table th,
+    .vjudge-rendered-body table th {
+        background: #202024 !important;
+        background-color: #202024 !important;
+        color: var(--expo-muted) !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 10px 16px !important;
+        height: 42px !important;
+        vertical-align: middle !important;
+        line-height: normal !important;
+        box-sizing: border-box !important;
+    }
+    .table th strong,
+    table.table th strong,
+    #vjudge-statement-content table th strong,
+    .vjudge-rendered-body table th strong {
+        color: inherit !important;
+        font-family: inherit !important;
+        font-size: inherit !important;
+        font-weight: inherit !important;
+        text-transform: inherit !important;
+    }
+
+    html[data-theme="light"] .table th,
+    html[data-theme="light"] table.table th,
+    html[data-theme="light"] #vjudge-statement-content table th,
+    html[data-theme="light"] .vjudge-rendered-body table th,
+    html.theme-light .table th,
+    html.theme-light table.table th,
+    html.theme-light #vjudge-statement-content table th,
+    html.theme-light .vjudge-rendered-body table th {
+        background: #f1f5f9 !important;
+        background-color: #f1f5f9 !important;
+        color: #64748b !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    .table td,
+    table.table td,
+    #vjudge-statement-content table td,
+    .vjudge-rendered-body table td {
+        padding: 10px 16px !important;
+        color: var(--expo-body) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        vertical-align: middle !important;
+        border: none !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+        line-height: 1.5 !important;
+        background: transparent !important;
+    }
+    .table tbody tr:last-child td,
+    table.table tbody tr:last-child td,
+    #vjudge-statement-content table tbody tr:last-child td,
+    .vjudge-rendered-body table tbody tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    html[data-theme="light"] .table td,
+    html[data-theme="light"] table.table td,
+    html[data-theme="light"] #vjudge-statement-content table td,
+    html[data-theme="light"] .vjudge-rendered-body table td,
+    html.theme-light .table td,
+    html.theme-light table.table td,
+    html.theme-light #vjudge-statement-content table td,
+    html.theme-light .vjudge-rendered-body table td {
+        color: #1e293b !important;
+        border-bottom-color: #e2e8f0 !important;
+    }
+
+    .table tbody tr:hover,
+    table.table tbody tr:hover,
+    #vjudge-statement-content table tbody tr:hover,
+    .vjudge-rendered-body table tbody tr:hover {
+        background: var(--expo-surface-strong) !important;
+    }
+    html[data-theme="light"] .table tbody tr:hover,
+    html[data-theme="light"] table.table tbody tr:hover,
+    html[data-theme="light"] #vjudge-statement-content table tbody tr:hover,
+    html[data-theme="light"] .vjudge-rendered-body table tbody tr:hover,
+    html.theme-light .table tbody tr:hover,
+    html.theme-light table.table tbody tr:hover,
+    html.theme-light #vjudge-statement-content table tbody tr:hover,
+    html.theme-light .vjudge-rendered-body table tbody tr:hover {
+        background: #f8fafc !important;
+    }
+
+
+    /* Eliminate duplicate DMOJ clipboard buttons on pre */
+    .copy-clipboard,
+    .btn-clipboard {
+        display: none !important;
+    }
+    #vjudge-statement-content pre,
+    .vjudge-rendered-body pre {
+        position: relative !important;
+        padding: 14px 16px !important;
+    }
+    #vjudge-statement-content pre .sample-copy-btn,
+    .vjudge-rendered-body pre .sample-copy-btn {
+        position: absolute !important;
+        top: 8px !important;
+        right: 8px !important;
+        float: none !important;
+        margin: 0 !important;
+    }
+
 </style>
 
 <script>

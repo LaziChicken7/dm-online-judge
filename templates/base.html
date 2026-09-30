@@ -441,7 +441,120 @@
         transition: border-color 0.22s ease, background-color 0.22s ease !important;
     }
 
-        /* Global .org-private-pill styling: JetBrains Mono, uppercase, no shadow/glow */
+        /* Global Problem Statement Tables (Subtask tables, Markdown tables - Fix for Image #1) */
+    html:not([data-theme="light"]) body table.table,
+    html:not([data-theme="light"]) body .table,
+    html[data-theme="dark"] body table.table,
+    html[data-theme="dark"] body .table,
+    html.theme-dark body table.table,
+    html.theme-dark body .table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        width: 100% !important;
+        margin: 20px 0 !important;
+        background: #18181b !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        box-shadow: none !important;
+    }
+    html:not([data-theme="light"]) body table.table th,
+    html:not([data-theme="light"]) body .table th,
+    html[data-theme="dark"] body table.table th,
+    html[data-theme="dark"] body .table th,
+    html.theme-dark body table.table th,
+    html.theme-dark body .table th {
+        background: #202024 !important;
+        background-color: #202024 !important;
+        color: #71717a !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        padding: 10px 16px !important;
+        height: 42px !important;
+        vertical-align: middle !important;
+        line-height: normal !important;
+        box-sizing: border-box !important;
+    }
+    html:not([data-theme="light"]) body table.table td,
+    html:not([data-theme="light"]) body .table td,
+    html[data-theme="dark"] body table.table td,
+    html[data-theme="dark"] body .table td,
+    html.theme-dark body table.table td,
+    html.theme-dark body .table td {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+        color: #d4d4d8 !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        padding: 10px 16px !important;
+        vertical-align: middle !important;
+    }
+    html:not([data-theme="light"]) body table.table tbody tr:last-child td,
+    html[data-theme="dark"] body table.table tbody tr:last-child td,
+    html.theme-dark body table.table tbody tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    /* Light Mode Problem Statement Tables */
+    html[data-theme="light"] body table.table,
+    html[data-theme="light"] body .table,
+    html.theme-light body table.table,
+    html.theme-light body .table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+        width: 100% !important;
+        margin: 20px 0 !important;
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] body table.table th,
+    html[data-theme="light"] body .table th,
+    html.theme-light body table.table th,
+    html.theme-light body .table th {
+        background: #f1f5f9 !important;
+        background-color: #f1f5f9 !important;
+        color: #64748b !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        border: none !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        padding: 10px 16px !important;
+        height: 42px !important;
+        vertical-align: middle !important;
+        line-height: normal !important;
+        box-sizing: border-box !important;
+    }
+    html[data-theme="light"] body table.table td,
+    html[data-theme="light"] body .table td,
+    html.theme-light body table.table td,
+    html.theme-light body .table td {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #e2e8f0 !important;
+        color: #1e293b !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        padding: 10px 16px !important;
+        vertical-align: middle !important;
+    }
+    html[data-theme="light"] body table.table tbody tr:last-child td,
+    html.theme-light body table.table tbody tr:last-child td {
+        border-bottom: none !important;
+    }
+
+    /* Global .org-private-pill styling: JetBrains Mono, uppercase, no shadow/glow */
     .org-private-pill {
         display: inline-flex !important;
         align-items: center !important;
