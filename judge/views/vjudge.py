@@ -224,9 +224,17 @@ class VJudgeStatusApi(View):
         profile = getattr(request, 'profile', None)
         if not profile or not profile.vjudge_cookie:
             return JsonResponse({'connected': False, 'reason': 'no_cookie'})
+        from django.core.cache import cache
+        import hashlib
+        cache_key = f"vj_status_{hashlib.md5(profile.vjudge_cookie.encode()).hexdigest()}"
+        cached = cache.get(cache_key)
+        if cached is not None:
+            return JsonResponse(cached)
         check = check_vjudge_login(profile.vjudge_cookie)
         is_connected = check.get('logged_in', False)
-        return JsonResponse({
+        res = {
             'connected': is_connected,
             'username': profile.vjudge_username or 'VJudge User'
-        })
+        }
+        cache.set(cache_key, res, 60)
+        return JsonResponse(res)

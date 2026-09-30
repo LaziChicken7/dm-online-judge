@@ -25,7 +25,7 @@
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated %}
                 <span id="vjudge-account-chip-wrap">
-                    {% if vjudge_is_connected %}
+                    {% if vjudge_has_cookie %}
                         <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-connected" id="vjudge-account-chip">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
