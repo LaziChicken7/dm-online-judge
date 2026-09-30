@@ -1,7 +1,5 @@
 {% extends "base.html" %}
-
 {% block title_ruler %}{% endblock %}
-
 {% block title_row %}
     {% set tab = 'import_polygon' %}
     {% include "problem/problem-list-tabs.html" %}
@@ -9,456 +7,658 @@
 
 {% block media %}
     <style>
-        .import-polygon-wrapper {
-            max-width: 980px;
-            margin: 0 auto 50px auto;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .import-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.07) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 36px 40px !important;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+        #content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
             box-sizing: border-box !important;
-            margin-bottom: 24px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-        .import-card:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
         }
 
-        .import-tag {
-            font-size: 11px !important;
-            font-weight: 800 !important;
-            letter-spacing: 2px !important;
-            color: #38bdf8 !important;
-            text-transform: uppercase !important;
-            margin-bottom: 8px !important;
-            font-family: 'Google Sans Code', monospace !important;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .import-title {
-            font-size: 26px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            margin: 0 0 10px 0 !important;
-            letter-spacing: -0.01em !important;
-        }
-
-        .import-desc {
-            color: #94a3b8 !important;
-            font-size: 14.5px !important;
-            line-height: 1.65 !important;
-            margin-bottom: 30px !important;
-        }
-
-        /* Error Alert */
-        .import-error-alert {
-            background: rgba(239, 68, 68, 0.12) !important;
-            border: 1px solid rgba(239, 68, 68, 0.35) !important;
-            border-radius: 12px !important;
-            padding: 16px 20px !important;
-            color: #fca5a5 !important;
-            font-size: 14px !important;
-            margin-bottom: 26px !important;
-            display: flex !important;
-            align-items: flex-start !important;
-            gap: 12px !important;
-            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2) !important;
-        }
-
-        /* File Upload Drop Zone */
-        .upload-dropzone {
-            border: 2px dashed rgba(56, 189, 248, 0.35);
-            border-radius: 18px;
-            padding: 40px 24px;
-            text-align: center;
-            background: rgba(56, 189, 248, 0.02);
-            transition: all 0.25s ease;
-            cursor: pointer;
-            margin-bottom: 30px;
-            position: relative;
-        }
-        .upload-dropzone:hover,
-        .upload-dropzone.dragover {
-            border-color: #38bdf8;
-            background: rgba(56, 189, 248, 0.06);
-            box-shadow: 0 0 24px rgba(56, 189, 248, 0.2), inset 0 0 14px rgba(56, 189, 248, 0.05);
-            transform: translateY(-1px);
-        }
-        .upload-dropzone input[type="file"] {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0;
-            cursor: pointer;
-            z-index: 5;
-        }
-        .upload-icon-wrap {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(99, 102, 241, 0.2));
-            border: 1px solid rgba(56, 189, 248, 0.3);
-            color: #38bdf8;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 14px;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.15);
-            transition: transform 0.2s ease;
-        }
-        .upload-dropzone:hover .upload-icon-wrap {
-            transform: scale(1.08) translateY(-2px);
-        }
-        .upload-prompt {
-            font-size: 16px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 6px;
-        }
-        .upload-hint {
-            font-size: 13px;
-            color: #64748b;
-        }
-        .selected-file-badge {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-top: 14px;
-            padding: 8px 16px;
-            border-radius: 100px;
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.35);
-            color: #10b981;
-            font-family: 'Google Sans Code', monospace;
-            font-size: 13.5px;
-            font-weight: 700;
-        }
-
-        /* Overrides Sub-Card Container */
-        .overrides-container-card {
-            background: rgba(15, 23, 42, 0.45);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 28px;
-            box-sizing: border-box;
-            transition: all 0.25s ease;
-        }
-        .overrides-container-card:hover {
-            border-color: rgba(56, 189, 248, 0.25);
-            background: rgba(15, 23, 42, 0.55);
-        }
-        .overrides-header-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding-bottom: 14px;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-        .overrides-header-title {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            font-weight: 700;
-            color: #f8fafc;
-            letter-spacing: 0.2px;
-        }
-        .overrides-header-badge {
-            font-size: 11px;
-            font-weight: 600;
-            color: #38bdf8;
-            background: rgba(56, 189, 248, 0.12);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            border-radius: 6px;
-            padding: 2px 8px;
-        }
-        .overrides-header-sub {
-            font-size: 12.5px;
-            color: #94a3b8;
-        }
-
-        /* Form Grid */
-        .import-form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 18px 22px;
-            margin-bottom: 0;
-        }
-        @media (max-width: 768px) {
-            .import-form-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-        .import-field-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-        .import-label {
-            font-size: 13.5px !important;
-            font-weight: 600 !important;
-            color: #e2e8f0 !important;
-            text-transform: none !important;
-            letter-spacing: 0 !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-        }
-        .import-label svg {
-            flex-shrink: 0;
-        }
-        .optional-tag-badge {
-            font-size: 11px;
-            font-weight: 500;
-            color: #64748b;
-            background: rgba(255, 255, 255, 0.04);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 4px;
-            padding: 1px 6px;
-            margin-left: 2px;
-        }
-        .import-input {
+        .import-polygon-wrapper {
+            max-width: 880px !important;
+            margin: 0 auto 50px auto !important;
             width: 100% !important;
             box-sizing: border-box !important;
-            background: rgba(15, 23, 42, 0.65) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 11px 16px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
-            outline: none !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            font-family: inherit !important;
-        }
-        .import-input:hover {
-            border-color: rgba(255, 255, 255, 0.22) !important;
-            background: rgba(15, 23, 42, 0.8) !important;
-        }
-        .import-input:focus {
-            border-color: #38bdf8 !important;
-            background: rgba(15, 23, 42, 0.95) !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-        }
-        .import-input::placeholder {
-            color: #64748b !important;
-            font-size: 13.5px !important;
-        }
-        .custom-public-card {
-            min-height: 42px;
-            background: rgba(15, 23, 42, 0.65);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            border-radius: 10px;
-            padding: 0 16px;
-            box-sizing: border-box;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            user-select: none;
-        }
-        .custom-public-card:hover {
-            border-color: rgba(56, 189, 248, 0.3);
-            background: rgba(15, 23, 42, 0.8);
-        }
-        .custom-public-card input[type="checkbox"] {
-            width: 17px;
-            height: 17px;
-            accent-color: #38bdf8;
-            cursor: pointer;
-            margin: 0;
-        }
-        .custom-public-card span {
-            font-size: 13.5px;
-            color: #f1f5f9;
-            font-weight: 500;
-        }
-        /* Buttons Row */
-        .import-actions-row {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            flex-wrap: wrap;
-        }
-        .import-submit-btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 8px !important;
-            padding: 12px 30px !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7, #0369a1) !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
-            font-weight: 700 !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            box-shadow: 0 4px 14px rgba(2, 132, 199, 0.35) !important;
-            cursor: pointer !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        }
-        .import-submit-btn:hover {
-            background: linear-gradient(135deg, #0ea5e9, #0284c7) !important;
-            box-shadow: 0 6px 20px rgba(2, 132, 199, 0.5), 0 0 20px rgba(56, 189, 248, 0.3) !important;
-            transform: translateY(-1px) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
-        }
-        .import-cancel-btn {
-            display: inline-flex !important;
-            align-items: center !important;
-            padding: 12px 22px !important;
-            border-radius: 100px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            color: rgba(255, 255, 255, 0.75) !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            transition: all 0.2s ease !important;
-        }
-        .import-cancel-btn:hover {
-            background: rgba(255, 255, 255, 0.08) !important;
-            color: #ffffff !important;
-            transform: translateY(-1px) !important;
+            padding: 0 !important;
         }
 
-        /* Features Cards Grid */
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
-            margin-top: 10px;
+        /* 1. Main Card Container */
+        .import-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 32px 36px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: border-color 0.15s ease !important;
         }
-        @media (max-width: 700px) {
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
+        .import-card:hover {
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
         }
-        .feature-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 18px 20px;
-            display: flex;
-            align-items: flex-start;
-            gap: 14px;
-            transition: all 0.2s ease;
-        }
-        .feature-card:hover {
-            background: rgba(255, 255, 255, 0.04);
-            border-color: rgba(56, 189, 248, 0.3);
-            transform: translateY(-2px);
-        }
-        .feature-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            background: rgba(56, 189, 248, 0.1);
-            border: 1px solid rgba(56, 189, 248, 0.25);
-            color: #38bdf8;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            flex-shrink: 0;
-            margin-top: 2px;
-        }
-        .feature-title {
-            font-size: 14px;
-            font-weight: 700;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-        .feature-desc {
-            font-size: 12.5px;
-            color: #94a3b8;
-            line-height: 1.5;
-        }
-
-        /* Light Mode Overrides */
         html[data-theme="light"] .import-card,
         html.theme-light .import-card {
             background: #ffffff !important;
-            border-color: rgba(0, 0, 0, 0.08) !important;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06) !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* 2. Header Elements */
+        .import-tag {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        .import-tag svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .import-tag,
+        html.theme-light .import-tag {
+            color: #64748b !important;
+        }
+
+        .import-title {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+            line-height: 1.3 !important;
         }
         html[data-theme="light"] .import-title,
         html.theme-light .import-title {
             color: #0f172a !important;
         }
+
+        .import-desc {
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 24px !important;
+        }
         html[data-theme="light"] .import-desc,
         html.theme-light .import-desc {
-            color: #475569 !important;
+            color: #64748b !important;
+        }
+
+        /* 3. Alerts */
+        .import-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            border-radius: 8px !important;
+            padding: 12px 16px !important;
+            color: #f87171 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            margin-bottom: 24px !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+        }
+        html[data-theme="light"] .import-error-alert,
+        html.theme-light .import-error-alert {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
+
+        /* 4. Organization Boxes */
+        .selected-org-box {
+            margin-bottom: 20px !important;
+            padding: 12px 16px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 12px !important;
+            flex-wrap: wrap !important;
+        }
+        html[data-theme="light"] .selected-org-box,
+        html.theme-light .selected-org-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .selected-org-title {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+        }
+        html[data-theme="light"] .selected-org-title,
+        html.theme-light .selected-org-title {
+            color: #0f172a !important;
+        }
+
+        .org-badge-lock {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            padding: 3px 8px !important;
+            border-radius: 4px !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            color: #fbbf24 !important;
+        }
+        html[data-theme="light"] .org-badge-lock,
+        html.theme-light .org-badge-lock {
+            background: #fffbeb !important;
+            border: 1px solid #fde68a !important;
+            color: #b45309 !important;
+        }
+
+        .org-select-box {
+            margin-bottom: 20px !important;
+            padding: 12px 16px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            flex-wrap: wrap !important;
+        }
+        html[data-theme="light"] .org-select-box,
+        html.theme-light .org-select-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .org-select-label {
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            white-space: nowrap !important;
+        }
+        html[data-theme="light"] .org-select-label,
+        html.theme-light .org-select-label {
+            color: #0f172a !important;
+        }
+
+        /* 5. Upload Dropzone */
+        .upload-dropzone {
+            border: 2px dashed var(--expo-hairline-strong) !important;
+            border-radius: 10px !important;
+            padding: 32px 24px !important;
+            text-align: center !important;
+            background: var(--expo-surface-strong) !important;
+            transition: all 0.2s ease !important;
+            cursor: pointer !important;
+            margin-bottom: 24px !important;
+            position: relative !important;
+        }
+        .upload-dropzone:hover,
+        .upload-dropzone.dragover {
+            border-color: var(--expo-ink) !important;
+            background: rgba(255, 255, 255, 0.04) !important;
+            transform: translateY(-1px) !important;
         }
         html[data-theme="light"] .upload-dropzone,
         html.theme-light .upload-dropzone {
             background: #f8fafc !important;
-            border-color: rgba(2, 132, 199, 0.35) !important;
+            border-color: #cbd5e1 !important;
+        }
+        html[data-theme="light"] .upload-dropzone:hover,
+        html[data-theme="light"] .upload-dropzone.dragover,
+        html.theme-light .upload-dropzone:hover,
+        html.theme-light .upload-dropzone.dragover {
+            background: #f1f5f9 !important;
+            border-color: #0f172a !important;
+        }
+
+        .upload-dropzone input[type="file"] {
+            position: absolute !important;
+            inset: 0 !important;
+            width: 100% !important;
+            height: 100% !important;
+            opacity: 0 !important;
+            cursor: pointer !important;
+            z-index: 5 !important;
+        }
+
+        .upload-icon-wrap {
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 10px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-bottom: 12px !important;
+            transition: transform 0.15s ease !important;
+        }
+        html[data-theme="light"] .upload-icon-wrap,
+        html.theme-light .upload-icon-wrap {
+            background: #ffffff !important;
+            border-color: #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        .upload-dropzone:hover .upload-icon-wrap {
+            transform: scale(1.05) !important;
+        }
+
+        .upload-prompt {
+            font-family: "Inter", sans-serif !important;
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            margin-bottom: 4px !important;
         }
         html[data-theme="light"] .upload-prompt,
         html.theme-light .upload-prompt {
             color: #0f172a !important;
         }
+
+        .upload-hint {
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+        }
+        html[data-theme="light"] .upload-hint,
+        html.theme-light .upload-hint {
+            color: #64748b !important;
+        }
+
+        .selected-file-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            padding: 6px 14px !important;
+            border-radius: 6px !important;
+            background: rgba(16, 185, 129, 0.12) !important;
+            border: 1px solid rgba(16, 185, 129, 0.28) !important;
+            color: #34d399 !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .selected-file-badge,
+        html.theme-light .selected-file-badge {
+            background: #ecfdf5 !important;
+            border: 1px solid #a7f3d0 !important;
+            color: #065f46 !important;
+        }
+
+        /* 6. Overrides Container Card */
+        .overrides-container-card {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 10px !important;
+            padding: 20px 24px !important;
+            margin-bottom: 24px !important;
+            box-sizing: border-box !important;
+        }
+        html[data-theme="light"] .overrides-container-card,
+        html.theme-light .overrides-container-card {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .overrides-header-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            padding-bottom: 12px !important;
+            margin-bottom: 18px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            flex-wrap: wrap !important;
+            gap: 8px !important;
+        }
+        html[data-theme="light"] .overrides-header-bar,
+        html.theme-light .overrides-header-bar {
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+
+        .overrides-header-title {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .overrides-header-title,
+        html.theme-light .overrides-header-title {
+            color: #0f172a !important;
+        }
+
+        .overrides-header-badge {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            color: var(--expo-muted) !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 4px !important;
+            padding: 2px 7px !important;
+        }
+        html[data-theme="light"] .overrides-header-badge,
+        html.theme-light .overrides-header-badge {
+            background: #ffffff !important;
+            border-color: #cbd5e1 !important;
+            color: #475569 !important;
+        }
+
+        .overrides-header-sub {
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+        }
+        html[data-theme="light"] .overrides-header-sub,
+        html.theme-light .overrides-header-sub {
+            color: #64748b !important;
+        }
+
+        /* 7. Form Controls */
+        .import-form-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px 20px !important;
+            margin-bottom: 0 !important;
+        }
+        @media (max-width: 640px) {
+            .import-form-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .import-field-group {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 6px !important;
+        }
+
+        .import-label {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            color: var(--expo-ink) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            text-transform: none !important;
+        }
+        .import-label svg {
+            flex-shrink: 0 !important;
+            stroke: currentColor !important;
+        }
         html[data-theme="light"] .import-label,
+        html[data-theme="light"] .import-label *,
         html.theme-light .import-label,
-        html[data-theme="light"] .import-label span,
-        html.theme-light .import-label span {
-            color: #1e293b !important;
-            font-weight: 700 !important;
+        html.theme-light .import-label * {
+            color: #0f172a !important;
+        }
+
+        .optional-tag-badge {
+            font-family: "Inter", sans-serif !important;
+            font-size: 11px !important;
+            font-weight: 400 !important;
+            color: var(--expo-muted) !important;
+            background: transparent !important;
+            border: none !important;
+            padding: 0 !important;
+        }
+        html[data-theme="light"] .optional-tag-badge,
+        html.theme-light .optional-tag-badge {
+            color: #64748b !important;
+        }
+
+        .import-input {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 10px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .import-input:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
         }
         html[data-theme="light"] .import-input,
         html.theme-light .import-input {
-            background: #f8fafc !important;
-            border-color: rgba(0, 0, 0, 0.15) !important;
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
             color: #0f172a !important;
-        }
-        html[data-theme="light"] .import-input::placeholder,
-        html.theme-light .import-input::placeholder {
-            color: #64748b !important;
         }
         html[data-theme="light"] .import-input:focus,
         html.theme-light .import-input:focus {
-            background: #ffffff !important;
-            border-color: #0284c7 !important;
+            border-color: #000000 !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
         }
-        html[data-theme="light"] .import-checkbox-wrap span,
-        html.theme-light .import-checkbox-wrap span {
-            color: #334155 !important;
+        html[data-theme="light"] .import-input::placeholder,
+        html.theme-light .import-input::placeholder {
+            color: #94a3b8 !important;
+        }
+
+        .custom-public-card {
+            min-height: 40px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 0 14px !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            cursor: pointer !important;
+            user-select: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .custom-public-card input[type="checkbox"] {
+            width: 16px !important;
+            height: 16px !important;
+            cursor: pointer !important;
+            margin: 0 !important;
+        }
+        .custom-public-card span {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .custom-public-card,
+        html.theme-light .custom-public-card {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+        }
+        html[data-theme="light"] .custom-public-card span,
+        html.theme-light .custom-public-card span {
+            color: #0f172a !important;
+        }
+
+        /* 8. Action Buttons */
+        .import-actions-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 12px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+            flex-wrap: wrap !important;
+        }
+        html[data-theme="light"] .import-actions-row,
+        html.theme-light .import-actions-row {
+            border-top: 1px solid #e2e8f0 !important;
+        }
+
+        .import-submit-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            height: 40px !important;
+            padding: 0 22px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            border: 1px solid #ffffff !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        }
+        .import-submit-btn span,
+        .import-submit-btn * {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+        .import-submit-btn:hover {
+            background: #e4e4e7 !important;
+            transform: translateY(-1px) !important;
+        }
+        html[data-theme="light"] .import-submit-btn,
+        html.theme-light .import-submit-btn {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+        html[data-theme="light"] .import-submit-btn span,
+        html[data-theme="light"] .import-submit-btn *,
+        html.theme-light .import-submit-btn span,
+        html.theme-light .import-submit-btn * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+        html[data-theme="light"] .import-submit-btn:hover,
+        html.theme-light .import-submit-btn:hover {
+            background: #1a1a1a !important;
+        }
+
+        .import-cancel-btn {
+            display: inline-flex !important;
+            align-items: center !important;
+            height: 40px !important;
+            padding: 0 18px !important;
+            border-radius: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            color: var(--expo-muted) !important;
+            text-decoration: none !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            background: var(--expo-surface-card) !important;
+            transition: all 0.15s ease !important;
+        }
+        .import-cancel-btn:hover {
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .import-cancel-btn,
+        html.theme-light .import-cancel-btn {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            color: #475569 !important;
+        }
+        html[data-theme="light"] .import-cancel-btn:hover,
+        html.theme-light .import-cancel-btn:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+
+        /* 9. Features Cards Grid */
+        .features-grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 14px !important;
+            margin-top: 16px !important;
+        }
+        @media (max-width: 640px) {
+            .features-grid {
+                grid-template-columns: 1fr !important;
+            }
+        }
+
+        .feature-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 10px !important;
+            padding: 16px 18px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 12px !important;
+            transition: border-color 0.15s ease !important;
+        }
+        .feature-card:hover {
+            border-color: var(--expo-hairline-strong) !important;
         }
         html[data-theme="light"] .feature-card,
         html.theme-light .feature-card {
-            background: #f8fafc !important;
-            border-color: rgba(0, 0, 0, 0.06) !important;
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03) !important;
+        }
+
+        .feature-icon {
+            width: 32px !important;
+            height: 32px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            margin-top: 2px !important;
+        }
+        html[data-theme="light"] .feature-icon,
+        html.theme-light .feature-icon {
+            background: #f1f5f9 !important;
+            border-color: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        .feature-title {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            margin-bottom: 3px !important;
         }
         html[data-theme="light"] .feature-title,
         html.theme-light .feature-title {
             color: #0f172a !important;
         }
+
+        .feature-desc {
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+            line-height: 1.5 !important;
+        }
         html[data-theme="light"] .feature-desc,
         html.theme-light .feature-desc {
             color: #64748b !important;
-        }
-        html[data-theme="light"] .import-cancel-btn,
-        html.theme-light .import-cancel-btn {
-            background: #f1f5f9 !important;
-            border-color: rgba(0, 0, 0, 0.08) !important;
-            color: #334155 !important;
         }
     </style>
 {% endblock %}
@@ -467,17 +667,17 @@
     <div class="import-polygon-wrapper">
         <div class="import-card">
             <div class="import-tag">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
                 <span>{{ _('CODEFORCES POLYGON PACKAGE') }}</span>
             </div>
-            <h2 class="import-title">{{ _('Import Problem from Codeforces Polygon') }}</h2>
+            <h1 class="import-title">{{ _('Import Problem from Codeforces Polygon') }}</h1>
             <div class="import-desc">
-                {{ _('Tải lên tệp package ZIP xuất từ Codeforces Polygon. Hệ thống sẽ tự động đọc đề bài, chuyển đổi công thức toán (~), bỏ qua ảnh, tự động biên dịch solution.cpp chạy test input để sinh file .out và đóng gói chuẩn hóa vào hệ thống.') }}
+                {{ _('Tải lên tệp package ZIP xuất từ Codeforces Polygon. Hệ thống sẽ tự động đọc đề bài, chuyển đổi công thức toán, lọc ảnh, biên dịch solution và tạo bộ test hoàn chỉnh.') }}
             </div>
 
             {% if error %}
                 <div class="import-error-alert">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10"></circle>
                         <line x1="12" y1="8" x2="12" y2="12"></line>
                         <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -491,35 +691,34 @@
             <form method="post" enctype="multipart/form-data" id="import_polygon_form" onsubmit="handleFormSubmit()">
                 {% csrf_token %}
 
-            {% if selected_org %}
-                <div style="margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.28); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                    <div style="display: flex; align-items: center; gap: 10px; color: #38bdf8; font-weight: 700; font-size: 14px;">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
-                        <span>{{ _('Gắn với tổ chức:') }} {{ selected_org.name }} (#{{ selected_org.id }})</span>
+                {% if selected_org %}
+                    <div class="selected-org-box">
+                        <div class="selected-org-title">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+                            <span>{{ _('Gắn với tổ chức:') }} {{ selected_org.name }} (#{{ selected_org.id }})</span>
+                        </div>
+                        <span class="org-badge-lock">
+                            <i class="fa fa-lock"></i> {{ _('Riêng tư nội bộ tổ chức') }}
+                        </span>
+                        <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
                     </div>
-                    <span style="font-size: 12px; padding: 4px 10px; border-radius: 6px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.3); font-weight: 700; display: inline-flex; align-items: center; gap: 5px;">
-                        <i class="fa fa-lock"></i> {{ _('Riêng tư nội bộ tổ chức') }}
-                    </span>
-                    <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
-                </div>
-            {% elif user_orgs %}
-                <div style="margin-bottom: 20px; padding: 12px 18px; border-radius: 12px; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.08); display: flex; align-items: center; gap: 14px; flex-wrap: wrap;">
-                    <label style="color: #94a3b8; font-size: 13.5px; font-weight: 600; white-space: nowrap;">{{ _('Tổ chức (Tùy chọn):') }}</label>
-                    <select name="organization_id" class="form-input-cyber" style="max-width: 320px; padding: 6px 12px; font-size: 13px;">
-                        <option value="">-- {{ _('Công khai (Không thuộc tổ chức)') }} --</option>
-                        {% for org in user_orgs %}
-                            <option value="{{ org.id }}">{{ org.name }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-            {% endif %}
-
+                {% elif user_orgs %}
+                    <div class="org-select-box">
+                        <label class="org-select-label" for="id_organization_id">{{ _('Tổ chức (nhóm bài tập):') }}</label>
+                        <select id="id_organization_id" name="organization_id" class="import-input" style="max-width: 320px; padding: 6px 12px; font-size: 13px;">
+                            <option value="">-- {{ _('Công khai (Không thuộc tổ chức)') }} --</option>
+                            {% for org in user_orgs %}
+                                <option value="{{ org.id }}">{{ org.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                {% endif %}
 
                 <!-- File Upload Drop Zone -->
                 <div class="upload-dropzone" id="dropzone_box">
                     <input type="file" name="zip_file" id="zip_file" accept=".zip" required onchange="handleFileSelected(this)">
                     <div class="upload-icon-wrap">
-                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                             <polyline points="17 8 12 3 7 8"></polyline>
                             <line x1="12" y1="3" x2="12" y2="15"></line>
@@ -536,7 +735,7 @@
                 <div class="overrides-container-card">
                     <div class="overrides-header-bar">
                         <div class="overrides-header-title">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <circle cx="12" cy="12" r="3"></circle>
                                 <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                             </svg>
@@ -550,12 +749,12 @@
                         <!-- Row 1: Code & Name -->
                         <div class="import-field-group">
                             <label class="import-label" for="code">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="16 18 22 12 16 6"></polyline>
                                     <polyline points="8 6 2 12 8 18"></polyline>
                                 </svg>
                                 <span>{{ _('Mã bài tập (Code)') }}</span>
-                                <span class="optional-tag-badge">{{ _('tùy chọn') }}</span>
+                                <span class="optional-tag-badge">({{ _('tùy chọn') }})</span>
                             </label>
                             <input type="text" name="code" id="code" class="import-input" value="{{ code or '' }}"
                                    placeholder="{{ _('Tự động nhận diện từ package nếu để trống') }}" maxlength="100">
@@ -563,13 +762,13 @@
 
                         <div class="import-field-group">
                             <label class="import-label" for="name">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polyline points="4 7 4 4 20 4 20 7"></polyline>
                                     <line x1="9" y1="20" x2="15" y2="20"></line>
                                     <line x1="12" y1="4" x2="12" y2="20"></line>
                                 </svg>
                                 <span>{{ _('Tiêu đề bài tập (Name)') }}</span>
-                                <span class="optional-tag-badge">{{ _('tùy chọn') }}</span>
+                                <span class="optional-tag-badge">({{ _('tùy chọn') }})</span>
                             </label>
                             <input type="text" name="name" id="name" class="import-input" value="{{ name or '' }}"
                                    placeholder="{{ _('Tự động lấy tên từ problem.xml nếu để trống') }}">
@@ -578,12 +777,12 @@
                         <!-- Row 2: Time limit & Memory limit -->
                         <div class="import-field-group">
                             <label class="import-label" for="time_limit">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <circle cx="12" cy="12" r="10"></circle>
                                     <polyline points="12 6 12 12 16 14"></polyline>
                                 </svg>
                                 <span>{{ _('Giới hạn thời gian (giây)') }}</span>
-                                <span class="optional-tag-badge">{{ _('tùy chọn') }}</span>
+                                <span class="optional-tag-badge">({{ _('tùy chọn') }})</span>
                             </label>
                             <input type="number" step="0.1" name="time_limit" id="time_limit" class="import-input" value="{{ time_limit or '' }}"
                                    placeholder="{{ _('Tự động từ xml (ví dụ: 1.0)') }}">
@@ -591,7 +790,7 @@
 
                         <div class="import-field-group">
                             <label class="import-label" for="memory_limit">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
                                     <rect x="9" y="9" width="6" height="6"></rect>
                                     <line x1="9" y1="1" x2="9" y2="4"></line>
@@ -604,20 +803,20 @@
                                     <line x1="1" y1="14" x2="4" y2="14"></line>
                                 </svg>
                                 <span>{{ _('Giới hạn bộ nhớ (MB)') }}</span>
-                                <span class="optional-tag-badge">{{ _('tùy chọn') }}</span>
+                                <span class="optional-tag-badge">({{ _('tùy chọn') }})</span>
                             </label>
                             <input type="number" name="memory_limit" id="memory_limit" class="import-input" value="{{ memory_limit or '' }}"
                                    placeholder="{{ _('Tự động từ xml (ví dụ: 256)') }}">
                         </div>
 
-                        <!-- Row 3: Points & Public Status (Symmetrical 2-column) -->
+                        <!-- Row 3: Points & Public Status -->
                         <div class="import-field-group">
                             <label class="import-label" for="points">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
                                 </svg>
                                 <span>{{ _('Tổng điểm bài tập') }}</span>
-                                <span class="optional-tag-badge">{{ _('tùy chọn') }}</span>
+                                <span class="optional-tag-badge">({{ _('tùy chọn') }})</span>
                             </label>
                             <input type="number" step="0.1" name="points" id="points" class="import-input" value="{{ points or '' }}"
                                    placeholder="{{ _('Tự động tổng điểm test (hoặc nhập ví dụ 100)') }}">
@@ -625,7 +824,7 @@
 
                         <div class="import-field-group">
                             <label class="import-label">
-                                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                     <circle cx="12" cy="12" r="3"></circle>
                                 </svg>
@@ -638,17 +837,20 @@
                         </div>
                     </div>
                 </div>
+
                 <!-- Actions -->
                 <div class="import-actions-row">
+                    <a href="{{ url('problem_list') }}" class="import-cancel-btn">
+                        {{ _('Huỷ bỏ') }}
+                    </a>
                     <button type="submit" class="import-submit-btn" id="submit_btn">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12"></polyline>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
                         </svg>
                         <span id="btn_text">{{ _('Nhập bài tập & Sinh dữ liệu test') }}</span>
                     </button>
-                    <a href="{{ url('problem_list') }}" class="import-cancel-btn">
-                        {{ _('Hủy') }}
-                    </a>
                 </div>
             </form>
         </div>
@@ -656,7 +858,7 @@
         <div class="features-grid">
             <div class="feature-card">
                 <div class="feature-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M15 4V2"></path>
                         <path d="M15 16v-2"></path>
                         <path d="M8 9h2"></path>
@@ -671,13 +873,13 @@
                 </div>
                 <div>
                     <div class="feature-title">{{ _('LaTeX sang Markdown') }}</div>
-                    <div class="feature-desc">{{ _('Chuyển đổi công thức toán từ $ sang ~ (MathJax), giữ nguyên ký hiệu toán học.') }}</div>
+                    <div class="feature-desc">{{ _('Chuyển đổi công thức toán từ $ sang ~ (MathJax), giữ nguyên ký hiệu đặc biệt.') }}</div>
                 </div>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
                         <circle cx="8.5" cy="8.5" r="1.5"></circle>
                         <polyline points="21 15 16 10 5 21"></polyline>
@@ -685,26 +887,26 @@
                 </div>
                 <div>
                     <div class="feature-title">{{ _('Tự động bỏ qua ảnh') }}</div>
-                    <div class="feature-desc">{{ _('Lọc sạch các thẻ includegraphics và khối hình ảnh trong đề bài theo đúng yêu cầu.') }}</div>
+                    <div class="feature-desc">{{ _('Lọc sạch các thẻ includegraphics và khối hình ảnh trong đề bài theo cấu hình.') }}</div>
                 </div>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="3"></circle>
                         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
                     </svg>
                 </div>
                 <div>
                     <div class="feature-title">{{ _('Tự động sinh file .out') }}</div>
-                    <div class="feature-desc">{{ _('Biên dịch solution.cpp bằng g++ và chạy tự động qua toàn bộ test input (100+ tests).') }}</div>
+                    <div class="feature-desc">{{ _('Biên dịch solution.cpp bằng g++ và chạy tự động qua toàn bộ test input để tạo test output.') }}</div>
                 </div>
             </div>
 
             <div class="feature-card">
                 <div class="feature-icon">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
                         <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
                         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
@@ -712,7 +914,7 @@
                 </div>
                 <div>
                     <div class="feature-title">{{ _('Đóng gói chuẩn test_data') }}</div>
-                    <div class="feature-desc">{{ _('Tạo test01/NAME.INP và .OUT, đóng gói tests.zip và init.yml đồng bộ trang test_data của DMOJ.') }}</div>
+                    <div class="feature-desc">{{ _('Tạo test01/NAME.INP và .OUT, đóng gói tests.zip và init.yml đồng bộ chuẩn DMOJ.') }}</div>
                 </div>
             </div>
         </div>
@@ -731,7 +933,6 @@
                 container.style.display = 'none';
             }
         }
-
         function handleFormSubmit() {
             var btn = document.getElementById('submit_btn');
             var text = document.getElementById('btn_text');
@@ -739,7 +940,6 @@
             btn.style.opacity = '0.7';
             text.textContent = '{{ _('Đang xử lý & sinh test data...') }}';
         }
-
         // Drag and drop hover effects
         var dropzone = document.getElementById('dropzone_box');
         if (dropzone) {
