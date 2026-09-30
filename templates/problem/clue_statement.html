@@ -112,295 +112,500 @@
 </div>
 
 <style>
-    .vjudge-statement-wrapper {
-        width: 100%;
-        margin-bottom: 24px;
-        box-sizing: border-box;
+    /* 1. Eliminate redundant outermost card wrapper (Image #1) */
+    html body #content-left.split-common-content .content-description,
+    html body #content-left.split-common-content .content-description.screen,
+    html body .content-description.screen,
+    html[data-theme="light"] body #content-left.split-common-content .content-description,
+    html[data-theme="light"] body .content-description.screen,
+    html.theme-light body #content-left.split-common-content .content-description,
+    html.theme-light body .content-description.screen,
+    html body #content-left .content-description:hover,
+    #content-left.split-common-content .content-description.screen,
+    #content-left .content-description.screen,
+    #content-left .content-description {
+        background: transparent !important;
+        background-color: transparent !important;
+        border: none !important;
+        border-width: 0 !important;
+        border-color: transparent !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
     }
-    .vjudge-top-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 12px;
-        background: #0d1526 !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 14px 14px 0 0 !important;
-        padding: 12px 20px !important;
-        box-sizing: border-box;
-    }
-    .vjudge-top-left, .vjudge-top-right {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-    }
-    .vjudge-source-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(14, 165, 233, 0.18) !important;
-        color: #38bdf8 !important;
-        border: 1px solid rgba(14, 165, 233, 0.35) !important;
-        border-radius: 9999px !important;
-        padding: 5px 14px !important;
-        font-size: 13px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.3px;
-    }
-    .vjudge-active-banner {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 8px !important;
-        padding: 5px 12px !important;
-    }
-    .vjudge-account-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 13px;
-        font-weight: 700;
-        padding: 6px 14px;
-        border-radius: 8px;
-        text-decoration: none !important;
-        transition: all 0.2s ease;
-    }
-    .chip-connected {
-        background: rgba(34, 197, 94, 0.18) !important;
-        color: #4ade80 !important;
-        border: 1px solid rgba(34, 197, 94, 0.35) !important;
-    }
-    .chip-disconnected {
-        background: rgba(239, 68, 68, 0.18) !important;
-        color: #f87171 !important;
-        border: 1px solid rgba(239, 68, 68, 0.35) !important;
-    }
-    .vjudge-btn-tool {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(255, 255, 255, 0.06) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        color: #cbd5e1 !important;
-        padding: 6px 14px !important;
-        border-radius: 8px !important;
-        font-size: 12.5px !important;
-        font-weight: 600 !important;
-        cursor: pointer !important;
-        text-decoration: none !important;
-        transition: all 0.2s ease;
-    }
-    .vjudge-btn-tool:hover {
-        background: rgba(255, 255, 255, 0.12) !important;
-        color: #ffffff !important;
-        border-color: rgba(56, 189, 248, 0.4) !important;
-    }
-    .vjudge-statement-container {
-        width: 100%;
-        min-height: 400px;
-        background: rgba(15, 23, 42, 0.45) !important;
-        border-left: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 0 0 16px 16px !important;
-        padding: 28px 32px !important;
-        box-sizing: border-box;
-        overflow-x: auto;
-    }
-    #clue-lang-switcher {
-        display: inline-flex;
-        align-items: center;
-        background: rgba(30, 41, 59, 0.85);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 9999px;
-        padding: 3px;
-        gap: 3px;
-    }
-    #clue-lang-switcher .vjudge-lang-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: transparent;
-        border: none;
-        color: #94a3b8;
-        font-size: 12.5px;
-        font-weight: 600;
-        padding: 5px 13px;
-        border-radius: 9999px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    #clue-lang-switcher .vjudge-lang-btn:hover {
-        color: #f1f5f9;
-        background: rgba(255, 255, 255, 0.08);
-    }
-    #clue-lang-switcher .vjudge-lang-btn.active {
-        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
-        color: #ffffff;
-        box-shadow: 0 2px 10px rgba(2, 132, 199, 0.4);
-    }
-    .vjudge-rendered-body {
-        color: #e2e8f0;
-        font-size: 15px;
-        line-height: 1.7;
-    }
-    .vjudge-rendered-body p {
-        margin: 0 0 14px 0 !important;
-        line-height: 1.7 !important;
-    }
-    .vjudge-rendered-body h3, .vjudge-rendered-body h4 {
-        color: #38bdf8 !important;
-        font-weight: 700 !important;
-        margin: 22px 0 12px 0 !important;
-        letter-spacing: 0.2px;
-    }
-    .vjudge-rendered-body table {
-        width: 100% !important;
-        border-collapse: separate !important;
-        border-spacing: 0 !important;
-        border-radius: 10px !important;
-        overflow: hidden !important;
-        margin: 18px 0 !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        background: rgba(15, 23, 42, 0.6) !important;
-    }
-    .vjudge-rendered-body table th {
-        background: rgba(255, 255, 255, 0.08) !important;
-        color: #38bdf8 !important;
-        font-weight: 700 !important;
-        padding: 10px 16px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-    }
-    .vjudge-rendered-body table td {
-        padding: 10px 16px !important;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.06) !important;
-        color: #e2e8f0 !important;
-        font-size: 14.5px !important;
-    }
-    .vjudge-rendered-body table th:last-child,
-    .vjudge-rendered-body table td:last-child {
-        border-right: none !important;
-    }
-    .vjudge-rendered-body table tr:last-child td {
-        border-bottom: none !important;
-    }
-    .vjudge-rendered-body ul, .vjudge-rendered-body ol {
-        padding-left: 26px !important;
-        margin: 12px 0 16px 0 !important;
-    }
-    .vjudge-rendered-body li {
-        margin-bottom: 8px !important;
-        line-height: 1.65 !important;
-    }
-    .vjudge-rendered-body pre {
-        background: #111827 !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 10px !important;
-        padding: 14px 18px !important;
-        font-family: 'Google Sans Code', monospace !important;
-        color: #f1f5f9 !important;
-        font-size: 14px !important;
-        position: relative !important;
-        margin: 10px 0 20px 0 !important;
-        overflow-x: auto !important;
-    }
-    .sample-copy-btn {
-        position: absolute !important;
-        top: 8px !important;
-        right: 8px !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 5px !important;
-        background: rgba(255, 255, 255, 0.08) !important;
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
-        border-radius: 6px !important;
-        color: rgba(255, 255, 255, 0.8) !important;
-        padding: 4px 10px !important;
-        font-size: 12px !important;
-        font-weight: 600 !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-        user-select: none !important;
-    }
-    .sample-copy-btn:hover {
-        background: rgba(56, 189, 248, 0.22) !important;
-        border-color: #38bdf8 !important;
-        color: #ffffff !important;
-    }
-        #clue-statement-wrapper .copy-clipboard,
-    .vjudge-rendered-body .copy-clipboard,
-    #vjudge-statement-content .copy-clipboard,
-    .copy-clipboard:has(+ pre) {
+    #content-left .content-description hr,
+    .content-description hr {
         display: none !important;
     }
 
-    .sample-copy-btn.copied {
-        background: rgba(34, 197, 94, 0.22) !important;
-        border-color: #4ade80 !important;
-        color: #4ade80 !important;
+    .vjudge-statement-wrapper {
+        width: 100% !important;
+        margin-bottom: 24px !important;
+        box-sizing: border-box !important;
     }
-    .vjudge-footer-notice {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 14px;
-        padding: 10px 18px;
-        background: rgba(14, 165, 233, 0.08) !important;
-        border: 1px solid rgba(14, 165, 233, 0.2) !important;
-        border-radius: 10px;
-        font-size: 13px;
-        color: #94a3b8;
+
+    /* 2. Top Control Bar - Clean hairline divider, no outer card border */
+    .vjudge-top-bar {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        flex-wrap: wrap !important;
+        gap: 12px !important;
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+        border-radius: 0 !important;
+        padding: 12px 0 !important;
+        box-sizing: border-box !important;
     }
+    html[data-theme="light"] .vjudge-top-bar,
+    html.theme-light .vjudge-top-bar {
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #f0f0f3 !important;
+    }
+
+    .vjudge-top-left, .vjudge-top-right {
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important;
+    }
+
+    /* Source Pill: Neutral Monochrome Expo Badge */
+    .vjudge-source-pill {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        border-radius: 6px !important;
+        padding: 4px 10px !important;
+        letter-spacing: 0.3px !important;
+    }
+    .vjudge-source-pill svg {
+        stroke: currentColor !important;
+        color: var(--expo-muted) !important;
+    }
+    html[data-theme="light"] .vjudge-source-pill,
+    html.theme-light .vjudge-source-pill {
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-source-pill svg,
+    html.theme-light .vjudge-source-pill svg {
+        color: #64748b !important;
+    }
+
+    .vjudge-active-banner {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline) !important;
+        border-radius: 6px !important;
+        padding: 4px 10px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12.5px !important;
+        color: var(--expo-muted) !important;
+    }
+    .vjudge-active-banner span {
+        color: inherit !important;
+    }
+    html[data-theme="light"] .vjudge-active-banner,
+    html.theme-light .vjudge-active-banner {
+        background: #f8fafc !important;
+        border: 1px solid #e2e8f0 !important;
+        color: #64748b !important;
+    }
+
+    /* Account & Link Chips */
+    .vjudge-account-chip {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        border-radius: 6px !important;
+        padding: 4px 10px !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: all 0.15s ease !important;
+    }
+    .vjudge-account-chip span,
+    .vjudge-account-chip svg {
+        color: inherit !important;
+        stroke: currentColor !important;
+    }
+    .vjudge-account-chip.chip-connected {
+        background: rgba(16, 185, 129, 0.12) !important;
+        color: #34d399 !important;
+        border: 1px solid rgba(16, 185, 129, 0.28) !important;
+        font-family: 'JetBrains Mono', monospace !important;
+    }
+    html[data-theme="light"] .vjudge-account-chip.chip-connected,
+    html.theme-light .vjudge-account-chip.chip-connected {
+        background: #ecfdf5 !important;
+        border: 1px solid #a7f3d0 !important;
+        color: #065f46 !important;
+    }
+
+    .vjudge-account-chip.chip-disconnected {
+        background: rgba(245, 158, 11, 0.12) !important;
+        color: #fbbf24 !important;
+        border: 1px solid rgba(245, 158, 11, 0.28) !important;
+    }
+    html[data-theme="light"] .vjudge-account-chip.chip-disconnected,
+    html.theme-light .vjudge-account-chip.chip-disconnected {
+        background: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+        color: #b45309 !important;
+    }
+
+    .vjudge-link-chip {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: var(--expo-surface-strong) !important;
+        color: var(--expo-muted) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        border-radius: 6px !important;
+        padding: 4px 10px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        transition: all 0.15s ease !important;
+    }
+    .vjudge-link-chip span,
+    .vjudge-link-chip svg {
+        color: inherit !important;
+        stroke: currentColor !important;
+    }
+    .vjudge-link-chip:hover {
+        background: #27272a !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .vjudge-link-chip,
+    html.theme-light .vjudge-link-chip {
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .vjudge-link-chip:hover,
+    html.theme-light .vjudge-link-chip:hover {
+        background: #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+
+    /* 3. Statement Container - Border removed (Image #1) */
+    .vjudge-statement-container {
+        width: 100% !important;
+        min-height: 400px !important;
+        background: transparent !important;
+        border: none !important;
+        border-radius: 0 !important;
+        padding: 24px 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] .vjudge-statement-container,
+    html.theme-light .vjudge-statement-container {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+    .vjudge-rendered-body {
+        color: #d4d4d8 !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 14.5px !important;
+        line-height: 1.7 !important;
+    }
+    .vjudge-rendered-body p,
+    .vjudge-rendered-body li,
+    .vjudge-rendered-body div {
+        color: inherit !important;
+    }
+    html[data-theme="light"] .vjudge-rendered-body,
+    html[data-theme="light"] .vjudge-rendered-body p,
+    html[data-theme="light"] .vjudge-rendered-body li,
+    html[data-theme="light"] .vjudge-rendered-body div,
+    html.theme-light .vjudge-rendered-body,
+    html.theme-light .vjudge-rendered-body p,
+    html.theme-light .vjudge-rendered-body li,
+    html.theme-light .vjudge-rendered-body div {
+        color: #1e293b !important;
+    }
+
+    /* Headings inside body */
+    .vjudge-rendered-body h1,
+    .vjudge-rendered-body h2,
+    .vjudge-rendered-body h3,
+    .vjudge-rendered-body h4 {
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 16.5px !important;
+        font-weight: 600 !important;
+        color: var(--expo-ink) !important;
+        margin-top: 24px !important;
+        margin-bottom: 12px !important;
+        padding-bottom: 6px !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+    }
+    html[data-theme="light"] .vjudge-rendered-body h1,
+    html[data-theme="light"] .vjudge-rendered-body h2,
+    html[data-theme="light"] .vjudge-rendered-body h3,
+    html[data-theme="light"] .vjudge-rendered-body h4,
+    html.theme-light .vjudge-rendered-body h1,
+    html.theme-light .vjudge-rendered-body h2,
+    html.theme-light .vjudge-rendered-body h3,
+    html.theme-light .vjudge-rendered-body h4 {
+        color: #0f172a !important;
+        border-bottom-color: #f0f0f3 !important;
+    }
+
+    /* 4. Language Switcher */
+    #clue-lang-switcher {
+        display: inline-flex !important;
+        align-items: center !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        border-radius: 8px !important;
+        padding: 2px !important;
+        gap: 2px !important;
+    }
+    html[data-theme="light"] #clue-lang-switcher,
+    html.theme-light #clue-lang-switcher {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+
+    .vjudge-lang-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: transparent !important;
+        border: none !important;
+        color: var(--expo-muted) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        padding: 4px 10px !important;
+        border-radius: 6px !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease !important;
+        user-select: none !important;
+    }
+    .vjudge-lang-btn span {
+        color: inherit !important;
+    }
+    .vjudge-lang-btn:hover {
+        color: var(--expo-ink) !important;
+    }
+    .vjudge-lang-btn.active {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    }
+    .vjudge-lang-btn.active span {
+        color: #000000 !important;
+    }
+    html[data-theme="light"] .vjudge-lang-btn,
+    html.theme-light .vjudge-lang-btn {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .vjudge-lang-btn:hover,
+    html.theme-light .vjudge-lang-btn:hover {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-lang-btn.active,
+    html.theme-light .vjudge-lang-btn.active {
+        background: #000000 !important;
+        color: #ffffff !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+    html[data-theme="light"] .vjudge-lang-btn.active span,
+    html.theme-light .vjudge-lang-btn.active span {
+        color: #ffffff !important;
+    }
+
+    /* 5. PDF Toolbar */
     .clue-pdf-wrapper {
-        margin-bottom: 24px;
-        border-radius: 14px;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        background: rgba(15, 23, 42, 0.6);
-        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+        margin-bottom: 24px !important;
     }
     .clue-pdf-toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 12px 20px;
-        background: rgba(15, 23, 42, 0.95);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        flex-wrap: wrap;
-        gap: 12px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 10px 14px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        border-radius: 8px 8px 0 0 !important;
     }
+    html[data-theme="light"] .clue-pdf-toolbar,
+    html.theme-light .clue-pdf-toolbar {
+        background: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+    }
+
     .clue-pdf-title {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 14px;
-        font-weight: 700;
-        color: #ffffff;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: var(--expo-ink) !important;
     }
-    .clue-pdf-actions {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
+    html[data-theme="light"] .clue-pdf-title,
+    html.theme-light .clue-pdf-title {
+        color: #0f172a !important;
     }
-    .clue-pdf-frame {
-        width: 100%;
-        height: 820px;
-        border: none;
-        background: #1e293b;
-        display: block;
+
+    .vjudge-btn-tool {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
+        padding: 5px 12px !important;
+        border-radius: 6px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12.5px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        transition: all 0.15s ease !important;
     }
-    .vjudge-rendered-body img {
-        max-width: 100% !important;
-        height: auto !important;
+    .vjudge-btn-tool span,
+    .vjudge-btn-tool svg {
+        color: inherit !important;
+        stroke: currentColor !important;
+    }
+    .vjudge-btn-tool:hover {
+        background: #27272a !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .vjudge-btn-tool,
+    html.theme-light .vjudge-btn-tool {
+        background: #ffffff !important;
+        border-color: #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-btn-tool:hover,
+    html.theme-light .vjudge-btn-tool:hover {
+        background: #f1f5f9 !important;
+    }
+
+    .clue-pdf-embed-box {
+        border: 1px solid var(--expo-hairline-strong) !important;
+        border-top: none !important;
+        border-radius: 0 0 8px 8px !important;
+        overflow: hidden !important;
+    }
+    html[data-theme="light"] .clue-pdf-embed-box,
+    html.theme-light .clue-pdf-embed-box {
+        border-color: #e2e8f0 !important;
+    }
+
+    /* 6. Footer Notice */
+    .vjudge-footer-notice {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        padding: 10px 14px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline) !important;
         border-radius: 8px !important;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
-        margin: 12px 0 !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        margin-top: 14px !important;
+        color: var(--expo-muted) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12.5px !important;
+    }
+    html[data-theme="light"] .vjudge-footer-notice,
+    html.theme-light .vjudge-footer-notice {
+        background: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #64748b !important;
+    }
+
+    /* 7. Code Blocks & Sample Tables */
+    #vjudge-statement-content pre {
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline) !important;
+        border-radius: 8px !important;
+        padding: 12px 16px !important;
+        color: #f4f4f5 !important;
+        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        font-size: 13px !important;
+        line-height: 1.6 !important;
+        position: relative !important;
+    }
+    html[data-theme="light"] #vjudge-statement-content pre,
+    html.theme-light #vjudge-statement-content pre {
+        background: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+
+    .sample-copy-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        background: #27272a !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #f4f4f5 !important;
+        border-radius: 6px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 11px !important;
+        font-weight: 500 !important;
+        padding: 3px 8px !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease !important;
+        float: right !important;
+        margin-left: auto !important;
+        margin-top: -1px !important;
+        line-height: normal !important;
+    }
+    .sample-copy-btn span,
+    .sample-copy-btn svg,
+    .sample-copy-btn * {
+        color: inherit !important;
+        stroke: currentColor !important;
+    }
+    .sample-copy-btn:hover {
+        background: #3f3f46 !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .sample-copy-btn,
+    html.theme-light .sample-copy-btn {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+    }
+    html[data-theme="light"] .sample-copy-btn span,
+    html[data-theme="light"] .sample-copy-btn svg,
+    html[data-theme="light"] .sample-copy-btn *,
+    html.theme-light .sample-copy-btn span,
+    html.theme-light .sample-copy-btn svg,
+    html.theme-light .sample-copy-btn * {
+        color: #0f172a !important;
+        stroke: #0f172a !important;
+    }
+    html[data-theme="light"] .sample-copy-btn:hover,
+    html.theme-light .sample-copy-btn:hover {
+        background: #f1f5f9 !important;
+        border-color: #94a3b8 !important;
     }
 </style>
 

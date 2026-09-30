@@ -6650,6 +6650,26 @@ html.theme-light #available-judges-list {
         box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
     }
     
+    /* Inline Code & TT tags in Light Mode (Fix for Image #2) */
+    html[data-theme="light"] code:not(pre code),
+    html[data-theme="light"] tt,
+    html[data-theme="light"] .tex-font-style-tt,
+    html[data-theme="light"] span.code,
+    html[data-theme="light"] kbd,
+    html.theme-light code:not(pre code),
+    html.theme-light tt,
+    html.theme-light .tex-font-style-tt,
+    html.theme-light span.code,
+    html.theme-light kbd {
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        border-radius: 4px !important;
+        color: #0f172a !important;
+        padding: 2px 6px !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 12.5px !important;
+    }
+
     /* Code Blocks & Clipboard */
     html[data-theme="light"] pre,
     html[data-theme="light"] pre code,
