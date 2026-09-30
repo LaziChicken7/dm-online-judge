@@ -91,120 +91,201 @@
 
 <style>
     .vjudge-submit-modal-card {
-        background: #22272e !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline) !important;
         border-radius: 12px !important;
-        padding: 22px 24px !important;
+        padding: 20px 24px !important;
         margin-bottom: 20px !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+        box-shadow: var(--expo-card-shadow) !important;
     }
+    html[data-theme="light"] .vjudge-submit-modal-card,
+    html.theme-light .vjudge-submit-modal-card {
+        background: #ffffff !important;
+        border: 1px solid #f0f0f3 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
     .vjudge-modal-row {
         display: flex;
         align-items: center;
-        margin-bottom: 18px;
+        margin-bottom: 16px;
     }
     .vjudge-modal-row:last-child {
         margin-bottom: 0;
         align-items: flex-start;
     }
+
     .vjudge-row-label {
         width: 120px;
         flex-shrink: 0;
-        color: #adbac7;
-        font-size: 14.5px;
-        font-weight: 500;
+        color: var(--expo-ink) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 500 !important;
     }
+    html[data-theme="light"] .vjudge-row-label,
+    html.theme-light .vjudge-row-label {
+        color: #0f172a !important;
+    }
+
     .vjudge-prob-val {
-        color: #adbac7;
-        font-size: 15px;
-        font-weight: 600;
+        color: var(--expo-ink) !important;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 14px !important;
+        font-weight: 600 !important;
     }
+    html[data-theme="light"] .vjudge-prob-val,
+    html.theme-light .vjudge-prob-val {
+        color: #0f172a !important;
+    }
+
     .vjudge-btn-toggle-group {
-        display: inline-flex;
-        border-radius: 8px;
-        overflow: hidden;
-        background: #2d333b;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        display: inline-flex !important;
+        border-radius: 8px !important;
+        overflow: hidden !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        padding: 2px !important;
+        gap: 2px !important;
     }
+    html[data-theme="light"] .vjudge-btn-toggle-group,
+    html.theme-light .vjudge-btn-toggle-group {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+
     .vjudge-toggle-btn {
-        background: transparent;
-        border: none;
-        color: #adbac7;
-        padding: 7px 18px;
-        font-size: 14px;
-        font-weight: 500;
-        cursor: pointer;
-        transition: all 0.15s ease;
-        border-right: 1px solid rgba(255, 255, 255, 0.08);
+        background: transparent !important;
+        border: none !important;
+        color: var(--expo-muted) !important;
+        padding: 5px 14px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12.5px !important;
+        font-weight: 500 !important;
+        cursor: pointer !important;
+        transition: all 0.15s ease !important;
+        border-radius: 6px !important;
         outline: none !important;
     }
-    .vjudge-toggle-btn:last-child {
-        border-right: none;
+    .vjudge-toggle-btn:hover {
+        color: var(--expo-ink) !important;
     }
     .vjudge-toggle-btn.active {
-        background: #0284c7 !important;
-        color: #ffffff !important;
-        font-weight: 700 !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
     }
+    html[data-theme="light"] .vjudge-toggle-btn,
+    html.theme-light .vjudge-toggle-btn {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .vjudge-toggle-btn:hover,
+    html.theme-light .vjudge-toggle-btn:hover {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-toggle-btn.active,
+    html.theme-light .vjudge-toggle-btn.active {
+        background: #000000 !important;
+        color: #ffffff !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+
     .vjudge-submit-by-content {
         flex: 1;
         display: flex;
         flex-direction: column;
         gap: 12px;
     }
+
     .vjudge-account-selector-line {
         display: flex;
         align-items: center;
         gap: 14px;
         flex-wrap: wrap;
     }
+
     .vjudge-account-select {
-        background: #2d333b !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 6px !important;
-        color: #adbac7 !important;
-        padding: 8px 14px !important;
-        font-size: 14px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        border-radius: 8px !important;
+        color: var(--expo-ink) !important;
+        padding: 8px 12px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
         min-width: 260px !important;
         outline: none !important;
     }
+    html[data-theme="light"] .vjudge-account-select,
+    html.theme-light .vjudge-account-select {
+        background: #f8fafc !important;
+        border-color: #dcdee0 !important;
+        color: #0f172a !important;
+    }
+
     .vjudge-manage-accounts-link {
-        color: #38bdf8 !important;
-        font-size: 14px !important;
+        color: var(--expo-muted) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
         font-weight: 500 !important;
         text-decoration: none !important;
         transition: all 0.15s ease;
     }
     .vjudge-manage-accounts-link:hover {
-        color: #7dd3fc !important;
+        color: var(--expo-ink) !important;
         text-decoration: underline !important;
     }
+    html[data-theme="light"] .vjudge-manage-accounts-link,
+    html.theme-light .vjudge-manage-accounts-link {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .vjudge-manage-accounts-link:hover,
+    html.theme-light .vjudge-manage-accounts-link:hover {
+        color: #0f172a !important;
+    }
+
     .vjudge-auth-required-alert {
         display: flex;
         align-items: center;
         gap: 12px;
         background: rgba(245, 158, 11, 0.1);
-        border: 1px solid rgba(245, 158, 11, 0.3);
-        border-radius: 10px;
+        border: 1px solid rgba(245, 158, 11, 0.28);
+        border-radius: 8px;
         padding: 12px 16px;
         margin-top: 8px;
     }
+    html[data-theme="light"] .vjudge-auth-required-alert,
+    html.theme-light .vjudge-auth-required-alert {
+        background: #fffbeb;
+        border-color: #fde68a;
+    }
+
     .vjudge-connect-link-btn {
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        background: #f59e0b;
-        color: #1e293b !important;
-        font-weight: 700;
+        background: #ffffff;
+        color: #000000 !important;
+        font-family: "Inter", sans-serif;
+        font-weight: 600;
         font-size: 13px;
         padding: 7px 14px;
-        border-radius: 6px;
+        border-radius: 8px;
         text-decoration: none !important;
         flex-shrink: 0;
-        transition: all 0.2s ease;
+        transition: all 0.15s ease;
     }
     .vjudge-connect-link-btn:hover {
-        background: #fbbf24;
+        background: #e4e4e7;
+    }
+    html[data-theme="light"] .vjudge-connect-link-btn,
+    html.theme-light .vjudge-connect-link-btn {
+        background: #000000;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .vjudge-connect-link-btn:hover,
+    html.theme-light .vjudge-connect-link-btn:hover {
+        background: #1a1a1a;
     }
 </style>
 

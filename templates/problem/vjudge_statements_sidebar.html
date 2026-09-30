@@ -70,123 +70,214 @@
 
 <style>
     .vjudge-statements-card {
-        background: rgba(15, 23, 42, 0.5) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline) !important;
         border-radius: 12px !important;
         padding: 0 !important;
         overflow: hidden !important;
         margin-top: 14px !important;
-        margin-bottom: 8px !important;
-        box-shadow: 0 4px 18px rgba(0,0,0,0.25) !important;
+        margin-bottom: 16px !important;
+        box-shadow: var(--expo-card-shadow) !important;
     }
+    html[data-theme="light"] .vjudge-statements-card,
+    html.theme-light .vjudge-statements-card {
+        background: #ffffff !important;
+        border: 1px solid #f0f0f3 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
     .vjudge-statements-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 14px;
-        background: rgba(255, 255, 255, 0.04);
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        color: #94a3b8;
-        font-size: 13.5px;
-        font-weight: 700;
-        cursor: pointer;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 11px 14px !important;
+        background: var(--expo-surface-strong) !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+        color: var(--expo-ink) !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        cursor: pointer !important;
     }
+    .vjudge-statements-header svg {
+        color: var(--expo-muted) !important;
+        stroke: currentColor !important;
+    }
+    html[data-theme="light"] .vjudge-statements-header,
+    html.theme-light .vjudge-statements-header {
+        background: #f8fafc !important;
+        border-bottom: 1px solid #f0f0f3 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-statements-header svg,
+    html.theme-light .vjudge-statements-header svg {
+        color: #64748b !important;
+    }
+
     .vjudge-statements-list {
-        display: flex;
-        flex-direction: column;
+        display: flex !important;
+        flex-direction: column !important;
     }
+
     .vjudge-statement-item {
-        padding: 10px 12px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        cursor: pointer;
-        transition: all 0.15s ease;
-        background: transparent;
+        padding: 10px 14px !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+        cursor: pointer !important;
+        transition: background 0.15s ease !important;
+        background: transparent !important;
     }
     .vjudge-statement-item:last-child {
-        border-bottom: none;
+        border-bottom: none !important;
     }
     .vjudge-statement-item:hover {
-        background: rgba(255, 255, 255, 0.04);
+        background: var(--expo-surface-strong) !important;
     }
-    /* Active blue state matching Image #2 */
+    html[data-theme="light"] .vjudge-statement-item,
+    html.theme-light .vjudge-statement-item {
+        border-bottom-color: #f0f0f3 !important;
+    }
+    html[data-theme="light"] .vjudge-statement-item:hover,
+    html.theme-light .vjudge-statement-item:hover {
+        background: #f8fafc !important;
+    }
+
+    /* Active statement item: clean neutral monochrome */
     .vjudge-statement-item.active {
-        background: #0d2847 !important;
-        border: 2px solid #0284c7 !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1.5px solid #ffffff !important;
         border-radius: 8px !important;
-        margin: -1px;
-        box-shadow: 0 0 14px rgba(2, 132, 199, 0.35) !important;
-        position: relative;
-        z-index: 2;
+        margin: 4px 6px !important;
+        box-shadow: none !important;
+        position: relative !important;
     }
+    html[data-theme="light"] .vjudge-statement-item.active,
+    html.theme-light .vjudge-statement-item.active {
+        background: rgba(0, 0, 0, 0.03) !important;
+        border: 1.5px solid #000000 !important;
+    }
+
     .vjudge-stmt-top {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 10px !important;
     }
+
     .vjudge-stmt-icon {
-        width: 30px;
-        height: 30px;
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(255, 255, 255, 0.06);
-        flex-shrink: 0;
+        width: 30px !important;
+        height: 30px !important;
+        border-radius: 6px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        flex-shrink: 0 !important;
     }
+    html[data-theme="light"] .vjudge-stmt-icon,
+    html.theme-light .vjudge-stmt-icon {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+    }
+
     .vjudge-stmt-meta {
-        flex: 1;
-        min-width: 0;
+        flex: 1 !important;
+        min-width: 0 !important;
     }
+
     .vjudge-stmt-author-line {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        flex-wrap: wrap;
-        margin-bottom: 4px;
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-wrap: wrap !important;
+        margin-bottom: 4px !important;
     }
+
     .vjudge-stmt-name {
-        font-size: 14px;
-        font-weight: 700;
-        color: #ffffff;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: var(--expo-ink) !important;
     }
+    html[data-theme="light"] .vjudge-stmt-name,
+    html.theme-light .vjudge-stmt-name {
+        color: #0f172a !important;
+    }
+
     .vjudge-badge {
-        font-size: 10.5px;
-        font-weight: 700;
-        padding: 1px 6px;
-        border-radius: 9999px;
-        letter-spacing: 0.2px;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 10.5px !important;
+        font-weight: 600 !important;
+        padding: 1px 6px !important;
+        border-radius: 4px !important;
+        letter-spacing: 0.2px !important;
+        display: inline-block !important;
     }
     .badge-official {
-        background: #0284c7;
-        color: #ffffff;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
     }
+    html[data-theme="light"] .badge-official,
+    html.theme-light .badge-official {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+
     .badge-lang {
-        background: rgba(100, 116, 139, 0.35);
-        color: #e2e8f0;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline) !important;
+        color: var(--expo-muted) !important;
     }
+    html[data-theme="light"] .badge-lang,
+    html.theme-light .badge-lang {
+        background: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #64748b !important;
+    }
+
     .vjudge-stmt-bottom-line {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
     }
+
     .vjudge-stmt-date {
-        font-size: 12px;
-        color: #94a3b8;
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 11px !important;
+        color: var(--expo-muted) !important;
     }
+    html[data-theme="light"] .vjudge-stmt-date,
+    html.theme-light .vjudge-stmt-date {
+        color: #64748b !important;
+    }
+
     .vjudge-stmt-actions {
-        display: flex;
-        align-items: center;
-        gap: 8px;
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
     }
     .vjudge-stmt-actions a, .vjudge-stmt-actions span {
-        color: #38bdf8;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
+        color: var(--expo-muted) !important;
+        cursor: pointer !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        transition: color 0.15s ease !important;
     }
-    .vjudge-stmt-actions a:hover {
-        color: #7dd3fc;
+    .vjudge-stmt-actions a:hover, .vjudge-stmt-actions span:hover {
+        color: var(--expo-ink) !important;
+    }
+    html[data-theme="light"] .vjudge-stmt-actions a,
+    html[data-theme="light"] .vjudge-stmt-actions span,
+    html.theme-light .vjudge-stmt-actions a,
+    html.theme-light .vjudge-stmt-actions span {
+        color: #94a3b8 !important;
+    }
+    html[data-theme="light"] .vjudge-stmt-actions a:hover,
+    html[data-theme="light"] .vjudge-stmt-actions span:hover,
+    html.theme-light .vjudge-stmt-actions a:hover,
+    html.theme-light .vjudge-stmt-actions span:hover {
+        color: #0f172a !important;
     }
 </style>
 

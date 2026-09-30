@@ -13,6 +13,20 @@ HEADERS = {
     'X-Requested-With': 'XMLHttpRequest',
 }
 
+def get_vjudge_opener(cookie_jar=None):
+    from django.conf import settings
+    handlers = []
+    if cookie_jar is not None:
+        handlers.append(urllib.request.HTTPCookieProcessor(cookie_jar))
+    proxy_url = getattr(settings, 'VJUDGE_PROXY', 'http://192.168.218.1:8889')
+    if proxy_url:
+        handlers.append(urllib.request.ProxyHandler({'http': proxy_url, 'https': proxy_url}))
+    return urllib.request.build_opener(*handlers)
+
+def vjudge_urlopen(req, timeout=15, cookie_jar=None):
+    opener = get_vjudge_opener(cookie_jar)
+    return get_vjudge_opener(cookie_jar).open(req, timeout=timeout)
+
 
 
 def normalize_vjudge_cookie(cookie_str: str) -> str:
@@ -44,7 +58,7 @@ def check_vjudge_login(cookie: str) -> dict:
     headers['Cookie'] = cookie
     req = urllib.request.Request(url, headers=headers)
     try:
-        with urllib.request.urlopen(req, timeout=12) as resp:
+        with vjudge_urlopen(req, timeout=12) as resp:
             text = resp.read().decode('utf-8', errors='ignore').strip()
             # VJudge returns true or username string or json
             if text in ('true', '1') or (text.startswith('{') and 'username' in text):
@@ -77,7 +91,7 @@ def get_vjudge_remote_accounts(cookie: str, oj: str = "CodeForces") -> list:
     headers['Cookie'] = cookie
     req = urllib.request.Request(url, headers=headers)
     try:
-        with urllib.request.urlopen(req, timeout=12) as resp:
+        with vjudge_urlopen(req, timeout=12) as resp:
             data = json.loads(resp.read().decode('utf-8', errors='ignore'))
             bindings = []
             if isinstance(data, list):
@@ -150,7 +164,7 @@ def submit_vjudge_solution(
 
     req = urllib.request.Request(url, data=encoded_data, headers=headers)
     try:
-        with urllib.request.urlopen(req, timeout=20) as resp:
+        with vjudge_urlopen(req, timeout=20) as resp:
             data = json.loads(resp.read().decode('utf-8', errors='ignore'))
             run_id = data.get('runId')
             if run_id:
@@ -199,7 +213,7 @@ def poll_vjudge_submission(
         post_data = urllib.parse.urlencode({'shareCode': ''}).encode('utf-8')
         try:
             req = urllib.request.Request(sol_url, data=post_data, headers=headers)
-            with urllib.request.urlopen(req, timeout=10) as resp:
+            with vjudge_urlopen(req, timeout=10) as resp:
                 data = json.loads(resp.read().decode('utf-8', errors='ignore'))
                 if not data.get('error'):
                     status_text = data.get('status') or ''
@@ -240,7 +254,7 @@ def poll_vjudge_submission(
     url = f"https://vjudge.net/status/data?{query_str}"
     req = urllib.request.Request(url, headers=HEADERS)
     try:
-        with urllib.request.urlopen(req, timeout=12) as resp:
+        with vjudge_urlopen(req, timeout=12) as resp:
             data = json.loads(resp.read().decode('utf-8', errors='ignore'))
             records = data.get('data', [])
             target = next((r for r in records if r.get('runId') == run_id), None)
@@ -268,7 +282,7 @@ def poll_vjudge_submission(
                         s_headers['X-Requested-With'] = 'XMLHttpRequest'
                         s_post = urllib.parse.urlencode({'shareCode': ''}).encode('utf-8')
                         s_req = urllib.request.Request(sol_url, data=s_post, headers=s_headers)
-                        with urllib.request.urlopen(s_req, timeout=8) as s_resp:
+                        with vjudge_urlopen(s_req, timeout=8) as s_resp:
                             s_data = json.loads(s_resp.read().decode('utf-8', errors='ignore'))
                             if not s_data.get('error'):
                                 add_info = s_data.get('additionalInfo')
@@ -328,7 +342,7 @@ def login_vjudge(username: str, password: str) -> dict:
 
     req = urllib.request.Request(login_url, data=data, headers=headers)
     try:
-        with opener.open(req, timeout=15) as resp:
+        with get_vjudge_opener(cj).open(req, timeout=15) as resp:
             body = resp.read().decode('utf-8', errors='ignore')
             cookie_parts = []
             for c in cj:
@@ -394,7 +408,7 @@ def get_vjudge_problem_data(oj: str, prob_num: str, cookie: str = None) -> dict:
         if c:
             headers['Cookie'] = c
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=15) as resp:
+        with vjudge_urlopen(req, timeout=15) as resp:
             return resp.read().decode('utf-8', errors='ignore')
 
     html = None
@@ -567,7 +581,7 @@ def get_vjudge_statement_content(key: str, cookie: str = None) -> str:
         if c:
             headers['Cookie'] = c
         req = urllib.request.Request(url, headers=headers)
-        with urllib.request.urlopen(req, timeout=15) as resp:
+        with vjudge_urlopen(req, timeout=15) as resp:
             return resp.read().decode('utf-8', errors='ignore')
 
     html = None
