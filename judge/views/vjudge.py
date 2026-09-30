@@ -215,3 +215,18 @@ class VJudgeAutoSyncView(View):
             profile.vjudge_username = username
         profile.save(update_fields=['vjudge_cookie', 'vjudge_username'])
         return JsonResponse({'ok': True, 'username': profile.vjudge_username or 'VJudge'})
+
+
+class VJudgeStatusApi(View):
+    def get(self, request):
+        if not request.user.is_authenticated:
+            return JsonResponse({'connected': False, 'reason': 'not_authenticated'})
+        profile = getattr(request, 'profile', None)
+        if not profile or not profile.vjudge_cookie:
+            return JsonResponse({'connected': False, 'reason': 'no_cookie'})
+        check = check_vjudge_login(profile.vjudge_cookie)
+        is_connected = check.get('logged_in', False)
+        return JsonResponse({
+            'connected': is_connected,
+            'username': profile.vjudge_username or 'VJudge User'
+        })

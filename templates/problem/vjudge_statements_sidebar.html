@@ -104,7 +104,11 @@
         stroke: currentColor !important;
     }
     html[data-theme="light"] .vjudge-statements-header,
-    html.theme-light .vjudge-statements-header {
+    html[data-theme="light"] .vjudge-statements-header span,
+    html[data-theme="light"] .vjudge-statements-title,
+    html.theme-light .vjudge-statements-header,
+    html.theme-light .vjudge-statements-header span,
+    html.theme-light .vjudge-statements-title {
         background: #f8fafc !important;
         border-bottom: 1px solid #f0f0f3 !important;
         color: #0f172a !important;

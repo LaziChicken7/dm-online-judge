@@ -117,6 +117,7 @@ urlpatterns = [
     path('user/vjudge/disconnect/', vjudge.VJudgeDisconnectView.as_view(), name='vjudge_disconnect'),
     path('api/vjudge/remote-accounts/', vjudge.VJudgeRemoteAccountsApi.as_view(), name='vjudge_remote_accounts_api'),
     path('api/vjudge/auto-sync/', vjudge.VJudgeAutoSyncView.as_view(), name='vjudge_auto_sync'),
+    path('api/vjudge/status/', vjudge.VJudgeStatusApi.as_view(), name='vjudge_status_api'),
 
     path('problem/<str:problem>', include([
         path('', problem.ProblemDetail.as_view(), name='problem_detail'),

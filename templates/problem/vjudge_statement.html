@@ -24,17 +24,25 @@
 
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated %}
-                {% if request.profile.vjudge_cookie %}
-                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-connected" title="{{ _('Tài khoản Virtual Judge đã kết nối — Bấm để quản lý hoặc đăng xuất') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                        <span>{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
-                    </a>
-                {% else %}
-                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" title="{{ _('Kết nối tài khoản Virtual Judge') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                        <span>{{ _('Connect VJudge') }}</span>
-                    </a>
-                {% endif %}
+                <span id="vjudge-account-chip-wrap">
+                    {% if vjudge_is_connected %}
+                        <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-connected" id="vjudge-account-chip">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span id="vjudge-account-chip-label">{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
+                        </a>
+                    {% else %}
+                        <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" id="vjudge-account-chip">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span id="vjudge-account-chip-label">{{ _('Chưa kết nối VJudge') }}</span>
+                        </a>
+                    {% endif %}
+                </span>
             {% endif %}
             <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" class="vjudge-link-chip">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
@@ -179,23 +187,25 @@
         box-sizing: border-box;
     }
 
-    /* 1. Top Control Bar */
+    /* 1. Top Control Bar - Border removed (Image #1) */
     .vjudge-top-bar {
         display: flex;
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
         gap: 12px;
-        background: var(--expo-surface-card) !important;
-        border: 1px solid var(--expo-hairline) !important;
-        border-radius: 12px 12px 0 0 !important;
-        padding: 12px 18px !important;
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid var(--expo-hairline) !important;
+        border-radius: 0 !important;
+        padding: 12px 0 !important;
         box-sizing: border-box !important;
     }
     html[data-theme="light"] .vjudge-top-bar,
     html.theme-light .vjudge-top-bar {
-        background: #ffffff !important;
-        border: 1px solid #f0f0f3 !important;
+        background: transparent !important;
+        border: none !important;
+        border-bottom: 1px solid #f0f0f3 !important;
     }
 
     .vjudge-top-left, .vjudge-top-right {
@@ -402,23 +412,25 @@
         color: #0f172a !important;
     }
 
-    /* 2. Container & Body */
+    /* 2. Container & Body - Border removed (Image #1) */
     .vjudge-statement-container {
-        background: var(--expo-surface-card) !important;
-        border: 1px solid var(--expo-hairline) !important;
+        background: transparent !important;
+        border: none !important;
         border-top: none !important;
-        border-radius: 0 0 12px 12px !important;
-        padding: 28px 32px !important;
+        border-bottom: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-radius: 0 !important;
+        padding: 24px 0 !important;
         min-height: 250px !important;
         box-sizing: border-box !important;
-        box-shadow: var(--expo-card-shadow) !important;
+        box-shadow: none !important;
     }
     html[data-theme="light"] .vjudge-statement-container,
     html.theme-light .vjudge-statement-container {
-        background: #ffffff !important;
-        border: 1px solid #f0f0f3 !important;
-        border-top: none !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
 
     .vjudge-rendered-body {
@@ -935,4 +947,28 @@
     window.switchVJudgeLanguage = switchVJudgeLanguage;
     window.selectDefaultStatement = selectDefaultStatement;
     window.selectVJudgeStatement = selectVJudgeStatement;
+
+    // Live VJudge connection verification on every page load
+    document.addEventListener('DOMContentLoaded', function() {
+        fetch('/api/vjudge/status/')
+            .then(function(r) { return r.json(); })
+            .then(function(data) {
+                var chip = document.getElementById('vjudge-account-chip');
+                var label = document.getElementById('vjudge-account-chip-label');
+                var banner = document.getElementById('vjudge-auth-notice-banner');
+                if (chip && label) {
+                    if (data && data.connected) {
+                        chip.className = 'vjudge-account-chip chip-connected';
+                        label.innerText = data.username || 'VJudge Connected';
+                        if (banner) banner.style.display = 'none';
+                    } else {
+                        chip.className = 'vjudge-account-chip chip-disconnected';
+                        label.innerText = '{{ _("Chưa kết nối VJudge")|escapejs }}';
+                        if (banner) banner.style.display = 'flex';
+                    }
+                }
+            })
+            .catch(function(e) {});
+    });
+
 </script>

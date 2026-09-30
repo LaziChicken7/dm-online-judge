@@ -241,6 +241,12 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
             from django.utils.translation import get_language
 
             cookie = self.request.profile.vjudge_cookie if authed else None
+            from judge.utils.vjudge_service import check_vjudge_login
+            vjudge_is_connected = False
+            if cookie:
+                vj_check = check_vjudge_login(cookie)
+                vjudge_is_connected = vj_check.get("logged_in", False)
+            context['vjudge_is_connected'] = vjudge_is_connected
             data = get_vjudge_problem_data(self.object.vjudge_oj, self.object.vjudge_prob_num, cookie=cookie)
             statements = data.get('descBriefs', []) if data else []
             context['vjudge_statements'] = statements
