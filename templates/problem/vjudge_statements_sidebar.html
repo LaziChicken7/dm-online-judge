@@ -162,21 +162,41 @@
         gap: 10px !important;
     }
 
+    /* Statement Icon (Image #2 Fix) */
     .vjudge-stmt-icon {
-        width: 30px !important;
-        height: 30px !important;
+        width: 32px !important;
+        height: 32px !important;
         border-radius: 6px !important;
         display: flex !important;
         align-items: center !important;
         justify-content: center !important;
         background: var(--expo-surface-strong) !important;
         border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
         flex-shrink: 0 !important;
+    }
+    .vjudge-stmt-icon svg {
+        stroke: currentColor !important;
+        color: var(--expo-ink) !important;
     }
     html[data-theme="light"] .vjudge-stmt-icon,
     html.theme-light .vjudge-stmt-icon {
         background: #f1f5f9 !important;
         border-color: #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-stmt-icon svg,
+    html.theme-light .vjudge-stmt-icon svg {
+        stroke: #0f172a !important;
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .vjudge-stmt-icon svg path[fill="#38bdf8"],
+    html.theme-light .vjudge-stmt-icon svg path[fill="#38bdf8"] {
+        fill: #0284c7 !important;
+    }
+    html[data-theme="light"] .vjudge-stmt-icon svg circle[fill="#38bdf8"],
+    html.theme-light .vjudge-stmt-icon svg circle[fill="#38bdf8"] {
+        fill: #0284c7 !important;
     }
 
     .vjudge-stmt-meta {
