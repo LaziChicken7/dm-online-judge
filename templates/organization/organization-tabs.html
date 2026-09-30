@@ -167,6 +167,31 @@
             color: #ffffff !important;
         }
 
+        /* Action Tab: Join & Request - Emerald Action Pill */
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab button,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab a,
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab button {
+            background: rgba(16, 185, 129, 0.12) !important;
+            border: 1px solid rgba(16, 185, 129, 0.28) !important;
+            color: #34d399 !important;
+            box-shadow: none !important;
+        }
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab button *,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab a *,
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab a *,
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab button * {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover button,
+        .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover a,
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a,
+        .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover button {
+            background: rgba(16, 185, 129, 0.22) !important;
+            color: #ffffff !important;
+        }
+
         /* ── Light Mode Support ── */
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.active a,
         html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.active > span,
@@ -227,6 +252,43 @@
         html.theme-light .tabs.org-tabs:not(#mobile) li.tab.leave-tab:hover button {
             background: #fee2e2 !important;
             color: #7f1d1d !important;
+        }
+
+        /* Action Tab: Join & Request - Light Mode */
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab button,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab a,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab button,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab button,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab a,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab a,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab button {
+            background: #ecfdf5 !important;
+            border: 1px solid #a7f3d0 !important;
+            color: #065f46 !important;
+            box-shadow: none !important;
+        }
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab button *,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab a *,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab a *,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab button *,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab button *,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab a *,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab a *,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab button * {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover button,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover a,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a,
+        html[data-theme="light"] .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover button,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover button,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.join-tab:hover a,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover a,
+        html.theme-light .tabs.org-tabs:not(#mobile) li.tab.request-tab:hover button {
+            background: #d1fae5 !important;
+            color: #047857 !important;
         }
 </style>
     {% endblock %}
