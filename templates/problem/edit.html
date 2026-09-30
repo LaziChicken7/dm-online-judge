@@ -208,7 +208,7 @@
             margin-right: 6px !important;
         }
 
-        /* ── Modern Martor Markdown Editor (Exact Image #2 Styling) ── */
+        /* ── Modern Martor Markdown Editor (Expo DESIGN.md - Monochromatic, High Contrast) ── */
         .main-martor,
         .section-martor {
             border: none !important;
@@ -222,111 +222,276 @@
             border: none !important;
             box-shadow: none !important;
         }
-        .section-martor .ui.attached.inverted.menu,
-        .section-martor .tab-martor-menu,
-        .tab-martor-menu,
-        .ui.tabular.menu,
-        .ui.attached.menu,
-        .ui.pointing.menu,
-        .ui.menu {
+        body .tab-martor-menu {
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            margin-bottom: 12px !important;
+            padding-bottom: 0 !important;
             background: transparent !important;
-            border: none !important;
-            border-bottom: none !important;
-            box-shadow: none !important;
-            padding: 0 0 14px 0 !important;
             display: flex !important;
             align-items: center !important;
-            min-height: auto !important;
         }
-        .tab-martor-menu::after,
-        .tab-martor-menu::before,
-        .section-martor .ui.menu::after,
-        .section-martor .ui.menu::before {
-            display: none !important;
-            content: none !important;
-            border: none !important;
-            height: 0 !important;
+        html[data-theme="light"] body .tab-martor-menu,
+        html.theme-light body .tab-martor-menu {
+            border-bottom: 1px solid #dcdee0 !important;
         }
-        .tab-martor-menu a.item {
-            color: #94a3b8 !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            font-size: 13.5px !important;
-            font-weight: 600 !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 8px !important;
-            padding: 7px 18px !important;
-            margin: 0 8px 0 0 !important;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+        body .tab-martor-menu a.item {
             display: inline-flex !important;
             align-items: center !important;
-            gap: 7px !important;
+            gap: 6px !important;
+            height: 32px !important;
+            padding: 0 14px !important;
+            border-radius: 6px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            line-height: 1 !important;
+            box-sizing: border-box !important;
+            margin: 0 8px 0 0 !important;
+            transition: all 0.15s ease !important;
             text-decoration: none !important;
             cursor: pointer !important;
         }
-        .tab-martor-menu a.item:hover {
+
+        /* Dark Mode - Active Tab */
+        body .tab-martor-menu a.item.active,
+        body .section-martor .tab-martor-menu a.item.active {
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 600 !important;
+            border: 1px solid #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        }
+        body .tab-martor-menu a.item.active,
+        body .tab-martor-menu a.item.active *,
+        body .tab-martor-menu a.item.active span,
+        body .tab-martor-menu a.item.active .tab-text,
+        body .tab-martor-menu a.item.active svg {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+
+        /* Dark Mode - Inactive Tab */
+        body .tab-martor-menu a.item:not(.active) {
+            background: var(--expo-surface-card) !important;
+            color: var(--expo-muted) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+        }
+        body .tab-martor-menu a.item:not(.active),
+        body .tab-martor-menu a.item:not(.active) *,
+        body .tab-martor-menu a.item:not(.active) span,
+        body .tab-martor-menu a.item:not(.active) .tab-text,
+        body .tab-martor-menu a.item:not(.active) svg {
+            color: var(--expo-muted) !important;
+            stroke: var(--expo-muted) !important;
+        }
+        body .tab-martor-menu a.item:not(.active):hover {
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+        body .tab-martor-menu a.item:not(.active):hover *,
+        body .tab-martor-menu a.item:not(.active):hover span,
+        body .tab-martor-menu a.item:not(.active):hover .tab-text,
+        body .tab-martor-menu a.item:not(.active):hover svg {
+            color: var(--expo-ink) !important;
+            stroke: var(--expo-ink) !important;
+        }
+
+        /* Light Mode - Active Tab */
+        html[data-theme="light"] body .tab-martor-menu a.item.active,
+        html.theme-light body .tab-martor-menu a.item.active {
+            background: #000000 !important;
             color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            border-color: rgba(255, 255, 255, 0.15) !important;
+            border: 1px solid #000000 !important;
+            font-weight: 600 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
         }
-        .tab-martor-menu a.item.active,
-        .section-martor .tab-martor-menu a.item.active,
-        .section-martor .ui.tabular.menu .active.item {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            font-weight: 700 !important;
-            border: 1px solid rgba(56, 189, 248, 0.45) !important;
-            box-shadow: 0 2px 12px rgba(56, 189, 248, 0.25) !important;
-            border-radius: 8px !important;
+        html[data-theme="light"] body .tab-martor-menu a.item.active *,
+        html[data-theme="light"] body .tab-martor-menu a.item.active span,
+        html[data-theme="light"] body .tab-martor-menu a.item.active .tab-text,
+        html[data-theme="light"] body .tab-martor-menu a.item.active svg,
+        html.theme-light body .tab-martor-menu a.item.active *,
+        html.theme-light body .tab-martor-menu a.item.active span,
+        html.theme-light body .tab-martor-menu a.item.active .tab-text,
+        html.theme-light body .tab-martor-menu a.item.active svg {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
         }
-        .martor-toolbar {
+
+        /* Light Mode - Inactive Tab */
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active),
+        html.theme-light body .tab-martor-menu a.item:not(.active) {
+            background: #f8fafc !important;
+            color: #64748b !important;
+            border: 1px solid #dcdee0 !important;
+        }
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) *,
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) span,
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) .tab-text,
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) svg,
+        html.theme-light body .tab-martor-menu a.item:not(.active) *,
+        html.theme-light body .tab-martor-menu a.item:not(.active) span,
+        html.theme-light body .tab-martor-menu a.item:not(.active) .tab-text,
+        html.theme-light body .tab-martor-menu a.item:not(.active) svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
+        }
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover,
+        html.theme-light body .tab-martor-menu a.item:not(.active):hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover *,
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover span,
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover .tab-text,
+        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover svg,
+        html.theme-light body .tab-martor-menu a.item:not(.active):hover *,
+        html.theme-light body .tab-martor-menu a.item:not(.active):hover span,
+        html.theme-light body .tab-martor-menu a.item:not(.active):hover .tab-text,
+        html.theme-light body .tab-martor-menu a.item:not(.active):hover svg {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+        }
+
+        /* Toolbar icons */
+        body .martor-toolbar a,
+        body .martor-toolbar button,
+        body .martor-toolbar i,
+        body .martor-toolbar .button {
+            color: var(--expo-muted) !important;
             background: transparent !important;
             border: none !important;
-            padding: 0 !important;
-            margin: 0 0 0 10px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 4px !important;
-        }
-        .martor-toolbar a,
-        .martor-toolbar button,
-        .martor-toolbar i,
-        .martor-toolbar .button {
-            color: #94a3b8 !important;
-            background: transparent !important;
-            border: none !important;
-            box-shadow: none !important;
-            padding: 6px 8px !important;
             border-radius: 6px !important;
             font-size: 13px !important;
-            transition: all 0.15s ease !important;
-            cursor: pointer !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+            padding: 5px 7px !important;
         }
-        .martor-toolbar a:hover,
-        .martor-toolbar button:hover,
-        .martor-toolbar .button:hover,
-        .martor-toolbar i:hover {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.15) !important;
-            transform: translateY(-1px);
+        body .martor-toolbar a:hover,
+        body .martor-toolbar button:hover,
+        body .martor-toolbar .button:hover,
+        body .martor-toolbar i:hover {
+            color: var(--expo-ink) !important;
+            background: #27272a !important;
         }
-        .ui.dropdown .menu {
-            background: #0f172a !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 10px !important;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+        body .martor-toolbar a *,
+        body .martor-toolbar button *,
+        body .martor-toolbar .button * {
+            color: inherit !important;
+            stroke: currentColor !important;
         }
-        .ui.dropdown .menu > .item {
-            color: #cbd5e1 !important;
-            font-size: 13px !important;
-            padding: 8px 14px !important;
+        html[data-theme="light"] body .martor-toolbar a,
+        html[data-theme="light"] body .martor-toolbar button,
+        html[data-theme="light"] body .martor-toolbar i,
+        html[data-theme="light"] body .martor-toolbar .button,
+        html.theme-light body .martor-toolbar a,
+        html.theme-light body .martor-toolbar button,
+        html.theme-light body .martor-toolbar i,
+        html.theme-light body .martor-toolbar .button {
+            color: #64748b !important;
         }
-        .ui.dropdown .menu > .item:hover {
-            background: rgba(56, 189, 248, 0.15) !important;
-            color: #38bdf8 !important;
+        html[data-theme="light"] body .martor-toolbar a:hover,
+        html[data-theme="light"] body .martor-toolbar button:hover,
+        html[data-theme="light"] body .martor-toolbar .button:hover,
+        html[data-theme="light"] body .martor-toolbar i:hover,
+        html.theme-light body .martor-toolbar a:hover,
+        html.theme-light body .martor-toolbar button:hover,
+        html.theme-light body .martor-toolbar .button:hover,
+        html.theme-light body .martor-toolbar i:hover {
+            color: #0f172a !important;
+            background: #f1f5f9 !important;
         }
+        html[data-theme="light"] body .martor-toolbar a *,
+        html[data-theme="light"] body .martor-toolbar button *,
+        html[data-theme="light"] body .martor-toolbar .button *,
+        html.theme-light body .martor-toolbar a *,
+        html.theme-light body .martor-toolbar button *,
+        html.theme-light body .martor-toolbar .button * {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+
+        /* Dark Mode - Editor, Gutter, and Frame colors */
+        body .ui.segment.tab,
+        body .tab.segment[data-tab^="editor-tab-"],
+        body .martor-field {
+            background: #121214 !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+        }
+        body .ace_editor {
+            background: #121214 !important;
+            color: #f4f4f5 !important;
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+        }
+        body .ace_gutter {
+            background: #18181b !important;
+            color: #71717a !important;
+            border-right: 1px solid var(--expo-hairline-strong) !important;
+        }
+        body .ace_scroller {
+            background: #121214 !important;
+        }
+        body .tab.segment.martor-preview {
+            background: #121214 !important;
+            color: #f4f4f5 !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 20px 24px !important;
+        }
+
+        /* Light Mode - Editor, Gutter, and Frame colors */
+        html[data-theme="light"] body .ui.segment.tab,
+        html[data-theme="light"] body .tab.segment[data-tab^="editor-tab-"],
+        html[data-theme="light"] body .martor-field,
+        html.theme-light body .ui.segment.tab,
+        html.theme-light body .tab.segment[data-tab^="editor-tab-"],
+        html.theme-light body .martor-field {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            border-radius: 8px !important;
+        }
+        html[data-theme="light"] body .ace_editor,
+        html.theme-light body .ace_editor {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] body .ace_gutter,
+        html.theme-light body .ace_gutter {
+            background: #f8fafc !important;
+            color: #94a3b8 !important;
+            border-right: 1px solid #dcdee0 !important;
+        }
+        html[data-theme="light"] body .ace_scroller,
+        html.theme-light body .ace_scroller {
+            background: #ffffff !important;
+        }
+        html[data-theme="light"] body .tab.segment.martor-preview,
+        html.theme-light body .tab.segment.martor-preview {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1px solid #dcdee0 !important;
+        }
+
+        /* High-specificity override to remove the 10px black resize bar in BOTH Dark and Light modes */
+        body .section-martor .resizable .resizable-b,
+        body .resizable .resizable-b,
+        body .resizable-b,
+        body .resizable-handle,
+        body .ui-resizable-handle,
+        body .ui-resizable-s,
+        body .ui-resizable-b,
+        html[data-theme="light"] body .section-martor .resizable .resizable-b,
+        html[data-theme="light"] body .resizable .resizable-b,
+        html[data-theme="light"] body .resizable-b,
+        html.theme-light body .section-martor .resizable .resizable-b,
+        html.theme-light body .resizable .resizable-b,
+        html.theme-light body .resizable-b {
+            background: transparent !important;
+            border: none !important;
+            height: 6px !important;
+        }
+
         textarea.martor,
         textarea[name="description"],
         textarea[name="solution_content"],
@@ -350,61 +515,6 @@
         [data-tab^="preview-tab-"]:not(.active),
         [data-tab^="editor-tab-"]:not(.active) {
             display: none !important;
-        }
-        .ui.segment.tab,
-        .tab.segment[data-tab^="editor-tab-"] {
-            background: #060913 !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            overflow: hidden !important;
-            width: 100% !important;
-        }
-        .martor-field {
-            height: 380px !important;
-            min-height: 300px !important;
-            background: #060913 !important;
-            border: none !important;
-            border-radius: 14px !important;
-            position: relative !important;
-            width: 100% !important;
-        }
-        .ace_editor {
-            height: 380px !important;
-            width: 100% !important;
-            background: #060913 !important;
-            color: #f1f5f9 !important;
-            font-family: 'Google Sans Code', monospace !important;
-            font-size: 14px !important;
-            border-radius: 14px !important;
-            line-height: 1.65 !important;
-        }
-        .ace_gutter {
-            background: #060913 !important;
-            color: #475569 !important;
-            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
-        }
-        .ace_gutter-active-line {
-            color: #38bdf8 !important;
-            background: rgba(56, 189, 248, 0.08) !important;
-        }
-        .ace_cursor {
-            color: #38bdf8 !important;
-            border-left: 2px solid #38bdf8 !important;
-        }
-        .tab.segment.martor-preview {
-            background: #060913 !important;
-            color: #cbd5e1 !important;
-            min-height: 300px !important;
-            padding: 24px 28px !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 14px !important;
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.5) !important;
-            font-size: 14.5px !important;
-            line-height: 1.7 !important;
-            margin: 0 !important;
         }
         .section-martor > hr {
             display: none !important;
