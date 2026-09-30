@@ -454,20 +454,19 @@ html.theme-light .contest-table-card thead th {
 html body .contest-user-badge {
     background: transparent !important;
     background-color: transparent !important;
-    border: 1px solid var(--expo-hairline) !important;
-    border-radius: 6px !important;
+    border: none !important;
+    border-radius: 0 !important;
     color: var(--expo-ink) !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 13px !important;
     font-weight: 600 !important;
     box-shadow: none !important;
     text-shadow: none !important;
-    min-width: 32px !important;
-    height: 28px !important;
-    padding: 0 8px !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    min-width: unset !important;
+    height: auto !important;
+    padding: 0 !important;
+    display: inline-block !important;
+    text-align: center !important;
     text-decoration: none !important;
     transform: none !important;
 }
@@ -485,7 +484,7 @@ html.theme-light .contest-user-badge,
 html.theme-light .contest-user-badge * {
     background: transparent !important;
     background-color: transparent !important;
-    border: 1px solid #dcdee0 !important;
+    border: none !important;
     color: #0f172a !important;
     box-shadow: none !important;
     text-shadow: none !important;
@@ -530,10 +529,13 @@ html.theme-light .contest-user-badge *:hover {
     vertical-align: middle !important;
     color: var(--expo-muted) !important;
 }
-.org-problem-table-block table#problem-table thead th.problem-id {
+.org-problem-table-block table#problem-table thead th.problem-id,
+.org-problem-table-block table#problem-table tbody td.problem-id,
+#problem-table thead th.problem-id,
+#problem-table tbody td.problem-id {
     padding: 12px 18px !important;
-    text-align: center !important;
-    width: 180px !important;
+    text-align: left !important;
+    width: 140px !important;
     vertical-align: middle !important;
 }
 .org-problem-table-block table#problem-table thead th.problem {
@@ -925,23 +927,23 @@ html.theme-light .org-problem-table-block table#problem-table thead th.solved sv
             color: #0f172a !important;
         }
 
-        /* Contest Table Card */
+        /* Contest Table Card - Border removed as requested (Image #2) */
         .contest-table-card {
             background: var(--expo-surface-card) !important;
-            border: 1px solid var(--expo-hairline) !important;
+            border: none !important;
             border-radius: 12px !important;
             overflow-x: auto !important;
             padding: 0 !important;
             margin-bottom: 24px !important;
-            box-shadow: var(--expo-card-shadow) !important;
+            box-shadow: none !important;
             backdrop-filter: none !important;
             -webkit-backdrop-filter: none !important;
         }
         html[data-theme="light"] .contest-table-card,
         html.theme-light .contest-table-card {
             background: #ffffff !important;
-            border: 1px solid #f0f0f3 !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+            border: none !important;
+            box-shadow: none !important;
         }
 
         .contest-table-card table.contest-list {
