@@ -497,30 +497,60 @@ html.theme-light .contest-user-badge *:hover {
     border-color: #94a3b8 !important;
 }
 
-/* Request 4: Problem table header exactly matching Image #6 (/problems/) */
+/* Problem table header: seamless collapse with lower block, vertically centered, muted text matching Image #2 */
+.org-problem-table-block table#problem-table {
+    margin: 0 !important;
+    width: 100% !important;
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+}
 .org-problem-table-block table#problem-table thead th {
     background: #202024 !important;
-    color: #a1a1aa !important;
+    color: var(--expo-muted) !important;
     font-family: "JetBrains Mono", monospace !important;
     font-size: 11px !important;
     font-weight: 600 !important;
     letter-spacing: 1px !important;
     text-transform: uppercase !important;
     border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-    padding: 12px 16px !important;
+    padding: 12px 18px !important;
+    height: 48px !important;
+    vertical-align: middle !important;
+    line-height: normal !important;
     box-sizing: border-box !important;
 }
 .org-problem-table-block table#problem-table thead th.solved {
-    padding: 14px 10px !important;
+    padding: 12px 14px !important;
     text-align: center !important;
+    width: 40px !important;
+    vertical-align: middle !important;
+}
+.org-problem-table-block table#problem-table thead th.solved svg {
+    display: inline-block !important;
+    vertical-align: middle !important;
+    color: var(--expo-muted) !important;
 }
 .org-problem-table-block table#problem-table thead th.problem-id {
-    padding: 14px 18px !important;
+    padding: 12px 18px !important;
     text-align: center !important;
+    width: 180px !important;
+    vertical-align: middle !important;
+}
+.org-problem-table-block table#problem-table thead th.problem {
+    padding: 12px 18px !important;
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+.org-problem-table-block table#problem-table thead th.category {
+    padding: 12px 18px !important;
+    text-align: left !important;
+    vertical-align: middle !important;
 }
 .org-problem-table-block table#problem-table thead th.users {
-    padding: 12px 16px !important;
+    padding: 12px 18px !important;
     text-align: center !important;
+    width: 90px !important;
+    vertical-align: middle !important;
 }
 .org-problem-table-block table#problem-table thead th:first-child {
     border-top-left-radius: 12px !important;
@@ -528,11 +558,19 @@ html.theme-light .contest-user-badge *:hover {
 .org-problem-table-block table#problem-table thead th:last-child {
     border-top-right-radius: 12px !important;
 }
+.org-problem-table-block table#problem-table tbody td {
+    padding: 12px 18px !important;
+    vertical-align: middle !important;
+}
 html[data-theme="light"] .org-problem-table-block table#problem-table thead th,
 html.theme-light .org-problem-table-block table#problem-table thead th {
     background: #f8fafc !important;
     color: #64748b !important;
     border-bottom: 1px solid #dcdee0 !important;
+}
+html[data-theme="light"] .org-problem-table-block table#problem-table thead th.solved svg,
+html.theme-light .org-problem-table-block table#problem-table thead th.solved svg {
+    color: #64748b !important;
 }
 
 /* 3. Right Sidebar Card */
@@ -1081,6 +1119,8 @@ html.theme-light .org-problem-table-block table#problem-table thead th {
         .org-problem-table-block table {
             margin: 0 !important;
             width: 100% !important;
+            border-collapse: collapse !important;
+            border-spacing: 0 !important;
         }
         .org-problem-table-block thead th {
             background: var(--expo-surface-strong) !important;
