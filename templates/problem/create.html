@@ -494,15 +494,23 @@
         }
 
         /* 9. Martor Editor Clean Styling (Expo DESIGN.md - Monochromatic, High Contrast) */
-        body .create-card .tab-martor-menu {
+        body .create-card .tab-martor-menu,
+        body .create-card .tab-martor-menu.inverted,
+        body .create-card .ui.attached.inverted.menu {
             border-bottom: 1px solid var(--expo-hairline) !important;
-            margin-bottom: 12px !important;
-            padding-bottom: 0 !important;
             background: transparent !important;
+            margin-bottom: 14px !important;
+            padding-bottom: 0 !important;
+            box-shadow: none !important;
         }
         html[data-theme="light"] body .create-card .tab-martor-menu,
-        html.theme-light body .create-card .tab-martor-menu {
+        html[data-theme="light"] body .create-card .tab-martor-menu.inverted,
+        html[data-theme="light"] body .create-card .ui.attached.inverted.menu,
+        html.theme-light body .create-card .tab-martor-menu,
+        html.theme-light body .create-card .tab-martor-menu.inverted,
+        html.theme-light body .create-card .ui.attached.inverted.menu {
             border-bottom: 1px solid #dcdee0 !important;
+            box-shadow: none !important;
         }
 
         body .create-card .tab-martor-menu a.item {
@@ -519,24 +527,48 @@
             box-sizing: border-box !important;
             margin: 0 8px 0 0 !important;
             transition: all 0.15s ease !important;
+            text-decoration: none !important;
         }
 
-        /* Dark Mode - Active Tab */
-        body .create-card .tab-martor-menu a.item.active,
-        body .create-card .section-martor .tab-martor-menu a.item.active {
+        /* Dark Mode - Active Tab: Solid White pill with Black text & Black icon */
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .section-martor .tab-martor-menu a.item.active,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .section-martor .ui.tabular.menu .active.item,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .create-card .section-martor .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .create-card .section-martor .ui.tabular.menu .active.item,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active,
+        html.theme-dark body .create-card .section-martor .tab-martor-menu a.item.active,
+        html.theme-dark body .create-card .section-martor .ui.tabular.menu .active.item {
             background: #ffffff !important;
             color: #000000 !important;
-            font-weight: 600 !important;
             border: 1px solid #ffffff !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
         }
-        body .create-card .tab-martor-menu a.item.active,
-        body .create-card .tab-martor-menu a.item.active *,
-        body .create-card .tab-martor-menu a.item.active span,
-        body .create-card .tab-martor-menu a.item.active .tab-text,
-        body .create-card .tab-martor-menu a.item.active svg {
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active *,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active span,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active .tab-text,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active svg,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active path,
+        html:not([data-theme="light"]):not(.theme-light) body .create-card .tab-martor-menu a.item.active line,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active *,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active span,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active .tab-text,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active svg,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active path,
+        html[data-theme="dark"] body .create-card .tab-martor-menu a.item.active line,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active *,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active span,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active .tab-text,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active svg,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active path,
+        html.theme-dark body .create-card .tab-martor-menu a.item.active line {
             color: #000000 !important;
             stroke: #000000 !important;
+            fill: none !important;
         }
 
         /* Dark Mode - Inactive Tab */
@@ -549,30 +581,24 @@
         body .create-card .tab-martor-menu a.item:not(.active) *,
         body .create-card .tab-martor-menu a.item:not(.active) span,
         body .create-card .tab-martor-menu a.item:not(.active) .tab-text,
-        body .create-card .tab-martor-menu a.item:not(.active) svg {
+        body .create-card .tab-martor-menu a.item:not(.active) svg,
+        body .create-card .tab-martor-menu a.item:not(.active) path,
+        body .create-card .tab-martor-menu a.item:not(.active) line {
             color: var(--expo-muted) !important;
             stroke: var(--expo-muted) !important;
-        }
-        body .create-card .tab-martor-menu a.item:not(.active):hover {
-            background: var(--expo-surface-strong) !important;
-            color: var(--expo-ink) !important;
-            border-color: rgba(255, 255, 255, 0.25) !important;
-        }
-        body .create-card .tab-martor-menu a.item:not(.active):hover *,
-        body .create-card .tab-martor-menu a.item:not(.active):hover span,
-        body .create-card .tab-martor-menu a.item:not(.active):hover .tab-text,
-        body .create-card .tab-martor-menu a.item:not(.active):hover svg {
-            color: var(--expo-ink) !important;
-            stroke: var(--expo-ink) !important;
+            fill: none !important;
         }
 
-        /* Light Mode - Active Tab */
+        /* Light Mode - Active Tab: Solid Black pill with White text & White icon */
         html[data-theme="light"] body .create-card .tab-martor-menu a.item.active,
-        html.theme-light body .create-card .tab-martor-menu a.item.active {
+        html[data-theme="light"] body .create-card .section-martor .tab-martor-menu a.item.active,
+        html[data-theme="light"] body .create-card .section-martor .ui.tabular.menu .active.item,
+        html.theme-light body .create-card .tab-martor-menu a.item.active,
+        html.theme-light body .create-card .section-martor .tab-martor-menu a.item.active,
+        html.theme-light body .create-card .section-martor .ui.tabular.menu .active.item {
             background: #000000 !important;
             color: #ffffff !important;
             border: 1px solid #000000 !important;
-            font-weight: 600 !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
         }
         html[data-theme="light"] body .create-card .tab-martor-menu a.item.active,
@@ -580,106 +606,107 @@
         html[data-theme="light"] body .create-card .tab-martor-menu a.item.active span,
         html[data-theme="light"] body .create-card .tab-martor-menu a.item.active .tab-text,
         html[data-theme="light"] body .create-card .tab-martor-menu a.item.active svg,
+        html[data-theme="light"] body .create-card .tab-martor-menu a.item.active path,
+        html[data-theme="light"] body .create-card .tab-martor-menu a.item.active line,
         html.theme-light body .create-card .tab-martor-menu a.item.active,
         html.theme-light body .create-card .tab-martor-menu a.item.active *,
         html.theme-light body .create-card .tab-martor-menu a.item.active span,
         html.theme-light body .create-card .tab-martor-menu a.item.active .tab-text,
-        html.theme-light body .create-card .tab-martor-menu a.item.active svg {
+        html.theme-light body .create-card .tab-martor-menu a.item.active svg,
+        html.theme-light body .create-card .tab-martor-menu a.item.active path,
+        html.theme-light body .create-card .tab-martor-menu a.item.active line {
             color: #ffffff !important;
             stroke: #ffffff !important;
+            fill: none !important;
         }
 
-        /* Light Mode - Inactive Tab */
+        /* Light Mode - Inactive Tab: Clear Slate Gray text & icon */
         html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active),
         html.theme-light body .create-card .tab-martor-menu a.item:not(.active) {
             background: #f8fafc !important;
-            color: #64748b !important;
-            border: 1px solid #dcdee0 !important;
+            color: #334155 !important;
+            border: 1px solid #cbd5e1 !important;
         }
         html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active),
         html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active) *,
         html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active) span,
         html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active) .tab-text,
         html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active) svg,
+        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active) path,
+        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active) line,
         html.theme-light body .create-card .tab-martor-menu a.item:not(.active),
         html.theme-light body .create-card .tab-martor-menu a.item:not(.active) *,
         html.theme-light body .create-card .tab-martor-menu a.item:not(.active) span,
         html.theme-light body .create-card .tab-martor-menu a.item:not(.active) .tab-text,
-        html.theme-light body .create-card .tab-martor-menu a.item:not(.active) svg {
-            color: #64748b !important;
-            stroke: #64748b !important;
-        }
-        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active):hover,
-        html.theme-light body .create-card .tab-martor-menu a.item:not(.active):hover {
-            background: #f1f5f9 !important;
-            color: #0f172a !important;
-        }
-        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active):hover *,
-        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active):hover span,
-        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active):hover .tab-text,
-        html[data-theme="light"] body .create-card .tab-martor-menu a.item:not(.active):hover svg,
-        html.theme-light body .create-card .tab-martor-menu a.item:not(.active):hover *,
-        html.theme-light body .create-card .tab-martor-menu a.item:not(.active):hover span,
-        html.theme-light body .create-card .tab-martor-menu a.item:not(.active):hover .tab-text,
-        html.theme-light body .create-card .tab-martor-menu a.item:not(.active):hover svg {
-            color: #0f172a !important;
-            stroke: #0f172a !important;
+        html.theme-light body .create-card .tab-martor-menu a.item:not(.active) svg,
+        html.theme-light body .create-card .tab-martor-menu a.item:not(.active) path,
+        html.theme-light body .create-card .tab-martor-menu a.item:not(.active) line {
+            color: #334155 !important;
+            stroke: #334155 !important;
+            fill: none !important;
         }
 
-        /* Toolbar icons */
+        /* Toolbar icons - Dark Mode */
         body .create-card .martor-toolbar a,
         body .create-card .martor-toolbar button,
+        body .create-card .martor-toolbar .button,
         body .create-card .martor-toolbar i,
-        body .create-card .martor-toolbar .button {
+        body .create-card .martor-toolbar .vector-icon-wrap,
+        body .create-card .martor-toolbar svg {
             color: var(--expo-muted) !important;
-            background: transparent !important;
+            stroke: var(--expo-muted) !important;
+            fill: none !important;
             border: none !important;
-            border-radius: 6px !important;
-            font-size: 13px !important;
-            padding: 5px 7px !important;
+            background: transparent !important;
         }
         body .create-card .martor-toolbar a:hover,
         body .create-card .martor-toolbar button:hover,
-        body .create-card .martor-toolbar .button:hover,
-        body .create-card .martor-toolbar i:hover {
-            color: var(--expo-ink) !important;
+        body .create-card .martor-toolbar .button:hover {
             background: #27272a !important;
+            color: var(--expo-ink) !important;
+            stroke: var(--expo-ink) !important;
         }
-        body .create-card .martor-toolbar a *,
-        body .create-card .martor-toolbar button *,
-        body .create-card .martor-toolbar .button * {
-            color: inherit !important;
-            stroke: currentColor !important;
-        }
+
+        /* Toolbar icons - Light Mode: 100% Crisp Visible Dark Slate Icons */
+        html[data-theme="light"] body .create-card .martor-toolbar,
         html[data-theme="light"] body .create-card .martor-toolbar a,
         html[data-theme="light"] body .create-card .martor-toolbar button,
-        html[data-theme="light"] body .create-card .martor-toolbar i,
         html[data-theme="light"] body .create-card .martor-toolbar .button,
+        html[data-theme="light"] body .create-card .martor-toolbar i,
+        html[data-theme="light"] body .create-card .martor-toolbar .vector-icon-wrap,
+        html[data-theme="light"] body .create-card .martor-toolbar svg,
+        html[data-theme="light"] body .create-card .martor-toolbar path,
+        html[data-theme="light"] body .create-card .martor-toolbar line,
+        html[data-theme="light"] body .create-card .martor-toolbar circle,
+        html[data-theme="light"] body .create-card .martor-toolbar rect,
+        html[data-theme="light"] body .create-card .martor-toolbar polyline,
+        html.theme-light body .create-card .martor-toolbar,
         html.theme-light body .create-card .martor-toolbar a,
         html.theme-light body .create-card .martor-toolbar button,
+        html.theme-light body .create-card .martor-toolbar .button,
         html.theme-light body .create-card .martor-toolbar i,
-        html.theme-light body .create-card .martor-toolbar .button {
-            color: #64748b !important;
+        html.theme-light body .create-card .martor-toolbar .vector-icon-wrap,
+        html.theme-light body .create-card .martor-toolbar svg,
+        html.theme-light body .create-card .martor-toolbar path,
+        html.theme-light body .create-card .martor-toolbar line,
+        html.theme-light body .create-card .martor-toolbar circle,
+        html.theme-light body .create-card .martor-toolbar rect,
+        html.theme-light body .create-card .martor-toolbar polyline {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+            fill: none !important;
+            border: none !important;
+            background: transparent !important;
         }
         html[data-theme="light"] body .create-card .martor-toolbar a:hover,
         html[data-theme="light"] body .create-card .martor-toolbar button:hover,
         html[data-theme="light"] body .create-card .martor-toolbar .button:hover,
-        html[data-theme="light"] body .create-card .martor-toolbar i:hover,
         html.theme-light body .create-card .martor-toolbar a:hover,
         html.theme-light body .create-card .martor-toolbar button:hover,
-        html.theme-light body .create-card .martor-toolbar .button:hover,
-        html.theme-light body .create-card .martor-toolbar i:hover {
-            color: #0f172a !important;
-            background: #f1f5f9 !important;
-        }
-        html[data-theme="light"] body .create-card .martor-toolbar a *,
-        html[data-theme="light"] body .create-card .martor-toolbar button *,
-        html[data-theme="light"] body .create-card .martor-toolbar .button *,
-        html.theme-light body .create-card .martor-toolbar a *,
-        html.theme-light body .create-card .martor-toolbar button *,
-        html.theme-light body .create-card .martor-toolbar .button * {
-            color: inherit !important;
-            stroke: currentColor !important;
+        html.theme-light body .create-card .martor-toolbar .button:hover {
+            background: #e2e8f0 !important;
+            color: #000000 !important;
+            stroke: #000000 !important;
         }
 
         /* Dark Mode - Editor, Gutter, and Frame colors */
@@ -1198,17 +1225,17 @@
 {% block js_media %}
     {{ form.media.js }}
     <script>
-        // 1. Vectorize Martor Icons (All drawn with clean vector SVGs matching Image #4)
+        // 1. Vectorize Martor Icons and reconstruct tabs
         function vectorizeCreateMartorIcons() {
             var toolbarSvgs = {
                 'editor': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
                 'preview': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>',
-                'bold': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg>',
-                'italic': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg>',
-                'minus': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>',
-                'header': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"></path><path d="M4 18V6"></path><path d="M20 18V6"></path></svg>',
+                'bold': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 4h8a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path><path d="M6 12h9a4 4 0 0 1 4 4 4 4 0 0 1-4 4H6z"></path></svg>',
+                'italic': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="4" x2="10" y2="4"></line><line x1="14" y1="20" x2="5" y2="20"></line><line x1="15" y1="4" x2="9" y2="20"></line></svg>',
+                'minus': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>',
+                'header': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h16"></path><path d="M4 18V6"></path><path d="M20 18V6"></path></svg>',
                 'code': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
-                'superscript': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l6-6"></path><path d="M4 13l6 6"></path><path d="M14 5h4l-3 4h3"></path></svg>',
+                'superscript': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m4 19 6-6"></path><path d="m4 13 6 6"></path><path d="M18 12h-4c0-1.5 1.5-2 2-3s1.5-1.5 1-2.5c-.4-.8-1.5-1-2.2-.4-.4.4-.8 1-.8 1.9"></path></svg>',
                 'quote': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"></path></svg>',
                 'unordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"></line><line x1="8" y1="12" x2="21" y2="12"></line><line x1="8" y1="18" x2="21" y2="18"></line><line x1="3" y1="6" x2="3.01" y2="6"></line><line x1="3" y1="12" x2="3.01" y2="12"></line><line x1="3" y1="18" x2="3.01" y2="18"></line></svg>',
                 'ordered-list': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="10" y1="6" x2="21" y2="6"></line><line x1="10" y1="12" x2="21" y2="12"></line><line x1="10" y1="18" x2="21" y2="18"></line><path d="M4 6h1v4"></path><path d="M4 10h2"></path><path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1"></path></svg>',
@@ -1218,6 +1245,16 @@
                 'maximize': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>',
                 'help': '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>'
             };
+
+            // Explicitly rebuild editor and preview tabs with clean icon + label markup
+            var editorTab = document.querySelector('a[data-tab^="editor-tab-"]');
+            if (editorTab && (!editorTab.querySelector('.tab-text') || !editorTab.querySelector('svg'))) {
+                editorTab.innerHTML = '<span class="vector-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-right:6px;">' + toolbarSvgs['editor'] + '</span><span class="tab-text">Editor</span>';
+            }
+            var previewTab = document.querySelector('a[data-tab^="preview-tab-"]');
+            if (previewTab && (!previewTab.querySelector('.tab-text') || !previewTab.querySelector('svg'))) {
+                previewTab.innerHTML = '<span class="vector-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-right:6px;">' + toolbarSvgs['preview'] + '</span><span class="tab-text">Preview</span>';
+            }
 
             function rep(selector, svgKey) {
                 var items = document.querySelectorAll(selector);
@@ -1229,8 +1266,8 @@
                         span.style.display = 'inline-flex';
                         span.style.alignItems = 'center';
                         span.style.justifyContent = 'center';
-                        span.style.width = '16px';
-                        span.style.height = '16px';
+                        span.style.width = '14px';
+                        span.style.height = '14px';
                         span.style.verticalAlign = 'middle';
                         span.innerHTML = toolbarSvgs[svgKey];
                         icon.replaceWith(span);
@@ -1238,8 +1275,6 @@
                 });
             }
 
-            rep('a[data-tab^="editor-tab-"]', 'editor');
-            rep('a[data-tab^="preview-tab-"]', 'preview');
             rep('.markdown-bold', 'bold');
             rep('.markdown-italic', 'italic');
             rep('.markdown-horizontal', 'minus');
@@ -1255,7 +1290,6 @@
             rep('.markdown-toggle-maximize', 'maximize');
             rep('.markdown-help', 'help');
         }
-
         // 2. Custom Problem Types Dropdown Handler
         function toggleTypesDropdown(e) {
             if (e) e.stopPropagation();

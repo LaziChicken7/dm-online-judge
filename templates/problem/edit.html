@@ -253,22 +253,42 @@
             cursor: pointer !important;
         }
 
-        /* Dark Mode - Active Tab */
-        body .tab-martor-menu a.item.active,
-        body .section-martor .tab-martor-menu a.item.active {
+        /* Dark Mode - Active Tab: Solid White pill with Black text & Black icon */
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active,
+        html:not([data-theme="light"]):not(.theme-light) body .section-martor .tab-martor-menu a.item.active,
+        html:not([data-theme="light"]):not(.theme-light) body .section-martor .ui.tabular.menu .active.item,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .section-martor .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .section-martor .ui.tabular.menu .active.item,
+        html.theme-dark body .tab-martor-menu a.item.active,
+        html.theme-dark body .section-martor .tab-martor-menu a.item.active,
+        html.theme-dark body .section-martor .ui.tabular.menu .active.item {
             background: #ffffff !important;
             color: #000000 !important;
-            font-weight: 600 !important;
             border: 1px solid #ffffff !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
         }
-        body .tab-martor-menu a.item.active,
-        body .tab-martor-menu a.item.active *,
-        body .tab-martor-menu a.item.active span,
-        body .tab-martor-menu a.item.active .tab-text,
-        body .tab-martor-menu a.item.active svg {
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active *,
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active span,
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active .tab-text,
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active svg,
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active path,
+        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active line,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active *,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active span,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active .tab-text,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active svg,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active path,
+        html[data-theme="dark"] body .tab-martor-menu a.item.active line,
+        html.theme-dark body .tab-martor-menu a.item.active *,
+        html.theme-dark body .tab-martor-menu a.item.active span,
+        html.theme-dark body .tab-martor-menu a.item.active .tab-text,
+        html.theme-dark body .tab-martor-menu a.item.active svg,
+        html.theme-dark body .tab-martor-menu a.item.active path,
+        html.theme-dark body .tab-martor-menu a.item.active line {
             color: #000000 !important;
             stroke: #000000 !important;
+            fill: none !important;
         }
 
         /* Dark Mode - Inactive Tab */
@@ -298,25 +318,33 @@
             stroke: var(--expo-ink) !important;
         }
 
-        /* Light Mode - Active Tab */
+        /* Light Mode - Active Tab: Solid Black pill with White text & White icon */
         html[data-theme="light"] body .tab-martor-menu a.item.active,
-        html.theme-light body .tab-martor-menu a.item.active {
+        html[data-theme="light"] body .section-martor .tab-martor-menu a.item.active,
+        html[data-theme="light"] body .section-martor .ui.tabular.menu .active.item,
+        html.theme-light body .tab-martor-menu a.item.active,
+        html.theme-light body .section-martor .tab-martor-menu a.item.active,
+        html.theme-light body .section-martor .ui.tabular.menu .active.item {
             background: #000000 !important;
             color: #ffffff !important;
             border: 1px solid #000000 !important;
-            font-weight: 600 !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
         }
         html[data-theme="light"] body .tab-martor-menu a.item.active *,
         html[data-theme="light"] body .tab-martor-menu a.item.active span,
         html[data-theme="light"] body .tab-martor-menu a.item.active .tab-text,
         html[data-theme="light"] body .tab-martor-menu a.item.active svg,
+        html[data-theme="light"] body .tab-martor-menu a.item.active path,
+        html[data-theme="light"] body .tab-martor-menu a.item.active line,
         html.theme-light body .tab-martor-menu a.item.active *,
         html.theme-light body .tab-martor-menu a.item.active span,
         html.theme-light body .tab-martor-menu a.item.active .tab-text,
-        html.theme-light body .tab-martor-menu a.item.active svg {
+        html.theme-light body .tab-martor-menu a.item.active svg,
+        html.theme-light body .tab-martor-menu a.item.active path,
+        html.theme-light body .tab-martor-menu a.item.active line {
             color: #ffffff !important;
             stroke: #ffffff !important;
+            fill: none !important;
         }
 
         /* Light Mode - Inactive Tab */
@@ -1067,8 +1095,16 @@
                 });
             }
 
-            rep('a[data-tab^="editor-tab-"]', 'editor');
-            rep('a[data-tab^="preview-tab-"]', 'preview');
+            document.querySelectorAll('a[data-tab^="editor-tab-"]').forEach(function(editorTab) {
+                if (editorTab && (!editorTab.querySelector('.tab-text') || !editorTab.querySelector('svg'))) {
+                    editorTab.innerHTML = '<span class="vector-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-right:6px;">' + toolbarSvgs['editor'] + '</span><span class="tab-text">Editor</span>';
+                }
+            });
+            document.querySelectorAll('a[data-tab^="preview-tab-"]').forEach(function(previewTab) {
+                if (previewTab && (!previewTab.querySelector('.tab-text') || !previewTab.querySelector('svg'))) {
+                    previewTab.innerHTML = '<span class="vector-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-right:6px;">' + toolbarSvgs['preview'] + '</span><span class="tab-text">Preview</span>';
+                }
+            });
             rep('.markdown-bold', 'bold');
             rep('.markdown-italic', 'italic');
             rep('.markdown-horizontal', 'minus');
