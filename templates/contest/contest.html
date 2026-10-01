@@ -137,14 +137,31 @@ body .tabs ul {
     background: transparent !important;
     border: none !important;
 }
-.tabs .tab > a,
-.tabs .tab > span {
+body .tabs .tab,
+body .tabs .tab > a,
+body .tabs .tab > span {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     gap: 7px !important;
-    padding: 7px 16px !important;
+    padding: 0 16px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    box-sizing: border-box !important;
     border-radius: 8px !important; /* {rounded.md} */
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    color: var(--expo-body) !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    vertical-align: middle !important;
+} */
     font-family: "Inter", -apple-system, sans-serif !important;
     font-size: 13.5px !important;
     font-weight: 500 !important;
@@ -212,14 +229,17 @@ html.theme-light .tabs .tab.active > a i {
     color: #ffffff !important;
 }
 
-/* 4. Join / Virtual Join Pseudotab Button (Expo Primary Button) */
-.tabs .contest-join-pseudotab,
-.contest-join-pseudotab,
-form.contest-join-pseudotab {
+/* 4. Join / Virtual Join Pseudotab Button (Expo Primary Button - Flush 42px height) */
+body .tabs .contest-join-pseudotab,
+body .contest-join-pseudotab,
+body form.contest-join-pseudotab {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    height: 38px !important;
+    height: 42px !important;
+    min-height: 42px !important;
+    max-height: 42px !important;
+    box-sizing: border-box !important;
     padding: 0 16px !important;
     border-radius: 8px !important; /* {rounded.md} */
     background: #ffffff !important;
@@ -232,53 +252,58 @@ form.contest-join-pseudotab {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     transition: all 0.15s ease !important;
     cursor: pointer !important;
-    margin-left: 8px !important;
+    margin: 0 !important;
+    margin-left: 4px !important;
+    vertical-align: middle !important;
 }
-
-.contest-join-pseudotab input[type="submit"] {
+body .contest-join-pseudotab input[type="submit"],
+body .contest-join-pseudotab input,
+body .contest-join-pseudotab button {
+    height: 100% !important;
+    line-height: 42px !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     background: transparent !important;
     border: none !important;
     color: #000000 !important;
     font-family: "Inter", -apple-system, sans-serif !important;
     font-weight: 500 !important;
     font-size: 13.5px !important;
-    padding: 0 !important;
-    margin: 0 !important;
     cursor: pointer !important;
     box-shadow: none !important;
 }
-
-.tabs .contest-join-pseudotab:hover,
-.contest-join-pseudotab:hover {
+body .tabs .contest-join-pseudotab:hover,
+body .contest-join-pseudotab:hover {
     opacity: 0.92 !important;
     transform: translateY(-1px) !important;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
     background: #ffffff !important;
 }
-
-html[data-theme="light"] .tabs .contest-join-pseudotab,
-html[data-theme="light"] .contest-join-pseudotab,
-html[data-theme="light"] form.contest-join-pseudotab,
-html.theme-light .tabs .contest-join-pseudotab,
-html.theme-light .contest-join-pseudotab,
-html.theme-light form.contest-join-pseudotab {
+html[data-theme="light"] body .tabs .contest-join-pseudotab,
+html[data-theme="light"] body .contest-join-pseudotab,
+html[data-theme="light"] body form.contest-join-pseudotab,
+html.theme-light body .tabs .contest-join-pseudotab,
+html.theme-light body .contest-join-pseudotab,
+html.theme-light body form.contest-join-pseudotab {
     background: #000000 !important;
     color: #ffffff !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
 }
-
-html[data-theme="light"] .contest-join-pseudotab input[type="submit"],
-html.theme-light .contest-join-pseudotab input[type="submit"] {
+html[data-theme="light"] body .contest-join-pseudotab input[type="submit"],
+html[data-theme="light"] body .contest-join-pseudotab input,
+html.theme-light body .contest-join-pseudotab input[type="submit"],
+html.theme-light body .contest-join-pseudotab input {
     color: #ffffff !important;
 }
-
-html[data-theme="light"] .tabs .contest-join-pseudotab:hover,
-html[data-theme="light"] .contest-join-pseudotab:hover,
-html.theme-light .tabs .contest-join-pseudotab:hover,
-html.theme-light .contest-join-pseudotab:hover {
+html[data-theme="light"] body .tabs .contest-join-pseudotab:hover,
+html[data-theme="light"] body .contest-join-pseudotab:hover,
+html.theme-light body .tabs .contest-join-pseudotab:hover,
+html.theme-light body .contest-join-pseudotab:hover {
     background: #1a1a1a !important;
 }
-
 /* 5. Contest Banner (#banner) */
 #banner {
     background: var(--expo-surface-card) !important;
