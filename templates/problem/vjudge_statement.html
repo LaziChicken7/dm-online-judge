@@ -25,23 +25,13 @@
         <div class="vjudge-top-right">
             {% if request.user.is_authenticated %}
                 <span id="vjudge-account-chip-wrap">
-                    {% if vjudge_has_cookie %}
-                        <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-connected" id="vjudge-account-chip">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span id="vjudge-account-chip-label">{{ request.profile.vjudge_username or 'VJudge Connected' }}</span>
-                        </a>
-                    {% else %}
-                        <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip chip-disconnected" id="vjudge-account-chip">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span id="vjudge-account-chip-label">{{ _('Chưa kết nối VJudge') }}</span>
-                        </a>
-                    {% endif %}
+                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-account-chip {% if vjudge_is_connected %}chip-connected{% else %}chip-disconnected{% endif %}" id="vjudge-account-chip">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        <span id="vjudge-account-chip-label">{% if vjudge_is_connected %}{{ request.profile.vjudge_username or 'VJudge Connected' }}{% else %}{{ _('Chưa kết nối VJudge') }}{% endif %}</span>
+                    </a>
                 </span>
             {% endif %}
             <a href="https://vjudge.net/problem/{{ problem.vjudge_oj }}-{{ problem.vjudge_prob_num }}" target="_blank" class="vjudge-link-chip">
@@ -52,46 +42,38 @@
     </div>
 
     <!-- VJudge Auth / Connect Notice Banner -->
-    {% if not request.user.is_authenticated or not request.profile.vjudge_cookie %}
-        <div class="vjudge-auth-notice-banner">
-            <div class="vjudge-auth-notice-left">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <line x1="12" y1="8" x2="12" y2="12"></line>
-                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
-                </svg>
-                <div class="vjudge-auth-notice-text">
-                    <span class="vjudge-auth-notice-title">
-                        {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}
-                            Vui lòng đăng nhập hoặc kết nối tài khoản Virtual Judge để xem đề bài và nộp bài
-                        {% else %}
-                            Please log in or connect your Virtual Judge account to view statements and submit solutions
-                        {% endif %}
-                    </span>
-                    <span class="vjudge-auth-notice-sub">
-                        {% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}
-                            Một số bài tập từ các máy chủ từ xa (như {{ problem.vjudge_oj }}) yêu cầu đăng nhập Virtual Judge để tải toàn bộ nội dung và chấm bài.
-                        {% else %}
-                            Some remote OJ problems (such as {{ problem.vjudge_oj }}) require an active Virtual Judge session to load statements and grade submissions.
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-            <div class="vjudge-auth-notice-right">
-                {% if request.user.is_authenticated %}
-                    <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                        <span>{% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập / Kết nối VJudge{% else %}Connect VJudge{% endif %}</span>
-                    </a>
-                {% else %}
-                    <a href="{{ url('auth_login') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
-                        <span>{% if request.LANGUAGE_CODE == 'vi' or LANGUAGE_CODE == 'vi' %}Đăng nhập để kết nối{% else %}Log in to connect{% endif %}</span>
-                    </a>
-                {% endif %}
+    <div class="vjudge-auth-notice-banner" id="vjudge-auth-notice-banner" {% if vjudge_is_connected %}style="display: none !important;"{% endif %}>
+        <div class="vjudge-auth-notice-left">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+            </svg>
+            <div class="vjudge-auth-notice-text">
+                <span class="vjudge-auth-notice-title">
+                    Chưa kết nối tài khoản Virtual Judge (VJudge)
+                </span>
+                <span class="vjudge-auth-notice-sub">
+                    Tài khoản của bạn chưa kết nối hoặc phiên đăng nhập VJudge đã hết hạn, do đó đề bài có thể bị lỗi hiển thị và không thể nộp bài.
+                </span>
             </div>
         </div>
-    {% endif %}
-
+        <div class="vjudge-auth-notice-right">
+            {% if request.user.is_authenticated %}
+                <a href="{{ url('vjudge_connect') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                    </svg>
+                    <span>Kết nối VJudge ngay</span>
+                </a>
+            {% else %}
+                <a href="{{ url('auth_login') }}?next={{ request.path }}" class="vjudge-auth-action-btn">
+                    <span>Đăng nhập để kết nối</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
     <!-- Direct Rendered Statement Container -->
     <div class="vjudge-statement-container" id="vjudge-statement-container">
         <div id="vjudge-default-content-cache" style="display: none;">
@@ -890,6 +872,106 @@
         font-weight: 700 !important;
     }
 
+
+    /* VJudge Auth Notice Banner - Expo Warning Style */
+    .vjudge-auth-notice-banner {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        gap: 16px !important;
+        padding: 12px 18px !important;
+        margin-bottom: 20px !important;
+        border-radius: 8px !important;
+        background: rgba(245, 158, 11, 0.08) !important;
+        border: 1px solid rgba(245, 158, 11, 0.28) !important;
+        box-sizing: border-box !important;
+        flex-wrap: wrap !important;
+    }
+    html[data-theme="light"] .vjudge-auth-notice-banner,
+    html.theme-light .vjudge-auth-notice-banner {
+        background: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+    }
+    .vjudge-auth-notice-left {
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+        flex: 1 1 auto !important;
+        min-width: 260px !important;
+    }
+    .vjudge-auth-notice-left svg {
+        color: #f59e0b !important;
+        stroke: currentColor !important;
+        flex-shrink: 0 !important;
+    }
+    html[data-theme="light"] .vjudge-auth-notice-left svg,
+    html.theme-light .vjudge-auth-notice-left svg {
+        color: #b45309 !important;
+    }
+    .vjudge-auth-notice-text {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2px !important;
+    }
+    .vjudge-auth-notice-title {
+        font-family: "Inter", sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        color: #fbbf24 !important;
+    }
+    html[data-theme="light"] .vjudge-auth-notice-title,
+    html.theme-light .vjudge-auth-notice-title {
+        color: #92400e !important;
+    }
+    .vjudge-auth-notice-sub {
+        font-family: "Inter", sans-serif !important;
+        font-size: 12.5px !important;
+        color: #cbd5e1 !important;
+        line-height: 1.4 !important;
+    }
+    html[data-theme="light"] .vjudge-auth-notice-sub,
+    html.theme-light .vjudge-auth-notice-sub {
+        color: #78350f !important;
+    }
+    .vjudge-auth-notice-right {
+        flex-shrink: 0 !important;
+    }
+    .vjudge-auth-action-btn {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+        padding: 7px 14px !important;
+        border-radius: 6px !important;
+        background: #f59e0b !important;
+        color: #000000 !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        text-decoration: none !important;
+        transition: opacity 0.15s ease !important;
+        white-space: nowrap !important;
+    }
+    .vjudge-auth-action-btn:hover {
+        opacity: 0.9 !important;
+    }
+    html[data-theme="light"] .vjudge-auth-action-btn,
+    html.theme-light .vjudge-auth-action-btn {
+        background: #d97706 !important;
+        color: #ffffff !important;
+    }
+    .vjudge-account-chip.chip-disconnected {
+        background: rgba(239, 68, 68, 0.12) !important;
+        color: #f87171 !important;
+        border: 1px solid rgba(239, 68, 68, 0.28) !important;
+        font-family: "Inter", sans-serif !important;
+    }
+    html[data-theme="light"] .vjudge-account-chip.chip-disconnected,
+    html.theme-light .vjudge-account-chip.chip-disconnected {
+        background: #fef2f2 !important;
+        border: 1px solid #fecaca !important;
+        color: #991b1b !important;
+    }
 </style>
 
 <script>
@@ -1183,11 +1265,11 @@
                     if (data && data.connected) {
                         chip.className = 'vjudge-account-chip chip-connected';
                         label.innerText = data.username || 'VJudge Connected';
-                        if (banner) banner.style.display = 'none';
+                        if (banner) banner.style.setProperty('display', 'none', 'important');
                     } else {
                         chip.className = 'vjudge-account-chip chip-disconnected';
                         label.innerText = '{{ _("Chưa kết nối VJudge")|escapejs }}';
-                        if (banner) banner.style.display = 'flex';
+                        if (banner) banner.style.setProperty('display', 'flex', 'important');
                     }
                 }
             })

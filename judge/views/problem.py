@@ -242,6 +242,15 @@ class ProblemDetail(ProblemMixin, SolvedProblemMixin, CommentedDetailView):
 
             cookie = self.request.profile.vjudge_cookie if authed else None
             context['vjudge_has_cookie'] = bool(cookie)
+            vjudge_is_connected = False
+            if authed and cookie:
+                from django.core.cache import cache
+                import hashlib
+                cache_key = f"vj_status_{hashlib.md5(cookie.encode()).hexdigest()}"
+                cached = cache.get(cache_key)
+                if cached is not None and isinstance(cached, dict):
+                    vjudge_is_connected = cached.get('connected', False)
+            context['vjudge_is_connected'] = vjudge_is_connected
             data = get_vjudge_problem_data(self.object.vjudge_oj, self.object.vjudge_prob_num, cookie=cookie)
             statements = data.get('descBriefs', []) if data else []
             context['vjudge_statements'] = statements
