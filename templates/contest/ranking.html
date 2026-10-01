@@ -100,6 +100,7 @@ html.theme-light #content-left.users {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
 }
 
+/* 3. Header Tabs (.tabs) */
 .tabs,
 .tabs:hover {
     background: transparent !important;
@@ -110,15 +111,21 @@ html.theme-light #content-left.users {
     padding: 0 !important;
     margin-bottom: 24px !important;
     display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    justify-content: flex-start !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    flex-wrap: wrap !important;
+    gap: 12px 20px !important;
     position: relative !important;
     width: 100% !important;
     box-sizing: border-box !important;
     text-align: left !important;
 }
-
+.tabs:not(#mobile)::before {
+    width: 100% !important;
+    margin-bottom: -6px !important;
+    text-align: left !important;
+}
 .tabs h2 {
     font-family: "Inter", -apple-system, sans-serif !important;
     font-size: 26px !important;
@@ -127,13 +134,15 @@ html.theme-light #content-left.users {
     color: var(--expo-ink) !important;
     margin: 0 !important;
     text-align: left !important;
+    flex: 0 1 auto !important;
+    max-width: 100% !important;
+    line-height: 1.35 !important;
+    word-break: break-word !important;
 }
-
 .tabs ul {
-    position: absolute !important;
-    right: 0 !important;
-    bottom: 0 !important;
+    position: static !important;
     display: inline-flex !important;
+    flex-wrap: wrap !important;
     align-items: center !important;
     gap: 8px !important;
     list-style: none !important;
@@ -142,7 +151,6 @@ html.theme-light #content-left.users {
     background: transparent !important;
     border: none !important;
 }
-
 .tabs .tab > a,
 .tabs .tab > span {
     display: inline-flex !important;
