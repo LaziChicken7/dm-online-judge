@@ -3464,11 +3464,8 @@ html.theme-light .portfolio-user-pill {
         margin-bottom: 24px !important;
         box-shadow: none !important;
         display: flex !important;
-        flex-direction: row !important;
-        justify-content: space-between !important;
-        align-items: flex-end !important;
-        flex-wrap: wrap !important;
-        gap: 12px 20px !important;
+        flex-direction: column !important;
+        align-items: flex-start !important;
         position: relative !important;
         width: 100% !important;
         box-sizing: border-box !important;
@@ -3476,14 +3473,13 @@ html.theme-light .portfolio-user-pill {
     .tabs:not(#mobile)::before {
         content: "WORKSPACE" !important;
         display: block !important;
-        width: 100% !important;
         font-family: 'JetBrains Mono', monospace !important;
         font-size: 11px !important;
         font-weight: 600 !important;
         letter-spacing: 1.5px !important;
         color: #71717a !important;
         text-transform: uppercase !important;
-        margin: 0 0 -4px 0 !important;
+        margin: 0 0 6px 0 !important;
         line-height: 1 !important;
     }
     html[data-theme="light"] .tabs:not(#mobile)::before,
@@ -3497,17 +3493,15 @@ html.theme-light .portfolio-user-pill {
         letter-spacing: -0.6px !important;
         color: var(--expo-ink) !important;
         margin: 0 !important;
-        line-height: 1.35 !important;
+        line-height: 1.2 !important;
         border: none !important;
         padding: 0 !important;
-        flex: 0 1 auto !important;
-        max-width: 100% !important;
-        word-break: break-word !important;
     }
     .tabs ul {
-        position: static !important;
+        position: absolute !important;
+        right: 0 !important;
+        bottom: 0 !important;
         display: flex !important;
-        flex-wrap: wrap !important;
         align-items: center !important;
         gap: 6px !important;
         margin: 0 !important;

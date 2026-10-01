@@ -86,8 +86,8 @@ html body, html {
 }
 
 /* 3. Header Tabs (.tabs) */
-.tabs,
-.tabs:hover {
+body .tabs,
+body .tabs:hover {
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
@@ -106,12 +106,12 @@ html body, html {
     box-sizing: border-box !important;
     text-align: left !important;
 }
-.tabs:not(#mobile)::before {
+body .tabs:not(#mobile)::before {
     width: 100% !important;
     margin-bottom: -6px !important;
     text-align: left !important;
 }
-.tabs h2 {
+body .tabs h2 {
     font-family: "Inter", -apple-system, sans-serif !important;
     font-size: 26px !important;
     font-weight: 600 !important;
@@ -124,7 +124,7 @@ html body, html {
     line-height: 1.35 !important;
     word-break: break-word !important;
 }
-.tabs ul {
+body .tabs ul {
     position: static !important;
     display: inline-flex !important;
     flex-wrap: wrap !important;
@@ -132,6 +132,7 @@ html body, html {
     gap: 8px !important;
     list-style: none !important;
     margin: 0 !important;
+    margin-left: auto !important;
     padding: 0 !important;
     background: transparent !important;
     border: none !important;

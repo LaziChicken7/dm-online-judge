@@ -1,4 +1,5 @@
 {% extends "tabs-base.html" %}
+{% block tabs_class %} contest-tabs{% endblock %}
 
 {% block tabs %}
     {{ make_tab('detail', 'fa-info-circle', url('contest_view', contest.key), _('Info')) }}
