@@ -2678,15 +2678,29 @@ html.theme-light .portfolio-user-pill {
     }
 
     /* Tabs & Toolbar Header */
-    #new-comment .tab-martor-menu {
+    #new-comment .tab-martor-menu,
+    html[data-theme="light"] #new-comment .tab-martor-menu,
+    html.theme-light #new-comment .tab-martor-menu {
         background: transparent !important;
         border: none !important;
+        border-bottom: none !important;
+        border-bottom-width: 0 !important;
         box-shadow: none !important;
-        padding: 0 0 12px 0 !important;
+        padding: 0 0 10px 0 !important;
         display: flex !important;
         align-items: center !important;
         gap: 6px !important;
         min-height: auto !important;
+    }
+    #new-comment .tab-martor-menu a.item,
+    #new-comment .tab-martor-menu a.item.active,
+    #new-comment .ui.tabular.menu .item,
+    #new-comment .ui.tabular.menu .active.item {
+        border-radius: 8px !important;
+        border-top-left-radius: 8px !important;
+        border-top-right-radius: 8px !important;
+        border-bottom-left-radius: 8px !important;
+        border-bottom-right-radius: 8px !important;
     }
     #new-comment .tab-martor-menu a.item {
         color: #a1a1aa !important;

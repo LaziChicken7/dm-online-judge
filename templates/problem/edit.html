@@ -581,18 +581,37 @@
             color: #0f172a !important;
         }
         /* Martor Editor */
+
+        /* All 4 corners rounded for Martor tabs */
+        body .edit-card .tab-martor-menu a.item,
+        body .edit-card .tab-martor-menu a.item.active,
+        body .edit-card .ui.tabular.menu .item,
+        body .edit-card .ui.tabular.menu .active.item {
+            border-radius: 8px !important;
+            border-top-left-radius: 8px !important;
+            border-top-right-radius: 8px !important;
+            border-bottom-left-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+        }
+
         body .edit-card .tab-martor-menu,
         body .edit-card .tab-martor-menu.inverted,
         body .edit-card .ui.tabular.menu,
-        body .edit-card .ui.tabular.menu.inverted {
+        body .edit-card .ui.tabular.menu.inverted,
+        html[data-theme="light"] body .edit-card .tab-martor-menu,
+        html[data-theme="light"] body .edit-card .ui.tabular.menu,
+        html.theme-light body .edit-card .tab-martor-menu,
+        html.theme-light body .edit-card .ui.tabular.menu {
             border: none !important;
-            border-bottom: 1px solid var(--expo-hairline) !important;
+            border-bottom: none !important;
+            border-bottom-width: 0 !important;
             background: transparent !important;
             display: flex !important;
             align-items: center !important;
             gap: 6px !important;
             margin: 0 !important;
             padding: 0 0 10px 0 !important;
+            box-shadow: none !important;
         }
         body .edit-card .tab-martor-menu a.item,
         body .edit-card .ui.tabular.menu a.item {

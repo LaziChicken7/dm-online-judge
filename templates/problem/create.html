@@ -550,20 +550,22 @@
         /* 9. Martor Editor Clean Styling (Expo DESIGN.md - Monochromatic, High Contrast) */
         body .create-card .tab-martor-menu,
         body .create-card .tab-martor-menu.inverted,
-        body .create-card .ui.attached.inverted.menu {
-            border-bottom: 1px solid var(--expo-hairline) !important;
-            background: transparent !important;
-            margin-bottom: 14px !important;
-            padding-bottom: 0 !important;
-            box-shadow: none !important;
-        }
+        body .create-card .ui.attached.inverted.menu,
+        body .create-card .ui.tabular.menu,
         html[data-theme="light"] body .create-card .tab-martor-menu,
         html[data-theme="light"] body .create-card .tab-martor-menu.inverted,
         html[data-theme="light"] body .create-card .ui.attached.inverted.menu,
+        html[data-theme="light"] body .create-card .ui.tabular.menu,
         html.theme-light body .create-card .tab-martor-menu,
         html.theme-light body .create-card .tab-martor-menu.inverted,
-        html.theme-light body .create-card .ui.attached.inverted.menu {
-            border-bottom: 1px solid #dcdee0 !important;
+        html.theme-light body .create-card .ui.attached.inverted.menu,
+        html.theme-light body .create-card .ui.tabular.menu {
+            border: none !important;
+            border-bottom: none !important;
+            border-bottom-width: 0 !important;
+            background: transparent !important;
+            margin-bottom: 12px !important;
+            padding-bottom: 0 !important;
             box-shadow: none !important;
         }
 
@@ -573,7 +575,11 @@
             gap: 6px !important;
             height: 32px !important;
             padding: 0 14px !important;
-            border-radius: 6px !important;
+            border-radius: 8px !important;
+            border-top-left-radius: 8px !important;
+            border-top-right-radius: 8px !important;
+            border-bottom-left-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
             font-family: "Inter", sans-serif !important;
             font-size: 13px !important;
             font-weight: 500 !important;
@@ -582,6 +588,19 @@
             margin: 0 8px 0 0 !important;
             transition: all 0.15s ease !important;
             text-decoration: none !important;
+        }
+
+        
+        /* All 4 corners rounded for Martor tabs */
+        body .create-card .tab-martor-menu a.item,
+        body .create-card .tab-martor-menu a.item.active,
+        body .create-card .ui.tabular.menu .item,
+        body .create-card .ui.tabular.menu .active.item {
+            border-radius: 8px !important;
+            border-top-left-radius: 8px !important;
+            border-top-right-radius: 8px !important;
+            border-bottom-left-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
         }
 
         /* Dark Mode - Active Tab: Solid White pill with Black text & Black icon */
