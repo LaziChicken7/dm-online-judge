@@ -922,7 +922,7 @@
             background-image: none !important;
             color: #000000 !important;
             font-family: "Inter", -apple-system, sans-serif !important;
-            font-weight: 500 !important;
+            font-weight: 600 !important;
             font-size: 14px !important;
             border: none !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
@@ -930,10 +930,16 @@
             cursor: pointer !important;
             text-decoration: none !important;
         }
-        button.btn-create-cyber i,
-        button.btn-create-cyber svg {
-            stroke: currentColor !important;
-            color: inherit !important;
+        button.btn-create-cyber *,
+        .btn-create-cyber *,
+        button.btn-create-cyber span,
+        .btn-create-cyber span {
+            color: #000000 !important;
+        }
+        button.btn-create-cyber svg,
+        .btn-create-cyber svg {
+            stroke: #000000 !important;
+            color: #000000 !important;
         }
         button.btn-create-cyber:hover,
         .btn-create-cyber:hover {
@@ -959,6 +965,23 @@
         html.theme-light button.btn-create-cyber:hover,
         html.theme-light .btn-create-cyber:hover {
             background: #1a1a1a !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] button.btn-create-cyber *,
+        html[data-theme="light"] .btn-create-cyber *,
+        html[data-theme="light"] button.btn-create-cyber span,
+        html[data-theme="light"] .btn-create-cyber span,
+        html.theme-light button.btn-create-cyber *,
+        html.theme-light .btn-create-cyber *,
+        html.theme-light button.btn-create-cyber span,
+        html.theme-light .btn-create-cyber span {
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] button.btn-create-cyber svg,
+        html[data-theme="light"] .btn-create-cyber svg,
+        html.theme-light button.btn-create-cyber svg,
+        html.theme-light .btn-create-cyber svg {
+            stroke: #ffffff !important;
             color: #ffffff !important;
         }
     
@@ -1043,11 +1066,11 @@
                     </div>
                     <div class="form-control-col">
                         <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
-                        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-weight: 700; font-size: 14px;">
+                        <div class="org-selected-badge">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
                             <span>{{ selected_org.name }} (#{{ selected_org.id }})</span>
                         </div>
-                        <div class="form-help-text" style="color: #38bdf8; margin-top: 6px;">
+                        <div class="form-help-text" style="margin-top: 6px;">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                             <span>{{ _('Bài tập này sẽ được đánh dấu RIÊNG TƯ cho tổ chức. Chỉ người trong tổ chức mới có thể xem bài này.') }}</span>
                         </div>
@@ -1254,7 +1277,7 @@
                                     <span class="placeholder-text">Chọn thể loại bài tập (Mặc định: Simple Math)...</span>
                                 {% endif %}
                             </div>
-                            <svg class="dropdown-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <svg class="dropdown-arrow-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <polyline points="6 9 12 15 18 9"></polyline>
                             </svg>
                         </div>
