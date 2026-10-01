@@ -930,7 +930,7 @@
         }
 
         .v-file-wrap input[type="checkbox"] {
-            accent-color: #0284c7 !important;
+            
             vertical-align: middle !important;
         }
 
@@ -1075,7 +1075,7 @@
         }
 
         #column-visible input[type="checkbox"] {
-            accent-color: #0284c7 !important;
+            
             width: 15px !important;
             height: 15px !important;
             cursor: pointer !important;
@@ -1144,7 +1144,7 @@
         }
 
         #case-table input[type="checkbox"] {
-            accent-color: #0284c7 !important;
+            
             cursor: pointer !important;
         }
 
@@ -1820,11 +1820,11 @@
         }
 
         /* Custom Pure CSS Checkbox for data.html - Expo DESIGN.md */
-        input[type="checkbox"],
-        #column-visible input[type="checkbox"],
-        #case-table input[type="checkbox"],
-        .v-file-wrap input[type="checkbox"],
-        .polygon-dedicated-card input[type="checkbox"] {
+        body input[type="checkbox"],
+        body #column-visible input[type="checkbox"],
+        body #case-table input[type="checkbox"],
+        body .v-file-wrap input[type="checkbox"],
+        body .polygon-dedicated-card input[type="checkbox"] {
             -webkit-appearance: none !important;
             -moz-appearance: none !important;
             appearance: none !important;
@@ -1847,10 +1847,16 @@
             background: #18181b !important;
             border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
         }
-        input[type="checkbox"]:hover {
+        body input[type="checkbox"]:hover,
+        body #column-visible input[type="checkbox"]:hover,
+        body #case-table input[type="checkbox"]:hover {
             border-color: rgba(255, 255, 255, 0.45) !important;
         }
-        input[type="checkbox"]:checked {
+        body input[type="checkbox"]:checked,
+        body #column-visible input[type="checkbox"]:checked,
+        body #case-table input[type="checkbox"]:checked,
+        body .v-file-wrap input[type="checkbox"]:checked,
+        body .polygon-dedicated-card input[type="checkbox"]:checked {
             background: #ffffff !important;
             border-color: #ffffff !important;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
@@ -1858,17 +1864,37 @@
             background-position: center !important;
             background-repeat: no-repeat !important;
         }
-        html[data-theme="light"] input[type="checkbox"],
-        html.theme-light input[type="checkbox"] {
+        html[data-theme="light"] body input[type="checkbox"],
+        html[data-theme="light"] body #column-visible input[type="checkbox"],
+        html[data-theme="light"] body #case-table input[type="checkbox"],
+        html[data-theme="light"] body .v-file-wrap input[type="checkbox"],
+        html[data-theme="light"] body .polygon-dedicated-card input[type="checkbox"],
+        html.theme-light body input[type="checkbox"],
+        html.theme-light body #column-visible input[type="checkbox"],
+        html.theme-light body #case-table input[type="checkbox"],
+        html.theme-light body .v-file-wrap input[type="checkbox"],
+        html.theme-light body .polygon-dedicated-card input[type="checkbox"] {
             background: #ffffff !important;
             border: 1.5px solid #cbd5e1 !important;
         }
-        html[data-theme="light"] input[type="checkbox"]:hover,
-        html.theme-light input[type="checkbox"]:hover {
+        html[data-theme="light"] body input[type="checkbox"]:hover,
+        html[data-theme="light"] body #column-visible input[type="checkbox"]:hover,
+        html[data-theme="light"] body #case-table input[type="checkbox"]:hover,
+        html.theme-light body input[type="checkbox"]:hover,
+        html.theme-light body #column-visible input[type="checkbox"]:hover,
+        html.theme-light body #case-table input[type="checkbox"]:hover {
             border-color: #64748b !important;
         }
-        html[data-theme="light"] input[type="checkbox"]:checked,
-        html.theme-light input[type="checkbox"]:checked {
+        html[data-theme="light"] body input[type="checkbox"]:checked,
+        html[data-theme="light"] body #column-visible input[type="checkbox"]:checked,
+        html[data-theme="light"] body #case-table input[type="checkbox"]:checked,
+        html[data-theme="light"] body .v-file-wrap input[type="checkbox"]:checked,
+        html[data-theme="light"] body .polygon-dedicated-card input[type="checkbox"]:checked,
+        html.theme-light body input[type="checkbox"]:checked,
+        html.theme-light body #column-visible input[type="checkbox"]:checked,
+        html.theme-light body #case-table input[type="checkbox"]:checked,
+        html.theme-light body .v-file-wrap input[type="checkbox"]:checked,
+        html.theme-light body .polygon-dedicated-card input[type="checkbox"]:checked {
             background: #000000 !important;
             border-color: #000000 !important;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'%3E%3C/polyline%3E%3C/svg%3E") !important;
