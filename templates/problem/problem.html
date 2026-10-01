@@ -121,7 +121,78 @@
             transform: none !important;
         }
         {% endif %}
-    </style>
+    
+    /* Organization Private Problem Badge - Expo DESIGN.md */
+    .organization-tags {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        margin-left: 10px !important;
+        vertical-align: middle !important;
+    }
+    .organization-tag {
+        display: inline-flex !important;
+        align-items: center !important;
+        padding: 3px 8px !important;
+        border-radius: 6px !important; /* {rounded.sm} */
+        font-family: "Inter", sans-serif !important;
+        font-size: 12px !important;
+        font-weight: 500 !important;
+        transform: none !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        background: rgba(255, 255, 255, 0.08) !important;
+        border: 1px solid rgba(255, 255, 255, 0.14) !important;
+        color: #f4f4f5 !important;
+        transition: all 0.15s ease !important;
+    }
+    .organization-tag a {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 5px !important;
+        text-decoration: none !important;
+        color: #f4f4f5 !important;
+    }
+    .organization-tag a:hover {
+        color: #ffffff !important;
+    }
+    .organization-tag a svg {
+        width: 12px !important;
+        height: 12px !important;
+        stroke: #a1a1aa !important;
+        color: #a1a1aa !important;
+        flex-shrink: 0 !important;
+    }
+    .organization-tag a:hover svg {
+        stroke: #ffffff !important;
+        color: #ffffff !important;
+    }
+    html[data-theme="light"] .organization-tag,
+    html.theme-light .organization-tag {
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04) !important;
+    }
+    html[data-theme="light"] .organization-tag a,
+    html.theme-light .organization-tag a {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] .organization-tag a:hover,
+    html.theme-light .organization-tag a:hover {
+        color: #000000 !important;
+    }
+    html[data-theme="light"] .organization-tag a svg,
+    html.theme-light .organization-tag a svg {
+        stroke: #475569 !important;
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .organization-tag a:hover svg,
+    html.theme-light .organization-tag a:hover svg {
+        stroke: #0f172a !important;
+        color: #0f172a !important;
+    }
+</style>
 {% endblock %}
 
 {% block content_js_media %}
@@ -195,7 +266,7 @@
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline><path d="M2 12h2"></path></svg> <span>{{ _('All submissions') }}</span>
             </a>
             <a href="{{ url('ranked_submissions', problem.code) }}" class="header-action-btn">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg> <span>{{ _('Best submissions') }}</span>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M6 22h12"></path><path d="M12 17v5"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg> <span>{{ _('Best submissions') }}</span>
             </a>
             <a href="{{ url('problem_submit', problem.code) }}" class="header-submit-btn">
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg> <span>{{ _('Submit solution') }}</span>
@@ -222,7 +293,7 @@
             <span>{{ _('All submissions') }}</span>
         </a>
         <a href="{{ url('ranked_submissions', problem.code) }}" class="sidebar-scroll-action-btn">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M4 22h16"></path><path d="M10 14.66V17c0 .55-.45 1-1 1H7c-.55 0-1-.45-1-1v-2.34"></path><path d="M18 14.66V17c0 .55-.45 1-1 1h-2c-.55 0-1-.45-1-1v-2.34"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path><path d="M6 22h12"></path><path d="M12 17v5"></path><path d="M6 4h12v7a6 6 0 0 1-12 0V4z"></path></svg>
             <span>{{ _('Best submissions') }}</span>
         </a>
     </div>
