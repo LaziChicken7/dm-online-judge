@@ -1331,7 +1331,494 @@
             transform: none !important;
         }
 
-    </style>
+    
+        /* =========================================================
+           EXPO DESIGN SYSTEM - TEST DATA & AUTO-FILL NOTIFICATION
+           ========================================================= */
+        /* 1. Alert Banner */
+        .auto-fill-alert {
+            display: none !important;
+            background: rgba(245, 158, 11, 0.08) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            border-radius: 10px !important;
+            padding: 14px 18px !important;
+            margin: 18px 0 !important;
+            color: #f4f4f5 !important;
+            align-items: flex-start !important;
+            justify-content: space-between !important;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25) !important;
+            box-sizing: border-box !important;
+        }
+        .auto-fill-alert.is-visible {
+            display: flex !important;
+        }
+        .alert-content {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 5px !important;
+            flex: 1 1 auto !important;
+        }
+        .alert-title {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
+            color: #fbbf24 !important;
+            margin-bottom: 2px !important;
+        }
+        .alert-title svg {
+            color: #f59e0b !important;
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+        }
+        .alert-p1, .alert-p2 {
+            margin: 0 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            color: #d4d4d8 !important;
+            line-height: 1.5 !important;
+        }
+        .alert-p1 strong, .alert-p2 strong {
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+        .alert-close {
+            color: #a1a1aa !important;
+            font-size: 20px !important;
+            text-decoration: none !important;
+            opacity: 0.8 !important;
+            padding: 0 6px !important;
+            line-height: 1 !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+        }
+        .alert-close:hover {
+            color: #ffffff !important;
+            opacity: 1 !important;
+        }
+        html[data-theme="light"] .auto-fill-alert,
+        html.theme-light .auto-fill-alert {
+            background: #fffbeb !important;
+            border: 1px solid #fde68a !important;
+            box-shadow: 0 4px 14px rgba(245, 158, 11, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        html[data-theme="light"] .alert-title,
+        html.theme-light .alert-title {
+            color: #92400e !important;
+        }
+        html[data-theme="light"] .alert-title svg,
+        html.theme-light .alert-title svg {
+            color: #d97706 !important;
+        }
+        html[data-theme="light"] .alert-p1,
+        html[data-theme="light"] .alert-p2,
+        html.theme-light .alert-p1,
+        html.theme-light .alert-p2 {
+            color: #78350f !important;
+        }
+        html[data-theme="light"] .alert-p1 strong,
+        html[data-theme="light"] .alert-p2 strong,
+        html.theme-light .alert-p1 strong,
+        html.theme-light .alert-p2 strong {
+            color: #451a03 !important;
+        }
+        html[data-theme="light"] .alert-close,
+        html.theme-light .alert-close {
+            color: #b45309 !important;
+        }
+        html[data-theme="light"] .alert-close:hover,
+        html.theme-light .alert-close:hover {
+            color: #78350f !important;
+        }
+
+        /* 2. Top Vertical Data Table */
+        .vertical-data-table {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+        }
+        .vertical-data-table th.v-label-col {
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+            border-right: 1px solid var(--expo-hairline) !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+        }
+        .vertical-data-table td.v-control-col {
+            background: transparent !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+        }
+        .vertical-data-table select,
+        .vertical-data-table input[type="text"],
+        .vertical-data-table input[type="number"] {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            color: var(--expo-ink) !important;
+            outline: none !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            padding: 8px 12px !important;
+        }
+        .v-control-desc {
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+        }
+        .v-zip-btn {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: none !important;
+            border-radius: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 600 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            height: 38px !important;
+            padding: 0 20px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            cursor: pointer !important;
+        }
+        .v-zip-btn,
+        .v-zip-btn * {
+            color: #000000 !important;
+        }
+        html[data-theme="light"] .vertical-data-table,
+        html.theme-light .vertical-data-table {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        html[data-theme="light"] .vertical-data-table th.v-label-col,
+        html.theme-light .vertical-data-table th.v-label-col {
+            background: #f8fafc !important;
+            color: #0f172a !important;
+            border-right: 1px solid #e2e8f0 !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .vertical-data-table td.v-control-col,
+        html.theme-light .vertical-data-table td.v-control-col {
+            background: #ffffff !important;
+            border-bottom: 1px solid #f0f0f3 !important;
+        }
+        html[data-theme="light"] .vertical-data-table select,
+        html[data-theme="light"] .vertical-data-table input[type="text"],
+        html[data-theme="light"] .vertical-data-table input[type="number"],
+        html.theme-light .vertical-data-table select,
+        html.theme-light .vertical-data-table input[type="text"],
+        html.theme-light .vertical-data-table input[type="number"] {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .v-control-desc,
+        html.theme-light .v-control-desc {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .v-zip-btn,
+        html.theme-light .v-zip-btn {
+            background: #000000 !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+        html[data-theme="light"] .v-zip-btn *,
+        html.theme-light .v-zip-btn * {
+            color: #ffffff !important;
+        }
+
+        /* 3. Polygon Generator Button & Card */
+        .polygon-dedicated-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            margin-bottom: 24px !important;
+            overflow: hidden !important;
+            box-shadow: var(--expo-card-shadow) !important;
+        }
+        html[data-theme="light"] .polygon-dedicated-card,
+        html.theme-light .polygon-dedicated-card {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        .polygon-card-header {
+            background: rgba(255, 255, 255, 0.02) !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            padding: 14px 22px !important;
+        }
+        html[data-theme="light"] .polygon-card-header,
+        html.theme-light .polygon-card-header {
+            background: #f8fafc !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+        .polygon-card-header h3 {
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .polygon-card-header h3,
+        html.theme-light .polygon-card-header h3 {
+            color: #0f172a !important;
+        }
+        .polygon-card-badge {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: var(--expo-ink) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            padding: 3px 10px !important;
+            border-radius: 6px !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .polygon-card-badge,
+        html.theme-light .polygon-card-badge {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        .polygon-section-label {
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .polygon-section-label,
+        html.theme-light .polygon-section-label {
+            color: #0f172a !important;
+        }
+        .poly-step-num {
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-weight: 700 !important;
+        }
+        html[data-theme="light"] .poly-step-num,
+        html.theme-light .poly-step-num {
+            background: #000000 !important;
+            color: #ffffff !important;
+        }
+        .poly-file-btn {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            border-radius: 6px !important;
+        }
+        html[data-theme="light"] .poly-file-btn,
+        html.theme-light .poly-file-btn {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        .poly-file-btn:hover {
+            background: #27272a !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .poly-file-btn:hover,
+        html.theme-light .poly-file-btn:hover {
+            background: #e2e8f0 !important;
+            border-color: #94a3b8 !important;
+            color: #0f172a !important;
+        }
+        .poly-input-control {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            border-radius: 6px !important;
+        }
+        html[data-theme="light"] .poly-input-control,
+        html.theme-light .poly-input-control {
+            background: #f8fafc !important;
+            border-color: #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        .poly-code-textarea {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            border-radius: 6px !important;
+        }
+        html[data-theme="light"] .poly-code-textarea,
+        html.theme-light .poly-code-textarea {
+            background: #f8fafc !important;
+            border-color: #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        .polygon-run-btn-main {
+            background: #ffffff !important;
+            color: #000000 !important;
+            height: 38px !important;
+            padding: 0 20px !important;
+            border-radius: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            transition: all 0.15s ease !important;
+        }
+        .polygon-run-btn-main,
+        .polygon-run-btn-main * {
+            color: #000000 !important;
+        }
+        html[data-theme="light"] .polygon-run-btn-main,
+        html.theme-light .polygon-run-btn-main {
+            background: #000000 !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+        html[data-theme="light"] .polygon-run-btn-main *,
+        html.theme-light .polygon-run-btn-main * {
+            color: #ffffff !important;
+        }
+
+        /* 4. Show Columns Toolbar */
+        #column-visible {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 8px !important;
+            padding: 12px 18px !important;
+            margin: 18px 0 !important;
+        }
+        html[data-theme="light"] #column-visible,
+        html.theme-light #column-visible {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+        }
+        #column-visible strong {
+            color: var(--expo-muted) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+        }
+        html[data-theme="light"] #column-visible strong,
+        html.theme-light #column-visible strong {
+            color: #64748b !important;
+        }
+        #column-visible label {
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+        }
+        html[data-theme="light"] #column-visible label,
+        html.theme-light #column-visible label {
+            color: #0f172a !important;
+        }
+
+        /* 5. Case Table */
+        #case-table {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 10px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+        }
+        html[data-theme="light"] #case-table,
+        html.theme-light #case-table {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        #case-table thead th {
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-muted) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            padding: 10px 14px !important;
+        }
+        html[data-theme="light"] #case-table thead th,
+        html.theme-light #case-table thead th {
+            background: #f1f5f9 !important;
+            color: #475569 !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+        #case-table tbody td {
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] #case-table tbody td,
+        html.theme-light #case-table tbody td {
+            border-bottom-color: #f0f0f3 !important;
+            color: #0f172a !important;
+        }
+        #case-table select,
+        #case-table input[type="text"],
+        #case-table input[type="number"] {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 6px !important;
+            color: var(--expo-ink) !important;
+            outline: none !important;
+        }
+        html[data-theme="light"] #case-table select,
+        html[data-theme="light"] #case-table input[type="text"],
+        html[data-theme="light"] #case-table input[type="number"],
+        html.theme-light #case-table select,
+        html.theme-light #case-table input[type="text"],
+        html.theme-light #case-table input[type="number"] {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+        }
+
+        /* 6. Bottom Buttons */
+        .submit-pill-btn {
+            height: 40px !important;
+            padding: 0 24px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            border: none !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+        }
+        .submit-pill-btn,
+        .submit-pill-btn *,
+        input[type="submit"].submit-pill-btn {
+            color: #000000 !important;
+        }
+        html[data-theme="light"] .submit-pill-btn,
+        html[data-theme="light"] .submit-pill-btn *,
+        html[data-theme="light"] input[type="submit"].submit-pill-btn,
+        html.theme-light .submit-pill-btn,
+        html.theme-light .submit-pill-btn *,
+        html.theme-light input[type="submit"].submit-pill-btn {
+            background: #000000 !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+        .add-case-pill-btn {
+            height: 40px !important;
+            padding: 0 18px !important;
+            border-radius: 8px !important;
+            background: transparent !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-body) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        html[data-theme="light"] .add-case-pill-btn,
+        html.theme-light .add-case-pill-btn {
+            border: 1px solid #dcdee0 !important;
+            color: #60646c !important;
+        }
+</style>
 {% endblock %}
 
 {% block title_ruler %}{% endblock %}
