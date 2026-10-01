@@ -1557,11 +1557,29 @@
             background: #f8fafc !important;
             border-bottom: 1px solid #e2e8f0 !important;
         }
+                .polygon-card-header svg {
+            color: var(--expo-ink) !important;
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .polygon-card-header svg,
+        html.theme-light .polygon-card-header svg {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+        }
         .polygon-card-header h3 {
             color: var(--expo-ink) !important;
         }
         html[data-theme="light"] .polygon-card-header h3,
-        html.theme-light .polygon-card-header h3 {
+        html.theme-light         .polygon-card-header svg {
+            color: var(--expo-ink) !important;
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .polygon-card-header svg,
+        html.theme-light .polygon-card-header svg {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+        }
+        .polygon-card-header h3 {
             color: #0f172a !important;
         }
         .polygon-card-badge {
@@ -1928,14 +1946,38 @@
             background: rgba(255, 255, 255, 0.08) !important;
             border-color: rgba(255, 255, 255, 0.35) !important;
         }
-        html[data-theme="light"] .add-case-pill-btn,
+        .add-case-pill-btn *,
+        .add-case-pill-btn span,
+        .add-case-pill-btn svg,
         html[data-theme="light"] .add-case-pill-btn *,
-        html.theme-light .add-case-pill-btn,
-        html.theme-light .add-case-pill-btn * {
+        html[data-theme="light"] .add-case-pill-btn span,
+        html[data-theme="light"] .add-case-pill-btn svg,
+        html.theme-light .add-case-pill-btn *,
+        html.theme-light .add-case-pill-btn span,
+        html.theme-light .add-case-pill-btn svg {
+            border: none !important;
+            border-width: 0 !important;
+            box-shadow: none !important;
+            background: transparent !important;
+            outline: none !important;
+        }
+        html[data-theme="light"] .add-case-pill-btn,
+        html.theme-light .add-case-pill-btn {
             background: #ffffff !important;
             border: 1px solid #dcdee0 !important;
             color: #0f172a !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        html[data-theme="light"] .add-case-pill-btn *,
+        html[data-theme="light"] .add-case-pill-btn span,
+        html.theme-light .add-case-pill-btn *,
+        html.theme-light .add-case-pill-btn span {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .add-case-pill-btn svg,
+        html.theme-light .add-case-pill-btn svg {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
         }
         html[data-theme="light"] .add-case-pill-btn:hover,
         html.theme-light .add-case-pill-btn:hover {
