@@ -438,9 +438,18 @@
             outline: none !important;
             transition: all 0.15s ease !important;
         }
+        .import-input:hover {
+            border-color: rgba(255, 255, 255, 0.35) !important;
+            box-shadow: none !important;
+        }
         .import-input:focus {
             border-color: rgba(255, 255, 255, 0.4) !important;
             box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+        }
+        html[data-theme="light"] .import-input:hover,
+        html.theme-light .import-input:hover {
+            border-color: #94a3b8 !important;
+            box-shadow: none !important;
         }
         html[data-theme="light"] .import-input,
         html.theme-light .import-input {

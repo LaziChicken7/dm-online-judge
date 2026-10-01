@@ -738,6 +738,41 @@
             padding-right: 20px !important;
         }
 
+
+    /* Clean Expo Input Hover: Eliminate legacy blue glow & borders */
+    input[type="text"]:hover,
+    input[type="number"]:hover,
+    input[type="password"]:hover,
+    input[type="email"]:hover,
+    input[type="search"]:hover,
+    textarea:hover,
+    select:hover,
+    .import-input:hover,
+    .form-input-cyber:hover {
+        border-color: rgba(255, 255, 255, 0.35) !important;
+        box-shadow: none !important;
+    }
+    html[data-theme="light"] input[type="text"]:hover,
+    html[data-theme="light"] input[type="number"]:hover,
+    html[data-theme="light"] input[type="password"]:hover,
+    html[data-theme="light"] input[type="email"]:hover,
+    html[data-theme="light"] input[type="search"]:hover,
+    html[data-theme="light"] textarea:hover,
+    html[data-theme="light"] select:hover,
+    html[data-theme="light"] .import-input:hover,
+    html[data-theme="light"] .form-input-cyber:hover,
+    html.theme-light input[type="text"]:hover,
+    html.theme-light input[type="number"]:hover,
+    html.theme-light input[type="password"]:hover,
+    html.theme-light input[type="email"]:hover,
+    html.theme-light input[type="search"]:hover,
+    html.theme-light textarea:hover,
+    html.theme-light select:hover,
+    html.theme-light .import-input:hover,
+    html.theme-light .form-input-cyber:hover {
+        border-color: #94a3b8 !important;
+        box-shadow: none !important;
+    }
 </style>
     {% endif %}
     {% block media %}{% endblock %}
