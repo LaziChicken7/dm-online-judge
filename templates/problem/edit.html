@@ -853,7 +853,92 @@
             border-color: #fca5a5 !important;
             color: #7f1d1d !important;
         }
-    </style>
+    
+        /* High-specificity override to remove the 10px black resize bar in BOTH Dark and Light modes */
+        body .edit-card .section-martor .resizable .resizable-b,
+        body .edit-card .resizable .resizable-b,
+        body .edit-card .resizable-b,
+        body .edit-card .resizable-handle,
+        body .edit-card .ui-resizable-handle,
+        body .edit-card .ui-resizable-s,
+        body .edit-card .ui-resizable-b,
+        body .create-card .section-martor .resizable .resizable-b,
+        body .create-card .resizable .resizable-b,
+        body .create-card .resizable-b,
+        body .create-card .resizable-handle,
+        body .create-card .ui-resizable-handle,
+        body .create-card .ui-resizable-s,
+        body .create-card .ui-resizable-b,
+        .resizable-b,
+        .resizable-handle.resizable-b,
+        html[data-theme="light"] body .edit-card .section-martor .resizable .resizable-b,
+        html[data-theme="light"] body .edit-card .resizable .resizable-b,
+        html[data-theme="light"] body .edit-card .resizable-b,
+        html[data-theme="light"] body .edit-card .resizable-handle,
+        html[data-theme="light"] .resizable-b,
+        html[data-theme="light"] .resizable-handle.resizable-b,
+        html.theme-light body .edit-card .section-martor .resizable .resizable-b,
+        html.theme-light body .edit-card .resizable .resizable-b,
+        html.theme-light body .edit-card .resizable-b,
+        html.theme-light body .edit-card .resizable-handle,
+        html.theme-light .resizable-b,
+        html.theme-light .resizable-handle.resizable-b {
+            background: transparent !important;
+            border: none !important;
+            height: 6px !important;
+        }
+
+        /* Light Mode - High Contrast Ace Syntax Highlighting */
+        html[data-theme="light"] .ace_editor,
+        html[data-theme="light"] .ace_editor *,
+        html.theme-light .ace_editor,
+        html.theme-light .ace_editor * {
+            text-shadow: none !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_text,
+        html[data-theme="light"] .ace_editor .ace_xml,
+        html[data-theme="light"] .ace_editor .ace_content,
+        html.theme-light .ace_editor .ace_text,
+        html.theme-light .ace_editor .ace_xml,
+        html.theme-light .ace_editor .ace_content {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_heading,
+        html[data-theme="light"] .ace_editor .ace_markup.ace_heading,
+        html.theme-light .ace_editor .ace_heading,
+        html.theme-light .ace_editor .ace_markup.ace_heading {
+            color: #b91c1c !important;
+            font-weight: 700 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_string,
+        html[data-theme="light"] .ace_editor .ace_string.ace_strong,
+        html.theme-light .ace_editor .ace_string,
+        html.theme-light .ace_editor .ace_string.ace_strong {
+            color: #15803d !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_list,
+        html[data-theme="light"] .ace_editor .ace_markup.ace_list,
+        html.theme-light .ace_editor .ace_list,
+        html.theme-light .ace_editor .ace_markup.ace_list {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_emphasis,
+        html[data-theme="light"] .ace_editor .ace_string.ace_emphasis,
+        html.theme-light .ace_editor .ace_emphasis,
+        html.theme-light .ace_editor .ace_string.ace_emphasis {
+            color: #4338ca !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_comment,
+        html.theme-light .ace_editor .ace_comment {
+            color: #64748b !important;
+            font-style: italic !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_cursor,
+        html.theme-light .ace_editor .ace_cursor {
+            border-left: 2px solid #000000 !important;
+        }
+</style>
 {% endblock %}
 
 {% block body %}
@@ -1354,6 +1439,31 @@
         }
 
         $(document).ready(function() {
+        function syncMartorTheme() {
+            var isLight = document.documentElement.getAttribute('data-theme') === 'light' || document.documentElement.classList.contains('theme-light');
+            document.body.setAttribute('data-theme', isLight ? 'light' : 'dark');
+            if (window.ace) {
+                $('.main-martor').each(function() {
+                    var editorId = 'martor-' + $(this).data('field-name');
+                    try {
+                        var ed = ace.edit(editorId);
+                        if (ed) {
+                            if (isLight) {
+                                ed.setTheme('ace/theme/github');
+                                $(this).find('.ui').removeClass('inverted');
+                            } else {
+                                ed.setTheme('ace/theme/twilight');
+                                $(this).find('.ui').addClass('inverted');
+                            }
+                        }
+                    } catch(e) {}
+                });
+            }
+        }
+        syncMartorTheme();
+        setTimeout(syncMartorTheme, 150);
+        setTimeout(syncMartorTheme, 500);
+
             if (typeof $.fn.martor !== 'undefined') {
                 $('.main-martor').martor();
             }
