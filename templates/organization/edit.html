@@ -384,109 +384,250 @@
             color: #0f172a !important;
         }
 
-        /* 8. Martor Editor Clean Expo Styling */
-        .edit-org-card .tab-martor-menu a.item {
-            color: var(--expo-muted) !important;
-            background: var(--expo-surface-strong) !important;
+        /* 8. Martor Editor Clean Expo Styling (Matching problem/edit) */
+        body .edit-org-card .tab-martor-menu,
+        body .edit-org-card .tab-martor-menu.inverted,
+        body .edit-org-card .ui.tabular.menu,
+        body .edit-org-card .ui.tabular.menu.inverted,
+        html[data-theme="light"] body .edit-org-card .tab-martor-menu,
+        html[data-theme="light"] body .edit-org-card .ui.tabular.menu,
+        html.theme-light body .edit-org-card .tab-martor-menu,
+        html.theme-light body .edit-org-card .ui.tabular.menu {
+            border: none !important;
+            border-bottom: none !important;
+            border-bottom-width: 0 !important;
+            box-shadow: none !important;
+            padding-bottom: 8px !important;
+            margin-bottom: 12px !important;
+            background: transparent !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+
+        /* All 4 corners rounded for Martor tabs */
+        body .edit-org-card .tab-martor-menu a.item,
+        body .edit-org-card .tab-martor-menu a.item.active,
+        body .edit-org-card .ui.tabular.menu .item,
+        body .edit-org-card .ui.tabular.menu .active.item {
+            border-radius: 8px !important;
+            border-top-left-radius: 8px !important;
+            border-top-right-radius: 8px !important;
+            border-bottom-left-radius: 8px !important;
+            border-bottom-right-radius: 8px !important;
+            height: 34px !important;
+            padding: 0 14px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 13px !important;
             font-weight: 500 !important;
-            border: 1px solid var(--expo-hairline) !important;
-            border-radius: 6px !important;
-            padding: 6px 14px !important;
-            margin: 0 8px 0 0 !important;
+            margin: 0 !important;
             transition: all 0.15s ease !important;
         }
-        .edit-org-card .tab-martor-menu a.item.active {
-            color: #000000 !important;
+
+        /* Active Tab - Dark Mode */
+        html:not([data-theme="light"]):not(.theme-light) body .edit-org-card .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .edit-org-card .tab-martor-menu a.item.active,
+        html.theme-dark body .edit-org-card .tab-martor-menu a.item.active {
             background: #ffffff !important;
-            font-weight: 600 !important;
-            border: 1px solid transparent !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
         }
-        html[data-theme="light"] .edit-org-card .tab-martor-menu a.item,
-        html.theme-light .edit-org-card .tab-martor-menu a.item {
-            color: #64748b !important;
-            background: #f1f5f9 !important;
-            border: 1px solid #e2e8f0 !important;
+        html:not([data-theme="light"]):not(.theme-light) body .edit-org-card .tab-martor-menu a.item.active *,
+        html[data-theme="dark"] body .edit-org-card .tab-martor-menu a.item.active *,
+        html.theme-dark body .edit-org-card .tab-martor-menu a.item.active * {
+            color: #000000 !important;
+            stroke: #000000 !important;
         }
-        html[data-theme="light"] .edit-org-card .tab-martor-menu a.item.active,
-        html.theme-light .edit-org-card .tab-martor-menu a.item.active {
-            color: #ffffff !important;
+
+        /* Active Tab - Light Mode */
+        html[data-theme="light"] body .edit-org-card .tab-martor-menu a.item.active,
+        html.theme-light body .edit-org-card .tab-martor-menu a.item.active {
             background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
         }
-        .edit-org-card .martor-toolbar a,
-        .edit-org-card .martor-toolbar button,
-        .edit-org-card .martor-toolbar i,
-        .edit-org-card .martor-toolbar .button {
+        html[data-theme="light"] body .edit-org-card .tab-martor-menu a.item.active *,
+        html.theme-light body .edit-org-card .tab-martor-menu a.item.active * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        /* Inactive Tab - Dark Mode */
+        body .edit-org-card .tab-martor-menu a.item:not(.active) {
+            background: var(--expo-surface-card) !important;
             color: var(--expo-muted) !important;
-            background: transparent !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+        }
+
+        /* Inactive Tab - Light Mode */
+        html[data-theme="light"] body .edit-org-card .tab-martor-menu a.item:not(.active),
+        html.theme-light body .edit-org-card .tab-martor-menu a.item:not(.active) {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #64748b !important;
+        }
+        html[data-theme="light"] body .edit-org-card .tab-martor-menu a.item:not(.active) *,
+        html.theme-light body .edit-org-card .tab-martor-menu a.item:not(.active) * {
+            color: #64748b !important;
+            stroke: #64748b !important;
+        }
+
+        /* Martor Toolbar */
+        body .edit-org-card .martor-toolbar a,
+        body .edit-org-card .martor-toolbar button,
+        body .edit-org-card .martor-toolbar i,
+        body .edit-org-card .martor-toolbar .button,
+        body .edit-org-card .martor-toolbar svg {
+            color: var(--expo-muted) !important;
+            stroke: var(--expo-muted) !important;
+            fill: none !important;
             border: none !important;
+            background: transparent !important;
             border-radius: 6px !important;
             font-size: 13px !important;
             padding: 5px 7px !important;
         }
-        .edit-org-card .martor-toolbar a:hover,
-        .edit-org-card .martor-toolbar button:hover,
-        .edit-org-card .martor-toolbar i:hover {
+        body .edit-org-card .martor-toolbar a:hover,
+        body .edit-org-card .martor-toolbar button:hover,
+        body .edit-org-card .martor-toolbar i:hover {
             color: var(--expo-ink) !important;
             background: #27272a !important;
         }
-        html[data-theme="light"] .edit-org-card .martor-toolbar a,
-        html.theme-light .edit-org-card .martor-toolbar a {
-            color: #64748b !important;
+        html[data-theme="light"] body .edit-org-card .martor-toolbar,
+        html[data-theme="light"] body .edit-org-card .martor-toolbar *,
+        html.theme-light body .edit-org-card .martor-toolbar,
+        html.theme-light body .edit-org-card .martor-toolbar * {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+            fill: none !important;
+            background: transparent !important;
         }
-        html[data-theme="light"] .edit-org-card .martor-toolbar a:hover,
-        html.theme-light .edit-org-card .martor-toolbar a:hover {
+        html[data-theme="light"] body .edit-org-card .martor-toolbar a:hover,
+        html.theme-light body .edit-org-card .martor-toolbar a:hover {
             color: #0f172a !important;
             background: #e2e8f0 !important;
         }
-        .edit-org-card .ui.segment.tab,
-        .edit-org-card .tab.segment[data-tab^="editor-tab-"],
-        .edit-org-card .martor-field {
+
+        /* Editor frames & resizable bar removal */
+        body .edit-org-card .ui.segment.tab,
+        body .edit-org-card .tab.segment[data-tab^="editor-tab-"],
+        body .edit-org-card .martor-field {
             background: #09090b !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 8px !important;
             overflow: hidden !important;
         }
-        .edit-org-card .ace_editor {
+        body .edit-org-card .ace_editor {
             background: #09090b !important;
             color: #f4f4f5 !important;
             font-family: 'JetBrains Mono', Consolas, monospace !important;
         }
-        .edit-org-card .ace_gutter {
+        body .edit-org-card .ace_gutter {
             background: #09090b !important;
             color: #475569 !important;
             border-right: 1px solid var(--expo-hairline) !important;
         }
-        .edit-org-card .tab.segment.martor-preview {
+        body .edit-org-card .tab.segment.martor-preview {
             background: #09090b !important;
             color: #f4f4f5 !important;
             border: 1px solid var(--expo-hairline) !important;
             border-radius: 8px !important;
             padding: 20px 24px !important;
         }
-        html[data-theme="light"] .edit-org-card .ui.segment.tab,
-        html.theme-light .edit-org-card .ui.segment.tab,
-        html[data-theme="light"] .edit-org-card .martor-field,
-        html.theme-light .edit-org-card .martor-field {
+        html[data-theme="light"] body .edit-org-card .ui.segment.tab,
+        html.theme-light body .edit-org-card .ui.segment.tab,
+        html[data-theme="light"] body .edit-org-card .martor-field,
+        html.theme-light body .edit-org-card .martor-field {
             background: #ffffff !important;
-            border: 1px solid #e2e8f0 !important;
+            border: 1px solid #dcdee0 !important;
+            border-radius: 8px !important;
         }
-        html[data-theme="light"] .edit-org-card .ace_editor,
-        html.theme-light .edit-org-card .ace_editor {
+        html[data-theme="light"] body .edit-org-card .ace_editor,
+        html.theme-light body .edit-org-card .ace_editor {
             background: #ffffff !important;
             color: #0f172a !important;
         }
-        html[data-theme="light"] .edit-org-card .ace_gutter,
-        html.theme-light .edit-org-card .ace_gutter {
+        html[data-theme="light"] body .edit-org-card .ace_gutter,
+        html.theme-light body .edit-org-card .ace_gutter {
             background: #f8fafc !important;
             color: #94a3b8 !important;
-            border-right: 1px solid #e2e8f0 !important;
+            border-right: 1px solid #dcdee0 !important;
         }
-        html[data-theme="light"] .edit-org-card .tab.segment.martor-preview,
-        html.theme-light .edit-org-card .tab.segment.martor-preview {
+        html[data-theme="light"] body .edit-org-card .tab.segment.martor-preview,
+        html.theme-light body .edit-org-card .tab.segment.martor-preview {
             background: #ffffff !important;
             color: #0f172a !important;
-            border: 1px solid #e2e8f0 !important;
+            border: 1px solid #dcdee0 !important;
+        }
+
+        /* Remove 10px black resize bar */
+        body .edit-org-card .resizable-b,
+        body .edit-org-card .resizable-handle,
+        body .edit-org-card .ui-resizable-handle,
+        body .edit-org-card .ui-resizable-s,
+        body .edit-org-card .ui-resizable-b,
+        html[data-theme="light"] body .edit-org-card .resizable-b,
+        html[data-theme="light"] body .edit-org-card .resizable-handle,
+        html.theme-light body .edit-org-card .resizable-b,
+        html.theme-light body .edit-org-card .resizable-handle {
+            background: transparent !important;
+            border: none !important;
+            height: 6px !important;
+        }
+
+        /* Light Mode - High Contrast Ace Syntax Highlighting */
+        html[data-theme="light"] .ace_editor,
+        html[data-theme="light"] .ace_editor *,
+        html.theme-light .ace_editor,
+        html.theme-light .ace_editor * {
+            text-shadow: none !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_text,
+        html[data-theme="light"] .ace_editor .ace_xml,
+        html[data-theme="light"] .ace_editor .ace_content,
+        html.theme-light .ace_editor .ace_text,
+        html.theme-light .ace_editor .ace_xml,
+        html.theme-light .ace_editor .ace_content {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_heading,
+        html[data-theme="light"] .ace_editor .ace_markup.ace_heading,
+        html.theme-light .ace_editor .ace_heading,
+        html.theme-light .ace_editor .ace_markup.ace_heading {
+            color: #b91c1c !important;
+            font-weight: 700 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_string,
+        html[data-theme="light"] .ace_editor .ace_string.ace_strong,
+        html.theme-light .ace_editor .ace_string,
+        html.theme-light .ace_editor .ace_string.ace_strong {
+            color: #15803d !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_list,
+        html[data-theme="light"] .ace_editor .ace_markup.ace_list,
+        html.theme-light .ace_editor .ace_list,
+        html.theme-light .ace_editor .ace_markup.ace_list {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_emphasis,
+        html[data-theme="light"] .ace_editor .ace_string.ace_emphasis,
+        html.theme-light .ace_editor .ace_emphasis,
+        html.theme-light .ace_editor .ace_string.ace_emphasis {
+            color: #4338ca !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_comment,
+        html.theme-light .ace_editor .ace_comment {
+            color: #64748b !important;
+            font-style: italic !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_cursor,
+        html.theme-light .ace_editor .ace_cursor {
+            border-left: 2px solid #000000 !important;
         }
 
         /* 9. Action Buttons */
@@ -834,8 +975,17 @@
                 });
             }
 
-            rep('a[data-tab^="editor-tab-"]', 'editor');
-            rep('a[data-tab^="preview-tab-"]', 'preview');
+            // Explicitly rebuild editor and preview tabs with clean icon + label markup
+            document.querySelectorAll('a[data-tab^="editor-tab-"]').forEach(function(editorTab) {
+                if (editorTab && (!editorTab.querySelector('.tab-text') || !editorTab.querySelector('svg'))) {
+                    editorTab.innerHTML = '<span class="vector-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-right:6px;">' + toolbarSvgs['editor'] + '</span><span class="tab-text">Editor</span>';
+                }
+            });
+            document.querySelectorAll('a[data-tab^="preview-tab-"]').forEach(function(previewTab) {
+                if (previewTab && (!previewTab.querySelector('.tab-text') || !previewTab.querySelector('svg'))) {
+                    previewTab.innerHTML = '<span class="vector-icon-wrap" style="display:inline-flex;align-items:center;justify-content:center;width:14px;height:14px;margin-right:6px;">' + toolbarSvgs['preview'] + '</span><span class="tab-text">Preview</span>';
+                }
+            });
             rep('.markdown-bold', 'bold');
             rep('.markdown-italic', 'italic');
             rep('.markdown-horizontal', 'minus');
@@ -860,6 +1010,33 @@
             if (typeof $.fn.tab !== 'undefined') {
                 $('.tab-martor-menu .item').tab();
             }
+
+            // Sync Martor theme based on DMOJ active theme (Light vs Dark)
+            function syncMartorTheme() {
+                var isLight = document.documentElement.getAttribute('data-theme') === 'light' || document.documentElement.classList.contains('theme-light');
+                document.body.setAttribute('data-theme', isLight ? 'light' : 'dark');
+                if (window.ace) {
+                    $('.main-martor').each(function() {
+                        var editorId = 'martor-' + $(this).data('field-name');
+                        try {
+                            var ed = ace.edit(editorId);
+                            if (ed) {
+                                if (isLight) {
+                                    ed.setTheme('ace/theme/github');
+                                    $(this).find('.ui').removeClass('inverted');
+                                } else {
+                                    ed.setTheme('ace/theme/twilight');
+                                    $(this).find('.ui').addClass('inverted');
+                                }
+                            }
+                        } catch(e) {}
+                    });
+                }
+            }
+            syncMartorTheme();
+            setTimeout(syncMartorTheme, 150);
+            setTimeout(syncMartorTheme, 500);
+
 
             // Vectorize icons immediately and with delays to ensure Semantic UI has loaded
             vectorizeMartorIcons();
