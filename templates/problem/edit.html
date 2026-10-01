@@ -10,139 +10,343 @@
 {% block media %}
     {{ form.media.css }}
     <style>
-        .edit-problem-wrapper {
-            max-width: 1380px;
-            margin: 0 auto 50px auto;
-            width: 100%;
-            box-sizing: border-box;
-            padding: 0 20px;
+        #content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
+        .edit-problem-wrapper {
+            max-width: 1200px !important;
+            margin: 0 auto 50px auto !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 0 !important;
+        }
+        /* 1. Main Card */
         .edit-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.07) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 36px 44px !important;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 32px 36px !important;
+            box-shadow: var(--expo-card-shadow) !important;
             box-sizing: border-box !important;
             margin-bottom: 24px !important;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            transition: border-color 0.15s ease !important;
         }
         .edit-card:hover {
-            border-color: rgba(56, 189, 248, 0.4) !important;
-            box-shadow: 0 16px 40px -6px rgba(0, 0, 0, 0.5), 0 0 25px rgba(56, 189, 248, 0.15) !important;
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
         }
+        html[data-theme="light"] .edit-card,
+        html.theme-light .edit-card {
+            background: #ffffff !important;
+            border: 1px solid #f0f0f3 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        /* 2. Header elements inside card */
         .edit-tag {
+            font-family: "JetBrains Mono", monospace !important;
             font-size: 11px !important;
-            font-weight: 800 !important;
-            letter-spacing: 2px !important;
-            color: #38bdf8 !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
             text-transform: uppercase !important;
-            margin-bottom: 8px !important;
-            font-family: 'Google Sans Code', monospace !important;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            margin-bottom: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        .edit-tag svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .edit-tag,
+        html.theme-light .edit-tag {
+            color: #64748b !important;
         }
         .edit-title {
-            font-size: 26px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            margin: 0 0 10px 0 !important;
-            letter-spacing: -0.01em !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+        }
+        html[data-theme="light"] .edit-title,
+        html.theme-light .edit-title {
+            color: #0f172a !important;
         }
         .edit-desc {
-            color: #94a3b8 !important;
-            font-size: 14.5px !important;
-            line-height: 1.65 !important;
-            margin-bottom: 26px !important;
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 24px !important;
         }
+        html[data-theme="light"] .edit-desc,
+        html.theme-light .edit-desc {
+            color: #64748b !important;
+        }
+        /* Error Alert */
         .edit-error-alert {
             background: rgba(239, 68, 68, 0.12) !important;
             border: 1px solid rgba(239, 68, 68, 0.35) !important;
-            border-radius: 12px !important;
-            padding: 16px 20px !important;
-            color: #fca5a5 !important;
-            font-size: 14px !important;
-            margin-bottom: 26px !important;
+            border-radius: 10px !important;
+            padding: 14px 18px !important;
+            color: #f87171 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            margin-bottom: 24px !important;
             display: flex !important;
             align-items: flex-start !important;
-            gap: 12px !important;
-            box-shadow: 0 4px 14px rgba(239, 68, 68, 0.2) !important;
+            gap: 10px !important;
         }
+        html[data-theme="light"] .edit-error-alert,
+        html.theme-light .edit-error-alert {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
+        /* Section Headings */
         .form-section-title {
-            color: #38bdf8 !important;
-            font-size: 17px !important;
-            font-weight: 700 !important;
-            margin: 32px 0 14px 0 !important;
-            border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.2px !important;
+            color: var(--expo-ink) !important;
+            margin: 28px 0 16px 0 !important;
             padding-bottom: 8px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
             display: flex !important;
             align-items: center !important;
             gap: 8px !important;
         }
+        .form-section-title svg {
+            stroke: currentColor !important;
+            color: inherit !important;
+        }
+        html[data-theme="light"] .form-section-title,
+        html.theme-light .form-section-title {
+            color: #0f172a !important;
+            border-bottom-color: #f0f0f3 !important;
+        }
+        /* Form rows & labels */
         .form-row {
-            display: flex;
-            align-items: flex-start;
-            padding: 15px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            box-sizing: border-box;
+            display: flex !important;
+            align-items: flex-start !important;
+            padding: 14px 0 !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            box-sizing: border-box !important;
         }
         .form-row:last-of-type {
-            border-bottom: none;
+            border-bottom: none !important;
+        }
+        html[data-theme="light"] .form-row,
+        html.theme-light .form-row {
+            border-bottom-color: #f0f0f3 !important;
         }
         .form-label-col {
-            flex: 0 0 240px;
-            font-size: 14px;
-            font-weight: 600;
-            color: #cbd5e1;
-            padding-top: 8px;
+            width: 200px !important;
+            min-width: 200px !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 13.5px !important;
+            color: var(--expo-ink) !important;
+            padding-top: 9px !important;
+            box-sizing: border-box !important;
+        }
+        .form-label-col label {
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-weight: 500 !important;
+            font-size: 13.5px !important;
+        }
+        html[data-theme="light"] .form-label-col,
+        html.theme-light .form-label-col,
+        html[data-theme="light"] .form-label-col label,
+        html.theme-light .form-label-col label {
+            color: #0f172a !important;
+            font-weight: 600 !important;
         }
         .form-label-col .req-star {
-            color: #f87171;
-            margin-left: 3px;
+            color: #ef4444 !important;
+            margin-left: 2px !important;
+            font-weight: 600 !important;
         }
         .form-control-col {
-            flex: 1 1 auto;
-            min-width: 0;
-        }
-        .form-input-cyber {
-            width: 100% !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 10px 14px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
             box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
+        }
+        /* Form inputs & selects */
+        .form-input-cyber,
+        input[type="text"].form-input-cyber,
+        input[type="number"].form-input-cyber {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 9px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
             outline: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .form-input-cyber.short,
+        input[type="number"].form-input-cyber.short {
+            max-width: 440px !important;
         }
         .form-input-cyber:focus {
-            border-color: #38bdf8 !important;
-            background: rgba(255, 255, 255, 0.07) !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
         }
-        .form-input-cyber.short {
-            max-width: 320px !important;
+        html[data-theme="light"] .form-input-cyber,
+        html[data-theme="light"] input[type="text"].form-input-cyber,
+        html[data-theme="light"] input[type="number"].form-input-cyber,
+        html.theme-light .form-input-cyber,
+        html.theme-light input[type="text"].form-input-cyber,
+        html.theme-light input[type="number"].form-input-cyber {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
         }
+        html[data-theme="light"] .form-input-cyber:focus,
+        html.theme-light .form-input-cyber:focus {
+            border-color: #000000 !important;
+            background: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+        }
+        /* Disabled / Readonly input state */
+        .form-input-cyber:disabled,
+        .form-input-cyber[readonly],
+        input.form-input-cyber:disabled,
+        input.form-input-cyber[readonly] {
+            background: rgba(255, 255, 255, 0.03) !important;
+            color: #71717a !important;
+            border-color: var(--expo-hairline) !important;
+            cursor: not-allowed !important;
+        }
+        html[data-theme="light"] .form-input-cyber:disabled,
+        html[data-theme="light"] .form-input-cyber[readonly],
+        html[data-theme="light"] input.form-input-cyber:disabled,
+        html[data-theme="light"] input.form-input-cyber[readonly],
+        html.theme-light .form-input-cyber:disabled,
+        html.theme-light .form-input-cyber[readonly],
+        html.theme-light input.form-input-cyber:disabled,
+        html.theme-light input.form-input-cyber[readonly] {
+            background: #f1f5f9 !important;
+            color: #64748b !important;
+            border-color: #e2e8f0 !important;
+            cursor: not-allowed !important;
+        }
+        /* Select dropdowns */
+        .custom-arrow-select,
+        .edit-card select.custom-arrow-select,
+        select.form-input-cyber,
+        #id_organization_id {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            background-color: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 9px 36px 9px 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            outline: none !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            appearance: none !important;
+            -webkit-appearance: none !important;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.6)' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+            background-repeat: no-repeat !important;
+            background-position: right 14px center !important;
+            background-size: 12px 12px !important;
+        }
+        .custom-arrow-select.short {
+            max-width: 440px !important;
+        }
+        .custom-arrow-select:focus,
+        select.form-input-cyber:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08) !important;
+        }
+        .custom-arrow-select option,
+        select.form-input-cyber option {
+            background: #18181b !important;
+            color: #f4f4f5 !important;
+            padding: 8px 12px !important;
+        }
+        html[data-theme="light"] .custom-arrow-select,
+        html[data-theme="light"] .edit-card select.custom-arrow-select,
+        html[data-theme="light"] select.form-input-cyber,
+        html[data-theme="light"] #id_organization_id,
+        html.theme-light .custom-arrow-select,
+        html.theme-light .edit-card select.custom-arrow-select,
+        html.theme-light select.form-input-cyber,
+        html.theme-light #id_organization_id {
+            background-color: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+            background-image: url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
+        }
+        html[data-theme="light"] .custom-arrow-select:focus,
+        html[data-theme="light"] select.form-input-cyber:focus,
+        html.theme-light .custom-arrow-select:focus,
+        html.theme-light select.form-input-cyber:focus {
+            border-color: #000000 !important;
+            background-color: #ffffff !important;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.08) !important;
+        }
+        html[data-theme="light"] .custom-arrow-select option,
+        html[data-theme="light"] select.form-input-cyber option,
+        html.theme-light .custom-arrow-select option,
+        html.theme-light select.form-input-cyber option {
+            background: #ffffff !important;
+            color: #0f172a !important;
+        }
+        /* Helper Text */
         .form-help-text {
-            font-size: 12.5px;
-            color: #64748b;
-            margin-top: 6px;
-            line-height: 1.4;
-            display: flex;
-            align-items: flex-start;
-            gap: 6px;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 6px !important;
+            margin-top: 6px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+            line-height: 1.5 !important;
+        }
+        .form-help-text * {
+            color: inherit !important;
         }
         .form-help-text svg {
-            flex-shrink: 0;
-            margin-top: 2px;
-            color: #38bdf8;
+            flex-shrink: 0 !important;
+            margin-top: 2px !important;
+            stroke: currentColor !important;
+            color: var(--expo-muted) !important;
         }
-
-        /* Checkboxes */
-                /* 6. Checkboxes - Expo Custom SVG Checkmark (No native accent-color bug) */
+        .form-help-text strong,
+        .form-help-text a {
+            color: var(--expo-ink) !important;
+            text-decoration: underline !important;
+        }
+        html[data-theme="light"] .form-help-text,
+        html[data-theme="light"] .form-help-text *,
+        html[data-theme="light"] .form-help-text span,
+        html.theme-light .form-help-text,
+        html.theme-light .form-help-text *,
+        html.theme-light .form-help-text span {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .form-help-text svg,
+        html.theme-light .form-help-text svg {
+            color: #64748b !important;
+        }
+        /* Checkboxes - Expo Custom SVG Checkmark */
         .custom-checkbox-wrap {
             display: inline-flex !important;
             align-items: center !important;
@@ -150,6 +354,15 @@
             cursor: pointer !important;
             user-select: none !important;
             padding: 2px 0 !important;
+        }
+        .custom-checkbox-wrap span {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            color: var(--expo-ink) !important;
+        }
+        html[data-theme="light"] .custom-checkbox-wrap span,
+        html.theme-light .custom-checkbox-wrap span {
+            color: #0f172a !important;
         }
         .custom-checkbox-wrap input[type="checkbox"],
         .dropdown-option-item input[type="checkbox"] {
@@ -172,8 +385,6 @@
             transition: all 0.15s ease !important;
             outline: none !important;
             padding: 0 !important;
-
-            /* Dark Mode - Unchecked */
             background: #18181b !important;
             border: 1.5px solid rgba(255, 255, 255, 0.25) !important;
         }
@@ -181,7 +392,6 @@
         .dropdown-option-item input[type="checkbox"]:hover {
             border-color: rgba(255, 255, 255, 0.45) !important;
         }
-        /* Dark Mode - Checked: Solid White with crisp Black checkmark */
         .custom-checkbox-wrap input[type="checkbox"]:checked,
         .dropdown-option-item input[type="checkbox"]:checked {
             background: #ffffff !important;
@@ -191,7 +401,6 @@
             background-position: center !important;
             background-repeat: no-repeat !important;
         }
-        /* Light Mode - Unchecked */
         html[data-theme="light"] .custom-checkbox-wrap input[type="checkbox"],
         html[data-theme="light"] .dropdown-option-item input[type="checkbox"],
         html.theme-light .custom-checkbox-wrap input[type="checkbox"],
@@ -205,7 +414,6 @@
         html.theme-light .dropdown-option-item input[type="checkbox"]:hover {
             border-color: #64748b !important;
         }
-        /* Light Mode - Checked (Image #2: Solid Black with crisp White checkmark) */
         html[data-theme="light"] .custom-checkbox-wrap input[type="checkbox"]:checked,
         html[data-theme="light"] .dropdown-option-item input[type="checkbox"]:checked,
         html.theme-light .custom-checkbox-wrap input[type="checkbox"]:checked,
@@ -217,471 +425,433 @@
             background-position: center !important;
             background-repeat: no-repeat !important;
         }
-
-        /* Custom Selects */
-        .custom-arrow-select {
+        /* Problem Types Custom Dropdown */
+        .custom-dropdown-wrap {
+            position: relative !important;
             width: 100% !important;
-            background: rgba(255, 255, 255, 0.04) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") no-repeat right 14px center !important;
-            background-size: 14px !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            padding: 10px 36px 10px 14px !important;
-            color: #ffffff !important;
-            font-size: 14px !important;
-            box-sizing: border-box !important;
-            appearance: none !important;
-            outline: none !important;
-            cursor: pointer !important;
+            max-width: 520px !important;
         }
-        .custom-arrow-select option {
-            background: #0f172a !important;
-            color: #ffffff !important;
-        }
-        .custom-arrow-select:focus {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
-        }
-        .custom-arrow-select.short {
-            max-width: 320px !important;
-        }
-
-        /* Select2 Theme */
-        .select2-container--default .select2-selection--multiple {
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 10px !important;
-            min-height: 42px !important;
-            padding: 4px 8px !important;
-        }
-        .select2-container--default.select2-container--focus .select2-selection--multiple {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.3) !important;
-        }
-        .select2-container--default .select2-selection--multiple .select2-selection__choice {
-            background: rgba(56, 189, 248, 0.15) !important;
-            border: 1px solid rgba(56, 189, 248, 0.35) !important;
-            color: #38bdf8 !important;
-            border-radius: 6px !important;
-            padding: 2px 8px !important;
-            font-size: 13px !important;
-        }
-        .select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
-            color: #fca5a5 !important;
-            margin-right: 6px !important;
-        }
-
-        /* ── Modern Martor Markdown Editor (Expo DESIGN.md - Monochromatic, High Contrast) ── */
-        .main-martor,
-        .section-martor {
-            border: none !important;
-            border-radius: 0 !important;
-            overflow: visible !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            width: 100% !important;
-        }
-        .main-martor:focus-within {
-            border: none !important;
-            box-shadow: none !important;
-        }
-        body .tab-martor-menu {
-            border-bottom: 1px solid var(--expo-hairline) !important;
-            margin-bottom: 12px !important;
-            padding-bottom: 0 !important;
-            background: transparent !important;
+        .custom-dropdown-header {
             display: flex !important;
             align-items: center !important;
+            justify-content: space-between !important;
+            min-height: 40px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 4px 12px !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+            user-select: none !important;
         }
-        html[data-theme="light"] body .tab-martor-menu,
-        html.theme-light body .tab-martor-menu {
-            border-bottom: 1px solid #dcdee0 !important;
+        .custom-dropdown-wrap.open .custom-dropdown-header {
+            border-color: rgba(255, 255, 255, 0.4) !important;
         }
-
-        body .tab-martor-menu a.item {
+        .dropdown-arrow-icon {
+            color: var(--expo-muted) !important;
+            transition: transform 0.2s ease !important;
+            flex-shrink: 0 !important;
+            margin-left: 8px !important;
+        }
+        .custom-dropdown-wrap.open .dropdown-arrow-icon {
+            transform: rotate(180deg) !important;
+        }
+        .type-tag {
             display: inline-flex !important;
             align-items: center !important;
             gap: 6px !important;
-            height: 32px !important;
-            padding: 0 14px !important;
+            background: #27272a !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
             border-radius: 6px !important;
-            font-family: "Inter", sans-serif !important;
+            padding: 3px 8px !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+        }
+        .type-tag .tag-remove {
+            color: var(--expo-muted) !important;
+            cursor: pointer !important;
+            font-size: 13px !important;
+        }
+        .type-tag .tag-remove:hover {
+            color: #ef4444 !important;
+        }
+        .placeholder-text {
+            color: var(--expo-muted) !important;
+            font-size: 13px !important;
+        }
+        .custom-dropdown-menu {
+            position: absolute !important;
+            top: calc(100% + 4px) !important;
+            left: 0 !important;
+            width: 100% !important;
+            background: #18181b !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6) !important;
+            z-index: 100 !important;
+            max-height: 220px !important;
+            overflow-y: auto !important;
+            padding: 4px 0 !important;
+            box-sizing: border-box !important;
+        }
+        .dropdown-option-item {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 7px 12px !important;
+            color: var(--expo-body) !important;
+            font-size: 13px !important;
+            cursor: pointer !important;
+            transition: background 0.15s !important;
+        }
+        .dropdown-option-item:hover {
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .custom-dropdown-header,
+        html.theme-light .custom-dropdown-header {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+        }
+        html[data-theme="light"] .custom-dropdown-wrap.open .custom-dropdown-header,
+        html.theme-light .custom-dropdown-wrap.open .custom-dropdown-header {
+            border-color: #000000 !important;
+        }
+        html[data-theme="light"] .dropdown-arrow-icon,
+        html.theme-light .dropdown-arrow-icon {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .type-tag,
+        html.theme-light .type-tag {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .placeholder-text,
+        html.theme-light .placeholder-text {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .custom-dropdown-menu,
+        html.theme-light .custom-dropdown-menu {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1) !important;
+        }
+        html[data-theme="light"] .dropdown-option-item,
+        html.theme-light .dropdown-option-item {
+            color: #334155 !important;
+        }
+        html[data-theme="light"] .dropdown-option-item:hover,
+        html.theme-light .dropdown-option-item:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+        }
+        /* Org selected badge */
+        .org-selected-badge {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 7px 16px !important;
+            border-radius: 8px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
+        }
+        html[data-theme="light"] .org-selected-badge,
+        html.theme-light .org-selected-badge {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+        /* Editorial Label */
+        .editorial-label {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            display: block !important;
+            margin-bottom: 8px !important;
+        }
+        html[data-theme="light"] .editorial-label,
+        html.theme-light .editorial-label {
+            color: #0f172a !important;
+        }
+        /* Martor Editor */
+        body .edit-card .tab-martor-menu,
+        body .edit-card .tab-martor-menu.inverted,
+        body .edit-card .ui.tabular.menu,
+        body .edit-card .ui.tabular.menu.inverted {
+            border: none !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            background: transparent !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            margin: 0 !important;
+            padding: 0 0 10px 0 !important;
+        }
+        body .edit-card .tab-martor-menu a.item,
+        body .edit-card .ui.tabular.menu a.item {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            height: 34px !important;
+            padding: 0 14px !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
             font-size: 13px !important;
             font-weight: 500 !important;
-            line-height: 1 !important;
-            box-sizing: border-box !important;
-            margin: 0 8px 0 0 !important;
-            transition: all 0.15s ease !important;
-            text-decoration: none !important;
+            border: 1px solid transparent !important;
             cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            margin: 0 !important;
         }
-
-        /* Dark Mode - Active Tab: Solid White pill with Black text & Black icon */
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active,
-        html:not([data-theme="light"]):not(.theme-light) body .section-martor .tab-martor-menu a.item.active,
-        html:not([data-theme="light"]):not(.theme-light) body .section-martor .ui.tabular.menu .active.item,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active,
-        html[data-theme="dark"] body .section-martor .tab-martor-menu a.item.active,
-        html[data-theme="dark"] body .section-martor .ui.tabular.menu .active.item,
-        html.theme-dark body .tab-martor-menu a.item.active,
-        html.theme-dark body .section-martor .tab-martor-menu a.item.active,
-        html.theme-dark body .section-martor .ui.tabular.menu .active.item {
+        html:not([data-theme="light"]):not(.theme-light) body .edit-card .tab-martor-menu a.item.active,
+        html[data-theme="dark"] body .edit-card .tab-martor-menu a.item.active,
+        html.theme-dark body .edit-card .tab-martor-menu a.item.active {
             background: #ffffff !important;
             color: #000000 !important;
             border: 1px solid #ffffff !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
         }
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active *,
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active span,
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active .tab-text,
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active svg,
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active path,
-        html:not([data-theme="light"]):not(.theme-light) body .tab-martor-menu a.item.active line,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active *,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active span,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active .tab-text,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active svg,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active path,
-        html[data-theme="dark"] body .tab-martor-menu a.item.active line,
-        html.theme-dark body .tab-martor-menu a.item.active *,
-        html.theme-dark body .tab-martor-menu a.item.active span,
-        html.theme-dark body .tab-martor-menu a.item.active .tab-text,
-        html.theme-dark body .tab-martor-menu a.item.active svg,
-        html.theme-dark body .tab-martor-menu a.item.active path,
-        html.theme-dark body .tab-martor-menu a.item.active line {
+        html:not([data-theme="light"]):not(.theme-light) body .edit-card .tab-martor-menu a.item.active *,
+        html[data-theme="dark"] body .edit-card .tab-martor-menu a.item.active *,
+        html.theme-dark body .edit-card .tab-martor-menu a.item.active * {
             color: #000000 !important;
             stroke: #000000 !important;
-            fill: none !important;
         }
-
-        /* Dark Mode - Inactive Tab */
-        body .tab-martor-menu a.item:not(.active) {
+        body .edit-card .tab-martor-menu a.item:not(.active) {
             background: var(--expo-surface-card) !important;
             color: var(--expo-muted) !important;
             border: 1px solid var(--expo-hairline-strong) !important;
         }
-        body .tab-martor-menu a.item:not(.active),
-        body .tab-martor-menu a.item:not(.active) *,
-        body .tab-martor-menu a.item:not(.active) span,
-        body .tab-martor-menu a.item:not(.active) .tab-text,
-        body .tab-martor-menu a.item:not(.active) svg {
-            color: var(--expo-muted) !important;
-            stroke: var(--expo-muted) !important;
-        }
-        body .tab-martor-menu a.item:not(.active):hover {
-            background: var(--expo-surface-strong) !important;
-            color: var(--expo-ink) !important;
-            border-color: rgba(255, 255, 255, 0.25) !important;
-        }
-        body .tab-martor-menu a.item:not(.active):hover *,
-        body .tab-martor-menu a.item:not(.active):hover span,
-        body .tab-martor-menu a.item:not(.active):hover .tab-text,
-        body .tab-martor-menu a.item:not(.active):hover svg {
-            color: var(--expo-ink) !important;
-            stroke: var(--expo-ink) !important;
-        }
-
-        /* Light Mode - Active Tab: Solid Black pill with White text & White icon */
-        html[data-theme="light"] body .tab-martor-menu a.item.active,
-        html[data-theme="light"] body .section-martor .tab-martor-menu a.item.active,
-        html[data-theme="light"] body .section-martor .ui.tabular.menu .active.item,
-        html.theme-light body .tab-martor-menu a.item.active,
-        html.theme-light body .section-martor .tab-martor-menu a.item.active,
-        html.theme-light body .section-martor .ui.tabular.menu .active.item {
+        html[data-theme="light"] body .edit-card .tab-martor-menu a.item.active,
+        html.theme-light body .edit-card .tab-martor-menu a.item.active {
             background: #000000 !important;
             color: #ffffff !important;
             border: 1px solid #000000 !important;
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
         }
-        html[data-theme="light"] body .tab-martor-menu a.item.active *,
-        html[data-theme="light"] body .tab-martor-menu a.item.active span,
-        html[data-theme="light"] body .tab-martor-menu a.item.active .tab-text,
-        html[data-theme="light"] body .tab-martor-menu a.item.active svg,
-        html[data-theme="light"] body .tab-martor-menu a.item.active path,
-        html[data-theme="light"] body .tab-martor-menu a.item.active line,
-        html.theme-light body .tab-martor-menu a.item.active *,
-        html.theme-light body .tab-martor-menu a.item.active span,
-        html.theme-light body .tab-martor-menu a.item.active .tab-text,
-        html.theme-light body .tab-martor-menu a.item.active svg,
-        html.theme-light body .tab-martor-menu a.item.active path,
-        html.theme-light body .tab-martor-menu a.item.active line {
+        html[data-theme="light"] body .edit-card .tab-martor-menu a.item.active *,
+        html.theme-light body .edit-card .tab-martor-menu a.item.active * {
             color: #ffffff !important;
             stroke: #ffffff !important;
-            fill: none !important;
         }
-
-        /* Light Mode - Inactive Tab */
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active),
-        html.theme-light body .tab-martor-menu a.item:not(.active) {
+        html[data-theme="light"] body .edit-card .tab-martor-menu a.item:not(.active),
+        html.theme-light body .edit-card .tab-martor-menu a.item:not(.active) {
             background: #f8fafc !important;
-            color: #64748b !important;
             border: 1px solid #dcdee0 !important;
-        }
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) *,
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) span,
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) .tab-text,
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active) svg,
-        html.theme-light body .tab-martor-menu a.item:not(.active) *,
-        html.theme-light body .tab-martor-menu a.item:not(.active) span,
-        html.theme-light body .tab-martor-menu a.item:not(.active) .tab-text,
-        html.theme-light body .tab-martor-menu a.item:not(.active) svg {
             color: #64748b !important;
-            stroke: #64748b !important;
         }
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover,
-        html.theme-light body .tab-martor-menu a.item:not(.active):hover {
-            background: #f1f5f9 !important;
-            color: #0f172a !important;
+        /* Martor Toolbar */
+        body .edit-card .martor-toolbar a,
+        body .edit-card .martor-toolbar button,
+        body .edit-card .martor-toolbar .button,
+        body .edit-card .martor-toolbar i,
+        body .edit-card .martor-toolbar svg {
+            color: var(--expo-muted) !important;
+            stroke: var(--expo-muted) !important;
+            fill: none !important;
+            border: none !important;
+            background: transparent !important;
         }
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover *,
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover span,
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover .tab-text,
-        html[data-theme="light"] body .tab-martor-menu a.item:not(.active):hover svg,
-        html.theme-light body .tab-martor-menu a.item:not(.active):hover *,
-        html.theme-light body .tab-martor-menu a.item:not(.active):hover span,
-        html.theme-light body .tab-martor-menu a.item:not(.active):hover .tab-text,
-        html.theme-light body .tab-martor-menu a.item:not(.active):hover svg {
+        html[data-theme="light"] body .edit-card .martor-toolbar,
+        html[data-theme="light"] body .edit-card .martor-toolbar *,
+        html.theme-light body .edit-card .martor-toolbar,
+        html.theme-light body .edit-card .martor-toolbar * {
             color: #0f172a !important;
             stroke: #0f172a !important;
         }
-
-        /* Toolbar icons */
-        body .martor-toolbar a,
-        body .martor-toolbar button,
-        body .martor-toolbar i,
-        body .martor-toolbar .button {
-            color: var(--expo-muted) !important;
-            background: transparent !important;
-            border: none !important;
-            border-radius: 6px !important;
-            font-size: 13px !important;
-            padding: 5px 7px !important;
-        }
-        body .martor-toolbar a:hover,
-        body .martor-toolbar button:hover,
-        body .martor-toolbar .button:hover,
-        body .martor-toolbar i:hover {
-            color: var(--expo-ink) !important;
-            background: #27272a !important;
-        }
-        body .martor-toolbar a *,
-        body .martor-toolbar button *,
-        body .martor-toolbar .button * {
-            color: inherit !important;
-            stroke: currentColor !important;
-        }
-        html[data-theme="light"] body .martor-toolbar a,
-        html[data-theme="light"] body .martor-toolbar button,
-        html[data-theme="light"] body .martor-toolbar i,
-        html[data-theme="light"] body .martor-toolbar .button,
-        html.theme-light body .martor-toolbar a,
-        html.theme-light body .martor-toolbar button,
-        html.theme-light body .martor-toolbar i,
-        html.theme-light body .martor-toolbar .button {
-            color: #64748b !important;
-        }
-        html[data-theme="light"] body .martor-toolbar a:hover,
-        html[data-theme="light"] body .martor-toolbar button:hover,
-        html[data-theme="light"] body .martor-toolbar .button:hover,
-        html[data-theme="light"] body .martor-toolbar i:hover,
-        html.theme-light body .martor-toolbar a:hover,
-        html.theme-light body .martor-toolbar button:hover,
-        html.theme-light body .martor-toolbar .button:hover,
-        html.theme-light body .martor-toolbar i:hover {
-            color: #0f172a !important;
-            background: #f1f5f9 !important;
-        }
-        html[data-theme="light"] body .martor-toolbar a *,
-        html[data-theme="light"] body .martor-toolbar button *,
-        html[data-theme="light"] body .martor-toolbar .button *,
-        html.theme-light body .martor-toolbar a *,
-        html.theme-light body .martor-toolbar button *,
-        html.theme-light body .martor-toolbar .button * {
-            color: inherit !important;
-            stroke: currentColor !important;
-        }
-
-        /* Dark Mode - Editor, Gutter, and Frame colors */
-        body .ui.segment.tab,
-        body .tab.segment[data-tab^="editor-tab-"],
-        body .martor-field {
+        body .edit-card .ui.segment.tab,
+        body .edit-card .tab.segment[data-tab^="editor-tab-"],
+        body .edit-card .martor-field {
             background: #121214 !important;
             border: 1px solid var(--expo-hairline-strong) !important;
             border-radius: 8px !important;
             overflow: hidden !important;
         }
-        body .ace_editor {
+        body .edit-card .ace_editor {
             background: #121214 !important;
             color: #f4f4f5 !important;
             font-family: 'JetBrains Mono', Consolas, monospace !important;
         }
-        body .ace_gutter {
+        body .edit-card .ace_gutter {
             background: #18181b !important;
             color: #71717a !important;
             border-right: 1px solid var(--expo-hairline-strong) !important;
         }
-        body .ace_scroller {
-            background: #121214 !important;
-        }
-        body .tab.segment.martor-preview {
+        body .edit-card .tab.segment.martor-preview {
             background: #121214 !important;
             color: #f4f4f5 !important;
             border: 1px solid var(--expo-hairline-strong) !important;
             border-radius: 8px !important;
             padding: 20px 24px !important;
         }
-
-        /* Light Mode - Editor, Gutter, and Frame colors */
-        html[data-theme="light"] body .ui.segment.tab,
-        html[data-theme="light"] body .tab.segment[data-tab^="editor-tab-"],
-        html[data-theme="light"] body .martor-field,
-        html.theme-light body .ui.segment.tab,
-        html.theme-light body .tab.segment[data-tab^="editor-tab-"],
-        html.theme-light body .martor-field {
+        html[data-theme="light"] body .edit-card .ui.segment.tab,
+        html[data-theme="light"] body .edit-card .tab.segment[data-tab^="editor-tab-"],
+        html[data-theme="light"] body .edit-card .martor-field,
+        html.theme-light body .edit-card .ui.segment.tab,
+        html.theme-light body .edit-card .tab.segment[data-tab^="editor-tab-"],
+        html.theme-light body .edit-card .martor-field {
             background: #ffffff !important;
             border: 1px solid #dcdee0 !important;
             border-radius: 8px !important;
         }
-        html[data-theme="light"] body .ace_editor,
-        html.theme-light body .ace_editor {
+        html[data-theme="light"] body .edit-card .ace_editor,
+        html.theme-light body .edit-card .ace_editor {
             background: #ffffff !important;
             color: #0f172a !important;
         }
-        html[data-theme="light"] body .ace_gutter,
-        html.theme-light body .ace_gutter {
+        html[data-theme="light"] body .edit-card .ace_gutter,
+        html.theme-light body .edit-card .ace_gutter {
             background: #f8fafc !important;
             color: #94a3b8 !important;
             border-right: 1px solid #dcdee0 !important;
         }
-        html[data-theme="light"] body .ace_scroller,
-        html.theme-light body .ace_scroller {
-            background: #ffffff !important;
-        }
-        html[data-theme="light"] body .tab.segment.martor-preview,
-        html.theme-light body .tab.segment.martor-preview {
+        html[data-theme="light"] body .edit-card .tab.segment.martor-preview,
+        html.theme-light body .edit-card .tab.segment.martor-preview {
             background: #ffffff !important;
             color: #0f172a !important;
             border: 1px solid #dcdee0 !important;
         }
 
-        /* High-specificity override to remove the 10px black resize bar in BOTH Dark and Light modes */
-        body .section-martor .resizable .resizable-b,
-        body .resizable .resizable-b,
-        body .resizable-b,
-        body .resizable-handle,
-        body .ui-resizable-handle,
-        body .ui-resizable-s,
-        body .ui-resizable-b,
-        html[data-theme="light"] body .section-martor .resizable .resizable-b,
-        html[data-theme="light"] body .resizable .resizable-b,
-        html[data-theme="light"] body .resizable-b,
-        html.theme-light body .section-martor .resizable .resizable-b,
-        html.theme-light body .resizable .resizable-b,
-        html.theme-light body .resizable-b {
-            background: transparent !important;
-            border: none !important;
-            height: 6px !important;
-        }
-
-        textarea.martor,
-        textarea[name="description"],
-        textarea[name="solution_content"],
-        textarea.martor-preview {
-            display: none !important;
-            visibility: hidden !important;
-            width: 0 !important;
-            height: 0 !important;
-            position: absolute !important;
-            opacity: 0 !important;
-            pointer-events: none !important;
-        }
-        .ace_editor textarea.ace_text-input {
-            display: block !important;
-            pointer-events: auto !important;
-            visibility: visible !important;
-            opacity: 0 !important;
-        }
-        .ui.segment.tab:not(.active),
-        .tab.segment:not(.active),
-        [data-tab^="preview-tab-"]:not(.active),
-        [data-tab^="editor-tab-"]:not(.active) {
-            display: none !important;
-        }
-        .section-martor > hr {
-            display: none !important;
-        }
-
         /* ── Action Buttons Bar ── */
         .form-actions-bar {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            margin-top: 36px;
-            padding-top: 24px;
-            border-top: 1px solid rgba(255, 255, 255, 0.08);
-            flex-wrap: wrap;
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            margin-top: 32px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+            flex-wrap: wrap !important;
         }
+        html[data-theme="light"] .form-actions-bar,
+        html.theme-light .form-actions-bar {
+            border-top-color: #f0f0f3 !important;
+        }
+        /* Primary Submit Button: Update */
         .btn-submit-cyber {
             display: inline-flex !important;
             align-items: center !important;
+            justify-content: center !important;
             gap: 8px !important;
-            padding: 12px 32px !important;
-            border-radius: 100px !important;
-            background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.18) !important;
-            color: #ffffff !important;
-            font-size: 15px !important;
-            font-weight: 700 !important;
+            height: 40px !important;
+            padding: 0 22px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: none !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-weight: 600 !important;
+            font-size: 13.5px !important;
             cursor: pointer !important;
-            box-shadow: 0 4px 18px rgba(2, 132, 199, 0.45) !important;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        }
+        .btn-submit-cyber * {
+            color: #000000 !important;
+            stroke: currentColor !important;
         }
         .btn-submit-cyber:hover {
-            background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%) !important;
-            transform: translateY(-2px) !important;
-            box-shadow: 0 8px 25px rgba(56, 189, 248, 0.5), 0 0 16px rgba(56, 189, 248, 0.3) !important;
-            border-color: rgba(56, 189, 248, 0.9) !important;
+            opacity: 0.92 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
         }
+        html[data-theme="light"] .btn-submit-cyber,
+        html.theme-light .btn-submit-cyber {
+            background: #000000 !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+        html[data-theme="light"] .btn-submit-cyber *,
+        html.theme-light .btn-submit-cyber * {
+            color: #ffffff !important;
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .btn-submit-cyber:hover,
+        html.theme-light .btn-submit-cyber:hover {
+            background: #1a1a1a !important;
+        }
+        /* Secondary Buttons: View Problem, Manage Data */
         .btn-secondary-cyber {
             display: inline-flex !important;
             align-items: center !important;
+            justify-content: center !important;
             gap: 6px !important;
-            color: #94a3b8 !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
+            height: 40px !important;
+            padding: 0 16px !important;
+            border-radius: 8px !important;
+            background: transparent !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-body) !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
             text-decoration: none !important;
-            padding: 11px 22px !important;
-            border-radius: 100px !important;
-            background: rgba(255, 255, 255, 0.04) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            transition: all 0.2s ease !important;
+            transition: all 0.15s ease !important;
+        }
+        .btn-secondary-cyber * {
+            color: inherit !important;
+            stroke: currentColor !important;
         }
         .btn-secondary-cyber:hover {
-            color: #f1f5f9 !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            border-color: rgba(255, 255, 255, 0.15) !important;
-            transform: translateY(-1px) !important;
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+            border-color: var(--expo-hairline-strong) !important;
         }
+        html[data-theme="light"] .btn-secondary-cyber,
+        html.theme-light .btn-secondary-cyber {
+            border: 1px solid #dcdee0 !important;
+            color: #60646c !important;
+        }
+        html[data-theme="light"] .btn-secondary-cyber:hover,
+        html.theme-light .btn-secondary-cyber:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+        /* Delete Button */
         .btn-delete-cyber {
             display: inline-flex !important;
             align-items: center !important;
+            justify-content: center !important;
             gap: 6px !important;
-            color: #fca5a5 !important;
-            font-size: 14px !important;
-            font-weight: 600 !important;
-            text-decoration: none !important;
-            padding: 11px 22px !important;
-            border-radius: 100px !important;
-            background: rgba(239, 68, 68, 0.1) !important;
-            border: 1px solid rgba(239, 68, 68, 0.25) !important;
-            transition: all 0.2s ease !important;
-            margin-left: auto !important;
+            height: 40px !important;
+            padding: 0 16px !important;
+            border-radius: 8px !important;
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
             cursor: pointer !important;
+            margin-left: auto !important;
+            transition: all 0.15s ease !important;
+        }
+        .btn-delete-cyber * {
+            color: inherit !important;
+            stroke: currentColor !important;
         }
         .btn-delete-cyber:hover {
-            color: #ffffff !important;
             background: rgba(239, 68, 68, 0.22) !important;
-            border-color: rgba(239, 68, 68, 0.5) !important;
-            transform: translateY(-1px) !important;
+            border-color: rgba(239, 68, 68, 0.45) !important;
+            color: #fca5a5 !important;
+        }
+        html[data-theme="light"] .btn-delete-cyber,
+        html.theme-light .btn-delete-cyber {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
+        html[data-theme="light"] .btn-delete-cyber:hover,
+        html.theme-light .btn-delete-cyber:hover {
+            background: #fee2e2 !important;
+            border-color: #fca5a5 !important;
+            color: #7f1d1d !important;
         }
     </style>
 {% endblock %}
@@ -724,7 +894,7 @@
                     </div>
                     <div class="form-control-col">
                         <input type="hidden" name="organization_id" value="{{ selected_org.id }}">
-                        <div style="display: inline-flex; align-items: center; gap: 8px; padding: 7px 16px; border-radius: 8px; background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.3); color: #38bdf8; font-weight: 700; font-size: 14px;">
+                        <div class="org-selected-badge">
                             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18"></path><path d="M5 21V7l8-4v18"></path><path d="M19 21V11l-6-4"></path></svg>
                             <span>{{ selected_org.name }} (#{{ selected_org.id }})</span>
                         </div>
@@ -1062,7 +1232,7 @@
             <!-- Solution Content -->
             <div class="form-row" style="flex-direction: column;">
                 <div style="width: 100%;">
-                    <label style="font-size: 14px; font-weight: 600; color: #cbd5e1; display: block; margin-bottom: 8px;">
+                    <label class="editorial-label">
                         {{ _('Editorial content:') }}
                     </label>
                     {{ form.solution_content }}
