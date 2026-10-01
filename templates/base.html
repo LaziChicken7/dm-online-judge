@@ -2895,6 +2895,87 @@ html.theme-light .portfolio-user-pill {
         border-left: 2px solid #000000 !important;
     }
 
+    /* Global Martor Resizable Bar Fix (Remove 10px black bar at bottom) */
+    .resizable-b,
+    .resizable-handle,
+    .resizable-handle.resizable-b,
+    .ui-resizable-handle,
+    .ui-resizable-s,
+    .ui-resizable-b,
+    #new-comment .resizable-b,
+    #new-comment .resizable-handle,
+    #new-comment .resizable-handle.resizable-b,
+    #new-comment .ui-resizable-handle,
+    #new-comment .ui-resizable-s,
+    #new-comment .ui-resizable-b,
+    html[data-theme="light"] .resizable-b,
+    html[data-theme="light"] .resizable-handle,
+    html[data-theme="light"] .resizable-handle.resizable-b,
+    html[data-theme="light"] #new-comment .resizable-b,
+    html[data-theme="light"] #new-comment .resizable-handle,
+    html[data-theme="light"] #new-comment .resizable-handle.resizable-b,
+    html.theme-light .resizable-b,
+    html.theme-light .resizable-handle,
+    html.theme-light .resizable-handle.resizable-b,
+    html.theme-light #new-comment .resizable-b,
+    html.theme-light #new-comment .resizable-handle,
+    html.theme-light #new-comment .resizable-handle.resizable-b {
+        background: transparent !important;
+        border: none !important;
+        height: 6px !important;
+    }
+
+    /* Light Mode - High Contrast Ace Syntax Highlighting for Comments */
+    html[data-theme="light"] #new-comment .ace_editor,
+    html[data-theme="light"] #new-comment .ace_editor *,
+    html.theme-light #new-comment .ace_editor,
+    html.theme-light #new-comment .ace_editor * {
+        text-shadow: none !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_text,
+    html[data-theme="light"] #new-comment .ace_editor .ace_xml,
+    html[data-theme="light"] #new-comment .ace_editor .ace_content,
+    html.theme-light #new-comment .ace_editor .ace_text,
+    html.theme-light #new-comment .ace_editor .ace_xml,
+    html.theme-light #new-comment .ace_editor .ace_content {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_heading,
+    html[data-theme="light"] #new-comment .ace_editor .ace_markup.ace_heading,
+    html.theme-light #new-comment .ace_editor .ace_heading,
+    html.theme-light #new-comment .ace_editor .ace_markup.ace_heading {
+        color: #b91c1c !important;
+        font-weight: 700 !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_string,
+    html[data-theme="light"] #new-comment .ace_editor .ace_string.ace_strong,
+    html.theme-light #new-comment .ace_editor .ace_string,
+    html.theme-light #new-comment .ace_editor .ace_string.ace_strong {
+        color: #15803d !important;
+        font-weight: 600 !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_list,
+    html[data-theme="light"] #new-comment .ace_editor .ace_markup.ace_list,
+    html.theme-light #new-comment .ace_editor .ace_list,
+    html.theme-light #new-comment .ace_editor .ace_markup.ace_list {
+        color: #0f172a !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_emphasis,
+    html[data-theme="light"] #new-comment .ace_editor .ace_string.ace_emphasis,
+    html.theme-light #new-comment .ace_editor .ace_emphasis,
+    html.theme-light #new-comment .ace_editor .ace_string.ace_emphasis {
+        color: #4338ca !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_comment,
+    html.theme-light #new-comment .ace_editor .ace_comment {
+        color: #64748b !important;
+        font-style: italic !important;
+    }
+    html[data-theme="light"] #new-comment .ace_editor .ace_cursor,
+    html.theme-light #new-comment .ace_editor .ace_cursor {
+        border-left: 2px solid #000000 !important;
+    }
+
     /* Preview Pane */
     #new-comment .tab.segment.martor-preview,
     #new-comment .martor-preview {
