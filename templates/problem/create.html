@@ -942,7 +942,58 @@
             background: #1a1a1a !important;
             color: #ffffff !important;
         }
-    </style>
+    
+        /* Light Mode - High Contrast Ace Syntax Highlighting */
+        html[data-theme="light"] .ace_editor,
+        html[data-theme="light"] .ace_editor *,
+        html.theme-light .ace_editor,
+        html.theme-light .ace_editor * {
+            text-shadow: none !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_text,
+        html[data-theme="light"] .ace_editor .ace_xml,
+        html[data-theme="light"] .ace_editor .ace_content,
+        html.theme-light .ace_editor .ace_text,
+        html.theme-light .ace_editor .ace_xml,
+        html.theme-light .ace_editor .ace_content {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_heading,
+        html[data-theme="light"] .ace_editor .ace_markup.ace_heading,
+        html.theme-light .ace_editor .ace_heading,
+        html.theme-light .ace_editor .ace_markup.ace_heading {
+            color: #b91c1c !important;
+            font-weight: 700 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_string,
+        html[data-theme="light"] .ace_editor .ace_string.ace_strong,
+        html.theme-light .ace_editor .ace_string,
+        html.theme-light .ace_editor .ace_string.ace_strong {
+            color: #15803d !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_list,
+        html[data-theme="light"] .ace_editor .ace_markup.ace_list,
+        html.theme-light .ace_editor .ace_list,
+        html.theme-light .ace_editor .ace_markup.ace_list {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_emphasis,
+        html[data-theme="light"] .ace_editor .ace_string.ace_emphasis,
+        html.theme-light .ace_editor .ace_emphasis,
+        html.theme-light .ace_editor .ace_string.ace_emphasis {
+            color: #4338ca !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_comment,
+        html.theme-light .ace_editor .ace_comment {
+            color: #64748b !important;
+            font-style: italic !important;
+        }
+        html[data-theme="light"] .ace_editor .ace_cursor,
+        html.theme-light .ace_editor .ace_cursor {
+            border-left: 2px solid #000000 !important;
+        }
+</style>
 
 <div class="create-problem-wrapper">
     <div class="create-card">
@@ -1239,13 +1290,17 @@
                 </div>
             </div>
 
-            <!-- 15. Problem body (Martor Editor with Vector Icons) -->
-            <div class="form-row" style="border-bottom: none; margin-top: 6px;">
-                <div class="form-label-col">
-                    <label for="id_description">{{ _('Problem body:') }}</label>
-                </div>
-                <div class="form-control-col">
+            <!-- 15. Problem body (Full-width Martor Editor) -->
+            <div class="form-row" style="flex-direction: column; align-items: stretch; border-bottom: none; margin-top: 10px;">
+                <div style="width: 100%;">
+                    <label for="id_description" style="font-size: 14px; font-weight: 600; color: var(--expo-ink); display: block; margin-bottom: 8px;">
+                        {{ _('Problem body:') }} <span class="req-star" style="color: #ef4444;">*</span>
+                    </label>
                     {{ form.description }}
+                    <div class="form-help-text" style="margin-top: 8px;">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                        <span>{{ _('Nội dung đề bài chi tiết, định dạng Markdown hỗ trợ công thức toán LaTeX ($...$) và chèn ảnh.') }}</span>
+                    </div>
                 </div>
             </div>
 
