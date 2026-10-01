@@ -1,42 +1,383 @@
 {% extends "base.html" %}
 
+{% block title_ruler %}{% endblock %}
+
+{% block title_row %}
+    {% set tab = 'clone' %}
+    {% set content_title = contest.name %}
+    {% include "contest/contest-tabs.html" %}
+{% endblock %}
+
 {% block media %}
     <style>
-        #contest-clone-panel {
-            position: relative;
-            margin: 5em auto auto -10em;
-            top: 40%;
-            left: 50%;
+        #content {
+            width: 90% !important;
+            max-width: 1200px !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
-
-        #contest-key-container {
-            margin: 0.5em 0;
+        .clone-contest-wrapper {
+            max-width: 680px !important;
+            margin: 32px auto 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
         }
-
-        #id_key {
-            width: 100%;
+        .clone-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 32px 36px !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            box-sizing: border-box !important;
+            margin-bottom: 24px !important;
+            transition: border-color 0.15s ease !important;
         }
-
+        .clone-card:hover {
+            border-color: var(--expo-hairline-strong) !important;
+            box-shadow: var(--expo-card-hover-shadow) !important;
+        }
+        html[data-theme="light"] .clone-card,
+        html.theme-light .clone-card {
+            background: #ffffff !important;
+            border: 1px solid #dcdee0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+        .clone-tag {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+        }
+        .clone-tag svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="light"] .clone-tag,
+        html.theme-light .clone-tag {
+            color: #64748b !important;
+        }
+        .clone-title {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.4px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 8px 0 !important;
+            border: none !important;
+            padding: 0 !important;
+            line-height: 1.25 !important;
+        }
+        html[data-theme="light"] .clone-title,
+        html.theme-light .clone-title {
+            color: #0f172a !important;
+        }
+        .clone-desc {
+            color: var(--expo-muted) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.6 !important;
+            margin-bottom: 22px !important;
+        }
+        html[data-theme="light"] .clone-desc,
+        html.theme-light .clone-desc {
+            color: #64748b !important;
+        }
+        .clone-source-box {
+            background: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 14px 16px !important;
+            margin-bottom: 20px !important;
+            box-sizing: border-box !important;
+        }
+        html[data-theme="light"] .clone-source-box,
+        html.theme-light .clone-source-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        .source-label {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.8px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            display: block !important;
+            margin-bottom: 6px !important;
+        }
+        html[data-theme="light"] .source-label,
+        html.theme-light .source-label {
+            color: #64748b !important;
+        }
+        .source-box-title {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            margin-bottom: 8px !important;
+            line-height: 1.4 !important;
+        }
+        html[data-theme="light"] .source-box-title,
+        html.theme-light .source-box-title {
+            color: #0f172a !important;
+        }
+        .source-meta-row {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            flex-wrap: wrap !important;
+        }
+        .source-code-badge {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            background: rgba(255, 255, 255, 0.08) !important;
+            padding: 2px 8px !important;
+            border-radius: 4px !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+        }
+        html[data-theme="light"] .source-code-badge,
+        html.theme-light .source-code-badge {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #334155 !important;
+        }
+        .form-field-group {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            margin-bottom: 24px !important;
+        }
+        .form-field-label {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+        }
+        html[data-theme="light"] .form-field-label,
+        html[data-theme="light"] .form-field-label *,
+        html[data-theme="light"] .form-field-label span,
+        html.theme-light .form-field-label,
+        html.theme-light .form-field-label *,
+        html.theme-light .form-field-label span {
+            color: #0f172a !important;
+        }
+        .clone-key-input {
+            width: 100% !important;
+            height: 42px !important;
+            padding: 0 14px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            box-sizing: border-box !important;
+            outline: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .clone-key-input:focus {
+            border-color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2) !important;
+        }
+        html[data-theme="light"] .clone-key-input,
+        html.theme-light .clone-key-input {
+            background: #f8fafc !important;
+            border: 1px solid #dcdee0 !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .clone-key-input:focus,
+        html.theme-light .clone-key-input:focus {
+            background: #ffffff !important;
+            border-color: #0f172a !important;
+            box-shadow: 0 0 0 1px #0f172a !important;
+        }
+        .clone-help-text {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            color: var(--expo-muted) !important;
+            line-height: 1.5 !important;
+        }
+        html[data-theme="light"] .clone-help-text,
+        html.theme-light .clone-help-text {
+            color: #64748b !important;
+        }
+        .clone-actions-bar {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: flex-end !important;
+            gap: 12px !important;
+            padding-top: 20px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+        }
+        html[data-theme="light"] .clone-actions-bar,
+        html.theme-light .clone-actions-bar {
+            border-top-color: #f0f0f3 !important;
+        }
+        .btn-submit-clone {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            height: 40px !important;
+            padding: 0 20px !important;
+            border-radius: 8px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: none !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+        }
+        .btn-submit-clone,
+        .btn-submit-clone *,
+        .btn-submit-clone span {
+            color: #000000 !important;
+        }
+        .btn-submit-clone:hover {
+            opacity: 0.92 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+        }
+        html[data-theme="light"] .btn-submit-clone,
+        html[data-theme="light"] .btn-submit-clone *,
+        html[data-theme="light"] .btn-submit-clone span,
+        html.theme-light .btn-submit-clone,
+        html.theme-light .btn-submit-clone *,
+        html.theme-light .btn-submit-clone span {
+            background: #000000 !important;
+            color: #ffffff !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+        html[data-theme="light"] .btn-submit-clone:hover,
+        html.theme-light .btn-submit-clone:hover {
+            background: #1a1a1a !important;
+        }
+        .btn-cancel-clone {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            height: 40px !important;
+            padding: 0 16px !important;
+            border-radius: 8px !important;
+            background: transparent !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-body) !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .btn-cancel-clone:hover {
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+            border-color: var(--expo-hairline-strong) !important;
+        }
+        html[data-theme="light"] .btn-cancel-clone,
+        html.theme-light .btn-cancel-clone {
+            border: 1px solid #dcdee0 !important;
+            color: #60646c !important;
+        }
+        html[data-theme="light"] .btn-cancel-clone:hover,
+        html.theme-light .btn-cancel-clone:hover {
+            background: #f1f5f9 !important;
+            color: #0f172a !important;
+            border-color: #cbd5e1 !important;
+        }
+        .clone-error-alert {
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.35) !important;
+            border-radius: 8px !important;
+            padding: 12px 16px !important;
+            color: #f87171 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            margin-bottom: 20px !important;
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+        }
+        html[data-theme="light"] .clone-error-alert,
+        html.theme-light .clone-error-alert {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #991b1b !important;
+        }
         ul.errorlist {
-            list-style-type: none;
-            padding-left: 0;
-            text-align: center;
+            list-style-type: none !important;
+            padding: 0 !important;
+            margin: 0 !important;
         }
     </style>
 {% endblock %}
 
 {% block body %}
-    <form id="contest-clone-panel" action="" method="post" class="form-area">
+<div class="clone-contest-wrapper">
+    <form id="contest-clone-form" action="" method="post">
         {% csrf_token %}
-        {% if form.errors %}
-            <div id="form-errors">
-                {{ form.key.errors }}
-            </div>
-        {% endif %}
+        <div class="clone-card">
+            <span class="clone-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                WORKSPACE / CONTEST CLONE
+            </span>
+            <h1 class="clone-title">{{ _('Nhân bản kỳ thi (Clone Contest)') }}</h1>
+            <p class="clone-desc">
+                {{ _('Tạo một bản sao độc lập của kỳ thi này bao gồm tất cả thông số thời gian biểu, thể thức thi đấu và toàn bộ danh sách bài tập đi kèm.') }}
+            </p>
 
-        <div><label class="inline-header grayed">{{ _('Enter a new key for the cloned contest:') }}</label></div>
-        <div id="contest-key-container"><span class="fullwidth">{{ form.key }}</span></div>
-        <hr>
-        <button style="float: right;" type="submit">{{ _('Clone!') }}</button>
+            {% if form.errors %}
+                <div class="clone-error-alert">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" style="flex-shrink: 0; margin-top: 1px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <div>{{ form.key.errors }}</div>
+                </div>
+            {% endif %}
+
+            <div class="clone-source-box">
+                <span class="source-label">{{ _('KỲ THI GỐC (SOURCE CONTEST)') }}</span>
+                <div class="source-box-title">{{ contest.name }}</div>
+                <div class="source-meta-row">
+                    <span class="source-code-badge">{{ contest.key }}</span>
+                    {% if contest.time_limit %}
+                        <span style="font-size: 12.5px; color: var(--expo-muted); font-family: 'JetBrains Mono', monospace;">
+                            <i class="fa fa-clock-o" style="margin-right: 4px;"></i>{{ contest.time_limit }}
+                        </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-field-group">
+                <label for="id_key" class="form-field-label">
+                    <span>{{ _('Mã kỳ thi mới (New Contest Key)') }}</span>
+                    <span style="color: #ef4444;">*</span>
+                </label>
+                <input type="text" name="key" id="id_key" class="clone-key-input" placeholder="Ví dụ: {{ contest.key }}_copy" required autofocus value="{{ request.POST.key or '' }}">
+                <div class="clone-help-text">
+                    {{ _('Mã định danh duy nhất cho kỳ thi mới trên đường dẫn URL (/contest/<key>/). Chỉ dùng chữ cái thường, số và dấu gạch dưới.') }}
+                </div>
+            </div>
+
+            <div class="clone-actions-bar">
+                <a href="{{ url('contest_view', contest.key) }}" class="btn-cancel-clone">{{ _('Hủy bỏ') }}</a>
+                <button type="submit" class="btn-submit-clone">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                    <span>{{ _('Nhân bản kỳ thi (Clone)') }}</span>
+                </button>
+            </div>
+        </div>
     </form>
+</div>
 {% endblock %}
