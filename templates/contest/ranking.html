@@ -74,18 +74,54 @@ html body, html {
     display: block !important;
 }
 
-#content-left.users {
+#content-left.users.h-scrollable-table,
+#content-left.users,
+.users.h-scrollable-table {
     width: 100% !important;
     flex: 1 1 100% !important;
     max-width: 100% !important;
     background: var(--expo-surface-card) !important;
     border: 1px solid var(--expo-hairline) !important;
     border-radius: 12px !important;
-    overflow: hidden !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    -webkit-overflow-scrolling: touch !important;
     box-shadow: var(--expo-card-shadow) !important;
     padding: 0 !important;
     box-sizing: border-box !important;
     transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+/* Modern slim scrollbar for horizontally scrollable ranking table */
+#content-left.users::-webkit-scrollbar,
+.h-scrollable-table::-webkit-scrollbar {
+    height: 6px !important;
+}
+#content-left.users::-webkit-scrollbar-track,
+.h-scrollable-table::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0.2) !important;
+    border-radius: 4px !important;
+}
+#content-left.users::-webkit-scrollbar-thumb,
+.h-scrollable-table::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.2) !important;
+    border-radius: 4px !important;
+}
+#content-left.users::-webkit-scrollbar-thumb:hover,
+.h-scrollable-table::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35) !important;
+}
+html[data-theme="light"] #content-left.users::-webkit-scrollbar-track,
+html[data-theme="light"] .h-scrollable-table::-webkit-scrollbar-track,
+html.theme-light #content-left.users::-webkit-scrollbar-track,
+html.theme-light .h-scrollable-table::-webkit-scrollbar-track {
+    background: #f0f0f3 !important;
+}
+html[data-theme="light"] #content-left.users::-webkit-scrollbar-thumb,
+html[data-theme="light"] .h-scrollable-table::-webkit-scrollbar-thumb,
+html.theme-light #content-left.users::-webkit-scrollbar-thumb,
+html.theme-light .h-scrollable-table::-webkit-scrollbar-thumb {
+    background: #cbd5e1 !important;
 }
 
 #content-left.users:hover {
@@ -468,12 +504,22 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
 #ranking-table,
 .users-table {
     width: 100% !important;
+    min-width: 100% !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
     background: transparent !important;
     border: none !important;
     margin: 0 !important;
     box-shadow: none !important;
+}
+#ranking-table {
+    width: max-content !important;
+}
+#ranking-table th.points,
+#ranking-table td.points {
+    min-width: 68px !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
 }
 
 #ranking-table thead th,
