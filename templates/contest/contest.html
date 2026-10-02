@@ -901,10 +901,23 @@ html.theme-light .comment-author-wrap a {
     color: #0f172a !important;
 }
 
-.comment-time {
+.comment-time,
+.comment-time *,
+.comment-time span,
+.time-with-rel {
     font-family: "Inter", sans-serif !important;
     font-size: 12px !important;
     color: var(--expo-muted) !important;
+}
+html[data-theme="light"] .comment-time,
+html[data-theme="light"] .comment-time *,
+html[data-theme="light"] .comment-time span,
+html[data-theme="light"] .time-with-rel,
+html.theme-light .comment-time,
+html.theme-light .comment-time *,
+html.theme-light .comment-time span,
+html.theme-light .time-with-rel {
+    color: #64748b !important;
 }
 
 /* Comment Operation Buttons - NO CYAN ON HOVER (Expo Design) */
