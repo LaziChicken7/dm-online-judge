@@ -768,6 +768,56 @@
         font-weight: 700 !important;
     }
 
+
+    /* Sample table header wrapper and titles (INPUT / OUTPUT) */
+    .sample-th-wrapper {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        width: 100% !important;
+    }
+    .sample-th-title {
+        font-family: 'JetBrains Mono', monospace !important;
+        font-size: 11px !important;
+        font-weight: 700 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        color: var(--expo-muted) !important;
+    }
+    html[data-theme="light"] .sample-th-title,
+    html[data-theme="light"] .sample-th-wrapper,
+    html[data-theme="light"] table th .sample-th-title,
+    html[data-theme="light"] .table th .sample-th-title,
+    html.theme-light .sample-th-title,
+    html.theme-light .sample-th-wrapper,
+    html.theme-light table th .sample-th-title,
+    html.theme-light .table th .sample-th-title {
+        color: #475569 !important;
+    }
+
+    /* Footer notice box (vjudge / ntucoder / ltpt / clue) */
+    .vjudge-footer-notice span,
+    .vjudge-footer-notice * {
+        color: var(--expo-muted) !important;
+    }
+    html[data-theme="light"] .vjudge-footer-notice,
+    html.theme-light .vjudge-footer-notice {
+        background: #f8fafc !important;
+        border-color: #e2e8f0 !important;
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .vjudge-footer-notice span,
+    html[data-theme="light"] .vjudge-footer-notice *,
+    html.theme-light .vjudge-footer-notice span,
+    html.theme-light .vjudge-footer-notice * {
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .vjudge-footer-notice svg,
+    html.theme-light .vjudge-footer-notice svg {
+        stroke: #0284c7 !important;
+        color: #0284c7 !important;
+    }
+
 </style>
 
 <script>
