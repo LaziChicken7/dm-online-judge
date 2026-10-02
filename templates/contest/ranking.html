@@ -382,14 +382,29 @@ html.theme-light body .contest-join-pseudotab:hover {
     color: var(--expo-ink) !important;
 }
 
+.show-org-toggle span {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: inherit !important;
+}
+
 html[data-theme="light"] .show-org-toggle,
-html[data-theme="light"] .show-org-toggle span,
-html.theme-light .show-org-toggle,
-html.theme-light .show-org-toggle span {
+html.theme-light .show-org-toggle {
     background: #ffffff !important;
     border: 1px solid #dcdee0 !important;
     color: #171717 !important;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02) !important;
+}
+
+html[data-theme="light"] .show-org-toggle span,
+html.theme-light .show-org-toggle span {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    color: #171717 !important;
 }
 
 html[data-theme="light"] .before-ranking-bar .select2-container--dmoj .select2-selection__placeholder,
@@ -547,6 +562,26 @@ html.theme-light #ranking-table tbody tr:hover td {
     vertical-align: middle !important;
 }
 
+#ranking-table td.user-name .rating,
+.users-table td.user-name .rating {
+    display: inline-flex !important;
+    align-items: center !important;
+    min-height: 32px !important;
+    vertical-align: middle !important;
+}
+
+#ranking-table td.user-name .rating a,
+.users-table td.user-name .rating a {
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+}
+
+#ranking-table td.organization-column,
+.users-table td.organization-column {
+    vertical-align: middle !important;
+}
+
 #ranking-table td.user-name a,
 .users-table td.user-name a {
     font-family: "Inter", -apple-system, sans-serif !important;
@@ -637,7 +672,16 @@ html.theme-light .organization-column a {
     float: right !important;
     display: inline-flex !important;
     align-items: center !important;
+    height: 32px !important;
     gap: 8px !important;
+    margin: 0 !important;
+}
+
+#ranking-table .contest-participation-operation form {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    height: 32px !important;
 }
 
 #ranking-table .user-name a.contest-action-btn,
