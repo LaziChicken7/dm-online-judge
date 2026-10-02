@@ -1549,6 +1549,102 @@ html:not([data-theme="light"]) #detail-student-subtitle {
     color: #94a3b8 !important;
 }
 
+
+/* ── Modal Payment & Contest Fee Polish ── */
+.modal-highlight-name {
+    font-size: 16px !important;
+    font-weight: 800 !important;
+    margin-top: 2px !important;
+}
+html[data-theme="light"] .modal-highlight-name,
+html.theme-light .modal-highlight-name,
+html[data-theme="light"] #pay-student-name,
+html.theme-light #pay-student-name,
+html[data-theme="light"] #cf-contest-name,
+html.theme-light #cf-contest-name {
+    color: #0f172a !important;
+}
+html[data-theme="dark"] .modal-highlight-name,
+html.theme-dark .modal-highlight-name,
+html:not([data-theme="light"]) .modal-highlight-name,
+html[data-theme="dark"] #pay-student-name,
+html.theme-dark #pay-student-name,
+html:not([data-theme="light"]) #pay-student-name,
+html[data-theme="dark"] #cf-contest-name,
+html.theme-dark #cf-contest-name,
+html:not([data-theme="light"]) #cf-contest-name {
+    color: #f4f4f5 !important;
+}
+
+/* Pay Summary Card */
+.pay-summary-card {
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 4px !important;
+}
+html[data-theme="light"] .pay-summary-card,
+html.theme-light .pay-summary-card {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+html[data-theme="dark"] .pay-summary-card,
+html.theme-dark .pay-summary-card,
+html:not([data-theme="light"]) .pay-summary-card {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.pay-summary-label {
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+}
+html[data-theme="light"] .pay-summary-label,
+html.theme-light .pay-summary-label {
+    color: #64748b !important;
+}
+html[data-theme="dark"] .pay-summary-label,
+html.theme-dark .pay-summary-label,
+html:not([data-theme="light"]) .pay-summary-label {
+    color: #a1a1aa !important;
+}
+
+.pay-summary-amount {
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+    font-size: 18px !important;
+    font-weight: 800 !important;
+}
+html[data-theme="light"] .pay-summary-amount,
+html.theme-light .pay-summary-amount {
+    color: #0284c7 !important;
+}
+html[data-theme="dark"] .pay-summary-amount,
+html.theme-dark .pay-summary-amount,
+html:not([data-theme="light"]) .pay-summary-amount {
+    color: #38bdf8 !important;
+}
+
+/* Checkbox label styling in Contest Fee Modal */
+.modal-checkbox-label {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+}
+html[data-theme="light"] .modal-checkbox-label,
+html.theme-light .modal-checkbox-label {
+    color: #334155 !important;
+}
+html[data-theme="dark"] .modal-checkbox-label,
+html.theme-dark .modal-checkbox-label,
+html:not([data-theme="light"]) .modal-checkbox-label {
+    color: #e4e4e7 !important;
+}
+
 </style>
 {% endblock %}
 
@@ -2013,12 +2109,12 @@ html:not([data-theme="light"]) #detail-student-subtitle {
             <div class="tuition-modal-body">
                 <div>
                     <label class="form-group-label">{{ _('Học viên') }}</label>
-                    <div id="pay-student-name" style="font-size: 16px; font-weight: 800; color: #ffffff;">—</div>
+                    <div id="pay-student-name" class="modal-highlight-name">—</div>
                 </div>
 
-                <div style="background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 14px 18px; display: flex; justify-content: space-between; align-items: center;">
-                    <span style="color: #94a3b8; font-size: 13.5px;">{{ _('Tổng học phí cần đóng:') }}</span>
-                    <span id="pay-total-fee-display" style="font-size: 17px; font-weight: 800; color: #38bdf8;">0 đ</span>
+                <div class="pay-summary-card">
+                    <span class="pay-summary-label">{{ _('Tổng học phí cần đóng:') }}</span>
+                    <span id="pay-total-fee-display" class="pay-summary-amount">0 đ</span>
                 </div>
 
                 <div>
@@ -2128,11 +2224,11 @@ html:not([data-theme="light"]) #detail-student-subtitle {
             <div class="tuition-modal-body">
                 <div>
                     <label class="form-group-label">{{ _('Kỳ thi / Buổi học') }}</label>
-                    <div id="cf-contest-name" style="font-size: 16px; font-weight: 700; color: #38bdf8;">—</div>
+                    <div id="cf-contest-name" class="modal-highlight-name">—</div>
                 </div>
 
                 <div style="display: flex; align-items: center; gap: 10px; padding: 6px 0;">
-                    <label style="display: inline-flex; align-items: center; gap: 8px; cursor: pointer; color: #e2e8f0; font-size: 14px; font-weight: 600;">
+                    <label class="modal-checkbox-label">
                         <input type="checkbox" name="is_billed" id="cf-is-billed" style="width: 18px; height: 18px; accent-color: #0284c7;">
                         <span>{{ _('Có tính học phí buổi học này') }}</span>
                     </label>
@@ -2151,7 +2247,7 @@ html:not([data-theme="light"]) #detail-student-subtitle {
                 </div>
 
                 <!-- Suggested fee box -->
-                <div id="cf-suggested-box" style="padding: 12px 16px; background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 10px; display: flex; justify-content: space-between; align-items: center;">
+                <div id="cf-suggested-box" class="modal-notice-banner" style="border-radius: 10px; border: 1px solid; justify-content: space-between; margin-bottom: 16px;">
                     <div>
                         <div style="font-size: 12px; color: #94a3b8;">{{ _('Giá tính theo số buổi &times; đơn giá lớp:') }}</div>
                         <div id="cf-suggested-val" style="font-size: 15px; font-weight: 800; color: #38bdf8;">200.000 đ</div>
