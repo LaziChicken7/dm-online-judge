@@ -1072,6 +1072,67 @@
             color: #ffffff !important;
         }
 
+
+        /* Compact arrow-only Enter button */
+        .ongoing-row-enter {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 7px !important;
+            flex-shrink: 0 !important;
+            text-decoration: none !important;
+            padding: 0 !important;
+            transition: all 0.15s ease !important;
+        }
+        .ongoing-row-enter svg,
+        .ongoing-row-enter * {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .ongoing-row-enter,
+        html.theme-light .ongoing-row-enter {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+        }
+        html[data-theme="light"] .ongoing-row-enter svg,
+        html[data-theme="light"] .ongoing-row-enter *,
+        html.theme-light .ongoing-row-enter svg,
+        html.theme-light .ongoing-row-enter * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+        html[data-theme="light"] .ongoing-contest-row:hover .ongoing-row-enter,
+        html.theme-light .ongoing-contest-row:hover .ongoing-row-enter {
+            background: #1e293b !important;
+            border-color: #1e293b !important;
+            transform: translateX(2px) !important;
+        }
+
+        html[data-theme="dark"] .ongoing-row-enter,
+        html.theme-dark .ongoing-row-enter,
+        html:not([data-theme="light"]) .ongoing-row-enter {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+        }
+        html[data-theme="dark"] .ongoing-row-enter svg,
+        html[data-theme="dark"] .ongoing-row-enter *,
+        html.theme-dark .ongoing-row-enter svg,
+        html.theme-dark .ongoing-row-enter * {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-row:hover .ongoing-row-enter,
+        html.theme-dark .ongoing-contest-row:hover .ongoing-row-enter {
+            background: #e4e4e7 !important;
+            border-color: #e4e4e7 !important;
+            transform: translateX(2px) !important;
+        }
+
 </style>
 {% endblock %}
 
@@ -1206,9 +1267,8 @@
                                 <div class="ongoing-row-time">
                                     {{ as_countdown(contest.time_before_end) }}
                                 </div>
-                                <a href="{{ url('contest_view', contest.key) }}" class="ongoing-row-enter">
-                                    <span>{{ _('Enter Contest') }}</span>
-                                    <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                                <a href="{{ url('contest_view', contest.key) }}" class="ongoing-row-enter" title="{{ _('Enter Contest') }}">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
                                 </a>
                             </div>
                         {% endfor %}
