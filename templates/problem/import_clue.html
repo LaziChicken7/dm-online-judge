@@ -158,8 +158,17 @@
         }
 
         html[data-theme="light"] .import-mode-btn,
-        html.theme-light .import-mode-btn {
+        html[data-theme="light"] .import-mode-btn *,
+        html[data-theme="light"] .import-mode-btn span,
+        html.theme-light .import-mode-btn,
+        html.theme-light .import-mode-btn *,
+        html.theme-light .import-mode-btn span {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .import-mode-btn svg,
+        html.theme-light .import-mode-btn svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
         html[data-theme="light"] .import-mode-btn:hover,
         html.theme-light .import-mode-btn:hover {
