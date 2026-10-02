@@ -2624,6 +2624,201 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
         }
 
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           SINGLE-ROW ONGOING CONTESTS WIDGET & XEM THÊM (Light & Dark Mode)
+           ══════════════════════════════════════════════════════════════════════════ */
+        html body #content .blog-sidebar {
+            flex: 0 0 370px !important;
+            width: 370px !important;
+        }
+        .blog-sidebox.sidebox {
+            padding: 16px !important;
+        }
+
+        .ongoing-contest-row {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 6px !important;
+            padding: 9px 10px !important;
+            border-radius: 9px !important;
+            margin-bottom: 8px !important;
+            box-sizing: border-box !important;
+            transition: all 0.15s ease !important;
+        }
+        .ongoing-contest-row:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        /* Light Mode Row */
+        html[data-theme="light"] .ongoing-contest-row,
+        html.theme-light .ongoing-contest-row {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .ongoing-contest-row:hover,
+        html.theme-light .ongoing-contest-row:hover {
+            background: #f8fafc !important;
+            border-color: #cbd5e1 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        /* Dark Mode Row */
+        html[data-theme="dark"] .ongoing-contest-row,
+        html.theme-dark .ongoing-contest-row,
+        html:not([data-theme="light"]) .ongoing-contest-row {
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-row:hover,
+        html.theme-dark .ongoing-contest-row:hover,
+        html:not([data-theme="light"]) .ongoing-contest-row:hover {
+            background: #202024 !important;
+            border-color: rgba(255, 255, 255, 0.2) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .ongoing-row-name {
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            text-decoration: none !important;
+            flex: 1 1 auto !important;
+            min-width: 0 !important;
+        }
+        html[data-theme="light"] .ongoing-row-name,
+        html.theme-light .ongoing-row-name {
+            color: #0f172a !important;
+        }
+        html[data-theme="dark"] .ongoing-row-name,
+        html.theme-dark .ongoing-row-name,
+        html:not([data-theme="light"]) .ongoing-row-name {
+            color: #f4f4f5 !important;
+        }
+
+        .ongoing-row-time {
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            margin: 0 2px !important;
+        }
+        html[data-theme="light"] .ongoing-row-time,
+        html[data-theme="light"] .ongoing-row-time .time-remaining,
+        html.theme-light .ongoing-row-time,
+        html.theme-light .ongoing-row-time .time-remaining {
+            color: #0284c7 !important;
+        }
+        html[data-theme="dark"] .ongoing-row-time,
+        html[data-theme="dark"] .ongoing-row-time .time-remaining,
+        html.theme-dark .ongoing-row-time,
+        html.theme-dark .ongoing-row-time .time-remaining,
+        html:not([data-theme="light"]) .ongoing-row-time,
+        html:not([data-theme="light"]) .ongoing-row-time .time-remaining {
+            color: #38bdf8 !important;
+        }
+
+        .ongoing-row-enter {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+            white-space: nowrap !important;
+            flex-shrink: 0 !important;
+            padding: 4px 8px !important;
+            border-radius: 6px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+        }
+        .ongoing-row-enter span,
+        .ongoing-row-enter svg,
+        .ongoing-row-enter * {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+
+        /* Light Mode Enter Button */
+        html[data-theme="light"] .ongoing-row-enter,
+        html.theme-light .ongoing-row-enter {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+        }
+        html[data-theme="light"] .ongoing-contest-row:hover .ongoing-row-enter,
+        html.theme-light .ongoing-contest-row:hover .ongoing-row-enter {
+            background: #1e293b !important;
+            border-color: #1e293b !important;
+        }
+
+        /* Dark Mode Enter Button */
+        html[data-theme="dark"] .ongoing-row-enter,
+        html.theme-dark .ongoing-row-enter,
+        html:not([data-theme="light"]) .ongoing-row-enter {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-row:hover .ongoing-row-enter,
+        html.theme-dark .ongoing-contest-row:hover .ongoing-row-enter {
+            background: #e4e4e7 !important;
+            border-color: #e4e4e7 !important;
+        }
+
+        /* Xem Thêm Button */
+        .ongoing-view-more-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            width: 100% !important;
+            height: 36px !important;
+            border-radius: 8px !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            margin-top: 10px !important;
+            box-sizing: border-box !important;
+            transition: all 0.15s ease !important;
+        }
+        .ongoing-view-more-btn span,
+        .ongoing-view-more-btn svg,
+        .ongoing-view-more-btn * {
+            color: inherit !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .ongoing-view-more-btn,
+        html.theme-light .ongoing-view-more-btn {
+            background: #f1f5f9 !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #334155 !important;
+        }
+        html[data-theme="light"] .ongoing-view-more-btn:hover,
+        html.theme-light .ongoing-view-more-btn:hover {
+            background: #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="dark"] .ongoing-view-more-btn,
+        html.theme-dark .ongoing-view-more-btn,
+        html:not([data-theme="light"]) .ongoing-view-more-btn {
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            color: #d4d4d8 !important;
+        }
+        html[data-theme="dark"] .ongoing-view-more-btn:hover,
+        html.theme-dark .ongoing-view-more-btn:hover {
+            background: #27272a !important;
+            color: #ffffff !important;
+        }
+
 </style>
 
     <!-- ========================================================================
