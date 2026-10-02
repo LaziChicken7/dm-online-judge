@@ -520,18 +520,7 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
 #ranking-table th,
 #ranking-table td,
 #ranking-table thead th,
-#ranking-table tbody td,
-#ranking-table th.points.header,
-#ranking-table td.points,
-#ranking-table th.header.rank,
-#ranking-table td.rank-column,
-#ranking-table th.organization-column,
-#ranking-table td.organization-column,
-#ranking-table th.header.username,
-#ranking-table td.user-name,
-#ranking-table thead tr th:last-child,
-#ranking-table tbody tr td:last-child,
-#ranking-table td.user-points {
+#ranking-table tbody td {
     border-left: none !important;
     border-right: none !important;
     border-top: none !important;
@@ -549,13 +538,14 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
     border-bottom: none !important;
 }
 
-/* 1. Sticky Rank Column (Left) */
+/* 1. Sticky Rank Column (Left, z-index 30) */
+#ranking-table thead th:first-child,
+#ranking-table tbody td:first-child,
 #ranking-table th.header.rank,
-#ranking-table td.rank-column,
-#ranking-table tbody td:first-child {
+#ranking-table td.rank-column {
     position: sticky !important;
     left: 0px !important;
-    z-index: 20 !important;
+    z-index: 30 !important;
     width: 64px !important;
     min-width: 64px !important;
     max-width: 64px !important;
@@ -563,12 +553,12 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
     background: #18181b !important;
     box-sizing: border-box !important;
 }
-#ranking-table tbody td.rank-column,
-#ranking-table tbody td:first-child {
+#ranking-table tbody td:first-child,
+#ranking-table tbody td.rank-column {
     background: #121214 !important;
 }
 
-/* 2. Organization Column (Left of Username, hidden by default) */
+/* 2. Organization Column (Left of Username, hidden by default, z-index 29) */
 #ranking-table th.organization-column,
 #ranking-table td.organization-column {
     display: none !important;
@@ -580,7 +570,7 @@ body.show-organizations #ranking-table td.organization-column {
     display: table-cell !important;
     position: sticky !important;
     left: 64px !important;
-    z-index: 19 !important;
+    z-index: 29 !important;
     width: 120px !important;
     min-width: 120px !important;
     max-width: 120px !important;
@@ -595,12 +585,12 @@ body.show-organizations #ranking-table tbody td.organization-column {
     background: #121214 !important;
 }
 
-/* 3. Sticky Username Column (Left) */
-#ranking-table th.header.username,
-#ranking-table td.user-name {
+/* 3. Sticky Username Column (Left, z-index 28) */
+#ranking-table thead th.username,
+#ranking-table tbody td.user-name {
     position: sticky !important;
     left: 64px !important;
-    z-index: 18 !important;
+    z-index: 28 !important;
     width: 250px !important;
     min-width: 250px !important;
     max-width: 250px !important;
@@ -616,8 +606,8 @@ body.show-organizations #ranking-table tbody td.organization-column {
 }
 
 /* When Organization is shown, Username shifts to left: 184px (64px + 120px) */
-body.show-organizations #ranking-table th.header.username,
-body.show-organizations #ranking-table td.user-name {
+body.show-organizations #ranking-table thead th.username,
+body.show-organizations #ranking-table tbody td.user-name {
     left: 184px !important;
 }
 
@@ -654,25 +644,29 @@ body.show-organizations #ranking-table td.user-name {
     box-shadow: none !important;
 }
 
-/* Problem columns (scrollable) */
-#ranking-table th.points.header,
-#ranking-table td.points {
+/* 4. Problem headers & cells (strictly non-sticky, z-index 1, ONLY middle columns move!) */
+#ranking-table thead th.points:not(:last-child),
+#ranking-table thead th.points.header:not(:last-child),
+#ranking-table tbody td.points:not(:last-child),
+#ranking-table tbody td.full-score,
+#ranking-table tbody td.partial-score,
+#ranking-table tbody td.failed-score,
+#ranking-table tbody td:not(:first-child):not(.user-name):not(.organization-column):not(:last-child) {
+    position: static !important;
+    z-index: 1 !important;
     min-width: 68px !important;
     width: 68px !important;
     text-align: center !important;
     box-sizing: border-box !important;
-    position: static !important;
-    z-index: 1 !important;
 }
 
-/* 4. Sticky Points Column (Total Score, widened to 120px, sticky right!) */
+/* 5. Sticky Points Column (Total Score, ONLY last child, z-index 30, right 0) */
 #ranking-table thead tr th:last-child,
 #ranking-table tbody tr td:last-child,
-#ranking-table th.header.points,
-#ranking-table td.user-points {
+#ranking-table tbody tr td.user-points {
     position: sticky !important;
     right: 0px !important;
-    z-index: 20 !important;
+    z-index: 30 !important;
     width: 120px !important;
     min-width: 120px !important;
     max-width: 120px !important;
@@ -685,7 +679,7 @@ body.show-organizations #ranking-table td.user-name {
     overflow: visible !important;
 }
 #ranking-table tbody tr td:last-child,
-#ranking-table td.user-points {
+#ranking-table tbody tr td.user-points {
     background: #121214 !important;
 }
 
@@ -903,8 +897,41 @@ html.theme-light #ranking-table td.user-name a:hover {
 }
 
 html[data-theme="dark"] .full-score a,
-html.theme-dark .full-score a {
+
+.full-score a,
+.partial-score a,
+.failed-score a,
+.pretest-full-score a,
+.pretest-partial-score a,
+.pretest-failed-score a {
+    font-family: "JetBrains Mono", monospace !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    text-decoration: none !important;
+}
+
+.full-score a,
+.partial-score a {
+    color: #16a34a !important;
+}
+
+html[data-theme="dark"] .full-score a,
+html.theme-dark .full-score a,
+html[data-theme="dark"] .partial-score a,
+html.theme-dark .partial-score a {
     color: #4ade80 !important;
+}
+
+.failed-score a,
+.pretest-failed-score a {
+    color: #ef4444 !important;
+}
+
+html[data-theme="dark"] .failed-score a,
+html.theme-dark .failed-score a,
+html[data-theme="dark"] .pretest-failed-score a,
+html.theme-dark .pretest-failed-score a {
+    color: #f87171 !important;
 }
 
 .user-points a,
