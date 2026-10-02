@@ -1,4 +1,143 @@
 {% extends "tabs-base.html" %}
+{% block tabs_class %} submission-tabs{% endblock %}
+{% block post_tab_spacer %}
+    <style>
+        /* Submission Header Tabs (.tabs.submission-tabs) - Flex-wrap to prevent title overlap */
+        body .tabs.submission-tabs,
+        body .tabs.submission-tabs:hover {
+            background: transparent !important;
+            border: none !important;
+            border-radius: 0 !important;
+            box-shadow: none !important;
+            transform: none !important;
+            padding: 0 !important;
+            margin-bottom: 20px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            justify-content: space-between !important;
+            align-items: flex-end !important;
+            flex-wrap: wrap !important;
+            gap: 8px 16px !important;
+            position: relative !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            text-align: left !important;
+        }
+        body .tabs.submission-tabs:not(#mobile)::before {
+            width: 100% !important;
+            margin-bottom: -4px !important;
+            text-align: left !important;
+        }
+        body .tabs.submission-tabs h2 {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 26px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.6px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 !important;
+            text-align: left !important;
+            flex: 0 1 auto !important;
+            max-width: 100% !important;
+            line-height: 1.3 !important;
+            word-break: break-word !important;
+        }
+        body .tabs.submission-tabs ul {
+            position: static !important;
+            display: inline-flex !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            gap: 6px !important;
+            list-style: none !important;
+            margin: 0 !important;
+            margin-left: auto !important;
+            padding: 0 !important;
+            background: transparent !important;
+            border: none !important;
+        }
+        body .tabs.submission-tabs .tab {
+            padding: 0 !important;
+            margin: 0 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            background: transparent !important;
+            border: none !important;
+            box-shadow: none !important;
+        }
+        body .tabs.submission-tabs .tab > a,
+        body .tabs.submission-tabs .tab > span {
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 6px !important;
+            padding: 0 14px !important;
+            height: 38px !important;
+            min-height: 38px !important;
+            max-height: 38px !important;
+            box-sizing: border-box !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            color: #a1a1aa !important;
+            box-shadow: none !important;
+            margin: 0 !important;
+            vertical-align: middle !important;
+        }
+        body .tabs.submission-tabs .tab > a .tab-icon,
+        body .tabs.submission-tabs .tab > span .tab-icon {
+            width: 14px !important;
+            height: 14px !important;
+            stroke: currentColor !important;
+            flex-shrink: 0 !important;
+        }
+        body .tabs.submission-tabs .tab > a:hover {
+            background: #242428 !important;
+            color: #ffffff !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+        body .tabs.submission-tabs .tab.active > a,
+        body .tabs.submission-tabs .tab.active > span {
+            background: #242428 !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            color: #ffffff !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] body .tabs.submission-tabs .tab > a,
+        html[data-theme="light"] body .tabs.submission-tabs .tab > span,
+        html.theme-light body .tabs.submission-tabs .tab > a,
+        html.theme-light body .tabs.submission-tabs .tab > span {
+            background: #f0f0f3 !important;
+            border: 1px solid transparent !important;
+            color: #60646c !important;
+        }
+        html[data-theme="light"] body .tabs.submission-tabs .tab > a:hover,
+        html.theme-light body .tabs.submission-tabs .tab > a:hover {
+            background: #e4e4e7 !important;
+            color: #171717 !important;
+        }
+        html[data-theme="light"] body .tabs.submission-tabs .tab.active > a,
+        html[data-theme="light"] body .tabs.submission-tabs .tab.active > span,
+        html.theme-light body .tabs.submission-tabs .tab.active > a,
+        html.theme-light body .tabs.submission-tabs .tab.active > span {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        }
+        html[data-theme="light"] body .tabs.submission-tabs .tab.active > a svg,
+        html[data-theme="light"] body .tabs.submission-tabs .tab.active > a i,
+        html.theme-light body .tabs.submission-tabs .tab.active > a svg,
+        html.theme-light body .tabs.submission-tabs .tab.active > a i {
+            stroke: #ffffff !important;
+            color: #ffffff !important;
+        }
+    </style>
+{% endblock %}
 
 {% block tabs %}
     {{ make_tab('all_submissions_list', 'fa-list', all_submissions_link, _('All')) }}
