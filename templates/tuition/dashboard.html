@@ -1319,6 +1319,236 @@ html:not([data-theme="light"]) .radio-card-desc {
         border-bottom: 1px solid #dddddd !important;
     }
 }
+
+/* ── Student Detail Modal Redesign (Light & Dark Mode) ── */
+#modal-student-detail .tuition-modal-box {
+    max-width: 960px !important;
+    width: 95vw !important;
+}
+
+.modal-notice-banner {
+    padding: 12px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    font-size: 13px !important;
+    line-height: 1.5 !important;
+}
+.modal-notice-banner span,
+.modal-notice-banner *,
+.modal-notice-banner svg {
+    color: inherit !important;
+}
+
+html[data-theme="light"] .modal-notice-banner,
+html.theme-light .modal-notice-banner {
+    background: #f0f9ff !important;
+    border-bottom: 1px solid #bae6fd !important;
+    color: #0369a1 !important;
+}
+html[data-theme="light"] .modal-notice-banner svg,
+html.theme-light .modal-notice-banner svg {
+    stroke: #0284c7 !important;
+}
+
+html[data-theme="dark"] .modal-notice-banner,
+html.theme-dark .modal-notice-banner,
+html:not([data-theme="light"]) .modal-notice-banner {
+    background: rgba(56, 189, 248, 0.08) !important;
+    border-bottom: 1px solid rgba(56, 189, 248, 0.2) !important;
+    color: #38bdf8 !important;
+}
+html[data-theme="dark"] .modal-notice-banner svg,
+html.theme-dark .modal-notice-banner svg,
+html:not([data-theme="light"]) .modal-notice-banner svg {
+    stroke: #38bdf8 !important;
+}
+
+/* Modal Summary Bar */
+.modal-summary-bar {
+    padding: 14px 24px !important;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    flex-wrap: wrap !important;
+    gap: 12px !important;
+}
+.summary-sessions-count {
+    font-size: 13.5px !important;
+}
+.summary-total-amount {
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+.summary-total-amount span {
+    font-size: 19px !important;
+    font-weight: 800 !important;
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+}
+
+html[data-theme="light"] .modal-summary-bar,
+html.theme-light .modal-summary-bar {
+    background: #f8fafc !important;
+    border-top: 1px solid #e2e8f0 !important;
+}
+html[data-theme="light"] .summary-sessions-count,
+html.theme-light .summary-sessions-count {
+    color: #64748b !important;
+}
+html[data-theme="light"] .summary-sessions-count strong,
+html.theme-light .summary-sessions-count strong {
+    color: #0284c7 !important;
+    font-size: 16px !important;
+}
+html[data-theme="light"] .summary-total-amount,
+html.theme-light .summary-total-amount {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .summary-total-amount span,
+html.theme-light .summary-total-amount span {
+    color: #0284c7 !important;
+}
+
+html[data-theme="dark"] .modal-summary-bar,
+html.theme-dark .modal-summary-bar,
+html:not([data-theme="light"]) .modal-summary-bar {
+    background: #18181b !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .summary-sessions-count,
+html.theme-dark .summary-sessions-count,
+html:not([data-theme="light"]) .summary-sessions-count {
+    color: #a1a1aa !important;
+}
+html[data-theme="dark"] .summary-sessions-count strong,
+html.theme-dark .summary-sessions-count strong,
+html:not([data-theme="light"]) .summary-sessions-count strong {
+    color: #38bdf8 !important;
+    font-size: 16px !important;
+}
+html[data-theme="dark"] .summary-total-amount,
+html.theme-dark .summary-total-amount,
+html:not([data-theme="light"]) .summary-total-amount {
+    color: #f4f4f5 !important;
+}
+html[data-theme="dark"] .summary-total-amount span,
+html.theme-dark .summary-total-amount span,
+html:not([data-theme="light"]) .summary-total-amount span {
+    color: #38bdf8 !important;
+}
+
+/* Contest name in student detail table */
+#detail-sessions-body strong,
+.detail-contest-name {
+    font-weight: 700 !important;
+}
+html[data-theme="light"] #detail-sessions-body strong,
+html[data-theme="light"] .detail-contest-name,
+html.theme-light #detail-sessions-body strong,
+html.theme-light .detail-contest-name {
+    color: #0f172a !important;
+}
+html[data-theme="dark"] #detail-sessions-body strong,
+html[data-theme="dark"] .detail-contest-name,
+html.theme-dark #detail-sessions-body strong,
+html.theme-dark .detail-contest-name,
+html:not([data-theme="light"]) #detail-sessions-body strong,
+html:not([data-theme="light"]) .detail-contest-name {
+    color: #f4f4f5 !important;
+}
+
+/* Session date in student detail table */
+html[data-theme="light"] .detail-session-time,
+html[data-theme="light"] #detail-sessions-body td:nth-child(3),
+html.theme-light .detail-session-time,
+html.theme-light #detail-sessions-body td:nth-child(3) {
+    color: #475569 !important;
+}
+html[data-theme="dark"] .detail-session-time,
+html[data-theme="dark"] #detail-sessions-body td:nth-child(3),
+html.theme-dark .detail-session-time,
+html.theme-dark #detail-sessions-body td:nth-child(3),
+html:not([data-theme="light"]) .detail-session-time,
+html:not([data-theme="light"]) #detail-sessions-body td:nth-child(3) {
+    color: #cbd5e1 !important;
+}
+
+/* Charge reason in student detail table */
+html[data-theme="light"] #detail-sessions-body td:nth-child(7),
+html.theme-light #detail-sessions-body td:nth-child(7) {
+    color: #64748b !important;
+}
+html[data-theme="dark"] #detail-sessions-body td:nth-child(7),
+html.theme-dark #detail-sessions-body td:nth-child(7),
+html:not([data-theme="light"]) #detail-sessions-body td:nth-child(7) {
+    color: #94a3b8 !important;
+}
+
+/* Multi-session badge in modal */
+html[data-theme="light"] .badge-multi-session,
+html.theme-light .badge-multi-session {
+    background: #f5f3ff !important;
+    color: #6d28d9 !important;
+    border: 1px solid #ddd6fe !important;
+}
+html[data-theme="dark"] .badge-multi-session,
+html.theme-dark .badge-multi-session,
+html:not([data-theme="light"]) .badge-multi-session {
+    background: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+    border: 1px solid rgba(168, 85, 247, 0.35) !important;
+}
+
+/* Session action buttons (Khôi phục / Xóa buổi) */
+html[data-theme="light"] .btn-session-delete,
+html.theme-light .btn-session-delete {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+}
+html[data-theme="light"] .btn-session-delete:hover,
+html.theme-light .btn-session-delete:hover {
+    background: #dc2626 !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .btn-session-delete span,
+html[data-theme="light"] .btn-session-delete svg,
+html.theme-light .btn-session-delete span,
+html.theme-light .btn-session-delete svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+
+html[data-theme="light"] .btn-session-restore,
+html.theme-light .btn-session-restore {
+    background: #ecfdf5 !important;
+    color: #047857 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+html[data-theme="light"] .btn-session-restore:hover,
+html.theme-light .btn-session-restore:hover {
+    background: #059669 !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .btn-session-restore span,
+html[data-theme="light"] .btn-session-restore svg,
+html.theme-light .btn-session-restore span,
+html.theme-light .btn-session-restore svg {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+
+/* Subtitle under title */
+html[data-theme="light"] #detail-student-subtitle,
+html.theme-light #detail-student-subtitle {
+    color: #64748b !important;
+}
+html[data-theme="dark"] #detail-student-subtitle,
+html.theme-dark #detail-student-subtitle,
+html:not([data-theme="light"]) #detail-student-subtitle {
+    color: #94a3b8 !important;
+}
+
 </style>
 {% endblock %}
 
@@ -1841,7 +2071,7 @@ html:not([data-theme="light"]) .radio-card-desc {
             <button type="button" class="tuition-modal-close" onclick="closeStudentDetailModal()">&times;</button>
         </div>
         <div class="tuition-modal-body" style="padding: 0;">
-            <div style="padding: 12px 20px; background: rgba(56, 189, 248, 0.08); border-bottom: 1px solid rgba(56, 189, 248, 0.2); font-size: 13px; color: #e2e8f0; display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <div class="modal-notice-banner">
                 <div style="display: flex; align-items: center; gap: 8px;">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
                     <span>{{ _('Bạn có thể xem từng buổi học, sửa tiền hoặc bấm nút đỏ "Xóa buổi này" để trừ tiền/buổi học đó khỏi học phí của học viên.') }}</span>
@@ -1866,12 +2096,12 @@ html:not([data-theme="light"]) .radio-card-desc {
                     </tbody>
                 </table>
             </div>
-            <div style="background: rgba(15, 23, 42, 0.9); border-top: 1px solid rgba(255, 255, 255, 0.08); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
-                <div style="font-size: 13.5px; color: #94a3b8;">
-                    {{ _('Số buổi tính phí:') }} <strong id="detail-total-billable-sessions" style="color: #38bdf8; font-size: 15px;">0</strong> {{ _('buổi') }}
+            <div class="modal-summary-bar">
+                <div class="summary-sessions-count">
+                    {{ _('Số buổi tính phí:') }} <strong id="detail-total-billable-sessions">0</strong> buổi
                 </div>
-                <div style="font-size: 15px; font-weight: 800; color: #ffffff;">
-                    {{ _('Tổng tiền học phí:') }} <span id="detail-total-amount" style="color: #38bdf8; font-size: 19px;">0 đ</span>
+                <div class="summary-total-amount">
+                    {{ _('Tổng tiền học phí:') }} <span id="detail-total-amount">0 đ</span>
                 </div>
             </div>
         </div>
@@ -2324,8 +2554,8 @@ html:not([data-theme="light"]) .radio-card-desc {
 
                     html += '<tr style="' + (s.is_excluded ? 'opacity: 0.6; background: rgba(239, 68, 68, 0.04);' : '') + '">' +
                         '<td>' + (idx + 1) + '</td>' +
-                        '<td><strong style="color: #ffffff;">' + escapeHtml(s.contest_name) + '</strong></td>' +
-                        '<td style="color: #cbd5e1;">' + escapeHtml(s.start_time) + '</td>' +
+                        '<td><strong class="detail-contest-name">' + escapeHtml(s.contest_name) + '</strong></td>' +
+                        '<td class="num-mono detail-session-time">' + escapeHtml(s.start_time) + '</td>' +
                         '<td style="text-align: center;">' +
                             (s.session_count > 1 ? '<span class="badge-multi-session">' + s.session_count + ' buổi</span>' : '<span style="color:#94a3b8; font-size:12px;">1 buổi</span>') +
                         '</td>' +
