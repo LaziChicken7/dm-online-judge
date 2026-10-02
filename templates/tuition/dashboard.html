@@ -1,715 +1,1219 @@
 {% extends "base.html" %}
 
+{% block title_row %}{% endblock %}
 {% block title_ruler %}{% endblock %}
 
 {% block media %}
 <style>
-    /* ── Tuition Dashboard Cyber Container ── */
-    .tuition-wrapper {
-        max-width: 1420px;
-        margin: 20px auto 60px auto;
-        padding: 0 20px;
-        box-sizing: border-box;
-    }
+/* ══════════════════════════════════════════════════════════════════════════
+   EXPO DESIGN SYSTEM FOR TUITION DASHBOARD (Light & Dark Mode)
+   ══════════════════════════════════════════════════════════════════════════ */
 
-    /* ── Header Card ── */
-    .tuition-header-card {
-        background: rgba(15, 23, 42, 0.6) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 20px !important;
-        backdrop-filter: blur(20px) !important;
-        padding: 28px 36px !important;
-        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4) !important;
-        margin-bottom: 24px !important;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-    .tuition-header-left {
-        display: flex;
-        align-items: center;
-        gap: 18px;
-    }
-    .tuition-header-icon {
-        width: 56px;
-        height: 56px;
-        border-radius: 16px;
-        background: linear-gradient(135deg, rgba(56, 189, 248, 0.2) 0%, rgba(14, 165, 233, 0.05) 100%);
-        border: 1px solid rgba(56, 189, 248, 0.4);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #38bdf8;
-        box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
-    }
-    .tuition-title {
-        font-size: 24px !important;
-        font-weight: 800 !important;
-        color: #ffffff !important;
-        margin: 0 0 4px 0 !important;
-        letter-spacing: -0.01em !important;
-    }
-    .tuition-subtitle {
-        color: #94a3b8 !important;
-        font-size: 13.5px !important;
-        margin: 0 !important;
-    }
-    .tuition-header-filters {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
+#content > h2:first-child,
+#content > h2[style*="display:inline"] {
+    display: none !important;
+}
 
-    /* Select elements */
-    .tuition-select {
-        background-color: rgba(15, 23, 42, 0.8) !important;
-        border: 1px solid rgba(56, 189, 248, 0.3) !important;
-        border-radius: 12px !important;
-        padding: 9px 34px 9px 14px !important;
-        color: #ffffff !important;
-        font-size: 13.5px !important;
-        font-weight: 600 !important;
-        outline: none !important;
-        cursor: pointer !important;
-        transition: all 0.2s ease !important;
-        appearance: none !important;
-        -webkit-appearance: none !important;
-        background-image: url("data:image/svg+xml,%3Csvg width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2338bdf8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E") !important;
-        background-repeat: no-repeat !important;
-        background-position: right 12px center !important;
-    }
-    .tuition-select:hover {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 15px rgba(56, 189, 248, 0.25) !important;
-    }
-    .tuition-select option {
-        background: #0f172a !important;
-        color: #ffffff !important;
-    }
+.tuition-wrapper {
+    max-width: 1420px !important;
+    margin: 16px auto 60px auto !important;
+    padding: 0 24px !important;
+    box-sizing: border-box !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+}
 
-    .btn-tuition-action {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(56, 189, 248, 0.15);
-        color: #38bdf8;
-        border: 1px solid rgba(56, 189, 248, 0.4);
-        border-radius: 12px;
-        padding: 9px 18px;
-        font-size: 13.5px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .btn-tuition-action:hover {
-        background: #0284c7;
-        color: #ffffff;
-        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.4);
-    }
+/* ── 1. Header Card ── */
+.tuition-header-card {
+    border-radius: 14px !important;
+    padding: 24px 28px !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 20px !important;
+    transition: all 0.2s ease !important;
+}
 
-    .btn-tuition-print {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.05);
-        color: #cbd5e1;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        border-radius: 12px;
-        padding: 9px 16px;
-        font-size: 13.5px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .btn-tuition-print:hover {
-        background: rgba(255, 255, 255, 0.12);
-        color: #ffffff;
-    }
+/* Light Theme Header */
+html[data-theme="light"] .tuition-header-card,
+html.theme-light .tuition-header-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
 
-    /* ── Mode Banner Card ── */
-    .mode-banner-card {
-        background: rgba(15, 23, 42, 0.65) !important;
-        border: 1px solid rgba(56, 189, 248, 0.25) !important;
-        border-radius: 18px !important;
-        padding: 20px 28px !important;
-        margin-bottom: 24px !important;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 16px;
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
-    }
-    .mode-banner-left {
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
-    }
-    .mode-badge-wrap {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-    .mode-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        padding: 5px 12px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-    }
-    .mode-badge.individual {
-        background: rgba(16, 185, 129, 0.15);
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-    .mode-badge.center {
-        background: rgba(168, 85, 247, 0.15);
-        color: #c084fc;
-        border: 1px solid rgba(168, 85, 247, 0.4);
-    }
-    .mode-rate-badge {
-        font-size: 13.5px;
-        font-weight: 700;
-        color: #38bdf8;
-    }
-    .teacher-badge {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(245, 158, 11, 0.15);
-        color: #fbbf24;
-        border: 1px solid rgba(245, 158, 11, 0.35);
-        padding: 4px 10px;
-        border-radius: 8px;
-        font-size: 12px;
-        font-weight: 700;
-    }
-    .mode-desc-text {
-        font-size: 13.5px;
-        color: #94a3b8;
-    }
-    .btn-mode-quick-toggle {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        background: rgba(255, 255, 255, 0.06);
-        color: #f1f5f9;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 12px;
-        padding: 9px 18px;
-        font-size: 13px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .btn-mode-quick-toggle:hover {
-        background: rgba(56, 189, 248, 0.2);
-        color: #38bdf8;
-        border-color: rgba(56, 189, 248, 0.4);
-        box-shadow: 0 4px 16px rgba(56, 189, 248, 0.2);
-    }
+/* Dark Theme Header */
+html[data-theme="dark"] .tuition-header-card,
+html.theme-dark .tuition-header-card,
+html:not([data-theme="light"]) .tuition-header-card {
+    background: #121214 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
 
-    /* ── Metrics Grid ── */
-    .metrics-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        gap: 16px;
-        margin-bottom: 28px;
-    }
-    .stat-card {
-        background: rgba(15, 23, 42, 0.6) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 16px !important;
-        padding: 20px 24px !important;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-        transition: all 0.25s ease !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25) !important;
-    }
-    .stat-card:hover {
-        border-color: rgba(56, 189, 248, 0.35) !important;
-        transform: translateY(-2px);
-    }
-    .stat-card-title {
-        font-size: 12px;
-        font-weight: 700;
-        color: #94a3b8;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .stat-card-value {
-        font-size: 24px;
-        font-weight: 800;
-        color: #ffffff;
-        letter-spacing: -0.01em;
-    }
-    .stat-card-value.revenue {
-        color: #38bdf8;
-    }
-    .stat-card-value.collected {
-        color: #34d399;
-    }
-    .stat-card-value.outstanding {
-        color: #f87171;
-    }
-    .stat-card-sub {
-        font-size: 12px;
-        color: #64748b;
-    }
+.tuition-header-left {
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+}
 
-    /* ── Navigation Tabs ── */
-    .tuition-nav-tabs {
-        display: flex;
-        gap: 8px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        margin-bottom: 20px;
-    }
-    .tuition-tab-btn {
-        background: transparent;
-        border: none;
-        color: #94a3b8;
-        padding: 12px 20px;
-        font-size: 14.5px;
-        font-weight: 700;
-        cursor: pointer;
-        border-bottom: 2px solid transparent;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-    }
-    .tuition-tab-btn:hover {
-        color: #ffffff;
-    }
-    .tuition-tab-btn.is-active {
-        color: #38bdf8;
-        border-bottom-color: #38bdf8;
-    }
-    .tab-badge-count {
-        background: rgba(255, 255, 255, 0.08);
-        padding: 2px 8px;
-        border-radius: 100px;
-        font-size: 12px;
-    }
-    .tuition-tab-btn.is-active .tab-badge-count {
-        background: rgba(56, 189, 248, 0.2);
-        color: #38bdf8;
-    }
+.tuition-header-icon {
+    width: 48px !important;
+    height: 48px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-shrink: 0 !important;
+    box-shadow: none !important;
+}
 
-    /* ── Data Tables ── */
-    .tuition-card {
-        background: rgba(15, 23, 42, 0.6) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        border-radius: 18px !important;
-        overflow: hidden;
-        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
-    }
-    .tuition-table-toolbar {
-        padding: 16px 24px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 16px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-        flex-wrap: wrap;
-    }
-    .search-input-wrap {
-        position: relative;
-        flex: 1;
-        max-width: 380px;
-    }
-    .tuition-search-input {
-        width: 100%;
-        box-sizing: border-box;
-        background: rgba(15, 23, 42, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
-        border-radius: 10px !important;
-        padding: 8px 14px 8px 36px !important;
-        color: #ffffff !important;
-        font-size: 13.5px !important;
-        outline: none !important;
-        transition: all 0.2s ease !important;
-    }
-    .tuition-search-input:focus {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-    }
+html[data-theme="light"] .tuition-header-icon,
+html.theme-light .tuition-header-icon {
+    background: #f0f9ff !important;
+    border: 1px solid #bae6fd !important;
+    color: #0284c7 !important;
+}
+
+html[data-theme="dark"] .tuition-header-icon,
+html.theme-dark .tuition-header-icon,
+html:not([data-theme="light"]) .tuition-header-icon {
+    background: #18181b !important;
+    border: 1px solid rgba(56, 189, 248, 0.25) !important;
+    color: #38bdf8 !important;
+}
+
+.tuition-title {
+    font-size: 20px !important;
+    font-weight: 700 !important;
+    margin: 0 0 4px 0 !important;
+    letter-spacing: -0.01em !important;
+}
+
+html[data-theme="light"] .tuition-title,
+html.theme-light .tuition-title {
+    color: #0f172a !important;
+}
+
+html[data-theme="dark"] .tuition-title,
+html.theme-dark .tuition-title,
+html:not([data-theme="light"]) .tuition-title {
+    color: #f4f4f5 !important;
+}
+
+.tuition-subtitle {
+    font-size: 13px !important;
+    margin: 0 !important;
+    line-height: 1.5 !important;
+}
+
+html[data-theme="light"] .tuition-subtitle,
+html.theme-light .tuition-subtitle {
+    color: #64748b !important;
+}
+
+html[data-theme="dark"] .tuition-subtitle,
+html.theme-dark .tuition-subtitle,
+html:not([data-theme="light"]) .tuition-subtitle {
+    color: #a1a1aa !important;
+}
+
+.tuition-header-filters {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+}
+
+/* Select Dropdowns */
+.tuition-select {
+    border-radius: 8px !important;
+    padding: 8px 34px 8px 12px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    outline: none !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    appearance: none !important;
+    -webkit-appearance: none !important;
+}
+
+html[data-theme="light"] .tuition-select,
+html.theme-light .tuition-select {
+    background: #ffffff url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center / 12px 12px !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .tuition-select:hover,
+html.theme-light .tuition-select:hover {
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .tuition-select option,
+html.theme-light .tuition-select option {
+    background: #ffffff !important;
+    color: #0f172a !important;
+}
+
+html[data-theme="dark"] .tuition-select,
+html.theme-dark .tuition-select,
+html:not([data-theme="light"]) .tuition-select {
+    background: #18181b url("data:image/svg+xml,%3Csvg width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2.5' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat right 12px center / 12px 12px !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #f4f4f5 !important;
+}
+html[data-theme="dark"] .tuition-select:hover,
+html.theme-dark .tuition-select:hover,
+html:not([data-theme="light"]) .tuition-select:hover {
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    box-shadow: none !important;
+}
+html[data-theme="dark"] .tuition-select option,
+html.theme-dark .tuition-select option,
+html:not([data-theme="light"]) .tuition-select option {
+    background: #18181b !important;
+    color: #f4f4f5 !important;
+}
+
+/* Action Buttons */
+.btn-tuition-action {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    border-radius: 8px !important;
+    padding: 8px 16px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+.btn-tuition-action span,
+.btn-tuition-action * {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+
+/* Light Mode: Solid Black CTA (Expo Standard) */
+html[data-theme="light"] .btn-tuition-action,
+html.theme-light .btn-tuition-action {
+    background: #000000 !important;
+    color: #ffffff !important;
+    border: 1px solid #000000 !important;
+}
+html[data-theme="light"] .btn-tuition-action:hover,
+html.theme-light .btn-tuition-action:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+    box-shadow: none !important;
+}
+
+/* Dark Mode: Solid White CTA (Expo Standard) */
+html[data-theme="dark"] .btn-tuition-action,
+html.theme-dark .btn-tuition-action,
+html:not([data-theme="light"]) .btn-tuition-action {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: 1px solid #ffffff !important;
+}
+html[data-theme="dark"] .btn-tuition-action:hover,
+html.theme-dark .btn-tuition-action:hover,
+html:not([data-theme="light"]) .btn-tuition-action:hover {
+    background: #e4e4e7 !important;
+    border-color: #e4e4e7 !important;
+    box-shadow: none !important;
+}
+
+/* Secondary Button (Print) */
+.btn-tuition-print {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    border-radius: 8px !important;
+    padding: 8px 14px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+.btn-tuition-print span,
+.btn-tuition-print * {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+
+html[data-theme="light"] .btn-tuition-print,
+html.theme-light .btn-tuition-print {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+html[data-theme="light"] .btn-tuition-print:hover,
+html.theme-light .btn-tuition-print:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .btn-tuition-print,
+html.theme-dark .btn-tuition-print,
+html:not([data-theme="light"]) .btn-tuition-print {
+    background: #18181b !important;
+    color: #e4e4e7 !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+}
+html[data-theme="dark"] .btn-tuition-print:hover,
+html.theme-dark .btn-tuition-print:hover,
+html:not([data-theme="light"]) .btn-tuition-print:hover {
+    background: #27272a !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* ── 2. Mode Banner Card ── */
+.mode-banner-card {
+    border-radius: 12px !important;
+    padding: 16px 22px !important;
+    margin-bottom: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    flex-wrap: wrap !important;
+    gap: 14px !important;
+    box-shadow: none !important;
+}
+
+html[data-theme="light"] .mode-banner-card,
+html.theme-light .mode-banner-card {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+
+html[data-theme="dark"] .mode-banner-card,
+html.theme-dark .mode-banner-card,
+html:not([data-theme="light"]) .mode-banner-card {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.mode-banner-left {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+}
+
+.mode-badge-wrap {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    flex-wrap: wrap !important;
+}
+
+.mode-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 4px 10px !important;
+    border-radius: 6px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+}
+
+/* Individual Mode Badge */
+html[data-theme="light"] .mode-badge.individual,
+html.theme-light .mode-badge.individual {
+    background: #ecfdf5 !important;
+    color: #047857 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+html[data-theme="dark"] .mode-badge.individual,
+html.theme-dark .mode-badge.individual,
+html:not([data-theme="light"]) .mode-badge.individual {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Center Mode Badge */
+html[data-theme="light"] .mode-badge.center,
+html.theme-light .mode-badge.center {
+    background: #f5f3ff !important;
+    color: #6d28d9 !important;
+    border: 1px solid #ddd6fe !important;
+}
+html[data-theme="dark"] .mode-badge.center,
+html.theme-dark .mode-badge.center,
+html:not([data-theme="light"]) .mode-badge.center {
+    background: rgba(168, 85, 247, 0.15) !important;
+    color: #c084fc !important;
+    border: 1px solid rgba(168, 85, 247, 0.3) !important;
+}
+
+.mode-rate-badge {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+html[data-theme="light"] .mode-rate-badge,
+html.theme-light .mode-rate-badge {
+    color: #0284c7 !important;
+}
+html[data-theme="dark"] .mode-rate-badge,
+html.theme-dark .mode-rate-badge,
+html:not([data-theme="light"]) .mode-rate-badge {
+    color: #38bdf8 !important;
+}
+
+.teacher-badge {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 4px 9px !important;
+    border-radius: 6px !important;
+    font-size: 11.5px !important;
+    font-weight: 600 !important;
+}
+html[data-theme="light"] .teacher-badge,
+html.theme-light .teacher-badge {
+    background: #fffbeb !important;
+    color: #b45309 !important;
+    border: 1px solid #fde68a !important;
+}
+html[data-theme="dark"] .teacher-badge,
+html.theme-dark .teacher-badge,
+html:not([data-theme="light"]) .teacher-badge {
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(245, 158, 11, 0.3) !important;
+}
+
+.mode-desc-text {
+    font-size: 12.5px !important;
+    line-height: 1.5 !important;
+}
+html[data-theme="light"] .mode-desc-text,
+html.theme-light .mode-desc-text {
+    color: #64748b !important;
+}
+html[data-theme="dark"] .mode-desc-text,
+html.theme-dark .mode-desc-text,
+html:not([data-theme="light"]) .mode-desc-text {
+    color: #a1a1aa !important;
+}
+
+.btn-mode-quick-toggle {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 7px !important;
+    border-radius: 8px !important;
+    padding: 7px 14px !important;
+    font-size: 12.5px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+}
+.btn-mode-quick-toggle span,
+.btn-mode-quick-toggle * {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+html[data-theme="light"] .btn-mode-quick-toggle,
+html.theme-light .btn-mode-quick-toggle {
+    background: #ffffff !important;
+    color: #334155 !important;
+    border: 1px solid #cbd5e1 !important;
+}
+html[data-theme="light"] .btn-mode-quick-toggle:hover,
+html.theme-light .btn-mode-quick-toggle:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}
+html[data-theme="dark"] .btn-mode-quick-toggle,
+html.theme-dark .btn-mode-quick-toggle,
+html:not([data-theme="light"]) .btn-mode-quick-toggle {
+    background: #27272a !important;
+    color: #e4e4e7 !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+html[data-theme="dark"] .btn-mode-quick-toggle:hover,
+html.theme-dark .btn-mode-quick-toggle:hover,
+html:not([data-theme="light"]) .btn-mode-quick-toggle:hover {
+    background: #3f3f46 !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+    box-shadow: none !important;
+}
+
+/* ── 3. Metrics Grid (Stat Cards) ── */
+.metrics-grid {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+    gap: 14px !important;
+    margin-bottom: 24px !important;
+}
+
+.stat-card {
+    border-radius: 12px !important;
+    padding: 18px 20px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 6px !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+html[data-theme="light"] .stat-card,
+html.theme-light .stat-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+html[data-theme="light"] .stat-card:hover,
+html.theme-light .stat-card:hover {
+    border-color: #cbd5e1 !important;
+    transform: translateY(-1px) !important;
+}
+
+html[data-theme="dark"] .stat-card,
+html.theme-dark .stat-card,
+html:not([data-theme="light"]) .stat-card {
+    background: #121214 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+html[data-theme="dark"] .stat-card:hover,
+html.theme-dark .stat-card:hover,
+html:not([data-theme="light"]) .stat-card:hover {
+    border-color: rgba(255, 255, 255, 0.18) !important;
+    transform: translateY(-1px) !important;
+}
+
+.stat-card-title {
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+.stat-card-title span,
+.stat-card-title * {
+    font-size: inherit !important;
+    font-weight: inherit !important;
+}
+html[data-theme="light"] .stat-card-title,
+html[data-theme="light"] .stat-card-title *,
+html.theme-light .stat-card-title,
+html.theme-light .stat-card-title * {
+    color: #64748b !important;
+}
+html[data-theme="dark"] .stat-card-title,
+html[data-theme="dark"] .stat-card-title *,
+html.theme-dark .stat-card-title,
+html:not([data-theme="light"]) .stat-card-title,
+html:not([data-theme="light"]) .stat-card-title * {
+    color: #a1a1aa !important;
+}
+
+.stat-card-value {
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.02em !important;
+}
+html[data-theme="light"] .stat-card-value,
+html.theme-light .stat-card-value {
+    color: #0f172a !important;
+}
+html[data-theme="dark"] .stat-card-value,
+html.theme-dark .stat-card-value,
+html:not([data-theme="light"]) .stat-card-value {
+    color: #f4f4f5 !important;
+}
+
+/* Specialized Stat Card Value Colors */
+html[data-theme="light"] .stat-card-value.revenue,
+html.theme-light .stat-card-value.revenue {
+    color: #0284c7 !important;
+}
+html[data-theme="dark"] .stat-card-value.revenue,
+html.theme-dark .stat-card-value.revenue,
+html:not([data-theme="light"]) .stat-card-value.revenue {
+    color: #38bdf8 !important;
+}
+
+html[data-theme="light"] .stat-card-value.collected,
+html.theme-light .stat-card-value.collected {
+    color: #16a34a !important;
+}
+html[data-theme="dark"] .stat-card-value.collected,
+html.theme-dark .stat-card-value.collected,
+html:not([data-theme="light"]) .stat-card-value.collected {
+    color: #34d399 !important;
+}
+
+html[data-theme="light"] .stat-card-value.outstanding,
+html.theme-light .stat-card-value.outstanding {
+    color: #dc2626 !important;
+}
+html[data-theme="dark"] .stat-card-value.outstanding,
+html.theme-dark .stat-card-value.outstanding,
+html:not([data-theme="light"]) .stat-card-value.outstanding {
+    color: #f87171 !important;
+}
+
+.stat-card-sub {
+    font-size: 11.5px !important;
+    margin-top: 2px !important;
+}
+html[data-theme="light"] .stat-card-sub,
+html.theme-light .stat-card-sub {
+    color: #94a3b8 !important;
+}
+html[data-theme="dark"] .stat-card-sub,
+html.theme-dark .stat-card-sub,
+html:not([data-theme="light"]) .stat-card-sub {
+    color: #71717a !important;
+}
+
+/* ── 4. Expo Segmented Control (Tabs) ── */
+.tuition-nav-tabs {
+    display: inline-flex !important;
+    gap: 4px !important;
+    padding: 4px !important;
+    border-radius: 10px !important;
+    margin-bottom: 20px !important;
+    border: none !important;
+}
+
+html[data-theme="light"] .tuition-nav-tabs,
+html.theme-light .tuition-nav-tabs {
+    background: #f1f5f9 !important;
+    border: 1px solid #e2e8f0 !important;
+}
+html[data-theme="dark"] .tuition-nav-tabs,
+html.theme-dark .tuition-nav-tabs,
+html:not([data-theme="light"]) .tuition-nav-tabs {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.tuition-tab-btn {
+    border: none !important;
+    padding: 8px 16px !important;
+    font-size: 13.5px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    border-radius: 7px !important;
+    transition: all 0.15s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+.tuition-tab-btn span,
+.tuition-tab-btn * {
+    color: inherit !important;
+}
+
+/* Tab Inactive - Light */
+html[data-theme="light"] .tuition-tab-btn,
+html.theme-light .tuition-tab-btn {
+    color: #64748b !important;
+    background: transparent !important;
+}
+html[data-theme="light"] .tuition-tab-btn:hover,
+html.theme-light .tuition-tab-btn:hover {
+    color: #0f172a !important;
+    background: #e2e8f0 !important;
+}
+
+/* Tab Active - Light (Solid Black Pill) */
+html[data-theme="light"] .tuition-tab-btn.is-active,
+html.theme-light .tuition-tab-btn.is-active {
+    color: #ffffff !important;
+    background: #000000 !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Tab Inactive - Dark */
+html[data-theme="dark"] .tuition-tab-btn,
+html.theme-dark .tuition-tab-btn,
+html:not([data-theme="light"]) .tuition-tab-btn {
+    color: #a1a1aa !important;
+    background: transparent !important;
+}
+html[data-theme="dark"] .tuition-tab-btn:hover,
+html.theme-dark .tuition-tab-btn:hover,
+html:not([data-theme="light"]) .tuition-tab-btn:hover {
+    color: #ffffff !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Tab Active - Dark (Solid White Pill) */
+html[data-theme="dark"] .tuition-tab-btn.is-active,
+html.theme-dark .tuition-tab-btn.is-active,
+html:not([data-theme="light"]) .tuition-tab-btn.is-active {
+    color: #000000 !important;
+    background: #ffffff !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.tab-badge-count {
+    padding: 1px 6px !important;
+    border-radius: 9999px !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+}
+html[data-theme="light"] .tuition-tab-btn .tab-badge-count {
+    background: #e2e8f0 !important;
+    color: #475569 !important;
+}
+html[data-theme="light"] .tuition-tab-btn.is-active .tab-badge-count {
+    background: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+}
+html[data-theme="dark"] .tuition-tab-btn .tab-badge-count,
+html:not([data-theme="light"]) .tuition-tab-btn .tab-badge-count {
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #d4d4d8 !important;
+}
+html[data-theme="dark"] .tuition-tab-btn.is-active .tab-badge-count,
+html:not([data-theme="light"]) .tuition-tab-btn.is-active .tab-badge-count {
+    background: rgba(0, 0, 0, 0.15) !important;
+    color: #000000 !important;
+}
+
+/* ── 5. Data Tables Card (.tuition-card) ── */
+.tuition-card {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    margin-bottom: 24px !important;
+}
+
+html[data-theme="light"] .tuition-card,
+html.theme-light .tuition-card {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+html[data-theme="dark"] .tuition-card,
+html.theme-dark .tuition-card,
+html:not([data-theme="light"]) .tuition-card {
+    background: #121214 !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+.tuition-table-toolbar {
+    padding: 14px 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 16px !important;
+    flex-wrap: wrap !important;
+}
+html[data-theme="light"] .tuition-table-toolbar,
+html.theme-light .tuition-table-toolbar {
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #64748b !important;
+}
+html[data-theme="dark"] .tuition-table-toolbar,
+html.theme-dark .tuition-table-toolbar,
+html:not([data-theme="light"]) .tuition-table-toolbar {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
+    color: #a1a1aa !important;
+}
+
+.search-input-wrap {
+    position: relative !important;
+    flex: 1 !important;
+    max-width: 380px !important;
+}
+
+.tuition-search-input {
+    width: 100% !important;
+    box-sizing: border-box !important;
+    border-radius: 8px !important;
+    padding: 8px 14px 8px 36px !important;
+    font-size: 13px !important;
+    outline: none !important;
+    transition: all 0.15s ease !important;
+}
+html[data-theme="light"] .tuition-search-input,
+html.theme-light .tuition-search-input {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .tuition-search-input:focus,
+html.theme-light .tuition-search-input:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12) !important;
+}
+
+html[data-theme="dark"] .tuition-search-input,
+html.theme-dark .tuition-search-input,
+html:not([data-theme="light"]) .tuition-search-input {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    color: #f4f4f5 !important;
+}
+html[data-theme="dark"] .tuition-search-input:focus,
+html.theme-dark .tuition-search-input:focus,
+html:not([data-theme="light"]) .tuition-search-input {
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
+}
+
+.search-icon-pos {
+    position: absolute !important;
+    left: 11px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+}
+html[data-theme="light"] .search-icon-pos,
+html.theme-light .search-icon-pos {
+    color: #94a3b8 !important;
+}
+html[data-theme="dark"] .search-icon-pos,
+html:not([data-theme="light"]) .search-icon-pos {
+    color: #71717a !important;
+}
+
+/* ── 6. Table Cells & Rows ── */
+.tuition-data-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+.tuition-data-table th {
+    text-align: left !important;
+    padding: 11px 16px !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.8px !important;
+}
+html[data-theme="light"] .tuition-data-table th,
+html.theme-light .tuition-data-table th {
+    background: #f8fafc !important;
+    color: #475569 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
+}
+html[data-theme="dark"] .tuition-data-table th,
+html.theme-dark .tuition-data-table th,
+html:not([data-theme="light"]) .tuition-data-table th {
+    background: #18181b !important;
+    color: #a1a1aa !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.tuition-data-table td {
+    padding: 13px 16px !important;
+    font-size: 13.5px !important;
+    vertical-align: middle !important;
+}
+html[data-theme="light"] .tuition-data-table td,
+html.theme-light .tuition-data-table td {
+    border-bottom: 1px solid #f1f5f9 !important;
+    color: #1e293b !important;
+}
+html[data-theme="light"] .tuition-data-table tr:hover td,
+html.theme-light .tuition-data-table tr:hover td {
+    background: #f8fafc !important;
+}
+
+html[data-theme="dark"] .tuition-data-table td,
+html.theme-dark .tuition-data-table td,
+html:not([data-theme="light"]) .tuition-data-table td {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+    color: #e4e4e7 !important;
+}
+html[data-theme="dark"] .tuition-data-table tr:hover td,
+html.theme-dark .tuition-data-table tr:hover td,
+html:not([data-theme="light"]) .tuition-data-table tr:hover td {
+    background: rgba(255, 255, 255, 0.03) !important;
+}
+
+/* User Avatar & Name in Table */
+.student-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+}
+
+/* Currency & Number Styling in Table */
+.num-mono,
+.tuition-data-table td:nth-child(5),
+.tuition-data-table td:nth-child(6),
+.tuition-data-table td:nth-child(7),
+.tuition-data-table td:nth-child(8) {
+    font-family: 'JetBrains Mono', Consolas, monospace !important;
+}
+
+/* ── 7. Badges in Table ── */
+.badge-session {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 4px !important;
+    padding: 3px 8px !important;
+    border-radius: 6px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+}
+
+/* Attended badge */
+html[data-theme="light"] .badge-session.attended,
+html.theme-light .badge-session.attended {
+    background: #ecfdf5 !important;
+    color: #047857 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+html[data-theme="dark"] .badge-session.attended,
+html:not([data-theme="light"]) .badge-session.attended {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.3) !important;
+}
+
+/* Absent badge */
+html[data-theme="light"] .badge-session.absent,
+html.theme-light .badge-session.absent {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+}
+html[data-theme="dark"] .badge-session.absent,
+html:not([data-theme="light"]) .badge-session.absent {
+    background: rgba(239, 68, 68, 0.12) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(239, 68, 68, 0.25) !important;
+}
+
+/* Billable badge */
+html[data-theme="light"] .badge-session.billable,
+html.theme-light .badge-session.billable {
+    background: #f0f9ff !important;
+    color: #0284c7 !important;
+    border: 1px solid #bae6fd !important;
+}
+html[data-theme="dark"] .badge-session.billable,
+html:not([data-theme="light"]) .badge-session.billable {
+    background: rgba(56, 189, 248, 0.15) !important;
+    color: #38bdf8 !important;
+    border: 1px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+/* Payment Status Badges */
+.badge-pay {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+    padding: 3px 9px !important;
+    border-radius: 9999px !important;
+    font-size: 11.5px !important;
+    font-weight: 700 !important;
+}
+html[data-theme="light"] .badge-pay.paid,
+html.theme-light .badge-pay.paid {
+    background: #ecfdf5 !important;
+    color: #047857 !important;
+    border: 1px solid #a7f3d0 !important;
+}
+html[data-theme="dark"] .badge-pay.paid,
+html:not([data-theme="light"]) .badge-pay.paid {
+    background: rgba(16, 185, 129, 0.15) !important;
+    color: #34d399 !important;
+    border: 1px solid rgba(16, 185, 129, 0.4) !important;
+}
+
+html[data-theme="light"] .badge-pay.unpaid,
+html.theme-light .badge-pay.unpaid {
+    background: #fef2f2 !important;
+    color: #dc2626 !important;
+    border: 1px solid #fecaca !important;
+}
+html[data-theme="dark"] .badge-pay.unpaid,
+html:not([data-theme="light"]) .badge-pay.unpaid {
+    background: rgba(239, 68, 68, 0.15) !important;
+    color: #f87171 !important;
+    border: 1px solid rgba(239, 68, 68, 0.4) !important;
+}
+
+html[data-theme="light"] .badge-pay.partial,
+html.theme-light .badge-pay.partial {
+    background: #fffbeb !important;
+    color: #b45309 !important;
+    border: 1px solid #fde68a !important;
+}
+html[data-theme="dark"] .badge-pay.partial,
+html:not([data-theme="light"]) .badge-pay.partial {
+    background: rgba(245, 158, 11, 0.15) !important;
+    color: #fbbf24 !important;
+    border: 1px solid rgba(245, 158, 11, 0.4) !important;
+}
+
+/* ── 8. Row Action Buttons ── */
+.btn-row-action {
+    padding: 6px 11px !important;
+    border-radius: 7px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 5px !important;
+}
+.btn-row-action span,
+.btn-row-action * {
+    color: inherit !important;
+    stroke: currentColor !important;
+}
+
+/* Default Action Button */
+html[data-theme="light"] .btn-row-action,
+html.theme-light .btn-row-action {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #334155 !important;
+}
+html[data-theme="light"] .btn-row-action:hover,
+html.theme-light .btn-row-action:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #94a3b8 !important;
+}
+
+html[data-theme="dark"] .btn-row-action,
+html.theme-dark .btn-row-action,
+html:not([data-theme="light"]) .btn-row-action {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #d4d4d8 !important;
+}
+html[data-theme="dark"] .btn-row-action:hover,
+html.theme-dark .btn-row-action:hover,
+html:not([data-theme="light"]) .btn-row-action:hover {
+    background: #27272a !important;
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
+}
+
+/* Primary Action Button (Thu/Xóa tiền) */
+html[data-theme="light"] .btn-row-action.primary,
+html.theme-light .btn-row-action.primary {
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .btn-row-action.primary:hover,
+html.theme-light .btn-row-action.primary:hover {
+    background: #1e293b !important;
+    border-color: #1e293b !important;
+}
+
+html[data-theme="dark"] .btn-row-action.primary,
+html.theme-dark .btn-row-action.primary,
+html:not([data-theme="light"]) .btn-row-action.primary {
+    background: #ffffff !important;
+    border: 1px solid #ffffff !important;
+    color: #000000 !important;
+}
+html[data-theme="dark"] .btn-row-action.primary:hover,
+html.theme-dark .btn-row-action.primary:hover,
+html:not([data-theme="light"]) .btn-row-action.primary:hover {
+    background: #e4e4e7 !important;
+    border-color: #e4e4e7 !important;
+}
+
+/* ── 9. Modals ── */
+.tuition-modal-box {
+    border-radius: 14px !important;
+    overflow: hidden !important;
+}
+
+html[data-theme="light"] .tuition-modal-box,
+html.theme-light .tuition-modal-box {
+    background: #ffffff !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15) !important;
+    color: #0f172a !important;
+}
+html[data-theme="dark"] .tuition-modal-box,
+html.theme-dark .tuition-modal-box,
+html:not([data-theme="light"]) .tuition-modal-box {
+    background: #121214 !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5) !important;
+    color: #f4f4f5 !important;
+}
+
+.tuition-modal-header {
+    padding: 18px 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+html[data-theme="light"] .tuition-modal-header {
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+html[data-theme="dark"] .tuition-modal-header,
+html:not([data-theme="light"]) .tuition-modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.tuition-modal-title {
+    font-size: 17px !important;
+    font-weight: 700 !important;
+    margin: 0 !important;
+}
+html[data-theme="light"] .tuition-modal-title {
+    color: #0f172a !important;
+}
+html[data-theme="dark"] .tuition-modal-title,
+html:not([data-theme="light"]) .tuition-modal-title {
+    color: #f4f4f5 !important;
+}
+
+.tuition-modal-body {
+    padding: 22px 24px !important;
+}
+
+.tuition-modal-footer {
+    padding: 16px 24px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: 10px !important;
+}
+html[data-theme="light"] .tuition-modal-footer {
+    border-top: 1px solid #f1f5f9 !important;
+}
+html[data-theme="dark"] .tuition-modal-footer,
+html:not([data-theme="light"]) .tuition-modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+.tuition-modal-input {
+    border-radius: 8px !important;
+    padding: 9px 12px !important;
+    font-size: 13.5px !important;
+    outline: none !important;
+    transition: all 0.15s ease !important;
+    box-sizing: border-box !important;
+    width: 100% !important;
+}
+html[data-theme="light"] .tuition-modal-input {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .tuition-modal-input:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12) !important;
+}
+
+html[data-theme="dark"] .tuition-modal-input,
+html:not([data-theme="light"]) .tuition-modal-input {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #f4f4f5 !important;
+}
+html[data-theme="dark"] .tuition-modal-input:focus,
+html:not([data-theme="light"]) .tuition-modal-input:focus {
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
+}
+
+/* Radio Cards in Settings */
+.radio-card {
+    border-radius: 10px !important;
+    padding: 12px 14px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 10px !important;
+}
+html[data-theme="light"] .radio-card {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+}
+html[data-theme="light"] .radio-card.active,
+html[data-theme="light"] .radio-card:hover {
+    border-color: #0284c7 !important;
+    background: #f0f9ff !important;
+}
+html[data-theme="light"] .radio-card-title {
+    color: #0f172a !important;
+}
+html[data-theme="light"] .radio-card-desc {
+    color: #64748b !important;
+}
+
+html[data-theme="dark"] .radio-card,
+html:not([data-theme="light"]) .radio-card {
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="dark"] .radio-card.active,
+html[data-theme="dark"] .radio-card:hover,
+html:not([data-theme="light"]) .radio-card.active,
+html:not([data-theme="light"]) .radio-card:hover {
+    border-color: #38bdf8 !important;
+    background: rgba(56, 189, 248, 0.08) !important;
+}
+html[data-theme="dark"] .radio-card-title,
+html:not([data-theme="light"]) .radio-card-title {
+    color: #f4f4f5 !important;
+}
+html[data-theme="dark"] .radio-card-desc,
+html:not([data-theme="light"]) .radio-card-desc {
+    color: #a1a1aa !important;
+}
+
+/* Print styles */
+@media print {
+    #portfolio-nav,
+    .tuition-header-filters,
+    .btn-mode-quick-toggle,
+    .tuition-nav-tabs,
+    .btn-row-action,
+    .tuition-search-input,
     .search-icon-pos {
-        position: absolute;
-        left: 12px;
-        top: 50%;
-        transform: translateY(-50%);
-        color: #64748b;
-        pointer-events: none;
+        display: none !important;
     }
-
-    .tuition-data-table {
-        width: 100%;
-        border-collapse: collapse;
+    .tuition-wrapper {
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
-    .tuition-data-table th {
-        text-align: left;
-        padding: 12px 18px;
-        color: #94a3b8;
-        font-size: 12px;
-        font-weight: 700;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        background: rgba(15, 23, 42, 0.4);
+    body {
+        background: #ffffff !important;
+        color: #000000 !important;
     }
-    .tuition-data-table td {
-        padding: 14px 18px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        color: #e2e8f0;
-        font-size: 13.5px;
-        vertical-align: middle;
+    .tuition-header-card, .mode-banner-card, .stat-card, .tuition-card {
+        background: #ffffff !important;
+        border: 1px solid #cccccc !important;
+        box-shadow: none !important;
+        color: #000000 !important;
     }
-    .tuition-data-table tr:hover td {
-        background: rgba(56, 189, 248, 0.04);
+    .tuition-data-table th, .tuition-data-table td {
+        color: #000000 !important;
+        border-bottom: 1px solid #dddddd !important;
     }
-
-    /* Badges */
-    .badge-session {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        padding: 3px 8px;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 700;
-    }
-    .badge-session.attended {
-        background: rgba(16, 185, 129, 0.15);
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .badge-session.absent {
-        background: rgba(239, 68, 68, 0.12);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.25);
-    }
-    .badge-session.billable {
-        background: rgba(56, 189, 248, 0.15);
-        color: #38bdf8;
-        border: 1px solid rgba(56, 189, 248, 0.3);
-    }
-    .badge-session.excluded {
-        background: rgba(239, 68, 68, 0.18);
-        color: #fca5a5;
-        border: 1px solid rgba(239, 68, 68, 0.4);
-    }
-    .badge-multi-session {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        background: rgba(168, 85, 247, 0.15);
-        color: #c084fc;
-        border: 1px solid rgba(168, 85, 247, 0.35);
-        padding: 2px 7px;
-        border-radius: 6px;
-        font-size: 11.5px;
-        font-weight: 800;
-    }
-
-    .badge-pay {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 4px 10px;
-        border-radius: 100px;
-        font-size: 12px;
-        font-weight: 700;
-    }
-    .badge-pay.paid {
-        background: rgba(16, 185, 129, 0.15);
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.4);
-    }
-    .badge-pay.partial {
-        background: rgba(245, 158, 11, 0.15);
-        color: #fbbf24;
-        border: 1px solid rgba(245, 158, 11, 0.4);
-    }
-    .badge-pay.unpaid {
-        background: rgba(239, 68, 68, 0.15);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.4);
-    }
-
-    .btn-row-action {
-        background: transparent;
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        color: #cbd5e1;
-        padding: 6px 12px;
-        border-radius: 8px;
-        font-size: 12.5px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-    .btn-row-action:hover {
-        background: rgba(56, 189, 248, 0.15);
-        color: #38bdf8;
-        border-color: rgba(56, 189, 248, 0.35);
-    }
-    .btn-row-action.primary {
-        background: rgba(14, 165, 233, 0.2);
-        color: #38bdf8;
-        border-color: rgba(14, 165, 233, 0.4);
-    }
-    .btn-row-action.primary:hover {
-        background: #0284c7;
-        color: #ffffff;
-    }
-    .btn-row-action.danger {
-        color: #f87171;
-        border-color: rgba(239, 68, 68, 0.3);
-    }
-    .btn-row-action.danger:hover {
-        background: rgba(239, 68, 68, 0.2);
-        color: #fca5a5;
-        border-color: #ef4444;
-    }
-
-    /* Session action buttons in detail modal */
-    .btn-session-delete {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        background: rgba(239, 68, 68, 0.15);
-        color: #f87171;
-        border: 1px solid rgba(239, 68, 68, 0.35);
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.18s ease;
-    }
-    .btn-session-delete:hover {
-        background: #dc2626;
-        color: #ffffff;
-        box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
-    }
-    .btn-session-restore {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-        background: rgba(16, 185, 129, 0.15);
-        color: #34d399;
-        border: 1px solid rgba(16, 185, 129, 0.35);
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: all 0.18s ease;
-    }
-    .btn-session-restore:hover {
-        background: #059669;
-        color: #ffffff;
-        box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
-    }
-
-    /* ── Modals ── */
-    .tuition-modal-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.75);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 9999;
-        padding: 20px;
-        box-sizing: border-box;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.25s ease;
-    }
-    .tuition-modal-backdrop.is-open {
-        opacity: 1;
-        pointer-events: auto;
-    }
-    .tuition-modal-box {
-        background: #0f172a;
-        border: 1px solid rgba(56, 189, 248, 0.3);
-        border-radius: 20px;
-        max-width: 680px;
-        width: 100%;
-        max-height: 90vh;
-        overflow-y: auto;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(56, 189, 248, 0.15);
-        transform: scale(0.95);
-        transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-    .tuition-modal-backdrop.is-open .tuition-modal-box {
-        transform: scale(1);
-    }
-    .tuition-modal-header {
-        padding: 20px 24px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    .tuition-modal-title {
-        font-size: 18px;
-        font-weight: 800;
-        color: #ffffff;
-        margin: 0;
-    }
-    .tuition-modal-close {
-        background: transparent;
-        border: none;
-        color: #94a3b8;
-        font-size: 20px;
-        cursor: pointer;
-        padding: 4px;
-        line-height: 1;
-        border-radius: 6px;
-    }
-    .tuition-modal-close:hover {
-        color: #ffffff;
-        background: rgba(255, 255, 255, 0.1);
-    }
-    .tuition-modal-body {
-        padding: 24px;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-    }
-    .tuition-modal-footer {
-        padding: 16px 24px;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-    }
-
-    /* Radio cards */
-    .radio-card-group {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-    }
-    .radio-card {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 12px;
-        padding: 14px 18px;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-    .radio-card:hover {
-        border-color: rgba(56, 189, 248, 0.4);
-        background: rgba(56, 189, 248, 0.05);
-    }
-    .radio-card.selected {
-        border-color: #38bdf8;
-        background: rgba(56, 189, 248, 0.1);
-        box-shadow: 0 0 16px rgba(56, 189, 248, 0.15);
-    }
-    .radio-card input[type="radio"] {
-        margin-top: 3px;
-        accent-color: #0284c7;
-        width: 18px;
-        height: 18px;
-        cursor: pointer;
-    }
-    .radio-card-content {
-        flex: 1;
-    }
-    .radio-card-title {
-        font-size: 14.5px;
-        font-weight: 700;
-        color: #ffffff;
-        margin-bottom: 4px;
-    }
-    .radio-card-desc {
-        font-size: 13px;
-        color: #94a3b8;
-        line-height: 1.5;
-    }
-
-    /* Form groups */
-    .form-group-label {
-        font-size: 13px;
-        font-weight: 700;
-        color: #e2e8f0;
-        margin-bottom: 6px;
-        display: block;
-    }
-    .tuition-modal-input {
-        width: 100%;
-        box-sizing: border-box;
-        background: rgba(15, 23, 42, 0.8) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-        border-radius: 10px !important;
-        padding: 10px 14px !important;
-        color: #ffffff !important;
-        font-size: 14px !important;
-        outline: none !important;
-        transition: all 0.2s ease !important;
-    }
-    .tuition-modal-input:focus {
-        border-color: #38bdf8 !important;
-        box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2) !important;
-    }
-
-    /* Print styles */
-    @media print {
-        #portfolio-nav,
-        .tuition-header-filters,
-        .btn-mode-quick-toggle,
-        .tuition-nav-tabs,
-        .btn-row-action,
-        .tuition-search-input,
-        .search-icon-pos {
-            display: none !important;
-        }
-        .tuition-wrapper {
-            max-width: 100% !important;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        body {
-            background: #ffffff !important;
-            color: #000000 !important;
-        }
-        .tuition-header-card, .mode-banner-card, .stat-card, .tuition-card {
-            background: #ffffff !important;
-            border: 1px solid #cccccc !important;
-            box-shadow: none !important;
-            color: #000000 !important;
-        }
-        .tuition-data-table th, .tuition-data-table td {
-            color: #000000 !important;
-            border-bottom: 1px solid #dddddd !important;
-        }
-    }
+}
 </style>
 {% endblock %}
 
