@@ -1036,7 +1036,112 @@ html:not([data-theme="light"]) .btn-row-action.primary:hover {
     border-color: #e4e4e7 !important;
 }
 
-/* ── 9. Modals ── */
+/* ── 9. Modals (Overlays & Dialogs) ── */
+.tuition-modal-backdrop {
+    position: fixed !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.65) !important;
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    z-index: 99999 !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    visibility: hidden !important;
+    transition: opacity 0.2s ease, visibility 0.2s ease !important;
+}
+
+.tuition-modal-backdrop.is-open {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    visibility: visible !important;
+}
+
+.tuition-modal-box {
+    width: 100% !important;
+    max-width: 620px !important;
+    border-radius: 14px !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+    transform: scale(0.96) !important;
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    max-height: 90vh !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+.tuition-modal-backdrop.is-open .tuition-modal-box {
+    transform: scale(1) !important;
+}
+
+.tuition-modal-close {
+    background: transparent !important;
+    border: none !important;
+    font-size: 22px !important;
+    line-height: 1 !important;
+    cursor: pointer !important;
+    padding: 6px 10px !important;
+    border-radius: 6px !important;
+    transition: all 0.15s ease !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+html[data-theme="light"] .tuition-modal-close,
+html.theme-light .tuition-modal-close {
+    color: #64748b !important;
+}
+html[data-theme="light"] .tuition-modal-close:hover,
+html.theme-light .tuition-modal-close:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+html[data-theme="dark"] .tuition-modal-close,
+html.theme-dark .tuition-modal-close,
+html:not([data-theme="light"]) .tuition-modal-close {
+    color: #a1a1aa !important;
+}
+html[data-theme="dark"] .tuition-modal-close:hover,
+html.theme-dark .tuition-modal-close:hover,
+html:not([data-theme="light"]) .tuition-modal-close:hover {
+    background: #27272a !important;
+    color: #ffffff !important;
+}
+
+.tuition-modal-body {
+    padding: 20px 24px !important;
+    overflow-y: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 16px !important;
+    box-sizing: border-box !important;
+}
+
+.form-group-label {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    margin-bottom: 6px !important;
+}
+html[data-theme="light"] .form-group-label,
+html.theme-light .form-group-label {
+    color: #334155 !important;
+}
+html[data-theme="dark"] .form-group-label,
+html.theme-dark .form-group-label,
+html:not([data-theme="light"]) .form-group-label {
+    color: #e4e4e7 !important;
+}
+
+.radio-card-group {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 10px !important;
+}
 .tuition-modal-box {
     border-radius: 14px !important;
     overflow: hidden !important;
