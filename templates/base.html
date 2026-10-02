@@ -2551,10 +2551,28 @@ html.theme-light .portfolio-user-pill {
         color: #60646c !important;
     }
 
-    html[data-theme=light] .comment-display .content.content-description {
-        background: #fafafa !important;
-        border: 1px solid #f0f0f3 !important;
-        color: #171717 !important;
+    html[data-theme=light] .comment-display .content,
+    html[data-theme=light] .comment-display .content.content-description,
+    html[data-theme=light] .comment-display .content-description,
+    html.theme-light .comment-display .content,
+    html.theme-light .comment-display .content.content-description,
+    html.theme-light .comment-display .content-description {
+        background: transparent !important;
+        border: none !important;
+        border-left: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        padding: 4px 0 0 0 !important;
+    }
+    html[data-theme=light] .comment-display .content:hover,
+    html[data-theme=light] .comment-display .content.content-description:hover,
+    html[data-theme=light] .comment-display .content-description:hover,
+    html.theme-light .comment-display .content:hover,
+    html.theme-light .comment-display .content.content-description:hover,
+    html.theme-light .comment-display .content-description:hover {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
     }
     html[data-theme=light] .comment-display .content .comment-body {
         color: #171717 !important;

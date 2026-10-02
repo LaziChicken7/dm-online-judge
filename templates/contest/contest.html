@@ -991,7 +991,13 @@ html.theme-light .comment-display .comment-operation a:hover svg {
 /* Comment Body - Remove nested cyan box */
 .comment-display .content,
 .comment-display .content.content-description,
-.comment-display .content-description {
+.comment-display .content-description,
+html[data-theme="light"] .comment-display .content,
+html[data-theme="light"] .comment-display .content.content-description,
+html[data-theme="light"] .comment-display .content-description,
+html.theme-light .comment-display .content,
+html.theme-light .comment-display .content.content-description,
+html.theme-light .comment-display .content-description {
     background: transparent !important;
     border: none !important;
     border-left: none !important;
@@ -1004,6 +1010,20 @@ html.theme-light .comment-display .comment-operation a:hover svg {
     width: 100% !important;
     display: block !important;
     overflow: visible !important;
+}
+
+.comment-display .content:hover,
+.comment-display .content.content-description:hover,
+.comment-display .content-description:hover,
+html[data-theme="light"] .comment-display .content:hover,
+html[data-theme="light"] .comment-display .content.content-description:hover,
+html[data-theme="light"] .comment-display .content-description:hover,
+html.theme-light .comment-display .content:hover,
+html.theme-light .comment-display .content.content-description:hover,
+html.theme-light .comment-display .content-description:hover {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 .comment-display .content .comment-body {
