@@ -1405,29 +1405,50 @@ html.theme-light #problem-table {
     border-radius: 0 !important;
 }
 
-html[data-theme="light"] .tabs .tab.active a svg,
-html[data-theme="light"] .tabs .tab.active a i,
-html.theme-light .tabs .tab.active a svg,
-html.theme-light .tabs .tab.active a i,
-html[data-theme="light"] .tabs .tab > a svg,
-html[data-theme="light"] .tabs .tab > a .tab-icon {
-    stroke: #171717 !important;
-    color: #171717 !important;
-}
-
-html[data-theme="light"] .tabs .tab > a,
-html[data-theme="light"] .tabs .tab > span,
-html.theme-light .tabs .tab > a,
-html.theme-light .tabs .tab > span {
-    border: none !important;
-}
-
 html[data-theme="light"] .tabs .tab.active > a,
 html[data-theme="light"] .tabs .tab.active > span,
 html.theme-light .tabs .tab.active > a,
 html.theme-light .tabs .tab.active > span {
-    border: none !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
+    font-weight: 600 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+html[data-theme="light"] .tabs .tab.active a svg,
+html[data-theme="light"] .tabs .tab.active a i,
+html.theme-light .tabs .tab.active a svg,
+html.theme-light .tabs .tab.active a i {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .tabs .tab:not(.active) > a,
+html[data-theme="light"] .tabs .tab:not(.active) > span,
+html.theme-light .tabs .tab:not(.active) > a,
+html.theme-light .tabs .tab:not(.active) > span {
+    background: #f0f0f3 !important;
+    border: 1px solid transparent !important;
+    border-color: transparent !important;
+    color: #60646c !important;
+}
+html[data-theme="light"] .tabs .tab:not(.active) > a:hover,
+html[data-theme="light"] .tabs .tab:not(.active) > span:hover,
+html.theme-light .tabs .tab:not(.active) > a:hover,
+html.theme-light .tabs .tab:not(.active) > span:hover {
+    background: #e4e4e7 !important;
+    border: 1px solid transparent !important;
+    border-color: transparent !important;
+    color: #171717 !important;
+}
+html[data-theme="light"] .tabs .tab:not(.active) > a svg,
+html.theme-light .tabs .tab:not(.active) > a svg {
+    stroke: #60646c !important;
+    color: #60646c !important;
+}
+html[data-theme="light"] .tabs .tab:not(.active) > a:hover svg,
+html.theme-light .tabs .tab:not(.active) > a:hover svg {
+    stroke: #171717 !important;
+    color: #171717 !important;
 }
 
 html[data-theme="light"] #problem-table thead th,

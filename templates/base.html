@@ -6712,33 +6712,66 @@ html.theme-light #available-judges-list {
         border: none !important;
         color: #60646c !important;
     }
-    html[data-theme="light"] .tabs .tab a svg {
-        stroke: #64748b !important;
-    }
-    html[data-theme="light"] .tabs .tab a:hover {
-        background: #f1f5f9 !important;
-        color: #0f172a !important;
-    }
-    html[data-theme="light"] .tabs .tab a:hover svg {
-        stroke: #0f172a !important;
-    }
-    html[data-theme="light"] .tabs .tab.active > a,
-    html[data-theme="light"] .tabs .tab.active > span {
-        background: #000000 !important;
-        border-color: #000000 !important;
-        color: #ffffff !important;
+    html[data-theme="light"] .tabs .tab > a,
+    html[data-theme="light"] .tabs .tab > span,
+    html.theme-light .tabs .tab > a,
+    html.theme-light .tabs .tab > span {
+        background: #f0f0f3 !important;
+        border: 1px solid transparent !important;
+        border-color: transparent !important;
+        color: #60646c !important;
         box-shadow: none !important;
+        transform: none !important;
     }
-    html[data-theme="light"] .tabs .tab.active a svg,
-    html[data-theme="light"] .tabs .tab.active a i,
-    html.theme-light .tabs .tab.active a svg,
-    html.theme-light .tabs .tab.active a i,
     html[data-theme="light"] .tabs .tab > a svg,
+    html[data-theme="light"] .tabs .tab > a i,
     html[data-theme="light"] .tabs .tab > a .tab-icon,
     html.theme-light .tabs .tab > a svg,
+    html.theme-light .tabs .tab > a i,
     html.theme-light .tabs .tab > a .tab-icon {
-        stroke: currentColor !important;
-        color: inherit !important;
+        stroke: #60646c !important;
+        color: #60646c !important;
+    }
+    html[data-theme="light"] .tabs .tab > a:hover,
+    html[data-theme="light"] .tabs .tab > span:hover,
+    html.theme-light .tabs .tab > a:hover,
+    html.theme-light .tabs .tab > span:hover {
+        background: #e4e4e7 !important;
+        border: 1px solid transparent !important;
+        border-color: transparent !important;
+        color: #171717 !important;
+        box-shadow: none !important;
+        transform: none !important;
+    }
+    html[data-theme="light"] .tabs .tab > a:hover svg,
+    html[data-theme="light"] .tabs .tab > a:hover i,
+    html[data-theme="light"] .tabs .tab > a:hover .tab-icon,
+    html.theme-light .tabs .tab > a:hover svg,
+    html.theme-light .tabs .tab > a:hover i,
+    html.theme-light .tabs .tab > a:hover .tab-icon {
+        stroke: #171717 !important;
+        color: #171717 !important;
+    }
+    html[data-theme="light"] .tabs .tab.active > a,
+    html[data-theme="light"] .tabs .tab.active > span,
+    html.theme-light .tabs .tab.active > a,
+    html.theme-light .tabs .tab.active > span {
+        background: #000000 !important;
+        border: 1px solid #000000 !important;
+        border-color: #000000 !important;
+        color: #ffffff !important;
+        font-weight: 600 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+        transform: none !important;
+    }
+    html[data-theme="light"] .tabs .tab.active > a svg,
+    html[data-theme="light"] .tabs .tab.active > a i,
+    html[data-theme="light"] .tabs .tab.active > a .tab-icon,
+    html.theme-light .tabs .tab.active > a svg,
+    html.theme-light .tabs .tab.active > a i,
+    html.theme-light .tabs .tab.active > a .tab-icon {
+        stroke: #ffffff !important;
+        color: #ffffff !important;
     }
 
     /* All Tables Across Site */
