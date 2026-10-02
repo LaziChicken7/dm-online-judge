@@ -71,8 +71,17 @@
             stroke: currentColor !important;
         }
         html[data-theme="light"] .create-tag,
-        html.theme-light .create-tag {
+        html[data-theme="light"] .create-tag *,
+        html[data-theme="light"] .create-tag span,
+        html.theme-light .create-tag,
+        html.theme-light .create-tag *,
+        html.theme-light .create-tag span {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .create-tag svg,
+        html.theme-light .create-tag svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
 
         .create-title {
@@ -522,10 +531,17 @@
             color: #64748b !important;
         }
         html[data-theme="light"] .type-tag,
-        html.theme-light .type-tag {
-            background: #f1f5f9 !important;
-            border: 1px solid #cbd5e1 !important;
-            color: #0f172a !important;
+        html[data-theme="light"] .type-tag *,
+        html[data-theme="light"] .type-tag span,
+        html.theme-light .type-tag,
+        html.theme-light .type-tag *,
+        html.theme-light .type-tag span {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .type-tag svg,
+        html.theme-light .type-tag svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
         html[data-theme="light"] .placeholder-text,
         html.theme-light .placeholder-text {

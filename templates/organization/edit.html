@@ -98,8 +98,17 @@
             stroke: currentColor !important;
         }
         html[data-theme="light"] .edit-tag,
-        html.theme-light .edit-tag {
+        html[data-theme="light"] .edit-tag *,
+        html[data-theme="light"] .edit-tag span,
+        html.theme-light .edit-tag,
+        html.theme-light .edit-tag *,
+        html.theme-light .edit-tag span {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .edit-tag svg,
+        html.theme-light .edit-tag svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
 
         .edit-title {

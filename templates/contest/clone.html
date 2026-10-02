@@ -58,8 +58,17 @@
             stroke: currentColor !important;
         }
         html[data-theme="light"] .clone-tag,
-        html.theme-light .clone-tag {
+        html[data-theme="light"] .clone-tag *,
+        html[data-theme="light"] .clone-tag span,
+        html.theme-light .clone-tag,
+        html.theme-light .clone-tag *,
+        html.theme-light .clone-tag span {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .clone-tag svg,
+        html.theme-light .clone-tag svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
         .clone-title {
             font-family: "Inter", -apple-system, sans-serif !important;

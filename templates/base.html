@@ -773,6 +773,63 @@
         border-color: #94a3b8 !important;
         box-shadow: none !important;
     }
+
+    /* Clean Expo Tag/Category Headings (Eliminate white-on-white text in Light Mode) */
+    .create-tag,
+    .create-tag *,
+    .create-tag span,
+    .edit-tag,
+    .edit-tag *,
+    .edit-tag span,
+    .import-tag,
+    .import-tag *,
+    .import-tag span,
+    .clone-tag,
+    .clone-tag *,
+    .clone-tag span {
+        font-family: "JetBrains Mono", monospace !important;
+        font-size: 11px !important;
+        font-weight: 600 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+    }
+    html[data-theme="light"] .create-tag,
+    html[data-theme="light"] .create-tag *,
+    html[data-theme="light"] .create-tag span,
+    html[data-theme="light"] .edit-tag,
+    html[data-theme="light"] .edit-tag *,
+    html[data-theme="light"] .edit-tag span,
+    html[data-theme="light"] .import-tag,
+    html[data-theme="light"] .import-tag *,
+    html[data-theme="light"] .import-tag span,
+    html[data-theme="light"] .clone-tag,
+    html[data-theme="light"] .clone-tag *,
+    html[data-theme="light"] .clone-tag span,
+    html.theme-light .create-tag,
+    html.theme-light .create-tag *,
+    html.theme-light .create-tag span,
+    html.theme-light .edit-tag,
+    html.theme-light .edit-tag *,
+    html.theme-light .edit-tag span,
+    html.theme-light .import-tag,
+    html.theme-light .import-tag *,
+    html.theme-light .import-tag span,
+    html.theme-light .clone-tag,
+    html.theme-light .clone-tag *,
+    html.theme-light .clone-tag span {
+        color: #64748b !important;
+    }
+    html[data-theme="light"] .create-tag svg,
+    html[data-theme="light"] .edit-tag svg,
+    html[data-theme="light"] .import-tag svg,
+    html[data-theme="light"] .clone-tag svg,
+    html.theme-light .create-tag svg,
+    html.theme-light .edit-tag svg,
+    html.theme-light .import-tag svg,
+    html.theme-light .clone-tag svg {
+        color: #64748b !important;
+        stroke: #64748b !important;
+    }
 </style>
     {% endif %}
     {% block media %}{% endblock %}

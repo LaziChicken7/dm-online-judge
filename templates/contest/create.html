@@ -65,8 +65,17 @@
             stroke: currentColor !important;
         }
         html[data-theme="light"] .create-tag,
-        html.theme-light .create-tag {
+        html[data-theme="light"] .create-tag *,
+        html[data-theme="light"] .create-tag span,
+        html.theme-light .create-tag,
+        html.theme-light .create-tag *,
+        html.theme-light .create-tag span {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .create-tag svg,
+        html.theme-light .create-tag svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
 
         .create-title {

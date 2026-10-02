@@ -63,8 +63,17 @@
             stroke: currentColor !important;
         }
         html[data-theme="light"] .import-tag,
-        html.theme-light .import-tag {
+        html[data-theme="light"] .import-tag *,
+        html[data-theme="light"] .import-tag span,
+        html.theme-light .import-tag,
+        html.theme-light .import-tag *,
+        html.theme-light .import-tag span {
             color: #64748b !important;
+        }
+        html[data-theme="light"] .import-tag svg,
+        html.theme-light .import-tag svg {
+            color: #64748b !important;
+            stroke: #64748b !important;
         }
 
         .import-title {
