@@ -524,7 +524,7 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
 #ranking-table tbody td:first-child {
     position: sticky !important;
     left: 0px !important;
-    z-index: 12 !important;
+    z-index: 20 !important;
     width: 64px !important;
     min-width: 64px !important;
     max-width: 64px !important;
@@ -532,74 +532,130 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
     background: #18181b !important;
     box-sizing: border-box !important;
     border-right: 1px solid var(--expo-hairline) !important;
+    border-left: none !important;
 }
 #ranking-table tbody td.rank-column,
 #ranking-table tbody td:first-child {
     background: #121214 !important;
 }
 
-/* 2. Sticky Username Column (Left) */
-#ranking-table th.header.username,
-#ranking-table td.user-name {
-    position: sticky !important;
-    left: 64px !important;
-    z-index: 11 !important;
-    width: 180px !important;
-    min-width: 180px !important;
-    max-width: 180px !important;
-    background: #18181b !important;
-    box-sizing: border-box !important;
-    border-right: 1px solid var(--expo-hairline) !important;
-    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3) !important;
-    white-space: nowrap !important;
-    overflow: hidden !important;
-    text-overflow: ellipsis !important;
-}
-#ranking-table tbody td.user-name {
-    background: #121214 !important;
+/* 2. Organization Column (Left of Username, hidden by default) */
+#ranking-table th.organization-column,
+#ranking-table td.organization-column {
+    display: none !important;
 }
 
-/* 3. Sticky Organization Column (Left, when toggled) */
-body.show-organizations #ranking-table th.header.username,
-body.show-organizations #ranking-table td.user-name {
-    box-shadow: none !important;
-}
+/* When Organization is shown (Point 4: on the LEFT of username) */
 body.show-organizations #ranking-table th.organization-column,
 body.show-organizations #ranking-table td.organization-column {
+    display: table-cell !important;
     position: sticky !important;
-    left: 244px !important;
-    z-index: 10 !important;
-    width: 140px !important;
-    min-width: 140px !important;
-    max-width: 140px !important;
+    left: 64px !important;
+    z-index: 19 !important;
+    width: 120px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
     background: #18181b !important;
     box-sizing: border-box !important;
     border-right: 1px solid var(--expo-hairline) !important;
-    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3) !important;
+    border-left: none !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
+    vertical-align: middle !important;
 }
 body.show-organizations #ranking-table tbody td.organization-column {
     background: #121214 !important;
 }
 
-/* 4. Problem columns (scrollable in middle) */
+/* 3. Sticky Username Column (Left) */
+#ranking-table th.header.username,
+#ranking-table td.user-name {
+    position: sticky !important;
+    left: 64px !important;
+    z-index: 18 !important;
+    width: 250px !important;
+    min-width: 250px !important;
+    max-width: 250px !important;
+    background: #18181b !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid var(--expo-hairline) !important;
+    border-left: none !important;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    vertical-align: middle !important;
+}
+#ranking-table tbody td.user-name {
+    background: #121214 !important;
+}
+
+/* When Organization is shown, Username shifts to left: 184px (64px + 120px) */
+body.show-organizations #ranking-table th.header.username,
+body.show-organizations #ranking-table td.user-name {
+    left: 184px !important;
+}
+
+/* Point 3: Username and ban/pencil buttons on ONE LINE */
+#ranking-table td.user-name .rating {
+    display: inline-block !important;
+    vertical-align: middle !important;
+}
+#ranking-table .contest-participation-operation {
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    margin-left: 8px !important;
+    vertical-align: middle !important;
+    float: none !important;
+}
+#ranking-table .contest-participation-operation form {
+    display: inline-flex !important;
+    align-items: center !important;
+    margin: 0 !important;
+    height: 26px !important;
+}
+#ranking-table .user-name a.contest-action-btn,
+#ranking-table .contest-participation-operation a.contest-action-btn,
+#ranking-table .contest-participation-operation a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 26px !important;
+    height: 26px !important;
+    border-radius: 6px !important;
+    margin: 0 !important;
+    vertical-align: middle !important;
+    box-shadow: none !important;
+}
+
+/* Point 1: Remove vertical dividing lines between problem numbers */
+#ranking-table th.points.header,
+#ranking-table td.points,
+#ranking-table th.points,
+#ranking-table td.points a {
+    border-left: none !important;
+    border-right: none !important;
+    border-top: none !important;
+}
 #ranking-table th.points.header,
 #ranking-table td.points {
     min-width: 68px !important;
     width: 68px !important;
     text-align: center !important;
     box-sizing: border-box !important;
+    position: static !important;
+    z-index: 1 !important;
 }
 
 /* 5. Sticky Points Column (Total Score, pinned on right edge) */
-#ranking-table th.header.points,
-#ranking-table td.user-points,
-#ranking-table tbody td:last-child {
+#ranking-table thead tr th:last-child,
+#ranking-table tbody tr td:last-child,
+#ranking-table td.user-points {
     position: sticky !important;
     right: 0px !important;
-    z-index: 11 !important;
+    z-index: 17 !important;
     width: 84px !important;
     min-width: 84px !important;
     max-width: 84px !important;
@@ -608,10 +664,11 @@ body.show-organizations #ranking-table tbody td.organization-column {
     background: #18181b !important;
     box-sizing: border-box !important;
     border-left: 1px solid var(--expo-hairline) !important;
+    border-right: none !important;
     box-shadow: -4px 0 8px rgba(0, 0, 0, 0.3) !important;
 }
-#ranking-table tbody td.user-points,
-#ranking-table tbody td:last-child {
+#ranking-table tbody tr td:last-child,
+#ranking-table td.user-points {
     background: #121214 !important;
 }
 
