@@ -492,6 +492,391 @@
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
         }
 
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           TASK 1: Fix Verdict Pill in Light Mode (Image #1)
+           ══════════════════════════════════════════════════════════════════════════ */
+        html[data-theme="light"] .expo-verdict-tag,
+        html[data-theme="light"] .expo-verdict-tag span,
+        html[data-theme="light"] .expo-verdict-tag *,
+        html.theme-light .expo-verdict-tag,
+        html.theme-light .expo-verdict-tag span,
+        html.theme-light .expo-verdict-tag * {
+            color: #16a34a !important;
+        }
+
+        html[data-theme="dark"] .expo-verdict-tag,
+        html[data-theme="dark"] .expo-verdict-tag span,
+        html[data-theme="dark"] .expo-verdict-tag *,
+        html.theme-dark .expo-verdict-tag,
+        html.theme-dark .expo-verdict-tag span,
+        html:not([data-theme="light"]) .expo-verdict-tag,
+        html:not([data-theme="light"]) .expo-verdict-tag span,
+        html:not([data-theme="light"]) .expo-verdict-tag * {
+            color: #4ade80 !important;
+        }
+
+        /* ══════════════════════════════════════════════════════════════════════════
+           TASK 2: Ongoing Contests UI matching Image #2 (Light & Dark Mode)
+           ══════════════════════════════════════════════════════════════════════════ */
+
+        /* Outer Sidebox */
+        .blog-sidebox.sidebox {
+            border-radius: 16px !important;
+            padding: 20px !important;
+            margin-bottom: 24px !important;
+        }
+        html[data-theme="light"] .blog-sidebox.sidebox,
+        html.theme-light .blog-sidebox.sidebox {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        html[data-theme="dark"] .blog-sidebox.sidebox,
+        html.theme-dark .blog-sidebox.sidebox,
+        html:not([data-theme="light"]) .blog-sidebox.sidebox {
+            background: #121214 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* Sidebox Header Row */
+        .sidebox-header-flex {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 16px !important;
+        }
+
+        .sidebox-title-wrap {
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+        }
+        .sidebox-title-wrap h3 {
+            font-size: 18px !important;
+            font-weight: 700 !important;
+            margin: 0 !important;
+            line-height: 1.2 !important;
+        }
+        html[data-theme="light"] .sidebox-title-wrap h3,
+        html.theme-light .sidebox-title-wrap h3 {
+            color: #0f172a !important;
+        }
+        html[data-theme="dark"] .sidebox-title-wrap h3,
+        html.theme-dark .sidebox-title-wrap h3,
+        html:not([data-theme="light"]) .sidebox-title-wrap h3 {
+            color: #f4f4f5 !important;
+        }
+
+        /* Live glowing dot next to title */
+        .contest-live-dot {
+            width: 8px !important;
+            height: 8px !important;
+            border-radius: 50% !important;
+            background: #10b981 !important;
+            box-shadow: 0 0 10px 2px rgba(16, 185, 129, 0.6) !important;
+            display: inline-block !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Trophy Icon Badge Plate */
+        .sidebox-header-icon.ongoing {
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+            font-size: 18px !important;
+        }
+        html[data-theme="light"] .sidebox-header-icon.ongoing,
+        html.theme-light .sidebox-header-icon.ongoing {
+            background: #fffbeb !important;
+            border: 1px solid #fef3c7 !important;
+            color: #d97706 !important;
+        }
+        html[data-theme="dark"] .sidebox-header-icon.ongoing,
+        html.theme-dark .sidebox-header-icon.ongoing,
+        html:not([data-theme="light"]) .sidebox-header-icon.ongoing {
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.25) !important;
+            color: #fbbf24 !important;
+        }
+
+        /* Contest Item Card */
+        .ongoing-contest-card,
+        html body .ongoing-contest-card {
+            border-radius: 14px !important;
+            padding: 18px !important;
+            margin-bottom: 14px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            box-sizing: border-box !important;
+        }
+        .ongoing-contest-card:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        html[data-theme="light"] .ongoing-contest-card,
+        html.theme-light .ongoing-contest-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: none !important;
+        }
+        html[data-theme="light"] .ongoing-contest-card:hover,
+        html.theme-light .ongoing-contest-card:hover {
+            border-color: #cbd5e1 !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        html[data-theme="dark"] .ongoing-contest-card,
+        html.theme-dark .ongoing-contest-card,
+        html:not([data-theme="light"]) .ongoing-contest-card {
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: none !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-card:hover,
+        html.theme-dark .ongoing-contest-card:hover,
+        html:not([data-theme="light"]) .ongoing-contest-card:hover {
+            border-color: rgba(255, 255, 255, 0.18) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Card Top Tags Row */
+        .ongoing-card-top {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            margin-bottom: 2px !important;
+        }
+
+        /* HAPPENING NOW Tag */
+        .ongoing-live-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 4px 12px !important;
+            border-radius: 9999px !important;
+            font-size: 11px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.5px !important;
+            text-transform: uppercase !important;
+        }
+        .live-dot-mini {
+            width: 6px !important;
+            height: 6px !important;
+            border-radius: 50% !important;
+        }
+        html[data-theme="light"] .ongoing-live-tag,
+        html.theme-light .ongoing-live-tag {
+            background: #ecfdf5 !important;
+            border: 1px solid #a7f3d0 !important;
+            color: #047857 !important;
+        }
+        html[data-theme="light"] .live-dot-mini,
+        html.theme-light .live-dot-mini {
+            background-color: #059669 !important;
+        }
+
+        html[data-theme="dark"] .ongoing-live-tag,
+        html.theme-dark .ongoing-live-tag,
+        html:not([data-theme="light"]) .ongoing-live-tag {
+            background: rgba(16, 185, 129, 0.15) !important;
+            border: 1px solid rgba(16, 185, 129, 0.3) !important;
+            color: #34d399 !important;
+        }
+        html[data-theme="dark"] .live-dot-mini,
+        html.theme-dark .live-dot-mini,
+        html:not([data-theme="light"]) .live-dot-mini {
+            background-color: #10b981 !important;
+        }
+
+        /* Rated Tag */
+        .ongoing-rated-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 3px 10px !important;
+            border-radius: 6px !important;
+            font-size: 11px !important;
+            font-weight: 700 !important;
+        }
+        html[data-theme="light"] .ongoing-rated-tag,
+        html.theme-light .ongoing-rated-tag {
+            background: #fffbeb !important;
+            border: 1px solid #fde68a !important;
+            color: #b45309 !important;
+        }
+        html[data-theme="dark"] .ongoing-rated-tag,
+        html.theme-dark .ongoing-rated-tag,
+        html:not([data-theme="light"]) .ongoing-rated-tag {
+            background: rgba(245, 158, 11, 0.15) !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+            color: #fbbf24 !important;
+        }
+
+        /* Contest Name */
+        .ongoing-contest-name {
+            margin: 0 !important;
+            font-size: 17px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+        html[data-theme="light"] .ongoing-contest-name a,
+        html.theme-light .ongoing-contest-name a {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ongoing-contest-name a:hover,
+        html.theme-light .ongoing-contest-name a:hover {
+            color: #0284c7 !important;
+        }
+
+        html[data-theme="dark"] .ongoing-contest-name a,
+        html.theme-dark .ongoing-contest-name a,
+        html:not([data-theme="light"]) .ongoing-contest-name a {
+            color: #f4f4f5 !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-name a:hover,
+        html.theme-dark .ongoing-contest-name a:hover,
+        html:not([data-theme="light"]) .ongoing-contest-name a:hover {
+            color: #38bdf8 !important;
+        }
+
+        /* Timer Strip (Matching Image #2) */
+        .ongoing-timer-strip {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            border-radius: 10px !important;
+            padding: 10px 16px !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+        }
+        html[data-theme="light"] .ongoing-timer-strip,
+        html.theme-light .ongoing-timer-strip {
+            background: #f8fafc !important;
+            border: 1px solid #edf2f7 !important;
+        }
+        html[data-theme="dark"] .ongoing-timer-strip,
+        html.theme-dark .ongoing-timer-strip,
+        html:not([data-theme="light"]) .ongoing-timer-strip {
+            background: #121214 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .timer-label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+        }
+        .timer-label i {
+            display: none !important;
+        }
+        html[data-theme="light"] .timer-label,
+        html[data-theme="light"] .timer-label span,
+        html.theme-light .timer-label,
+        html.theme-light .timer-label span {
+            color: #64748b !important;
+        }
+        html[data-theme="dark"] .timer-label,
+        html[data-theme="dark"] .timer-label span,
+        html.theme-dark .timer-label,
+        html.theme-dark .timer-label span,
+        html:not([data-theme="light"]) .timer-label,
+        html:not([data-theme="light"]) .timer-label span {
+            color: #a1a1aa !important;
+        }
+
+        .timer-countdown, .timer-countdown .time-remaining {
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 14.5px !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.01em !important;
+        }
+        html[data-theme="light"] .timer-countdown,
+        html[data-theme="light"] .timer-countdown .time-remaining,
+        html.theme-light .timer-countdown,
+        html.theme-light .timer-countdown .time-remaining {
+            color: #0284c7 !important;
+        }
+        html[data-theme="dark"] .timer-countdown,
+        html[data-theme="dark"] .timer-countdown .time-remaining,
+        html.theme-dark .timer-countdown,
+        html.theme-dark .timer-countdown .time-remaining,
+        html:not([data-theme="light"]) .timer-countdown,
+        html:not([data-theme="light"]) .timer-countdown .time-remaining {
+            color: #38bdf8 !important;
+        }
+
+        /* Action Button: Enter Contest ➜ (Matching Image #2) */
+        .ongoing-action-btn,
+        html body .ongoing-action-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            height: 42px !important;
+            border-radius: 8px !important;
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: none !important;
+        }
+        .ongoing-action-btn span,
+        .ongoing-action-btn i,
+        .ongoing-action-btn svg,
+        .ongoing-action-btn * {
+            color: inherit !important;
+            fill: currentColor !important;
+        }
+
+        /* Light Mode Button: Solid Black (Image #2) */
+        html[data-theme="light"] .ongoing-action-btn,
+        html.theme-light .ongoing-action-btn {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .ongoing-action-btn:hover,
+        html.theme-light .ongoing-action-btn:hover {
+            background: #1e293b !important;
+            border-color: #1e293b !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+        }
+
+        /* Dark Mode Button: Solid White */
+        html[data-theme="dark"] .ongoing-action-btn,
+        html.theme-dark .ongoing-action-btn,
+        html:not([data-theme="light"]) .ongoing-action-btn {
+            background: #ffffff !important;
+            border: 1px solid #ffffff !important;
+            color: #000000 !important;
+        }
+        html[data-theme="dark"] .ongoing-action-btn:hover,
+        html.theme-dark .ongoing-action-btn:hover,
+        html:not([data-theme="light"]) .ongoing-action-btn:hover {
+            background: #e4e4e7 !important;
+            border-color: #e4e4e7 !important;
+            color: #000000 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4) !important;
+        }
+
 </style>
 {% endblock %}
 
