@@ -239,7 +239,260 @@
             border-color: rgba(56, 189, 248, 0.4) !important;
             color: #38bdf8 !important;
         }
-    </style>
+    
+        /* ==========================================================================
+           EXPO DESIGN SYSTEM - ONGOING CONTESTS WIDGET (Light & Dark Mode)
+           ========================================================================== */
+        #portfolio-nav:hover,
+        html body #portfolio-nav:hover {
+            transform: translateX(-50%) !important;
+        }
+
+        .ongoing-contest-card,
+        html body .ongoing-contest-card {
+            border-radius: 12px !important;
+            padding: 16px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 12px !important;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            margin-bottom: 12px !important;
+            box-sizing: border-box !important;
+        }
+        .ongoing-contest-card:last-child {
+            margin-bottom: 0 !important;
+        }
+
+        /* Light Mode Card */
+        html[data-theme="light"] .ongoing-contest-card,
+        html.theme-light .ongoing-contest-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        html[data-theme="light"] .ongoing-contest-card:hover,
+        html.theme-light .ongoing-contest-card:hover {
+            border-color: #cbd5e1 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06) !important;
+        }
+
+        /* Dark Mode Card */
+        html[data-theme="dark"] .ongoing-contest-card,
+        html.theme-dark .ongoing-contest-card,
+        html:not([data-theme="light"]) .ongoing-contest-card {
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-card:hover,
+        html.theme-dark .ongoing-contest-card:hover,
+        html:not([data-theme="light"]) .ongoing-contest-card:hover {
+            border-color: rgba(255, 255, 255, 0.18) !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4) !important;
+        }
+
+        /* Contest Name */
+        .ongoing-contest-name {
+            margin: 0 !important;
+            font-size: 15px !important;
+            font-weight: 700 !important;
+            line-height: 1.35 !important;
+        }
+        html[data-theme="light"] .ongoing-contest-name a,
+        html.theme-light .ongoing-contest-name a {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .ongoing-contest-name a:hover,
+        html.theme-light .ongoing-contest-name a:hover {
+            color: #0284c7 !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-name a,
+        html.theme-dark .ongoing-contest-name a,
+        html:not([data-theme="light"]) .ongoing-contest-name a {
+            color: #f4f4f5 !important;
+        }
+        html[data-theme="dark"] .ongoing-contest-name a:hover,
+        html.theme-dark .ongoing-contest-name a:hover,
+        html:not([data-theme="light"]) .ongoing-contest-name a:hover {
+            color: #38bdf8 !important;
+        }
+
+        /* Tags: Happening now & Rated */
+        .ongoing-live-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 3px 9px !important;
+            border-radius: 9999px !important;
+            font-size: 10.5px !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.5px !important;
+        }
+        html[data-theme="light"] .ongoing-live-tag,
+        html.theme-light .ongoing-live-tag {
+            background: #ecfdf5 !important;
+            color: #047857 !important;
+            border: 1px solid #a7f3d0 !important;
+        }
+        html[data-theme="dark"] .ongoing-live-tag,
+        html.theme-dark .ongoing-live-tag,
+        html:not([data-theme="light"]) .ongoing-live-tag {
+            background: rgba(16, 185, 129, 0.15) !important;
+            color: #34d399 !important;
+            border: 1px solid rgba(16, 185, 129, 0.3) !important;
+        }
+
+        .ongoing-rated-tag {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 4px !important;
+            font-size: 10.5px !important;
+            padding: 3px 8px !important;
+            border-radius: 6px !important;
+            font-weight: 700 !important;
+        }
+        html[data-theme="light"] .ongoing-rated-tag,
+        html.theme-light .ongoing-rated-tag {
+            background: #fffbeb !important;
+            color: #b45309 !important;
+            border: 1px solid #fde68a !important;
+        }
+        html[data-theme="dark"] .ongoing-rated-tag,
+        html.theme-dark .ongoing-rated-tag,
+        html:not([data-theme="light"]) .ongoing-rated-tag {
+            background: rgba(245, 158, 11, 0.15) !important;
+            color: #fbbf24 !important;
+            border: 1px solid rgba(245, 158, 11, 0.3) !important;
+        }
+
+        /* Timer Strip */
+        .ongoing-timer-strip {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            border-radius: 8px !important;
+            padding: 8px 12px !important;
+            box-sizing: border-box !important;
+            box-shadow: none !important;
+        }
+        html[data-theme="light"] .ongoing-timer-strip,
+        html.theme-light .ongoing-timer-strip {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="dark"] .ongoing-timer-strip,
+        html.theme-dark .ongoing-timer-strip,
+        html:not([data-theme="light"]) .ongoing-timer-strip {
+            background: #121214 !important;
+            border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        }
+
+        .timer-label {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .timer-label,
+        html[data-theme="light"] .timer-label span,
+        html.theme-light .timer-label,
+        html.theme-light .timer-label span {
+            color: #64748b !important;
+        }
+        html[data-theme="dark"] .timer-label,
+        html[data-theme="dark"] .timer-label span,
+        html.theme-dark .timer-label,
+        html.theme-dark .timer-label span,
+        html:not([data-theme="light"]) .timer-label,
+        html:not([data-theme="light"]) .timer-label span {
+            color: #a1a1aa !important;
+        }
+
+        .timer-countdown, .timer-countdown .time-remaining {
+            font-family: 'JetBrains Mono', Consolas, monospace !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            letter-spacing: -0.01em !important;
+        }
+        html[data-theme="light"] .timer-countdown,
+        html[data-theme="light"] .timer-countdown .time-remaining,
+        html.theme-light .timer-countdown,
+        html.theme-light .timer-countdown .time-remaining {
+            color: #0284c7 !important;
+        }
+        html[data-theme="dark"] .timer-countdown,
+        html[data-theme="dark"] .timer-countdown .time-remaining,
+        html.theme-dark .timer-countdown,
+        html.theme-dark .timer-countdown .time-remaining,
+        html:not([data-theme="light"]) .timer-countdown,
+        html:not([data-theme="light"]) .timer-countdown .time-remaining {
+            color: #38bdf8 !important;
+        }
+
+        /* Enter Contest Button (Expo Standard CTA) */
+        .ongoing-action-btn,
+        html body .ongoing-action-btn {
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            padding: 8px 14px !important;
+            border-radius: 8px !important; /* {rounded.md} */
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            text-decoration: none !important;
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
+            box-shadow: none !important;
+        }
+        .ongoing-action-btn span,
+        .ongoing-action-btn i,
+        .ongoing-action-btn svg,
+        .ongoing-action-btn * {
+            color: inherit !important;
+            fill: currentColor !important;
+        }
+
+        /* Light Mode CTA: Solid Black */
+        html[data-theme="light"] .ongoing-action-btn,
+        html.theme-light .ongoing-action-btn {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            color: #ffffff !important;
+        }
+        html[data-theme="light"] .ongoing-action-btn:hover,
+        html.theme-light .ongoing-action-btn:hover {
+            background: #1e293b !important;
+            border-color: #1e293b !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        /* Dark Mode CTA: Solid White */
+        html[data-theme="dark"] .ongoing-action-btn,
+        html.theme-dark .ongoing-action-btn,
+        html:not([data-theme="light"]) .ongoing-action-btn {
+            background: #ffffff !important;
+            border: 1px solid #ffffff !important;
+            color: #000000 !important;
+        }
+        html[data-theme="dark"] .ongoing-action-btn:hover,
+        html.theme-dark .ongoing-action-btn:hover,
+        html:not([data-theme="light"]) .ongoing-action-btn:hover {
+            background: #e4e4e7 !important;
+            border-color: #e4e4e7 !important;
+            color: #000000 !important;
+            transform: translateY(-1px) !important;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4) !important;
+        }
+
+</style>
 {% endblock %}
 
 {% block js_media %}
