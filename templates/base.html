@@ -3769,15 +3769,19 @@ html.theme-light .portfolio-user-pill {
         display: inline-flex !important;
         align-items: center !important;
         justify-content: center !important;
-        gap: 7px !important;
-        padding: 6px 14px !important;
-        height: 34px !important;
-        border-radius: 8px !important; /* Bo vuông 8px như Image #2 */
-        background: #18181b !important; /* Nền xám như Image #2 */
-        border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Viền như Image #2 */
+        gap: 6px !important;
+        padding: 0 14px !important;
+        height: 38px !important;
+        min-height: 38px !important;
+        max-height: 38px !important;
+        line-height: 38px !important;
+        box-sizing: border-box !important;
+        border-radius: 8px !important;
+        background: #18181b !important;
+        border: 1px solid rgba(255, 255, 255, 0.14) !important;
         color: #a1a1aa !important;
-        font-family: 'Inter', sans-serif !important;
-        font-size: 13px !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 13.5px !important;
         font-weight: 500 !important;
         box-shadow: none !important;
         text-decoration: none !important;
@@ -3785,9 +3789,10 @@ html.theme-light .portfolio-user-pill {
     }
     .tabs .tab > a .tab-icon,
     .tabs .tab > span .tab-icon {
-        width: 13px !important;
-        height: 13px !important;
+        width: 14px !important;
+        height: 14px !important;
         stroke: currentColor !important;
+        color: inherit !important;
         flex-shrink: 0 !important;
     }
     .tabs .tab > a:hover {
@@ -3815,14 +3820,14 @@ html.theme-light .portfolio-user-pill {
         border-radius: 0 !important;
     }
     .tabs .tab.active > a, .tabs .tab.active > span {
-        background: #242428 !important; /* Nền xám nổi bật cho active */
+        background: #242428 !important;
         border: 1px solid rgba(255, 255, 255, 0.25) !important;
         color: #ffffff !important;
         font-weight: 600 !important;
     }
     .tabs .tab.active > a:hover {
-        background: #2a2a30 !important;
-        border-color: rgba(255, 255, 255, 0.35) !important;
+        background: #242428 !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
         color: #ffffff !important;
     }
     html[data-theme="light"] .tabs .tab > a,
@@ -3830,23 +3835,31 @@ html.theme-light .portfolio-user-pill {
     html.theme-light .tabs .tab > a,
     html.theme-light .tabs .tab > span {
         background: #f0f0f3 !important;
-        border: none !important;
+        border: 1px solid transparent !important;
         color: #60646c !important;
     }
     html[data-theme="light"] .tabs .tab > a:hover,
     html.theme-light .tabs .tab > a:hover {
         background: #e4e4e7 !important;
+        border: 1px solid transparent !important;
         color: #171717 !important;
     }
     html[data-theme="light"] .tabs .tab.active > a,
     html[data-theme="light"] .tabs .tab.active > span,
     html.theme-light .tabs .tab.active > a,
     html.theme-light .tabs .tab.active > span {
-        background: #ffffff !important;
-        border: none !important;
-        color: #171717 !important;
+        background: #000000 !important;
+        border: 1px solid #000000 !important;
+        color: #ffffff !important;
         font-weight: 600 !important;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    }
+    html[data-theme="light"] .tabs .tab.active > a svg,
+    html[data-theme="light"] .tabs .tab.active > a i,
+    html.theme-light .tabs .tab.active > a svg,
+    html.theme-light .tabs .tab.active > a i {
+        stroke: #ffffff !important;
+        color: #ffffff !important;
     }
     .tabs .tab i {
         margin-right: 2px !important;

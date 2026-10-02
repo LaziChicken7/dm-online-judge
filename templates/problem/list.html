@@ -219,7 +219,7 @@ html body #content-left.problems {
     box-sizing: border-box !important;
 }
 
-/* 3. Header Tabs (.tabs) */
+/* 3. Header Tabs (.tabs) - Unified 38px compact block matching /users/ (Image #2) */
 .tabs,
 .tabs:hover {
     background: transparent !important;
@@ -229,47 +229,106 @@ html body #content-left.problems {
     transform: none !important;
     padding: 0 !important;
     margin-bottom: 24px !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
+    flex-wrap: wrap !important;
+    gap: 8px 16px !important;
+    position: relative !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
 }
-
+.tabs:not(#mobile)::before {
+    content: "WORKSPACE" !important;
+    display: block !important;
+    width: 100% !important;
+    font-family: 'JetBrains Mono', monospace !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+    letter-spacing: 1.5px !important;
+    color: #71717a !important;
+    text-transform: uppercase !important;
+    margin: 0 0 -4px 0 !important;
+    line-height: 1 !important;
+}
+html[data-theme="light"] .tabs:not(#mobile)::before,
+html.theme-light .tabs:not(#mobile)::before {
+    color: #999999 !important;
+}
 .tabs h2 {
+    font-family: "Inter", -apple-system, sans-serif !important;
     font-size: 26px !important;
     font-weight: 600 !important;
     letter-spacing: -0.6px !important;
     color: var(--expo-ink) !important;
     margin: 0 !important;
+    text-align: left !important;
+    flex: 0 1 auto !important;
+    max-width: 100% !important;
+    line-height: 1.3 !important;
+    word-break: break-word !important;
 }
-
-/* Tabs Clean Expo Style (Image #2 fix) */
+.tabs ul {
+    position: static !important;
+    display: inline-flex !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 6px !important;
+    list-style: none !important;
+    margin: 0 !important;
+    margin-left: auto !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+}
+.tabs .tab {
+    padding: 0 !important;
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+}
 .tabs .tab > a,
 .tabs .tab > span {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 7px !important;
-    padding: 6px 14px !important;
-    height: 34px !important;
-    border-radius: 8px !important; /* Bo vuông 8px như Image #2 */
-    background: #18181b !important; /* Nền xám như Image #2 */
-    border: 1px solid rgba(255, 255, 255, 0.14) !important; /* Viền như Image #2 */
-    color: #a1a1aa !important;
-    font-family: 'Inter', sans-serif !important;
-    font-size: 13px !important;
+    gap: 6px !important;
+    padding: 0 14px !important;
+    height: 38px !important;
+    min-height: 38px !important;
+    max-height: 38px !important;
+    line-height: 38px !important;
+    box-sizing: border-box !important;
+    border-radius: 8px !important; /* {rounded.md} */
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
     font-weight: 500 !important;
-    box-shadow: none !important;
     text-decoration: none !important;
     transition: all 0.15s ease !important;
+    background: #18181b !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #a1a1aa !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    vertical-align: middle !important;
 }
 .tabs .tab > a .tab-icon,
 .tabs .tab > span .tab-icon {
-    width: 13px !important;
-    height: 13px !important;
+    width: 14px !important;
+    height: 14px !important;
     stroke: currentColor !important;
+    color: inherit !important;
     flex-shrink: 0 !important;
 }
 .tabs .tab > a:hover {
     background: #242428 !important;
-    border-color: rgba(255, 255, 255, 0.25) !important;
     color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.25) !important;
 }
 .tabs .tab.active > a,
 .tabs .tab.active > span {
@@ -278,33 +337,36 @@ html body #content-left.problems {
     color: #ffffff !important;
     font-weight: 600 !important;
 }
-.tabs .tab.active > a:hover {
-    background: #2a2a30 !important;
-    border-color: rgba(255, 255, 255, 0.35) !important;
-    color: #ffffff !important;
-}
 html[data-theme="light"] .tabs .tab > a,
 html[data-theme="light"] .tabs .tab > span,
 html.theme-light .tabs .tab > a,
 html.theme-light .tabs .tab > span {
     background: #f0f0f3 !important;
-    border: none !important;
+    border: 1px solid transparent !important;
     color: #60646c !important;
 }
 html[data-theme="light"] .tabs .tab > a:hover,
 html.theme-light .tabs .tab > a:hover {
     background: #e4e4e7 !important;
+    border: 1px solid transparent !important;
     color: #171717 !important;
 }
 html[data-theme="light"] .tabs .tab.active > a,
 html[data-theme="light"] .tabs .tab.active > span,
 html.theme-light .tabs .tab.active > a,
 html.theme-light .tabs .tab.active > span {
-    background: #ffffff !important;
-    border: none !important;
-    color: #171717 !important;
+    background: #000000 !important;
+    border: 1px solid #000000 !important;
+    color: #ffffff !important;
     font-weight: 600 !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+}
+html[data-theme="light"] .tabs .tab.active > a svg,
+html[data-theme="light"] .tabs .tab.active > a i,
+html.theme-light .tabs .tab.active > a svg,
+html.theme-light .tabs .tab.active > a i {
+    stroke: #ffffff !important;
+    color: #ffffff !important;
 }
 /* Completely reset and strip any styles from inner spans in tabs */
 .tabs .tab a .tab-text,
