@@ -29,68 +29,52 @@
             color: #0f172a !important;
         }
 
-        /* ── Standard Tabs: Icon-only by default, text reveals on hover ── */
+        /* ── Standard Tabs: Both Icon and Text always visible ── */
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) a,
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) > span {
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            padding: 0 14px !important;
+            padding: 0 16px !important;
             height: 42px !important;
             border-radius: 8px !important;
             font-family: "Inter", sans-serif !important;
-            font-size: 13px !important;
+            font-size: 13.5px !important;
             font-weight: 500 !important;
             box-sizing: border-box !important;
             text-decoration: none !important;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
-            overflow: hidden !important;
-            gap: 0 !important;
+            transition: all 0.15s ease !important;
+            gap: 7px !important;
         }
-
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) .tab-icon,
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) i,
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) svg {
-            margin-right: 0 !important;
+            margin: 0 !important;
             flex-shrink: 0 !important;
             font-size: 14px !important;
-            width: 15px !important;
-            height: 15px !important;
-            transition: margin 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            width: 14px !important;
+            height: 14px !important;
+            stroke: currentColor !important;
         }
-
-        /* Text revealed ONLY on hover */
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab) .tab-text {
             display: inline-block !important;
-            max-width: 0 !important;
+            max-width: none !important;
             width: auto !important;
-            opacity: 0 !important;
-            overflow: hidden !important;
+            opacity: 1 !important;
+            overflow: visible !important;
             white-space: nowrap !important;
-            margin-left: 0 !important;
+            margin: 0 !important;
             vertical-align: middle !important;
-            pointer-events: none !important;
-            font-size: 13px !important;
-            transition: max-width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
-                        opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1),
-                        margin-left 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            pointer-events: auto !important;
+            font-size: 13.5px !important;
+            color: inherit !important;
         }
-
-        /* Hover & Focus state: expand pill and reveal text smoothly */
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover a,
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within a,
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover > span,
         .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within > span {
             padding: 0 16px !important;
         }
-
-        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):hover .tab-text,
-        .tabs.org-tabs:not(#mobile) li.tab:not(.org-action-tab):focus-within .tab-text {
-            max-width: 140px !important;
-            opacity: 1 !important;
-            margin-left: 7px !important;
-        }
-
         /* Active Tab in Dark Mode: Solid WHITE button with crisp BLACK icon and text */
         .tabs.org-tabs:not(#mobile) li.tab.active a,
         .tabs.org-tabs:not(#mobile) li.tab.active > span {
