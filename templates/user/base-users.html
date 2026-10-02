@@ -570,25 +570,58 @@ html.theme-light .user-top-toolbar .add-user-btn:hover {
     color: var(--expo-text-link) !important;
 }
 
-/* High contrast rating colors on Light Mode */
-html[data-theme="light"] .users-table td.user-name a.rate-none,
-html.theme-light .users-table td.user-name a.rate-none {
-    color: #171717 !important;
+/* High contrast rating & role colors on Light Mode */
+html[data-theme="light"] .users-table td.user-name .rate-none a,
+html.theme-light .users-table td.user-name .rate-none a {
+    color: #0f172a !important;
 }
-html[data-theme="light"] .users-table td.user-name a.admin,
-html.theme-light .users-table td.user-name a.admin {
+html[data-theme="light"] .users-table td.user-name .admin a,
+html[data-theme="light"] .users-table td.user-name .admin,
+html[data-theme="light"] .rate-none.admin a,
+html.theme-light .users-table td.user-name .admin a,
+html.theme-light .users-table td.user-name .admin,
+html.theme-light .rate-none.admin a {
     color: #0284c7 !important;
+    font-weight: 700 !important;
 }
+html[data-theme="light"] .users-table td.user-name .rate-amateur a { color: #059669 !important; }
+html[data-theme="light"] .users-table td.user-name .rate-expert a { color: #2563eb !important; }
+html[data-theme="light"] .users-table td.user-name .rate-candidate-master a { color: #7c3aed !important; }
+html[data-theme="light"] .users-table td.user-name .rate-master a { color: #d97706 !important; }
+html[data-theme="light"] .users-table td.user-name .rate-grandmaster a,
+html[data-theme="light"] .users-table td.user-name .rate-target a { color: #dc2626 !important; }
 
-/* High contrast rating colors on Dark Mode */
-html[data-theme="dark"] .users-table td.user-name a.rate-none,
-html.theme-dark .users-table td.user-name a.rate-none {
+/* High contrast rating & role colors on Dark Mode */
+html[data-theme="dark"] .users-table td.user-name .rate-none a,
+html.theme-dark .users-table td.user-name .rate-none a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-none a {
     color: #f4f4f5 !important;
 }
-html[data-theme="dark"] .users-table td.user-name a.admin,
-html.theme-dark .users-table td.user-name a.admin {
+html[data-theme="dark"] .users-table td.user-name .admin a,
+html[data-theme="dark"] .users-table td.user-name .admin,
+html[data-theme="dark"] .rate-none.admin a,
+html.theme-dark .users-table td.user-name .admin a,
+html.theme-dark .users-table td.user-name .admin,
+html.theme-dark .rate-none.admin a,
+html:not([data-theme="light"]) .users-table td.user-name .admin a,
+html:not([data-theme="light"]) .users-table td.user-name .admin,
+html:not([data-theme="light"]) .rate-none.admin a {
     color: #38bdf8 !important;
+    font-weight: 700 !important;
 }
+html[data-theme="dark"] .users-table td.user-name .rate-amateur a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-amateur a { color: #10b981 !important; }
+html[data-theme="dark"] .users-table td.user-name .rate-expert a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-expert a { color: #60a5fa !important; }
+html[data-theme="dark"] .users-table td.user-name .rate-candidate-master a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-candidate-master a { color: #c084fc !important; }
+html[data-theme="dark"] .users-table td.user-name .rate-master a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-master a { color: #fbbf24 !important; }
+html[data-theme="dark"] .users-table td.user-name .rate-grandmaster a,
+html[data-theme="dark"] .users-table td.user-name .rate-target a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-grandmaster a,
+html:not([data-theme="light"]) .users-table td.user-name .rate-target a { color: #f87171 !important; }
+
 
 /* Points column (white in dark mode, dark ink in light mode - Image #3 fix) */
 .users-table tbody td.user-points {

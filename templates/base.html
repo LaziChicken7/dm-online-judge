@@ -2404,13 +2404,18 @@
         font-weight: 700 !important;
     }
 
-    /* Light mode text fixes for admin rank to prevent white text on light backgrounds */
+    /* Light mode text fixes for admin rank to display proper blue color (matching dark mode) */
     html[data-theme="light"] .admin,
     html[data-theme="light"] .admin a,
     html[data-theme="light"] .rate-none.admin a,
     html.theme-light .admin,
     html.theme-light .admin a,
     html.theme-light .rate-none.admin a,
+    html[data-theme="light"] .users-table td.user-name .admin a,
+    html.theme-light .users-table td.user-name .admin a {
+        color: #0284c7 !important;
+        font-weight: 700 !important;
+    }
     html[data-theme="light"] .comment-display .detail .header .comment-author-wrap a,
     html.theme-light .comment-display .detail .header .comment-author-wrap a,
     html[data-theme="light"] .comment-display .comment-author-wrap a,
