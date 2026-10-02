@@ -184,11 +184,61 @@
             color: #60646c !important;
         }
 
-        html[data-theme=light] .expo-btn-primary,
+        /* Expo Primary CTA in Light Mode: Solid Black */
+        html[data-theme="light"] .expo-btn-primary,
         html.theme-light .expo-btn-primary {
             background: #000000 !important;
             color: #ffffff !important;
+            border: 1px solid #000000 !important;
             border-radius: 8px !important;
+        }
+        html[data-theme="light"] .expo-btn-primary *,
+        html[data-theme="light"] .expo-btn-primary span,
+        html.theme-light .expo-btn-primary *,
+        html.theme-light .expo-btn-primary span {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+            fill: none !important;
+        }
+        html[data-theme="light"] .expo-btn-primary:hover,
+        html.theme-light .expo-btn-primary:hover {
+            background: #1e293b !important;
+            border-color: #1e293b !important;
+            color: #ffffff !important;
+            transform: translateY(-1px) !important;
+        }
+
+        /* Expo Primary CTA in Dark Mode: Solid White (Image #1) */
+        html[data-theme="dark"] .expo-btn-primary,
+        html.theme-dark .expo-btn-primary,
+        html:not([data-theme="light"]) .expo-btn-primary {
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 8px !important;
+        }
+        html[data-theme="dark"] .expo-btn-primary *,
+        html[data-theme="dark"] .expo-btn-primary span,
+        html.theme-dark .expo-btn-primary *,
+        html.theme-dark .expo-btn-primary span,
+        html:not([data-theme="light"]) .expo-btn-primary *,
+        html:not([data-theme="light"]) .expo-btn-primary span {
+            color: #000000 !important;
+            stroke: #000000 !important;
+            fill: none !important;
+        }
+        html[data-theme="dark"] .expo-btn-primary:hover,
+        html.theme-dark .expo-btn-primary:hover,
+        html:not([data-theme="light"]) .expo-btn-primary:hover {
+            background: #e4e4e7 !important;
+            border-color: #e4e4e7 !important;
+            color: #000000 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .expo-btn-secondary span,
+        .expo-btn-secondary * {
+            color: inherit !important;
         }
         html[data-theme=light] .expo-btn-primary:hover,
         html.theme-light .expo-btn-primary:hover {
@@ -583,6 +633,14 @@
             margin-bottom: 48px;
         }
 
+        
+        .expo-btn-primary span,
+        .expo-btn-primary *,
+        .expo-btn-secondary span,
+        .expo-btn-secondary * {
+            color: inherit !important;
+        }
+
         .expo-btn-primary {
             height: 40px;
             padding: 0 20px;
@@ -699,6 +757,35 @@
             display: flex;
             align-items: center;
             gap: 4px;
+        }
+
+        
+        html[data-theme="light"] .expo-ide-tab span,
+        html.theme-light .expo-ide-tab span {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .expo-ide-tab.active span,
+        html.theme-light .expo-ide-tab.active span {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .expo-ide-tab svg,
+        html.theme-light .expo-ide-tab svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab span,
+        html.theme-dark .expo-ide-tab span,
+        html:not([data-theme="light"]) .expo-ide-tab span {
+            color: #888888 !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab.active span,
+        html.theme-dark .expo-ide-tab.active span,
+        html:not([data-theme="light"]) .expo-ide-tab.active span {
+            color: #f4f4f5 !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab svg,
+        html.theme-dark .expo-ide-tab svg,
+        html:not([data-theme="light"]) .expo-ide-tab svg {
+            stroke: currentColor !important;
         }
 
         .expo-ide-tab {
@@ -1582,26 +1669,172 @@
         }
 
         /* IDE Mockup Dark Inversion Rules (Always dark on both light and dark modes) */
-        .expo-ide-card,
-        .expo-ide-card pre,
-        .expo-ide-card code,
-        .expo-ide-code,
-        .expo-ide-code code,
-        .expo-ide-code pre,
-        html[data-theme=light] .expo-ide-card,
-        html[data-theme=light] .expo-ide-card pre,
-        html[data-theme=light] .expo-ide-card code,
-        html[data-theme=light] .expo-ide-code,
-        html[data-theme=light] .expo-ide-code code,
-        html.theme-light .expo-ide-card,
-        html.theme-light .expo-ide-card pre,
-        html.theme-light .expo-ide-card code,
+        /* Light Mode Expo White IDE Mockup Card */
+        html[data-theme="light"] .expo-ide-card,
+        html.theme-light .expo-ide-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 20px 48px -12px rgba(0, 0, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+        html[data-theme="light"] .expo-ide-header,
+        html.theme-light .expo-ide-header {
+            background: #f8fafc !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+        html[data-theme="light"] .expo-ide-tab,
+        html.theme-light 
+        html[data-theme="light"] .expo-ide-tab span,
+        html.theme-light .expo-ide-tab span {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .expo-ide-tab.active span,
+        html.theme-light .expo-ide-tab.active span {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .expo-ide-tab svg,
+        html.theme-light .expo-ide-tab svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab span,
+        html.theme-dark .expo-ide-tab span,
+        html:not([data-theme="light"]) .expo-ide-tab span {
+            color: #888888 !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab.active span,
+        html.theme-dark .expo-ide-tab.active span,
+        html:not([data-theme="light"]) .expo-ide-tab.active span {
+            color: #f4f4f5 !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab svg,
+        html.theme-dark .expo-ide-tab svg,
+        html:not([data-theme="light"]) .expo-ide-tab svg {
+            stroke: currentColor !important;
+        }
+
+        .expo-ide-tab {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .expo-ide-tab:hover,
+        html.theme-light .expo-ide-tab:hover {
+            color: #0f172a !important;
+            background: #e2e8f0 !important;
+        }
+        html[data-theme="light"] .expo-ide-tab.active,
+        html.theme-light .expo-ide-tab.active {
+            background: #ffffff !important;
+            color: #0f172a !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05) !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .expo-ide-lang,
+        html.theme-light .expo-ide-lang {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .expo-ide-code,
+        html[data-theme="light"] .expo-ide-code code,
+        html[data-theme="light"] .expo-ide-card pre,
+        html[data-theme="light"] .expo-ide-card code,
         html.theme-light .expo-ide-code,
-        html.theme-light .expo-ide-code code {
-            background: #121214 !important;
+        html.theme-light .expo-ide-code code,
+        html.theme-light .expo-ide-card pre,
+        html.theme-light .expo-ide-card code {
+            background: #ffffff !important;
+            color: #0f172a !important;
             border: none !important;
-            color: #d4d4d8 !important;
             font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+        }
+        /* Syntax Highlighting for Light Mode */
+        html[data-theme="light"] .expo-code-kw,
+        html.theme-light .expo-code-kw {
+            color: #7c3aed !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .expo-code-fn,
+        html.theme-light .expo-code-fn {
+            color: #0284c7 !important;
+        }
+        html[data-theme="light"] .expo-code-type,
+        html.theme-light .expo-code-type {
+            color: #0d9488 !important;
+        }
+        html[data-theme="light"] .expo-code-str,
+        html.theme-light .expo-code-str {
+            color: #16a34a !important;
+        }
+        html[data-theme="light"] .expo-code-num,
+        html.theme-light .expo-code-num {
+            color: #d97706 !important;
+        }
+        html[data-theme="light"] .expo-code-cm,
+        html.theme-light .expo-code-cm {
+            color: #94a3b8 !important;
+            font-style: italic !important;
+        }
+        /* Verdict Pill in Light Mode */
+        html[data-theme="light"] .expo-verdict-pill,
+        html.theme-light .expo-verdict-pill {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08) !important;
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .expo-verdict-bold,
+        html.theme-light .expo-verdict-bold {
+            color: #0f172a !important;
+            font-weight: 600 !important;
+        }
+        html[data-theme="light"] .expo-verdict-dim,
+        html.theme-light .expo-verdict-dim {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .expo-verdict-sep,
+        html.theme-light .expo-verdict-sep {
+            color: #cbd5e1 !important;
+        }
+        /* Dark Mode Verdict Pill */
+        .expo-verdict-bold {
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .expo-verdict-dim {
+            color: #d4d4d8;
+        }
+        .expo-verdict-sep {
+            color: #71717a;
+        }
+        
+        html[data-theme="light"] .expo-ide-tab span,
+        html.theme-light .expo-ide-tab span {
+            color: #64748b !important;
+        }
+        html[data-theme="light"] .expo-ide-tab.active span,
+        html.theme-light .expo-ide-tab.active span {
+            color: #0f172a !important;
+        }
+        html[data-theme="light"] .expo-ide-tab svg,
+        html.theme-light .expo-ide-tab svg {
+            stroke: currentColor !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab span,
+        html.theme-dark .expo-ide-tab span,
+        html:not([data-theme="light"]) .expo-ide-tab span {
+            color: #888888 !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab.active span,
+        html.theme-dark .expo-ide-tab.active span,
+        html:not([data-theme="light"]) .expo-ide-tab.active span {
+            color: #f4f4f5 !important;
+        }
+        html[data-theme="dark"] .expo-ide-tab svg,
+        html.theme-dark .expo-ide-tab svg,
+        html:not([data-theme="light"]) .expo-ide-tab svg {
+            stroke: currentColor !important;
+        }
+
+        .expo-ide-tab {
+            cursor: pointer !important;
+            transition: all 0.15s ease !important;
         }
         .expo-ide-code span,
         html[data-theme=light] .expo-ide-code span,
@@ -2047,12 +2280,18 @@
                         <span class="expo-traffic-dot expo-dot-green"></span>
                     </div>
                     <div class="expo-ide-tabs">
-                        <div class="expo-ide-tab active">
+                        <div class="expo-ide-tab active" data-file="solution.cpp">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
                             <span>solution.cpp</span>
                         </div>
-                        <div class="expo-ide-tab">test_data.in</div>
-                        <div class="expo-ide-tab">checker.py</div>
+                        <div class="expo-ide-tab" data-file="test_data.in">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span>test_data.in</span>
+                        </div>
+                        <div class="expo-ide-tab" data-file="checker.py">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                            <span>checker.py</span>
+                        </div>
                     </div>
                     <div class="expo-ide-lang">C++20 (GCC 13.2)</div>
                 </div>
@@ -2082,12 +2321,12 @@
                     <span class="expo-verdict-dot"></span>
                     <span>Accepted (AC)</span>
                 </span>
-                <span style="color: #a1a1aa;">&bull;</span>
-                <span style="color: #ffffff; font-weight: 600;">100 / 100</span>
-                <span style="color: #71717a;">&bull;</span>
-                <span style="color: #d4d4d8;">0.02s</span>
-                <span style="color: #71717a;">&bull;</span>
-                <span style="color: #d4d4d8;">2.1 MB</span>
+                <span class="expo-verdict-sep">&bull;</span>
+                <span class="expo-verdict-bold">100 / 100</span>
+                <span class="expo-verdict-sep">&bull;</span>
+                <span class="expo-verdict-dim">0.02s</span>
+                <span class="expo-verdict-sep">&bull;</span>
+                <span class="expo-verdict-dim">2.1 MB</span>
             </div>
         </div>
     </div>
@@ -2095,6 +2334,83 @@
     <!-- ========================================================================
          PLATFORM STATS GRID (4-Up Cards)
          ======================================================================== -->
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var ideFiles = {
+        'solution.cpp': {
+            lang: 'C++20 (GCC 13.2)',
+            verdict: '<span class="expo-verdict-tag"><span class="expo-verdict-dot"></span><span>Accepted (AC)</span></span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-bold">100 / 100</span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-dim">0.02s</span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-dim">2.1 MB</span>',
+            code: '<span class="expo-code-kw">#include</span> <span class="expo-code-str">&lt;iostream&gt;</span>\n' +
+                  '<span class="expo-code-kw">#include</span> <span class="expo-code-str">&lt;vector&gt;</span>\n' +
+                  '<span class="expo-code-kw">#include</span> <span class="expo-code-str">&lt;algorithm&gt;</span>\n\n' +
+                  '<span class="expo-code-kw">using namespace</span> std;\n\n' +
+                  '<span class="expo-code-type">int</span> <span class="expo-code-fn">main</span>() {\n' +
+                  '    <span class="expo-code-cm">// Tối ưu I/O tốc độ cao</span>\n' +
+                  '    ios_base::<span class="expo-code-fn">sync_with_stdio</span>(<span class="expo-code-kw">false</span>);\n' +
+                  '    cin.<span class="expo-code-fn">tie</span>(<span class="expo-code-kw">NULL</span>);\n\n' +
+                  '    <span class="expo-code-type">int</span> n;\n' +
+                  '    <span class="expo-code-kw">if</span> (!(cin &gt;&gt; n)) <span class="expo-code-kw">return</span> <span class="expo-code-num">0</span>;\n' +
+                  '    vector&lt;<span class="expo-code-type">long long</span>&gt; a(n);\n' +
+                  '    <span class="expo-code-kw">for</span> (<span class="expo-code-type">int</span> i = <span class="expo-code-num">0</span>; i &lt; n; ++i) cin &gt;&gt; a[i];\n\n' +
+                  '    <span class="expo-code-cm">// Tự động biên dịch &amp; chấm điểm trong Sandbox cô lập an toàn</span>\n' +
+                  '    cout &lt;&lt; <span class="expo-code-str">"OMNIJUDGE_EVALUATION_READY\\n"</span>;\n' +
+                  '    <span class="expo-code-kw">return</span> <span class="expo-code-num">0</span>;\n' +
+                  '}'
+        },
+        'test_data.in': {
+            lang: 'Standard Input (stdin)',
+            verdict: '<span class="expo-verdict-tag"><span class="expo-verdict-dot"></span><span>Sample 01</span></span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-bold">5 Test Lines</span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-dim">48 Bytes</span>',
+            code: '<span class="expo-code-cm"># Input Test Data: 5 phần tử mảng 64-bit</span>\n' +
+                  '<span class="expo-code-num">5</span>\n' +
+                  '<span class="expo-code-str">14 28 57 199 42</span>\n\n' +
+                  '<span class="expo-code-cm"># Giới hạn kiểm thử: N &lt;= 10^5, |A[i]| &lt;= 10^18</span>\n' +
+                  '<span class="expo-code-num">1000000000 250000000 500000000 750000000</span>'
+        },
+        'checker.py': {
+            lang: 'Python 3.11 (Testlib)',
+            verdict: '<span class="expo-verdict-tag"><span class="expo-verdict-dot"></span><span>Checker Ready</span></span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-bold">Exit Code 0</span><span class="expo-verdict-sep">&bull;</span><span class="expo-verdict-dim">OK</span>',
+            code: '<span class="expo-code-cm"># OmniJudge Custom Testlib Checker (Special Judge)</span>\n' +
+                  '<span class="expo-code-kw">import</span> sys\n\n' +
+                  '<span class="expo-code-kw">def</span> <span class="expo-code-fn">check</span>():\n' +
+                  '    <span class="expo-code-kw">with</span> open(sys.argv[<span class="expo-code-num">1</span>], \'r\') <span class="expo-code-kw">as</span> f_in, \\n' +
+                  '         open(sys.argv[<span class="expo-code-num">2</span>], \'r\') <span class="expo-code-kw">as</span> f_out, \\n' +
+                  '         open(sys.argv[<span class="expo-code-num">3</span>], \'r\') <span class="expo-code-kw">as</span> f_ans:\n' +
+                  '        user = f_out.read().strip()\n' +
+                  '        expected = f_ans.read().strip()\n' +
+                  '        <span class="expo-code-kw">if</span> user == expected:\n' +
+                  '            print(<span class="expo-code-str">"AC: Output matches jury exactly"</span>)\n' +
+                  '            sys.exit(<span class="expo-code-num">0</span>)\n' +
+                  '        print(<span class="expo-code-str">f"WA: Expected {expected}, got {user}"</span>)\n' +
+                  '        sys.exit(<span class="expo-code-num">1</span>)\n\n' +
+                  '<span class="expo-code-kw">if</span> __name__ == <span class="expo-code-str">\'__main__\'</span>:\n' +
+                  '    <span class="expo-code-fn">check</span>()'
+        }
+    };
+
+    var tabs = document.querySelectorAll('.expo-ide-tab');
+    tabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+            var fileName = tab.getAttribute('data-file') || tab.textContent.trim();
+            var file = ideFiles[fileName];
+            if (!file) return;
+
+            tabs.forEach(function(t) { t.classList.remove('active'); });
+            tab.classList.add('active');
+
+            var langEl = document.querySelector('.expo-ide-lang');
+            if (langEl) langEl.textContent = file.lang;
+
+            var codeEl = document.querySelector('.expo-ide-code code');
+            if (codeEl) codeEl.innerHTML = file.code;
+
+            var verdictEl = document.querySelector('.expo-verdict-pill');
+            if (verdictEl) verdictEl.innerHTML = file.verdict;
+        });
+    });
+});
+</script>
+
     <div class="expo-stats-grid">
         <div class="expo-stat-card">
             <div class="expo-stat-header">
