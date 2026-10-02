@@ -505,7 +505,7 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
 
 #ranking-table,
 .users-table {
-    width: 100% !important;
+    width: max-content !important;
     min-width: 100% !important;
     border-collapse: separate !important;
     border-spacing: 0 !important;
@@ -513,15 +513,174 @@ html.theme-light .before-ranking-bar .select2-container--dmoj .select2-selection
     border: none !important;
     margin: 0 !important;
     box-shadow: none !important;
+    overflow: visible !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
-#ranking-table {
-    width: max-content !important;
+
+/* 1. Sticky Rank Column (Left) */
+#ranking-table th.header.rank,
+#ranking-table td.rank-column,
+#ranking-table tbody td:first-child {
+    position: sticky !important;
+    left: 0px !important;
+    z-index: 12 !important;
+    width: 64px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+    text-align: center !important;
+    background: #18181b !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid var(--expo-hairline) !important;
 }
-#ranking-table th.points,
+#ranking-table tbody td.rank-column,
+#ranking-table tbody td:first-child {
+    background: #121214 !important;
+}
+
+/* 2. Sticky Username Column (Left) */
+#ranking-table th.header.username,
+#ranking-table td.user-name {
+    position: sticky !important;
+    left: 64px !important;
+    z-index: 11 !important;
+    width: 180px !important;
+    min-width: 180px !important;
+    max-width: 180px !important;
+    background: #18181b !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid var(--expo-hairline) !important;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+#ranking-table tbody td.user-name {
+    background: #121214 !important;
+}
+
+/* 3. Sticky Organization Column (Left, when toggled) */
+body.show-organizations #ranking-table th.header.username,
+body.show-organizations #ranking-table td.user-name {
+    box-shadow: none !important;
+}
+body.show-organizations #ranking-table th.organization-column,
+body.show-organizations #ranking-table td.organization-column {
+    position: sticky !important;
+    left: 244px !important;
+    z-index: 10 !important;
+    width: 140px !important;
+    min-width: 140px !important;
+    max-width: 140px !important;
+    background: #18181b !important;
+    box-sizing: border-box !important;
+    border-right: 1px solid var(--expo-hairline) !important;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.3) !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+body.show-organizations #ranking-table tbody td.organization-column {
+    background: #121214 !important;
+}
+
+/* 4. Problem columns (scrollable in middle) */
+#ranking-table th.points.header,
 #ranking-table td.points {
     min-width: 68px !important;
+    width: 68px !important;
     text-align: center !important;
     box-sizing: border-box !important;
+}
+
+/* 5. Sticky Points Column (Total Score, pinned on right edge) */
+#ranking-table th.header.points,
+#ranking-table td.user-points,
+#ranking-table tbody td:last-child {
+    position: sticky !important;
+    right: 0px !important;
+    z-index: 11 !important;
+    width: 84px !important;
+    min-width: 84px !important;
+    max-width: 84px !important;
+    text-align: right !important;
+    padding-right: 20px !important;
+    background: #18181b !important;
+    box-sizing: border-box !important;
+    border-left: 1px solid var(--expo-hairline) !important;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.3) !important;
+}
+#ranking-table tbody td.user-points,
+#ranking-table tbody td:last-child {
+    background: #121214 !important;
+}
+
+/* Row hover backgrounds */
+#ranking-table tbody tr:hover td.rank-column,
+#ranking-table tbody tr:hover td:first-child,
+#ranking-table tbody tr:hover td.user-name,
+#ranking-table tbody tr:hover td.organization-column,
+#ranking-table tbody tr:hover td.user-points,
+#ranking-table tbody tr:hover td:last-child {
+    background: #1c1c20 !important;
+}
+
+/* Light mode sticky colors */
+html[data-theme="light"] #ranking-table th.header.rank,
+html[data-theme="light"] #ranking-table th.header.username,
+html[data-theme="light"] #ranking-table th.organization-column,
+html[data-theme="light"] #ranking-table th.header.points,
+html.theme-light #ranking-table th.header.rank,
+html.theme-light #ranking-table th.header.username,
+html.theme-light #ranking-table th.organization-column,
+html.theme-light #ranking-table th.header.points {
+    background: #f8fafc !important;
+    border-color: #f0f0f3 !important;
+}
+html[data-theme="light"] #ranking-table tbody td.rank-column,
+html[data-theme="light"] #ranking-table tbody td:first-child,
+html[data-theme="light"] #ranking-table tbody td.user-name,
+html[data-theme="light"] #ranking-table tbody td.organization-column,
+html[data-theme="light"] #ranking-table tbody td.user-points,
+html[data-theme="light"] #ranking-table tbody td:last-child,
+html.theme-light #ranking-table tbody td.rank-column,
+html.theme-light #ranking-table tbody td:first-child,
+html.theme-light #ranking-table tbody td.user-name,
+html.theme-light #ranking-table tbody td.organization-column,
+html.theme-light #ranking-table tbody td.user-points,
+html.theme-light #ranking-table tbody td:last-child {
+    background: #ffffff !important;
+    border-color: #f0f0f3 !important;
+}
+html[data-theme="light"] #ranking-table tbody tr:hover td.rank-column,
+html[data-theme="light"] #ranking-table tbody tr:hover td:first-child,
+html[data-theme="light"] #ranking-table tbody tr:hover td.user-name,
+html[data-theme="light"] #ranking-table tbody tr:hover td.organization-column,
+html[data-theme="light"] #ranking-table tbody tr:hover td.user-points,
+html[data-theme="light"] #ranking-table tbody tr:hover td:last-child,
+html.theme-light #ranking-table tbody tr:hover td.rank-column,
+html.theme-light #ranking-table tbody tr:hover td:first-child,
+html.theme-light #ranking-table tbody tr:hover td.user-name,
+html.theme-light #ranking-table tbody tr:hover td.organization-column,
+html.theme-light #ranking-table tbody tr:hover td.user-points,
+html.theme-light #ranking-table tbody tr:hover td:last-child {
+    background: #f1f5f9 !important;
+}
+html[data-theme="light"] #ranking-table th.header.username,
+html[data-theme="light"] #ranking-table td.user-name,
+html[data-theme="light"] body.show-organizations #ranking-table th.organization-column,
+html[data-theme="light"] body.show-organizations #ranking-table td.organization-column,
+html.theme-light #ranking-table th.header.username,
+html.theme-light #ranking-table td.user-name,
+html.theme-light body.show-organizations #ranking-table th.organization-column,
+html.theme-light body.show-organizations #ranking-table td.organization-column {
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.08) !important;
+}
+html[data-theme="light"] #ranking-table th.header.points,
+html[data-theme="light"] #ranking-table td.user-points,
+html.theme-light #ranking-table th.header.points,
+html.theme-light #ranking-table td.user-points {
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.08) !important;
 }
 
 #ranking-table thead th,
@@ -877,11 +1036,14 @@ html.theme-light #ranking-table .contest-participation-operation a:hover {
             });
 
             $('#show-organizations-checkbox').click(function () {
-                $('.organization-column').toggle();
-                localStorage.setItem('show-organizations', $('.organization-column').is(':visible') ? 'true' : 'false');
+                var show = $(this).is(':checked');
+                $('body').toggleClass('show-organizations', show);
+                $('.organization-column').toggle(show);
+                localStorage.setItem('show-organizations', show ? 'true' : 'false');
             });
-            
+
             if (localStorage.getItem('show-organizations') == 'true') {
+                $('body').addClass('show-organizations');
                 $('.organization-column').show();
                 $('#show-organizations-checkbox').prop('checked', true);
             }
