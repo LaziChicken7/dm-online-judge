@@ -1,48 +1,376 @@
 {% extends "base.html" %}
+{% block title_ruler %}{% endblock %}
+{% block content_title %}{% endblock %}
 
 {% block media %}
     <style>
-        .panes {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+        /* =========================================================
+           EXPO DESIGN SYSTEM - MANAGE SUBMISSIONS (DESIGN.md)
+           ========================================================= */
+        #content {
+            width: 90% !important;
+            max-width: 1200px !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
 
-        .pane {
-            display: block;
-            max-width: 20em;
-            border: 1px #ccc solid;
-            border-radius: 5px;
-            padding: 10px;
-            margin: 10px;
+        .manage-sub-wrapper {
+            max-width: 1000px !important;
+            margin: 32px auto 0 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            text-align: left !important;
         }
 
-        .pane h3 {
-            display: block;
-            background: #3b3b3b;
-            padding: 5px 10px 10px;
-            margin: -10px -10px 10px;
-            border-radius: 5px 5px 0 0;
-            color: white;
+        .manage-header-box {
+            margin-bottom: 24px !important;
         }
 
-        .control-group {
-            margin: 1em 0;
+        .manage-tag {
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 8px !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
         }
 
-        .control-group:not(:first-of-type) {
-            border-top: 1px solid #ccc;
-            padding-top: 0.5em;
+        .manage-title {
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 24px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.5px !important;
+            color: var(--expo-ink) !important;
+            margin: 0 0 6px 0 !important;
+            line-height: 1.3 !important;
         }
 
-        .control-group label {
-            display: block;
-            margin-bottom: 0.5em;
+        .manage-desc {
+            color: var(--expo-body) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            margin: 0 !important;
         }
 
-        .control-group select {
-            display: block;
-            width: 100%;
+        /* 2-Column Responsive Panes */
+        .manage-panes-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)) !important;
+            gap: 20px !important;
+            align-items: start !important;
+        }
+
+        .manage-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 16px !important; /* {rounded.xl} */
+            padding: 28px 28px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+        }
+
+        html[data-theme="light"] .manage-card,
+        html.theme-light .manage-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .manage-card-header {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            margin-bottom: 20px !important;
+            padding-bottom: 16px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+        }
+
+        .manage-icon-badge {
+            width: 40px !important;
+            height: 40px !important;
+            border-radius: 10px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .manage-card-title {
+            margin: 0 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 17px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.3px !important;
+        }
+
+        /* Control Groups */
+        .manage-control-group {
+            margin-bottom: 18px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 7px !important;
+        }
+
+        .manage-label {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            cursor: pointer !important;
+        }
+
+        /* Range Filter Inputs Box */
+        .range-inputs-box {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 12px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 10px !important;
+            padding: 12px 14px !important;
+            box-sizing: border-box !important;
+            margin-top: 4px !important;
+        }
+
+        html[data-theme="light"] .range-inputs-box,
+        html.theme-light .range-inputs-box {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+        }
+
+        .range-input-item {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
+        }
+
+        .range-sublabel {
+            font-family: "Inter", sans-serif !important;
+            font-size: 11.5px !important;
+            font-weight: 500 !important;
+            color: var(--expo-muted) !important;
+        }
+
+        .manage-input {
+            width: 100% !important;
+            height: 38px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 0 12px !important;
+            color: var(--expo-ink) !important;
+            font-family: "JetBrains Mono", monospace !important;
+            font-size: 13px !important;
+            outline: none !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+        }
+
+        .manage-input:focus {
+            border-color: rgba(255, 255, 255, 0.45) !important;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
+        }
+
+        html[data-theme="light"] .manage-input,
+        html.theme-light .manage-input {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] .manage-input:focus,
+        html.theme-light .manage-input:focus {
+            border-color: #0f172a !important;
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        .manage-input:disabled {
+            opacity: 0.5 !important;
+            cursor: not-allowed !important;
+        }
+
+        .range-note {
+            font-family: "Inter", sans-serif !important;
+            font-size: 12px !important;
+            color: var(--expo-muted) !important;
+            margin: 4px 0 0 0 !important;
+        }
+
+        /* Select2 Integration */
+        .manage-card .select2-container--dmoj .select2-selection--multiple {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            min-height: 40px !important;
+            box-sizing: border-box !important;
+            padding: 2px 6px !important;
+        }
+
+        html[data-theme="light"] .manage-card .select2-container--dmoj .select2-selection--multiple,
+        html.theme-light .manage-card .select2-container--dmoj .select2-selection--multiple {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+
+        /* Checkbox styling */
+        .checkbox-row {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            cursor: pointer !important;
+            user-select: none !important;
+        }
+
+        .checkbox-row input[type="checkbox"] {
+            width: 16px !important;
+            height: 16px !important;
+            margin: 0 !important;
+            cursor: pointer !important;
+            accent-color: #38bdf8 !important;
+        }
+
+        html[data-theme="light"] .checkbox-row input[type="checkbox"],
+        html.theme-light .checkbox-row input[type="checkbox"] {
+            accent-color: #0f172a !important;
+        }
+
+        /* Warning Notice */
+        .rescore-notice-box {
+            display: flex !important;
+            align-items: flex-start !important;
+            gap: 10px !important;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            color: #fbbf24 !important;
+            border-radius: 10px !important;
+            padding: 14px 16px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            line-height: 1.5 !important;
+            margin-bottom: 22px !important;
+            box-sizing: border-box !important;
+        }
+
+        html[data-theme="light"] .rescore-notice-box,
+        html.theme-light .rescore-notice-box {
+            background: #fffbeb !important;
+            border: 1px solid #fde68a !important;
+        }
+        html[data-theme="light"] .rescore-notice-box,
+        html[data-theme="light"] .rescore-notice-box *,
+        html.theme-light .rescore-notice-box,
+        html.theme-light .rescore-notice-box * {
+            color: #92400e !important;
+            stroke: #92400e !important;
+        }
+
+        /* Action Buttons */
+        .manage-submit-btn {
+            width: 100% !important;
+            height: 42px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            box-sizing: border-box !important;
+            margin-top: 6px !important;
+        }
+
+        .manage-submit-btn,
+        .manage-submit-btn *,
+        .manage-submit-btn span {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+
+        .manage-submit-btn:hover {
+            opacity: 0.92 !important;
+        }
+
+        html[data-theme="light"] .manage-submit-btn,
+        html.theme-light .manage-submit-btn {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        html[data-theme="light"] .manage-submit-btn,
+        html.theme-light .manage-submit-btn,
+        html[data-theme="light"] .manage-submit-btn *,
+        html.theme-light .manage-submit-btn * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        html[data-theme="light"] .manage-submit-btn:hover,
+        html.theme-light .manage-submit-btn:hover {
+            background: #1a1a1a !important;
+        }
+
+        .manage-rescore-btn {
+            width: 100% !important;
+            height: 42px !important;
+            background: #18181b !important;
+            color: #f4f4f5 !important;
+            border: 1px solid rgba(255, 255, 255, 0.18) !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .manage-rescore-btn:hover {
+            background: #242428 !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        html[data-theme="light"] .manage-rescore-btn,
+        html.theme-light .manage-rescore-btn {
+            background: #f0f0f3 !important;
+            border: 1px solid transparent !important;
+        }
+        html[data-theme="light"] .manage-rescore-btn,
+        html[data-theme="light"] .manage-rescore-btn *,
+        html.theme-light .manage-rescore-btn,
+        html.theme-light .manage-rescore-btn * {
+            color: #171717 !important;
+            stroke: #171717 !important;
+        }
+
+        html[data-theme="light"] .manage-rescore-btn:hover,
+        html.theme-light .manage-rescore-btn:hover {
+            background: #e4e4e7 !important;
         }
     </style>
 {% endblock %}
@@ -55,20 +383,17 @@
                 multiple: true,
                 placeholder: {{ _('Leave empty to not filter by language')|htmltojs }}
             });
-
             $('#by-result-filter').select2({
                 theme: '{{ DMOJ_SELECT2_THEME }}',
                 multiple: true,
                 placeholder: {{ _('Leave empty to not filter by result')|htmltojs }}
             });
-
             $('#rescore-all').click(function (e) {
                 e.preventDefault();
                 if (confirm(this.dataset.warning)) {
                     $(this).parents('form').submit();
                 }
             });
-
             var $use_id = $('#by-range-check');
             var $id_start = $('#by-range-start');
             var $id_end = $('#by-range-end');
@@ -85,7 +410,6 @@
                         return;
                     }
                 }
-
                 var $form = $(this).parents('form');
                 $.post('{{ url('problem_submissions_rejudge_preview', problem.code) }}', $form.serialize(), 'text')
                     .done(function (count) {
@@ -100,9 +424,10 @@
                         }
                     });
             });
-
             $use_id.change(function () {
-                $('#by-range-filter').find('input').prop('disabled', !this.checked);
+                var checked = this.checked;
+                $id_start.prop('disabled', !checked);
+                $id_end.prop('disabled', !checked);
             });
         });
     </script>
@@ -110,75 +435,135 @@
 
 {% block body %}
     {% include "messages.html" %}
+    <div class="manage-sub-wrapper">
+        <div class="manage-header-box">
+            <span class="manage-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                WORKSPACE / SUBMISSION MANAGEMENT
+            </span>
+            <h1 class="manage-title">{{ _('Quản lý bài nộp (Manage Submissions)') }} &bull; {{ problem.i18n_name or problem.name }}</h1>
+            <p class="manage-desc">{{ _('Chấm lại các bài nộp theo phạm vi mã số hoặc bộ lọc kết quả, hoặc tính lại điểm toàn bộ bài nộp.') }}</p>
+        </div>
 
-    <div class="panes">
-        {% if request.user.has_perm('judge.rejudge_submission_lot') %}
-            <div class="pane">
-                <h3>{{ _('Rejudge Submissions') }}</h3>
-                <form action="{{ url('problem_submissions_rejudge', problem.code) }}" method="post">
+        <div class="manage-panes-grid">
+            {% if request.user.has_perm('judge.rejudge_submission_lot') %}
+                <div class="manage-card">
+                    <div class="manage-card-header">
+                        <div class="manage-icon-badge">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <path d="M21.5 2v6h-6"></path>
+                                <path d="M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                            </svg>
+                        </div>
+                        <h2 class="manage-card-title">{{ _('Chấm lại bài nộp (Rejudge)') }}</h2>
+                    </div>
+
+                    <form action="{{ url('problem_submissions_rejudge', problem.code) }}" method="post">
+                        {% csrf_token %}
+
+                        <div class="manage-control-group">
+                            <label class="checkbox-row manage-label">
+                                <input id="by-range-check" type="checkbox" name="use_range" value="on">
+                                <span>{{ _('Lọc theo khoảng ID (Filter by ID):') }}</span>
+                            </label>
+                            <div class="range-inputs-box">
+                                <div class="range-input-item">
+                                    <span class="range-sublabel">{{ _('ID bắt đầu (Start):') }}</span>
+                                    <input id="by-range-start" name="start" type="number" class="manage-input" placeholder="Min ID" disabled>
+                                </div>
+                                <div class="range-input-item">
+                                    <span class="range-sublabel">{{ _('ID kết thúc (End):') }}</span>
+                                    <input id="by-range-end" name="end" type="number" class="manage-input" placeholder="Max ID" disabled>
+                                </div>
+                            </div>
+                            <p class="range-note">{{ _('Khoảng này bao gồm cả hai mốc bắt đầu và kết thúc.') }}</p>
+                        </div>
+
+                        <div class="manage-control-group">
+                            <label for="by-lang-filter" class="manage-label">
+                                <span>{{ _('Lọc theo ngôn ngữ (Language):') }}</span>
+                            </label>
+                            <select id="by-lang-filter" name="language" multiple>
+                                {% for id, name in languages %}
+                                    <option value="{{ id }}">{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="manage-control-group">
+                            <label for="by-result-filter" class="manage-label">
+                                <span>{{ _('Lọc theo kết quả (Result):') }}</span>
+                            </label>
+                            <select id="by-result-filter" name="result" multiple>
+                                {% for name in results %}
+                                    <option>{{ name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="manage-control-group" style="margin-top: 4px;">
+                            <label class="checkbox-row manage-label">
+                                <input id="by-archive-locked-check" type="checkbox" name="archive_locked" checked>
+                                <span>{{ _('Lưu trữ các bài nộp đã khóa (Archive locked)') }}</span>
+                            </label>
+                        </div>
+
+                        <a id="rejudge-selected" class="manage-submit-btn" href="#">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <path d="M21.5 2v6h-6"></path>
+                                <path d="M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                            </svg>
+                            <span>{{ _('Chấm lại bài nộp đã chọn') }}</span>
+                        </a>
+                    </form>
+                </div>
+            {% endif %}
+
+            <div class="manage-card">
+                <div class="manage-card-header">
+                    <div class="manage-icon-badge">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <circle cx="12" cy="8" r="7"></circle>
+                            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                        </svg>
+                    </div>
+                    <h2 class="manage-card-title">{{ _('Tính lại điểm (Rescore All)') }}</h2>
+                </div>
+
+                <div class="rescore-notice-box">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="flex-shrink: 0; margin-top: 1px;">
+                        <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+                        <line x1="12" y1="9" x2="12" y2="13"></line>
+                        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    <span>
+                        {% trans trimmed count=submission_count %}
+                            Hành động này sẽ tính lại điểm cho {{ count }} bài nộp của bài tập này.
+                        {% pluralize %}
+                            Hành động này sẽ tính lại điểm cho {{ count }} bài nộp của bài tập này.
+                        {% endtrans %}
+                    </span>
+                </div>
+
+                <form action="{{ url('problem_submissions_rescore_all', problem.code) }}" method="post">
                     {% csrf_token %}
-                    <div class="control-group">
-                        <label><input id="by-range-check" type="checkbox" name="use_range" value="on">
-                            {{ _('Filter by ID:') }}</label>
-                        <table id="by-range-filter" class="table">
-                            <tr>
-                                <th><label for="by-range-start">{{ _('Starting ID:') }}</label></th>
-                                <td><input id="by-range-start" name="start" type="number" disabled></td>
-                            </tr>
-                            <tr>
-                                <th><label for="by-range-end">{{ _('Ending ID:') }}</label></th>
-                                <td><input id="by-range-end" name="end" type="number" disabled></td>
-                            </tr>
-                        </table>
-                        <p>{{ _('This range includes both endpoints.') }}</p>
-                    </div>
-                    <div class="control-group">
-                        <label for="by-lang-filter">{{ _('Filter by language:') }}</label>
-                        <select id="by-lang-filter" name="language" multiple>
-                            {% for id, name in languages %}
-                                <option value="{{ id }}">{{ name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="control-group">
-                        <label for="by-result-filter">{{ _('Filter by result:') }}</label>
-                        <select id="by-result-filter" name="result" multiple>
-                            {% for name in results %}
-                                <option>{{ name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="control-group">
-                        <label>
-                            {{ _('Archive locked submissions:') }}
-                            <input id="by-archive-locked-check" type="checkbox" name="archive_locked" checked>
-                        </label>
-                    </div>
-                    <a id="rejudge-selected" class="unselectable button full" href="#">
-                        {{ _('Rejudge selected submissions') }}
+                    <a id="rescore-all" class="manage-rescore-btn" href="#"
+                       data-warning="{% trans trimmed count=submission_count %}
+                                        Bạn có chắc chắn muốn tính lại điểm cho {{ count }} bài nộp?
+                                     {% pluralize %}
+                                        Bạn có chắc chắn muốn tính lại điểm cho {{ count }} bài nộp?
+                                     {% endtrans %}">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <polyline points="23 4 23 10 17 10"></polyline>
+                            <polyline points="1 20 1 14 7 14"></polyline>
+                            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        <span>{{ _('Tính lại điểm tất cả bài nộp') }}</span>
                     </a>
                 </form>
             </div>
-        {% endif %}
-
-        <div class="pane">
-            <h3>{{ _('Rescore Everything') }}</h3>
-            <p id="rescore-warning">{% trans trimmed count=submission_count %}
-                This will rescore {{ count }} submission.
-            {% pluralize %}
-                This will rescore {{ count }} submissions.
-            {% endtrans %}</p>
-            <form action="{{ url('problem_submissions_rescore_all', problem.code) }}" method="post">
-                {% csrf_token %}
-                <a id="rescore-all" class="unselectable button full" href="#"
-                   data-warning="{% trans trimmed count=submission_count %}
-                                    Are you sure you want to rescore {{ count }} submission?
-                                 {% pluralize %}
-                                    Are you sure you want to rescore {{ count }} submissions?
-                                 {% endtrans %}">
-                    {{ _('Rescore all submissions') }}
-                </a>
-            </form>
         </div>
     </div>
 {% endblock %}
