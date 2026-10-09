@@ -146,8 +146,8 @@
         }
 
         .auth-input-wrap input:focus {
-            border-color: #38bdf8 !important;
-            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
+            border-color: rgba(255, 255, 255, 0.45) !important;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08) !important;
         }
 
         html[data-theme="light"] .auth-input-wrap input,
@@ -177,7 +177,6 @@
             width: 100% !important;
             height: 42px !important;
             background: #ffffff !important;
-            color: #000000 !important;
             border: 1px solid #ffffff !important;
             border-radius: 8px !important;
             font-family: "Inter", -apple-system, sans-serif !important;
@@ -193,6 +192,13 @@
             margin-top: 6px !important;
         }
 
+        .auth-submit-btn,
+        .auth-submit-btn *,
+        .auth-submit-btn span {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+
         .auth-submit-btn:hover {
             opacity: 0.92 !important;
             transform: none !important;
@@ -201,9 +207,18 @@
         html[data-theme="light"] .auth-submit-btn,
         html.theme-light .auth-submit-btn {
             background: #000000 !important;
-            color: #ffffff !important;
             border: 1px solid #000000 !important;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        html[data-theme="light"] .auth-submit-btn,
+        html[data-theme="light"] .auth-submit-btn *,
+        html[data-theme="light"] .auth-submit-btn span,
+        html.theme-light .auth-submit-btn,
+        html.theme-light .auth-submit-btn *,
+        html.theme-light .auth-submit-btn span {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
         }
 
         html[data-theme="light"] .auth-submit-btn:hover,
