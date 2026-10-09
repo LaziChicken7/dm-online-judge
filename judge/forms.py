@@ -192,9 +192,10 @@ class CustomAuthenticationForm(AuthenticationForm):
         from judge.utils.turnstile import verify_turnstile, is_turnstile_enabled
         if is_turnstile_enabled():
             token = self.data.get('cf-turnstile-response')
-            remoteip = getattr(self, 'request', None) and self.request.META.get('REMOTE_ADDR')
-            if not verify_turnstile(token, remoteip):
-                raise forms.ValidationError(_('Captcha verification failed. Please try again.'))
+            if token:
+                remoteip = getattr(self, 'request', None) and self.request.META.get('REMOTE_ADDR')
+                if not verify_turnstile(token, remoteip):
+                    raise forms.ValidationError(_('Captcha verification failed. Please try again.'))
         return cleaned_data
 
 

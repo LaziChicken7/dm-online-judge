@@ -1,37 +1,450 @@
 {% extends "base.html" %}
+{% block title_ruler %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block media %}
+    <style>
+        /* =========================================================
+           EXPO DESIGN SYSTEM - PRIVATE CONTEST ACCESS DENIED (DESIGN.md)
+           ========================================================= */
+        .private-contest-container {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 40px 16px 60px !important;
+            min-height: calc(100vh - 220px) !important;
+            box-sizing: border-box !important;
+        }
+
+        .private-contest-card {
+            width: 100% !important;
+            max-width: 560px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 16px !important; /* {rounded.xl} */
+            padding: 38px 34px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+            text-align: left !important;
+        }
+
+        html[data-theme="light"] .private-contest-card,
+        html.theme-light .private-contest-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .private-card-header {
+            text-align: center !important;
+            margin-bottom: 24px !important;
+        }
+
+        .private-icon-badge {
+            width: 48px !important;
+            height: 48px !important;
+            border-radius: 12px !important;
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.25) !important;
+            color: #f87171 !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-bottom: 12px !important;
+        }
+
+        html[data-theme="light"] .private-icon-badge,
+        html.theme-light .private-icon-badge {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #dc2626 !important;
+        }
+
+        .private-header-tag {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1.5px !important;
+            color: #f87171 !important;
+            text-transform: uppercase !important;
+            margin-bottom: 4px !important;
+        }
+
+        html[data-theme="light"] .private-header-tag,
+        html.theme-light .private-header-tag {
+            color: #dc2626 !important;
+        }
+
+        .private-card-header h2 {
+            margin: 0 0 10px 0 !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 24px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .contest-title-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            padding: 6px 14px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 500 !important;
+            line-height: 1.4 !important;
+            max-width: 100% !important;
+            word-break: break-word !important;
+            text-align: center !important;
+            box-sizing: border-box !important;
+        }
+
+        html[data-theme="light"] .contest-title-pill,
+        html.theme-light .contest-title-pill {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        /* Notice & Sections */
+        .private-notice-box {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            padding: 12px 14px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-body) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            margin-bottom: 16px !important;
+        }
+
+        .private-section-desc {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            color: var(--expo-muted) !important;
+            margin: 16px 0 10px 0 !important;
+        }
+
+        /* Organization Cards List */
+        .private-orgs-list {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 8px !important;
+            margin-bottom: 24px !important;
+        }
+
+        .private-org-card {
+            display: flex !important;
+            align-items: center !important;
+            gap: 12px !important;
+            padding: 12px 14px !important;
+            border-radius: 10px !important;
+            background: rgba(255, 255, 255, 0.05) !important;
+            border: 1px solid rgba(255, 255, 255, 0.12) !important;
+            color: #f4f4f5 !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .private-org-card:hover {
+            background: rgba(255, 255, 255, 0.09) !important;
+            border-color: rgba(255, 255, 255, 0.22) !important;
+            transform: translateY(-1px) !important;
+        }
+
+        html[data-theme="light"] .private-org-card,
+        html.theme-light .private-org-card {
+            background: #f8fafc !important;
+            border: 1px solid #e2e8f0 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] .private-org-card:hover,
+        html.theme-light .private-org-card:hover {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            transform: translateY(-1px) !important;
+        }
+
+        .private-org-icon {
+            width: 36px !important;
+            height: 36px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            color: var(--expo-ink) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            flex-shrink: 0 !important;
+        }
+
+        .private-org-info {
+            flex: 1 !important;
+            min-width: 0 !important;
+        }
+
+        .private-org-name {
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            color: inherit !important;
+            white-space: nowrap !important;
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+        }
+
+        .private-org-sub {
+            font-family: "Inter", sans-serif !important;
+            font-size: 12px !important;
+            color: var(--expo-muted) !important;
+        }
+
+        .private-org-arrow {
+            display: flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 500 !important;
+            color: var(--expo-text-link) !important;
+            flex-shrink: 0 !important;
+        }
+
+        /* Action Buttons */
+        .private-card-actions {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            padding-top: 18px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+        }
+
+        .private-btn-primary,
+        .private-btn-primary *,
+        .private-btn-primary span {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+
+        .private-btn-primary {
+            width: 100% !important;
+            height: 42px !important;
+            background: #ffffff !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            box-sizing: border-box !important;
+        }
+
+        .private-btn-primary:hover {
+            opacity: 0.92 !important;
+        }
+
+        html[data-theme="light"] .private-btn-primary,
+        html.theme-light .private-btn-primary {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        html[data-theme="light"] .private-btn-primary,
+        html[data-theme="light"] .private-btn-primary *,
+        html.theme-light .private-btn-primary,
+        html.theme-light .private-btn-primary * {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        html[data-theme="light"] .private-btn-primary:hover,
+        html.theme-light .private-btn-primary:hover {
+            background: #1a1a1a !important;
+        }
+
+        .private-btn-secondary,
+        .private-btn-secondary *,
+        .private-btn-secondary span {
+            color: #f4f4f5 !important;
+            stroke: #f4f4f5 !important;
+        }
+
+        .private-btn-secondary {
+            width: 100% !important;
+            height: 42px !important;
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .private-btn-secondary:hover {
+            background: #242428 !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+        }
+
+        html[data-theme="light"] .private-btn-secondary,
+        html.theme-light .private-btn-secondary {
+            background: #f0f0f3 !important;
+            border: 1px solid transparent !important;
+        }
+
+        html[data-theme="light"] .private-btn-secondary,
+        html[data-theme="light"] .private-btn-secondary *,
+        html.theme-light .private-btn-secondary,
+        html.theme-light .private-btn-secondary * {
+            color: #171717 !important;
+            stroke: #171717 !important;
+        }
+
+        html[data-theme="light"] .private-btn-secondary:hover,
+        html.theme-light .private-btn-secondary:hover {
+            background: #e4e4e7 !important;
+        }
+    </style>
+{% endblock %}
 
 {% block body %}
-    {% if error.is_private %}
-        <p><i>{{ _('This contest is private to specific users.') }}</i></p>
-    {% endif %}
+    <div class="private-contest-container">
+        <div class="private-contest-card">
+            <div class="private-card-header">
+                <div class="private-icon-badge">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <div class="private-header-tag">RESTRICTED ACCESS</div>
+                <h2>{{ _('Access Denied') }}</h2>
+                <div class="contest-title-pill">
+                    <span>{{ error.name or title }}</span>
+                </div>
+            </div>
 
-    {% if error.is_organization_private %}
-        {% if error.orgs %}
-            {% if error.is_private %}
-                <p>{{ _('Additionally, only the following organizations may access this contest:') }}</p>
-            {% else %}
-                <p>{{ _('Only the following organizations may access this contest:') }}</p>
-            {% endif %}
-            <ul>
-                {% for org in error.orgs %}
-                    <li><a href="{{ org.get_absolute_url() }}">{{ org.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
+            <div class="private-card-body">
+                {% if error.is_private and not error.is_organization_private %}
+                    <div class="private-notice-box">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="12" y1="8" x2="12" y2="12"></line>
+                            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                        </svg>
+                        <span>{{ _('This contest is private to specific users.') }}</span>
+                    </div>
+                {% endif %}
 
-        {% if error.classes %}
-            {% if not error.orgs and error.is_private %}
-                <p>{{ _('Additionally, only the following classes may access this contest:') }}</p>
-            {% elif not error.orgs %}
-                <p>{{ _('Only the following classes may access this contest:') }}</p>
-            {% else %}
-                <p>{{ _('Alternatively, the following classes may access this contest:') }}</p>
-            {% endif %}
-            <ul>
-                {% for class in error.classes %}
-                    <li><a href="{{ class.get_absolute_url() }}">{{ class.name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endif %}
+                {% if error.is_organization_private %}
+                    {% if error.orgs %}
+                        <p class="private-section-desc">
+                            {{ _('Only members of the following organizations may access this contest:') }}
+                        </p>
+                        <div class="private-orgs-list">
+                            {% for org in error.orgs %}
+                                <a href="{{ org.get_absolute_url() }}" class="private-org-card">
+                                    <div class="private-org-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"></path>
+                                            <path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"></path>
+                                            <path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"></path>
+                                            <path d="M10 6h4"></path>
+                                            <path d="M10 10h4"></path>
+                                            <path d="M10 14h4"></path>
+                                            <path d="M10 18h4"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="private-org-info">
+                                        <div class="private-org-name">{{ org.name }}</div>
+                                        {% if org.short_name %}
+                                            <div class="private-org-sub">{{ org.short_name }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="private-org-arrow">
+                                        <span>{{ _('View organization') }}</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            <polyline points="12 5 19 12 12 19"></polyline>
+                                        </svg>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+
+                    {% if error.classes %}
+                        <p class="private-section-desc" style="margin-top: 16px;">
+                            {{ _('Alternatively, members of the following classes may access this contest:') }}
+                        </p>
+                        <div class="private-orgs-list">
+                            {% for class in error.classes %}
+                                <a href="{{ class.get_absolute_url() }}" class="private-org-card">
+                                    <div class="private-org-icon">
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="private-org-info">
+                                        <div class="private-org-name">{{ class.name }}</div>
+                                    </div>
+                                    <div class="private-org-arrow">
+                                        <span>{{ _('View class') }}</span>
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                                            <polyline points="12 5 19 12 12 19"></polyline>
+                                        </svg>
+                                    </div>
+                                </a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </div>
+
+            <div class="private-card-actions">
+                {% if not request.user.is_authenticated %}
+                    <a href="{{ url('auth_login') }}?next={{ request.path }}" class="private-btn-primary">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>{{ _('Log in to continue') }}</span>
+                    </a>
+                {% endif %}
+                <a href="{{ url('contest_list') }}" class="private-btn-secondary">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                    <span>{{ _('Back to Contests') }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}
