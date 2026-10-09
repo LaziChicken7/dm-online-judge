@@ -53,9 +53,25 @@ class CustomRegistrationForm(RegistrationForm):
                                                  max_orgs).format(count=max_orgs))
         return self.cleaned_data['organizations']
 
+    def clean(self):
+        cleaned_data = super(CustomRegistrationForm, self).clean()
+        from judge.utils.turnstile import verify_turnstile, is_turnstile_enabled
+        if is_turnstile_enabled():
+            token = self.data.get('cf-turnstile-response')
+            remoteip = getattr(self, 'request', None) and self.request.META.get('REMOTE_ADDR')
+            if not verify_turnstile(token, remoteip):
+                raise forms.ValidationError(_('Captcha verification failed. Please try again.'))
+        return cleaned_data
+
 
 class RegistrationView(OldRegistrationView):
     title = _('Register')
+    def dispatch(self, request, *args, **kwargs):
+        if self.request.user.is_authenticated:
+            return redirect(settings.LOGIN_REDIRECT_URL)
+        if not self.registration_allowed():
+            return redirect(self.disallowed_url)
+        return super(OldRegistrationView, self).dispatch(request, *args, **kwargs)
     form_class = CustomRegistrationForm
     template_name = 'registration/registration_form.html'
     success_url = reverse_lazy('registration_complete')

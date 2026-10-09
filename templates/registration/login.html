@@ -1,74 +1,128 @@
 {% extends "base.html" %}
-
 {% block title_ruler %}{% endblock %}
+{% block content_title %}{% endblock %}
 
 {% block media %}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
-        .auth-card-wrap {
-            max-width: 440px !important;
-            margin: 40px auto !important;
-            background: linear-gradient(145deg, #0d1424 0%, #090e1a 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 24px !important;
-            padding: 38px 34px !important;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
-            backdrop-filter: blur(16px) !important;
+        /* =========================================================
+           EXPO DESIGN SYSTEM - AUTHENTICATION (DESIGN.md)
+           ========================================================= */
+        .auth-page-container {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 40px 16px 60px !important;
+            min-height: calc(100vh - 200px) !important;
             box-sizing: border-box !important;
+        }
+
+        .auth-card-wrap {
+            width: 100% !important;
+            max-width: 420px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 16px !important; /* {rounded.xl} */
+            padding: 36px 32px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+            text-align: left !important;
+        }
+
+        html[data-theme="light"] .auth-card-wrap,
+        html.theme-light .auth-card-wrap {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
         }
 
         .auth-card-header {
             text-align: center !important;
-            margin-bottom: 28px !important;
+            margin-bottom: 26px !important;
         }
 
         .auth-icon-badge {
-            width: 54px !important;
-            height: 54px !important;
-            border-radius: 18px !important;
-            background: rgba(56, 189, 248, 0.1) !important;
-            border: 1px solid rgba(56, 189, 248, 0.25) !important;
-            color: #38bdf8 !important;
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 10px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            font-size: 22px !important;
             margin-bottom: 14px !important;
-            box-shadow: 0 0 20px rgba(56, 189, 248, 0.15) !important;
+        }
+
+        .auth-icon-badge svg {
+            width: 20px !important;
+            height: 20px !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .auth-icon-badge,
+        html.theme-light .auth-icon-badge {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
         }
 
         .auth-card-header h2 {
             margin: 0 0 6px 0 !important;
-            font-size: 24px !important;
-            font-weight: 700 !important;
-            color: #ffffff !important;
-            letter-spacing: -0.02em !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.5px !important;
         }
 
         .auth-card-header p {
             margin: 0 !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 13.5px !important;
-            color: #94a3b8 !important;
+            color: var(--expo-body) !important;
         }
 
-        .auth-form-group {
+        /* Error Banner */
+        .auth-error-banner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+            padding: 10px 14px !important;
+            border-radius: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
             margin-bottom: 20px !important;
+        }
+
+        html[data-theme="light"] .auth-error-banner,
+        html.theme-light .auth-error-banner {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #dc2626 !important;
+        }
+
+        /* Form Groups & Inputs */
+        .auth-form-group {
+            margin-bottom: 18px !important;
             display: flex !important;
             flex-direction: column !important;
-            gap: 7px !important;
+            gap: 6px !important;
         }
 
         .auth-label {
+            font-family: "Inter", sans-serif !important;
             font-size: 13px !important;
             font-weight: 600 !important;
-            color: #cbd5e1 !important;
+            color: var(--expo-ink) !important;
             display: flex !important;
             align-items: center !important;
-            gap: 8px !important;
-        }
-
-        .auth-label i {
-            color: #38bdf8 !important;
-            font-size: 12px !important;
+            gap: 6px !important;
         }
 
         .auth-input-wrap {
@@ -78,228 +132,271 @@
 
         .auth-input-wrap input {
             width: 100% !important;
-            background: #070b14 !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 12px !important;
-            padding: 12px 16px !important;
-            color: #ffffff !important;
+            height: 42px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 0 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 14px !important;
             outline: none !important;
             box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
         }
 
         .auth-input-wrap input:focus {
             border-color: #38bdf8 !important;
-            box-shadow: 0 0 14px rgba(56, 189, 248, 0.25) !important;
-            background: #090f1e !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
         }
 
+        html[data-theme="light"] .auth-input-wrap input,
+        html.theme-light .auth-input-wrap input {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] .auth-input-wrap input:focus,
+        html.theme-light .auth-input-wrap input:focus {
+            border-color: #0f172a !important;
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        /* Cloudflare Turnstile Container */
+        .auth-turnstile-wrap {
+            margin: 18px 0 !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            min-height: 65px !important;
+        }
+
+        /* Expo Primary Submit Button */
         .auth-submit-btn {
             width: 100% !important;
-            background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 12px !important;
-            padding: 13px !important;
-            font-size: 15px !important;
-            font-weight: 700 !important;
+            height: 42px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
             cursor: pointer !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
             gap: 8px !important;
-            transition: all 0.25s ease !important;
-            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35) !important;
-            margin-top: 8px !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            margin-top: 6px !important;
         }
 
         .auth-submit-btn:hover {
-            transform: translateY(-1px) !important;
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5) !important;
+            opacity: 0.92 !important;
+            transform: none !important;
         }
 
+        html[data-theme="light"] .auth-submit-btn,
+        html.theme-light .auth-submit-btn {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        html[data-theme="light"] .auth-submit-btn:hover,
+        html.theme-light .auth-submit-btn:hover {
+            background: #1a1a1a !important;
+        }
+
+        /* Footer Links */
         .auth-footer-links {
-            margin-top: 24px !important;
+            margin-top: 22px !important;
+            padding-top: 18px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
             display: flex !important;
             flex-direction: column !important;
             align-items: center !important;
-            gap: 14px !important;
-            font-size: 13px !important;
+            gap: 12px !important;
+            text-align: center !important;
         }
 
         .auth-forgot-link {
-            color: #94a3b8 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            color: var(--expo-text-link) !important;
             text-decoration: none !important;
-            transition: color 0.2s !important;
+            transition: color 0.15s ease !important;
         }
 
         .auth-forgot-link:hover {
-            color: #38bdf8 !important;
             text-decoration: underline !important;
         }
 
-        .auth-divider {
-            width: 100% !important;
-            height: 1px !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            margin: 4px 0 !important;
-        }
-
         .auth-register-text {
-            color: #cbd5e1 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            color: var(--expo-body) !important;
         }
 
         .auth-register-link {
-            color: #38bdf8 !important;
             font-weight: 600 !important;
+            color: var(--expo-ink) !important;
             text-decoration: none !important;
             margin-left: 4px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 4px !important;
         }
 
         .auth-register-link:hover {
             text-decoration: underline !important;
-            color: #7dd3fc !important;
         }
 
-        .auth-error-banner {
-            background: rgba(239, 68, 68, 0.1) !important;
-            border: 1px solid rgba(239, 68, 68, 0.3) !important;
-            border-radius: 12px !important;
-            padding: 12px 16px !important;
-            margin-bottom: 20px !important;
-            color: #f87171 !important;
-            font-size: 13px !important;
-            display: flex !important;
-            align-items: center !important;
-            gap: 10px !important;
-        }
-
+        /* Social Auth Wrap */
         .social-wrap {
-            margin-top: 20px !important;
+            margin-top: 22px !important;
+            padding-top: 18px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
             text-align: center !important;
         }
 
         .social-wrap h4 {
-            font-size: 13px !important;
-            color: #64748b !important;
-            margin-bottom: 12px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
             text-transform: uppercase !important;
-            letter-spacing: 0.05em !important;
+            letter-spacing: 0.5px !important;
+            color: var(--expo-muted) !important;
+            margin: 0 0 14px 0 !important;
         }
 
         .social-icons-row {
             display: flex !important;
             justify-content: center !important;
-            gap: 12px !important;
+            gap: 10px !important;
         }
 
         .social-btn {
-            width: 42px !important;
-            height: 42px !important;
-            border-radius: 10px !important;
-            background: rgba(255, 255, 255, 0.05) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            font-size: 20px !important;
-            color: #e2e8f0 !important;
-            transition: all 0.2s ease !important;
+            width: 44px !important;
+            height: 40px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
             text-decoration: none !important;
+            transition: all 0.15s ease !important;
         }
 
         .social-btn:hover {
-            transform: translateY(-2px) !important;
-            border-color: rgba(255, 255, 255, 0.25) !important;
+            border-color: var(--expo-ink) !important;
+        }
+
+        html[data-theme="light"] .social-btn,
+        html.theme-light .social-btn {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
         }
     </style>
 {% endblock %}
 
-{% block content_title %}{% endblock %}
-
 {% block body %}
-    <div class="auth-card-wrap">
-        <div class="auth-card-header">
-            <div class="auth-icon-badge">
-                <i class="fa fa-lock"></i>
+    <div class="auth-page-container">
+        <div class="auth-card-wrap">
+            <div class="auth-card-header">
+                <div class="auth-icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                    </svg>
+                </div>
+                <h2>{{ _('Welcome Back') }}</h2>
+                <p>{{ _('Sign in to your account to continue') }}</p>
             </div>
-            <h2>{{ _('Welcome Back') }}</h2>
-            <p>{{ _('Sign in to your account to continue') }}</p>
+
+            {% if form.errors %}
+                <div class="auth-error-banner">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>
+                        {% if form.non_field_errors() %}
+                            {{ form.non_field_errors()[0] }}
+                        {% else %}
+                            {{ _('Invalid username or password.') }}
+                        {% endif %}
+                    </span>
+                </div>
+            {% endif %}
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Username') }}</span>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.username }}
+                    </div>
+                </div>
+
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Password') }}</span>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.password }}
+                    </div>
+                </div>
+
+                <!-- Cloudflare Turnstile Captcha -->
+                <div class="auth-turnstile-wrap">
+                    <div class="cf-turnstile" data-sitekey="{{ CLOUDFLARE_TURNSTILE_SITE_KEY }}" data-theme="auto"></div>
+                </div>
+
+                <button type="submit" class="auth-submit-btn">
+                    <span>{{ _('Login!') }}</span>
+                </button>
+
+                <input type="hidden" name="next" value="{{ next }}">
+
+                <div class="auth-footer-links">
+                    <a href="{{ url('password_reset') }}" class="auth-forgot-link">{{ _('Forgot your password?') }}</a>
+                    <div class="auth-register-text">
+                        {{ _("Don't have an account?") }}
+                        <a href="{{ url('registration_register') }}" class="auth-register-link">
+                            {{ _('Register now') }} &rarr;
+                        </a>
+                    </div>
+                </div>
+            </form>
+
+            {% if form.has_google_auth or form.has_facebook_auth or form.has_github_auth %}
+                <div class="social-wrap">
+                    <h4>{{ _('Or log in with') }}</h4>
+                    <div class="social-icons-row">
+                        {% if form.has_google_auth %}
+                            <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}" class="social-btn" title="Google">
+                                <i class="fa fa-google" style="color: #ea4335;"></i>
+                            </a>
+                        {% endif %}
+                        {% if form.has_facebook_auth %}
+                            <a href="{{ url('social:begin', "facebook") }}?next={{ next }}" class="social-btn" title="Facebook">
+                                <i class="fa fa-facebook" style="color: #1877f2;"></i>
+                            </a>
+                        {% endif %}
+                        {% if form.has_github_auth %}
+                            <a href="{{ url('social:begin', "github-secure") }}?next={{ next }}" class="social-btn" title="GitHub">
+                                <i class="fa fa-github"></i>
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+            {% endif %}
         </div>
-
-        {% if form.errors %}
-            <div class="auth-error-banner">
-                <i class="fa fa-exclamation-circle" style="font-size: 16px;"></i>
-                <span>{{ _('Invalid username or password.') }}</span>
-            </div>
-        {% endif %}
-
-        <form action="" method="post">
-            {% csrf_token %}
-
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-user"></i>
-                    <span>{{ _('Username') }}</span>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.username }}
-                </div>
-            </div>
-
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-key"></i>
-                    <span>{{ _('Password') }}</span>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.password }}
-                </div>
-            </div>
-
-            <button type="submit" class="auth-submit-btn">
-                <i class="fa fa-sign-in"></i>
-                <span>{{ _('Login!') }}</span>
-            </button>
-            <input type="hidden" name="next" value="{{ next }}">
-
-            <div class="auth-footer-links">
-                <a href="{{ url('password_reset') }}" class="auth-forgot-link">{{ _('Forgot your password?') }}</a>
-                <div class="auth-divider"></div>
-                <div class="auth-register-text">
-                    {{ _("Don't have an account?") }}
-                    <a href="{{ url('registration_register') }}" class="auth-register-link">
-                        {{ _('Register now') }} &rarr;
-                    </a>
-                </div>
-            </div>
-        </form>
-
-        {% if form.has_google_auth or form.has_facebook_auth or form.has_github_auth %}
-            <div class="social-wrap">
-                <h4>{{ _('Or log in with') }}</h4>
-                <div class="social-icons-row">
-                    {% if form.has_google_auth %}
-                        <a href="{{ url('social:begin', "google-oauth2") }}?next={{ next }}" class="social-btn" title="Google">
-                            <i class="fa fa-google" style="color: #ea4335;"></i>
-                        </a>
-                    {% endif %}
-                    {% if form.has_facebook_auth %}
-                        <a href="{{ url('social:begin', "facebook") }}?next={{ next }}" class="social-btn" title="Facebook">
-                            <i class="fa fa-facebook" style="color: #1877f2;"></i>
-                        </a>
-                    {% endif %}
-                    {% if form.has_github_auth %}
-                        <a href="{{ url('social:begin', "github-secure") }}?next={{ next }}" class="social-btn" title="GitHub">
-                            <i class="fa fa-github" style="color: #ffffff;"></i>
-                        </a>
-                    {% endif %}
-                </div>
-            </div>
-        {% endif %}
     </div>
 {% endblock %}

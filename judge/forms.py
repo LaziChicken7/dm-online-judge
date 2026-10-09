@@ -187,6 +187,16 @@ class CustomAuthenticationForm(AuthenticationForm):
         return (getattr(settings, 'SOCIAL_AUTH_%s_KEY' % key, None) and
                 getattr(settings, 'SOCIAL_AUTH_%s_SECRET' % key, None))
 
+    def clean(self):
+        cleaned_data = super(CustomAuthenticationForm, self).clean()
+        from judge.utils.turnstile import verify_turnstile, is_turnstile_enabled
+        if is_turnstile_enabled():
+            token = self.data.get('cf-turnstile-response')
+            remoteip = getattr(self, 'request', None) and self.request.META.get('REMOTE_ADDR')
+            if not verify_turnstile(token, remoteip):
+                raise forms.ValidationError(_('Captcha verification failed. Please try again.'))
+        return cleaned_data
+
 
 class NoAutoCompleteCharField(forms.CharField):
     def widget_attrs(self, widget):

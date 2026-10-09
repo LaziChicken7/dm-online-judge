@@ -30,6 +30,7 @@ def get_resource(request):
         'DMOJ_SCHEME': scheme,
         'DMOJ_CANONICAL': settings.DMOJ_CANONICAL,
         'DMOJ_SELECT2_THEME': settings.DMOJ_SELECT2_THEME,
+        'CLOUDFLARE_TURNSTILE_SITE_KEY': getattr(settings, 'CLOUDFLARE_TURNSTILE_SITE_KEY', '1x00000000000000000000AA'),
     }
 
 

@@ -1,84 +1,148 @@
 {% extends "base.html" %}
-
 {% block title_ruler %}{% endblock %}
 {% block content_title %}{% endblock %}
 
 {% block media %}
     {% include "timezone/media-css.html" %}
     {{ form.media.css }}
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <style>
-        .auth-card-wrap {
-            max-width: 520px !important;
-            margin: 30px auto 50px auto !important;
-            background: linear-gradient(145deg, #0d1424 0%, #090e1a 100%) !important;
-            border: 1px solid rgba(255, 255, 255, 0.1) !important;
-            border-radius: 24px !important;
-            padding: 38px 36px !important;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
-            backdrop-filter: blur(16px) !important;
+        /* =========================================================
+           EXPO DESIGN SYSTEM - REGISTRATION (DESIGN.md)
+           ========================================================= */
+        .auth-page-container {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 30px 16px 60px !important;
+            min-height: calc(100vh - 200px) !important;
             box-sizing: border-box !important;
+        }
+
+        .auth-card-wrap {
+            width: 100% !important;
+            max-width: 500px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 16px !important; /* {rounded.xl} */
+            padding: 36px 34px !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+            text-align: left !important;
+        }
+
+        html[data-theme="light"] .auth-card-wrap,
+        html.theme-light .auth-card-wrap {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
         }
 
         .auth-card-header {
             text-align: center !important;
-            margin-bottom: 28px !important;
+            margin-bottom: 26px !important;
         }
 
         .auth-icon-badge {
-            width: 54px !important;
-            height: 54px !important;
-            border-radius: 18px !important;
-            background: rgba(16, 185, 129, 0.1) !important;
-            border: 1px solid rgba(16, 185, 129, 0.25) !important;
-            color: #34d399 !important;
+            width: 44px !important;
+            height: 44px !important;
+            border-radius: 10px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
-            font-size: 22px !important;
             margin-bottom: 14px !important;
-            box-shadow: 0 0 20px rgba(16, 185, 129, 0.15) !important;
+        }
+
+        .auth-icon-badge svg {
+            width: 20px !important;
+            height: 20px !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .auth-icon-badge,
+        html.theme-light .auth-icon-badge {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
         }
 
         .auth-card-header h2 {
             margin: 0 0 6px 0 !important;
-            font-size: 24px !important;
-            font-weight: 700 !important;
-            color: #ffffff !important;
-            letter-spacing: -0.02em !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 22px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.5px !important;
         }
 
         .auth-card-header p {
             margin: 0 !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 13.5px !important;
-            color: #94a3b8 !important;
+            color: var(--expo-body) !important;
         }
 
+        /* Error Banner */
+        .auth-error-banner {
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
+            padding: 10px 14px !important;
+            border-radius: 8px !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            margin-bottom: 20px !important;
+        }
+
+        html[data-theme="light"] .auth-error-banner,
+        html.theme-light .auth-error-banner {
+            background: #fef2f2 !important;
+            border: 1px solid #fecaca !important;
+            color: #dc2626 !important;
+        }
+
+        .auth-field-error {
+            color: #f87171 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 12px !important;
+            margin-top: 4px !important;
+            font-weight: 500 !important;
+        }
+
+        html[data-theme="light"] .auth-field-error,
+        html.theme-light .auth-field-error {
+            color: #dc2626 !important;
+        }
+
+        /* Form Groups & Inputs */
         .auth-form-group {
-            margin-bottom: 18px !important;
+            margin-bottom: 16px !important;
             display: flex !important;
             flex-direction: column !important;
             gap: 6px !important;
-            text-align: left !important;
         }
 
         .auth-label {
+            font-family: "Inter", sans-serif !important;
             font-size: 13px !important;
             font-weight: 600 !important;
-            color: #cbd5e1 !important;
+            color: var(--expo-ink) !important;
             display: flex !important;
             align-items: center !important;
-            gap: 8px !important;
+            justify-content: space-between !important;
         }
 
-        .auth-label i {
-            color: #38bdf8 !important;
-            font-size: 12px !important;
-        }
-
-        .auth-label small {
-            font-size: 11.5px !important;
-            color: #64748b !important;
-            font-weight: normal !important;
+        .auth-input-wrap {
+            position: relative !important;
+            width: 100% !important;
         }
 
         .auth-input-wrap input,
@@ -88,183 +152,167 @@
         .auth-form-group input[type="password"],
         .auth-form-group select {
             width: 100% !important;
-            background: #070b14 !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 12px !important;
-            padding: 11px 16px !important;
-            color: #ffffff !important;
+            height: 42px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            padding: 0 14px !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
             font-size: 13.5px !important;
             outline: none !important;
             box-sizing: border-box !important;
-            transition: all 0.2s ease !important;
-        }
-
-        .auth-form-group select {
-            cursor: pointer !important;
-        }
-
-        /* Select2 Dark Mode Styling (DMOJ Theme) */
-        .auth-card-wrap .select2-container {
-            width: 100% !important;
-        }
-
-        .auth-card-wrap .select2-selection,
-        .auth-card-wrap .select2-container--dmoj .select2-selection--single,
-        .auth-card-wrap .select2-container--dmoj .select2-selection--multiple {
-            background-color: #070b14 !important;
-            background: #070b14 !important;
-            border: 1px solid rgba(255, 255, 255, 0.12) !important;
-            border-radius: 12px !important;
-            min-height: 44px !important;
-            display: flex !important;
-            align-items: center !important;
-            padding: 4px 10px !important;
-            box-sizing: border-box !important;
-            color: #ffffff !important;
-        }
-
-        .auth-card-wrap .select2-container--dmoj.select2-container--open .select2-selection {
-            border-color: #10b981 !important;
-            box-shadow: 0 0 14px rgba(16, 185, 129, 0.25) !important;
-        }
-
-        .auth-card-wrap .select2-selection__rendered {
-            color: #ffffff !important;
-            line-height: 36px !important;
-            padding-left: 4px !important;
-        }
-
-        .auth-card-wrap .select2-selection__arrow {
-            height: 36px !important;
-            right: 10px !important;
-        }
-
-        .auth-card-wrap .select2-search__field {
-            color: #ffffff !important;
-            background: transparent !important;
-        }
-
-        .auth-card-wrap .select2-container--dmoj .select2-selection--multiple .select2-selection__choice {
-            background-color: rgba(16, 185, 129, 0.15) !important;
-            border: 1px solid rgba(16, 185, 129, 0.3) !important;
-            color: #34d399 !important;
-            border-radius: 6px !important;
-            padding: 2px 8px !important;
-            margin-top: 4px !important;
-        }
-
-        .auth-card-wrap .select2-container--dmoj .select2-selection--multiple .select2-selection__choice__remove {
-            color: #f87171 !important;
-            margin-right: 4px !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
         }
 
         .auth-input-wrap input:focus,
-        .auth-form-group input:focus,
-        .auth-form-group select:focus {
-            border-color: #10b981 !important;
-            box-shadow: 0 0 14px rgba(16, 185, 129, 0.25) !important;
-            background: #08101e !important;
+        .auth-form-group input:focus {
+            border-color: #38bdf8 !important;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
         }
 
-        .auth-field-error {
-            color: #f87171 !important;
+        html[data-theme="light"] .auth-input-wrap input,
+        html[data-theme="light"] .auth-input-wrap select,
+        html[data-theme="light"] .auth-form-group input,
+        html[data-theme="light"] .auth-form-group select,
+        html.theme-light .auth-input-wrap input,
+        html.theme-light .auth-input-wrap select,
+        html.theme-light .auth-form-group input,
+        html.theme-light .auth-form-group select {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] .auth-input-wrap input:focus,
+        html[data-theme="light"] .auth-form-group input:focus,
+        html.theme-light .auth-input-wrap input:focus,
+        html.theme-light .auth-form-group input:focus {
+            border-color: #0f172a !important;
+            box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
+        }
+
+        /* Select2 Theme Integration */
+        .auth-card-wrap .select2-container--dmoj .select2-selection--single,
+        .auth-card-wrap .select2-container--dmoj .select2-selection--multiple {
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            border-radius: 8px !important;
+            min-height: 42px !important;
+            display: flex !important;
+            align-items: center !important;
+            padding: 2px 10px !important;
+            box-sizing: border-box !important;
+        }
+
+        .auth-card-wrap .select2-container--dmoj .select2-selection__rendered {
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+        }
+
+        html[data-theme="light"] .auth-card-wrap .select2-container--dmoj .select2-selection--single,
+        html[data-theme="light"] .auth-card-wrap .select2-container--dmoj .select2-selection--multiple,
+        html.theme-light .auth-card-wrap .select2-container--dmoj .select2-selection--single,
+        html.theme-light .auth-card-wrap .select2-container--dmoj .select2-selection--multiple {
+            background: #f8fafc !important;
+            border: 1px solid #cbd5e1 !important;
+        }
+
+        html[data-theme="light"] .auth-card-wrap .select2-container--dmoj .select2-selection__rendered,
+        html.theme-light .auth-card-wrap .select2-container--dmoj .select2-selection__rendered {
+            color: #0f172a !important;
+        }
+
+        /* Turnstile Container */
+        .auth-turnstile-wrap {
+            margin: 18px 0 !important;
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            min-height: 65px !important;
+        }
+
+        /* Terms Note */
+        .tos-note {
+            font-family: "Inter", sans-serif !important;
             font-size: 12px !important;
-            margin-top: 2px !important;
+            color: var(--expo-muted) !important;
+            margin: 14px 0 !important;
+            line-height: 1.4 !important;
+            text-align: center !important;
         }
 
-        .auth-field-error ul {
-            margin: 0 !important;
-            padding-left: 16px !important;
-            list-style: disc !important;
+        .tos-note a {
+            color: var(--expo-text-link) !important;
+            text-decoration: none !important;
         }
 
-        .pass-req-info {
-            background: rgba(56, 189, 248, 0.08) !important;
-            border: 1px solid rgba(56, 189, 248, 0.2) !important;
-            border-radius: 10px !important;
-            padding: 10px 14px !important;
-            font-size: 12px !important;
-            color: #bae6fd !important;
-            margin-top: 4px !important;
+        .tos-note a:hover {
+            text-decoration: underline !important;
         }
 
-        .pass-req-info ul {
-            margin: 0 !important;
-            padding-left: 16px !important;
-        }
-
+        /* Expo Primary Submit Button */
         .auth-submit-btn {
             width: 100% !important;
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%) !important;
-            color: #ffffff !important;
-            border: 1px solid rgba(255, 255, 255, 0.15) !important;
-            border-radius: 12px !important;
-            padding: 13px !important;
-            font-size: 15px !important;
-            font-weight: 700 !important;
+            height: 42px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14.5px !important;
+            font-weight: 600 !important;
             cursor: pointer !important;
             display: inline-flex !important;
             align-items: center !important;
             justify-content: center !important;
             gap: 8px !important;
-            transition: all 0.25s ease !important;
-            box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35) !important;
-            margin-top: 14px !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            margin-top: 6px !important;
         }
 
         .auth-submit-btn:hover {
-            transform: translateY(-1px) !important;
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.5) !important;
+            opacity: 0.92 !important;
+            transform: none !important;
         }
 
+        html[data-theme="light"] .auth-submit-btn,
+        html.theme-light .auth-submit-btn {
+            background: #000000 !important;
+            color: #ffffff !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        html[data-theme="light"] .auth-submit-btn:hover,
+        html.theme-light .auth-submit-btn:hover {
+            background: #1a1a1a !important;
+        }
+
+        /* Footer Links */
         .auth-footer-links {
-            margin-top: 24px !important;
-            display: flex !important;
-            flex-direction: column !important;
-            align-items: center !important;
-            gap: 14px !important;
-            font-size: 13px !important;
-        }
-
-        .auth-divider {
-            width: 100% !important;
-            height: 1px !important;
-            background: rgba(255, 255, 255, 0.08) !important;
-            margin: 4px 0 !important;
+            margin-top: 20px !important;
+            padding-top: 16px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+            text-align: center !important;
         }
 
         .auth-register-text {
-            color: #cbd5e1 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            color: var(--expo-body) !important;
         }
 
         .auth-register-link {
-            color: #10b981 !important;
             font-weight: 600 !important;
+            color: var(--expo-ink) !important;
             text-decoration: none !important;
             margin-left: 4px !important;
-            display: inline-flex !important;
-            align-items: center !important;
-            gap: 4px !important;
         }
 
         .auth-register-link:hover {
-            text-decoration: underline !important;
-            color: #34d399 !important;
-        }
-
-        .tos-note {
-            font-size: 12px !important;
-            color: #64748b !important;
-            text-align: center !important;
-            margin-top: 10px !important;
-        }
-
-        .tos-note a {
-            color: #38bdf8 !important;
-            text-decoration: none !important;
-        }
-
-        .tos-note a:hover {
             text-decoration: underline !important;
         }
     </style>
@@ -287,163 +335,166 @@
             } catch (e) {}
         });
     </script>
-    {% if form.captcha %}
-        {{ recaptcha_init(LANGUAGE_CODE) }}
-    {% endif %}
 {% endblock %}
 
 {% block body %}
-    <div class="auth-card-wrap">
-        <div class="auth-card-header">
-            <div class="auth-icon-badge">
-                <i class="fa fa-user-plus"></i>
-            </div>
-            <h2>{{ _('Create an Account') }}</h2>
-            <p>{{ _('Join to solve problems and participate in contests') }}</p>
-        </div>
-
-        <form id="edit-form" action="" method="post">
-            {% csrf_token %}
-
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-user"></i>
-                    <span>{{ _('Username') }}</span>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.username }}
+    <div class="auth-page-container">
+        <div class="auth-card-wrap">
+            <div class="auth-card-header">
+                <div class="auth-icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="8.5" cy="7" r="4"></circle>
+                        <line x1="20" y1="8" x2="20" y2="14"></line>
+                        <line x1="23" y1="11" x2="17" y2="11"></line>
+                    </svg>
                 </div>
-                {% if form.username.errors %}
-                    <div class="auth-field-error">{{ form.username.errors }}</div>
-                {% endif %}
+                <h2>{{ _('Create an Account') }}</h2>
+                <p>{{ _('Join the coding community today') }}</p>
             </div>
 
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-envelope"></i>
-                    <span>{{ _('Email') }}</span>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.email }}
+            {% if form.errors %}
+                <div class="auth-error-banner">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span>
+                        {% if form.non_field_errors() %}
+                            {{ form.non_field_errors()[0] }}
+                        {% else %}
+                            {{ _('Please correct the errors below.') }}
+                        {% endif %}
+                    </span>
                 </div>
-                {% if form.email.errors %}
-                    <div class="auth-field-error">{{ form.email.errors }}</div>
-                {% endif %}
-            </div>
+            {% endif %}
 
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-key"></i>
-                    <span>{{ _('Password') }}</span>
-                    <small>(<a href="#" class="pass-req-link" style="color: #38bdf8; text-decoration: none;">?</a>)</small>
-                </label>
-                <div class="pass-req-info" style="display: none;">
-                    <ul>
-                        {% for validator in password_validators %}
-                            <li>{{ validator.get_help_text() }}</li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <div class="auth-input-wrap">
-                    {{ form.password1 }}
-                </div>
-                {% if form.password1.errors %}
-                    <div class="auth-field-error">{{ form.password1.errors }}</div>
-                {% endif %}
-            </div>
-
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-shield"></i>
-                    <span>{{ _('Password (confirmation)') }}</span>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.password2 }}
-                </div>
-                {% if form.password2.errors %}
-                    <div class="auth-field-error">{{ form.password2.errors }}</div>
-                {% endif %}
-            </div>
-
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-globe"></i>
-                    <span>{{ _('Timezone') }}</span>
-                    <small style="float: right;">
-                        <a id="open-map" href="#" data-featherlight=".map-wrap" style="color: #38bdf8; text-decoration: none;">{{ _('pick from map') }}</a>
-                    </small>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.timezone }}
-                </div>
-            </div>
-
-            <div class="auth-form-group">
-                <label class="auth-label">
-                    <i class="fa fa-code"></i>
-                    <span>{{ _('Default language') }}</span>
-                </label>
-                <div class="auth-input-wrap">
-                    {{ form.language }}
-                </div>
-            </div>
-
-            {% if form.organizations %}
+            <form action="" method="post">
+                {% csrf_token %}
                 <div class="auth-form-group">
                     <label class="auth-label">
-                        <i class="fa fa-building"></i>
-                        <span>{{ _('Affiliated organizations') }}</span>
+                        <span>{{ _('Username') }}</span>
                     </label>
                     <div class="auth-input-wrap">
-                        {{ form.organizations }}
+                        {{ form.username }}
                     </div>
-                    {% if form.organizations.errors %}
-                        <div class="auth-field-error">{{ form.organizations.errors }}</div>
+                    {% if form.username.errors %}
+                        <div class="auth-field-error">{{ form.username.errors }}</div>
                     {% endif %}
                 </div>
-            {% endif %}
 
-            {% if form.newsletter %}
-                <div style="margin: 12px 0; font-size: 13px; color: #cbd5e1; display: flex; align-items: center; gap: 8px;">
-                    {{ form.newsletter }}
-                    <label for="id_newsletter" style="cursor: pointer;">{{ _('Notify me about upcoming contests') }}</label>
-                </div>
-            {% endif %}
-
-            {% if form.captcha %}
-                <div style="margin: 14px 0;">
-                    {{ form.captcha }}
-                    {% if form.captcha.errors %}
-                        <div class="auth-field-error">{{ form.captcha.errors }}</div>
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Email') }}</span>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.email }}
+                    </div>
+                    {% if form.email.errors %}
+                        <div class="auth-field-error">{{ form.email.errors }}</div>
                     {% endif %}
                 </div>
-            {% endif %}
 
-            {% if tos_url %}
-                <div class="tos-note">
-                    {{ (_('By registering, you agree to our [Terms & Conditions][0].') + '
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Password') }}</span>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.password1 }}
+                    </div>
+                    {% if form.password1.errors %}
+                        <div class="auth-field-error">{{ form.password1.errors }}</div>
+                    {% endif %}
+                </div>
 
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Confirm password') }}</span>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.password2 }}
+                    </div>
+                    {% if form.password2.errors %}
+                        <div class="auth-field-error">{{ form.password2.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Timezone') }}</span>
+                        <a id="open-map" href="#" data-featherlight=".map-wrap" style="color: var(--expo-text-link); font-size: 11.5px; text-decoration: none;">
+                            {{ _('select on map') }}
+                        </a>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.timezone }}
+                    </div>
+                    {% if form.timezone.errors %}
+                        <div class="auth-field-error">{{ form.timezone.errors }}</div>
+                    {% endif %}
+                </div>
+
+                <div class="auth-form-group">
+                    <label class="auth-label">
+                        <span>{{ _('Default language') }}</span>
+                    </label>
+                    <div class="auth-input-wrap">
+                        {{ form.language }}
+                    </div>
+                    {% if form.language.errors %}
+                        <div class="auth-field-error">{{ form.language.errors }}</div>
+                    {% endif %}
+                </div>
+
+                {% if form.organizations %}
+                    <div class="auth-form-group">
+                        <label class="auth-label">
+                            <span>{{ _('Affiliated organizations') }}</span>
+                        </label>
+                        <div class="auth-input-wrap">
+                            {{ form.organizations }}
+                        </div>
+                        {% if form.organizations.errors %}
+                            <div class="auth-field-error">{{ form.organizations.errors }}</div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                {% if form.newsletter %}
+                    <div style="margin: 12px 0; font-size: 13px; color: var(--expo-body); display: flex; align-items: center; gap: 8px;">
+                        {{ form.newsletter }}
+                        <label for="id_newsletter" style="cursor: pointer; color: var(--expo-ink);">{{ _('Notify me about upcoming contests') }}</label>
+                    </div>
+                {% endif %}
+
+                <!-- Cloudflare Turnstile Captcha -->
+                <div class="auth-turnstile-wrap">
+                    <div class="cf-turnstile" data-sitekey="{{ CLOUDFLARE_TURNSTILE_SITE_KEY }}" data-theme="auto"></div>
+                </div>
+
+                {% if tos_url %}
+                    <div class="tos-note">
+                        {{ (_('By registering, you agree to our [Terms & Conditions][0].') + '
   [0]: ' + tos_url)|markdown('default', strip_paragraphs=True) }}
-                </div>
-            {% endif %}
+                    </div>
+                {% endif %}
 
-            <button type="submit" class="auth-submit-btn">
-                <i class="fa fa-user-plus"></i>
-                <span>{{ _('Register!') }}</span>
-            </button>
+                <button type="submit" class="auth-submit-btn">
+                    <span>{{ _('Register!') }}</span>
+                </button>
 
-            <div class="auth-footer-links">
-                <div class="auth-divider"></div>
-                <div class="auth-register-text">
-                    {{ _('Already have an account?') }}
-                    <a href="{{ url('auth_login') }}" class="auth-register-link">
-                        {{ _('Log in') }} &rarr;
-                    </a>
+                <div class="auth-footer-links">
+                    <div class="auth-register-text">
+                        {{ _('Already have an account?') }}
+                        <a href="{{ url('auth_login') }}" class="auth-register-link">
+                            {{ _('Log in') }} &rarr;
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-
     <div class="map-wrap" style="display:none;">
         <div class="map-inset">
             <div class="map-axis-x"></div>
