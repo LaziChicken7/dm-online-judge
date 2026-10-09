@@ -1,4 +1,324 @@
 {% extends "base.html" %}
+{% block title_ruler %}{% endblock %}
+{% block content_title %}{% endblock %}
+
+{% block media %}
+    <style>
+        /* =========================================================
+           EXPO DESIGN SYSTEM - LOGOUT (DESIGN.md)
+           ========================================================= */
+        .logout-page-container {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            padding: 40px 16px 60px !important;
+            min-height: calc(100vh - 220px) !important;
+            box-sizing: border-box !important;
+        }
+
+        .logout-card-wrap {
+            width: 100% !important;
+            max-width: 440px !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 16px !important; /* {rounded.xl} */
+            padding: 40px 34px !important;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45) !important;
+            box-sizing: border-box !important;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
+            text-align: center !important;
+        }
+
+        html[data-theme="light"] .logout-card-wrap,
+        html.theme-light .logout-card-wrap {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+        }
+
+        .logout-icon-badge {
+            width: 52px !important;
+            height: 52px !important;
+            border-radius: 14px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin-bottom: 16px !important;
+        }
+
+        .logout-icon-badge svg {
+            width: 24px !important;
+            height: 24px !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .logout-icon-badge,
+        html.theme-light .logout-icon-badge {
+            background: #f1f5f9 !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        .logout-badge-success {
+            background: rgba(34, 197, 94, 0.12) !important;
+            border-color: rgba(34, 197, 94, 0.28) !important;
+            color: #4ade80 !important;
+        }
+
+        html[data-theme="light"] .logout-badge-success,
+        html.theme-light .logout-badge-success {
+            background: #f0fdf4 !important;
+            border-color: #bbf7d0 !important;
+            color: #16a34a !important;
+        }
+
+        .logout-tag {
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
+            letter-spacing: 1.5px !important;
+            color: var(--expo-muted) !important;
+            text-transform: uppercase !important;
+            margin-bottom: 6px !important;
+        }
+
+        .logout-card-wrap h2 {
+            margin: 0 0 8px 0 !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 24px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+            letter-spacing: -0.5px !important;
+        }
+
+        .logout-card-wrap p {
+            margin: 0 0 24px 0 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 14px !important;
+            color: var(--expo-body) !important;
+            line-height: 1.5 !important;
+        }
+
+        .user-identity-box {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 8px !important;
+            padding: 6px 14px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13.5px !important;
+            font-weight: 600 !important;
+            margin-bottom: 22px !important;
+        }
+
+        .user-identity-box,
+        .user-identity-box * {
+            color: var(--expo-ink) !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .user-identity-box,
+        html[data-theme="light"] .user-identity-box *,
+        html.theme-light .user-identity-box,
+        html.theme-light .user-identity-box * {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+        }
+
+        /* Action Buttons */
+        .logout-actions {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px !important;
+            width: 100% !important;
+        }
+
+        .logout-btn-primary {
+            width: 100% !important;
+            height: 42px !important;
+            background: #ffffff !important;
+            color: #000000 !important;
+            border: 1px solid #ffffff !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+            box-sizing: border-box !important;
+        }
+
+        .logout-btn-primary,
+        .logout-btn-primary *,
+        .logout-btn-primary span {
+            color: #000000 !important;
+            stroke: #000000 !important;
+        }
+
+        .logout-btn-primary:hover {
+            opacity: 0.92 !important;
+            transform: none !important;
+        }
+
+        html[data-theme="light"] .logout-btn-primary,
+        html.theme-light .logout-btn-primary {
+            background: #000000 !important;
+            border: 1px solid #000000 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+        }
+
+        html[data-theme="light"] .logout-btn-primary,
+        html[data-theme="light"] .logout-btn-primary *,
+        html[data-theme="light"] .logout-btn-primary span,
+        html.theme-light .logout-btn-primary,
+        html.theme-light .logout-btn-primary *,
+        html.theme-light .logout-btn-primary span {
+            color: #ffffff !important;
+            stroke: #ffffff !important;
+        }
+
+        html[data-theme="light"] .logout-btn-primary:hover,
+        html.theme-light .logout-btn-primary:hover {
+            background: #1a1a1a !important;
+        }
+
+        .logout-btn-secondary {
+            width: 100% !important;
+            height: 42px !important;
+            background: #18181b !important;
+            border: 1px solid rgba(255, 255, 255, 0.14) !important;
+            border-radius: 8px !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 14px !important;
+            font-weight: 500 !important;
+            cursor: pointer !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            gap: 8px !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
+            box-sizing: border-box !important;
+        }
+
+        .logout-btn-secondary,
+        .logout-btn-secondary *,
+        .logout-btn-secondary span {
+            color: #f4f4f5 !important;
+            stroke: #f4f4f5 !important;
+        }
+
+        .logout-btn-secondary:hover {
+            background: #242428 !important;
+            border-color: rgba(255, 255, 255, 0.25) !important;
+            transform: none !important;
+        }
+
+        html[data-theme="light"] .logout-btn-secondary,
+        html.theme-light .logout-btn-secondary {
+            background: #f0f0f3 !important;
+            border: 1px solid transparent !important;
+        }
+
+        html[data-theme="light"] .logout-btn-secondary,
+        html[data-theme="light"] .logout-btn-secondary *,
+        html[data-theme="light"] .logout-btn-secondary span,
+        html.theme-light .logout-btn-secondary,
+        html.theme-light .logout-btn-secondary *,
+        html.theme-light .logout-btn-secondary span {
+            color: #171717 !important;
+            stroke: #171717 !important;
+        }
+
+        html[data-theme="light"] .logout-btn-secondary:hover,
+        html.theme-light .logout-btn-secondary:hover {
+            background: #e4e4e7 !important;
+        }
+    </style>
+{% endblock %}
+
 {% block body %}
-    <h3>{{ _('See you later!') }}</h3>
+    <div class="logout-page-container">
+        <div class="logout-card-wrap">
+            {% if request.user.is_authenticated %}
+                <!-- Case A: User is logged in and visits /accounts/logout/ directly -->
+                <div class="logout-icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </div>
+                <div class="logout-tag">ACCOUNT SESSION</div>
+                <h2>{{ _('Sign Out') }}</h2>
+                <p>{{ _('Are you sure you want to sign out of your OmniJudge account?') }}</p>
+
+                <div class="user-identity-box">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    <span>{{ request.user.username }}</span>
+                </div>
+
+                <form action="" method="post" class="logout-actions">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn-primary">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span>{{ _('Yes, log me out') }}</span>
+                    </button>
+                    <a href="{{ url('home') }}" class="logout-btn-secondary">
+                        <span>{{ _('Stay logged in') }}</span>
+                    </a>
+                </form>
+            {% else %}
+                <!-- Case B: User has successfully logged out -->
+                <div class="logout-icon-badge logout-badge-success">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                </div>
+                <div class="logout-tag">SESSION ENDED</div>
+                <h2>{{ _('Logged Out Successfully') }}</h2>
+                <p>{{ _('See you later! You have been successfully signed out of OmniJudge.') }}</p>
+
+                <div class="logout-actions">
+                    <a href="{{ url('auth_login') }}" class="logout-btn-primary">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                            <polyline points="10 17 15 12 10 7"></polyline>
+                            <line x1="15" y1="12" x2="3" y2="12"></line>
+                        </svg>
+                        <span>{{ _('Log in again') }}</span>
+                    </a>
+                    <a href="{{ url('home') }}" class="logout-btn-secondary">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>{{ _('Back to Home') }}</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
