@@ -1,12 +1,13 @@
 {
   "manifest_version": 3,
   "name": "OmniJudge VJudge Auto-Sync",
-  "version": "1.0.0",
-  "description": "Tự động đồng bộ cookie VJudge (JSESSIONID) vào tài khoản OmniJudge của bạn.",
-  "permissions": ["cookies", "storage"],
+  "version": "1.0.1",
+  "description": "Tự động nhận diện và đồng bộ phiên đăng nhập VJudge (JSESSIONID, JSESSIONlD, JSESSlONID) vào OmniJudge.",
+  "permissions": ["cookies", "storage", "alarms"],
   "host_permissions": [
     "*://*.vjudge.net/*",
-    "https://omnijudge.id.vn/*"
+    "https://omnijudge.id.vn/*",
+    "*://192.168.218.128/*"
   ],
   "background": {
     "service_worker": "background.js"

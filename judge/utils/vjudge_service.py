@@ -18,7 +18,7 @@ def get_vjudge_opener(cookie_jar=None):
     handlers = []
     if cookie_jar is not None:
         handlers.append(urllib.request.HTTPCookieProcessor(cookie_jar))
-    proxy_url = getattr(settings, 'VJUDGE_PROXY', 'http://192.168.218.1:8889')
+    proxy_url = getattr(settings, 'VJUDGE_PROXY', '')
     if proxy_url:
         handlers.append(urllib.request.ProxyHandler({'http': proxy_url, 'https': proxy_url}))
     return urllib.request.build_opener(*handlers)
@@ -32,7 +32,7 @@ def vjudge_urlopen(req, timeout=15, cookie_jar=None):
 def normalize_vjudge_cookie(cookie_str: str) -> str:
     """
     Normalize user-entered VJudge cookie to valid HTTP Cookie header format.
-    Handles raw session token, full cookie headers, or JSESSIONID=token.
+    Handles raw session token, full cookie headers, or JSESSIONID/JSESSIONlD combinations.
     Encodes illegal header characters like | to %7C to avoid Cloudflare 403 WAF blocks.
     """
     if not cookie_str:
@@ -40,8 +40,8 @@ def normalize_vjudge_cookie(cookie_str: str) -> str:
     cookie_str = cookie_str.strip().strip('"').strip("'")
     cookie_str = cookie_str.replace('|', '%7C')
     if '=' not in cookie_str and len(cookie_str) >= 16:
-        return f"JSESSIONID={cookie_str}"
-    if 'JSESSIONID=' in cookie_str or 'JSESSlONID=' in cookie_str:
+        return f"JSESSIONID={cookie_str}; JSESSIONlD={cookie_str}; JSESSlONID={cookie_str}"
+    if 'JSESSION' in cookie_str or 'JSESSlON' in cookie_str:
         return "; ".join(part.strip() for part in cookie_str.split(';') if part.strip())
     return cookie_str
 

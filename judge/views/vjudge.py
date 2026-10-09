@@ -177,15 +177,17 @@ class VJudgeAutoSyncView(View):
         if not session_key:
             return JsonResponse({'ok': False, 'error': 'not_authenticated'}, status=401)
         try:
-            from django.contrib.sessions.backends.db import SessionStore
+            from django.conf import settings
+            from django.utils.module_loading import import_string
+            SessionStore = import_string(settings.SESSION_ENGINE + '.SessionStore')
             session = SessionStore(session_key=session_key)
             uid = session.get('_auth_user_id')
             if not uid:
                 return JsonResponse({'ok': False, 'error': 'not_authenticated'}, status=401)
             from django.contrib.auth.models import User
             user = User.objects.get(pk=uid)
-        except Exception:
-            return JsonResponse({'ok': False, 'error': 'session_invalid'}, status=401)
+        except Exception as e:
+            return JsonResponse({'ok': False, 'error': 'session_invalid', 'detail': str(e)}, status=401)
 
         try:
             body = json.loads(request.body)
