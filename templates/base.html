@@ -7163,11 +7163,16 @@ html.theme-light #available-judges-list {
 
     /* Code Blocks & Clipboard */
     html[data-theme="light"] pre,
-    html[data-theme="light"] pre code,
     html[data-theme="light"] .content-description pre {
         background: #f8fafc !important;
         border: 1px solid rgba(0, 0, 0, 0.08) !important;
         color: #0f172a !important;
+    }
+    html[data-theme="light"] pre code {
+        background: transparent !important;
+        border: none !important;
+        color: inherit !important;
+        padding: 0 !important;
     }
     html[data-theme="light"] .btn-clipboard {
         background: #ffffff !important;

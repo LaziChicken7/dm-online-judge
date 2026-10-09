@@ -712,6 +712,44 @@ html.theme-light .code-btn-mini * {
     color: #171717 !important;
     stroke: #171717 !important;
 }
+
+/* Reset code body inside code-actual-body - Remove any rectangle or box around lines/spans */
+.code-actual-body .codehilite,
+.code-actual-body .highlight,
+.code-actual-body pre,
+.code-actual-body pre code,
+.code-actual-body code,
+.code-actual-body span {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+html[data-theme="light"] .code-actual-body .codehilite,
+html[data-theme="light"] .code-actual-body .highlight,
+html[data-theme="light"] .code-actual-body pre,
+html[data-theme="light"] .code-actual-body pre code,
+html[data-theme="light"] .code-actual-body code,
+html[data-theme="light"] .code-actual-body span,
+html.theme-light .code-actual-body .codehilite,
+html.theme-light .code-actual-body .highlight,
+html.theme-light .code-actual-body pre,
+html.theme-light .code-actual-body pre code,
+html.theme-light .code-actual-body code,
+html.theme-light .code-actual-body span {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
 </style>
 
     {% set lines = raw_source.split('
@@ -752,7 +790,6 @@ html.theme-light .code-btn-mini * {
                     </svg>
                     <span>{{ _('Download') }}</span>
                 </a>
-            </div>
             </div>
         </div>
         <div class="code-content-wrap">
