@@ -559,14 +559,18 @@ html.theme-light .code-line-numbers a:hover {
 .code-actual-body pre {
     white-space: pre !important;
 }
+html[data-theme="light"] .code-actual-body,
+html.theme-light .code-actual-body {
+    padding: 0 24px !important;
+    color: #0f172a !important;
+}
+
 html[data-theme="light"] .code-actual-body pre,
 html[data-theme="light"] .code-actual-body .codehilite,
 html[data-theme="light"] .code-actual-body .highlight,
-html[data-theme="light"] .code-actual-body,
 html.theme-light .code-actual-body pre,
 html.theme-light .code-actual-body .codehilite,
-html.theme-light .code-actual-body .highlight,
-html.theme-light .code-actual-body {
+html.theme-light .code-actual-body .highlight {
     background: transparent !important;
     background-color: transparent !important;
     border: none !important;
@@ -574,7 +578,6 @@ html.theme-light .code-actual-body {
     border-radius: 0 !important;
     padding: 0 !important;
     margin: 0 !important;
-    color: #0f172a !important;
 }
 
 /* Syntax Highlighting for Dark Mode */
