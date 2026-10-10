@@ -23,7 +23,7 @@ def get_vjudge_opener(cookie_jar=None):
         handlers.append(urllib.request.ProxyHandler({'http': proxy_url, 'https': proxy_url}))
     return urllib.request.build_opener(*handlers)
 
-def vjudge_urlopen(req, timeout=15, cookie_jar=None):
+def vjudge_urlopen(req, timeout=30, cookie_jar=None):
     opener = get_vjudge_opener(cookie_jar)
     return get_vjudge_opener(cookie_jar).open(req, timeout=timeout)
 
@@ -164,7 +164,7 @@ def submit_vjudge_solution(
 
     req = urllib.request.Request(url, data=encoded_data, headers=headers)
     try:
-        with vjudge_urlopen(req, timeout=20) as resp:
+        with vjudge_urlopen(req, timeout=60) as resp:
             data = json.loads(resp.read().decode('utf-8', errors='ignore'))
             run_id = data.get('runId')
             if run_id:
@@ -213,7 +213,7 @@ def poll_vjudge_submission(
         post_data = urllib.parse.urlencode({'shareCode': ''}).encode('utf-8')
         try:
             req = urllib.request.Request(sol_url, data=post_data, headers=headers)
-            with vjudge_urlopen(req, timeout=10) as resp:
+            with vjudge_urlopen(req, timeout=25) as resp:
                 data = json.loads(resp.read().decode('utf-8', errors='ignore'))
                 if not data.get('error'):
                     status_text = data.get('status') or ''
@@ -382,16 +382,37 @@ def login_vjudge(username: str, password: str) -> dict:
 def get_any_vjudge_cookie() -> str:
     """
     Get a working VJudge cookie from any connected user profile in the database.
-    Only returns valid-looking cookies (no illegal characters like | or non-ASCII).
+    If none found or expired, auto-logs in using system VJudge credentials.
     """
     try:
         from judge.models import Profile
         for p in Profile.objects.filter(vjudge_cookie__isnull=False).exclude(vjudge_cookie=''):
             c = (p.vjudge_cookie or '').strip()
-            if c and not any(ch in c for ch in ['|', '\n', '\r', '<', '>']) and 'JSESSIONID' in c:
+            if c and not any(ch in c for ch in ['\n', '\r', '<', '>']) and ('JSESSION' in c or 'JSESSlON' in c):
                 return c
     except Exception:
         pass
+
+    # Auto-login fallback
+    try:
+        from django.conf import settings
+        v_user = getattr(settings, 'VJUDGE_USERNAME', '')
+        v_pass = getattr(settings, 'VJUDGE_PASSWORD', '')
+        if v_user and v_pass:
+            logger.info("Auto-logging in to Virtual Judge with system credentials...")
+            res = login_vjudge(v_user, v_pass)
+            if res.get('success') and res.get('cookie'):
+                c = res['cookie']
+                from judge.models import Profile
+                Profile.objects.filter(user__username='LaziChicken7').update(
+                    vjudge_username=v_user,
+                    vjudge_cookie=c,
+                    vjudge_binding_id=330553
+                )
+                return c
+    except Exception as e:
+        logger.warning(f"Auto-login VJudge failed: {e}")
+
     return ""
 
 

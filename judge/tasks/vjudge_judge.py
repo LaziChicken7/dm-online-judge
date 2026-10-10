@@ -239,6 +239,38 @@ def judge_vjudge_submission_task(submission_id, method=0, binding_id=None, open_
             open_code=int(open_code)
         )
 
+
+        # Auto-retry with fresh credentials if timed out or session expired
+        if not res.get('success'):
+            raw_err = res.get('error', '')
+            is_timeout = 'timed out' in str(raw_err).lower()
+            is_login = 'login_required' in str(raw_err).lower() or not cookie
+            if is_timeout or is_login:
+                logger.warning(f"Submission #{submission_id} VJudge attempt 1 failed ({raw_err}). Refreshing credentials and retrying...")
+                from judge.utils.vjudge_service import login_vjudge
+                from django.conf import settings
+                v_user = getattr(settings, 'VJUDGE_USERNAME', '') or 'LaziChicken'
+                v_pass = getattr(settings, 'VJUDGE_PASSWORD', '') or 'DungTQuyen0106'
+                fresh = login_vjudge(v_user, v_pass)
+                if fresh.get('success') and fresh.get('cookie'):
+                    cookie = fresh['cookie']
+                    try:
+                        profile.vjudge_cookie = cookie
+                        profile.vjudge_username = v_user
+                        profile.vjudge_binding_id = 330553
+                        profile.save(update_fields=['vjudge_cookie', 'vjudge_username', 'vjudge_binding_id'])
+                    except Exception:
+                        pass
+                    res = submit_vjudge_solution(
+                        oj=problem.vjudge_oj,
+                        prob_num=problem.vjudge_prob_num,
+                        language=vjudge_lang,
+                        source=source_to_send,
+                        cookie=cookie,
+                        method=int(method),
+                        binding_id=330553 if is_cf else (int(binding_id) if binding_id else None),
+                        open_code=int(open_code)
+                    )
         if not res.get('success'):
             raw_err = res.get('error')
             err_msg = format_vjudge_error(raw_err, oj=problem.vjudge_oj)
