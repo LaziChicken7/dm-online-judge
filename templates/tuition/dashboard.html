@@ -750,24 +750,43 @@ html.theme-light .tuition-search-input {
     border: 1px solid #cbd5e1 !important;
     color: #0f172a !important;
 }
+html[data-theme="light"] .tuition-search-input,
+html.theme-light .tuition-search-input {
+    background: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+}
+html[data-theme="light"] .tuition-search-input:hover,
+html.theme-light .tuition-search-input:hover {
+    border-color: #94a3b8 !important;
+    box-shadow: none !important;
+}
 html[data-theme="light"] .tuition-search-input:focus,
 html.theme-light .tuition-search-input:focus {
-    border-color: #0284c7 !important;
-    box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.12) !important;
+    border-color: #0f172a !important;
+    box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.08) !important;
 }
 
 html[data-theme="dark"] .tuition-search-input,
 html.theme-dark .tuition-search-input,
 html:not([data-theme="light"]) .tuition-search-input {
     background: #18181b !important;
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
     color: #f4f4f5 !important;
+    box-shadow: none !important;
+}
+html[data-theme="dark"] .tuition-search-input:hover,
+html.theme-dark .tuition-search-input:hover,
+html:not([data-theme="light"]) .tuition-search-input:hover {
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    box-shadow: none !important;
 }
 html[data-theme="dark"] .tuition-search-input:focus,
 html.theme-dark .tuition-search-input:focus,
-html:not([data-theme="light"]) .tuition-search-input {
-    border-color: #38bdf8 !important;
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15) !important;
+html:not([data-theme="light"]) .tuition-search-input:focus {
+    border-color: rgba(255, 255, 255, 0.45) !important;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.06) !important;
 }
 
 .search-icon-pos {
@@ -1288,35 +1307,161 @@ html:not([data-theme="light"]) .radio-card-desc {
     color: #a1a1aa !important;
 }
 
-/* Print styles */
+/* ── Formal Vietnamese Tuition Document Print Styles ── */
+.tuition-print-header,
+.tuition-print-footer {
+    display: none !important;
+}
+
 @media print {
+    @page {
+        size: A4 landscape;
+        margin: 10mm 10mm 12mm 10mm;
+    }
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Times New Roman', 'Inter', -apple-system, sans-serif !important;
+        font-size: 10pt !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    /* Hide all web browser UI chrome and interactive cards */
     #portfolio-nav,
+    footer,
+    #footer,
+    .tuition-header-card,
     .tuition-header-filters,
-    .btn-mode-quick-toggle,
+    .mode-banner-card,
+    .metrics-grid,
     .tuition-nav-tabs,
+    .tuition-table-toolbar,
+    .tuition-modal-backdrop,
+    .search-input-wrap,
     .btn-row-action,
-    .tuition-search-input,
-    .search-icon-pos {
+    .btn-tuition-print,
+    .btn-tuition-action,
+    .btn-mode-quick-toggle,
+    #tab-content-contests,
+    .ui-helper-hidden-accessible {
         display: none !important;
     }
     .tuition-wrapper {
         max-width: 100% !important;
+        width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
     }
-    body {
-        background: #ffffff !important;
-        color: #000000 !important;
-    }
-    .tuition-header-card, .mode-banner-card, .stat-card, .tuition-card {
-        background: #ffffff !important;
-        border: 1px solid #cccccc !important;
+    .tuition-card {
+        background: transparent !important;
+        border: none !important;
         box-shadow: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Formal Print Document Header & Footer */
+    .tuition-print-header,
+    .tuition-print-footer {
+        display: block !important;
+    }
+    .print-doc-header-table,
+    .print-signature-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border: none !important;
+        margin-bottom: 10px !important;
+    }
+    .print-doc-header-table td,
+    .print-signature-table td {
+        border: none !important;
+        padding: 0 !important;
+        color: #000000 !important;
+        font-family: 'Times New Roman', serif !important;
+    }
+    .print-doc-title-block {
+        text-align: center !important;
+        margin: 10px 0 16px 0 !important;
+    }
+    .print-doc-title {
+        font-size: 15.5pt !important;
+        font-weight: bold !important;
+        text-transform: uppercase !important;
+        margin: 0 0 6px 0 !important;
+        color: #000000 !important;
+        letter-spacing: 0.5px !important;
+    }
+    .print-doc-meta {
+        font-size: 9.5pt !important;
+        color: #262626 !important;
+        margin-bottom: 8px !important;
+    }
+    .print-doc-summary-strip {
+        display: inline-block !important;
+        background: #f8fafc !important;
+        border: 1px solid #cbd5e1 !important;
+        padding: 4px 16px !important;
+        border-radius: 4px !important;
+        font-size: 9.5pt !important;
         color: #000000 !important;
     }
-    .tuition-data-table th, .tuition-data-table td {
+
+    /* Document Table Grid */
+    #students-tuition-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        margin: 12px 0 22px 0 !important;
+    }
+    #students-tuition-table th,
+    #students-tuition-table td {
+        border: 1px solid #475569 !important;
+        padding: 5px 6px !important;
+        font-size: 9pt !important;
         color: #000000 !important;
-        border-bottom: 1px solid #dddddd !important;
+        background: transparent !important;
+        vertical-align: middle !important;
+        font-family: 'Times New Roman', serif !important;
+    }
+    #students-tuition-table th {
+        background: #f1f5f9 !important;
+        font-weight: 700 !important;
+        text-align: center !important;
+        text-transform: uppercase !important;
+        font-size: 8.5pt !important;
+    }
+    /* Hide Action column in table */
+    #students-tuition-table th:last-child,
+    #students-tuition-table td:last-child {
+        display: none !important;
+    }
+    /* Hide avatar circle in print */
+    #students-tuition-table td div[style*="border-radius: 50%"] {
+        display: none !important;
+    }
+    /* Clean up student name text */
+    #students-tuition-table td div[style*="font-weight: 700"] {
+        color: #000000 !important;
+        font-size: 9.5pt !important;
+    }
+    #students-tuition-table td div[style*="font-size: 12px"] {
+        color: #475569 !important;
+        font-size: 8pt !important;
+    }
+    /* Badges become clean text */
+    #students-tuition-table .badge-session,
+    #students-tuition-table .badge-pay {
+        background: transparent !important;
+        border: none !important;
+        color: #000000 !important;
+        padding: 0 !important;
+        font-weight: 600 !important;
+        font-size: 8.5pt !important;
+    }
+    #students-tuition-table td[style*="font-weight: 800"],
+    #students-tuition-table td[style*="font-weight: 700"] {
+        color: #000000 !important;
     }
 }
 
@@ -1499,43 +1644,120 @@ html:not([data-theme="light"]) .badge-multi-session {
     border: 1px solid rgba(168, 85, 247, 0.35) !important;
 }
 
-/* Session action buttons (Khôi phục / Xóa buổi) */
-html[data-theme="light"] .btn-session-delete,
-html.theme-light .btn-session-delete {
-    background: #fef2f2 !important;
-    color: #dc2626 !important;
-    border: 1px solid #fecaca !important;
+/* Session action buttons in student detail modal */
+.btn-session-edit,
+.btn-session-delete,
+.btn-session-restore {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 4px !important;
+    height: 26px !important;
+    padding: 0 9px !important;
+    border-radius: 6px !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 11.5px !important;
+    font-weight: 500 !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    box-sizing: border-box !important;
+    user-select: none !important;
+    text-decoration: none !important;
 }
-html[data-theme="light"] .btn-session-delete:hover,
-html.theme-light .btn-session-delete:hover {
-    background: #dc2626 !important;
-    color: #ffffff !important;
+.btn-session-edit svg,
+.btn-session-delete svg,
+.btn-session-restore svg {
+    flex-shrink: 0 !important;
 }
-html[data-theme="light"] .btn-session-delete span,
-html[data-theme="light"] .btn-session-delete svg,
-html.theme-light .btn-session-delete span,
-html.theme-light .btn-session-delete svg {
+.btn-session-edit *,
+.btn-session-delete *,
+.btn-session-restore * {
     color: inherit !important;
     stroke: currentColor !important;
 }
 
+/* 1. Sửa giá (Edit price) */
+html[data-theme="dark"] .btn-session-edit,
+html.theme-dark .btn-session-edit,
+html:not([data-theme="light"]) .btn-session-edit {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #e4e4e7 !important;
+}
+html[data-theme="dark"] .btn-session-edit:hover,
+html.theme-dark .btn-session-edit:hover,
+html:not([data-theme="light"]) .btn-session-edit:hover {
+    background: rgba(255, 255, 255, 0.16) !important;
+    border-color: rgba(255, 255, 255, 0.28) !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .btn-session-edit,
+html.theme-light .btn-session-edit {
+    background: #f1f5f9 !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #1e293b !important;
+}
+html[data-theme="light"] .btn-session-edit:hover,
+html.theme-light .btn-session-edit:hover {
+    background: #e2e8f0 !important;
+    border-color: #94a3b8 !important;
+    color: #0f172a !important;
+}
+
+/* 2. Xóa buổi (Delete/exclude session) */
+html[data-theme="dark"] .btn-session-delete,
+html.theme-dark .btn-session-delete,
+html:not([data-theme="light"]) .btn-session-delete {
+    background: rgba(239, 68, 68, 0.12) !important;
+    border: 1px solid rgba(239, 68, 68, 0.28) !important;
+    color: #f87171 !important;
+}
+html[data-theme="dark"] .btn-session-delete:hover,
+html.theme-dark .btn-session-delete:hover,
+html:not([data-theme="light"]) .btn-session-delete:hover {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .btn-session-delete,
+html.theme-light .btn-session-delete {
+    background: #fef2f2 !important;
+    border: 1px solid #fecaca !important;
+    color: #dc2626 !important;
+}
+html[data-theme="light"] .btn-session-delete:hover,
+html.theme-light .btn-session-delete:hover {
+    background: #dc2626 !important;
+    border-color: #dc2626 !important;
+    color: #ffffff !important;
+}
+
+/* 3. Khôi phục (Restore session) */
+html[data-theme="dark"] .btn-session-restore,
+html.theme-dark .btn-session-restore,
+html:not([data-theme="light"]) .btn-session-restore {
+    background: rgba(16, 185, 129, 0.12) !important;
+    border: 1px solid rgba(16, 185, 129, 0.28) !important;
+    color: #34d399 !important;
+}
+html[data-theme="dark"] .btn-session-restore:hover,
+html.theme-dark .btn-session-restore:hover,
+html:not([data-theme="light"]) .btn-session-restore:hover {
+    background: #059669 !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
+}
 html[data-theme="light"] .btn-session-restore,
 html.theme-light .btn-session-restore {
     background: #ecfdf5 !important;
-    color: #047857 !important;
     border: 1px solid #a7f3d0 !important;
+    color: #047857 !important;
 }
 html[data-theme="light"] .btn-session-restore:hover,
 html.theme-light .btn-session-restore:hover {
     background: #059669 !important;
+    border-color: #059669 !important;
     color: #ffffff !important;
-}
-html[data-theme="light"] .btn-session-restore span,
-html[data-theme="light"] .btn-session-restore svg,
-html.theme-light .btn-session-restore span,
-html.theme-light .btn-session-restore svg {
-    color: inherit !important;
-    stroke: currentColor !important;
 }
 
 /* Subtitle under title */
@@ -1699,8 +1921,8 @@ html:not([data-theme="light"]) .modal-checkbox-label {
             </button>
 
             <!-- Print Button -->
-            <button type="button" class="btn-tuition-print" onclick="window.print()" title="{{ _('In bảng kê học phí') }}">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <button type="button" class="btn-tuition-print" onclick="prepareAndPrintTuition()" title="{{ _('In bảng kê học phí chuẩn tài liệu') }}">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
                 <span>{{ _('In bảng kê') }}</span>
             </button>
         </div>
@@ -1829,6 +2051,54 @@ html:not([data-theme="light"]) .modal-checkbox-label {
 
     <!-- TAB 1: Students Tuition Table -->
     <div id="tab-content-students">
+
+    <!-- Dedicated Formal Print Header (Only visible on Print / Export) -->
+    <div class="tuition-print-header">
+        <table class="print-doc-header-table">
+            <tr>
+                <td style="width: 50%; vertical-align: top; text-align: left;">
+                    <div style="font-size: 11pt; font-weight: bold; text-transform: uppercase;">
+                        {% if selected_org %}{{ selected_org.name }}{% else %}TRUNG TÂM / LỚP HỌC{% endif %}
+                    </div>
+                    <div style="font-size: 9pt; color: #333333; margin-top: 2px;">
+                        Hệ thống Quản lý Học phí &amp; Luyện thi OmniJudge
+                    </div>
+                </td>
+                <td style="width: 50%; vertical-align: top; text-align: right;">
+                    <div style="font-size: 10pt; font-weight: bold; text-transform: uppercase;">
+                        CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM
+                    </div>
+                    <div style="font-size: 9pt; font-style: italic;">
+                        Độc lập - Tự do - Hạnh phúc
+                    </div>
+                    <div style="font-size: 8.5pt; color: #555555; margin-top: 2px;">
+                        -----------------o0o-----------------
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <div class="print-doc-title-block">
+            <h1 class="print-doc-title">BẢNG KÊ CHI TIẾT HỌC PHÍ &amp; THEO DÕI BUỔI HỌC</h1>
+            <div class="print-doc-meta">
+                <span><strong>Lớp/Tổ chức:</strong> {% if selected_org %}{{ selected_org.name }}{% endif %}</span>
+                &bull;
+                <span><strong>Tổng số buổi:</strong> {{ total_sessions }} buổi ({{ total_contests }} kỳ thi)</span>
+                &bull;
+                <span><strong>Số lượng học viên:</strong> {{ total_students }} học viên</span>
+                &bull;
+                <span><strong>Ngày xuất bảng:</strong> <span class="print-date-target"></span></span>
+            </div>
+            <div class="print-doc-summary-strip">
+                <span>Tổng học phí: <strong>{{ total_expected_revenue_fmt }}</strong></span>
+                &nbsp;|&nbsp;
+                <span>Đã thu: <strong style="color: #047857;">{{ total_collected_amount_fmt }}</strong></span>
+                &nbsp;|&nbsp;
+                <span>Còn phải thu: <strong style="color: #b91c1c;">{{ total_outstanding_amount_fmt }}</strong></span>
+            </div>
+        </div>
+    </div>
+
         <div class="tuition-card">
             <div class="tuition-table-toolbar">
                 <div class="search-input-wrap">
@@ -1932,6 +2202,32 @@ html:not([data-theme="light"]) .modal-checkbox-label {
                     </tbody>
                 </table>
             </div>
+
+            <!-- Dedicated Formal Print Sign-off Footer (Only visible on Print) -->
+            <div class="tuition-print-footer">
+                <table class="print-signature-table" style="margin-top: 25px;">
+                    <tr>
+                        <td style="width: 33.3%; text-align: center; vertical-align: top;">
+                            <div style="font-weight: bold; font-size: 10pt; text-transform: uppercase;">NGƯỜI LẬP BẢNG</div>
+                            <div style="font-size: 8.5pt; font-style: italic; color: #555555; margin-top: 2px;">(Ký và ghi rõ họ tên)</div>
+                            <div style="height: 60px;"></div>
+                        </td>
+                        <td style="width: 33.3%; text-align: center; vertical-align: top;">
+                            <div style="font-weight: bold; font-size: 10pt; text-transform: uppercase;">GIÁO VIÊN PHỤ TRÁCH</div>
+                            <div style="font-size: 8.5pt; font-style: italic; color: #555555; margin-top: 2px;">(Ký và ghi rõ họ tên)</div>
+                            <div style="height: 60px;"></div>
+                        </td>
+                        <td style="width: 33.3%; text-align: center; vertical-align: top;">
+                            <div style="font-size: 9pt; font-style: italic; margin-bottom: 3px;">
+                                Ngày <span class="print-day">.....</span> tháng <span class="print-month">.....</span> năm 2026
+                            </div>
+                            <div style="font-weight: bold; font-size: 10pt; text-transform: uppercase;">ĐẠI DIỆN TRUNG TÂM / LỚP HỌC</div>
+                            <div style="font-size: 8.5pt; font-style: italic; color: #555555; margin-top: 2px;">(Ký, đóng dấu và ghi rõ họ tên)</div>
+                            <div style="height: 60px;"></div>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -2023,6 +2319,32 @@ html:not([data-theme="light"]) .modal-checkbox-label {
                         </tr>
                         {% endfor %}
                     </tbody>
+                </table>
+            </div>
+
+            <!-- Dedicated Formal Print Sign-off Footer (Only visible on Print) -->
+            <div class="tuition-print-footer">
+                <table class="print-signature-table" style="margin-top: 25px;">
+                    <tr>
+                        <td style="width: 33.3%; text-align: center; vertical-align: top;">
+                            <div style="font-weight: bold; font-size: 10pt; text-transform: uppercase;">NGƯỜI LẬP BẢNG</div>
+                            <div style="font-size: 8.5pt; font-style: italic; color: #555555; margin-top: 2px;">(Ký và ghi rõ họ tên)</div>
+                            <div style="height: 60px;"></div>
+                        </td>
+                        <td style="width: 33.3%; text-align: center; vertical-align: top;">
+                            <div style="font-weight: bold; font-size: 10pt; text-transform: uppercase;">GIÁO VIÊN PHỤ TRÁCH</div>
+                            <div style="font-size: 8.5pt; font-style: italic; color: #555555; margin-top: 2px;">(Ký và ghi rõ họ tên)</div>
+                            <div style="height: 60px;"></div>
+                        </td>
+                        <td style="width: 33.3%; text-align: center; vertical-align: top;">
+                            <div style="font-size: 9pt; font-style: italic; margin-bottom: 3px;">
+                                Ngày <span class="print-day">.....</span> tháng <span class="print-month">.....</span> năm 2026
+                            </div>
+                            <div style="font-weight: bold; font-size: 10pt; text-transform: uppercase;">ĐẠI DIỆN TRUNG TÂM / LỚP HỌC</div>
+                            <div style="font-size: 8.5pt; font-style: italic; color: #555555; margin-top: 2px;">(Ký, đóng dấu và ghi rõ họ tên)</div>
+                            <div style="height: 60px;"></div>
+                        </td>
+                    </tr>
                 </table>
             </div>
         </div>
@@ -2631,18 +2953,25 @@ html:not([data-theme="light"]) .modal-checkbox-label {
                     var actionBtns = '<div style="display: inline-flex; gap: 4px; flex-wrap: wrap; justify-content: center;">';
 
                     // Quick edit contest fee from inside student detail
-                    actionBtns += '<button type="button" class="btn-row-action primary" style="padding: 3px 8px; font-size: 11px;" title="Chỉnh sửa đơn giá hoặc số buổi của contest này" onclick="openContestFeeModal(' + s.contest_id + ', \'' + escapeHtml(s.contest_name) + '\', ' + s.session_count + ', ' + (s.fee_override !== null && s.fee_override !== undefined ? s.fee_override : 'null') + ', ' + s.is_billed + ', \'\')">' +
+                    actionBtns += '<button type="button" class="btn-session-edit" title="Chỉnh sửa đơn giá hoặc số buổi của contest này" onclick="openContestFeeModal(' + s.contest_id + ', \'' + escapeHtml(s.contest_name) + '\', ' + s.session_count + ', ' + (s.fee_override !== null && s.fee_override !== undefined ? s.fee_override : 'null') + ', ' + s.is_billed + ', \'\')">' +
+                        '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>' +
                         '<span>Sửa giá</span>' +
                         '</button>';
 
                     if (s.is_excluded) {
-                        actionBtns += '<button type="button" class="btn-session-restore" style="padding: 3px 8px; font-size: 11px;" onclick="restoreSession(' + s.contest_id + ')">' +
-                            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="1 4 1 10 7 10"></polyline><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path></svg>' +
+                        actionBtns += '<button type="button" class="btn-session-restore" title="Khôi phục tính tiền buổi này" onclick="toggleExcludeSession(' + orgId + ', ' + studentId + ', ' + s.contest_id + ', false)">' +
+                            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+                            '<polyline points="1 4 1 10 7 10"></polyline>' +
+                            '<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>' +
+                            '</svg>' +
                             '<span>Khôi phục</span>' +
                             '</button>';
                     } else {
-                        actionBtns += '<button type="button" class="btn-session-delete" style="padding: 3px 8px; font-size: 11px;" onclick="excludeSession(' + s.contest_id + ', \'' + escapeHtml(s.contest_name) + '\', ' + s.has_participation + ')">' +
-                            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>' +
+                        actionBtns += '<button type="button" class="btn-session-delete" title="Xóa buổi này khỏi tính tiền" onclick="toggleExcludeSession(' + orgId + ', ' + studentId + ', ' + s.contest_id + ', true)">' +
+                            '<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">' +
+                            '<polyline points="3 6 5 6 21 6"></polyline>' +
+                            '<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>' +
+                            '</svg>' +
                             '<span>Xóa buổi</span>' +
                             '</button>';
                     }
@@ -2752,5 +3081,18 @@ html:not([data-theme="light"]) .modal-checkbox-label {
             }
         });
     });
+
+function prepareAndPrintTuition() {
+    var now = new Date();
+    var day = String(now.getDate()).padStart(2, '0');
+    var month = String(now.getMonth() + 1).padStart(2, '0');
+    var year = now.getFullYear();
+    var dateStr = day + '/' + month + '/' + year;
+    $('.print-date-target').text(dateStr);
+    $('.print-day').text(day);
+    $('.print-month').text(month);
+    window.print();
+}
+
 </script>
 {% endblock %}
