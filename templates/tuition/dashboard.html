@@ -1316,7 +1316,7 @@ html:not([data-theme="light"]) .radio-card-desc {
 @media print {
     @page {
         size: A4 landscape;
-        margin: 8mm 8mm 10mm 8mm;
+        margin: 14mm 16mm 14mm 16mm; /* Safe document margins: 16mm on sides */
     }
 
     /* Force all elements to have crisp square 90-degree corners like Excel */
@@ -1421,22 +1421,46 @@ html:not([data-theme="light"]) .radio-card-desc {
     .tuition-print-header,
     .tuition-print-footer {
         display: block !important;
+        box-sizing: border-box !important;
+        width: 100% !important;
+        padding: 0 !important;
     }
 
-    .print-doc-header-table,
-    .print-signature-table {
+    .print-doc-header-table {
         width: 100% !important;
         border-collapse: collapse !important;
         border: none !important;
         margin-bottom: 8px !important;
+        box-sizing: border-box !important;
     }
-
-    .print-doc-header-table td,
-    .print-signature-table td {
+    .print-doc-header-table td {
         border: none !important;
-        padding: 0 !important;
         color: #000000 !important;
         font-family: 'Times New Roman', Times, serif !important;
+        vertical-align: top !important;
+    }
+    .print-doc-header-table td:first-child {
+        text-align: left !important;
+        padding: 0 16px 0 8px !important; /* Safe padding from left edge - 'D' never clipped */
+    }
+    .print-doc-header-table td:last-child {
+        text-align: right !important;
+        padding: 0 8px 0 16px !important; /* Safe padding from right edge - 'M' never clipped */
+    }
+
+    .print-signature-table {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        border: none !important;
+        margin-top: 14px !important;
+        box-sizing: border-box !important;
+    }
+    .print-signature-table td {
+        border: none !important;
+        padding: 0 8px !important;
+        color: #000000 !important;
+        font-family: 'Times New Roman', Times, serif !important;
+        vertical-align: top !important;
     }
 
     .print-doc-title-block {
