@@ -73,8 +73,7 @@ def format_ntucoder_samples(html_text: str) -> str:
                     input_val = sval_text
                 elif "out" in stype_clean:
                     output_val = sval_text
-            title = f"Ví dụ {idx + 1}" if len(li_items) > 1 else "Ví dụ"
-            prefix = f'<div class="vjudge-sample-title" style="font-weight: 700; color: var(--expo-ink); font-size: 14px; margin: 16px 0 8px 0;">{title}</div>'
+            prefix = f'<div class="vjudge-sample-title" style="font-weight: 700; color: var(--expo-ink); font-size: 14px; margin: 16px 0 8px 0;">Ví dụ {idx + 1}</div>' if len(li_items) > 1 else ''
             in_esc = pyhtml.escape(input_val)
             out_esc = pyhtml.escape(output_val)
             t_html = (prefix + NL +
