@@ -55,8 +55,6 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         submission.refresh_from_db()
         submission.update_contest()
         profile.calculate_points()
-    from judge.caching import finished_submission
-    finished_submission(submission)
         event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
         _post_update_submission(submission, done=True)
         return False
@@ -78,8 +76,6 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         submission.refresh_from_db()
         submission.update_contest()
         profile.calculate_points()
-    from judge.caching import finished_submission
-    finished_submission(submission)
         event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
         _post_update_submission(submission, done=True)
         return False
@@ -108,8 +104,6 @@ def judge_ntucoder_submission_task(self, submission_id: int):
         submission.refresh_from_db()
         submission.update_contest()
         profile.calculate_points()
-    from judge.caching import finished_submission
-    finished_submission(submission)
         event.post(f'sub_{submission.id_secret}', {'type': 'internal-error'})
         _post_update_submission(submission, done=True)
         return False
@@ -174,8 +168,6 @@ def judge_ntucoder_submission_task(self, submission_id: int):
     submission.refresh_from_db()
     submission.update_contest()
     profile.calculate_points()
-    from judge.caching import finished_submission
-    finished_submission(submission)
 
     # 7. Broadcast completed websocket event
     event.post(f'sub_{submission.id_secret}', {
