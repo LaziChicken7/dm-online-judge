@@ -1,52 +1,76 @@
-<div class="clue-submit-modal-card">
+<div class="clue-submit-card">
     <div class="clue-modal-row">
         <span class="clue-row-label">{{ _('Problem:') }}</span>
         <div class="clue-row-content">
             <span class="clue-prob-pill">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                ClueOJ - {{ problem.clue_code or problem.code }}
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+                    <polyline points="2 17 12 22 22 17"></polyline>
+                    <polyline points="2 12 12 17 22 12"></polyline>
+                </svg>
+                <span>ClueOJ - {{ problem.clue_code or problem.code }}</span>
             </span>
-            <a href="https://oj.clue.edu.vn/problem/{{ problem.clue_code or problem.code }}" target="_blank" rel="noopener" class="clue-link-btn" title="{{ _('Mở trang gốc trên ClueOJ') }}">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+            <a href="https://oj.clue.edu.vn/problem/{{ problem.clue_code or problem.code }}" target="_blank" rel="noopener" class="clue-link-btn" title="{{ _('Xem đề bài gốc trên ClueOJ') }}">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                    <polyline points="15 3 21 3 21 9"></polyline>
+                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
                 <span>{{ _('Mở trang ClueOJ ↗') }}</span>
             </a>
         </div>
     </div>
-
     <div class="clue-modal-row">
         <span class="clue-row-label">{{ _('Tài khoản nộp bài:') }}</span>
         <div class="clue-row-content">
             {% if request.profile.clue_username %}
                 <div class="clue-account-status-wrap">
                     <span class="clue-chip-connected">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
                         <span>{{ request.profile.clue_username }}</span>
                     </span>
-                    <a href="{{ url('clue_connect') }}?next={{ request.path }}" class="clue-link-btn" title="{{ _('Đổi hoặc liên kết tài khoản ClueOJ khác') }}">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <a href="{{ url('clue_connect') }}?next={{ request.path }}" class="clue-link-btn" title="{{ _('Chuyển sang tài khoản ClueOJ khác') }}">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
                         <span>{{ _('Đổi tài khoản ClueOJ') }}</span>
                     </a>
                 </div>
                 <div class="clue-notice-text">
-                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
-                    <span>Mã nguồn sẽ được tự động chuyển tiếp và chấm trực tiếp từ xa bằng tài khoản ClueOJ của bạn.</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                    <span>{{ _('Mã nguồn sẽ được tự động chuyển tiếp và chấm trực tiếp từ xa bằng tài khoản ClueOJ của bạn.') }}</span>
                 </div>
             {% else %}
                 <div class="clue-warning-box">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2.2" style="flex-shrink: 0; margin-top: 2px;">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
                     <div style="flex: 1;">
-                        <div style="font-weight: 700; color: #fbbf24; font-size: 14.5px; margin-bottom: 4px;">
+                        <div class="clue-warning-title">
                             {{ _('Yêu cầu tài khoản Clue Online Judge (ClueOJ)') }}
                         </div>
-                        <div style="color: #cbd5e1; font-size: 13.5px; line-height: 1.55;">
-                            {{ _('Hệ thống không tự ý tạo tài khoản. Bạn cần liên kết tài khoản ClueOJ cá nhân của mình để nộp bài từ xa lên ClueOJ.') }}
+                        <div class="clue-warning-desc">
+                            {{ _('Hệ thống không tự ý tạo tài khoản. Bạn cần liên kết tài khoản ClueOJ cá nhân của mình để nộp bài.') }}
                         </div>
-                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                            <a href="{{ url('clue_connect') }}?next={{ request.path }}" class="clue-connect-action-btn">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <div style="margin-top: 12px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;">
+                            <a href="{{ url('clue_connect') }}?next={{ request.path }}" class="clue-btn-primary">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                                    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                    <polyline points="10 17 15 12 10 7"></polyline>
+                                    <line x1="15" y1="12" x2="3" y2="12"></line>
+                                </svg>
                                 <span>{{ _('Đăng nhập / Kết nối ClueOJ') }}</span>
                             </a>
-                            <a href="https://oj.clue.edu.vn/accounts/register/" target="_blank" rel="noopener" class="clue-link-btn" style="color: #94a3b8 !important;">
+                            <a href="https://oj.clue.edu.vn/accounts/register/" target="_blank" rel="noopener" class="clue-link-btn">
                                 <span>{{ _('Đăng ký tài khoản ClueOJ mới ↗') }}</span>
                             </a>
                         </div>
@@ -58,126 +82,350 @@
 </div>
 
 <style>
-    .clue-submit-modal-card {
-        background: #0d1526 !important;
-        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    /* =========================================================
+       EXPO DESIGN SYSTEM - CLUE SUBMIT BANNER (DESIGN.md)
+       ========================================================= */
+    .clue-submit-card {
+        background: var(--expo-surface-card) !important;
+        border: 1px solid var(--expo-hairline) !important;
         border-radius: 12px !important;
         padding: 20px 24px !important;
         margin-bottom: 22px !important;
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
-        box-sizing: border-box;
+        box-shadow: var(--expo-card-shadow) !important;
+        box-sizing: border-box !important;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease !important;
     }
+
+    html[data-theme="light"] .clue-submit-card,
+    html.theme-light .clue-submit-card {
+        background: #ffffff !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+    }
+
     .clue-modal-row {
-        display: flex;
-        align-items: center;
-        margin-bottom: 16px;
-        gap: 16px;
+        display: flex !important;
+        align-items: center !important;
+        margin-bottom: 14px !important;
+        gap: 16px !important;
     }
+
     .clue-modal-row:last-child {
-        margin-bottom: 0;
-        align-items: flex-start;
+        margin-bottom: 0 !important;
+        align-items: flex-start !important;
     }
+
     .clue-row-label {
-        width: 140px;
-        flex-shrink: 0;
-        color: #94a3b8;
-        font-size: 14px;
-        font-weight: 600;
-        letter-spacing: 0.2px;
+        width: 140px !important;
+        flex-shrink: 0 !important;
+        color: var(--expo-ink) !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 13.5px !important;
+        font-weight: 600 !important;
+        letter-spacing: -0.2px !important;
     }
+
+    html[data-theme="light"] .clue-row-label,
+    html.theme-light .clue-row-label {
+        color: #0f172a !important;
+    }
+
     .clue-row-content {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        flex-wrap: wrap;
-        flex: 1;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important;
+        flex: 1 !important;
     }
+
+    /* 1. Problem Pill */
     .clue-prob-pill {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(14, 165, 233, 0.18) !important;
-        color: #38bdf8 !important;
-        border: 1px solid rgba(14, 165, 233, 0.35) !important;
-        border-radius: 9999px !important;
-        padding: 5px 14px !important;
-        font-size: 13.5px !important;
-        font-weight: 700 !important;
-        letter-spacing: 0.2px;
-    }
-    .clue-chip-connected {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: rgba(34, 197, 94, 0.18) !important;
-        color: #4ade80 !important;
-        border: 1px solid rgba(34, 197, 94, 0.35) !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-ink) !important;
         border-radius: 8px !important;
-        padding: 5px 14px !important;
-        font-size: 13.5px !important;
-        font-weight: 700 !important;
+        padding: 5px 12px !important;
+        font-family: 'JetBrains Mono', Consolas, monospace !important;
+        font-size: 12.5px !important;
+        font-weight: 600 !important;
+        letter-spacing: -0.2px !important;
     }
+
+    .clue-prob-pill svg {
+        color: var(--expo-muted) !important;
+        flex-shrink: 0 !important;
+    }
+
+    html[data-theme="light"] .clue-prob-pill,
+    html.theme-light .clue-prob-pill {
+        background: #f1f5f9 !important;
+        border-color: #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .clue-prob-pill svg,
+    html.theme-light .clue-prob-pill svg {
+        color: #64748b !important;
+    }
+
+    /* 2. Connected Account Chip */
+    .clue-chip-connected {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: rgba(16, 185, 129, 0.12) !important;
+        border: 1px solid rgba(16, 185, 129, 0.28) !important;
+        color: #34d399 !important;
+        border-radius: 8px !important;
+        padding: 5px 12px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+    }
+
+    .clue-chip-connected svg {
+        stroke: currentColor !important;
+        flex-shrink: 0 !important;
+    }
+
+    html[data-theme="light"] .clue-chip-connected,
+    html.theme-light .clue-chip-connected {
+        background: #ecfdf5 !important;
+        border-color: #a7f3d0 !important;
+        color: #047857 !important;
+    }
+
     .clue-account-status-wrap {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        flex-wrap: wrap;
-        width: 100%;
+        display: flex !important;
+        align-items: center !important;
+        gap: 10px !important;
+        flex-wrap: wrap !important;
+        width: 100% !important;
     }
-    .clue-notice-text {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 12.5px;
-        color: #94a3b8;
-        margin-top: 2px;
-    }
+
+    /* 3. Link Buttons (Mở trang ClueOJ / Đổi tài khoản) */
     .clue-link-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        color: var(--expo-ink) !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-size: 12.5px !important;
+        font-weight: 500 !important;
+        text-decoration: none !important;
+        padding: 5px 12px !important;
+        border-radius: 8px !important;
+        transition: all 0.15s ease !important;
+        box-sizing: border-box !important;
+    }
+
+    .clue-link-btn svg {
+        stroke: currentColor !important;
+        flex-shrink: 0 !important;
+    }
+
+    .clue-link-btn *,
+    .clue-link-btn span {
+        color: inherit !important;
+    }
+
+    .clue-link-btn:hover {
+        background: rgba(255, 255, 255, 0.14) !important;
+        border-color: rgba(255, 255, 255, 0.25) !important;
+        color: #ffffff !important;
+        transform: none !important;
+    }
+
+    html[data-theme="light"] .clue-link-btn,
+    html.theme-light .clue-link-btn {
+        background: #ffffff !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #0f172a !important;
+    }
+
+    html[data-theme="light"] .clue-link-btn:hover,
+    html.theme-light .clue-link-btn:hover {
+        background: #f8fafc !important;
+        border-color: #94a3b8 !important;
+        color: #000000 !important;
+    }
+
+    /* 4. Notice Text */
+    .clue-notice-text {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        font-family: "Inter", sans-serif !important;
+        font-size: 12.5px !important;
+        line-height: 1.5 !important;
+        color: var(--expo-muted) !important;
+        margin-top: 6px !important;
+        width: 100% !important;
+    }
+
+    .clue-notice-text svg {
+        stroke: var(--expo-muted) !important;
+        flex-shrink: 0 !important;
+    }
+
+    html[data-theme="light"] .clue-notice-text,
+    html.theme-light .clue-notice-text {
+        color: #64748b !important;
+    }
+
+    html[data-theme="light"] .clue-notice-text svg,
+    html.theme-light .clue-notice-text svg {
+        stroke: #64748b !important;
+    }
+
+    /* 5. Warning Box (When not connected) */
+    .clue-warning-box {
+        display: flex !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+        background: rgba(245, 158, 11, 0.08) !important;
+        border: 1px solid rgba(245, 158, 11, 0.22) !important;
+        border-radius: 10px !important;
+        padding: 14px 18px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    html[data-theme="light"] .clue-warning-box,
+    html.theme-light .clue-warning-box {
+        background: #fffbeb !important;
+        border: 1px solid #fde68a !important;
+    }
+
+    .clue-warning-title {
+        font-family: "Inter", sans-serif !important;
+        font-weight: 600 !important;
+        font-size: 14px !important;
+        color: #fbbf24 !important;
+        margin-bottom: 4px !important;
+    }
+
+    html[data-theme="light"] .clue-warning-title,
+    html.theme-light .clue-warning-title {
+        color: #b45309 !important;
+    }
+
+    .clue-warning-desc {
+        font-family: "Inter", sans-serif !important;
+        font-size: 13px !important;
+        line-height: 1.55 !important;
         color: #cbd5e1 !important;
+    }
+
+    html[data-theme="light"] .clue-warning-desc,
+    html.theme-light .clue-warning-desc {
+        color: #475569 !important;
+    }
+
+    /* Primary button in warning box */
+    .clue-btn-primary {
+        display: inline-flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #ffffff !important;
+        border-radius: 8px !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
         font-size: 13px !important;
         font-weight: 600 !important;
         text-decoration: none !important;
-        padding: 5px 12px !important;
-        border-radius: 7px !important;
-        background: rgba(255, 255, 255, 0.05) !important;
-        border: 1px solid rgba(255, 255, 255, 0.1) !important;
-        transition: all 0.2s ease;
+        padding: 6px 14px !important;
+        transition: all 0.15s ease !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
     }
-    .clue-link-btn:hover {
-        background: rgba(56, 189, 248, 0.15) !important;
-        border-color: rgba(56, 189, 248, 0.4) !important;
-        color: #38bdf8 !important;
+
+    .clue-btn-primary *,
+    .clue-btn-primary span {
+        color: #000000 !important;
+        stroke: #000000 !important;
     }
-    .clue-warning-box {
-        display: flex;
-        align-items: flex-start;
-        gap: 14px;
-        background: rgba(245, 158, 11, 0.1) !important;
-        border: 1px solid rgba(245, 158, 11, 0.3) !important;
-        border-radius: 10px !important;
-        padding: 14px 18px !important;
-        width: 100%;
-        box-sizing: border-box;
+
+    .clue-btn-primary:hover {
+        opacity: 0.92 !important;
     }
-    .clue-connect-action-btn {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background: #f59e0b !important;
+
+    html[data-theme="light"] .clue-btn-primary,
+    html.theme-light .clue-btn-primary {
+        background: #000000 !important;
+        border: 1px solid #000000 !important;
+        color: #ffffff !important;
+    }
+
+    html[data-theme="light"] .clue-btn-primary *,
+    html[data-theme="light"] .clue-btn-primary span,
+    html.theme-light .clue-btn-primary *,
+    html.theme-light .clue-btn-primary span {
+        color: #ffffff !important;
+        stroke: #ffffff !important;
+    }
+
+    html[data-theme="light"] .clue-btn-primary:hover,
+    html.theme-light .clue-btn-primary:hover {
+        background: #1a1a1a !important;
+    }
+
+    /* Explicit text contrast for pills, chips, and notices */
+    .clue-prob-pill,
+    .clue-prob-pill *,
+    .clue-prob-pill span {
+        color: var(--expo-ink) !important;
+    }
+    html[data-theme="light"] .clue-prob-pill,
+    html[data-theme="light"] .clue-prob-pill *,
+    html[data-theme="light"] .clue-prob-pill span,
+    html.theme-light .clue-prob-pill,
+    html.theme-light .clue-prob-pill *,
+    html.theme-light .clue-prob-pill span {
         color: #0f172a !important;
-        font-weight: 700 !important;
-        font-size: 13px !important;
-        padding: 7px 16px !important;
-        border-radius: 7px !important;
-        text-decoration: none !important;
-        transition: all 0.2s ease;
-        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
     }
-    .clue-connect-action-btn:hover {
-        background: #fbbf24 !important;
-        transform: translateY(-1px);
+
+    .clue-chip-connected,
+    .clue-chip-connected *,
+    .clue-chip-connected span {
+        color: #34d399 !important;
+    }
+    html[data-theme="light"] .clue-chip-connected,
+    html[data-theme="light"] .clue-chip-connected *,
+    html[data-theme="light"] .clue-chip-connected span,
+    html.theme-light .clue-chip-connected,
+    html.theme-light .clue-chip-connected *,
+    html.theme-light .clue-chip-connected span {
+        color: #047857 !important;
+    }
+
+    .clue-notice-text,
+    .clue-notice-text *,
+    .clue-notice-text span {
+        color: var(--expo-muted) !important;
+    }
+    html[data-theme="light"] .clue-notice-text,
+    html[data-theme="light"] .clue-notice-text *,
+    html[data-theme="light"] .clue-notice-text span,
+    html.theme-light .clue-notice-text,
+    html.theme-light .clue-notice-text *,
+    html.theme-light .clue-notice-text span {
+        color: #64748b !important;
+    }
+
+    @media (max-width: 640px) {
+        .clue-modal-row {
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            gap: 8px !important;
+        }
+        .clue-row-label {
+            width: auto !important;
+        }
     }
 </style>
