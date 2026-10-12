@@ -40,12 +40,21 @@ class NTUCoderConnectView(LoginRequiredMixin, TitleMixin, View):
             "is_connected": is_connected,
             "next_url": request.GET.get("next") or "",
             "ntucoder_email": profile.ntucoder_email or "",
+            "ntucoder_username": profile.ntucoder_username or profile.ntucoder_email or "",
         })
 
     def post(self, request):
         profile = request.profile
-        ntucoder_email = request.POST.get("ntucoder_email", "").strip()
-        ntucoder_password = request.POST.get("ntucoder_password", "").strip()
+        ntucoder_email = (
+            request.POST.get("ntucoder_email")
+            or request.POST.get("ntucoder_username")
+            or ""
+        ).strip()
+        ntucoder_password = (
+            request.POST.get("ntucoder_password")
+            or request.POST.get("password")
+            or ""
+        ).strip()
         next_url = request.GET.get("next") or request.POST.get("next") or ""
 
         if not ntucoder_email or not ntucoder_password:
@@ -54,6 +63,7 @@ class NTUCoderConnectView(LoginRequiredMixin, TitleMixin, View):
                 "profile": profile,
                 "error": _("Vui lòng nhập đầy đủ Email / Tên đăng nhập và Mật khẩu NTUCoder."),
                 "ntucoder_email": ntucoder_email,
+                "ntucoder_username": ntucoder_email,
                 "next_url": next_url,
             })
 

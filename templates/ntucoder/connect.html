@@ -707,10 +707,10 @@
                     <input type="hidden" name="next" value="{{ next_url }}">
 
                     <label class="form-label" for="id_ntucoder_username">
-                        {{ _('Tên đăng nhập NTUCoder') }} <span class="req-star">*</span>
+                        {{ _('Email hoặc Tên đăng nhập NTUCoder') }} <span class="req-star">*</span>
                     </label>
                     <input type="text" id="id_ntucoder_username" name="ntucoder_username" class="form-input-cyber"
-                           placeholder="Ví dụ: my_ntucoder_user" value="{{ ntucoder_username or '' }}" required autofocus>
+                           placeholder="Ví dụ: vdt050610@gmail.com hoặc my_ntucoder_user" value="{{ ntucoder_username or ntucoder_email or '' }}" required autofocus>
 
                     <label class="form-label" for="id_ntucoder_password">
                         {{ _('Mật khẩu NTUCoder') }} <span class="req-star">*</span>
