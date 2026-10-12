@@ -129,8 +129,10 @@ def submission_delete(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Submission)
 def submission_update(sender, instance, update_fields, **kwargs):
-    if update_fields and 'is_archived' in update_fields:
+    # Invalidate completed/attempted problem caches when submission is finished
+    if instance.status in ('D', 'CE', 'IE') or (update_fields and 'is_archived' in update_fields):
         finished_submission(instance)
+    if update_fields and 'is_archived' in update_fields:
         instance.user._updating_stats_only = True
         instance.user.calculate_points()
         instance.problem._updating_stats_only = True

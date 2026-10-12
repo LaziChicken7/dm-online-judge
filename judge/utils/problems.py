@@ -31,11 +31,13 @@ def contest_completed_ids(participation):
 
 
 def user_completed_ids(profile):
+    from django.db.models import Q
     key = 'user_complete:%d' % profile.id
     result = cache.get(key)
     if result is None:
         result = set(Submission.objects
-                     .filter(user=profile, is_archived=False, result='AC', case_points__gte=F('case_total'))
+                     .filter(user=profile, is_archived=False, result='AC')
+                     .filter(Q(case_points__gte=F('case_total')) | Q(case_total__isnull=True) | Q(case_total=0) | Q(points__gte=F('problem__points')))
                      .values_list('problem_id', flat=True).distinct())
         cache.set(key, result, 86400)
     return result

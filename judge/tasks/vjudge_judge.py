@@ -492,6 +492,8 @@ def judge_vjudge_submission_task(submission_id, method=0, binding_id=None, open_
         'memory': memory_kb,
         'status_text': vjudge_status_orig,
     })
+    from judge.caching import finished_submission
+    finished_submission(submission)
     _post_update_submission(submission, done=True)
     return True
 
