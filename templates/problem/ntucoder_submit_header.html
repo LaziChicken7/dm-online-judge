@@ -384,4 +384,48 @@
             width: auto !important;
         }
     }
+
+    /* Explicit text contrast for pills, chips, and notices */
+    .ntucoder-prob-pill,
+    .ntucoder-prob-pill *,
+    .ntucoder-prob-pill span {
+        color: var(--expo-ink) !important;
+    }
+    html[data-theme="light"] .ntucoder-prob-pill,
+    html[data-theme="light"] .ntucoder-prob-pill *,
+    html[data-theme="light"] .ntucoder-prob-pill span,
+    html.theme-light .ntucoder-prob-pill,
+    html.theme-light .ntucoder-prob-pill *,
+    html.theme-light .ntucoder-prob-pill span {
+        color: #0f172a !important;
+    }
+
+    .ntucoder-chip-connected,
+    .ntucoder-chip-connected *,
+    .ntucoder-chip-connected span {
+        color: #34d399 !important;
+    }
+    html[data-theme="light"] .ntucoder-chip-connected,
+    html[data-theme="light"] .ntucoder-chip-connected *,
+    html[data-theme="light"] .ntucoder-chip-connected span,
+    html.theme-light .ntucoder-chip-connected,
+    html.theme-light .ntucoder-chip-connected *,
+    html.theme-light .ntucoder-chip-connected span {
+        color: #047857 !important;
+    }
+
+    .ntucoder-notice-text,
+    .ntucoder-notice-text *,
+    .ntucoder-notice-text span {
+        color: var(--expo-muted) !important;
+    }
+    html[data-theme="light"] .ntucoder-notice-text,
+    html[data-theme="light"] .ntucoder-notice-text *,
+    html[data-theme="light"] .ntucoder-notice-text span,
+    html.theme-light .ntucoder-notice-text,
+    html.theme-light .ntucoder-notice-text *,
+    html.theme-light .ntucoder-notice-text span {
+        color: #64748b !important;
+    }
+
 </style>
