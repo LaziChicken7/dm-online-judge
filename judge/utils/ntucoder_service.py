@@ -31,54 +31,59 @@ COMPILER_MAP = {
 
 import html as pyhtml
 
+def clean_ntucoder_sample_value(raw: str) -> str:
+    if not raw:
+        return ""
+    NL = chr(10)
+    CR = chr(13)
+    txt = re.sub(r"<br\s*/?>", NL, raw, flags=re.I)
+    txt = re.sub(r"</(?:p|div|li|tr)>", NL, txt, flags=re.I)
+    txt = re.sub(r"<[^>]+>", "", txt)
+    txt = pyhtml.unescape(txt)
+    txt = txt.replace(CR + NL, NL).replace(CR, NL)
+    arr = txt.split(NL)
+    while arr and not arr[0].strip():
+        arr.pop(0)
+    while arr and not arr[-1].strip():
+        arr.pop()
+    return NL.join(arr)
+
+
 def format_ntucoder_samples(html_text: str) -> str:
     if not html_text or "sample-type" not in html_text:
         return html_text
 
     def replace_sample_list(match):
+        NL = chr(10)
         list_html = match.group(0)
-        li_items = re.findall(r'<li[^>]*>([\s\S]*?)</li>', list_html)
+        li_items = re.findall(r"<li[^>]*>([\s\S]*?)</li>", list_html)
         if not li_items:
             li_items = [list_html]
-
         tables_html = []
         for idx, li in enumerate(li_items):
             pairs = re.findall(r'<div class="sample-type">([\s\S]*?)</div>\s*<div class="sample-value">([\s\S]*?)</div>', li)
             if not pairs:
                 continue
-
             input_val = ""
             output_val = ""
             for stype, sval in pairs:
-                stype_clean = re.sub(r'<[^>]+>', '', stype).strip().lower()
-                sval_clean = sval.strip()
-                sval_text = pyhtml.unescape(re.sub(r'<[^>]+>', '', sval_clean)).strip()
+                stype_clean = re.sub(r"<[^>]+>", "", stype).strip().lower()
+                sval_text = clean_ntucoder_sample_value(sval)
                 if "in" in stype_clean:
                     input_val = sval_text
                 elif "out" in stype_clean:
                     output_val = sval_text
-
-            prefix = f'<div style="font-weight: 700; color: #38bdf8; font-size: 14.5px; margin: 12px 0 6px 0;">Ví dụ {idx + 1}</div>' if len(li_items) > 1 else ''
-
-            tables_html.append(f"""
-            {prefix}
-            <table class="vjudge_sample">
-                <thead>
-                    <tr>
-                        <th>Input</th>
-                        <th>Output</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td><pre>{pyhtml.escape(input_val)}</pre></td>
-                        <td><pre>{pyhtml.escape(output_val)}</pre></td>
-                    </tr>
-                </tbody>
-            </table>
-            """)
-
-        return "\n".join(tables_html)
+            title = f"Ví dụ {idx + 1}" if len(li_items) > 1 else "Ví dụ"
+            prefix = f'<div class="vjudge-sample-title" style="font-weight: 700; color: var(--expo-ink); font-size: 14px; margin: 16px 0 8px 0;">{title}</div>'
+            in_esc = pyhtml.escape(input_val)
+            out_esc = pyhtml.escape(output_val)
+            t_html = (prefix + NL +
+                      '<table class="vjudge_sample">' + NL +
+                      '    <thead><tr><th>Input</th><th>Output</th></tr></thead>' + NL +
+                      '    <tbody><tr><td><pre>' + in_esc + '</pre></td><td><pre>' + out_esc + '</pre></td></tr></tbody>' + NL +
+                      '</table>')
+            tables_html.append(t_html)
+        return NL.join(tables_html)
 
     return re.sub(r'<ul[^>]*>\s*<li[^>]*>\s*<div class="sample-type">[\s\S]*?</ul>', replace_sample_list, html_text)
 
