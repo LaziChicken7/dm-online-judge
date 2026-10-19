@@ -988,13 +988,61 @@ html.theme-light #content-right.submission .info-float:hover {
     transform: none !important;
 }
 
+
+/* Responsive Mobile Layout (<= 860px): Push filter to top, overview to bottom */
+@media (max-width: 860px) {
+    #common-content {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+    #content-right.submission,
+    #content-right.submission .info-float {
+        display: contents !important;
+    }
+    #content-right.submission .sidebox.submission-filter-sidebox,
+    #content-right.submission .sidebox:first-child {
+        display: block !important;
+        order: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-bottom: 16px !important;
+    }
+    #content-left.submission {
+        order: 2 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+    }
+    #content-right.submission .sidebox.submission-overview-sidebox,
+    #content-right.submission .sidebox:last-child {
+        display: block !important;
+        order: 3 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-top: 20px !important;
+        margin-bottom: 24px !important;
+    }
+    #status-graph {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+    #statistics-table .total {
+        text-align: center !important;
+        margin-top: 10px !important;
+    }
+}
 </style>
     <div class="top-pagination-bar">{% include "list-pages.html" %}</div>
 
     <div id="common-content">
         <div id="content-right" class="submission">
             <div class="info-float">
-                <div class="sidebox problem-search-sidebox">
+                <div class="sidebox problem-search-sidebox submission-filter-sidebox">
                     <div class="filter-tag">FILTER</div>
                     <h3>{{ _('Filter submissions') }} <svg class="sidebox-header-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="11" cy="11" r="8"></circle>
@@ -1027,7 +1075,7 @@ html.theme-light #content-right.submission .info-float:hover {
                     </div>
                 </div>
 
-                <div class="sidebox problem-search-sidebox">
+                <div class="sidebox problem-search-sidebox submission-overview-sidebox">
                     <div id="statistics-table">
                         <div class="filter-tag">OVERVIEW</div>
                         <h3>{{ _('Statistics') }} <svg class="sidebox-header-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
