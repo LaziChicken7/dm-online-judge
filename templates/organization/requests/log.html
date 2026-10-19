@@ -357,6 +357,57 @@
         html.theme-light .org-requests-empty-card p {
             color: #64748b !important;
         }
+    
+        /* Explicit text contrast for title, meta and back button across themes */
+        .org-requests-title,
+        .org-requests-title *,
+        .org-requests-title span {
+            color: var(--expo-ink) !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .org-requests-title,
+        html[data-theme="light"] .org-requests-title *,
+        html[data-theme="light"] .org-requests-title span,
+        html.theme-light .org-requests-title,
+        html.theme-light .org-requests-title *,
+        html.theme-light .org-requests-title span {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+        }
+
+        .org-requests-meta,
+        .org-requests-meta *,
+        .org-requests-meta span {
+            color: var(--expo-muted) !important;
+        }
+
+        html[data-theme="light"] .org-requests-meta,
+        html[data-theme="light"] .org-requests-meta *,
+        html[data-theme="light"] .org-requests-meta span,
+        html.theme-light .org-requests-meta,
+        html.theme-light .org-requests-meta *,
+        html.theme-light .org-requests-meta span {
+            color: #64748b !important;
+        }
+
+        .btn-org-back,
+        .btn-org-back *,
+        .btn-org-back span {
+            color: var(--expo-ink) !important;
+            stroke: currentColor !important;
+        }
+
+        html[data-theme="light"] .btn-org-back,
+        html[data-theme="light"] .btn-org-back *,
+        html[data-theme="light"] .btn-org-back span,
+        html.theme-light .btn-org-back,
+        html.theme-light .btn-org-back *,
+        html.theme-light .btn-org-back span {
+            color: #0f172a !important;
+            stroke: #0f172a !important;
+        }
+
     </style>
 
     <div class="org-requests-wrapper">
