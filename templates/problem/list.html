@@ -10,37 +10,7 @@
             #category, #types {
                 visibility: visible;
             }
-        
-/* Responsive Mobile & Navbar Clearance */
-@media (max-width: 860px) {
-    #content {
-        width: 95% !important;
-        margin: 0 auto 40px !important;
-        padding-top: 86px !important;
-        box-sizing: border-box !important;
-    }
-    #content-left.problems {
-        overflow-x: auto !important;
-        -webkit-overflow-scrolling: touch !important;
-        border-radius: 12px !important;
-    }
-    #problem-table {
-        min-width: 680px !important;
-    }
-    #problem-table td.problem-id {
-        white-space: nowrap !important;
-    }
-    .problem-top-toolbar {
-        margin-bottom: 14px !important;
-    }
-}
-@media (min-width: 861px) {
-    #content {
-        padding-top: 88px !important;
-    }
-}
-
-</style>
+        </style>
     </noscript>
 {% endblock %}
 {% block js_media %}
@@ -1700,14 +1670,8 @@ html.theme-light .org-private-pill svg {
 }
 
 
-/* Responsive Mobile & Navbar Clearance */
+/* Responsive Mobile Layout */
 @media (max-width: 860px) {
-    #content {
-        width: 95% !important;
-        margin: 0 auto 40px !important;
-        padding-top: 86px !important;
-        box-sizing: border-box !important;
-    }
     #content-left.problems {
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
@@ -1718,14 +1682,6 @@ html.theme-light .org-private-pill svg {
     }
     #problem-table td.problem-id {
         white-space: nowrap !important;
-    }
-    .problem-top-toolbar {
-        margin-bottom: 14px !important;
-    }
-}
-@media (min-width: 861px) {
-    #content {
-        padding-top: 88px !important;
     }
 }
 
