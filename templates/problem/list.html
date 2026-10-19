@@ -10,7 +10,37 @@
             #category, #types {
                 visibility: visible;
             }
-        </style>
+        
+/* Responsive Mobile & Navbar Clearance */
+@media (max-width: 860px) {
+    #content {
+        width: 95% !important;
+        margin: 0 auto 40px !important;
+        padding-top: 86px !important;
+        box-sizing: border-box !important;
+    }
+    #content-left.problems {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border-radius: 12px !important;
+    }
+    #problem-table {
+        min-width: 680px !important;
+    }
+    #problem-table td.problem-id {
+        white-space: nowrap !important;
+    }
+    .problem-top-toolbar {
+        margin-bottom: 14px !important;
+    }
+}
+@media (min-width: 861px) {
+    #content {
+        padding-top: 88px !important;
+    }
+}
+
+</style>
     </noscript>
 {% endblock %}
 {% block js_media %}
@@ -642,7 +672,7 @@ ul.pagination > .active-page > span {
     border-top: none !important;
     border-left: none !important;
     border-right: none !important;
-    color: #a1a1aa !important;
+    color: var(--expo-muted) !important;
     font-family: 'JetBrains Mono', monospace !important;
     font-size: 11px !important;
     font-weight: 600 !important;
@@ -1667,6 +1697,36 @@ html.theme-light .org-private-pill * {
 html[data-theme="light"] .org-private-pill svg,
 html.theme-light .org-private-pill svg {
     stroke: #b45309 !important;
+}
+
+
+/* Responsive Mobile & Navbar Clearance */
+@media (max-width: 860px) {
+    #content {
+        width: 95% !important;
+        margin: 0 auto 40px !important;
+        padding-top: 86px !important;
+        box-sizing: border-box !important;
+    }
+    #content-left.problems {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border-radius: 12px !important;
+    }
+    #problem-table {
+        min-width: 680px !important;
+    }
+    #problem-table td.problem-id {
+        white-space: nowrap !important;
+    }
+    .problem-top-toolbar {
+        margin-bottom: 14px !important;
+    }
+}
+@media (min-width: 861px) {
+    #content {
+        padding-top: 88px !important;
+    }
 }
 
 </style>

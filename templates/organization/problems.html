@@ -329,6 +329,45 @@
             border: 1px solid #f0f0f3 !important;
             color: #64748b !important;
         }
+
+/* Ensure ID header matches Image #2 muted styling */
+.org-problem-table-block table#problem-table thead th.problem-id {
+    color: var(--expo-muted) !important;
+}
+html[data-theme="light"] .org-problem-table-block table#problem-table thead th.problem-id,
+html.theme-light .org-problem-table-block table#problem-table thead th.problem-id {
+    color: #64748b !important;
+}
+
+/* Responsive Mobile Layout for Organization Problems */
+@media (max-width: 860px) {
+    #content {
+        width: 95% !important;
+        margin: 0 auto 40px !important;
+        padding-top: 86px !important;
+        box-sizing: border-box !important;
+    }
+    .org-problem-table-block {
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        border-radius: 12px !important;
+    }
+    .org-problem-table-block table#problem-table {
+        min-width: 650px !important;
+    }
+    .org-problem-table-block td.problem-id {
+        white-space: nowrap !important;
+    }
+    .org-top-toolbar {
+        margin-bottom: 14px !important;
+    }
+}
+@media (min-width: 861px) {
+    #content {
+        padding-top: 88px !important;
+    }
+}
+
 </style>
 
     <div class="org-top-toolbar">
