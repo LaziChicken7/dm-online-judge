@@ -7683,11 +7683,352 @@ html.theme-light .lang-pill-btn.active span {
     font-weight: 600 !important;
 }
 
+
+/* =========================================================
+   EXPO MOBILE NAVIGATION BAR & DRAWER (DESIGN.md)
+   ========================================================= */
+.portfolio-mobile-toggle {
+    display: none !important; /* Hidden on desktop */
+    align-items: center !important;
+    justify-content: center !important;
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.14) !important;
+    color: #f4f4f5 !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    transition: all 0.15s ease !important;
+    flex-shrink: 0 !important;
+    outline: none !important;
+    box-sizing: border-box !important;
+}
+.portfolio-mobile-toggle svg {
+    stroke: currentColor !important;
+    color: inherit !important;
+    flex-shrink: 0 !important;
+}
+.portfolio-mobile-toggle:hover {
+    background: rgba(255, 255, 255, 0.16) !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .portfolio-mobile-toggle,
+html.theme-light .portfolio-mobile-toggle {
+    background: #ffffff !important;
+    border: 1px solid #dcdee0 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .portfolio-mobile-toggle:hover,
+html.theme-light .portfolio-mobile-toggle:hover {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #000000 !important;
+}
+
+/* Mobile Drawer Card - Hidden by default */
+.portfolio-mobile-menu {
+    display: none !important;
+    position: fixed !important;
+    top: 74px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+    width: 94% !important;
+    max-width: 440px !important;
+    z-index: 99999 !important;
+    box-sizing: border-box !important;
+}
+.portfolio-mobile-menu.is-open {
+    display: block !important;
+    animation: mobileMenuIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+@keyframes mobileMenuIn {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(-6px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0) scale(1);
+    }
+}
+.mobile-menu-inner {
+    background: rgba(18, 18, 20, 0.96) !important;
+    backdrop-filter: blur(20px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
+    padding: 10px !important;
+    box-sizing: border-box !important;
+}
+html[data-theme="light"] .mobile-menu-inner,
+html.theme-light .mobile-menu-inner {
+    background: rgba(255, 255, 255, 0.98) !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08) !important;
+}
+.mobile-menu-links {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+.mobile-nav-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 9px 12px !important;
+    border-radius: 8px !important;
+    color: #a1a1aa !important;
+    text-decoration: none !important;
+    font-family: "Inter", -apple-system, sans-serif !important;
+    font-size: 13.5px !important;
+    font-weight: 500 !important;
+    transition: all 0.15s ease !important;
+}
+.mobile-nav-link svg {
+    width: 16px !important;
+    height: 16px !important;
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+.mobile-nav-link *,
+.mobile-nav-link span {
+    color: inherit !important;
+}
+.mobile-nav-link:hover {
+    background: rgba(255, 255, 255, 0.08) !important;
+    color: #ffffff !important;
+}
+.mobile-nav-link.active {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-weight: 600 !important;
+}
+.mobile-nav-link.active svg {
+    stroke: #000000 !important;
+}
+html[data-theme="light"] .mobile-nav-link,
+html.theme-light .mobile-nav-link {
+    color: #475569 !important;
+}
+html[data-theme="light"] .mobile-nav-link:hover,
+html.theme-light .mobile-nav-link:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+html[data-theme="light"] .mobile-nav-link.active,
+html.theme-light .mobile-nav-link.active {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .mobile-nav-link.active svg,
+html.theme-light .mobile-nav-link.active svg {
+    stroke: #ffffff !important;
+}
+.mobile-menu-user-section {
+    margin-top: 8px !important;
+    padding-top: 8px !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="light"] .mobile-menu-user-section,
+html.theme-light .mobile-menu-user-section {
+    border-top: 1px solid #e2e8f0 !important;
+}
+.mobile-user-header {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+    padding: 6px 10px 8px 10px !important;
+}
+.mobile-user-name {
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    color: var(--expo-ink) !important;
+}
+html[data-theme="light"] .mobile-user-name,
+html.theme-light .mobile-user-name {
+    color: #0f172a !important;
+}
+.mobile-user-sub {
+    font-size: 11px !important;
+    color: var(--expo-muted) !important;
+}
+html[data-theme="light"] .mobile-user-sub,
+html.theme-light .mobile-user-sub {
+    color: #64748b !important;
+}
+.mobile-user-links {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 2px !important;
+}
+.mobile-user-action {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    padding: 7px 10px !important;
+    border-radius: 6px !important;
+    color: #a1a1aa !important;
+    text-decoration: none !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    background: transparent !important;
+    border: none !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+    text-align: left !important;
+    font-family: inherit !important;
+}
+.mobile-user-action svg {
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+.mobile-user-action *,
+.mobile-user-action span {
+    color: inherit !important;
+}
+.mobile-user-action:hover {
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .mobile-user-action,
+html.theme-light .mobile-user-action {
+    color: #475569 !important;
+}
+html[data-theme="light"] .mobile-user-action:hover,
+html.theme-light .mobile-user-action:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.mobile-logout-btn {
+    color: #f87171 !important;
+}
+html[data-theme="light"] .mobile-logout-btn,
+html.theme-light .mobile-logout-btn {
+    color: #dc2626 !important;
+}
+.mobile-auth-btns {
+    display: flex !important;
+    gap: 8px !important;
+    padding-top: 4px !important;
+}
+.mobile-btn-primary, .mobile-btn-secondary {
+    flex: 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    height: 36px !important;
+    border-radius: 8px !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+    text-decoration: none !important;
+    box-sizing: border-box !important;
+}
+.mobile-btn-primary svg, .mobile-btn-secondary svg {
+    stroke: currentColor !important;
+    flex-shrink: 0 !important;
+}
+.mobile-btn-primary {
+    background: #ffffff !important;
+    color: #000000 !important;
+}
+.mobile-btn-primary *, .mobile-btn-primary span {
+    color: #000000 !important;
+}
+html[data-theme="light"] .mobile-btn-primary,
+html.theme-light .mobile-btn-primary {
+    background: #000000 !important;
+    color: #ffffff !important;
+}
+html[data-theme="light"] .mobile-btn-primary *,
+html[data-theme="light"] .mobile-btn-primary span,
+html.theme-light .mobile-btn-primary *,
+html.theme-light .mobile-btn-primary span {
+    color: #ffffff !important;
+}
+.mobile-btn-secondary {
+    background: var(--expo-surface-strong) !important;
+    border: 1px solid var(--expo-hairline-strong) !important;
+    color: var(--expo-ink) !important;
+}
+html[data-theme="light"] .mobile-btn-secondary,
+html[data-theme="light"] .mobile-btn-secondary *,
+html[data-theme="light"] .mobile-btn-secondary span,
+html.theme-light .mobile-btn-secondary,
+html.theme-light .mobile-btn-secondary *,
+html.theme-light .mobile-btn-secondary span {
+    background: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    stroke: #0f172a !important;
+}
+
+/* Responsive Breakpoint: Mobile Navigation Bar (max-width: 860px) */
+@media (max-width: 860px) {
+    #portfolio-nav {
+        top: 14px !important;
+        padding: 6px 12px !important;
+        width: 94% !important;
+    }
+    #portfolio-nav .portfolio-mobile-toggle,
+    .portfolio-mobile-toggle {
+        display: inline-flex !important;
+    }
+    #portfolio-nav .portfolio-nav-left,
+    .portfolio-nav-left {
+        display: flex !important;
+        align-items: center !important;
+        gap: 8px !important;
+        flex-shrink: 0 !important;
+    }
+    #portfolio-nav .portfolio-logo-link,
+    .portfolio-logo-link {
+        display: flex !important;
+        align-items: center !important;
+        flex-shrink: 0 !important;
+    }
+    .nav-omnijudge-logo {
+        width: 34px !important;
+        height: 34px !important;
+    }
+    #portfolio-nav .portfolio-nav-center,
+    .portfolio-nav-center {
+        display: none !important;
+    }
+    #portfolio-nav .portfolio-nav-right,
+    .portfolio-nav-right {
+        display: flex !important;
+        align-items: center !important;
+        gap: 6px !important;
+        flex-shrink: 0 !important;
+    }
+    .portfolio-username {
+        display: none !important;
+    }
+    .portfolio-user-pill {
+        padding: 4px !important;
+    }
+}
+
 </style>
 
 <nav id="portfolio-nav" class="unselectable">
     <div class="portfolio-nav-left">
-        <a href="/" style="display:flex; align-items:center;">
+        <button type="button" id="portfolio-mobile-toggle" class="portfolio-mobile-toggle" aria-label="Toggle navigation menu" title="{{ _('Menu') }}">
+            <svg class="icon-hamburger" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+            <svg class="icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        </button>
+        <a href="/" class="portfolio-logo-link" style="display:flex; align-items:center; flex-shrink: 0;">
             {% include "site-logo-fragment.html" %}
         </a>
     </div>
@@ -7806,6 +8147,130 @@ html.theme-light .lang-pill-btn.active span {
         {% endif %}
     </div>
 </nav>
+
+<!-- Mobile Navigation Drawer (Revealed via Hamburger) -->
+<div id="portfolio-mobile-menu" class="portfolio-mobile-menu">
+    <div class="mobile-menu-inner">
+        <div class="mobile-menu-links">
+            <a href="/problems/" class="mobile-nav-link {% if request.path.startswith('/problem') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                    <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                </svg>
+                <span>{{ _('Problems') }}</span>
+            </a>
+            <a href="/submissions/" class="mobile-nav-link {% if request.path.startswith('/submission') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                </svg>
+                <span>{{ _('Submissions') }}</span>
+            </a>
+            <a href="/users/" class="mobile-nav-link {% if request.path.startswith('/user') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>{{ _('Users') }}</span>
+            </a>
+            <a href="/organizations/" class="mobile-nav-link {% if request.path.startswith('/organization') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="2" y1="22" x2="22" y2="22"></line>
+                    <line x1="12" y1="2" x2="22" y2="7"></line>
+                    <line x1="12" y1="2" x2="22" y2="7"></line>
+                    <line x1="4" y1="7" x2="20" y2="7"></line>
+                    <line x1="4" y1="22" x2="4" y2="7"></line>
+                    <line x1="8" y1="22" x2="8" y2="7"></line>
+                    <line x1="12" y1="22" x2="12" y2="7"></line>
+                    <line x1="16" y1="22" x2="16" y2="7"></line>
+                    <line x1="20" y1="22" x2="20" y2="7"></line>
+                </svg>
+                <span>{{ _('Organizations') }}</span>
+            </a>
+            <a href="/contests/" class="mobile-nav-link {% if request.path.startswith('/contest') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="7"></circle>
+                    <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+                </svg>
+                <span>{{ _('Contests') }}</span>
+            </a>
+            {% if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser or (request.profile and request.profile.admin_of.exists())) %}
+            <a href="/tuition/" class="mobile-nav-link {% if request.path.startswith('/tuition') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+                    <circle cx="12" cy="12" r="2"></circle>
+                    <path d="M6 12h.01M18 12h.01"></path>
+                </svg>
+                <span>{{ _('Tiền dạy học') }}</span>
+            </a>
+            {% endif %}
+            <a href="/about/" class="mobile-nav-link {% if request.path.startswith('/about') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="16" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                </svg>
+                <span>{{ _('About') }}</span>
+            </a>
+            <a href="/status/" class="mobile-nav-link {% if request.path.startswith('/status') %}active{% endif %}">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+                <span>{{ _('Status') }}</span>
+            </a>
+        </div>
+
+        <!-- User Section in Mobile Menu -->
+        <div class="mobile-menu-user-section">
+            {% if request.user.is_authenticated %}
+                <div class="mobile-user-header">
+                    <img src="{{ gravatar(request.user, 36) }}" class="portfolio-avatar">
+                    <div>
+                        <div class="mobile-user-name">{{ request.user.username }}</div>
+                        <div class="mobile-user-sub">{{ _('Logged in') }}</div>
+                    </div>
+                </div>
+                <div class="mobile-user-links">
+                    <a href="{{ url('user_page') }}" class="mobile-user-action">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                        <span>{{ _('Profile') }}</span>
+                    </a>
+                    <a href="{{ url('user_edit_profile') }}" class="mobile-user-action">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        <span>{{ _('Edit profile') }}</span>
+                    </a>
+                    {% if request.user.is_staff or request.user.is_superuser %}
+                        <a href="{{ url('admin:index') }}" class="mobile-user-action">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+                            <span>{{ _('Admin Panel') }}</span>
+                        </a>
+                    {% endif %}
+                    <form action="{{ url('auth_logout') }}" method="POST" style="margin:0;">
+                        {% csrf_token %}
+                        <button type="submit" class="mobile-user-action mobile-logout-btn">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
+                            <span>{{ _('Log out') }}</span>
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="mobile-auth-btns">
+                    <a href="{{ url('auth_login') }}" class="mobile-btn-primary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                        <span>{{ _('Sign in') }}</span>
+                    </a>
+                    <a href="{{ url('registration_register') }}" class="mobile-btn-secondary">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><line x1="19" y1="8" x2="19" y2="14"></line><line x1="22" y1="11" x2="16" y2="11"></line></svg>
+                        <span>{{ _('Register') }}</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
 {% if request.in_contest %}
     <style>
         /* =========================================================
@@ -8059,7 +8524,8 @@ html.theme-light .lang-pill-btn.active span {
             border: 1px solid #cbd5e1 !important;
             color: #475569 !important;
         }
-    </style>
+    
+</style>
     <div id="contest-info" class="contest-floating-bar" title="{{ _('Drag to move') }}">
         <div class="contest-drag-handle" title="{{ _('Drag to move') }}">
             <svg width="10" height="16" viewBox="0 0 10 16" fill="currentColor">
@@ -8199,5 +8665,48 @@ html.theme-light .lang-pill-btn.active span {
             return next;
         };
     </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var toggleBtn = document.getElementById('portfolio-mobile-toggle');
+    var mobileMenu = document.getElementById('portfolio-mobile-menu');
+    if (!toggleBtn || !mobileMenu) return;
+
+    var iconHamburger = toggleBtn.querySelector('.icon-hamburger');
+    var iconClose = toggleBtn.querySelector('.icon-close');
+
+    function toggleMenu(e) {
+        if (e) e.stopPropagation();
+        var isOpen = mobileMenu.classList.toggle('is-open');
+        if (iconHamburger && iconClose) {
+            iconHamburger.style.display = isOpen ? 'none' : 'block';
+            iconClose.style.display = isOpen ? 'block' : 'none';
+        }
+    }
+
+    toggleBtn.addEventListener('click', toggleMenu);
+
+    document.addEventListener('click', function(e) {
+        if (!mobileMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+            mobileMenu.classList.remove('is-open');
+            if (iconHamburger && iconClose) {
+                iconHamburger.style.display = 'block';
+                iconClose.style.display = 'none';
+            }
+        }
+    });
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            mobileMenu.classList.remove('is-open');
+            if (iconHamburger && iconClose) {
+                iconHamburger.style.display = 'block';
+                iconClose.style.display = 'none';
+            }
+        }
+    });
+});
+</script>
+
 </body>
 </html>
