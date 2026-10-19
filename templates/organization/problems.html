@@ -184,27 +184,68 @@
             border-bottom: 1px solid #f0f0f3 !important;
         }
 
-        .org-problem-table-block .problem-id a {
+        /* Problem ID - Muted monospace matching /problems/ (Image #1) */
+        .org-problem-table-block .problem-id,
+        .org-problem-table-block .problem-id a,
+        .org-problem-table-block table#problem-table tbody td.problem-id,
+        .org-problem-table-block table#problem-table tbody td.problem-id a,
+        #problem-table td.problem-id,
+        #problem-table td.problem-id a {
             font-family: "JetBrains Mono", monospace !important;
-            font-weight: 600 !important;
-            font-size: 13px !important;
-            color: var(--expo-ink) !important;
+            font-weight: 400 !important;
+            font-size: 12.5px !important;
+            color: var(--expo-muted) !important;
+            text-decoration: none !important;
+            letter-spacing: 0.2px !important;
         }
+        html[data-theme="light"] .org-problem-table-block .problem-id,
         html[data-theme="light"] .org-problem-table-block .problem-id a,
-        html.theme-light .org-problem-table-block .problem-id a {
-            color: #0f172a !important;
+        html[data-theme="light"] .org-problem-table-block table#problem-table tbody td.problem-id,
+        html[data-theme="light"] .org-problem-table-block table#problem-table tbody td.problem-id a,
+        html.theme-light .org-problem-table-block .problem-id,
+        html.theme-light .org-problem-table-block .problem-id a,
+        html.theme-light .org-problem-table-block table#problem-table tbody td.problem-id,
+        html.theme-light .org-problem-table-block table#problem-table tbody td.problem-id a,
+        html[data-theme="light"] #problem-table td.problem-id,
+        html[data-theme="light"] #problem-table td.problem-id a,
+        html.theme-light #problem-table td.problem-id,
+        html.theme-light #problem-table td.problem-id a {
+            color: #64748b !important;
+            font-weight: 400 !important;
         }
 
-        .problem-title-link {
+        /* Problem Title - Clean regular non-bold font-weight: 400 */
+        .problem-title-link,
+        .org-problem-table-block table#problem-table tbody td.problem a,
+        #problem-table td.problem a {
             font-family: "Inter", -apple-system, sans-serif !important;
             font-size: 14px !important;
-            font-weight: 500 !important;
+            font-weight: 400 !important;
             color: var(--expo-ink) !important;
             text-decoration: none !important;
+            transition: color 0.15s ease !important;
+        }
+        .problem-title-link:hover,
+        .org-problem-table-block table#problem-table tbody td.problem a:hover,
+        #problem-table td.problem a:hover {
+            color: var(--expo-text-link) !important;
         }
         html[data-theme="light"] .problem-title-link,
-        html.theme-light .problem-title-link {
+        html[data-theme="light"] .org-problem-table-block table#problem-table tbody td.problem a,
+        html.theme-light .problem-title-link,
+        html.theme-light .org-problem-table-block table#problem-table tbody td.problem a,
+        html[data-theme="light"] #problem-table td.problem a,
+        html.theme-light #problem-table td.problem a {
             color: #0f172a !important;
+            font-weight: 400 !important;
+        }
+        html[data-theme="light"] .problem-title-link:hover,
+        html[data-theme="light"] .org-problem-table-block table#problem-table tbody td.problem a:hover,
+        html.theme-light .problem-title-link:hover,
+        html.theme-light .org-problem-table-block table#problem-table tbody td.problem a:hover,
+        html[data-theme="light"] #problem-table td.problem a:hover,
+        html.theme-light #problem-table td.problem a:hover {
+            color: #000000 !important;
         }
 
         .category-badge {
@@ -317,15 +358,15 @@
                     {% for p in problems %}
                         <tr>
                             <td solved="-1" style="text-align: center;">
+                            <td style="text-align: center;">
                                 {% if request.user.is_authenticated and p.id in completed_problem_ids %}
-                                    <i class="solved-problem-color fa fa-check-circle" style="color: #10b981;"></i>
+                                    <svg class="problem-status-icon status-solved" width="16" height="16" viewBox="0 0 16 16" fill="#10b981"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm3.03-8.97a.75.75 0 0 0-1.06-1.06L6.75 8.19 5.53 6.97a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l3.75-3.75z"/></svg>
                                 {% elif request.user.is_authenticated and p.id in attempted_problems %}
-                                    <i class="attempted-problem-color fa fa-minus-circle" style="color: #f59e0b;"></i>
+                                    <svg class="problem-status-icon status-attempted" width="16" height="16" viewBox="0 0 16 16" fill="#f59e0b"><path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/><path d="M4 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 4 8z"/></svg>
                                 {% else %}
-                                    <i class="unsolved-problem-color fa fa-minus-circle" style="color: #ef4444; opacity: 0.8;"></i>
+                                    <svg class="problem-status-icon status-unsolved" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" opacity="0.3"></circle></svg>
                                 {% endif %}
                             </td>
-                            <td class="problem-id">
                                 <a href="{{ url('problem_detail', p.code) }}" style="color: inherit; text-decoration: none;">
                                     {{ p.code|upper }}
                                 </a>
