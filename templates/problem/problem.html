@@ -244,24 +244,56 @@
 
 
     /* ==========================================================================
-       Responsive Mobile Layout (<= 860px)
-       1. Hide top header buttons ([Image #1]), full width for title
-       2. Place statement (order 1), then info card [Image #3] (order 2), comments (order 3)
-       3. Show submission action buttons at top of info card [Image #2]
+       Responsive Problem Layout
+       - When <= 1100px: Push action buttons down below title so title takes 100% width
+       - When <= 600px: Clean 2-col grid for actions + full-width submit button
+       - When <= 860px: Push info card after statement (order 2), comments (order 3)
        ========================================================================== */
-    @media (max-width: 860px) {
+    @media (max-width: 1100px) {
         html body .problem-header-card {
             flex-direction: column !important;
-            padding: 16px 18px !important;
-            margin-bottom: 16px !important;
+            align-items: flex-start !important;
+            gap: 14px !important;
+            padding: 18px 20px !important;
         }
         html body .problem-header-left {
             width: 100% !important;
             max-width: 100% !important;
         }
         html body .problem-header-card .problem-header-right {
-            display: none !important;
+            display: flex !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            flex-wrap: wrap !important;
+            align-items: center !important;
+            justify-content: flex-start !important;
+            gap: 10px !important;
+            padding-top: 14px !important;
+            border-top: 1px solid var(--expo-hairline) !important;
+            box-sizing: border-box !important;
         }
+    }
+    @media (max-width: 600px) {
+        html body .problem-header-card .problem-header-right {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr !important;
+            gap: 8px !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+        }
+        html body .problem-header-card .header-submit-btn {
+            grid-column: 1 / -1 !important;
+            width: 100% !important;
+            box-sizing: border-box !important;
+            justify-content: center !important;
+        }
+        html body .problem-header-card .header-action-btn {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            justify-content: center !important;
+        }
+    }
+    @media (max-width: 860px) {
         html body #common-content {
             display: flex !important;
             flex-direction: column !important;
