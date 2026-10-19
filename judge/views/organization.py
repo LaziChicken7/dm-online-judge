@@ -401,10 +401,37 @@ class OrganizationRequestBaseView(LoginRequiredMixin, SingleObjectTemplateRespon
             queryset = queryset.filter(request_class__in=self.object.classes.filter(admins__id=self.request.profile.id))
         return queryset
 
+    def can_edit_organization(self, org=None):
+        if org is None:
+            org = self.object
+        if not self.request.user.is_authenticated:
+            return False
+        if (self.request.user.is_superuser or
+                self.request.user.is_staff or
+                self.request.user.has_perm('judge.edit_all_organization') or
+                self.request.user.has_perm('judge.organization_admin') or
+                self.request.user.has_perm('judge.change_organization')):
+            return True
+        profile = getattr(self.request, 'profile', None)
+        if profile:
+            return org.admins.filter(id=profile.id).exists()
+        return False
+
     def get_context_data(self, **kwargs):
         context = super(OrganizationRequestBaseView, self).get_context_data(**kwargs)
         context['title'] = _('Managing join requests for %s') % self.object.name
         context['tab'] = self.tab
+        context['organization'] = self.object
+        context['content_title'] = self.object.name
+        context['can_edit'] = self.can_edit_organization()
+        context['can_review_requests'] = True
+        is_member_or_admin = self.request.user.is_authenticated and hasattr(self.request, 'profile') and (
+            self.object.members.filter(id=self.request.profile.id).exists() or
+            self.can_edit_organization() or
+            self.request.user.is_staff or
+            self.request.user.is_superuser
+        )
+        context['is_member_or_admin'] = is_member_or_admin
         return context
 
 

@@ -1,220 +1,389 @@
-{% extends "base.html" %}
+{% extends "common-content.html" %}
+
 {% block title_ruler %}{% endblock %}
-{% block media %}
+{% block title_row %}
+    {% set tab = 'requests' %}
+    {% set content_title = organization.name %}
+    {% include "organization/organization-tabs.html" %}
+{% endblock %}
+
+{% block content_media %}
+{% endblock %}
+
+{% block body %}
     <style>
-        .org-pending-wrapper {
-            max-width: 1280px;
-            margin: 30px auto 60px auto;
-            padding: 0 20px;
-            box-sizing: border-box;
+        #content {
+            width: 90% !important;
+            max-width: 100% !important;
+            margin: 0 auto 40px !important;
+            box-sizing: border-box !important;
         }
-        .org-pending-header-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 28px 36px !important;
-            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35) !important;
-            margin-bottom: 24px !important;
+
+        .org-requests-wrapper {
+            width: 100% !important;
+            box-sizing: border-box !important;
+            margin-top: 10px !important;
+        }
+
+        .org-requests-top-bar {
             display: flex !important;
             align-items: center !important;
             justify-content: space-between !important;
+            width: 100% !important;
+            margin-bottom: 20px !important;
             flex-wrap: wrap !important;
-            gap: 16px !important;
+            gap: 12px !important;
         }
-        .org-pending-header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
+
+        .org-requests-title-group {
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 4px !important;
         }
-        .org-pending-avatar {
-            width: 48px;
-            height: 48px;
-            border-radius: 14px;
-            background: linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(99, 102, 241, 0.2));
-            border: 1px solid rgba(56, 189, 248, 0.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #38bdf8;
-            flex-shrink: 0;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3), 0 0 12px rgba(56, 189, 248, 0.2);
+
+        .org-requests-title {
+            margin: 0 !important;
+            font-family: "Inter", -apple-system, sans-serif !important;
+            font-size: 20px !important;
+            font-weight: 600 !important;
+            letter-spacing: -0.3px !important;
+            color: var(--expo-ink) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
-        .org-pending-title {
-            font-size: 22px !important;
-            font-weight: 800 !important;
-            color: #ffffff !important;
-            margin: 0 0 4px 0 !important;
-            letter-spacing: -0.01em !important;
+
+        html[data-theme="light"] .org-requests-title,
+        html.theme-light .org-requests-title {
+            color: #0f172a !important;
         }
-        .org-pending-sub {
-            color: #94a3b8;
-            font-size: 13.5px;
-            margin: 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+
+        .org-requests-meta {
+            font-size: 13px !important;
+            color: var(--expo-muted) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 8px !important;
         }
-        .btn-back-org {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 18px;
-            border-radius: 100px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            color: #94a3b8;
-            font-size: 13.5px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.2s ease;
+
+        html[data-theme="light"] .org-requests-meta,
+        html.theme-light .org-requests-meta {
+            color: #64748b !important;
         }
-        .btn-back-org:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #ffffff;
-            border-color: rgba(56, 189, 248, 0.4);
+
+        .btn-org-back {
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            padding: 7px 14px !important;
+            border-radius: 8px !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 13px !important;
+            font-weight: 500 !important;
+            text-decoration: none !important;
+            transition: all 0.15s ease !important;
         }
+
+        .btn-org-back:hover {
+            background: rgba(255, 255, 255, 0.12) !important;
+        }
+
+        html[data-theme="light"] .btn-org-back,
+        html.theme-light .btn-org-back {
+            background: #ffffff !important;
+            border: 1px solid #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
+        html[data-theme="light"] .btn-org-back:hover,
+        html.theme-light .btn-org-back:hover {
+            background: #f8fafc !important;
+            border-color: #94a3b8 !important;
+        }
+
+        /* ── Requests Table Card ── */
         .org-table-card {
-            background: rgba(255, 255, 255, 0.03) !important;
-            border: 1px solid rgba(255, 255, 255, 0.08) !important;
-            border-radius: 20px !important;
-            backdrop-filter: blur(16px) !important;
-            padding: 24px !important;
-            box-shadow: 0 16px 40px -4px rgba(0, 0, 0, 0.45) !important;
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            box-shadow: var(--expo-card-shadow) !important;
             box-sizing: border-box !important;
             overflow: hidden !important;
+            padding: 0 !important;
+            margin-bottom: 24px !important;
         }
+
+        html[data-theme="light"] .org-table-card,
+        html.theme-light .org-table-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
         .org-requests-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            margin: 0;
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 0 !important;
         }
+
         .org-requests-table th {
-            background: rgba(255, 255, 255, 0.02) !important;
-            color: #94a3b8 !important;
-            font-size: 12px !important;
-            font-weight: 700 !important;
+            background: #18181b !important;
+            color: var(--expo-muted) !important;
+            font-family: 'JetBrains Mono', monospace !important;
+            font-size: 11px !important;
+            font-weight: 600 !important;
             text-transform: uppercase !important;
             letter-spacing: 1px !important;
-            padding: 14px 18px !important;
+            padding: 12px 18px !important;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
-            text-align: left;
+            text-align: left !important;
         }
+
+        html[data-theme="light"] .org-requests-table th,
+        html.theme-light .org-requests-table th {
+            background: #f8fafc !important;
+            color: #475569 !important;
+            border-bottom: 1px solid #e2e8f0 !important;
+        }
+
         .org-requests-table td {
-            padding: 16px 18px !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+            padding: 14px 18px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
             font-size: 13.5px !important;
-            color: #e2e8f0 !important;
-            vertical-align: middle;
+            color: #e4e4e7 !important;
+            vertical-align: middle !important;
         }
-        .org-requests-table tr:last-child td {
-            border-bottom: none !important;
+
+        html[data-theme="light"] .org-requests-table td,
+        html.theme-light .org-requests-table td {
+            border-bottom: 1px solid #f1f5f9 !important;
+            color: #0f172a !important;
         }
+
         .org-requests-table tr:hover td {
-            background: rgba(56, 189, 248, 0.03) !important;
+            background: rgba(255, 255, 255, 0.03) !important;
         }
+
+        html[data-theme="light"] .org-requests-table tr:hover td,
+        html.theme-light .org-requests-table tr:hover td {
+            background: #f8fafc !important;
+        }
+
         .user-cell-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-weight: 700;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
         }
-        .user-cell-wrap svg {
-            color: #38bdf8;
-            flex-shrink: 0;
+
+        .user-cell-wrap a {
+            color: var(--expo-ink) !important;
+            text-decoration: none !important;
+            font-weight: 600 !important;
         }
+
+        html[data-theme="light"] .user-cell-wrap a,
+        html.theme-light .user-cell-wrap a {
+            color: #0f172a !important;
+        }
+
+        .user-avatar-mini {
+            width: 28px !important;
+            height: 28px !important;
+            border-radius: 50% !important;
+            background: var(--expo-surface-strong) !important;
+            border: 1px solid var(--expo-hairline-strong) !important;
+            color: var(--expo-ink) !important;
+            display: inline-flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 12px !important;
+            font-weight: 700 !important;
+            flex-shrink: 0 !important;
+        }
+
+        html[data-theme="light"] .user-avatar-mini,
+        html.theme-light .user-avatar-mini {
+            background: #f1f5f9 !important;
+            border-color: #cbd5e1 !important;
+            color: #0f172a !important;
+        }
+
         .time-cell-wrap {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            color: #94a3b8;
-            font-size: 12.5px;
-            text-decoration: none;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 6px !important;
+            color: var(--expo-muted) !important;
+            font-size: 12.5px !important;
+            text-decoration: none !important;
+            font-family: 'JetBrains Mono', monospace !important;
         }
+
         .time-cell-wrap:hover {
-            color: #38bdf8;
+            color: var(--expo-ink) !important;
         }
-        .time-cell-wrap svg {
-            color: #64748b;
-            flex-shrink: 0;
+
+        html[data-theme="light"] .time-cell-wrap,
+        html.theme-light .time-cell-wrap {
+            color: #64748b !important;
         }
-        .reason-bubble {
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 8px;
-            padding: 8px 12px;
-            font-size: 13px;
-            color: #cbd5e1;
-            line-height: 1.5;
-            max-width: 360px;
-            word-break: break-word;
-        }
+
         .state-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 3px 12px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 700;
+            display: inline-flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            padding: 4px 10px !important;
+            border-radius: 6px !important;
+            font-size: 12px !important;
+            font-weight: 600 !important;
         }
+
+        .state-chip svg {
+            flex-shrink: 0 !important;
+            stroke: currentColor !important;
+        }
+
+        .state-chip *,
+        .state-chip span {
+            color: inherit !important;
+        }
+
         .state-chip.state-A {
-            background: rgba(16, 185, 129, 0.12);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            color: #10b981;
+            background: rgba(16, 185, 129, 0.12) !important;
+            border: 1px solid rgba(16, 185, 129, 0.28) !important;
+            color: #34d399 !important;
         }
+
+        html[data-theme="light"] .state-chip.state-A,
+        html.theme-light .state-chip.state-A {
+            background: #ecfdf5 !important;
+            border-color: #a7f3d0 !important;
+            color: #047857 !important;
+        }
+
         .state-chip.state-R {
-            background: rgba(239, 68, 68, 0.12);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            color: #f87171;
+            background: rgba(239, 68, 68, 0.12) !important;
+            border: 1px solid rgba(239, 68, 68, 0.28) !important;
+            color: #f87171 !important;
         }
+
+        html[data-theme="light"] .state-chip.state-R,
+        html.theme-light .state-chip.state-R {
+            background: #fef2f2 !important;
+            border-color: #fecaca !important;
+            color: #dc2626 !important;
+        }
+
         .state-chip.state-P {
-            background: rgba(245, 158, 11, 0.12);
-            border: 1px solid rgba(245, 158, 11, 0.3);
-            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.12) !important;
+            border: 1px solid rgba(245, 158, 11, 0.28) !important;
+            color: #fbbf24 !important;
         }
-        .org-requests-empty {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px dashed rgba(255, 255, 255, 0.08);
-            border-radius: 16px;
-            padding: 48px 24px;
-            text-align: center;
-            color: #94a3b8;
-            font-size: 14.5px;
+
+        html[data-theme="light"] .state-chip.state-P,
+        html.theme-light .state-chip.state-P {
+            background: #fffbeb !important;
+            border-color: #fde68a !important;
+            color: #b45309 !important;
         }
-        .org-requests-empty svg {
-            color: #38bdf8;
-            margin-bottom: 12px;
-            display: inline-block;
+
+        .reason-bubble {
+            background: rgba(255, 255, 255, 0.04) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 6px !important;
+            padding: 6px 12px !important;
+            font-size: 13px !important;
+            color: var(--expo-body) !important;
+            line-height: 1.5 !important;
+            max-width: 380px !important;
+            word-break: break-word !important;
+        }
+
+        html[data-theme="light"] .reason-bubble,
+        html.theme-light .reason-bubble {
+            background: #f8fafc !important;
+            border-color: #e2e8f0 !important;
+            color: #334155 !important;
+        }
+
+        .org-requests-empty-card {
+            background: var(--expo-surface-card) !important;
+            border: 1px solid var(--expo-hairline) !important;
+            border-radius: 12px !important;
+            padding: 56px 24px !important;
+            text-align: center !important;
+            box-shadow: var(--expo-card-shadow) !important;
+            box-sizing: border-box !important;
+        }
+
+        html[data-theme="light"] .org-requests-empty-card,
+        html.theme-light .org-requests-empty-card {
+            background: #ffffff !important;
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+        }
+
+        .org-requests-empty-card svg {
+            color: var(--expo-muted) !important;
+            stroke: currentColor !important;
+            margin-bottom: 8px !important;
+            display: inline-block !important;
+        }
+
+        .org-requests-empty-card h3 {
+            margin: 0 !important;
+            font-family: "Inter", sans-serif !important;
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            color: var(--expo-ink) !important;
+        }
+
+        html[data-theme="light"] .org-requests-empty-card h3,
+        html.theme-light .org-requests-empty-card h3 {
+            color: #0f172a !important;
+        }
+
+        .org-requests-empty-card p {
+            margin: 6px 0 0 0 !important;
+            font-size: 13.5px !important;
+            color: var(--expo-muted) !important;
+        }
+
+        html[data-theme="light"] .org-requests-empty-card p,
+        html.theme-light .org-requests-empty-card p {
+            color: #64748b !important;
         }
     </style>
-{% endblock %}
-{% block body %}
-    <div class="org-pending-wrapper">
-        <div class="org-pending-header-card">
-            <div class="org-pending-header-left">
-                <div class="org-pending-avatar">
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+
+    <div class="org-requests-wrapper">
+        <div class="org-requests-top-bar">
+            <div class="org-requests-title-group">
+                <h2 class="org-requests-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                         <polyline points="14 2 14 8 20 8"></polyline>
                         <line x1="16" y1="13" x2="8" y2="13"></line>
                         <line x1="16" y1="17" x2="8" y2="17"></line>
                     </svg>
-                </div>
-                <div>
-                    <h2 class="org-pending-title">{{ _('Nhật ký yêu cầu gia nhập') }}</h2>
-                    <p class="org-pending-sub">
-                        <span>{{ object.name }}</span>
-                        {% if object.short_name %}
-                            <span class="org-badge-code">{{ object.short_name }}</span>
-                        {% endif %}
-                    </p>
+                    <span>{{ _('Nhật ký yêu cầu gia nhập') }}</span>
+                </h2>
+                <div class="org-requests-meta">
+                    <span>{{ organization.name }}</span>
+                    {% if organization.short_name %}
+                        <span class="org-badge-short">{{ organization.short_name }}</span>
+                    {% endif %}
                 </div>
             </div>
             <div>
-                <a href="{{ object.get_absolute_url() }}" class="btn-back-org">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+                <a href="{{ organization.get_absolute_url() }}" class="btn-org-back">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
                     <span>{{ _('Quay lại Tổ chức') }}</span>
                 </a>
             </div>
@@ -225,58 +394,77 @@
 
         {% if requests %}
             <div class="org-table-card">
-                <table class="org-requests-table">
-                    <thead>
-                        <tr>
-                            <th>{{ _('Thành viên') }}</th>
-                            <th>{{ _('Thời gian') }}</th>
-                            <th style="width: 140px; text-align: center;">{{ _('Trạng thái') }}</th>
-                            <th>{{ _('Lý do xin gia nhập') }}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for r in requests %}
-                            <tr id="request-{{ r.id }}">
-                                <td>
-                                    <div class="user-cell-wrap">
-                                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                                        {{ link_user(r.user) }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <a href="{{ url('request_organization_detail', object.id, object.slug, r.id) }}" class="time-cell-wrap" title="{{ _('Xem chi tiết') }}">
-                                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                        <span>{{ r.time|date(_("N j, Y, H:i")) }}</span>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;">
-                                    <span class="state-chip state-{{ r.state }}">
-                                        {% if r.state == 'A' %}
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                            {{ _('Đã duyệt') }}
-                                        {% elif r.state == 'R' %}
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-                                            {{ _('Từ chối') }}
-                                        {% else %}
-                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                                            {{ _('Chờ duyệt') }}
-                                        {% endif %}
-                                    </span>
-                                </td>
-                                <td>
-                                    <div class="reason-bubble">
-                                        {{ r.reason or _('(Không có lý do)') }}
-                                    </div>
-                                </td>
+                <div style="overflow-x: auto;">
+                    <table class="org-requests-table">
+                        <thead>
+                            <tr>
+                                <th>{{ _('Thành viên') }}</th>
+                                <th>{{ _('Thời gian') }}</th>
+                                <th style="width: 140px; text-align: center;">{{ _('Trạng thái') }}</th>
+                                <th>{{ _('Lý do xin gia nhập') }}</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for r in requests %}
+                                <tr id="request-{{ r.id }}">
+                                    <td>
+                                        <div class="user-cell-wrap">
+                                            <div class="user-avatar-mini">
+                                                {{ r.user.user.username[0]|upper }}
+                                            </div>
+                                            {{ link_user(r.user) }}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <a href="{{ url('request_organization_detail', object.id, object.slug, r.id) }}" class="time-cell-wrap">
+                                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <polyline points="12 6 12 12 16 14"></polyline>
+                                            </svg>
+                                            <span>{{ r.time|date(_("N j, Y, H:i")) }}</span>
+                                        </a>
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <span class="state-chip state-{{ r.state }}">
+                                            {% if r.state == 'A' %}
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <polyline points="20 6 9 17 4 12"></polyline>
+                                                </svg>
+                                                <span>{{ _('Đã duyệt') }}</span>
+                                            {% elif r.state == 'R' %}
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                                </svg>
+                                                <span>{{ _('Từ chối') }}</span>
+                                            {% else %}
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                                    <circle cx="12" cy="12" r="10"></circle>
+                                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                                </svg>
+                                                <span>{{ _('Chờ duyệt') }}</span>
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="reason-bubble">
+                                            {{ r.reason or _('(Không có lý do)') }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
         {% else %}
-            <div class="org-requests-empty">
-                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <p style="margin: 0; font-weight: 600;">{{ _('Chưa có lịch sử yêu cầu nào.') }}</p>
+            <div class="org-requests-empty-card">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                <h3>{{ _('Chưa có lịch sử yêu cầu nào.') }}</h3>
+                <p>{{ _('Lịch sử duyệt hoặc từ chối các yêu cầu gia nhập sẽ được lưu và hiển thị tại đây.') }}</p>
             </div>
         {% endif %}
     </div>

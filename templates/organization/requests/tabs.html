@@ -1,56 +1,92 @@
 <style>
     .org-req-tabs-wrap {
-        display: flex;
-        gap: 10px;
-        margin-bottom: 24px;
-        flex-wrap: wrap;
+        display: flex !important;
+        gap: 8px !important;
+        margin-bottom: 22px !important;
+        flex-wrap: wrap !important;
     }
     .org-req-tab-pill {
         display: inline-flex !important;
         align-items: center !important;
-        gap: 8px !important;
-        padding: 9px 20px !important;
-        border-radius: 100px !important;
-        background: rgba(255, 255, 255, 0.04) !important;
-        border: 1px solid rgba(255, 255, 255, 0.08) !important;
-        color: rgba(255, 255, 255, 0.75) !important;
-        font-weight: 600 !important;
-        font-size: 13.5px !important;
+        gap: 7px !important;
+        padding: 7px 16px !important;
+        border-radius: 8px !important;
+        background: var(--expo-surface-strong) !important;
+        border: 1px solid var(--expo-hairline-strong) !important;
+        color: var(--expo-muted) !important;
+        font-family: "Inter", -apple-system, sans-serif !important;
+        font-weight: 500 !important;
+        font-size: 13px !important;
         text-decoration: none !important;
-        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
-    }
-    .org-req-tab-pill:hover {
-        background: rgba(255, 255, 255, 0.09) !important;
-        color: #ffffff !important;
-        transform: translateY(-1px) !important;
-        border-color: rgba(56, 189, 248, 0.4) !important;
-    }
-    .org-req-tab-pill.active {
-        background: rgba(2, 132, 199, 0.2) !important;
-        border-color: rgba(56, 189, 248, 0.5) !important;
-        color: #38bdf8 !important;
-        font-weight: 700 !important;
-        box-shadow: 0 4px 16px rgba(2, 132, 199, 0.25), 0 0 12px rgba(56, 189, 248, 0.15) !important;
+        transition: all 0.15s ease !important;
+        box-sizing: border-box !important;
     }
     .org-req-tab-pill svg {
         flex-shrink: 0 !important;
-        transition: transform 0.2s ease !important;
+        stroke: currentColor !important;
     }
-    .org-req-tab-pill:hover svg {
-        transform: scale(1.1) !important;
+    .org-req-tab-pill *,
+    .org-req-tab-pill span {
+        color: inherit !important;
+    }
+    .org-req-tab-pill:hover {
+        background: rgba(255, 255, 255, 0.12) !important;
+        color: var(--expo-ink) !important;
+    }
+    /* Dark Mode Active: Solid White Pill with Black Text */
+    .org-req-tab-pill.active {
+        background: #ffffff !important;
+        border-color: #ffffff !important;
+        color: #000000 !important;
+        font-weight: 600 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+    }
+    .org-req-tab-pill.active *,
+    .org-req-tab-pill.active span,
+    .org-req-tab-pill.active svg {
+        color: #000000 !important;
+        stroke: #000000 !important;
+    }
+    /* Light Mode Pills */
+    html[data-theme="light"] .org-req-tab-pill,
+    html.theme-light .org-req-tab-pill {
+        background: #f1f5f9 !important;
+        border: 1px solid #cbd5e1 !important;
+        color: #475569 !important;
+    }
+    html[data-theme="light"] .org-req-tab-pill:hover,
+    html.theme-light .org-req-tab-pill:hover {
+        background: #e2e8f0 !important;
+        color: #0f172a !important;
+    }
+    /* Light Mode Active: Solid Black Pill with White Text */
+    html[data-theme="light"] .org-req-tab-pill.active,
+    html.theme-light .org-req-tab-pill.active {
+        background: #000000 !important;
+        border-color: #000000 !important;
+        color: #ffffff !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12) !important;
+    }
+    html[data-theme="light"] .org-req-tab-pill.active *,
+    html[data-theme="light"] .org-req-tab-pill.active span,
+    html[data-theme="light"] .org-req-tab-pill.active svg,
+    html.theme-light .org-req-tab-pill.active *,
+    html.theme-light .org-req-tab-pill.active span,
+    html.theme-light .org-req-tab-pill.active svg {
+        color: #ffffff !important;
+        stroke: #ffffff !important;
     }
 </style>
 <div class="org-req-tabs-wrap">
     <a href="{{ url('organization_requests_pending', object.id, object.slug) }}" class="org-req-tab-pill{% if tab == 'pending' %} active{% endif %}">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
         </svg>
         <span>{{ _('Đang chờ duyệt (Pending)') }}</span>
     </a>
     <a href="{{ url('organization_requests_log', object.id, object.slug) }}" class="org-req-tab-pill{% if tab == 'log' %} active{% endif %}">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -59,14 +95,14 @@
         <span>{{ _('Nhật ký (Log)') }}</span>
     </a>
     <a href="{{ url('organization_requests_approved', object.id, object.slug) }}" class="org-req-tab-pill{% if tab == 'approved' %} active{% endif %}">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
             <polyline points="22 4 12 14.01 9 11.01"></polyline>
         </svg>
         <span>{{ _('Đã duyệt (Approved)') }}</span>
     </a>
     <a href="{{ url('organization_requests_rejected', object.id, object.slug) }}" class="org-req-tab-pill{% if tab == 'rejected' %} active{% endif %}">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="15" y1="9" x2="9" y2="15"></line>
             <line x1="9" y1="9" x2="15" y2="15"></line>
