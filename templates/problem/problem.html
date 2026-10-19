@@ -242,6 +242,78 @@
         color: #0284c7 !important;
     }
 
+
+    /* ==========================================================================
+       Responsive Mobile Layout (<= 860px)
+       1. Hide top header buttons ([Image #1]), full width for title
+       2. Place statement (order 1), then info card [Image #3] (order 2), comments (order 3)
+       3. Show submission action buttons at top of info card [Image #2]
+       ========================================================================== */
+    @media (max-width: 860px) {
+        html body .problem-header-card {
+            flex-direction: column !important;
+            padding: 16px 18px !important;
+            margin-bottom: 16px !important;
+        }
+        html body .problem-header-left {
+            width: 100% !important;
+            max-width: 100% !important;
+        }
+        html body .problem-header-card .problem-header-right {
+            display: none !important;
+        }
+        html body #common-content {
+            display: flex !important;
+            flex-direction: column !important;
+            width: 100% !important;
+        }
+        html body #content-left {
+            display: contents !important;
+        }
+        html body .content-description {
+            order: 1 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-right: 0 !important;
+            box-sizing: border-box !important;
+        }
+        html body #content-right {
+            order: 2 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-top: 20px !important;
+            margin-left: 0 !important;
+            box-sizing: border-box !important;
+        }
+        html body #content-right .info-float {
+            width: 100% !important;
+            max-width: 100% !important;
+            position: static !important;
+            box-sizing: border-box !important;
+            padding: 20px 18px !important;
+        }
+        html body .comment-area {
+            order: 3 !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            margin-top: 24px !important;
+            box-sizing: border-box !important;
+        }
+        html body #sidebar-scroll-actions.sidebar-scroll-actions {
+            display: flex !important;
+            max-height: none !important;
+            opacity: 1 !important;
+            transform: none !important;
+            padding-bottom: 14px !important;
+            margin-bottom: 12px !important;
+            border-bottom: 1px solid var(--expo-hairline) !important;
+            pointer-events: auto !important;
+        }
+        html body #sidebar-scroll-actions .sidebar-scroll-submit-btn {
+            height: 38px !important;
+            min-height: 38px !important;
+        }
+    }
 </style>
 {% endblock %}
 
