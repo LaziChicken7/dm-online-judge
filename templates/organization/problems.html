@@ -357,7 +357,6 @@
                 <tbody>
                     {% for p in problems %}
                         <tr>
-                            <td solved="-1" style="text-align: center;">
                             <td style="text-align: center;">
                                 {% if request.user.is_authenticated and p.id in completed_problem_ids %}
                                     <svg class="problem-status-icon status-solved" width="16" height="16" viewBox="0 0 16 16" fill="#10b981"><path fill-rule="evenodd" clip-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm3.03-8.97a.75.75 0 0 0-1.06-1.06L6.75 8.19 5.53 6.97a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l3.75-3.75z"/></svg>
@@ -367,7 +366,8 @@
                                     <svg class="problem-status-icon status-unsolved" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6" opacity="0.3"></circle></svg>
                                 {% endif %}
                             </td>
-                                <a href="{{ url('problem_detail', p.code) }}" style="color: inherit; text-decoration: none;">
+                            <td class="problem-id">
+                                <a href="{{ url('problem_detail', p.code) }}">
                                     {{ p.code|upper }}
                                 </a>
                             </td>
@@ -378,7 +378,6 @@
                                         <span class="org-private-pill" title="{{ _('Private to organization') }}">
                                             <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
                                             <span>{{ _('Private') }}</span>
-                                        </span>
                                         </span>
                                     {%- endif -%}
                                 </a>
