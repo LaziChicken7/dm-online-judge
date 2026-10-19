@@ -344,6 +344,9 @@ class RequestJoinOrganization(LoginRequiredMixin, SingleObjectMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super(RequestJoinOrganization, self).get_context_data(**kwargs)
         context['title'] = _('Request to join %s') % self.object.name
+        context['organization'] = self.object
+        context['content_title'] = self.object.name
+        context['tab'] = 'overview'
         return context
 
     def form_valid(self, form):
@@ -372,6 +375,17 @@ class OrganizationRequestDetail(LoginRequiredMixin, TitleMixin, DetailView):
                 not object.request_class or not object.request_class.admins.filter(id=profile.id).exists()):
             raise PermissionDenied()
         return object
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        org = self.object.organization
+        context['organization'] = org
+        context['content_title'] = org.name
+        context['tab'] = 'requests'
+        context['can_review_requests'] = True
+        context['can_edit'] = org.admins.filter(id=self.request.profile.id).exists() or self.request.user.is_staff or self.request.user.is_superuser
+        context['is_member_or_admin'] = True
+        return context
 
 
 OrganizationRequestFormSet = modelformset_factory(OrganizationRequest, extra=0, fields=('state',), can_delete=True)
@@ -637,9 +651,17 @@ class RequestJoinClass(LoginRequiredMixin, ClassMixin, FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        org = self.object.organization
         context['title'] = _('Request to join {name} in {organization}').format(
-            name=self.object.name, organization=self.object.organization.name,
+            name=self.object.name, organization=org.name,
         )
+        context['organization'] = org
+        context['content_title'] = org.name
+        context['tab'] = 'overview'
+        context['can_edit'] = False
+        context['can_review_requests'] = False
+        context['is_member_or_admin'] = True
+        context['logo_override_image'] = org.logo_override_image
         return context
 
     def form_valid(self, form):
