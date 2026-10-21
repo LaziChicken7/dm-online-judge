@@ -870,7 +870,47 @@ html.theme-light #content-right.users .admin-changelist-link:hover {
     border-color: #cbd5e1 !important;
     color: #000000 !important;
 }
-    </style>
+    
+/* Responsive Mobile Layout (<= 860px): Search organization (order 1) & Manage admin (order 2) on top */
+@media (max-width: 860px) {
+    #common-content {
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+    }
+    #content-right.users,
+    #content-right.users .info-float {
+        display: contents !important;
+    }
+    .sidebox.search-org-sidebox,
+    #content-right.users .sidebox:not(.add-org-sidebox) {
+        order: 1 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-bottom: 16px !important;
+    }
+    .sidebox.add-org-sidebox {
+        order: 2 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        margin-bottom: 20px !important;
+    }
+    #content-left.users {
+        order: 3 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-right: 0 !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    #organization-table {
+        width: 100% !important;
+    }
+}
+</style>
 {% endblock %}
 {% block title_ruler %}{% endblock %}
 {% block title_row %}
@@ -898,7 +938,7 @@ html.theme-light #content-right.users .admin-changelist-link:hover {
         <div id="content-right" class="users">
             <div class="info-float">
                 {% if perms.judge.add_organization or request.user.is_staff %}
-                    <div class="sidebox problem-search-sidebox" style="margin-bottom: 20px;">
+                    <div class="sidebox problem-search-sidebox add-org-sidebox" style="margin-bottom: 20px;">
                         <div class="filter-tag">{{ _('ADMIN') }}</div>
                         <h3>{{ _('Manage') }} <i class="fa fa-shield" style="color: #38bdf8;"></i></h3>
                         <div class="sidebox-content">
@@ -917,7 +957,7 @@ html.theme-light #content-right.users .admin-changelist-link:hover {
                     </div>
                 {% endif %}
 
-                <div class="sidebox problem-search-sidebox">
+                <div class="sidebox problem-search-sidebox search-org-sidebox">
                     <div class="filter-tag">{{ _('SEARCH') }}</div>
                     <h3>{{ _('Search organizations') }} <i class="fa fa-search"></i></h3>
                     <div class="sidebox-content">
