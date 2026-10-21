@@ -963,6 +963,8 @@ html.theme-light #content-right.users .admin-changelist-link:hover {
     #common-content:has(> #content-right.users) {
         display: flex !important;
         flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 0 !important;
         width: 100% !important;
     }
     #content-right.users,
@@ -984,17 +986,23 @@ html.theme-light #content-right.users .admin-changelist-link:hover {
         box-sizing: border-box !important;
         margin-bottom: 20px !important;
     }
-    #content-left.users {
+    #content-left.users.h-scrollable-table,
+    #content-left.users,
+    .users.h-scrollable-table {
         order: 3 !important;
         width: 100% !important;
         max-width: 100% !important;
-        margin-right: 0 !important;
+        margin: 0 !important;
         box-sizing: border-box !important;
+        align-self: stretch !important;
         overflow-x: auto !important;
         -webkit-overflow-scrolling: touch !important;
     }
+    table.users-table,
+    .users-table,
     #users-table {
-        min-width: 600px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
     }
 }
 </style>
