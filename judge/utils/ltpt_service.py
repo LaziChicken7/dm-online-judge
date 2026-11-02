@@ -365,15 +365,19 @@ def poll_ltpt_submission(cookie: str, submission_id: int) -> Dict:
                 "verdict_text": "Đang chấm trên LTPT...",
             }
 
-        # Check overall score
-        # Điểm cuối cùng: 4/4 (100.0/100 points)
-        m_score = re.search(r'Điểm cuối cùng:[\s\S]*?(\d+)/(\d+)\s*\(([\d\.]+)/([\d\.]+)', html)
-        if m_score:
+        # Check overall score (supports both Vietnamese 'Điểm cuối cùng:' and English 'Final score:')
+        m_score = re.search(r'(?:Điểm cuối cùng|Final score):[\s\S]*?(\d+)/(\d+)\s*\(([\d\.]+)/([\d\.]+)', html, re.I)
+        if not m_score:
+            m_score = re.search(r'\(([\d\.]+)/([\d\.]+)\s*points?\)', html, re.I)
+            if m_score:
+                pts_earned = float(m_score.group(1))
+                pts_total = float(m_score.group(2))
+            else:
+                pts_earned = 0.0
+                pts_total = 100.0
+        else:
             pts_earned = float(m_score.group(3))
             pts_total = float(m_score.group(4))
-        else:
-            pts_earned = 0.0
-            pts_total = 100.0
 
         # Maximum runtime
         m_rt = re.search(r'Maximum runtime on single test case:[\s\S]*?title="([\d\.]+)s"', html)
@@ -386,20 +390,15 @@ def poll_ltpt_submission(cookie: str, submission_id: int) -> Dict:
         memory_kb = int(float(m_mem.group(1).replace(',', '.')) * 1024) if m_mem else 0
 
         # Parse individual test cases
-        # <div class="w-20"><b>#1</b></div> ... <span title="..." class="font-semibold case-AC">Chấp nhận (AC)</span> ... [<span title="0.069795856s">0,070s,</span>10.32 MB] (1/1)
         cases = []
         raw_cases = re.findall(
             r'<b>#(\d+)</b>[\s\S]*?<span[^>]*class="[^"]*case-([A-Z]+)"[^>]*>(.*?)</span>[\s\S]*?\[<span[^>]*title="([\d\.]+)s"[\s\S]*?([\d\.,]+)\s*MB\][\s\S]*?\((\d+)/(\d+)\)',
             html
         )
 
-        overall_verdict = "AC" if pts_earned >= pts_total and pts_total > 0 else "WA"
-
         for c_num, c_st, c_name, c_t, c_m, c_pt, c_tot in raw_cases:
             case_idx = int(c_num)
             case_verdict = c_st.upper() # AC, WA, TLE, MLE, RTE, etc.
-            if case_verdict != "AC" and overall_verdict == "AC":
-                overall_verdict = case_verdict
             cases.append({
                 "case": case_idx,
                 "status": case_verdict,
@@ -408,6 +407,25 @@ def poll_ltpt_submission(cookie: str, submission_id: int) -> Dict:
                 "points": float(c_pt),
                 "total": float(c_tot),
             })
+
+        if cases:
+            total_earned = sum(c["points"] for c in cases)
+            total_possible = sum(c["total"] for c in cases)
+            if total_possible > 0:
+                pts_earned = total_earned
+                pts_total = total_possible
+
+            all_ac = all(c["status"] == "AC" for c in cases)
+            if all_ac:
+                overall_verdict = "AC"
+            else:
+                overall_verdict = "WA"
+                for c in cases:
+                    if c["status"] != "AC":
+                        overall_verdict = c["status"]
+                        break
+        else:
+            overall_verdict = "AC" if pts_earned >= pts_total and pts_total > 0 else "WA" 
 
         compile_error_text = ""
         if "Lỗi dịch" in html or "Lỗi biên dịch" in html or "case-CE" in html:

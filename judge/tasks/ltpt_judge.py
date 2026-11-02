@@ -141,6 +141,12 @@ def judge_ltpt_submission_task(self, submission_id: int):
         SubmissionTestCase.objects.bulk_create(cases_to_create)
         submission.case_points = total_case_points
         submission.case_total = total_case_max
+        all_ac = all(c.get("status") == "AC" for c in cases_data)
+        if all_ac:
+            submission.result = 'AC'
+            submission.points = problem.points or total_case_points
+        else:
+            submission.points = total_case_points if problem.partial else 0.0
     else:
         # Fallback synthetic case
         SubmissionTestCase.objects.create(
