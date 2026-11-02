@@ -296,7 +296,7 @@ def submit_ltpt_solution(
     })
 
     try:
-        resp_get = opener.open(req_get, timeout=15)
+        resp_get = opener.open(req_get, timeout=30)
         html_get = resp_get.read().decode("utf-8", errors="ignore")
 
         m_csrf = re.search(r'name=["\']csrfmiddlewaretoken["\'] value=["\'](.*?)["\']', html_get)
@@ -320,7 +320,7 @@ def submit_ltpt_solution(
             "Content-Type": "application/x-www-form-urlencoded",
         })
 
-        resp_post = opener.open(req_post, timeout=20)
+        resp_post = opener.open(req_post, timeout=45)
         final_url = resp_post.geturl()
 
         # Extract submission ID from final URL: /submission/(\d+)

@@ -496,6 +496,28 @@ class Problem(models.Model):
             pass
         return 'Input máy tính'
 
+    @property
+    def output_file_display(self):
+        try:
+            if hasattr(self, 'data_files') and self.data_files.output_file_name:
+                return self.data_files.output_file_name
+        except Exception:
+            pass
+        try:
+            import yaml
+            from judge.models import problem_data_storage
+            with problem_data_storage.open(f'{self.code}/init.yml', 'r') as f:
+                doc = yaml.safe_load(f)
+                if doc and 'output_file' in doc and doc['output_file']:
+                    return doc['output_file']
+                if doc and 'symlinks' in doc:
+                    for k in doc['symlinks']:
+                        if k.lower().endswith(('.out', '.ans')):
+                            return k
+        except Exception:
+            pass
+        return 'Output màn hình'
+
 
     def save(self, *args, **kwargs):
         super(Problem, self).save(*args, **kwargs)
