@@ -47,6 +47,8 @@ class ProblemData(models.Model):
     nobigmath = models.BooleanField(verbose_name=_('disable bigInteger / bigDecimal'), null=True, blank=True)
     checker_args = models.TextField(verbose_name=_('checker arguments'), blank=True,
                                     help_text=_('Checker arguments as a JSON object.'))
+    input_file_name = models.CharField(max_length=100, verbose_name=_('input file name (freopen)'), blank=True, default='')
+    output_file_name = models.CharField(max_length=100, verbose_name=_('output file name (freopen)'), blank=True, default='')
 
     __original_zipfile = None
 

@@ -474,6 +474,29 @@ class Problem(models.Model):
     def markdown_style(self):
         return 'problem-full' if self.is_full_markup else 'problem'
 
+    @property
+    def input_file_display(self):
+        try:
+            if hasattr(self, 'data_files') and self.data_files.input_file_name:
+                return self.data_files.input_file_name
+        except Exception:
+            pass
+        try:
+            import yaml
+            from judge.models import problem_data_storage
+            with problem_data_storage.open(f'{self.code}/init.yml', 'r') as f:
+                doc = yaml.safe_load(f)
+                if doc and 'input_file' in doc and doc['input_file']:
+                    return doc['input_file']
+                if doc and 'symlinks' in doc:
+                    for k in doc['symlinks']:
+                        if k.lower().endswith(('.inp', '.in', '.txt')):
+                            return k
+        except Exception:
+            pass
+        return 'Input máy tính'
+
+
     def save(self, *args, **kwargs):
         super(Problem, self).save(*args, **kwargs)
         if self.code != self.__original_code:

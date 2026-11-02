@@ -227,6 +227,20 @@ class ProblemDataCompiler(object):
         if hints:
             init['hints'] = hints
 
+        # Handle freopen file input / output configuration ONLY when explicitly set by admin
+        input_file = (getattr(self.data, 'input_file_name', '') or '').strip()
+        output_file = (getattr(self.data, 'output_file_name', '') or '').strip()
+
+        if input_file and input_file.lower() not in ('none', 'stdin', 'standard'):
+            init['input_file'] = input_file
+            if not output_file:
+                stem, ext = os.path.splitext(input_file)
+                out_ext = '.OUT' if ext.isupper() else '.out'
+                output_file = stem + out_ext
+            init['output_file'] = output_file
+        elif output_file:
+            init['output_file'] = output_file
+
         return init
 
     def compile(self):
@@ -236,7 +250,7 @@ class ProblemDataCompiler(object):
         try:
             init = self.make_init()
             if init:
-                init = yaml.safe_dump(init)
+                init = yaml.safe_dump(init, sort_keys=False)
         except ProblemDataError as e:
             self.data.feedback = e.message
             self.data.save()

@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ValidationError
-from django.forms import BaseModelFormSet, HiddenInput, ModelForm, NumberInput, Select, formset_factory
+from django.forms import BaseModelFormSet, HiddenInput, ModelForm, NumberInput, Select, TextInput, formset_factory
 from django.http import JsonResponse, Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
@@ -63,10 +63,12 @@ class ProblemDataForm(ModelForm):
 
     class Meta:
         model = ProblemData
-        fields = ['zipfile', 'generator', 'unicode', 'nobigmath', 'output_limit', 'output_prefix',
+        fields = ['zipfile', 'generator', 'input_file_name', 'output_file_name', 'unicode', 'nobigmath', 'output_limit', 'output_prefix',
                   'checker', 'checker_args']
         widgets = {
             'checker_args': HiddenInput,
+            'input_file_name': TextInput(attrs={'placeholder': _('ví dụ: a.inp, N0804A.INP')}),
+            'output_file_name': TextInput(attrs={'placeholder': _('ví dụ: a.out, N0804A.OUT')}),
         }
 
 

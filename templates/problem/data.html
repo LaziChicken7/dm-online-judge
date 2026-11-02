@@ -2209,6 +2209,30 @@
                     </td>
                 </tr>
 
+                <!-- File I/O (freopen) Configuration -->
+                <tr>
+                    <th class="v-label-col">{{ _('File I/O (freopen):') }}</th>
+                    <td class="v-control-col">
+                        <div class="v-control-center">
+                            <div style="display: flex; gap: 14px; width: 100%; max-width: 520px; align-items: flex-start;">
+                                <div style="flex: 1; min-width: 0;">
+                                    <label style="font-size: 12px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">{{ _('File Input (in)') }}</label>
+                                    {{ data_form['input_file_name'].errors }}
+                                    {{ data_form['input_file_name'] }}
+                                </div>
+                                <div style="flex: 1; min-width: 0;">
+                                    <label style="font-size: 12px; font-weight: 600; color: #94a3b8; display: block; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px;">{{ _('File Output (out)') }}</label>
+                                    {{ data_form['output_file_name'].errors }}
+                                    {{ data_form['output_file_name'] }}
+                                </div>
+                            </div>
+                            <div class="v-helper-text" style="margin-top: 6px;">
+                                {{ _('Nếu bài tập yêu cầu dùng freopen thì điền tên file input và output ở đây (ví dụ: a.inp và a.out). Nếu KHÔNG muốn (dùng bàn phím / màn hình Standard I/O) thì BỎ TRỐNG.') }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
                 <!-- Checker -->
                 <tr>
                     <th class="v-label-col">{{ _('Checker:') }}</th>
